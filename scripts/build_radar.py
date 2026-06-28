@@ -38,6 +38,7 @@ USER_AGENT = "dawnlit/0.1 (personal research discovery; contact: hwyii.github.io
 
 ATOM = {"a": "http://www.w3.org/2005/Atom"}
 ARXIV = {"arxiv": "http://arxiv.org/schemas/atom"}
+OPENSEARCH = {"opensearch": "http://a9.com/-/spec/opensearch/1.1/"}
 
 TOKEN_RE = re.compile(r"[a-z][a-z0-9+\-]{2,}")
 SENTENCE_RE = re.compile(r"(?<=[.!?])\s+(?=[A-Z0-9])")
@@ -305,27 +306,31 @@ def load_feedback() -> list[dict[str, Any]]:
         return []
 
 
-def build_arxiv_url(profile: dict[str, Any], now: dt.datetime) -> str:
+def build_arxiv_url(
+    profile: dict[str, Any],
+    now: dt.datetime,
+    start: int = 0,
+    page_size: int | None = None,
+) -> str:
     retrieval = profile["retrieval"]
     category_query = " OR ".join(f"cat:{category}" for category in retrieval["categories"])
-    start = now - dt.timedelta(days=int(retrieval.get("lookback_days", 4)))
+    start_date = now - dt.timedelta(days=int(retrieval.get("lookback_days", 4)))
     date_query = (
-        f"submittedDate:[{start.strftime('%Y%m%d%H%M')} TO "
+        f"submittedDate:[{start_date.strftime('%Y%m%d%H%M')} TO "
         f"{now.strftime('%Y%m%d%H%M')}]"
     )
     query = f"({category_query}) AND {date_query}"
     parameters = {
         "search_query": query,
-        "start": 0,
-        "max_results": int(retrieval.get("max_results", 250)),
+        "start": start,
+        "max_results": page_size or int(retrieval.get("page_size", 250)),
         "sortBy": "submittedDate",
         "sortOrder": "descending",
     }
     return f"{ARXIV_ENDPOINT}?{urllib.parse.urlencode(parameters)}"
 
 
-def fetch_arxiv(profile: dict[str, Any], now: dt.datetime) -> bytes:
-    url = build_arxiv_url(profile, now)
+def fetch_arxiv_page(url: str) -> bytes:
     request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     last_error: Exception | None = None
     for attempt in range(3):
@@ -337,6 +342,49 @@ def fetch_arxiv(profile: dict[str, Any], now: dt.datetime) -> bytes:
             if attempt < 2:
                 time.sleep(3 * (attempt + 1))
     raise RuntimeError(f"Unable to fetch arXiv after 3 attempts: {last_error}")
+
+
+def atom_total_results(payload: bytes) -> int:
+    root = ET.fromstring(payload)
+    value = root.findtext("opensearch:totalResults", namespaces=OPENSEARCH)
+    return int(value or len(root.findall("a:entry", ATOM)))
+
+
+def merge_atom_pages(pages: list[bytes]) -> bytes:
+    if not pages:
+        raise ValueError("No arXiv pages to merge")
+    root = ET.fromstring(pages[0])
+    for payload in pages[1:]:
+        page_root = ET.fromstring(payload)
+        for entry in page_root.findall("a:entry", ATOM):
+            root.append(entry)
+    return ET.tostring(root, encoding="utf-8", xml_declaration=True)
+
+
+def fetch_arxiv(profile: dict[str, Any], now: dt.datetime) -> tuple[bytes, int]:
+    retrieval = profile["retrieval"]
+    page_size = max(1, min(int(retrieval.get("page_size", 250)), 500))
+    result_limit = max(page_size, int(retrieval.get("max_results", 2000)))
+    pages = [
+        fetch_arxiv_page(
+            build_arxiv_url(profile, now, start=0, page_size=page_size)
+        )
+    ]
+    total_results = atom_total_results(pages[0])
+    fetched = len(ET.fromstring(pages[0]).findall("a:entry", ATOM))
+    target = min(total_results, result_limit)
+    while fetched < target:
+        time.sleep(3)
+        requested = min(page_size, target - fetched)
+        page = fetch_arxiv_page(
+            build_arxiv_url(profile, now, start=fetched, page_size=requested)
+        )
+        page_count = len(ET.fromstring(page).findall("a:entry", ATOM))
+        if page_count == 0:
+            break
+        pages.append(page)
+        fetched += page_count
+    return merge_atom_pages(pages), total_results
 
 
 def parse_atom(payload: bytes) -> list[Paper]:
@@ -827,7 +875,11 @@ def build(
     now = now or utc_now()
     profile = load_profile(profile_path, interests_path)
     feedback = load_feedback()
-    payload = atom_fixture.read_bytes() if atom_fixture else fetch_arxiv(profile, now)
+    if atom_fixture:
+        payload = atom_fixture.read_bytes()
+        query_total = atom_total_results(payload)
+    else:
+        payload, query_total = fetch_arxiv(profile, now)
     papers = parse_atom(payload)
     previous = load_previous_papers(output_path)
     scored = score_papers(papers, profile, feedback, previous, now)
@@ -839,6 +891,8 @@ def build(
         "generated_at": now.isoformat(),
         "profile_updated_at": profile.get("updated_at"),
         "source_count": len(papers),
+        "source_total": query_total,
+        "source_truncated": query_total > len(papers),
         "eligible_count": len(scored),
         "feedback_count": len(feedback),
         "papers": serialized,

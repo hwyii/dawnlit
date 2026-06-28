@@ -8,6 +8,7 @@ configured.
 ## What works
 
 - Fetches recent papers from `cs.LG`, `cs.AI`, `cs.CL`, `cs.CR`, and `stat.ML`.
+- Paginates the configured arXiv query and reports if its safety limit truncates results.
 - Applies an LLM scope gate, with a small separate lane for transferable methods.
 - Scores each topic independently instead of using one seed-paper centroid.
 - Separates relevance, evidence-quality, novelty, and freshness scores.
@@ -277,7 +278,11 @@ D1 retains profile versions, while feedback types remain distinct:
 
 The project stores descriptive metadata and generated notes, and links users to
 the arXiv abstract/PDF pages. It does not redistribute PDFs. Requests use one
-connection and one batched API query per build.
+paginated query per build, with a three-second pause between pages. The default
+scope is `cs.LG`, `cs.AI`, `cs.CL`, `cs.CR`, and `stat.ML` over the previous
+four days, with a 2,000-result safety limit. Generated feeds expose
+`source_total` and `source_truncated`, so incomplete retrieval is visible rather
+than silently presented as complete.
 
 Thank you to arXiv for use of its open access interoperability.
 

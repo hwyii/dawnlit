@@ -4,6 +4,7 @@ import json
 import sys
 import tempfile
 import unittest
+import urllib.parse
 from pathlib import Path
 
 
@@ -28,6 +29,16 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(self.papers[0].id, "2505.17646")
         self.assertEqual(self.papers[0].primary_category, "cs.LG")
         self.assertEqual(len(self.papers[0].authors), 2)
+
+    def test_arxiv_query_supports_pagination(self):
+        url = radar.build_arxiv_url(self.profile, self.now, start=250, page_size=100)
+        query = urllib.parse.parse_qs(urllib.parse.urlparse(url).query)
+        self.assertEqual(query["start"], ["250"])
+        self.assertEqual(query["max_results"], ["100"])
+
+    def test_atom_pages_can_be_merged(self):
+        merged = radar.merge_atom_pages([self.payload, self.payload])
+        self.assertEqual(len(radar.parse_atom(merged)), 12)
 
     def test_scope_gate_rejects_unrelated_vlm(self):
         lane, _, _ = radar.scope_lane(self.papers[4], self.profile)
@@ -91,6 +102,8 @@ class PipelineTests(unittest.TestCase):
                 use_ai=False,
             )
             self.assertEqual(feed["source_count"], 6)
+            self.assertEqual(feed["source_total"], 6)
+            self.assertFalse(feed["source_truncated"])
             self.assertGreaterEqual(feed["eligible_count"], 5)
             self.assertEqual(len(feed["papers"]), 5)
             self.assertNotIn("2606.00004", {item["id"] for item in feed["papers"]})
