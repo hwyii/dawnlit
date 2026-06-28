@@ -1,0 +1,17 @@
+{% assign radar_base = include.base_url | default: "https://hwyii.github.io/dawnlit" %}
+{% assign radar_limit = include.limit | default: 3 %}
+{% assign radar_heading = include.heading | default: "Recent papers" %}
+{% assign radar_description = include.description | default: "Selected around my current research interests." %}
+
+<script type="module" src="{{ radar_base }}/widget/paper-radar-widget.js?v=1"></script>
+
+<paper-radar-widget
+  feed="{{ radar_base }}/data/papers.json"
+  limit="{{ radar_limit }}"
+  theme="{{ include.theme | default: 'auto' }}"
+  density="{{ include.density | default: 'comfortable' }}"
+  heading="{{ radar_heading | escape }}"
+  description="{{ radar_description | escape }}"
+  more-url="{{ radar_base }}/"
+  more-label="{{ include.more_label | default: 'Open full radar →' | escape }}"
+></paper-radar-widget>

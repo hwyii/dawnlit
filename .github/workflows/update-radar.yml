@@ -1,0 +1,42 @@
+name: Update Dawnlit
+
+on:
+  schedule:
+    - cron: "17 6 * * 1-5"
+      timezone: "America/Detroit"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dawnlit-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build daily recommendations
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_MODEL: ${{ vars.CLOUDFLARE_MODEL }}
+          RADAR_API_URL: ${{ vars.RADAR_API_URL }}
+          RADAR_ADMIN_TOKEN: ${{ secrets.RADAR_ADMIN_TOKEN }}
+        run: python scripts/build_radar.py
+
+      - name: Commit updated feed
+        run: |
+          git config user.name "dawnlit-bot"
+          git config user.email "dawnlit-bot@users.noreply.github.com"
+          git add public/data
+          git diff --cached --quiet || git commit -m "chore: update paper radar"
+          git push
