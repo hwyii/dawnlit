@@ -26,6 +26,21 @@ const elements = {
   importInput: document.querySelector("#profileImport"),
 };
 
+function inferRepository() {
+  if (runtime.repository) return runtime.repository;
+  if (!window.location.hostname.endsWith(".github.io")) return "";
+  const owner = window.location.hostname.split(".")[0];
+  const repository = window.location.pathname.split("/").filter(Boolean)[0];
+  return owner && repository ? `${owner}/${repository}` : "";
+}
+
+function interestsEditUrl() {
+  const repository = inferRepository();
+  return repository
+    ? `https://github.com/${repository}/edit/main/config/interests.txt`
+    : "";
+}
+
 function readStorage(key, fallback) {
   try {
     return JSON.parse(localStorage.getItem(key)) ?? fallback;
@@ -64,7 +79,8 @@ async function fetchJSON(url, options = {}) {
   const headers = { Accept: "application/json", ...(options.headers || {}) };
   if (state.token) headers.Authorization = `Bearer ${state.token}`;
   const response = await fetch(url, { ...options, headers });
-  if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
+  if (!response.ok)
+    throw new Error(`${response.status} ${response.statusText}`);
   return response.json();
 }
 
@@ -76,7 +92,9 @@ async function loadProfile() {
       writeStorage(STORAGE.profile, remote);
       return remote;
     } catch (error) {
-      showToast(`Cloud profile unavailable; using local data: ${error.message}`);
+      showToast(
+        `Cloud profile unavailable; using local data: ${error.message}`,
+      );
     }
   }
   return localProfile || fetchJSON("./data/profile.json");
@@ -107,10 +125,12 @@ async function boot() {
 
 function updateChrome() {
   document.querySelector("#todayCount").textContent = state.feed.papers.length;
-  document.querySelector("#weeklyCount").textContent = state.weekly.papers.length;
+  document.querySelector("#weeklyCount").textContent =
+    state.weekly.papers.length;
   document.querySelector("#savedCount").textContent = state.saved.size;
-  document.querySelector("#lastUpdated").textContent =
-    `Updated ${prettyDate(state.feed.generated_at)}`;
+  document.querySelector("#lastUpdated").textContent = `Updated ${prettyDate(
+    state.feed.generated_at,
+  )}`;
   const cloud = Boolean(state.apiUrl && state.token);
   document.querySelector("#modeBadge").textContent = cloud ? "SYNCED" : "LOCAL";
   document.querySelector("#modeBadge").title = cloud
@@ -151,7 +171,8 @@ function render() {
         ? state.weekly.papers
         : [...state.feed.papers, ...state.weekly.papers].filter(
             (paper, index, all) =>
-              state.saved.has(paper.id) && all.findIndex((item) => item.id === paper.id) === index,
+              state.saved.has(paper.id) &&
+              all.findIndex((item) => item.id === paper.id) === index,
           );
   renderPaperView(papers);
 }
@@ -161,24 +182,29 @@ function renderPaperView(papers) {
     today: {
       eyebrow: "DAILY SIGNAL",
       title: "Today’s radar",
-      subtitle: "Core LLM research signals, with relevance, quality, and exploration scored separately.",
+      subtitle:
+        "Core LLM research signals, with relevance, quality, and exploration scored separately.",
       date: prettyDate(state.feed.generated_at),
     },
     weekly: {
       eyebrow: "WEEKLY DIGEST",
       title: "This week",
-      subtitle: "The strongest signals from the last seven days, reranked as a weekly digest.",
+      subtitle:
+        "The strongest signals from the last seven days, reranked as a weekly digest.",
       date: `${papers.length} PAPERS`,
     },
     saved: {
       eyebrow: "YOUR LIBRARY",
       title: "Saved papers",
-      subtitle: "Saved papers provide a light preference signal without locking the whole profile.",
+      subtitle:
+        "Saved papers provide a light preference signal without locking the whole profile.",
       date: `${papers.length} SAVED`,
     },
   }[state.view];
 
-  const topics = new Set(papers.map((paper) => paper.topics?.[0]?.name).filter(Boolean));
+  const topics = new Set(
+    papers.map((paper) => paper.topics?.[0]?.name).filter(Boolean),
+  );
   elements.app.innerHTML = `
     <section class="view-header">
       <div>
@@ -189,10 +215,20 @@ function renderPaperView(papers) {
       <span class="date-stamp">${escapeHTML(config.date)}</span>
     </section>
     <div class="summary-strip">
-      ${state.feed.demo ? '<span class="summary-chip"><strong>DEMO</strong> fixture data</span>' : ""}
-      <span class="summary-chip"><strong>${papers.length}</strong> selected</span>
-      <span class="summary-chip"><strong>${topics.size}</strong> topic lanes</span>
-      <span class="summary-chip"><strong>${papers.filter((p) => p.lane === "transferable").length}</strong> transferable</span>
+      ${
+        state.feed.demo
+          ? '<span class="summary-chip"><strong>DEMO</strong> fixture data</span>'
+          : ""
+      }
+      <span class="summary-chip"><strong>${
+        papers.length
+      }</strong> selected</span>
+      <span class="summary-chip"><strong>${
+        topics.size
+      }</strong> topic lanes</span>
+      <span class="summary-chip"><strong>${
+        papers.filter((p) => p.lane === "transferable").length
+      }</strong> transferable</span>
     </div>
     ${
       papers.length
@@ -214,23 +250,42 @@ function paperCard(paper) {
     <article class="paper-card" data-paper-id="${escapeHTML(paper.id)}">
       <div class="paper-topline">
         <div class="paper-labels">
-          <span class="topic-chip ${paper.lane === "transferable" ? "transferable" : ""}">
-            ${paper.lane === "transferable" ? "Transfer · " : ""}${escapeHTML(topic.name)}
+          <span class="topic-chip ${
+            paper.lane === "transferable" ? "transferable" : ""
+          }">
+            ${paper.lane === "transferable" ? "Transfer · " : ""}${escapeHTML(
+              topic.name,
+            )}
           </span>
-          <span class="topic-chip category-chip">${escapeHTML(paper.primary_category)}</span>
+          <span class="topic-chip category-chip">${escapeHTML(
+            paper.primary_category,
+          )}</span>
         </div>
-        <span class="score" style="--score-angle: ${score * 3.6}deg" title="Overall score ${score}">${score}</span>
+        <span class="score" style="--score-angle: ${
+          score * 3.6
+        }deg" title="Overall score ${score}">${score}</span>
       </div>
       <h2>${escapeHTML(paper.title)}</h2>
-      <p class="paper-meta">${escapeHTML(authors)}${moreAuthors} · ${prettyDate(paper.published)} · arXiv:${escapeHTML(paper.id)}</p>
+      <p class="paper-meta">${escapeHTML(authors)}${moreAuthors} · ${prettyDate(
+        paper.published,
+      )} · arXiv:${escapeHTML(paper.id)}</p>
       <p class="takeaway">${escapeHTML(summary.takeaway || paper.abstract)}</p>
       <div class="match-line">
         <span>Why:</span>
-        ${(topic.matched || []).slice(0, 4).map((item) => `<span class="signal-chip">${escapeHTML(item)}</span>`).join("")}
-        ${signals.map((item) => `<span class="signal-chip">✓ ${escapeHTML(item)}</span>`).join("")}
+        ${(topic.matched || [])
+          .slice(0, 4)
+          .map((item) => `<span class="signal-chip">${escapeHTML(item)}</span>`)
+          .join("")}
+        ${signals
+          .map(
+            (item) => `<span class="signal-chip">✓ ${escapeHTML(item)}</span>`,
+          )
+          .join("")}
       </div>
       <div class="paper-actions">
-        <button class="action-button save-button ${saved ? "active" : ""}" data-action="save">
+        <button class="action-button save-button ${
+          saved ? "active" : ""
+        }" data-action="save">
           ${saved ? "◆ Saved" : "◇ Save"}
         </button>
         <button class="action-button" data-action="read">✓ Read</button>
@@ -246,8 +301,12 @@ function paperCard(paper) {
           </div>
         </div>
         <button class="action-button expand-button" data-action="expand">Structured note ＋</button>
-        <a class="link-button" href="${escapeHTML(paper.abs_url)}" target="_blank" rel="noreferrer">arXiv ↗</a>
-        <a class="link-button" href="${escapeHTML(paper.pdf_url)}" target="_blank" rel="noreferrer">PDF ↗</a>
+        <a class="link-button" href="${escapeHTML(
+          paper.abs_url,
+        )}" target="_blank" rel="noreferrer">arXiv ↗</a>
+        <a class="link-button" href="${escapeHTML(
+          paper.pdf_url,
+        )}" target="_blank" rel="noreferrer">PDF ↗</a>
       </div>
       <div class="paper-details">
         <div class="summary-grid">
@@ -256,16 +315,25 @@ function paperCard(paper) {
           ${summaryCell("Evidence", summary.evidence)}
           ${summaryCell("Limitations", summary.limitations)}
           ${summaryCell("Why for you", summary.why_for_you)}
-          ${summaryCell("Summary source", `${summary.source || "abstract"} · ${summary.generated_by || "unknown"}`)}
+          ${summaryCell(
+            "Summary source",
+            `${summary.source || "abstract"} · ${
+              summary.generated_by || "unknown"
+            }`,
+          )}
         </div>
-        <p class="abstract"><strong>Abstract.</strong> ${escapeHTML(paper.abstract)}</p>
+        <p class="abstract"><strong>Abstract.</strong> ${escapeHTML(
+          paper.abstract,
+        )}</p>
       </div>
     </article>
   `;
 }
 
 function summaryCell(label, value = "Not stated in the abstract") {
-  return `<div class="summary-cell"><h3>${label}</h3><p>${escapeHTML(value)}</p></div>`;
+  return `<div class="summary-cell"><h3>${label}</h3><p>${escapeHTML(
+    value,
+  )}</p></div>`;
 }
 
 function emptyState() {
@@ -277,6 +345,7 @@ function emptyState() {
 }
 
 function renderPreferences() {
+  const editUrl = interestsEditUrl();
   elements.app.innerHTML = `
     <section class="view-header">
       <div>
@@ -284,7 +353,9 @@ function renderPreferences() {
         <h1>Preferences</h1>
         <p>Your profile is explicit, editable, and portable; seed papers remain a weak signal.</p>
       </div>
-      <span class="date-stamp">${state.apiUrl && state.token ? "CLOUD SYNC" : "LOCAL MODE"}</span>
+      <span class="date-stamp">${
+        state.apiUrl && state.token ? "CLOUD SYNC" : "LOCAL MODE"
+      }</span>
     </section>
     <div class="preference-layout">
       <section class="panel">
@@ -331,10 +402,17 @@ function renderPreferences() {
         <div class="panel-heading">
           <div>
             <h2>Data ownership</h2>
-            <p>Local mode uploads nothing. The exported JSON can replace config/profile.json.</p>
+            <p>Local mode uploads nothing. Edit the simple interest list for scheduled builds.</p>
           </div>
         </div>
         <div class="preference-actions">
+          ${
+            editUrl
+              ? `<a class="secondary-button" href="${escapeHTML(
+                  editUrl,
+                )}" target="_blank" rel="noreferrer">Edit interests on GitHub ↗</a>`
+              : ""
+          }
           <button class="secondary-button" data-pref-action="export-profile">Export profile</button>
           <button class="secondary-button" data-pref-action="import-profile">Import profile</button>
           <button class="secondary-button" data-pref-action="export-feedback">Export feedback</button>
@@ -343,7 +421,9 @@ function renderPreferences() {
         ${
           state.apiUrl
             ? `<div class="auth-row">
-                <input id="apiToken" type="password" placeholder="Admin token (kept in this tab only)" value="${escapeHTML(state.token)}" />
+                <input id="apiToken" type="password" placeholder="Admin token (kept in this tab only)" value="${escapeHTML(
+                  state.token,
+                )}" />
                 <button class="secondary-button" data-pref-action="connect-api">Connect API</button>
               </div>`
             : ""
@@ -357,18 +437,33 @@ function topicEditor(topic, index) {
   return `
     <div class="topic-editor" data-topic-index="${index}">
       <div class="topic-name-field">
-        <input type="checkbox" data-topic-field="enabled" ${topic.enabled ? "checked" : ""} aria-label="Enable ${escapeHTML(topic.name)}" />
+        <input type="checkbox" data-topic-field="enabled" ${
+          topic.enabled ? "checked" : ""
+        } aria-label="Enable ${escapeHTML(topic.name)}" />
         <div>
-          <input type="text" data-topic-field="name" value="${escapeHTML(topic.name)}" aria-label="Topic name" />
-          <textarea data-topic-field="description" aria-label="Topic description">${escapeHTML(topic.description || "")}</textarea>
+          <input type="text" data-topic-field="name" value="${escapeHTML(
+            topic.name,
+          )}" aria-label="Topic name" />
+          <textarea data-topic-field="description" aria-label="Topic description">${escapeHTML(
+            topic.description || "",
+          )}</textarea>
         </div>
       </div>
       <label class="weight-control">
-        <input type="range" min="0" max="1" step="0.1" value="${Number(topic.weight || 0)}" data-topic-field="weight" />
+        <input type="range" min="0" max="1" step="0.1" value="${Number(
+          topic.weight || 0,
+        )}" data-topic-field="weight" />
         <output>${Number(topic.weight || 0).toFixed(1)}</output>
       </label>
       <select data-topic-field="status" aria-label="Topic status">
-        ${["core", "emerging", "watch", "background"].map((status) => `<option value="${status}" ${topic.status === status ? "selected" : ""}>${status}</option>`).join("")}
+        ${["core", "emerging", "watch", "background"]
+          .map(
+            (status) =>
+              `<option value="${status}" ${
+                topic.status === status ? "selected" : ""
+              }>${status}</option>`,
+          )
+          .join("")}
       </select>
       <button class="remove-topic" data-pref-action="remove-topic" title="Remove topic">×</button>
     </div>
@@ -376,7 +471,9 @@ function topicEditor(topic, index) {
 }
 
 function paperById(id) {
-  return [...state.feed.papers, ...state.weekly.papers].find((paper) => paper.id === id);
+  return [...state.feed.papers, ...state.weekly.papers].find(
+    (paper) => paper.id === id,
+  );
 }
 
 async function recordFeedback(paper, action) {
@@ -392,7 +489,9 @@ async function recordFeedback(paper, action) {
   state.feedback.push(item);
   writeStorage(STORAGE.feedback, state.feedback);
   if (action === "more_topic" && paper.topics?.[0]) {
-    const topic = state.profile.topics.find((candidate) => candidate.id === paper.topics[0].id);
+    const topic = state.profile.topics.find(
+      (candidate) => candidate.id === paper.topics[0].id,
+    );
     if (topic) {
       topic.weight = Math.min(1, Number(topic.weight || 0) + 0.1);
       writeStorage(STORAGE.profile, state.profile);
@@ -413,7 +512,9 @@ async function recordFeedback(paper, action) {
         });
       }
     } catch (error) {
-      showToast(`Feedback was saved locally; cloud sync failed: ${error.message}`);
+      showToast(
+        `Feedback was saved locally; cloud sync failed: ${error.message}`,
+      );
       return;
     }
   }
@@ -507,7 +608,9 @@ function applyPreferenceCommand(command) {
 function addTopic() {
   syncEditorsToProfile();
   const name = document.querySelector("#newTopicName").value.trim();
-  const description = document.querySelector("#newTopicDescription").value.trim();
+  const description = document
+    .querySelector("#newTopicDescription")
+    .value.trim();
   if (!name || !description) {
     showToast("Enter both a topic name and description.");
     return;
@@ -550,7 +653,10 @@ function showToast(message) {
   elements.toast.textContent = message;
   elements.toast.classList.add("visible");
   clearTimeout(showToast.timer);
-  showToast.timer = setTimeout(() => elements.toast.classList.remove("visible"), 2600);
+  showToast.timer = setTimeout(
+    () => elements.toast.classList.remove("visible"),
+    2600,
+  );
 }
 
 elements.nav.addEventListener("click", (event) => {
@@ -609,7 +715,9 @@ elements.app.addEventListener("click", async (event) => {
   try {
     if (action === "save-profile") await saveProfile();
     if (action === "apply-command") {
-      applyPreferenceCommand(document.querySelector("#preferenceCommand").value.trim());
+      applyPreferenceCommand(
+        document.querySelector("#preferenceCommand").value.trim(),
+      );
     }
     if (action === "add-topic") addTopic();
     if (action === "remove-topic") {
@@ -646,9 +754,11 @@ elements.app.addEventListener("click", async (event) => {
 
 elements.app.addEventListener("input", (event) => {
   if (event.target.type === "range") {
-    event.target.closest(".weight-control").querySelector("output").textContent = Number(
-      event.target.value,
-    ).toFixed(1);
+    event.target
+      .closest(".weight-control")
+      .querySelector("output").textContent = Number(event.target.value).toFixed(
+      1,
+    );
   }
 });
 
@@ -657,7 +767,8 @@ elements.importInput.addEventListener("change", async (event) => {
   if (!file) return;
   try {
     const profile = JSON.parse(await file.text());
-    if (!Array.isArray(profile.topics)) throw new Error("The profile has no topics array");
+    if (!Array.isArray(profile.topics))
+      throw new Error("The profile has no topics array");
     state.profile = profile;
     writeStorage(STORAGE.profile, profile);
     updateChrome();

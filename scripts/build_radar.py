@@ -9,6 +9,7 @@ environment variables documented in README.md.
 from __future__ import annotations
 
 import argparse
+import copy
 import dataclasses
 import datetime as dt
 import html
@@ -29,6 +30,7 @@ from typing import Any, Iterable
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_PROFILE = ROOT / "config" / "profile.json"
+DEFAULT_INTERESTS = ROOT / "config" / "interests.txt"
 DEFAULT_OUTPUT = ROOT / "public" / "data" / "papers.json"
 DEFAULT_PROFILE_OUTPUT = ROOT / "public" / "data" / "profile.json"
 ARXIV_ENDPOINT = "https://export.arxiv.org/api/query"
@@ -167,8 +169,116 @@ def request_json(url: str, token: str | None = None, method: str = "GET", body: 
         return json.loads(response.read().decode("utf-8"))
 
 
-def load_profile(path: Path) -> dict[str, Any]:
+def interest_key(value: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "_", value.lower()).strip("_")
+
+
+def parse_interests(path: Path | None) -> list[dict[str, Any]]:
+    """Parse the small, human-editable interest file.
+
+    Each non-comment line is:
+        Topic name @ optional-weight :: optional, comma-separated, keywords
+    """
+    if path is None or not path.exists():
+        return []
+    interests: list[dict[str, Any]] = []
+    for raw_line in path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#"):
+            continue
+        name_part, separator, keyword_part = line.partition("::")
+        topic_name, weight_separator, raw_weight = name_part.rpartition("@")
+        if weight_separator:
+            topic_name = topic_name.strip()
+            try:
+                weight = float(raw_weight.strip())
+            except ValueError as error:
+                raise ValueError(f"Invalid interest weight: {raw_line}") from error
+            if not 0 <= weight <= 1:
+                raise ValueError(f"Interest weight must be between 0 and 1: {raw_line}")
+        else:
+            topic_name = name_part.strip()
+            weight = None
+        if not topic_name:
+            raise ValueError(f"Invalid interest line: {raw_line}")
+        keywords = (
+            [item.strip() for item in keyword_part.split(",") if item.strip()]
+            if separator
+            else []
+        )
+        interests.append(
+            {
+                "name": topic_name,
+                "weight": weight,
+                "keywords": keywords,
+            }
+        )
+    return interests
+
+
+def apply_interests(
+    profile: dict[str, Any], interests: list[dict[str, Any]]
+) -> dict[str, Any]:
+    """Overlay a simple interest list while retaining advanced topic rules."""
+    if not interests:
+        return profile
+    result = copy.deepcopy(profile)
+    existing = {
+        interest_key(topic.get("id", "")): topic for topic in result.get("topics", [])
+    }
+    existing.update(
+        {
+            interest_key(topic.get("name", "")): topic
+            for topic in result.get("topics", [])
+        }
+    )
+    selected: list[dict[str, Any]] = []
+    used_ids: set[str] = set()
+    for index, interest in enumerate(interests):
+        key = interest_key(interest["name"])
+        topic = copy.deepcopy(existing.get(key))
+        if topic is None:
+            topic = {
+                "id": key or f"interest_{index + 1}",
+                "name": interest["name"],
+                "description": interest["name"],
+                "weight": 0.8,
+                "status": "emerging",
+                "enabled": True,
+                "phrases": [interest["name"]],
+                "terms": sorted(tokenize(interest["name"])),
+                "exclude": [],
+            }
+        topic["enabled"] = True
+        if interest["weight"] is not None:
+            topic["weight"] = interest["weight"]
+        if interest["keywords"]:
+            topic["phrases"] = list(
+                dict.fromkeys([*(topic.get("phrases") or []), *interest["keywords"]])
+            )
+            topic["terms"] = list(
+                dict.fromkeys(
+                    [
+                        *(topic.get("terms") or []),
+                        *sorted(tokenize(" ".join(interest["keywords"]))),
+                    ]
+                )
+            )
+        topic_id = topic["id"]
+        if topic_id in used_ids:
+            topic_id = f"{topic_id}_{index + 1}"
+            topic["id"] = topic_id
+        used_ids.add(topic_id)
+        selected.append(topic)
+    result["topics"] = selected
+    return result
+
+
+def load_profile(
+    path: Path, interests_path: Path | None = DEFAULT_INTERESTS
+) -> dict[str, Any]:
     profile = json.loads(path.read_text(encoding="utf-8"))
+    profile = apply_interests(profile, parse_interests(interests_path))
     api_url = os.getenv("RADAR_API_URL", "").rstrip("/")
     api_token = os.getenv("RADAR_ADMIN_TOKEN")
     if api_url and api_token:
@@ -658,9 +768,13 @@ def serialize_item(item: dict[str, Any], use_ai: bool) -> dict[str, Any]:
     return item
 
 
-def rewrite_existing(profile_path: Path, output_path: Path) -> int:
+def rewrite_existing(
+    profile_path: Path,
+    output_path: Path,
+    interests_path: Path | None = DEFAULT_INTERESTS,
+) -> int:
     """Refresh generated summaries/profile without fetching new papers."""
-    profile = load_profile(profile_path)
+    profile = load_profile(profile_path, interests_path)
     data_dir = output_path.parent
     paths = [
         data_dir / "papers.json",
@@ -708,9 +822,10 @@ def build(
     now: dt.datetime | None = None,
     use_ai: bool = True,
     reset_history: bool = False,
+    interests_path: Path | None = DEFAULT_INTERESTS,
 ) -> dict[str, Any]:
     now = now or utc_now()
-    profile = load_profile(profile_path)
+    profile = load_profile(profile_path, interests_path)
     feedback = load_feedback()
     payload = atom_fixture.read_bytes() if atom_fixture else fetch_arxiv(profile, now)
     papers = parse_atom(payload)
@@ -788,6 +903,12 @@ def build(
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--profile", type=Path, default=DEFAULT_PROFILE)
+    parser.add_argument(
+        "--interests",
+        type=Path,
+        default=DEFAULT_INTERESTS,
+        help="Simple one-topic-per-line interest file",
+    )
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--fixture", type=Path, help="Use a local Atom file instead of the network")
     parser.add_argument("--now", help="Override current time with an ISO-8601 value")
@@ -808,7 +929,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     if args.rewrite_existing:
-        count = rewrite_existing(args.profile, args.output)
+        count = rewrite_existing(args.profile, args.output, args.interests)
         print(f"Rewrote {count} existing paper summaries.")
         return 0
     now = parse_date(args.now) if args.now else None
@@ -819,6 +940,7 @@ def main() -> int:
         now,
         use_ai=not args.no_ai,
         reset_history=args.reset_history,
+        interests_path=args.interests,
     )
     print(
         f"Generated {len(feed['papers'])} recommendations "

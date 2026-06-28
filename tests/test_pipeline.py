@@ -54,6 +54,32 @@ class PipelineTests(unittest.TestCase):
         self.assertNotRegex(serialized, r"[\u3400-\u9fff]")
         self.assertIn("Matches your research profile", summary["why_for_you"])
 
+    def test_simple_interests_retain_advanced_rules_and_add_topics(self):
+        with tempfile.TemporaryDirectory() as directory:
+            interests_path = Path(directory) / "interests.txt"
+            interests_path.write_text(
+                "# editable\n"
+                "LLM loss landscape @ 0.9 :: spectral geometry\n"
+                "Mechanistic interpretability :: sparse autoencoders, circuits\n"
+            )
+            interests = radar.parse_interests(interests_path)
+            profile = radar.apply_interests(self.profile, interests)
+            self.assertEqual(len(profile["topics"]), 2)
+            self.assertEqual(profile["topics"][0]["id"], "llm_loss_landscape")
+            self.assertEqual(profile["topics"][0]["weight"], 0.9)
+            self.assertIn("spectral geometry", profile["topics"][0]["phrases"])
+            self.assertEqual(
+                profile["topics"][1]["id"], "mechanistic_interpretability"
+            )
+            self.assertIn("sparse autoencoders", profile["topics"][1]["phrases"])
+
+    def test_simple_interests_reject_invalid_weight(self):
+        with tempfile.TemporaryDirectory() as directory:
+            interests_path = Path(directory) / "interests.txt"
+            interests_path.write_text("Safety @ 2.0 :: alignment\n")
+            with self.assertRaises(ValueError):
+                radar.parse_interests(interests_path)
+
     def test_end_to_end_fixture_build(self):
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "data" / "papers.json"

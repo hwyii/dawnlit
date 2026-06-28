@@ -23,6 +23,23 @@ configured.
 The checked-in feed contains the latest successful live build. A deterministic
 fixture remains available for tests and offline UI development.
 
+## Install your own Dawnlit
+
+The fastest path does not require a local development environment:
+
+1. [Create a repository from the Dawnlit template](https://github.com/new?template_name=dawnlit&template_owner=hwyii).
+2. Edit [`config/interests.txt`](config/interests.txt) in GitHub's web editor.
+3. In **Settings → Pages**, choose **GitHub Actions** as the source.
+4. Open your deployed `/install.html` page to generate the embed code.
+
+The hosted installer is also available at
+[`https://hwyii.github.io/dawnlit/install.html`](https://hwyii.github.io/dawnlit/install.html).
+Enter your GitHub username and repository name; it generates the correct
+Web Component snippet and direct configuration links.
+
+Saving `config/interests.txt` triggers an immediate feed rebuild. The scheduled
+workflow also refreshes every day at 06:17 in `America/Detroit`.
+
 ## Why Dawnlit is different
 
 Most paper products optimize one of three things: a large searchable corpus,
@@ -88,9 +105,24 @@ python3 -m unittest discover -s tests -v
 
 ## Edit the research profile
 
-The canonical local profile is [`config/profile.json`](config/profile.json).
-The web UI keeps edits in browser storage by default. Use **Export profile** and
-replace the canonical file when you want scheduled builds to use those edits.
+For most users, the canonical interest list is
+[`config/interests.txt`](config/interests.txt). It uses one line per direction:
+
+```text
+Mechanistic interpretability @ 0.8 :: sparse autoencoders, circuits, activation probing
+```
+
+The weight and comma-separated keywords are optional. Saving the file in
+GitHub immediately rebuilds and deploys the feed.
+
+[`config/profile.json`](config/profile.json) remains the advanced configuration
+for retrieval scope, ranking weights, exclusions, and detailed topic rules.
+When a name in `interests.txt` matches an advanced topic, Dawnlit retains those
+rules and applies the simple weight and extra keywords on top.
+
+The web Preferences page keeps interactive edits in browser storage by default.
+Its **Edit interests on GitHub** button opens the durable simple configuration;
+**Export profile** remains available for advanced edits.
 
 The initial lanes are:
 
@@ -127,19 +159,19 @@ dependencies:
 
 Supported attributes:
 
-| Attribute | Default | Purpose |
-| --- | --- | --- |
-| `feed` | required | URL of a Dawnlit-compatible `papers.json` feed |
-| `limit` | `3` | Maximum number of cards |
-| `theme` | `auto` | `auto`, `light`, or `dark` |
-| `density` | `comfortable` | Set `compact` to hide takeaways |
-| `heading` | `Today’s research radar` | Widget title |
-| `description` | built-in text | Short introduction |
-| `show-header` | `true` | Set `false` for cards only |
-| `show-summary` | `true` | Set `false` to hide takeaways |
-| `show-score` | `true` | Set `false` to hide score rings |
-| `more-url` | unset | Link to the full standalone app |
-| `more-label` | `Open full radar →` | Footer link text |
+| Attribute      | Default                  | Purpose                                        |
+| -------------- | ------------------------ | ---------------------------------------------- |
+| `feed`         | required                 | URL of a Dawnlit-compatible `papers.json` feed |
+| `limit`        | `3`                      | Maximum number of cards                        |
+| `theme`        | `auto`                   | `auto`, `light`, or `dark`                     |
+| `density`      | `comfortable`            | Set `compact` to hide takeaways                |
+| `heading`      | `Today’s research radar` | Widget title                                   |
+| `description`  | built-in text            | Short introduction                             |
+| `show-header`  | `true`                   | Set `false` for cards only                     |
+| `show-summary` | `true`                   | Set `false` to hide takeaways                  |
+| `show-score`   | `true`                   | Set `false` to hide score rings                |
+| `more-url`     | unset                    | Link to the full standalone app                |
+| `more-label`   | `Open full radar →`      | Footer link text                               |
 
 The component emits `paper-radar-loaded`, `paper-radar-error`, and
 `paper-radar-select` DOM events. JavaScript applications can also assign a feed
@@ -182,11 +214,11 @@ model to stay within the supplied title and abstract.
 
 ## GitHub Pages deployment
 
-1. Create a public repository named `dawnlit`.
-2. Push this directory to its `main` branch.
-3. In **Settings → Pages**, select **GitHub Actions** as the source.
-4. Run **Deploy Dawnlit** once.
-5. Run **Update Dawnlit** once to replace demo data.
+1. Create a repository with **Use this template**.
+2. In **Settings → Pages**, select **GitHub Actions** as the source.
+3. Edit `config/interests.txt`; this triggers the first personalized build.
+4. Run **Deploy Dawnlit** manually only if Pages was enabled after the first
+   deployment attempt.
 
 The resulting URL is:
 
@@ -194,9 +226,9 @@ The resulting URL is:
 https://hwyii.github.io/dawnlit/
 ```
 
-The update workflow runs at 06:17 in `America/Detroit` on weekdays. It avoids
-the start of the hour because scheduled GitHub workflows can be delayed under
-heavy load.
+The update workflow runs every day at 06:17 in `America/Detroit`. It avoids the
+start of the hour because scheduled GitHub workflows can be delayed under heavy
+load. Changes to `config/**` or `scripts/**` also trigger an immediate update.
 
 ## Optional preference and feedback sync
 
