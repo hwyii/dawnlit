@@ -15,3 +15,17 @@
   more-url="{{ radar_base }}/"
   more-label="{{ include.more_label | default: 'Open full radar →' | escape }}"
 ></paper-radar-widget>
+
+<script>
+  (() => {
+    const widget = document.currentScript.previousElementSibling;
+    const syncTheme = () => {
+      widget.setAttribute("theme", document.documentElement.dataset.theme || "auto");
+    };
+    syncTheme();
+    new MutationObserver(syncTheme).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+  })();
+</script>
