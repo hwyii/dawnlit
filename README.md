@@ -195,11 +195,22 @@ JavaScript:
 ></iframe>
 ```
 
-## Optional AI summaries
+## AI morning briefs
 
-Without credentials, summaries are extractive and explicitly labeled
-`abstract · extractive`. To enable an open-model API through Workers AI, add
-these GitHub repository secrets:
+The scheduled workflow sends only the final selected papers to GitHub Models
+using its built-in `GITHUB_TOKEN`; no separate API key is required. The default
+model is `openai/gpt-4o-mini`. Set the optional repository variable
+`GITHUB_MODEL` to use another model available to your repository.
+
+Each brief is constrained to the title and abstract and produces four
+immediately visible fields: what the paper contributes, how it works, what
+evidence the abstract reports, and why it matches the profile. Missing evidence
+must be stated rather than invented. If model inference is unavailable or
+invalid, Dawnlit falls back to an extractive brief and labels it
+`Abstract extract`.
+
+Cloudflare Workers AI remains available as an optional preferred provider. Add
+these repository secrets to use it:
 
 - `CLOUDFLARE_ACCOUNT_ID`
 - `CLOUDFLARE_API_TOKEN`
@@ -209,9 +220,6 @@ Optionally set the repository variable `CLOUDFLARE_MODEL`. The default is:
 ```text
 @cf/meta/llama-3.2-3b-instruct
 ```
-
-Only the selected papers are sent for summarization. The prompt requires the
-model to stay within the supplied title and abstract.
 
 ## GitHub Pages deployment
 

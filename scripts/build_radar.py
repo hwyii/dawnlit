@@ -633,7 +633,19 @@ def select_sentence(sentences: list[str], needles: Iterable[str], fallback: int)
 
 def extractive_summary(paper: Paper, topics: list[dict[str, Any]]) -> dict[str, Any]:
     sentences = split_sentences(paper.abstract)
-    takeaway = sentences[0] if sentences else paper.title
+    takeaway = select_sentence(
+        sentences,
+        [
+            "we propose",
+            "we introduce",
+            "we present",
+            "we develop",
+            "we find",
+            "we show",
+            "we demonstrate",
+        ],
+        0,
+    )
     method = select_sentence(
         sentences,
         ["we propose", "we introduce", "we develop", "our method", "framework", "algorithm"],
@@ -657,39 +669,95 @@ def extractive_summary(paper: Paper, topics: list[dict[str, Any]]) -> dict[str, 
     }
 
 
-def cloudflare_summary(paper: Paper, topics: list[dict[str, Any]]) -> dict[str, Any] | None:
-    account_id = os.getenv("CLOUDFLARE_ACCOUNT_ID")
-    api_token = os.getenv("CLOUDFLARE_API_TOKEN")
-    if not account_id or not api_token:
+def parse_model_summary(raw: str, generated_by: str) -> dict[str, Any] | None:
+    match = re.search(r"\{.*\}", raw, re.DOTALL)
+    if not match:
         return None
-    model = os.getenv("CLOUDFLARE_MODEL", "@cf/meta/llama-3.2-3b-instruct")
-    url = f"https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run/{model}"
+    result = json.loads(match.group(0))
+    required = {
+        "takeaway",
+        "problem",
+        "method",
+        "evidence",
+        "limitations",
+        "why_for_you",
+    }
+    if not required.issubset(result) or not all(
+        isinstance(result.get(field), str) for field in required
+    ):
+        return None
+    result["source"] = "abstract"
+    result["generated_by"] = generated_by
+    return result
+
+
+def summary_prompt(paper: Paper, topics: list[dict[str, Any]]) -> str:
     topic_names = ", ".join(item["name"] for item in topics[:3])
-    prompt = f"""You summarize research papers for an expert LLM researcher.
-Use only the supplied title and abstract. Do not invent results.
-Return only a JSON object with string fields: takeaway, problem, method,
-evidence, limitations, why_for_you. Write concise technical English. If
-information is absent, explicitly say so.
+    return f"""You write a morning research brief for an expert LLM researcher.
+Use only the supplied title and abstract. Do not invent results, datasets,
+baselines, numbers, or limitations. Return only a JSON object with string
+fields: takeaway, problem, method, evidence, limitations, why_for_you.
+
+Requirements:
+- Each field is one concise technical sentence.
+- takeaway states the actual contribution, not generic background.
+- method says what the authors concretely do.
+- evidence reports the evaluation or theorem; say "Not stated in the abstract"
+  when details are absent.
+- limitations distinguishes an author-stated limitation from missing evidence.
+- why_for_you connects specifically to the supplied research interests.
 
 Research interests: {topic_names}
 Title: {paper.title}
 Abstract: {paper.abstract}
 """
+
+
+def cloudflare_summary(paper: Paper, topics: list[dict[str, Any]]) -> dict[str, Any] | None:
+    account_id = os.getenv("CLOUDFLARE_ACCOUNT_ID")
+    api_token = os.getenv("CLOUDFLARE_API_TOKEN")
+    if not account_id or not api_token:
+        return None
+    model = os.getenv("CLOUDFLARE_MODEL") or "@cf/meta/llama-3.2-3b-instruct"
+    url = f"https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run/{model}"
     try:
-        response = request_json(url, api_token, "POST", {"prompt": prompt, "max_tokens": 700})
+        response = request_json(
+            url,
+            api_token,
+            "POST",
+            {"prompt": summary_prompt(paper, topics), "max_tokens": 700},
+        )
         raw = response.get("result", {}).get("response", "")
-        match = re.search(r"\{.*\}", raw, re.DOTALL)
-        if not match:
-            return None
-        result = json.loads(match.group(0))
-        required = {"takeaway", "problem", "method", "evidence", "limitations", "why_for_you"}
-        if not required.issubset(result):
-            return None
-        result["source"] = "abstract"
-        result["generated_by"] = model
-        return result
+        return parse_model_summary(raw, model)
     except (OSError, ValueError, urllib.error.URLError) as error:
         print(f"AI summary failed for {paper.id}: {error}", file=sys.stderr)
+        return None
+
+
+def github_summary(paper: Paper, topics: list[dict[str, Any]]) -> dict[str, Any] | None:
+    token = os.getenv("GITHUB_TOKEN")
+    if not token:
+        return None
+    model = os.getenv("GITHUB_MODEL") or "openai/gpt-4o-mini"
+    url = "https://models.github.ai/inference/chat/completions"
+    body = {
+        "model": model,
+        "messages": [
+            {
+                "role": "system",
+                "content": "You are a precise research analyst. Return grounded JSON only.",
+            },
+            {"role": "user", "content": summary_prompt(paper, topics)},
+        ],
+        "temperature": 0.2,
+        "max_tokens": 700,
+    }
+    try:
+        response = request_json(url, token, "POST", body)
+        raw = response.get("choices", [{}])[0].get("message", {}).get("content", "")
+        return parse_model_summary(raw, model)
+    except (OSError, ValueError, urllib.error.URLError, IndexError) as error:
+        print(f"GitHub Models summary failed for {paper.id}: {error}", file=sys.stderr)
         return None
 
 
@@ -806,7 +874,11 @@ def diversify(scored: list[dict[str, Any]], profile: dict[str, Any]) -> list[dic
 def serialize_item(item: dict[str, Any], use_ai: bool) -> dict[str, Any]:
     paper: Paper = item.pop("_paper")
     item.pop("_tokens", None)
-    summary = cloudflare_summary(paper, item["topics"]) if use_ai else None
+    summary = None
+    if use_ai:
+        summary = cloudflare_summary(paper, item["topics"]) or github_summary(
+            paper, item["topics"]
+        )
     item["summary"] = summary or extractive_summary(paper, item["topics"])
     item["recommendation_reason"] = {
         "topic": item["topics"][0]["name"],

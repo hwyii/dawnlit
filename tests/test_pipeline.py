@@ -65,6 +65,16 @@ class PipelineTests(unittest.TestCase):
         self.assertNotRegex(serialized, r"[\u3400-\u9fff]")
         self.assertIn("Matches your research profile", summary["why_for_you"])
 
+    def test_model_summary_parser_requires_grounded_schema(self):
+        raw = """```json
+        {"takeaway":"Contribution","problem":"Problem","method":"Method",
+        "evidence":"Evidence","limitations":"Limit","why_for_you":"Reason"}
+        ```"""
+        summary = radar.parse_model_summary(raw, "test/model")
+        self.assertIsNotNone(summary)
+        self.assertEqual(summary["generated_by"], "test/model")
+        self.assertIsNone(radar.parse_model_summary('{"takeaway":"Only one"}', "test"))
+
     def test_simple_interests_retain_advanced_rules_and_add_topics(self):
         with tempfile.TemporaryDirectory() as directory:
             interests_path = Path(directory) / "interests.txt"

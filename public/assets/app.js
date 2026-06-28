@@ -260,6 +260,11 @@ function paperCard(paper) {
           <span class="topic-chip category-chip">${escapeHTML(
             paper.primary_category,
           )}</span>
+          <span class="topic-chip brief-source-chip">${
+            summary.generated_by === "extractive"
+              ? "Abstract extract"
+              : "AI brief"
+          }</span>
         </div>
         <span class="score" style="--score-angle: ${
           score * 3.6
@@ -269,9 +274,14 @@ function paperCard(paper) {
       <p class="paper-meta">${escapeHTML(authors)}${moreAuthors} · ${prettyDate(
         paper.published,
       )} · arXiv:${escapeHTML(paper.id)}</p>
-      <p class="takeaway">${escapeHTML(summary.takeaway || paper.abstract)}</p>
+      <div class="morning-brief">
+        ${briefCell("What", summary.takeaway || paper.abstract)}
+        ${briefCell("How", summary.method)}
+        ${briefCell("Evidence", summary.evidence)}
+        ${briefCell("Why you", summary.why_for_you)}
+      </div>
       <div class="match-line">
-        <span>Why:</span>
+        <span>Signals:</span>
         ${(topic.matched || [])
           .slice(0, 4)
           .map((item) => `<span class="signal-chip">${escapeHTML(item)}</span>`)
@@ -327,6 +337,15 @@ function paperCard(paper) {
         )}</p>
       </div>
     </article>
+  `;
+}
+
+function briefCell(label, value = "Not stated in the abstract") {
+  return `
+    <div class="brief-cell">
+      <span>${label}</span>
+      <p>${escapeHTML(value || "Not stated in the abstract")}</p>
+    </div>
   `;
 }
 
