@@ -200,7 +200,9 @@ JavaScript:
 The scheduled workflow sends only the final selected papers to GitHub Models
 using its built-in `GITHUB_TOKEN`; no separate API key is required. The default
 model is `openai/gpt-4.1-mini`. Set the optional repository variable
-`GITHUB_MODEL` to use another model available to your repository.
+`GITHUB_MODEL` to use another model available to your repository. If the
+primary model is rate-limited or returns an invalid schema, Dawnlit retries with
+`openai/gpt-4o-mini`; override it with `GITHUB_FALLBACK_MODEL`.
 
 Each brief is grounded in the extracted paper text when available, or the title
 and abstract as a fallback. The card turns the analysis into a dense three-line
@@ -218,11 +220,10 @@ and asks the model for a grounded deep dive. The **Deep dive** dialog includes:
 - results tied to concrete evidence;
 - contributions, limitations, and open questions.
 
-The default profile generates English and Simplified Chinese analyses. The
-header language toggle switches both the three-line brief and the complete
-dialog while keeping model names, datasets, equations, and standard technical
-terms intact. Remove `zh-CN` from `analysis_languages` in `config/profile.json`
-to disable the additional translation request.
+Successful analyses are cached by arXiv ID. An unchanged paper reuses its
+validated deep dive instead of spending another model request. This keeps the
+daily job within hosted model limits without replacing a strong analysis with a
+weaker fallback.
 
 PDFs are capped at 25 MB. If full-text extraction fails, the analysis is
 explicitly marked as abstract-based. Missing evidence must be stated rather

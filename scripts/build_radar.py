@@ -45,6 +45,7 @@ OPENSEARCH = {"opensearch": "http://a9.com/-/spec/opensearch/1.1/"}
 TOKEN_RE = re.compile(r"[a-z][a-z0-9+\-]{2,}")
 SENTENCE_RE = re.compile(r"(?<=[.!?])\s+(?=[A-Z0-9])")
 NUMBER_RE = re.compile(r"\b\d+(?:\.\d+)?%?\b")
+ANALYSIS_SCHEMA_VERSION = 2
 
 STOPWORDS = {
     "about",
@@ -624,6 +625,20 @@ def load_previous_papers(output_path: Path) -> list[set[str]]:
         return []
 
 
+def load_previous_items(output_path: Path) -> dict[str, dict[str, Any]]:
+    if not output_path.exists():
+        return {}
+    try:
+        data = json.loads(output_path.read_text(encoding="utf-8"))
+        return {
+            item["id"]: item
+            for item in data.get("papers", [])
+            if isinstance(item, dict) and isinstance(item.get("id"), str)
+        }
+    except (OSError, ValueError):
+        return {}
+
+
 def novelty_score(paper: Paper, previous: list[set[str]]) -> float:
     if not previous:
         return 0.55
@@ -814,17 +829,11 @@ def analysis_prompt(
     topics: list[dict[str, Any]],
     paper_text: str,
     source_scope: str,
-    language: str,
 ) -> str:
     topic_names = ", ".join(item["name"] for item in topics[:3])
-    output_language = (
-        "Simplified Chinese while preserving standard English technical terms"
-        if language.lower() in {"zh", "zh-cn", "chinese"}
-        else "concise technical English"
-    )
     return f"""Analyze a research paper for an expert LLM researcher.
 Use only the supplied paper text. Never invent models, datasets, baselines,
-numbers, equations, findings, or limitations. Write in {output_language}.
+numbers, equations, findings, or limitations. Write in concise technical English.
 Return only valid JSON matching this exact shape:
 {{
   "brief": {{
@@ -932,6 +941,7 @@ def prepare_deep_dive(
     result = copy.deepcopy(deep_dive)
     result["source_scope"] = source_scope
     result["generated_by"] = generated_by
+    result["schema_version"] = ANALYSIS_SCHEMA_VERSION
     return result
 
 
@@ -995,105 +1005,55 @@ def github_chat(token: str, body: dict[str, Any]) -> dict[str, Any]:
     raise RuntimeError(f"GitHub Models request failed: {last_error}")
 
 
-def translate_deep_dive(
-    deep_dive: dict[str, Any],
-    token: str,
-    model: str,
-) -> dict[str, Any] | None:
-    source_scope = deep_dive.get("source_scope", "available source")
-    translatable = {
-        key: value
-        for key, value in deep_dive.items()
-        if key not in {"source_scope", "generated_by"}
-    }
-    prompt = f"""Translate the following research analysis into Simplified Chinese.
-Return only valid JSON with exactly the same keys, arrays, item counts, and
-icon values. Translate every natural-language title and detail faithfully.
-Preserve model names, dataset names, metrics, equations, abbreviations, and
-standard English technical terms; when helpful, write the Chinese term followed
-by the original English term in parentheses. Do not summarize, shorten, add,
-remove, soften, or strengthen any scientific claim.
-
-JSON:
-{json.dumps(translatable, ensure_ascii=False)}
-"""
-    body = {
-        "model": model,
-        "messages": [
-            {
-                "role": "system",
-                "content": "You are a precise scientific translator. Preserve JSON and evidence exactly.",
-            },
-            {"role": "user", "content": prompt},
-        ],
-        "temperature": 0,
-        "max_tokens": 4000,
-    }
-    try:
-        response = github_chat(token, body)
-        raw = response.get("choices", [{}])[0].get("message", {}).get("content", "")
-        match = re.search(r"\{.*\}", raw, re.DOTALL)
-        if not match:
-            return None
-        translated = json.loads(match.group(0))
-        return prepare_deep_dive(
-            translated,
-            f"{model} · zh-CN translation",
-            source_scope,
-        )
-    except (OSError, ValueError, urllib.error.URLError, IndexError) as error:
-        print(f"Chinese translation failed: {error}", file=sys.stderr)
-        return None
-
-
 def github_analysis(
     paper: Paper,
     topics: list[dict[str, Any]],
-    language: str,
-    translate_chinese: bool = False,
-) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any] | None] | None:
+) -> tuple[dict[str, Any], dict[str, Any]] | None:
     token = os.getenv("GITHUB_TOKEN")
     if not token:
         return None
-    model = os.getenv("GITHUB_MODEL") or "openai/gpt-4.1-mini"
+    primary_model = os.getenv("GITHUB_MODEL") or "openai/gpt-4.1-mini"
+    fallback_model = os.getenv("GITHUB_FALLBACK_MODEL") or "openai/gpt-4o-mini"
     paper_text, source_scope = extract_pdf_text(paper)
-    body = {
-        "model": model,
-        "messages": [
-            {
-                "role": "system",
-                "content": "You are a precise research analyst. Ground every claim in the supplied text and return JSON only.",
-            },
-            {
-                "role": "user",
-                "content": analysis_prompt(
-                    paper,
-                    topics,
-                    paper_text,
-                    source_scope,
-                    language,
-                ),
-            },
-        ],
-        "temperature": 0.1,
-        "max_tokens": 4000,
-    }
-    try:
-        response = github_chat(token, body)
-        raw = response.get("choices", [{}])[0].get("message", {}).get("content", "")
-        analysis = parse_model_analysis(raw, model, source_scope)
-        if not analysis:
-            return None
-        summary, deep_dive = analysis
-        translated = (
-            translate_deep_dive(deep_dive, token, model)
-            if translate_chinese
-            else None
-        )
-        return summary, deep_dive, translated
-    except (OSError, ValueError, urllib.error.URLError, IndexError) as error:
-        print(f"GitHub Models analysis failed for {paper.id}: {error}", file=sys.stderr)
-        return None
+    for model in dict.fromkeys([primary_model, fallback_model]):
+        body = {
+            "model": model,
+            "messages": [
+                {
+                    "role": "system",
+                    "content": "You are a precise research analyst. Ground every claim in the supplied text and return JSON only.",
+                },
+                {
+                    "role": "user",
+                    "content": analysis_prompt(
+                        paper,
+                        topics,
+                        paper_text,
+                        source_scope,
+                    ),
+                },
+            ],
+            "temperature": 0.1,
+            "max_tokens": 4000,
+        }
+        try:
+            response = github_chat(token, body)
+            raw = (
+                response.get("choices", [{}])[0]
+                .get("message", {})
+                .get("content", "")
+            )
+            analysis = parse_model_analysis(raw, model, source_scope)
+            if not analysis:
+                print(
+                    f"{model} returned an invalid analysis schema for {paper.id}",
+                    file=sys.stderr,
+                )
+                continue
+            return analysis
+        except (OSError, ValueError, urllib.error.URLError, IndexError) as error:
+            print(f"{model} analysis failed for {paper.id}: {error}", file=sys.stderr)
+    return None
 
 
 def score_papers(
@@ -1209,30 +1169,52 @@ def diversify(scored: list[dict[str, Any]], profile: dict[str, Any]) -> list[dic
 def serialize_item(
     item: dict[str, Any],
     use_ai: bool,
-    analysis_languages: list[str] | None = None,
+    previous_item: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     paper: Paper = item.pop("_paper")
     item.pop("_tokens", None)
     summary = None
     deep_dive = None
-    chinese_deep_dive = None
     if use_ai:
-        languages = analysis_languages or ["en"]
-        analysis = github_analysis(
-            paper,
-            item["topics"],
-            "en",
-            translate_chinese="zh-CN" in languages,
+        unchanged = bool(
+            previous_item
+            and previous_item.get("title") == paper.title
+            and previous_item.get("abstract") == paper.abstract
         )
-        if analysis:
-            summary, deep_dive, chinese_deep_dive = analysis
+        cached_deep_dive = (
+            (previous_item or {}).get("deep_dive") if unchanged else None
+        )
+        if cached_deep_dive:
+            deep_dive = prepare_deep_dive(
+                cached_deep_dive,
+                cached_deep_dive.get("generated_by", "cached analysis"),
+                cached_deep_dive.get("source_scope", "available source"),
+            )
+        if deep_dive:
+            cached_summary = (previous_item or {}).get("summary")
+            if isinstance(cached_summary, dict):
+                required_summary = {
+                    "takeaway",
+                    "problem",
+                    "method",
+                    "evidence",
+                    "limitations",
+                    "why_for_you",
+                }
+                if required_summary.issubset(cached_summary) and all(
+                    isinstance(cached_summary.get(field), str)
+                    for field in required_summary
+                ):
+                    summary = copy.deepcopy(cached_summary)
         else:
-            summary = cloudflare_summary(paper, item["topics"])
+            analysis = github_analysis(paper, item["topics"])
+            if analysis:
+                summary, deep_dive = analysis
+            else:
+                summary = cloudflare_summary(paper, item["topics"])
     item["summary"] = summary or extractive_summary(paper, item["topics"])
     if deep_dive:
         item["deep_dive"] = deep_dive
-    if chinese_deep_dive:
-        item["deep_dive_i18n"] = {"zh-CN": chinese_deep_dive}
     item["recommendation_reason"] = {
         "topic": item["topics"][0]["name"],
         "matched": item["topics"][0]["matched"][:4],
@@ -1307,13 +1289,14 @@ def build(
         payload, query_total = fetch_arxiv(profile, now)
     papers = parse_atom(payload)
     previous = load_previous_papers(output_path)
+    previous_items = load_previous_items(output_path)
     scored = score_papers(papers, profile, feedback, previous, now)
     selected = diversify(scored, profile)
     serialized = [
         serialize_item(
             item,
             use_ai,
-            profile.get("analysis_languages", [profile.get("language", "en")]),
+            previous_items.get(item["id"]),
         )
         for item in selected
     ]

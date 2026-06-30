@@ -6,6 +6,7 @@ import tempfile
 import unittest
 import urllib.parse
 from pathlib import Path
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -106,11 +107,67 @@ class PipelineTests(unittest.TestCase):
         )
         self.assertIsNotNone(analysis)
         self.assertEqual(analysis[1]["source_scope"], "full text")
+        self.assertEqual(analysis[1]["schema_version"], radar.ANALYSIS_SCHEMA_VERSION)
         payload["deep_dive"]["signals"].pop()
         self.assertIsNone(
             radar.parse_model_analysis(
                 json.dumps(payload), "test/model", "full text"
             )
+        )
+
+    def test_previous_items_are_loaded_by_arxiv_id(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "papers.json"
+            output.write_text(
+                json.dumps({"papers": [{"id": "2606.12345", "title": "Cached"}]})
+            )
+            cached = radar.load_previous_items(output)
+            self.assertEqual(cached["2606.12345"]["title"], "Cached")
+
+    def test_unchanged_paper_reuses_valid_deep_dive(self):
+        paper = self.papers[0]
+        topics = [{"name": "LLM loss landscape", "matched": ["loss landscape"]}]
+        deep_dive = {
+            "signals": [
+                {"icon": "1", "text": "Finding"},
+                {"icon": "2", "text": "Method"},
+                {"icon": "3", "text": "Evidence"},
+            ],
+            "overview": "Overview",
+            "methodology": [{"title": "Method", "detail": "Detail"}],
+            "mechanism": [{"title": "Mechanism", "detail": "Detail"}],
+            "experiments": [{"title": "Setup", "detail": "Detail"}],
+            "findings": [{"title": "Finding", "detail": "Detail"}],
+            "contributions": ["Contribution"],
+            "limitations": ["Limitation"],
+            "open_questions": ["Question"],
+            "generated_by": "test/model",
+            "source_scope": "full text",
+        }
+        summary = radar.extractive_summary(paper, topics)
+        item = {
+            "id": paper.id,
+            "title": paper.title,
+            "abstract": paper.abstract,
+            "topics": topics,
+            "lane": "llm",
+            "_paper": paper,
+            "_tokens": set(),
+        }
+        previous_item = {
+            "id": paper.id,
+            "title": paper.title,
+            "abstract": paper.abstract,
+            "summary": summary,
+            "deep_dive": deep_dive,
+        }
+        with patch.object(radar, "github_analysis") as generate:
+            serialized = radar.serialize_item(item, True, previous_item)
+        generate.assert_not_called()
+        self.assertEqual(serialized["deep_dive"]["overview"], "Overview")
+        self.assertEqual(
+            serialized["deep_dive"]["schema_version"],
+            radar.ANALYSIS_SCHEMA_VERSION,
         )
 
     def test_full_text_condensing_keeps_key_regions(self):
