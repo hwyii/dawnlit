@@ -159,7 +159,13 @@ def clamp(value: float, low: float = 0.0, high: float = 1.0) -> float:
     return max(low, min(high, value))
 
 
-def request_json(url: str, token: str | None = None, method: str = "GET", body: Any = None) -> Any:
+def request_json(
+    url: str,
+    token: str | None = None,
+    method: str = "GET",
+    body: Any = None,
+    timeout: int = 45,
+) -> Any:
     headers = {"User-Agent": USER_AGENT, "Accept": "application/json"}
     if token:
         headers["Authorization"] = f"Bearer {token}"
@@ -168,7 +174,7 @@ def request_json(url: str, token: str | None = None, method: str = "GET", body: 
         data = json.dumps(body).encode("utf-8")
         headers["Content-Type"] = "application/json"
     request = urllib.request.Request(url, data=data, headers=headers, method=method)
-    with urllib.request.urlopen(request, timeout=45) as response:
+    with urllib.request.urlopen(request, timeout=timeout) as response:
         return json.loads(response.read().decode("utf-8"))
 
 
@@ -975,12 +981,17 @@ def github_chat(token: str, body: dict[str, Any]) -> dict[str, Any]:
     last_error: Exception | None = None
     for attempt in range(3):
         try:
-            return request_json(url, token, "POST", body)
+            return request_json(url, token, "POST", body, timeout=180)
         except urllib.error.HTTPError as error:
             last_error = error
             if error.code not in {429, 500, 502, 503, 504} or attempt == 2:
                 raise
             time.sleep(6 * (attempt + 1))
+        except (urllib.error.URLError, TimeoutError) as error:
+            last_error = error
+            if attempt == 2:
+                raise
+            time.sleep(12 * (attempt + 1))
     raise RuntimeError(f"GitHub Models request failed: {last_error}")
 
 
