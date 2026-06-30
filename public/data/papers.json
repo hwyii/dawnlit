@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "demo": false,
-  "generated_at": "2026-06-30T02:21:35.576010+00:00",
+  "generated_at": "2026-06-30T02:24:47.846351+00:00",
   "profile_updated_at": "2026-06-27",
   "source_count": 781,
   "source_total": 781,
@@ -9,6 +9,160 @@
   "eligible_count": 56,
   "feedback_count": 0,
   "papers": [
+    {
+      "id": "2606.28153",
+      "title": "Robust Harmful Features Under Jailbreak Attacks: Mechanistic Evidence from Attention Head Specialization in Large Language Models",
+      "abstract": "Jailbreak attacks bypass LLM safety alignment, yet their mechanisms remain poorly understood. We provide evidence that attacks do not comprehensively eliminate safety features, but instead selectively suppress specific attention heads. We identify two functionally differentiated types: Adversarially Compromised Heads (ACHs) concentrated in early layers, which are suppressed under attacks, and Safety-Aligned Heads (SAHs) in mid-layers, which maintain robust activations even when attacks succeed. Ablation studies support the causal role of ACHs and the contribution of SAHs to robust activations: suppressing a small number of ACHs is sufficient to induce jailbreak-like behavior on normally refused inputs, while removing SAHs substantially weakens mid-layer safety activations. Token-level attribution further shows that ACH suppression is driven specifically by attack-template tokens, providing a mechanistic account of why attacks can bypass refusal decisions through ACH suppression while leaving internal safety signals sustained by SAHs -- a phenomenon we term Robust Harmful Features. To validate the practical significance of this robustness, we show that simply reading these persistent activations -- without any training -- yields competitive aggregate detection performance with strong adversarial robustness.",
+      "authors": [
+        "Yanchen Yin",
+        "Dongqi Han",
+        "Linghui Li"
+      ],
+      "published": "2026-06-26T14:51:16Z",
+      "updated": "2026-06-26T14:51:16Z",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2606.28153v1",
+      "pdf_url": "https://arxiv.org/pdf/2606.28153v1",
+      "comment": "323 pages, 19 figures. Accepted at ICML 2026 as a Oral presentation",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.9182,
+          "matched": [
+            "jailbreak",
+            "adversarial",
+            "robustness",
+            "robust",
+            "attack",
+            "training"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.6067,
+          "matched": [
+            "llm safety",
+            "LLM safety",
+            "robustness",
+            "alignment",
+            "alignment",
+            "safety"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6875,
+        "relevance": 0.8559,
+        "quality": 0.43,
+        "novelty": 0.2,
+        "freshness": 0.5026
+      },
+      "quality_signals": [
+        "ablation study"
+      ],
+      "summary": {
+        "takeaway": "Jailbreak attacks selectively suppress specific attention heads in LLMs, revealing a nuanced mechanism of safety feature persistence.",
+        "problem": "The mechanisms by which jailbreak attacks bypass LLM safety alignment are poorly understood.",
+        "method": "The study identifies and classifies attention heads into Adversarially Compromised Heads (ACHs) and Safety-Aligned Heads (SAHs) to analyze their roles during attacks.",
+        "evidence": "Ablation studies demonstrate that suppressing ACHs induces jailbreak-like behavior, while SAHs maintain robust activations.",
+        "limitations": "The paper does not provide numerical results for the competitive performance of the proposed detector on safety-eval benchmarks.",
+        "why_for_you": "Understanding the functional differentiation of attention heads can inform the design of more resilient LLM safety mechanisms.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4o-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "ACHs are concentrated in early layers and are suppressed under attacks."
+          },
+          {
+            "icon": "🛡️",
+            "text": "SAHs in mid-layers maintain robust activations even when attacks succeed."
+          },
+          {
+            "icon": "📉",
+            "text": "Token-level attribution shows ACH suppression is driven by attack-template tokens."
+          }
+        ],
+        "overview": "This research investigates the internal mechanisms of LLMs during jailbreak attacks, revealing that attacks do not eliminate safety features but selectively suppress certain attention heads, leading to the persistence of robust safety signals.",
+        "methodology": [
+          {
+            "title": "Attention Head Classification",
+            "detail": "Attention heads are classified into ACHs and SAHs based on their activation patterns under benign, harmful, and attack inputs."
+          },
+          {
+            "title": "Ablation Studies",
+            "detail": "Ablation studies confirm that suppressing ACHs is sufficient to induce harmful behavior, while SAH removal weakens safety activations."
+          },
+          {
+            "title": "Token-Level Attribution",
+            "detail": "The study employs token-level attribution to analyze how specific tokens influence the activation of ACHs."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Model Analysis",
+            "detail": "Experiments were conducted on Llama-3-8B-Instruct and Llama-2-7B-Chat using datasets Dbenign, Dharmful, and Dattack."
+          },
+          {
+            "title": "Activation Collection",
+            "detail": "Activation scores were collected at the end of input (EOI) position to quantify head contributions to refusal behavior."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Functional Differentiation of Heads",
+            "detail": "ACHs are suppressed during attacks, while SAHs provide robust activations, contributing to the phenomenon termed Robust Harmful Features."
+          },
+          {
+            "title": "Causal Pathway Confirmation",
+            "detail": "Ablation studies confirm that ACH suppression is a sufficient causal pathway for inducing jailbreak behavior."
+          },
+          {
+            "title": "Persistent Activations",
+            "detail": "SAHs maintain substantial activations even when attacks succeed, indicating a mechanism for safety feature persistence."
+          }
+        ],
+        "contributions": [
+          "Identification of ACHs and SAHs as functionally differentiated attention heads under attack.",
+          "Proposal of a training-free harmful-content detector based on persistent internal activations.",
+          "Demonstration of the robustness of safety features despite jailbreak attacks."
+        ],
+        "limitations": [
+          "The paper does not provide numerical results for the competitive performance of the proposed detector on safety-eval benchmarks."
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4o-mini"
+      },
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "jailbreak",
+          "adversarial",
+          "robustness",
+          "robust"
+        ],
+        "lane": "llm"
+      }
+    },
     {
       "id": "2606.30077",
       "title": "Online Data Selection for Instruction Tuning via Gaussian Processes",
@@ -77,25 +231,82 @@
         }
       ],
       "scores": {
-        "total": 0.716,
+        "total": 0.6528,
         "relevance": 0.7687,
         "quality": 0.44,
-        "novelty": 0.8323,
-        "freshness": 0.9034
+        "novelty": 0.2,
+        "freshness": 0.9031
       },
       "quality_signals": [
         "baseline comparison",
         "dataset evidence"
       ],
       "summary": {
-        "takeaway": "To overcome this, we propose GAIA (Global Adaptive Instruction tuning via GAussian processes), a framework that formulates data valuation as a global estimation process.",
-        "problem": "With Large Language Model (LLM) pre-training and fine-tuning shifting its focus from data volume to data quality, quality data selection has emerged as a critical research topic.",
-        "method": "To overcome this, we propose GAIA (Global Adaptive Instruction tuning via GAussian processes), a framework that formulates data valuation as a global estimation process.",
-        "evidence": "Empirical evaluations on three datasets demonstrate that GAIA significantly outperforms state-of-the-art baselines like \\greats, establishing our method as a scalable and robust solution for efficient instruction tuning.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Data selection for LLMs, Efficient adversarial training.",
+        "takeaway": "GAIA is a novel framework for online data selection in LLM instruction tuning that enhances data quality through Gaussian Processes.",
+        "problem": "Existing online data selection methods are limited by batch-constrained paradigms, leading to suboptimal sample selection.",
+        "method": "GAIA employs Gaussian Process regression to model data utility globally, allowing for dynamic prioritization of high-utility samples.",
+        "evidence": "Empirical evaluations show that GAIA significantly outperforms state-of-the-art baselines like GREATS across multiple datasets.",
+        "limitations": "The paper does not provide specific numerical results or detailed comparisons for all baselines.",
+        "why_for_you": "This research is relevant for improving data selection strategies in LLMs, enhancing model performance and robustness.",
         "source": "abstract",
-        "generated_by": "extractive"
+        "generated_by": "openai/gpt-4o-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "GAIA models the latent quality function over the entire training corpus using Gaussian Processes."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The framework utilizes a fixed-share Hedge update to maintain a dynamic-regret guarantee."
+          },
+          {
+            "icon": "📉",
+            "text": "GAIA demonstrates faster convergence rates and improved performance metrics compared to existing methods."
+          }
+        ],
+        "overview": "GAIA addresses the limitations of batch-constrained online data selection methods by transforming data valuation into a proactive global guidance mechanism, allowing for better sample selection and improved model training efficiency.",
+        "methodology": [
+          {
+            "title": "Gaussian Process Regression",
+            "detail": "GAIA uses Gaussian Process regression to model continuous utility manifolds, enabling principled generalization of data valuation."
+          },
+          {
+            "title": "Fixed-Share Hedge Update",
+            "detail": "The method employs a fixed-share Hedge update to dynamically adjust the posterior distribution over strategies, ensuring robustness to non-stationary quality scores."
+          },
+          {
+            "title": "Adaptive Strategy Fusion",
+            "detail": "GAIA integrates an adaptive strategy fusion mechanism to prioritize high-utility samples during training."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Instruction Tuning Tasks",
+            "detail": "GAIA was evaluated on MMLU, SAMSUM, and TYDIQA datasets using models like LLAMA and QWEN, comparing against methods such as GradNorm and GREATS."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Performance Improvement",
+            "detail": "GAIA significantly outperforms GREATS and other baselines in terms of training dynamics and convergence rates."
+          },
+          {
+            "title": "Computational Efficiency",
+            "detail": "The framework adds minimal computational overhead, enhancing efficiency in LLM training."
+          }
+        ],
+        "contributions": [
+          "GAIA provides a scalable and robust solution for efficient instruction tuning.",
+          "The framework bridges theoretical data valuation with practical scalability.",
+          "GAIA can be integrated with existing selection methods to enhance their performance."
+        ],
+        "limitations": [
+          "The paper does not provide specific numerical results or detailed comparisons for all baselines."
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4o-mini"
       },
       "recommendation_reason": {
         "topic": "Data selection for LLMs",
@@ -109,24 +320,25 @@
       }
     },
     {
-      "id": "2606.28153",
-      "title": "Robust Harmful Features Under Jailbreak Attacks: Mechanistic Evidence from Attention Head Specialization in Large Language Models",
-      "abstract": "Jailbreak attacks bypass LLM safety alignment, yet their mechanisms remain poorly understood. We provide evidence that attacks do not comprehensively eliminate safety features, but instead selectively suppress specific attention heads. We identify two functionally differentiated types: Adversarially Compromised Heads (ACHs) concentrated in early layers, which are suppressed under attacks, and Safety-Aligned Heads (SAHs) in mid-layers, which maintain robust activations even when attacks succeed. Ablation studies support the causal role of ACHs and the contribution of SAHs to robust activations: suppressing a small number of ACHs is sufficient to induce jailbreak-like behavior on normally refused inputs, while removing SAHs substantially weakens mid-layer safety activations. Token-level attribution further shows that ACH suppression is driven specifically by attack-template tokens, providing a mechanistic account of why attacks can bypass refusal decisions through ACH suppression while leaving internal safety signals sustained by SAHs -- a phenomenon we term Robust Harmful Features. To validate the practical significance of this robustness, we show that simply reading these persistent activations -- without any training -- yields competitive aggregate detection performance with strong adversarial robustness.",
+      "id": "2606.28061",
+      "title": "ToolPrivacyBench: Benchmarking Purpose-Bound Privacy in Tool-Using LLM Agents",
+      "abstract": "Large language models (LLMs) have increasingly moved from standalone text generation systems to agents that invoke external tools, access environments, and execute multi-step tasks. However, conventional function-calling benchmarks mainly evaluate task completion and API correctness, while privacy evaluation benchmarks typically focus on final responses or privacy judgments. Neither perspective captures purpose-bound information flow across an executed multi-tool trajectory. Motivated by this limitation in current agent evaluation, ToolPrivacyBench audits whether task-private atoms are routed only to authorized tools and downstream sinks, thereby evaluating both task completion and privacy over-disclosure during tool use. The benchmark contains 2,150 cases, including 1,150 fully synthetic privacy-sensitive business workflows and 1,000 cases adapted from existing multi-tool and function-calling benchmarks. Each case is represented by a policy knowledge base. After an agent executes against mock business backends, the evaluator compares recorded tool arguments and backend audit logs with this policy knowledge base. The evaluation covers nine widely used agents to characterize purpose-bound privacy over-disclosure. The results show that successful tool execution does not imply appropriate privacy disclosure: an agent may complete a task while transmitting unnecessary private information through intermediate tool calls. ToolPrivacyBench therefore formalizes a need-to-know disclosure boundary, under which each tool should receive only the information necessary for its stated purpose, and uses trajectory-level auditing to identify privacy over-disclosure in multi-tool workflows.",
       "authors": [
-        "Yanchen Yin",
-        "Dongqi Han",
-        "Linghui Li"
+        "Shijing Hu",
+        "Liang Liu",
+        "Zhu Meng",
+        "Zhicheng Zhao"
       ],
-      "published": "2026-06-26T14:51:16Z",
-      "updated": "2026-06-26T14:51:16Z",
+      "published": "2026-06-26T13:08:46Z",
+      "updated": "2026-06-26T13:08:46Z",
       "categories": [
         "cs.CR",
         "cs.AI"
       ],
       "primary_category": "cs.CR",
-      "abs_url": "https://arxiv.org/abs/2606.28153v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.28153v1",
-      "comment": "323 pages, 19 figures. Accepted at ICML 2026 as a Oral presentation",
+      "abs_url": "https://arxiv.org/abs/2606.28061v1",
+      "pdf_url": "https://arxiv.org/pdf/2606.28061v1",
+      "comment": "24 pages, 7 figures, 15 tables",
       "journal_ref": "",
       "lane": "llm",
       "scope_matches": [
@@ -137,133 +349,110 @@
         "llm"
       ],
       "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.9182,
-          "matched": [
-            "jailbreak",
-            "adversarial",
-            "robustness",
-            "robust",
-            "attack",
-            "training"
-          ]
-        },
         {
           "id": "trustworthy_llm",
           "name": "Trustworthy LLM",
           "status": "background",
-          "score": 0.6067,
+          "score": 0.6407,
           "matched": [
-            "llm safety",
-            "LLM safety",
-            "robustness",
-            "alignment",
-            "alignment",
-            "safety"
+            "privacy",
+            "privacy",
+            "auditing",
+            "llm"
           ]
-        }
-      ],
-      "scores": {
-        "total": 0.6875,
-        "relevance": 0.8559,
-        "quality": 0.43,
-        "novelty": 0.2,
-        "freshness": 0.5029
-      },
-      "quality_signals": [
-        "ablation study"
-      ],
-      "summary": {
-        "takeaway": "To validate the practical significance of this robustness, we show that simply reading these persistent activations -- without any training -- yields competitive aggregate detection performance with strong adversarial robustness.",
-        "problem": "Jailbreak attacks bypass LLM safety alignment, yet their mechanisms remain poorly understood.",
-        "method": "We provide evidence that attacks do not comprehensively eliminate safety features, but instead selectively suppress specific attention heads.",
-        "evidence": "We identify two functionally differentiated types: Adversarially Compromised Heads (ACHs) concentrated in early layers, which are suppressed under attacks, and Safety-Aligned Heads (SAHs) in mid-layers, which maintain robust activations even when attacks succeed.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Efficient adversarial training, Trustworthy LLM.",
-        "source": "abstract",
-        "generated_by": "extractive"
-      },
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "jailbreak",
-          "adversarial",
-          "robustness",
-          "robust"
-        ],
-        "lane": "llm"
-      }
-    },
-    {
-      "id": "2606.28823",
-      "title": "Labeling Training Data for Entity Matching Using Large Language Models",
-      "abstract": "Recent large language models (LLMs) achieve strong performance on entity matching without requiring task-specific training data. However, applying these models to large sets of candidate pairs remains slow and costly. In contrast, entity matchers using traditional machine learning methods or small language models (SLMs), such as RoBERTa, offer much faster inference but require task-specific training data. This paper investigates whether the need to provide task-specific training data can be avoided by using knowledge-distillation workflows, in which an LLM serves as a teacher model to label training pairs that are subsequently used to train a smaller student model. We investigate knowledge distillation for entity matching along the following dimensions: pair-selection strategy, teacher model, label post-processing method, and student model. We evaluate the workflows using the Abt-Buy, Walmart-Amazon, WDC Products, DBLP-ACM, and DBLP-Scholar benchmarks, and compare the performance of student models trained with machine-labeled data to the performance of the same models trained using the benchmark training sets. Our experiments show that student models trained using the machine-labeled sets perform approximately on par with models trained on the benchmark training sets, with the remaining differences in both directions staying below two F1 points. Using GPT-5.2 to label the training sets for all five benchmarks costs US\\$28.31 to US\\$40.88, whereas manually labeling the same training sets is estimated to require 470 hours of work. At inference time, Ditto is 41.5 to 534 times faster than directly using an LLM to perform the matching tasks. These results indicate that current LLMs, when combined with a suitable pair-selection method, can substantially reduce or even eliminate the manual effort required to label use case-specific training data for entity matching.",
-      "authors": [
-        "Aaron Steiner",
-        "Christian Bizer"
-      ],
-      "published": "2026-06-27T09:15:09Z",
-      "updated": "2026-06-27T09:15:09Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2606.28823v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.28823v1",
-      "comment": "13 pages, 5 figures, 9 tables",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
+        },
         {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "emerging",
-          "score": 0.7289,
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.3225,
           "matched": [
-            "training data",
-            "data",
-            "selection"
+            "bound"
           ]
         }
       ],
       "scores": {
-        "total": 0.6006,
-        "relevance": 0.5831,
+        "total": 0.5925,
+        "relevance": 0.5771,
         "quality": 0.54,
-        "novelty": 0.8292,
-        "freshness": 0.6125
+        "novelty": 0.8479,
+        "freshness": 0.4925
       },
       "quality_signals": [
         "benchmark evaluation",
-        "experiments",
+        "formal bound",
         "quantitative results"
       ],
       "summary": {
-        "takeaway": "Recent large language models (LLMs) achieve strong performance on entity matching without requiring task-specific training data.",
-        "problem": "Recent large language models (LLMs) achieve strong performance on entity matching without requiring task-specific training data.",
-        "method": "However, applying these models to large sets of candidate pairs remains slow and costly.",
-        "evidence": "Our experiments show that student models trained using the machine-labeled sets perform approximately on par with models trained on the benchmark training sets, with the remaining differences in both directions staying below two F1 points.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Data selection for LLMs.",
+        "takeaway": "ToolPrivacyBench evaluates purpose-bound privacy in tool-using LLM agents during multi-step workflows.",
+        "problem": "Existing benchmarks fail to assess privacy over-disclosure in multi-tool agent workflows.",
+        "method": "ToolPrivacyBench audits information flow using a policy knowledge base to ensure only necessary data is shared with tools.",
+        "evidence": "The benchmark includes 2,150 cases and evaluates nine widely used agents, revealing that task completion does not guarantee appropriate privacy disclosure.",
+        "limitations": "The study does not provide evidence on the effectiveness of privacy measures in real-world applications.",
+        "why_for_you": "This research is crucial for developing trustworthy LLMs that respect user privacy in complex task executions.",
         "source": "abstract",
-        "generated_by": "extractive"
+        "generated_by": "openai/gpt-4o-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Successful tool execution can still lead to unnecessary private information disclosure."
+          },
+          {
+            "icon": "🛡️",
+            "text": "ToolPrivacyBench uses a policy knowledge base to audit privacy compliance."
+          },
+          {
+            "icon": "📉",
+            "text": "The benchmark reveals high rates of privacy over-disclosure across various agents."
+          }
+        ],
+        "overview": "ToolPrivacyBench addresses the gap in evaluating privacy in LLM agents by focusing on purpose-bound information flow during multi-tool workflows. It assesses whether agents respect need-to-know boundaries while executing tasks, highlighting the importance of privacy compliance alongside task completion.",
+        "methodology": [
+          {
+            "title": "Policy Knowledge Base",
+            "detail": "Records private atoms, tool purposes, and allowed/forbidden field-tool relations to guide privacy audits."
+          },
+          {
+            "title": "Trajectory-Level Auditing",
+            "detail": "Evaluates the flow of private information through tool calls and backend logs to identify over-disclosure."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Agent Evaluation",
+            "detail": "Nine agents, including GPT-5.5 and Claude Opus 4.7, were tested across 2,150 cases to measure task success and privacy compliance."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Task Success vs. Privacy Compliance",
+            "detail": "High task success rates were observed alongside significant privacy over-disclosure."
+          },
+          {
+            "title": "Privacy Over-Disclosure Metrics",
+            "detail": "Metrics such as FOR and SWLR were used to quantify privacy risks in multi-tool workflows."
+          }
+        ],
+        "contributions": [
+          "Introduced a novel benchmark for auditing privacy in tool-using LLM agents.",
+          "Demonstrated the inadequacy of existing benchmarks in capturing privacy over-disclosure.",
+          "Provided a comprehensive dataset of multi-tool workflows for future research."
+        ],
+        "limitations": [
+          "The benchmark does not assess the real-world applicability of its findings."
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4o-mini"
       },
       "recommendation_reason": {
-        "topic": "Data selection for LLMs",
+        "topic": "Trustworthy LLM",
         "matched": [
-          "training data",
-          "data",
-          "selection"
+          "privacy",
+          "privacy",
+          "auditing",
+          "llm"
         ],
         "lane": "llm"
       }
@@ -327,21 +516,87 @@
         "relevance": 0.7096,
         "quality": 0.46,
         "novelty": 0.2,
-        "freshness": 0.4398
+        "freshness": 0.4395
       },
       "quality_signals": [
         "baseline comparison",
         "experiments"
       ],
       "summary": {
-        "takeaway": "To address this, we introduce a persona-driven rewriting pipeline that conditions user turns on low agreeableness and pairs this with warm, de-escalating assistant responses.",
-        "problem": "Recent work has shown that fine-tuning large language models (LLMs) for social warmth degrades factual reliability and increases sycophancy.",
-        "method": "To address this, we introduce a persona-driven rewriting pipeline that conditions user turns on low agreeableness and pairs this with warm, de-escalating assistant responses.",
-        "evidence": "Across three experiments on four models, our approach reduces jailbreak susceptibility and harmful output rates relative to generic warmth fine-tuning baselines, while preserving conversational warmth.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Efficient adversarial training, Trustworthy LLM.",
+        "takeaway": "Low-agreeableness persona conditioning enhances safety in LLM fine-tuning without sacrificing warmth.",
+        "problem": "Warmth fine-tuning in LLMs can degrade factual reliability and increase susceptibility to harmful outputs.",
+        "method": "A persona-driven rewriting pipeline conditions user turns on low agreeableness while pairing with warm assistant responses.",
+        "evidence": "Experiments show reduced jailbreak susceptibility and harmful output rates compared to generic warmth fine-tuning baselines.",
+        "limitations": "The study does not provide extensive evidence on the long-term effects of the proposed method.",
+        "why_for_you": "This research offers insights into improving LLM safety while maintaining empathetic interactions.",
         "source": "abstract",
-        "generated_by": "extractive"
+        "generated_by": "openai/gpt-4o-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Low-agreeableness conditioning reduces the geometric alignment between warmth and compliance directions."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The persona-driven rewriting pipeline does not require safety labels or harm detectors."
+          },
+          {
+            "icon": "📉",
+            "text": "Fine-tuning on low-agreeableness dialogues outperforms generic warmth fine-tuning on safety metrics."
+          }
+        ],
+        "overview": "The paper investigates the trade-off between warmth and safety in LLM fine-tuning, proposing a novel approach that conditions user interactions on low agreeableness to enhance adversarial safety while preserving conversational warmth.",
+        "methodology": [
+          {
+            "title": "Persona-driven rewriting pipeline",
+            "detail": "Generates synthetic chat data conditioned on low-agreeableness user turns paired with warm assistant responses."
+          },
+          {
+            "title": "Representational probing",
+            "detail": "Uses direction cosine probing to analyze the geometric alignment between warmth and compliance directions in latent space."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Experiment 1",
+            "detail": "Compared four empathy-oriented fine-tuning regimes using datasets like EmpatheticDialogues and ESConv, assessing safety without explicit harm labels."
+          },
+          {
+            "title": "Experiment 2",
+            "detail": "Evaluated the impact of rewriting policies on safety using ShareGPT Vicuna Unfiltered data, showing significant safety improvements."
+          },
+          {
+            "title": "Experiment 3",
+            "detail": "Tested the method in high-stakes mental health support scenarios, confirming safety benefits."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Reduced jailbreak susceptibility",
+            "detail": "Low-agreeableness conditioning significantly lowers jailbreak rates across multiple models."
+          },
+          {
+            "title": "Improved harmful output rates",
+            "detail": "The proposed method reduces harmful output rates compared to generic warmth fine-tuning."
+          },
+          {
+            "title": "Preserved conversational warmth",
+            "detail": "The approach maintains or improves per-token warmth while enhancing safety."
+          }
+        ],
+        "contributions": [
+          "Introduced a novel fine-tuning method that conditions on low-agreeableness user turns.",
+          "Demonstrated that safety improvements can be achieved without explicit harm labels.",
+          "Provided open-source access to the model-agnostic pipeline for future research."
+        ],
+        "limitations": [
+          "The long-term effects of the proposed conditioning method on model behavior are not extensively evaluated.",
+          "The study does not address potential biases introduced by the low-agreeableness conditioning."
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4o-mini"
       },
       "recommendation_reason": {
         "topic": "Efficient adversarial training",
@@ -355,107 +610,160 @@
       }
     },
     {
-      "id": "2606.29863",
-      "title": "KbSD: Knowledge Boundary aware Self-Distillation for Behavioral Calibration in Agentic Search",
-      "abstract": "Agentic search equips large language models with dynamic retrieval abilities, but existing reinforcement learning methods remain limited by reward sparsity in knowledge boundary calibration -- deciding when to trust parametric memory, when to rely on retrieved evidence, and when to abstain. Binary rewards can penalize undesirable outcomes, but provide little guidance on the reasoning process required to make calibrated decisions across different knowledge states. To address this, we propose KbSD (Knowledge boundary Self-Distillation), a framework that tackles this limitation through dense token-level supervision, outcome-level sparse rewards, and quadrant-adaptive optimization. KbSD constructs a hint-augmented teacher, architecturally identical to the student, that receives explicit knowledge boundary signals -- including parametric certainty, retrieval quality, and ground-truth answers -- to generate calibrated reasoning demonstrations. This information-asymmetric self-distillation enables dense supervision without requiring a larger external model. To further account for the heterogeneous reasoning distributions across knowledge states, we introduce a quadrant-adaptive distillation objective: reverse KL for concentrated integration, forward KL for diverse refusal, and Pareto-optimal bidirectional KL for asymmetric quadrants requiring both precision and coverage. Experiments on multiple benchmarks show that KbSD consistently improves both task accuracy and hallucination mitigation over strong baselines, with the largest gains appearing in the challenging quadrants where sparse rewards are least informative.",
+      "id": "2606.28998",
+      "title": "Reward-Free Code Alignment from Pretrained or Fine-Tuned LLM: Unpacking the Trade-offs for Code Generation",
+      "abstract": "Large Language Model (LLM) alignment trains an LLM using preference data to produce outputs that better meet established quality standards. While LLM alignment techniques are studied for non-coding tasks, we know little about their usefulness for coding tasks. It is unclear whether LLM code alignment could support both functional requirements (producing executable, correct code) and non-functional requirements (code readability, style, maintainability). It is also unknown whether alignment for a code LLM should begin with base pretrained version or the finetuned (i.e., instruction-tuned) version of the LLM. In this paper, we offer insights on the above two research questions by conducting an empirical study. We studied five state-of-the-art (SOTA) LLMs using two widely used LLM alignment techniques: Direct Preference Optimization (DPO) and BoNBoN. For each training record, we created a preference pair as accepted and rejected instances by using the SelfCodeAlign pipeline. DPO and BoNBoN are reward-free models, i.e., they eliminate the need for multiple reward scores for output preferences. We tuned each LLM using the two alignment techniques in two settings: pretrained and finetuned versions of an LLM. We evaluated functional requirements using four SOTA benchmarks (HumanEval+, MBPP+, EvalPerf, EvoEval) and non-functional requirements using the CODAL benchmark, which evaluates code quality across five dimensions derived from software engineering practices. We find that pretrained-to-aligned pathways achieve larger improvements in the aligned variant over its pretrained variant. But the pretrained variant is generally less accurate than its finetuned variant. However, finetuned- to-aligned offers smaller performance improvements or, in some cases, degradation in the aligned variant than its finetuned variant.",
       "authors": [
-        "Tao Feng",
-        "Xinke Jiang",
-        "Chao Wu"
+        "Gias Uddin",
+        "Sanjeepan Sivapiran"
       ],
-      "published": "2026-06-29T06:56:18Z",
-      "updated": "2026-06-29T06:56:18Z",
+      "published": "2026-06-27T16:22:22Z",
+      "updated": "2026-06-27T16:22:22Z",
       "categories": [
-        "cs.CL"
+        "cs.SE",
+        "cs.AI"
       ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2606.29863v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.29863v1",
+      "primary_category": "cs.SE",
+      "abs_url": "https://arxiv.org/abs/2606.28998v1",
+      "pdf_url": "https://arxiv.org/pdf/2606.28998v1",
       "comment": "",
-      "journal_ref": "",
+      "journal_ref": "The ACM International Conference on the Foundations of Software Engineering (FSE) 2026",
       "lane": "llm",
       "scope_matches": [
         "large language model",
-        "large language models",
         "language model",
-        "language models"
+        "llm",
+        "llms"
       ],
       "topics": [
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "watch",
-          "score": 0.5651,
-          "matched": [
-            "self-distillation",
-            "token-level",
-            "distillation",
-            "self-distillation"
-          ]
-        },
         {
           "id": "trustworthy_llm",
           "name": "Trustworthy LLM",
           "status": "background",
-          "score": 0.3291,
+          "score": 0.6234,
           "matched": [
-            "calibration",
-            "hallucination"
+            "alignment",
+            "alignment",
+            "llm"
           ]
         }
       ],
       "scores": {
-        "total": 0.5803,
-        "relevance": 0.5179,
-        "quality": 0.59,
-        "novelty": 0.8144,
-        "freshness": 0.8844
+        "total": 0.5566,
+        "relevance": 0.4987,
+        "quality": 0.6,
+        "novelty": 0.7974,
+        "freshness": 0.6545
       },
       "quality_signals": [
-        "baseline comparison",
+        "code available",
         "benchmark evaluation",
-        "experiments",
-        "formal bound"
+        "publication metadata"
       ],
       "summary": {
-        "takeaway": "To address this, we propose KbSD (Knowledge boundary Self-Distillation), a framework that tackles this limitation through dense token-level supervision, outcome-level sparse rewards, and quadrant-adaptive optimization.",
-        "problem": "Agentic search equips large language models with dynamic retrieval abilities, but existing reinforcement learning methods remain limited by reward sparsity in knowledge boundary calibration -- deciding when to trust parametric memory, when to rely on retrieved evidence, and when to abstain.",
-        "method": "To address this, we propose KbSD (Knowledge boundary Self-Distillation), a framework that tackles this limitation through dense token-level supervision, outcome-level sparse rewards, and quadrant-adaptive optimization.",
-        "evidence": "Experiments on multiple benchmarks show that KbSD consistently improves both task accuracy and hallucination mitigation over strong baselines, with the largest gains appearing in the challenging quadrants where sparse rewards are least informative.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: On-policy distillation, Trustworthy LLM.",
+        "takeaway": "LLM alignment techniques can enhance code generation quality but show varying effectiveness based on model type and alignment pathway.",
+        "problem": "The effectiveness of LLM alignment for coding tasks, particularly regarding functional and non-functional requirements, is not well understood.",
+        "method": "The study evaluates five SOTA LLMs using Direct Preference Optimization (DPO) and BoNBoN alignment techniques across pretrained and finetuned models.",
+        "evidence": "Pretrained-to-aligned models showed larger improvements in non-functional requirements, while finetuned-to-aligned models had smaller or negative performance changes.",
+        "limitations": "The study does not explore the long-term impacts of alignment on model performance beyond the immediate evaluation metrics.",
+        "why_for_you": "Understanding the trade-offs in LLM alignment can inform better practices for developing trustworthy code generation systems.",
         "source": "abstract",
-        "generated_by": "extractive"
+        "generated_by": "openai/gpt-4o-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Pretrained-to-aligned models achieved significant improvements, with CodeLlama-7b showing +75% in non-functional requirements."
+          },
+          {
+            "icon": "🛡️",
+            "text": "DPO and BoNBoN are reward-free alignment techniques that optimize model outputs based on preference data."
+          },
+          {
+            "icon": "📉",
+            "text": "Finetuned-to-aligned models often resulted in smaller performance gains or degradation compared to their finetuned variants."
+          }
+        ],
+        "overview": "This paper investigates the effectiveness of LLM alignment techniques for code generation, focusing on the trade-offs between using pretrained versus finetuned models. The authors conducted empirical studies using two alignment methods, DPO and BoNBoN, across five state-of-the-art LLMs, revealing that alignment can improve non-functional code quality more consistently than functional correctness.",
+        "methodology": [
+          {
+            "title": "Direct Preference Optimization (DPO)",
+            "detail": "DPO directly optimizes preferences using a single-stage approach, treating alignment as a classification problem without requiring a separate reward model."
+          },
+          {
+            "title": "BoNBoN",
+            "detail": "BoNBoN eliminates inference-time sampling costs by training models to mimic the best-of-n distribution, combining supervised fine-tuning with iterative preference optimization."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Evaluation of Functional Requirements",
+            "detail": "Models were evaluated using benchmarks such as HumanEval+, MBPP+, EvalPerf, and EvoEval."
+          },
+          {
+            "title": "Evaluation of Non-Functional Requirements",
+            "detail": "The CODAL benchmark was used to assess code quality across five dimensions derived from software engineering practices."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Pretrained vs. Finetuned Alignment",
+            "detail": "Pretrained-to-aligned pathways showed larger improvements in non-functional requirements, while finetuned-to-aligned pathways often resulted in smaller or negative performance changes."
+          },
+          {
+            "title": "Model Family-Specific Preferences",
+            "detail": "Different models exhibited specific preferences for alignment techniques, with MetaLlama performing better with DPO and deepseek models with BoNBoN."
+          }
+        ],
+        "contributions": [
+          "Provides empirical insights into the effectiveness of LLM alignment techniques for code generation.",
+          "Identifies the importance of prioritizing non-functional requirements in code alignment.",
+          "Offers recommendations for practitioners on aligning code LLMs based on empirical findings."
+        ],
+        "limitations": [
+          "The study does not address the long-term effects of alignment on model performance.",
+          "Limited exploration of the generalizability of findings across different coding tasks and environments."
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4o-mini"
       },
       "recommendation_reason": {
-        "topic": "On-policy distillation",
+        "topic": "Trustworthy LLM",
         "matched": [
-          "self-distillation",
-          "token-level",
-          "distillation",
-          "self-distillation"
+          "alignment",
+          "alignment",
+          "llm"
         ],
         "lane": "llm"
       }
     },
     {
-      "id": "2606.29960",
-      "title": "IHDec: Divergence-Steered Contrastive Decoding for Securing Multi-Turn Instruction Hierarchies",
-      "abstract": "Large Language Models (LLMs) often fail to maintain instruction hierarchies (IH) when processing multi-source inputs with varying role-level priorities, paradoxically adhering to lower-priority directives during conflicts. While existing defenses mitigate this issue, they are largely restricted to single-turn scenarios and require expensive fine-tuning. In this paper, we formalize this failure mode in multi-turn contexts via a Jensen-Shannon Divergence (JSD) framework, uncovering a pervasive role-influence inversion phenomenon where subordinate inputs override superior roles. To rectify this without training, we propose IHDec (Instruction Hierarchy-steered Decoding). IHDec leverages JSD to automatically detect token-level hierarchy violations and dynamically executes contrastive decoding to suppress misaligned subordinate roles. Extensive evaluations demonstrate that IHDec outperforms training-based baselines in multi-turn conflicts while fully preserving general response quality. Furthermore, IHDec strengthens safety against adversarial prompt injections and exhibits a robust scaling synergy with larger models. The Code is available at https://github.com/nxcolelxu/IHDec.git",
+      "id": "2606.29815",
+      "title": "SrDetection: A Self-Referential Framework for Data Leakage Detection in Code Large Language Models",
+      "abstract": "Evaluating code large language models (Code LLMs) requires reliable detection of data leakage, where benchmark performance is artificially inflated by exposure to benchmark data during pre-training. Existing approaches either assume access to proprietary training corpora, rely on brittle heuristics such as timestamp filtering, or use external reference sets with manually tuned, non-generalizable thresholds. To address these limitations, we introduce \\textbf{SrDetection}, a unified \\textbf{s}elf-\\textbf{r}eferential leakage detection framework for both gray-box (access to model logits) and black-box (access to model outputs) settings. SrDetection generates semantically equivalent variants of a benchmark sample and detects leakage by contrasting the model's behavior on the original versus its variants, flagging cases where the original is disproportionately easier for the model. We further design a controlled leakage detection testbed and evaluate SrDetection in this environment. Across different models and training stages, SrDetection improves average F1 by 21.52 points in the gray-box setting and 14.46 points in the black-box setting over strong baselines, demonstrating robust, threshold-independent leakage detection. Finally, a gray-box study of 15 widely used Code LLMs on four popular benchmarks reveals benchmark-specific leakage patterns beyond prior overlap-based analyses\\footnote{\\footnotesize Source code and data are available at https://github.com/SMinL/SrDetectionCode",
       "authors": [
-        "Nicole Geumheon Liu",
-        "Haeun Jang",
-        "Yonghyun Jun",
-        "Hwanhee Lee"
+        "Shuaimin Li",
+        "Liyang Fan",
+        "Zeyang Li",
+        "Zhuoyue Wan",
+        "Yufang Lin",
+        "Shiwen Ni",
+        "Feiteng Fang",
+        "Hamid Alinejad-Rokny",
+        "Yuanfeng Song",
+        "Kun Jing",
+        "Chen Jason Zhang",
+        "Min Yang"
       ],
-      "published": "2026-06-29T08:37:25Z",
-      "updated": "2026-06-29T08:37:25Z",
+      "published": "2026-06-29T05:48:42Z",
+      "updated": "2026-06-29T05:48:42Z",
       "categories": [
         "cs.CL"
       ],
       "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2606.29960v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.29960v1",
+      "abs_url": "https://arxiv.org/abs/2606.29815v1",
+      "pdf_url": "https://arxiv.org/pdf/2606.29815v1",
       "comment": "",
       "journal_ref": "",
       "lane": "llm",
@@ -471,52 +779,99 @@
           "id": "efficient_adversarial_training",
           "name": "Efficient adversarial training",
           "status": "core",
-          "score": 0.5386,
+          "score": 0.4874,
           "matched": [
-            "adversarial",
             "robust",
-            "fine-tuning",
             "training"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.1091,
-          "matched": [
-            "safety"
           ]
         }
       ],
       "scores": {
-        "total": 0.5631,
-        "relevance": 0.4527,
-        "quality": 0.7,
-        "novelty": 0.8417,
-        "freshness": 0.8944
+        "total": 0.5507,
+        "relevance": 0.3899,
+        "quality": 0.85,
+        "novelty": 0.8334,
+        "freshness": 0.8774
       },
       "quality_signals": [
         "code available",
         "GitHub link",
-        "baseline comparison"
+        "baseline comparison",
+        "benchmark evaluation",
+        "quantitative results"
       ],
       "summary": {
-        "takeaway": "To rectify this without training, we propose IHDec (Instruction Hierarchy-steered Decoding).",
-        "problem": "Large Language Models (LLMs) often fail to maintain instruction hierarchies (IH) when processing multi-source inputs with varying role-level priorities, paradoxically adhering to lower-priority directives during conflicts.",
-        "method": "In this paper, we formalize this failure mode in multi-turn contexts via a Jensen-Shannon Divergence (JSD) framework, uncovering a pervasive role-influence inversion phenomenon where subordinate inputs override superior roles.",
-        "evidence": "Extensive evaluations demonstrate that IHDec outperforms training-based baselines in multi-turn conflicts while fully preserving general response quality.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Efficient adversarial training, Trustworthy LLM.",
+        "takeaway": "SrDetection provides a robust framework for detecting data leakage in Code LLMs without relying on external references.",
+        "problem": "Existing data leakage detection methods are limited by their reliance on proprietary training data or brittle heuristics.",
+        "method": "SrDetection contrasts model behavior on original code samples with semantically equivalent variants to detect leakage.",
+        "evidence": "SrDetection improves average F1 scores by 21.52 points in gray-box and 14.46 points in black-box settings over strong baselines.",
+        "limitations": "The paper does not provide detailed numerical results for all models and benchmarks tested.",
+        "why_for_you": "This framework enhances the reliability of evaluating Code LLMs, crucial for researchers focused on model performance.",
         "source": "abstract",
-        "generated_by": "extractive"
+        "generated_by": "openai/gpt-4o-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "SrDetection improves F1 scores significantly across various models and training stages."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The framework operates in both gray-box and black-box settings, enhancing its applicability."
+          },
+          {
+            "icon": "📉",
+            "text": "Detection is based on contrasting original samples with their variants, avoiding reliance on external thresholds."
+          }
+        ],
+        "overview": "SrDetection is a self-referential framework designed to detect data leakage in Code LLMs by generating semantically equivalent code variants and comparing model performance on these variants. This approach addresses the limitations of existing methods that depend on external data or heuristics, providing a more reliable and robust detection mechanism.",
+        "methodology": [
+          {
+            "title": "Code Transformation Module",
+            "detail": "Generates semantically equivalent variants of code samples through minimal, localized surface edits that preserve execution behavior."
+          },
+          {
+            "title": "Detection Score Computation",
+            "detail": "In gray-box settings, it computes Perplexity (PPL) for original and variant samples; in black-box settings, it compares outputs for surface-level similarity."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Gray-box Performance Evaluation",
+            "detail": "Achieved F1 scores of 74.76 on Qwen2.5-7B and 69.99 on LLaMA3.1-8B, outperforming all baselines."
+          },
+          {
+            "title": "Black-box Performance Evaluation",
+            "detail": "F1 improved from 53.09 at 1 epoch to 82.06 at 5 epochs on Qwen2.5-7B, consistently surpassing baseline methods."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Improved Detection Rates",
+            "detail": "SrDetection consistently outperformed strong baselines in both gray-box and black-box settings."
+          },
+          {
+            "title": "Benchmark-specific Leakage Patterns",
+            "detail": "A gray-box study revealed unique leakage patterns across 15 widely used Code LLMs."
+          }
+        ],
+        "contributions": [
+          "Introduction of SrDetection as a self-referential framework for sample-level leakage detection.",
+          "Development of an automatic code augmentation method that generates contrastive variants.",
+          "Creation of a controlled testbed for evaluating leakage detection across different models and benchmarks."
+        ],
+        "limitations": [
+          "The paper does not provide detailed numerical results for all models and benchmarks tested.",
+          "Potential variability in performance across different datasets and model architectures is not fully explored."
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4o-mini"
       },
       "recommendation_reason": {
         "topic": "Efficient adversarial training",
         "matched": [
-          "adversarial",
           "robust",
-          "fine-tuning",
           "training"
         ],
         "lane": "llm"
