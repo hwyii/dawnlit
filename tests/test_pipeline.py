@@ -111,6 +111,24 @@ class PipelineTests(unittest.TestCase):
             )
         )
 
+    def test_full_text_condensing_keeps_key_regions(self):
+        text = (
+            "Introduction " + "a" * 6000
+            + " Method "
+            + "b" * 6000
+            + " Experimental Setup "
+            + "c" * 6000
+            + " Results "
+            + "d" * 6000
+            + " Conclusion "
+            + "e" * 6000
+        )
+        condensed = radar.condense_paper_text(text, max_chars=18000)
+        self.assertLessEqual(len(condensed), 18000)
+        self.assertIn("Introduction", condensed)
+        self.assertIn("METHOD REGION", condensed)
+        self.assertIn("ENDING REGION", condensed)
+
     def test_simple_interests_retain_advanced_rules_and_add_topics(self):
         with tempfile.TemporaryDirectory() as directory:
             interests_path = Path(directory) / "interests.txt"

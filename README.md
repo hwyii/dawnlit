@@ -207,8 +207,9 @@ and abstract as a fallback. The card turns the analysis into a dense three-line
 scan covering the central finding, method, and strongest available evidence.
 
 For each selected paper, the workflow also downloads up to the first 30 PDF
-pages, extracts at most 80,000 characters, and asks the model for a grounded
-deep dive. The **Deep dive** dialog includes:
+pages, extracts high-signal regions from the introduction, method, experiments,
+results, limitations, and conclusion within an 18,000-character request budget,
+and asks the model for a grounded deep dive. The **Deep dive** dialog includes:
 
 - three complementary research signals;
 - a focused overview;

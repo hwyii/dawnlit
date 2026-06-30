@@ -715,7 +715,39 @@ Abstract: {paper.abstract}
 """
 
 
-def extract_pdf_text(paper: Paper, max_chars: int = 80000) -> tuple[str, str]:
+def condense_paper_text(text: str, max_chars: int = 18000) -> str:
+    """Keep high-signal paper regions within hosted-model request limits."""
+    if len(text) <= max_chars:
+        return text
+    lowered = text.lower()
+    chunks: list[str] = [text[:5000]]
+    used_positions = [0]
+    headings = [
+        "method",
+        "approach",
+        "algorithm",
+        "experimental setup",
+        "experiments",
+        "evaluation",
+        "results",
+        "ablation",
+        "mechanistic analysis",
+        "limitations",
+        "conclusion",
+    ]
+    for heading in headings:
+        position = lowered.find(heading)
+        if position < 0 or any(abs(position - used) < 2200 for used in used_positions):
+            continue
+        chunks.append(f"\n[{heading.upper()} REGION]\n{text[position : position + 2800]}")
+        used_positions.append(position)
+        if sum(len(chunk) for chunk in chunks) >= max_chars - 4000:
+            break
+    chunks.append(f"\n[ENDING REGION]\n{text[-3500:]}")
+    return "\n".join(chunks)[:max_chars]
+
+
+def extract_pdf_text(paper: Paper, max_chars: int = 18000) -> tuple[str, str]:
     """Download and extract selected-paper text, falling back to its abstract."""
     request = urllib.request.Request(paper.pdf_url, headers={"User-Agent": USER_AGENT})
     try:
@@ -746,9 +778,8 @@ def extract_pdf_text(paper: Paper, max_chars: int = 80000) -> tuple[str, str]:
         text = re.sub(r"\n{3,}", "\n\n", text).strip()
         if len(text) < 1500:
             raise ValueError("Extracted PDF text is too short")
-        if len(text) > max_chars:
-            text = f"{text[: max_chars - 16000]}\n\n[...]\n\n{text[-15000:]}"
-        return text, "full text (up to 30 pages)"
+        text = condense_paper_text(text, max_chars)
+        return text, "selected full-text regions (up to 30 pages)"
     except (
         OSError,
         ValueError,
