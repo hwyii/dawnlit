@@ -16,6 +16,9 @@ configured.
 - Produces structured abstract-grounded notes with an optional Workers AI upgrade.
 - Supports Today, Weekly, Saved, detailed feedback, topic editing, import/export,
   and adding new research directions.
+- Soft-deletes dismissed papers in the browser: “Hide for 30 days” expires
+  automatically, while “not LLM” remains hidden until restored in Preferences.
+  Generated analyses remain cached.
 - Ships a dependency-free Web Component for embedding a compact feed in Jekyll,
   Hugo, WordPress, React, or plain HTML sites.
 - Includes an optional Cloudflare Worker + D1 API so browser changes affect the

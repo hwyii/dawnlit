@@ -2,9 +2,11 @@ const STORAGE = {
   profile: "dawnlit.profile.v1",
   feedback: "dawnlit.feedback.v1",
   saved: "dawnlit.saved.v1",
+  dismissed: "dawnlit.dismissed.v1",
   token: "dawnlit.token",
 };
 
+const SNOOZE_DAYS = 30;
 const runtime = window.PAPER_RADAR_CONFIG || {};
 const state = {
   view: "today",
@@ -13,6 +15,7 @@ const state = {
   profile: null,
   feedback: readStorage(STORAGE.feedback, []),
   saved: new Set(readStorage(STORAGE.saved, [])),
+  dismissed: readDismissals(),
   apiUrl: (runtime.apiUrl || "").replace(/\/$/, ""),
   token: sessionStorage.getItem(STORAGE.token) || "",
 };
@@ -52,6 +55,45 @@ function readStorage(key, fallback) {
 
 function writeStorage(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
+}
+
+function readDismissals() {
+  const stored = readStorage(STORAGE.dismissed, {});
+  const now = Date.now();
+  const active = Object.fromEntries(
+    Object.entries(stored).filter(([, dismissal]) => {
+      if (!dismissal || typeof dismissal !== "object") return false;
+      return !dismissal.expires_at || Date.parse(dismissal.expires_at) > now;
+    }),
+  );
+  if (Object.keys(active).length !== Object.keys(stored).length) {
+    writeStorage(STORAGE.dismissed, active);
+  }
+  return active;
+}
+
+function isDismissed(paperId) {
+  return Boolean(state.dismissed[paperId]);
+}
+
+function dismissPaper(paper, action) {
+  const now = new Date();
+  const expiresAt =
+    action === "not_now"
+      ? new Date(now.getTime() + SNOOZE_DAYS * 86400000).toISOString()
+      : null;
+  state.dismissed[paper.id] = {
+    paper_id: paper.id,
+    title: paper.title,
+    action,
+    dismissed_at: now.toISOString(),
+    expires_at: expiresAt,
+  };
+  writeStorage(STORAGE.dismissed, state.dismissed);
+}
+
+function visiblePapers(papers) {
+  return papers.filter((paper) => !isDismissed(paper.id));
 }
 
 function escapeHTML(value = "") {
@@ -125,9 +167,12 @@ async function boot() {
 }
 
 function updateChrome() {
-  document.querySelector("#todayCount").textContent = state.feed.papers.length;
-  document.querySelector("#weeklyCount").textContent =
-    state.weekly.papers.length;
+  document.querySelector("#todayCount").textContent = visiblePapers(
+    state.feed.papers,
+  ).length;
+  document.querySelector("#weeklyCount").textContent = visiblePapers(
+    state.weekly.papers,
+  ).length;
   document.querySelector("#savedCount").textContent = state.saved.size;
   document.querySelector("#lastUpdated").textContent = `Updated ${prettyDate(
     state.feed.generated_at,
@@ -167,9 +212,9 @@ function render() {
   }
   const papers =
     state.view === "today"
-      ? state.feed.papers
+      ? visiblePapers(state.feed.papers)
       : state.view === "weekly"
-        ? state.weekly.papers
+        ? visiblePapers(state.weekly.papers)
         : [...state.feed.papers, ...state.weekly.papers].filter(
             (paper, index, all) =>
               state.saved.has(paper.id) &&
@@ -301,8 +346,8 @@ function paperCard(paper) {
             <button data-feedback="more_method">More methods like this</button>
             <button data-feedback="more_topic">Increase this topic</button>
             <button data-feedback="low_quality">Relevant, but weak evidence</button>
-            <button data-feedback="not_now">Not interested right now</button>
-            <button data-feedback="not_llm">Not the LLM work I need</button>
+            <button data-feedback="not_now">Hide for 30 days</button>
+            <button data-feedback="not_llm">Hide permanently · not LLM</button>
             <button data-feedback="transferable">Non-LLM, but transferable</button>
           </div>
         </div>
@@ -491,6 +536,9 @@ function emptyState() {
 
 function renderPreferences() {
   const editUrl = interestsEditUrl();
+  const hiddenPapers = Object.values(state.dismissed).sort((a, b) =>
+    (b.dismissed_at || "").localeCompare(a.dismissed_at || ""),
+  );
   elements.app.innerHTML = `
     <section class="view-header">
       <div>
@@ -540,6 +588,45 @@ function renderPreferences() {
           <input id="newTopicName" type="text" placeholder="Topic name" />
           <textarea id="newTopicDescription" placeholder="Describe what should enter this lane…"></textarea>
           <button class="secondary-button" data-pref-action="add-topic">Add topic</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <div>
+            <h2>Hidden papers</h2>
+            <p>Temporary dismissals expire after ${SNOOZE_DAYS} days. Analyses stay cached and can be restored at any time.</p>
+          </div>
+          ${
+            hiddenPapers.length
+              ? '<button class="secondary-button" data-pref-action="restore-all-papers">Restore all</button>'
+              : ""
+          }
+        </div>
+        <div class="hidden-paper-list">
+          ${
+            hiddenPapers.length
+              ? hiddenPapers
+                  .map(
+                    (paper) => `
+                      <div class="hidden-paper-row">
+                        <div>
+                          <strong>${escapeHTML(paper.title)}</strong>
+                          <span>${
+                            paper.expires_at
+                              ? `Hidden until ${prettyDate(paper.expires_at)}`
+                              : "Hidden permanently"
+                          }</span>
+                        </div>
+                        <button class="secondary-button" data-pref-action="restore-paper" data-paper-id="${escapeHTML(
+                          paper.paper_id,
+                        )}">Restore</button>
+                      </div>
+                    `,
+                  )
+                  .join("")
+              : "<p>No hidden papers.</p>"
+          }
         </div>
       </section>
 
@@ -633,6 +720,9 @@ async function recordFeedback(paper, action) {
   };
   state.feedback.push(item);
   writeStorage(STORAGE.feedback, state.feedback);
+  if (action === "not_now" || action === "not_llm") {
+    dismissPaper(paper, action);
+  }
   if (action === "more_topic" && paper.topics?.[0]) {
     const topic = state.profile.topics.find(
       (candidate) => candidate.id === paper.topics[0].id,
@@ -675,8 +765,8 @@ function feedbackMessage(action) {
       more_method: "Similar methods will receive more weight.",
       more_topic: "This topic received more weight.",
       low_quality: "Recorded as relevant, but weak evidence.",
-      not_now: "Snoozed without changing long-term interests.",
-      not_llm: "Recorded as a negative scope signal.",
+      not_now: `Hidden for ${SNOOZE_DAYS} days without changing long-term interests.`,
+      not_llm: "Hidden permanently and recorded as a negative scope signal.",
       transferable: "Recorded as a transferable method.",
     }[action] || "Feedback recorded."
   );
@@ -820,8 +910,14 @@ elements.app.addEventListener("click", async (event) => {
   if (feedbackButton) {
     const card = feedbackButton.closest(".paper-card");
     const paper = paperById(card.dataset.paperId);
-    await recordFeedback(paper, feedbackButton.dataset.feedback);
+    const action = feedbackButton.dataset.feedback;
     feedbackButton.closest(".feedback-menu").classList.remove("open");
+    const feedbackRequest = recordFeedback(paper, action);
+    if (action === "not_now" || action === "not_llm") {
+      updateChrome();
+      render();
+    }
+    await feedbackRequest;
     return;
   }
 
@@ -885,6 +981,20 @@ elements.app.addEventListener("click", async (event) => {
       state.feedback = [];
       writeStorage(STORAGE.feedback, []);
       showToast("Local feedback cleared.");
+    }
+    if (action === "restore-paper") {
+      delete state.dismissed[preferenceButton.dataset.paperId];
+      writeStorage(STORAGE.dismissed, state.dismissed);
+      updateChrome();
+      renderPreferences();
+      showToast("Paper restored.");
+    }
+    if (action === "restore-all-papers") {
+      state.dismissed = {};
+      writeStorage(STORAGE.dismissed, {});
+      updateChrome();
+      renderPreferences();
+      showToast("All hidden papers restored.");
     }
     if (action === "connect-api") {
       state.token = document.querySelector("#apiToken").value.trim();
