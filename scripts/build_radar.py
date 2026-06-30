@@ -335,15 +335,28 @@ def build_arxiv_url(
 def fetch_arxiv_page(url: str) -> bytes:
     request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     last_error: Exception | None = None
-    for attempt in range(3):
+    for attempt in range(4):
         try:
             with urllib.request.urlopen(request, timeout=90) as response:
                 return response.read()
+        except urllib.error.HTTPError as error:
+            last_error = error
+            if error.code not in {429, 500, 502, 503, 504} or attempt == 3:
+                break
+            retry_after = error.headers.get("Retry-After")
+            delay = int(retry_after) if retry_after and retry_after.isdigit() else 15 * (
+                attempt + 1
+            )
+            print(
+                f"arXiv returned HTTP {error.code}; retrying in {delay}s",
+                file=sys.stderr,
+            )
+            time.sleep(delay)
         except (urllib.error.URLError, TimeoutError) as error:
             last_error = error
-            if attempt < 2:
-                time.sleep(3 * (attempt + 1))
-    raise RuntimeError(f"Unable to fetch arXiv after 3 attempts: {last_error}")
+            if attempt < 3:
+                time.sleep(6 * (attempt + 1))
+    raise RuntimeError(f"Unable to fetch arXiv after 4 attempts: {last_error}")
 
 
 def atom_total_results(payload: bytes) -> int:
