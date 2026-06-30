@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T12:24:03.975003+00:00",
+  "generated_at": "2026-06-30T19:16:33.621543+00:00",
   "papers": [
     {
       "id": "2606.27632",
@@ -347,85 +347,25 @@
         }
       ],
       "scores": {
-        "total": 0.6498,
+        "total": 0.6478,
         "relevance": 0.7687,
         "quality": 0.44,
         "novelty": 0.2,
-        "freshness": 0.8437
+        "freshness": 0.8027
       },
       "quality_signals": [
         "baseline comparison",
         "dataset evidence"
       ],
       "summary": {
-        "takeaway": "GAIA is a novel framework that enhances data selection for instruction tuning in LLMs by utilizing Gaussian Processes.",
-        "problem": "Existing online data selection methods are limited by a batch-constrained paradigm, leading to suboptimal sample selection.",
-        "method": "GAIA employs Gaussian Process regression to model data utility globally and utilizes a dynamic strategy fusion mechanism.",
-        "evidence": "Empirical evaluations show that GAIA significantly outperforms state-of-the-art baselines like GREATS across multiple datasets.",
-        "limitations": "The paper does not provide detailed numerical results or comparisons for all datasets and models used.",
-        "why_for_you": "This research is relevant for improving data selection strategies in LLM training, addressing quality over quantity.",
+        "takeaway": "To overcome this, we propose GAIA (Global Adaptive Instruction tuning via GAussian processes), a framework that formulates data valuation as a global estimation process.",
+        "problem": "With Large Language Model (LLM) pre-training and fine-tuning shifting its focus from data volume to data quality, quality data selection has emerged as a critical research topic.",
+        "method": "To overcome this, we propose GAIA (Global Adaptive Instruction tuning via GAussian processes), a framework that formulates data valuation as a global estimation process.",
+        "evidence": "Empirical evaluations on three datasets demonstrate that GAIA significantly outperforms state-of-the-art baselines like \\greats, establishing our method as a scalable and robust solution for efficient instruction tuning.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Data selection for LLMs, Efficient adversarial training.",
         "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "GAIA models the latent quality function over the entire training corpus using Gaussian Processes."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The framework incorporates a fixed-share Hedge update to maintain a dynamic-regret guarantee."
-          },
-          {
-            "icon": "📉",
-            "text": "GAIA demonstrates faster convergence rates and improved performance metrics compared to existing methods."
-          }
-        ],
-        "overview": "GAIA transforms data valuation into a proactive global guidance mechanism, allowing for the construction of candidate pools that prioritize high-utility samples, thus overcoming the limitations of batch-constrained selection methods.",
-        "methodology": [
-          {
-            "title": "Gaussian Process Regression",
-            "detail": "GAIA uses Gaussian Process regression to model continuous utility manifolds across the semantic space."
-          },
-          {
-            "title": "Fixed-Share Hedge Update",
-            "detail": "The strategy-posterior update is implemented using a fixed-share Hedge framework, ensuring robustness to non-stationary quality scores."
-          },
-          {
-            "title": "Adaptive Strategy Fusion",
-            "detail": "An adaptive strategy fusion mechanism dynamically prioritizes high-utility samples during training."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Instruction Tuning Tasks",
-            "detail": "GAIA was evaluated on MMLU, SAMSUM, and TYDIQA datasets using models like LLAMA-2-7B and GREATS as baselines."
-          },
-          {
-            "title": "Performance Metrics",
-            "detail": "GAIA showed significant improvements in perplexity and convergence rates compared to baselines."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Global Data Valuation",
-            "detail": "GAIA's global data valuation approach allows for better generalization and selection of high-quality samples."
-          },
-          {
-            "title": "Integration with Existing Methods",
-            "detail": "GAIA can be integrated with existing selection methods, enhancing their performance."
-          }
-        ],
-        "contributions": [
-          "GAIA provides a scalable and robust solution for efficient instruction tuning.",
-          "The framework bridges theoretical data valuation with practical scalability."
-        ],
-        "limitations": [
-          "The empirical evaluations do not include detailed numerical results for all datasets and models."
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4o-mini"
+        "generated_by": "extractive"
       },
       "recommendation_reason": {
         "topic": "Data selection for LLMs",
@@ -437,7 +377,7 @@
         ],
         "lane": "llm"
       },
-      "recommended_at": "2026-06-30T12:24:03.975003+00:00"
+      "recommended_at": "2026-06-30T19:16:33.621543+00:00"
     },
     {
       "id": "2606.27709",
@@ -591,140 +531,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-06-30T02:24:47.846351+00:00"
-    },
-    {
-      "id": "2606.28823",
-      "title": "Labeling Training Data for Entity Matching Using Large Language Models",
-      "abstract": "Recent large language models (LLMs) achieve strong performance on entity matching without requiring task-specific training data. However, applying these models to large sets of candidate pairs remains slow and costly. In contrast, entity matchers using traditional machine learning methods or small language models (SLMs), such as RoBERTa, offer much faster inference but require task-specific training data. This paper investigates whether the need to provide task-specific training data can be avoided by using knowledge-distillation workflows, in which an LLM serves as a teacher model to label training pairs that are subsequently used to train a smaller student model. We investigate knowledge distillation for entity matching along the following dimensions: pair-selection strategy, teacher model, label post-processing method, and student model. We evaluate the workflows using the Abt-Buy, Walmart-Amazon, WDC Products, DBLP-ACM, and DBLP-Scholar benchmarks, and compare the performance of student models trained with machine-labeled data to the performance of the same models trained using the benchmark training sets. Our experiments show that student models trained using the machine-labeled sets perform approximately on par with models trained on the benchmark training sets, with the remaining differences in both directions staying below two F1 points. Using GPT-5.2 to label the training sets for all five benchmarks costs US\\$28.31 to US\\$40.88, whereas manually labeling the same training sets is estimated to require 470 hours of work. At inference time, Ditto is 41.5 to 534 times faster than directly using an LLM to perform the matching tasks. These results indicate that current LLMs, when combined with a suitable pair-selection method, can substantially reduce or even eliminate the manual effort required to label use case-specific training data for entity matching.",
-      "authors": [
-        "Aaron Steiner",
-        "Christian Bizer"
-      ],
-      "published": "2026-06-27T09:15:09Z",
-      "updated": "2026-06-27T09:15:09Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2606.28823v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.28823v1",
-      "comment": "13 pages, 5 figures, 9 tables",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "emerging",
-          "score": 0.7289,
-          "matched": [
-            "training data",
-            "data",
-            "selection"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5944,
-        "relevance": 0.5831,
-        "quality": 0.54,
-        "novelty": 0.7974,
-        "freshness": 0.5527
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "experiments",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Knowledge distillation using LLMs can effectively label training data for entity matching, reducing manual effort.",
-        "problem": "Entity matching with LLMs is slow and costly when applied to large candidate sets.",
-        "method": "The paper explores knowledge distillation workflows where an LLM labels training pairs for a smaller student model.",
-        "evidence": "Student models trained on machine-labeled data perform comparably to those trained on benchmark sets, with differences under two F1 points.",
-        "limitations": "The paper does not provide detailed evidence on the performance of the post-processing methods across all datasets.",
-        "why_for_you": "This research is relevant for optimizing data selection processes in LLM applications.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Student models achieve F1 scores comparable to benchmark-trained models."
-          },
-          {
-            "icon": "🛡️",
-            "text": "Knowledge distillation workflows utilize LLMs as teachers to label training data."
-          },
-          {
-            "icon": "📉",
-            "text": "Using GPT-5.2 for labeling costs significantly less than manual labeling, with a cost range of $28.31 to $40.88."
-          }
-        ],
-        "overview": "The paper investigates the use of knowledge distillation for entity matching, focusing on how LLMs can label training data efficiently. It evaluates various workflows based on pair selection, teacher models, label post-processing, and student models, demonstrating that machine-labeled data can match the performance of traditional benchmark datasets.",
-        "methodology": [
-          {
-            "title": "Pair Selection Strategy",
-            "detail": "The study employs similarity search and active learning to select candidate pairs for labeling."
-          },
-          {
-            "title": "Teacher Model",
-            "detail": "The models used as teachers include GPT-5.2, Qwen 3.6 Plus, and Kimi K2.6."
-          },
-          {
-            "title": "Label Post-Processing",
-            "detail": "Methods evaluated include self-review and a graph-based consistency filter."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Benchmark Evaluation",
-            "detail": "The workflows are evaluated using the Abt-Buy, Walmart-Amazon, WDC Products, DBLP-ACM, and DBLP-Scholar datasets."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Cost Efficiency",
-            "detail": "Labeling with GPT-5.2 costs $28.31 to $40.88, compared to an estimated 470 hours for manual labeling."
-          },
-          {
-            "title": "Inference Speed",
-            "detail": "Ditto is 41.5 to 534 times faster than using an LLM directly for matching tasks."
-          },
-          {
-            "title": "Performance Parity",
-            "detail": "Student models trained on machine-labeled data achieve F1 scores within 1.78 points of those trained on benchmark sets."
-          }
-        ],
-        "contributions": [
-          "Introduces knowledge distillation workflows for entity matching.",
-          "Demonstrates the feasibility of using LLMs to label training data efficiently.",
-          "Compares various pair selection and post-processing strategies."
-        ],
-        "limitations": [
-          "The paper does not provide detailed evidence on the performance of the post-processing methods across all datasets.",
-          "Potential biases in the pair selection process are not thoroughly addressed."
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "recommendation_reason": {
-        "topic": "Data selection for LLMs",
-        "matched": [
-          "training data",
-          "data",
-          "selection"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-06-30T12:24:03.975003+00:00"
     },
     {
       "id": "2606.26396",
@@ -1408,136 +1214,6 @@
       "recommended_at": "2026-06-30T12:24:03.975003+00:00"
     },
     {
-      "id": "2606.28998",
-      "title": "Reward-Free Code Alignment from Pretrained or Fine-Tuned LLM: Unpacking the Trade-offs for Code Generation",
-      "abstract": "Large Language Model (LLM) alignment trains an LLM using preference data to produce outputs that better meet established quality standards. While LLM alignment techniques are studied for non-coding tasks, we know little about their usefulness for coding tasks. It is unclear whether LLM code alignment could support both functional requirements (producing executable, correct code) and non-functional requirements (code readability, style, maintainability). It is also unknown whether alignment for a code LLM should begin with base pretrained version or the finetuned (i.e., instruction-tuned) version of the LLM. In this paper, we offer insights on the above two research questions by conducting an empirical study. We studied five state-of-the-art (SOTA) LLMs using two widely used LLM alignment techniques: Direct Preference Optimization (DPO) and BoNBoN. For each training record, we created a preference pair as accepted and rejected instances by using the SelfCodeAlign pipeline. DPO and BoNBoN are reward-free models, i.e., they eliminate the need for multiple reward scores for output preferences. We tuned each LLM using the two alignment techniques in two settings: pretrained and finetuned versions of an LLM. We evaluated functional requirements using four SOTA benchmarks (HumanEval+, MBPP+, EvalPerf, EvoEval) and non-functional requirements using the CODAL benchmark, which evaluates code quality across five dimensions derived from software engineering practices. We find that pretrained-to-aligned pathways achieve larger improvements in the aligned variant over its pretrained variant. But the pretrained variant is generally less accurate than its finetuned variant. However, finetuned- to-aligned offers smaller performance improvements or, in some cases, degradation in the aligned variant than its finetuned variant.",
-      "authors": [
-        "Gias Uddin",
-        "Sanjeepan Sivapiran"
-      ],
-      "published": "2026-06-27T16:22:22Z",
-      "updated": "2026-06-27T16:22:22Z",
-      "categories": [
-        "cs.SE",
-        "cs.AI"
-      ],
-      "primary_category": "cs.SE",
-      "abs_url": "https://arxiv.org/abs/2606.28998v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.28998v1",
-      "comment": "",
-      "journal_ref": "The ACM International Conference on the Foundations of Software Engineering (FSE) 2026",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.6234,
-          "matched": [
-            "alignment",
-            "alignment",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5566,
-        "relevance": 0.4987,
-        "quality": 0.6,
-        "novelty": 0.7974,
-        "freshness": 0.6545
-      },
-      "quality_signals": [
-        "code available",
-        "benchmark evaluation",
-        "publication metadata"
-      ],
-      "summary": {
-        "takeaway": "LLM alignment techniques can enhance code generation quality but show varying effectiveness based on model type and alignment pathway.",
-        "problem": "The effectiveness of LLM alignment for coding tasks, particularly regarding functional and non-functional requirements, is not well understood.",
-        "method": "The study evaluates five SOTA LLMs using Direct Preference Optimization (DPO) and BoNBoN alignment techniques across pretrained and finetuned models.",
-        "evidence": "Pretrained-to-aligned models showed larger improvements in non-functional requirements, while finetuned-to-aligned models had smaller or negative performance changes.",
-        "limitations": "The study does not explore the long-term impacts of alignment on model performance beyond the immediate evaluation metrics.",
-        "why_for_you": "Understanding the trade-offs in LLM alignment can inform better practices for developing trustworthy code generation systems.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Pretrained-to-aligned models achieved significant improvements, with CodeLlama-7b showing +75% in non-functional requirements."
-          },
-          {
-            "icon": "🛡️",
-            "text": "DPO and BoNBoN are reward-free alignment techniques that optimize model outputs based on preference data."
-          },
-          {
-            "icon": "📉",
-            "text": "Finetuned-to-aligned models often resulted in smaller performance gains or degradation compared to their finetuned variants."
-          }
-        ],
-        "overview": "This paper investigates the effectiveness of LLM alignment techniques for code generation, focusing on the trade-offs between using pretrained versus finetuned models. The authors conducted empirical studies using two alignment methods, DPO and BoNBoN, across five state-of-the-art LLMs, revealing that alignment can improve non-functional code quality more consistently than functional correctness.",
-        "methodology": [
-          {
-            "title": "Direct Preference Optimization (DPO)",
-            "detail": "DPO directly optimizes preferences using a single-stage approach, treating alignment as a classification problem without requiring a separate reward model."
-          },
-          {
-            "title": "BoNBoN",
-            "detail": "BoNBoN eliminates inference-time sampling costs by training models to mimic the best-of-n distribution, combining supervised fine-tuning with iterative preference optimization."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Evaluation of Functional Requirements",
-            "detail": "Models were evaluated using benchmarks such as HumanEval+, MBPP+, EvalPerf, and EvoEval."
-          },
-          {
-            "title": "Evaluation of Non-Functional Requirements",
-            "detail": "The CODAL benchmark was used to assess code quality across five dimensions derived from software engineering practices."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Pretrained vs. Finetuned Alignment",
-            "detail": "Pretrained-to-aligned pathways showed larger improvements in non-functional requirements, while finetuned-to-aligned pathways often resulted in smaller or negative performance changes."
-          },
-          {
-            "title": "Model Family-Specific Preferences",
-            "detail": "Different models exhibited specific preferences for alignment techniques, with MetaLlama performing better with DPO and deepseek models with BoNBoN."
-          }
-        ],
-        "contributions": [
-          "Provides empirical insights into the effectiveness of LLM alignment techniques for code generation.",
-          "Identifies the importance of prioritizing non-functional requirements in code alignment.",
-          "Offers recommendations for practitioners on aligning code LLMs based on empirical findings."
-        ],
-        "limitations": [
-          "The study does not address the long-term effects of alignment on model performance.",
-          "Limited exploration of the generalizability of findings across different coding tasks and environments."
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment",
-          "alignment",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-06-30T02:24:47.846351+00:00"
-    },
-    {
       "id": "2606.27679",
       "title": "From Signals to Transfer: A Factorised Study of Probe-Based Uncertainty Estimation in Large Language Models",
       "abstract": "Probe-based uncertainty estimation (UE) has emerged as a prominent approach to detect hallucinations in Large Language Models (LLMs) by learning uncertainty from internal model signals. Yet, recent methods vary simultaneously across feature design, training data construction, and evaluation setting, obscuring what actually drives performance. To address this issue, we propose a factorised study of probe-based UE under matched conditions. Our results show that raw hidden states and attention features are difficult to outperform in-domain. However, under distribution shift, structured and compressed features are more robust, suggesting that in-domain performance alone is insufficient to measure progress. Furthermore, prompting and label construction significantly affect probe behaviour. Building on these best-practice findings, we train benchmark-based pretrained probes that transfer reasonably well to open-ended factual generation, providing a stable off-the-shelf baseline. Our work encourages more deployment-oriented evaluation of probe-based uncertainty estimators. The code repository is available at https://github.com/ponhvoan/ProbeUE.",
@@ -1630,6 +1306,161 @@
         "lane": "llm"
       },
       "recommended_at": "2026-06-29T14:19:18.896381+00:00"
+    },
+    {
+      "id": "2606.26036",
+      "title": "Detect, Unlearn, Restore: Defending Text Summarization Models Against Data Poisoning",
+      "abstract": "Training-time data poisoning during fine-tuning poses a significant threat to large language models (LLMs) deployed for abstractive text summarization, where small task-specific datasets exert disproportionate influence on model behavior. In this setting, adversaries manipulate fine-tuning data to induce persistent summarization failures, such as biased or harmful summaries, while preserving standard evaluation metrics. We present a unified post-hoc defense framework for detecting and remediating fine-tuning-stage poisoning in summarization models across the machine learning supply chain. Our experiments show that in white-box settings, poisoned document-summary pairs exhibit abnormally high training influence, enabling detection via influence-function analysis with semantic consistency checks. In black-box settings, poisoned models display two to three times greater sensitivity to semantics-preserving perturbations, enabling behavioral auditing without training data access. Beyond existing poisoning formulations, we introduce novel attacks targeting factual distortion and representational bias, showing that poisoning alters summarization behavior without triggering conventional alarms. Across nine architectures and six benchmark datasets under adaptive attacks, our defenses achieve 85-92% detection precision, while gradient-ascent unlearning restores up to 96% of original behavior with minimal utility loss (less than 0.6% ROUGE degradation). These results indicate that fine-tuning-time poisoning leaves persistent structural artifacts, enabling practical detection and post-deployment recovery without full retraining.",
+      "authors": [
+        "Poojitha Thota",
+        "Shirin Nilizadeh"
+      ],
+      "published": "2026-06-24T17:12:42Z",
+      "updated": "2026-06-24T17:12:42Z",
+      "categories": [
+        "cs.CL",
+        "cs.CR"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2606.26036v1",
+      "pdf_url": "https://arxiv.org/pdf/2606.26036v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "emerging",
+          "score": 0.6089,
+          "matched": [
+            "influence",
+            "training data",
+            "data"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.1069,
+          "matched": [
+            "auditing"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5529,
+        "relevance": 0.5085,
+        "quality": 0.58,
+        "novelty": 0.8474,
+        "freshness": 0.4336
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "experiments",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Training-time data poisoning during fine-tuning poses a significant threat to large language models (LLMs) deployed for abstractive text summarization, where small task-specific datasets exert disproportionate influence on model behavior.",
+        "problem": "Training-time data poisoning during fine-tuning poses a significant threat to large language models (LLMs) deployed for abstractive text summarization, where small task-specific datasets exert disproportionate influence on model behavior.",
+        "method": "We present a unified post-hoc defense framework for detecting and remediating fine-tuning-stage poisoning in summarization models across the machine learning supply chain.",
+        "evidence": "Our experiments show that in white-box settings, poisoned document-summary pairs exhibit abnormally high training influence, enabling detection via influence-function analysis with semantic consistency checks.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Data selection for LLMs, Trustworthy LLM.",
+        "source": "abstract",
+        "generated_by": "extractive"
+      },
+      "recommendation_reason": {
+        "topic": "Data selection for LLMs",
+        "matched": [
+          "influence",
+          "training data",
+          "data"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-06-28T16:22:06.182023+00:00"
+    },
+    {
+      "id": "2606.28998",
+      "title": "Reward-Free Code Alignment from Pretrained or Fine-Tuned LLM: Unpacking the Trade-offs for Code Generation",
+      "abstract": "Large Language Model (LLM) alignment trains an LLM using preference data to produce outputs that better meet established quality standards. While LLM alignment techniques are studied for non-coding tasks, we know little about their usefulness for coding tasks. It is unclear whether LLM code alignment could support both functional requirements (producing executable, correct code) and non-functional requirements (code readability, style, maintainability). It is also unknown whether alignment for a code LLM should begin with base pretrained version or the finetuned (i.e., instruction-tuned) version of the LLM. In this paper, we offer insights on the above two research questions by conducting an empirical study. We studied five state-of-the-art (SOTA) LLMs using two widely used LLM alignment techniques: Direct Preference Optimization (DPO) and BoNBoN. For each training record, we created a preference pair as accepted and rejected instances by using the SelfCodeAlign pipeline. DPO and BoNBoN are reward-free models, i.e., they eliminate the need for multiple reward scores for output preferences. We tuned each LLM using the two alignment techniques in two settings: pretrained and finetuned versions of an LLM. We evaluated functional requirements using four SOTA benchmarks (HumanEval+, MBPP+, EvalPerf, EvoEval) and non-functional requirements using the CODAL benchmark, which evaluates code quality across five dimensions derived from software engineering practices. We find that pretrained-to-aligned pathways achieve larger improvements in the aligned variant over its pretrained variant. But the pretrained variant is generally less accurate than its finetuned variant. However, finetuned- to-aligned offers smaller performance improvements or, in some cases, degradation in the aligned variant than its finetuned variant.",
+      "authors": [
+        "Gias Uddin",
+        "Sanjeepan Sivapiran"
+      ],
+      "published": "2026-06-27T16:22:22Z",
+      "updated": "2026-06-27T16:22:22Z",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "primary_category": "cs.SE",
+      "abs_url": "https://arxiv.org/abs/2606.28998v1",
+      "pdf_url": "https://arxiv.org/pdf/2606.28998v1",
+      "comment": "",
+      "journal_ref": "The ACM International Conference on the Foundations of Software Engineering (FSE) 2026",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.6234,
+          "matched": [
+            "alignment",
+            "alignment",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5516,
+        "relevance": 0.4987,
+        "quality": 0.6,
+        "novelty": 0.7974,
+        "freshness": 0.5541
+      },
+      "quality_signals": [
+        "code available",
+        "benchmark evaluation",
+        "publication metadata"
+      ],
+      "summary": {
+        "takeaway": "We find that pretrained-to-aligned pathways achieve larger improvements in the aligned variant over its pretrained variant.",
+        "problem": "Large Language Model (LLM) alignment trains an LLM using preference data to produce outputs that better meet established quality standards.",
+        "method": "While LLM alignment techniques are studied for non-coding tasks, we know little about their usefulness for coding tasks.",
+        "evidence": "We find that pretrained-to-aligned pathways achieve larger improvements in the aligned variant over its pretrained variant.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Trustworthy LLM.",
+        "source": "abstract",
+        "generated_by": "extractive"
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment",
+          "alignment",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-06-30T19:16:33.621543+00:00"
     }
   ]
 }
