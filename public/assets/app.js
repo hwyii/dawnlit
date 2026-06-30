@@ -24,6 +24,7 @@ const elements = {
   nav: document.querySelector("#mainNav"),
   toast: document.querySelector("#toast"),
   importInput: document.querySelector("#profileImport"),
+  deepDive: document.querySelector("#deepDiveDialog"),
 };
 
 function inferRepository() {
@@ -274,12 +275,7 @@ function paperCard(paper) {
       <p class="paper-meta">${escapeHTML(authors)}${moreAuthors} · ${prettyDate(
         paper.published,
       )} · arXiv:${escapeHTML(paper.id)}</p>
-      <div class="morning-brief">
-        ${briefCell("What", summary.takeaway || paper.abstract)}
-        ${briefCell("How", summary.method)}
-        ${briefCell("Evidence", summary.evidence)}
-        ${briefCell("Why you", summary.why_for_you)}
-      </div>
+      ${threeLineBrief(paper)}
       <div class="match-line">
         <span>Signals:</span>
         ${(topic.matched || [])
@@ -310,6 +306,13 @@ function paperCard(paper) {
             <button data-feedback="transferable">Non-LLM, but transferable</button>
           </div>
         </div>
+        <button class="action-button deep-dive-button" data-action="deep-dive" ${
+          paper.deep_dive ? "" : "disabled"
+        } title="${
+          paper.deep_dive
+            ? "Open the full-text AI analysis"
+            : "Deep analysis is unavailable for this paper"
+        }">Deep dive ✦</button>
         <button class="action-button expand-button" data-action="expand">Structured note ＋</button>
         <a class="link-button" href="${escapeHTML(
           paper.abs_url,
@@ -340,13 +343,130 @@ function paperCard(paper) {
   `;
 }
 
-function briefCell(label, value = "Not stated in the abstract") {
+function threeLineBrief(paper) {
+  const summary = paper.summary || {};
+  const signals =
+    Array.isArray(paper.deep_dive?.signals) &&
+    paper.deep_dive.signals.length === 3
+      ? paper.deep_dive.signals
+      : [
+          { icon: "🧠", text: summary.takeaway || paper.abstract },
+          {
+            icon: "🛠️",
+            text:
+              summary.method ||
+              "Method details are not stated in the abstract.",
+          },
+          {
+            icon: "📊",
+            text: summary.evidence || "Evidence is not stated in the abstract.",
+          },
+        ];
   return `
-    <div class="brief-cell">
-      <span>${label}</span>
-      <p>${escapeHTML(value || "Not stated in the abstract")}</p>
+    <div class="three-line-brief" aria-label="Three-line paper brief">
+      ${signals
+        .map(
+          (signal) => `
+            <div class="brief-signal">
+              <span aria-hidden="true">${escapeHTML(signal.icon || "•")}</span>
+              <p>${escapeHTML(
+                signal.text || "Not stated in the available source.",
+              )}</p>
+            </div>
+          `,
+        )
+        .join("")}
     </div>
   `;
+}
+
+function detailItems(items = []) {
+  if (!Array.isArray(items) || !items.length) {
+    return '<p class="deep-dive-missing">Not stated in the available source.</p>';
+  }
+  return `
+    <div class="deep-dive-items">
+      ${items
+        .map(
+          (item) => `
+            <article>
+              <h4>${escapeHTML(item.title || "Detail")}</h4>
+              <p>${escapeHTML(item.detail || "")}</p>
+            </article>
+          `,
+        )
+        .join("")}
+    </div>
+  `;
+}
+
+function textList(items = []) {
+  if (!Array.isArray(items) || !items.length) {
+    return '<p class="deep-dive-missing">Not stated in the available source.</p>';
+  }
+  return `<ul>${items
+    .map((item) => `<li>${escapeHTML(item)}</li>`)
+    .join("")}</ul>`;
+}
+
+function openDeepDive(paper) {
+  const analysis = paper.deep_dive;
+  if (!analysis) {
+    showToast("Deep analysis is unavailable for this paper.");
+    return;
+  }
+  elements.deepDive.innerHTML = `
+    <div class="deep-dive-shell">
+      <header class="deep-dive-header">
+        <div>
+          <span class="eyebrow">FULL-TEXT AI ANALYSIS</span>
+          <h2 id="deepDiveTitle">${escapeHTML(paper.title)}</h2>
+          <p>${escapeHTML((paper.authors || []).join(", "))}</p>
+        </div>
+        <button type="button" class="dialog-close" data-dialog-close aria-label="Close analysis">×</button>
+      </header>
+      <div class="deep-dive-content">
+        ${threeLineBrief(paper)}
+        <section>
+          <h3>Overview</h3>
+          <p>${escapeHTML(
+            analysis.overview || "Not stated in the available source.",
+          )}</p>
+        </section>
+        <section>
+          <h3>Core methodology</h3>
+          ${detailItems(analysis.methodology)}
+        </section>
+        <section>
+          <h3>Experimental setup</h3>
+          ${detailItems(analysis.experiments)}
+        </section>
+        <section>
+          <h3>Main findings</h3>
+          ${detailItems(analysis.findings)}
+        </section>
+        <div class="deep-dive-columns">
+          <section>
+            <h3>Contributions</h3>
+            ${textList(analysis.contributions)}
+          </section>
+          <section>
+            <h3>Limitations & checks</h3>
+            ${textList(analysis.limitations)}
+          </section>
+        </div>
+        <footer>
+          Generated from ${escapeHTML(
+            analysis.source_scope || "the available source",
+          )} by
+          ${escapeHTML(
+            analysis.generated_by || "an AI model",
+          )}. Verify important claims in the paper.
+        </footer>
+      </div>
+    </div>
+  `;
+  elements.deepDive.showModal();
 }
 
 function summaryCell(label, value = "Not stated in the abstract") {
@@ -703,7 +823,9 @@ elements.app.addEventListener("click", async (event) => {
     const card = actionButton.closest(".paper-card");
     const paper = paperById(card.dataset.paperId);
     const action = actionButton.dataset.action;
-    if (action === "expand") {
+    if (action === "deep-dive") {
+      openDeepDive(paper);
+    } else if (action === "expand") {
       card.classList.toggle("expanded");
       actionButton.textContent = card.classList.contains("expanded")
         ? "Structured note −"
@@ -804,6 +926,15 @@ document.addEventListener("click", (event) => {
   document.querySelectorAll(".feedback-menu.open").forEach((menu) => {
     if (!menu.contains(event.target)) menu.classList.remove("open");
   });
+});
+
+elements.deepDive.addEventListener("click", (event) => {
+  if (
+    event.target.closest("[data-dialog-close]") ||
+    event.target === elements.deepDive
+  ) {
+    elements.deepDive.close();
+  }
 });
 
 boot();

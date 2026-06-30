@@ -202,14 +202,27 @@ using its built-in `GITHUB_TOKEN`; no separate API key is required. The default
 model is `openai/gpt-4o-mini`. Set the optional repository variable
 `GITHUB_MODEL` to use another model available to your repository.
 
-Each brief is constrained to the title and abstract and produces four
-immediately visible fields: what the paper contributes, how it works, what
-evidence the abstract reports, and why it matches the profile. Missing evidence
-must be stated rather than invented. If model inference is unavailable or
-invalid, Dawnlit falls back to an extractive brief and labels it
-`Abstract extract`.
+Each brief is grounded in the extracted paper text when available, or the title
+and abstract as a fallback. The card turns the analysis into a dense three-line
+scan covering the central finding, method, and strongest available evidence.
 
-Cloudflare Workers AI remains available as an optional preferred provider. Add
+For each selected paper, the workflow also downloads up to the first 30 PDF
+pages, extracts at most 80,000 characters, and asks the model for a grounded
+deep dive. The **Deep dive** dialog includes:
+
+- three complementary research signals;
+- a focused overview;
+- methodology components;
+- experimental setup;
+- main findings;
+- contributions and limitations.
+
+PDFs are capped at 25 MB. If full-text extraction fails, the analysis is
+explicitly marked as abstract-based. Missing evidence must be stated rather
+than invented. If model inference is unavailable or invalid, Dawnlit falls back
+to an extractive brief and disables the deep-dive button.
+
+Cloudflare Workers AI remains available as an optional summary fallback. Add
 these repository secrets to use it:
 
 - `CLOUDFLARE_ACCOUNT_ID`

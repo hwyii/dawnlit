@@ -17,7 +17,9 @@ import json
 import math
 import os
 import re
+import subprocess
 import sys
+import tempfile
 import time
 import urllib.error
 import urllib.parse
@@ -713,6 +715,164 @@ Abstract: {paper.abstract}
 """
 
 
+def extract_pdf_text(paper: Paper, max_chars: int = 80000) -> tuple[str, str]:
+    """Download and extract selected-paper text, falling back to its abstract."""
+    request = urllib.request.Request(paper.pdf_url, headers={"User-Agent": USER_AGENT})
+    try:
+        with urllib.request.urlopen(request, timeout=120) as response:
+            payload = response.read(25_000_001)
+        if len(payload) > 25_000_000:
+            raise ValueError("PDF exceeds the 25 MB analysis limit")
+        with tempfile.TemporaryDirectory() as directory:
+            pdf_path = Path(directory) / "paper.pdf"
+            text_path = Path(directory) / "paper.txt"
+            pdf_path.write_bytes(payload)
+            subprocess.run(
+                [
+                    "pdftotext",
+                    "-f",
+                    "1",
+                    "-l",
+                    "30",
+                    "-nopgbrk",
+                    str(pdf_path),
+                    str(text_path),
+                ],
+                check=True,
+                capture_output=True,
+                timeout=90,
+            )
+            text = text_path.read_text(encoding="utf-8", errors="ignore")
+        text = re.sub(r"\n{3,}", "\n\n", text).strip()
+        if len(text) < 1500:
+            raise ValueError("Extracted PDF text is too short")
+        if len(text) > max_chars:
+            text = f"{text[: max_chars - 16000]}\n\n[...]\n\n{text[-15000:]}"
+        return text, "full text (up to 30 pages)"
+    except (
+        OSError,
+        ValueError,
+        subprocess.SubprocessError,
+        urllib.error.URLError,
+    ) as error:
+        print(f"Full-text extraction failed for {paper.id}: {error}", file=sys.stderr)
+        return paper.abstract, "abstract"
+
+
+def analysis_prompt(
+    paper: Paper,
+    topics: list[dict[str, Any]],
+    paper_text: str,
+    source_scope: str,
+    language: str,
+) -> str:
+    topic_names = ", ".join(item["name"] for item in topics[:3])
+    output_language = (
+        "Simplified Chinese while preserving standard English technical terms"
+        if language.lower() in {"zh", "zh-cn", "chinese"}
+        else "concise technical English"
+    )
+    return f"""Analyze a research paper for an expert LLM researcher.
+Use only the supplied paper text. Never invent models, datasets, baselines,
+numbers, equations, findings, or limitations. Write in {output_language}.
+Return only valid JSON matching this exact shape:
+{{
+  "brief": {{
+    "takeaway": "one sentence",
+    "problem": "one sentence",
+    "method": "one sentence",
+    "evidence": "one sentence",
+    "limitations": "one sentence",
+    "why_for_you": "one sentence"
+  }},
+  "deep_dive": {{
+    "signals": [
+      {{"icon": "🧠", "text": "specific finding"}},
+      {{"icon": "🛡️", "text": "specific method"}},
+      {{"icon": "📉", "text": "specific mechanism or evidence"}}
+    ],
+    "overview": "one focused paragraph",
+    "methodology": [
+      {{"title": "method component", "detail": "technical explanation"}}
+    ],
+    "experiments": [
+      {{"title": "experimental component", "detail": "models, data, baselines, and metrics"}}
+    ],
+    "findings": [
+      {{"title": "finding", "detail": "grounded result"}}
+    ],
+    "contributions": ["contribution"],
+    "limitations": ["stated limitation or clearly labeled missing evidence"]
+  }}
+}}
+
+Requirements:
+- signals must contain exactly three complementary, information-dense items.
+- Use 2-4 methodology items and include equations or mechanisms only when present.
+- Use 1-3 experiment items and name concrete models, datasets, baselines, metrics,
+  and numerical results only when explicitly present.
+- Use 2-4 findings and separate findings from author claims.
+- Use 2-4 contributions and 1-3 limitations.
+- If evidence is unavailable in the supplied text, say so explicitly.
+- Do not treat arXiv publication as peer review.
+
+Research interests: {topic_names}
+Available source: {source_scope}
+Title: {paper.title}
+Abstract: {paper.abstract}
+
+Paper text:
+{paper_text}
+"""
+
+
+def parse_model_analysis(
+    raw: str,
+    generated_by: str,
+    source_scope: str,
+) -> tuple[dict[str, Any], dict[str, Any]] | None:
+    match = re.search(r"\{.*\}", raw, re.DOTALL)
+    if not match:
+        return None
+    payload = json.loads(match.group(0))
+    brief = payload.get("brief")
+    deep_dive = payload.get("deep_dive")
+    if not isinstance(brief, dict) or not isinstance(deep_dive, dict):
+        return None
+    summary = parse_model_summary(json.dumps(brief), generated_by)
+    required_lists = {
+        "signals",
+        "methodology",
+        "experiments",
+        "findings",
+        "contributions",
+        "limitations",
+    }
+    if (
+        summary is None
+        or not isinstance(deep_dive.get("overview"), str)
+        or not all(isinstance(deep_dive.get(field), list) for field in required_lists)
+        or len(deep_dive["signals"]) != 3
+    ):
+        return None
+    for field in {"signals", "methodology", "experiments", "findings"}:
+        if not all(
+            isinstance(item, dict)
+            and all(isinstance(value, str) for value in item.values())
+            for item in deep_dive[field]
+        ):
+            return None
+    if not all(
+        isinstance(item, str)
+        for field in {"contributions", "limitations"}
+        for item in deep_dive[field]
+    ):
+        return None
+    deep_dive["source_scope"] = source_scope
+    deep_dive["generated_by"] = generated_by
+    return summary, deep_dive
+
+
 def cloudflare_summary(paper: Paper, topics: list[dict[str, Any]]) -> dict[str, Any] | None:
     account_id = os.getenv("CLOUDFLARE_ACCOUNT_ID")
     api_token = os.getenv("CLOUDFLARE_API_TOKEN")
@@ -734,30 +894,44 @@ def cloudflare_summary(paper: Paper, topics: list[dict[str, Any]]) -> dict[str, 
         return None
 
 
-def github_summary(paper: Paper, topics: list[dict[str, Any]]) -> dict[str, Any] | None:
+def github_analysis(
+    paper: Paper,
+    topics: list[dict[str, Any]],
+    language: str,
+) -> tuple[dict[str, Any], dict[str, Any]] | None:
     token = os.getenv("GITHUB_TOKEN")
     if not token:
         return None
     model = os.getenv("GITHUB_MODEL") or "openai/gpt-4o-mini"
     url = "https://models.github.ai/inference/chat/completions"
+    paper_text, source_scope = extract_pdf_text(paper)
     body = {
         "model": model,
         "messages": [
             {
                 "role": "system",
-                "content": "You are a precise research analyst. Return grounded JSON only.",
+                "content": "You are a precise research analyst. Ground every claim in the supplied text and return JSON only.",
             },
-            {"role": "user", "content": summary_prompt(paper, topics)},
+            {
+                "role": "user",
+                "content": analysis_prompt(
+                    paper,
+                    topics,
+                    paper_text,
+                    source_scope,
+                    language,
+                ),
+            },
         ],
-        "temperature": 0.2,
-        "max_tokens": 700,
+        "temperature": 0.1,
+        "max_tokens": 2800,
     }
     try:
         response = request_json(url, token, "POST", body)
         raw = response.get("choices", [{}])[0].get("message", {}).get("content", "")
-        return parse_model_summary(raw, model)
+        return parse_model_analysis(raw, model, source_scope)
     except (OSError, ValueError, urllib.error.URLError, IndexError) as error:
-        print(f"GitHub Models summary failed for {paper.id}: {error}", file=sys.stderr)
+        print(f"GitHub Models analysis failed for {paper.id}: {error}", file=sys.stderr)
         return None
 
 
@@ -871,15 +1045,24 @@ def diversify(scored: list[dict[str, Any]], profile: dict[str, Any]) -> list[dic
     return selected
 
 
-def serialize_item(item: dict[str, Any], use_ai: bool) -> dict[str, Any]:
+def serialize_item(
+    item: dict[str, Any],
+    use_ai: bool,
+    language: str = "en",
+) -> dict[str, Any]:
     paper: Paper = item.pop("_paper")
     item.pop("_tokens", None)
     summary = None
+    deep_dive = None
     if use_ai:
-        summary = cloudflare_summary(paper, item["topics"]) or github_summary(
-            paper, item["topics"]
-        )
+        analysis = github_analysis(paper, item["topics"], language)
+        if analysis:
+            summary, deep_dive = analysis
+        else:
+            summary = cloudflare_summary(paper, item["topics"])
     item["summary"] = summary or extractive_summary(paper, item["topics"])
+    if deep_dive:
+        item["deep_dive"] = deep_dive
     item["recommendation_reason"] = {
         "topic": item["topics"][0]["name"],
         "matched": item["topics"][0]["matched"][:4],
@@ -956,7 +1139,10 @@ def build(
     previous = load_previous_papers(output_path)
     scored = score_papers(papers, profile, feedback, previous, now)
     selected = diversify(scored, profile)
-    serialized = [serialize_item(item, use_ai) for item in selected]
+    serialized = [
+        serialize_item(item, use_ai, profile.get("language", "en"))
+        for item in selected
+    ]
     feed = {
         "schema_version": 1,
         "demo": bool(atom_fixture),

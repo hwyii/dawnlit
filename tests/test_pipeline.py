@@ -75,6 +75,42 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(summary["generated_by"], "test/model")
         self.assertIsNone(radar.parse_model_summary('{"takeaway":"Only one"}', "test"))
 
+    def test_full_analysis_parser_requires_three_signals(self):
+        payload = {
+            "brief": {
+                "takeaway": "Contribution",
+                "problem": "Problem",
+                "method": "Method",
+                "evidence": "Evidence",
+                "limitations": "Limit",
+                "why_for_you": "Reason",
+            },
+            "deep_dive": {
+                "signals": [
+                    {"icon": "1", "text": "Finding"},
+                    {"icon": "2", "text": "Method"},
+                    {"icon": "3", "text": "Evidence"},
+                ],
+                "overview": "Overview",
+                "methodology": [{"title": "Method", "detail": "Detail"}],
+                "experiments": [{"title": "Setup", "detail": "Detail"}],
+                "findings": [{"title": "Finding", "detail": "Detail"}],
+                "contributions": ["Contribution"],
+                "limitations": ["Limitation"],
+            },
+        }
+        analysis = radar.parse_model_analysis(
+            json.dumps(payload), "test/model", "full text"
+        )
+        self.assertIsNotNone(analysis)
+        self.assertEqual(analysis[1]["source_scope"], "full text")
+        payload["deep_dive"]["signals"].pop()
+        self.assertIsNone(
+            radar.parse_model_analysis(
+                json.dumps(payload), "test/model", "full text"
+            )
+        )
+
     def test_simple_interests_retain_advanced_rules_and_add_topics(self):
         with tempfile.TemporaryDirectory() as directory:
             interests_path = Path(directory) / "interests.txt"
