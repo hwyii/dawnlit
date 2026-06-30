@@ -173,7 +173,9 @@ function updateChrome() {
   document.querySelector("#weeklyCount").textContent = visiblePapers(
     state.weekly.papers,
   ).length;
-  document.querySelector("#savedCount").textContent = state.saved.size;
+  document.querySelector("#savedCount").textContent = [...state.saved].filter(
+    (paperId) => !isDismissed(paperId),
+  ).length;
   document.querySelector("#lastUpdated").textContent = `Updated ${prettyDate(
     state.feed.generated_at,
   )}`;
@@ -218,6 +220,7 @@ function render() {
         : [...state.feed.papers, ...state.weekly.papers].filter(
             (paper, index, all) =>
               state.saved.has(paper.id) &&
+              !isDismissed(paper.id) &&
               all.findIndex((item) => item.id === paper.id) === index,
           );
   renderPaperView(papers);
