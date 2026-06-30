@@ -822,9 +822,12 @@ Return only valid JSON matching this exact shape:
       {{"icon": "🛡️", "text": "specific method"}},
       {{"icon": "📉", "text": "specific mechanism or evidence"}}
     ],
-    "overview": "one focused paragraph",
+    "overview": "detailed synthesis",
     "methodology": [
       {{"title": "method component", "detail": "technical explanation"}}
+    ],
+    "mechanism": [
+      {{"title": "mechanism or theory", "detail": "technical explanation"}}
     ],
     "experiments": [
       {{"title": "experimental component", "detail": "models, data, baselines, and metrics"}}
@@ -833,17 +836,30 @@ Return only valid JSON matching this exact shape:
       {{"title": "finding", "detail": "grounded result"}}
     ],
     "contributions": ["contribution"],
-    "limitations": ["stated limitation or clearly labeled missing evidence"]
+    "limitations": ["stated limitation or clearly labeled missing evidence"],
+    "open_questions": ["important unresolved research question"]
   }}
 }}
 
 Requirements:
-- signals must contain exactly three complementary, information-dense items.
-- Use 2-4 methodology items and include equations or mechanisms only when present.
-- Use 1-3 experiment items and name concrete models, datasets, baselines, metrics,
-  and numerical results only when explicitly present.
-- Use 2-4 findings and separate findings from author claims.
-- Use 2-4 contributions and 1-3 limitations.
+- Do not write generic statements such as "the paper studies" or "this is
+  relevant to trustworthy AI" when a named method, mechanism, model, dataset,
+  metric, baseline, or quantitative result is available.
+- signals must contain exactly three complementary items of 25-45 words each.
+  Every signal must include at least one paper-specific technical entity or
+  concrete result.
+- overview must be 140-220 words and explain the research question, thesis,
+  approach, and strongest evidence as a connected argument.
+- Use 3-5 methodology items of 50-90 words each. Explain purpose, procedure,
+  inputs/outputs, training objective, and implementation choices when present.
+- Use 1-4 mechanism items of 45-90 words each. Preserve equations and causal or
+  geometric claims only when present; otherwise state that no mechanism is given.
+- Use 2-5 experiment items of 45-85 words each. Name concrete models, datasets,
+  baselines, metrics, evaluation protocol, and ablations when present.
+- Use 3-6 findings of 40-80 words each and connect each claim to its evidence,
+  including exact numerical results when available.
+- Use 3-5 contributions, 2-4 limitations, and 2-4 open questions. Each item
+  should be specific enough to guide a research discussion.
 - If evidence is unavailable in the supplied text, say so explicitly.
 - Do not treat arXiv publication as peer review.
 
@@ -855,6 +871,49 @@ Abstract: {paper.abstract}
 Paper text:
 {paper_text}
 """
+
+
+def prepare_deep_dive(
+    deep_dive: Any,
+    generated_by: str,
+    source_scope: str,
+) -> dict[str, Any] | None:
+    if not isinstance(deep_dive, dict) or not isinstance(
+        deep_dive.get("overview"), str
+    ):
+        return None
+    required_lists = {
+        "signals",
+        "methodology",
+        "mechanism",
+        "experiments",
+        "findings",
+        "contributions",
+        "limitations",
+        "open_questions",
+    }
+    if (
+        not all(isinstance(deep_dive.get(field), list) for field in required_lists)
+        or len(deep_dive["signals"]) != 3
+    ):
+        return None
+    for field in {"signals", "methodology", "mechanism", "experiments", "findings"}:
+        if not all(
+            isinstance(item, dict)
+            and all(isinstance(value, str) for value in item.values())
+            for item in deep_dive[field]
+        ):
+            return None
+    if not all(
+        isinstance(item, str)
+        for field in {"contributions", "limitations", "open_questions"}
+        for item in deep_dive[field]
+    ):
+        return None
+    result = copy.deepcopy(deep_dive)
+    result["source_scope"] = source_scope
+    result["generated_by"] = generated_by
+    return result
 
 
 def parse_model_analysis(
@@ -871,37 +930,10 @@ def parse_model_analysis(
     if not isinstance(brief, dict) or not isinstance(deep_dive, dict):
         return None
     summary = parse_model_summary(json.dumps(brief), generated_by)
-    required_lists = {
-        "signals",
-        "methodology",
-        "experiments",
-        "findings",
-        "contributions",
-        "limitations",
-    }
-    if (
-        summary is None
-        or not isinstance(deep_dive.get("overview"), str)
-        or not all(isinstance(deep_dive.get(field), list) for field in required_lists)
-        or len(deep_dive["signals"]) != 3
-    ):
+    prepared = prepare_deep_dive(deep_dive, generated_by, source_scope)
+    if summary is None or prepared is None:
         return None
-    for field in {"signals", "methodology", "experiments", "findings"}:
-        if not all(
-            isinstance(item, dict)
-            and all(isinstance(value, str) for value in item.values())
-            for item in deep_dive[field]
-        ):
-            return None
-    if not all(
-        isinstance(item, str)
-        for field in {"contributions", "limitations"}
-        for item in deep_dive[field]
-    ):
-        return None
-    deep_dive["source_scope"] = source_scope
-    deep_dive["generated_by"] = generated_by
-    return summary, deep_dive
+    return summary, prepared
 
 
 def cloudflare_summary(paper: Paper, topics: list[dict[str, Any]]) -> dict[str, Any] | None:
@@ -925,16 +957,81 @@ def cloudflare_summary(paper: Paper, topics: list[dict[str, Any]]) -> dict[str, 
         return None
 
 
+def github_chat(token: str, body: dict[str, Any]) -> dict[str, Any]:
+    url = "https://models.github.ai/inference/chat/completions"
+    last_error: Exception | None = None
+    for attempt in range(3):
+        try:
+            return request_json(url, token, "POST", body)
+        except urllib.error.HTTPError as error:
+            last_error = error
+            if error.code not in {429, 500, 502, 503, 504} or attempt == 2:
+                raise
+            time.sleep(6 * (attempt + 1))
+    raise RuntimeError(f"GitHub Models request failed: {last_error}")
+
+
+def translate_deep_dive(
+    deep_dive: dict[str, Any],
+    token: str,
+    model: str,
+) -> dict[str, Any] | None:
+    source_scope = deep_dive.get("source_scope", "available source")
+    translatable = {
+        key: value
+        for key, value in deep_dive.items()
+        if key not in {"source_scope", "generated_by"}
+    }
+    prompt = f"""Translate the following research analysis into Simplified Chinese.
+Return only valid JSON with exactly the same keys, arrays, item counts, and
+icon values. Translate every natural-language title and detail faithfully.
+Preserve model names, dataset names, metrics, equations, abbreviations, and
+standard English technical terms; when helpful, write the Chinese term followed
+by the original English term in parentheses. Do not summarize, shorten, add,
+remove, soften, or strengthen any scientific claim.
+
+JSON:
+{json.dumps(translatable, ensure_ascii=False)}
+"""
+    body = {
+        "model": model,
+        "messages": [
+            {
+                "role": "system",
+                "content": "You are a precise scientific translator. Preserve JSON and evidence exactly.",
+            },
+            {"role": "user", "content": prompt},
+        ],
+        "temperature": 0,
+        "max_tokens": 4000,
+    }
+    try:
+        response = github_chat(token, body)
+        raw = response.get("choices", [{}])[0].get("message", {}).get("content", "")
+        match = re.search(r"\{.*\}", raw, re.DOTALL)
+        if not match:
+            return None
+        translated = json.loads(match.group(0))
+        return prepare_deep_dive(
+            translated,
+            f"{model} · zh-CN translation",
+            source_scope,
+        )
+    except (OSError, ValueError, urllib.error.URLError, IndexError) as error:
+        print(f"Chinese translation failed: {error}", file=sys.stderr)
+        return None
+
+
 def github_analysis(
     paper: Paper,
     topics: list[dict[str, Any]],
     language: str,
-) -> tuple[dict[str, Any], dict[str, Any]] | None:
+    translate_chinese: bool = False,
+) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any] | None] | None:
     token = os.getenv("GITHUB_TOKEN")
     if not token:
         return None
-    model = os.getenv("GITHUB_MODEL") or "openai/gpt-4o-mini"
-    url = "https://models.github.ai/inference/chat/completions"
+    model = os.getenv("GITHUB_MODEL") or "openai/gpt-4.1-mini"
     paper_text, source_scope = extract_pdf_text(paper)
     body = {
         "model": model,
@@ -955,12 +1052,21 @@ def github_analysis(
             },
         ],
         "temperature": 0.1,
-        "max_tokens": 2800,
+        "max_tokens": 4000,
     }
     try:
-        response = request_json(url, token, "POST", body)
+        response = github_chat(token, body)
         raw = response.get("choices", [{}])[0].get("message", {}).get("content", "")
-        return parse_model_analysis(raw, model, source_scope)
+        analysis = parse_model_analysis(raw, model, source_scope)
+        if not analysis:
+            return None
+        summary, deep_dive = analysis
+        translated = (
+            translate_deep_dive(deep_dive, token, model)
+            if translate_chinese
+            else None
+        )
+        return summary, deep_dive, translated
     except (OSError, ValueError, urllib.error.URLError, IndexError) as error:
         print(f"GitHub Models analysis failed for {paper.id}: {error}", file=sys.stderr)
         return None
@@ -1079,21 +1185,30 @@ def diversify(scored: list[dict[str, Any]], profile: dict[str, Any]) -> list[dic
 def serialize_item(
     item: dict[str, Any],
     use_ai: bool,
-    language: str = "en",
+    analysis_languages: list[str] | None = None,
 ) -> dict[str, Any]:
     paper: Paper = item.pop("_paper")
     item.pop("_tokens", None)
     summary = None
     deep_dive = None
+    chinese_deep_dive = None
     if use_ai:
-        analysis = github_analysis(paper, item["topics"], language)
+        languages = analysis_languages or ["en"]
+        analysis = github_analysis(
+            paper,
+            item["topics"],
+            "en",
+            translate_chinese="zh-CN" in languages,
+        )
         if analysis:
-            summary, deep_dive = analysis
+            summary, deep_dive, chinese_deep_dive = analysis
         else:
             summary = cloudflare_summary(paper, item["topics"])
     item["summary"] = summary or extractive_summary(paper, item["topics"])
     if deep_dive:
         item["deep_dive"] = deep_dive
+    if chinese_deep_dive:
+        item["deep_dive_i18n"] = {"zh-CN": chinese_deep_dive}
     item["recommendation_reason"] = {
         "topic": item["topics"][0]["name"],
         "matched": item["topics"][0]["matched"][:4],
@@ -1171,7 +1286,11 @@ def build(
     scored = score_papers(papers, profile, feedback, previous, now)
     selected = diversify(scored, profile)
     serialized = [
-        serialize_item(item, use_ai, profile.get("language", "en"))
+        serialize_item(
+            item,
+            use_ai,
+            profile.get("analysis_languages", [profile.get("language", "en")]),
+        )
         for item in selected
     ]
     feed = {

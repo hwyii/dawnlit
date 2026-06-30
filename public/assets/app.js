@@ -3,6 +3,7 @@ const STORAGE = {
   feedback: "dawnlit.feedback.v1",
   saved: "dawnlit.saved.v1",
   token: "dawnlit.token",
+  language: "dawnlit.analysis-language.v1",
 };
 
 const runtime = window.PAPER_RADAR_CONFIG || {};
@@ -13,6 +14,7 @@ const state = {
   profile: null,
   feedback: readStorage(STORAGE.feedback, []),
   saved: new Set(readStorage(STORAGE.saved, [])),
+  analysisLanguage: readStorage(STORAGE.language, "en"),
   apiUrl: (runtime.apiUrl || "").replace(/\/$/, ""),
   token: sessionStorage.getItem(STORAGE.token) || "",
 };
@@ -25,7 +27,19 @@ const elements = {
   toast: document.querySelector("#toast"),
   importInput: document.querySelector("#profileImport"),
   deepDive: document.querySelector("#deepDiveDialog"),
+  languageToggle: document.querySelector("#languageToggle"),
 };
+
+function t(english, chinese) {
+  return state.analysisLanguage === "zh-CN" ? chinese : english;
+}
+
+function localizedAnalysis(paper) {
+  if (state.analysisLanguage === "zh-CN") {
+    return paper.deep_dive_i18n?.["zh-CN"] || paper.deep_dive;
+  }
+  return paper.deep_dive;
+}
 
 function inferRepository() {
   if (runtime.repository) return runtime.repository;
@@ -137,6 +151,12 @@ function updateChrome() {
   document.querySelector("#modeBadge").title = cloud
     ? "Preferences and feedback sync to the Dawnlit API"
     : "Preferences and feedback stay in this browser";
+  elements.languageToggle.textContent =
+    state.analysisLanguage === "zh-CN" ? "EN" : "中文";
+  elements.languageToggle.title =
+    state.analysisLanguage === "zh-CN"
+      ? "Switch analysis to English"
+      : "切换为中文解读";
   renderFocus();
 }
 
@@ -263,8 +283,8 @@ function paperCard(paper) {
           )}</span>
           <span class="topic-chip brief-source-chip">${
             summary.generated_by === "extractive"
-              ? "Abstract extract"
-              : "AI brief"
+              ? t("Abstract extract", "摘要摘录")
+              : t("AI brief", "AI 解读")
           }</span>
         </div>
         <span class="score" style="--score-angle: ${
@@ -277,7 +297,7 @@ function paperCard(paper) {
       )} · arXiv:${escapeHTML(paper.id)}</p>
       ${threeLineBrief(paper)}
       <div class="match-line">
-        <span>Signals:</span>
+        <span>${t("Signals:", "匹配信号：")}</span>
         ${(topic.matched || [])
           .slice(0, 4)
           .map((item) => `<span class="signal-chip">${escapeHTML(item)}</span>`)
@@ -310,9 +330,12 @@ function paperCard(paper) {
           paper.deep_dive ? "" : "disabled"
         } title="${
           paper.deep_dive
-            ? "Open the full-text AI analysis"
-            : "Deep analysis is unavailable for this paper"
-        }">Deep dive ✦</button>
+            ? t("Open the full-text AI analysis", "打开全文 AI 深度解读")
+            : t(
+                "Deep analysis is unavailable for this paper",
+                "这篇论文暂时没有深度解读",
+              )
+        }">${t("Deep dive ✦", "深度解读 ✦")}</button>
         <button class="action-button expand-button" data-action="expand">Structured note ＋</button>
         <a class="link-button" href="${escapeHTML(
           paper.abs_url,
@@ -345,10 +368,10 @@ function paperCard(paper) {
 
 function threeLineBrief(paper) {
   const summary = paper.summary || {};
+  const analysis = localizedAnalysis(paper);
   const signals =
-    Array.isArray(paper.deep_dive?.signals) &&
-    paper.deep_dive.signals.length === 3
-      ? paper.deep_dive.signals
+    Array.isArray(analysis?.signals) && analysis.signals.length === 3
+      ? analysis.signals
       : [
           { icon: "🧠", text: summary.takeaway || paper.abstract },
           {
@@ -363,7 +386,10 @@ function threeLineBrief(paper) {
           },
         ];
   return `
-    <div class="three-line-brief" aria-label="Three-line paper brief">
+    <div class="three-line-brief" aria-label="${t(
+      "Three-line paper brief",
+      "三行论文摘要",
+    )}">
       ${signals
         .map(
           (signal) => `
@@ -382,7 +408,10 @@ function threeLineBrief(paper) {
 
 function detailItems(items = []) {
   if (!Array.isArray(items) || !items.length) {
-    return '<p class="deep-dive-missing">Not stated in the available source.</p>';
+    return `<p class="deep-dive-missing">${t(
+      "Not stated in the available source.",
+      "现有材料中没有说明。",
+    )}</p>`;
   }
   return `
     <div class="deep-dive-items">
@@ -402,7 +431,10 @@ function detailItems(items = []) {
 
 function textList(items = []) {
   if (!Array.isArray(items) || !items.length) {
-    return '<p class="deep-dive-missing">Not stated in the available source.</p>';
+    return `<p class="deep-dive-missing">${t(
+      "Not stated in the available source.",
+      "现有材料中没有说明。",
+    )}</p>`;
   }
   return `<ul>${items
     .map((item) => `<li>${escapeHTML(item)}</li>`)
@@ -410,58 +442,81 @@ function textList(items = []) {
 }
 
 function openDeepDive(paper) {
-  const analysis = paper.deep_dive;
+  const analysis = localizedAnalysis(paper);
   if (!analysis) {
-    showToast("Deep analysis is unavailable for this paper.");
+    showToast(
+      t(
+        "Deep analysis is unavailable for this paper.",
+        "这篇论文暂时没有深度解读。",
+      ),
+    );
     return;
   }
   elements.deepDive.innerHTML = `
     <div class="deep-dive-shell">
       <header class="deep-dive-header">
         <div>
-          <span class="eyebrow">FULL-TEXT AI ANALYSIS</span>
+          <span class="eyebrow">${t(
+            "FULL-TEXT AI ANALYSIS",
+            "全文 AI 深度解读",
+          )}</span>
           <h2 id="deepDiveTitle">${escapeHTML(paper.title)}</h2>
           <p>${escapeHTML((paper.authors || []).join(", "))}</p>
         </div>
-        <button type="button" class="dialog-close" data-dialog-close aria-label="Close analysis">×</button>
+        <button type="button" class="dialog-close" data-dialog-close aria-label="${t(
+          "Close analysis",
+          "关闭解读",
+        )}">×</button>
       </header>
       <div class="deep-dive-content">
         ${threeLineBrief(paper)}
         <section>
-          <h3>Overview</h3>
+          <h3>${t("Research question & thesis", "研究问题与核心论点")}</h3>
           <p>${escapeHTML(
             analysis.overview || "Not stated in the available source.",
           )}</p>
         </section>
         <section>
-          <h3>Core methodology</h3>
+          <h3>${t("Method pipeline", "核心方法与流程")}</h3>
           ${detailItems(analysis.methodology)}
         </section>
         <section>
-          <h3>Experimental setup</h3>
+          <h3>${t("Mechanism & theory", "机制与理论分析")}</h3>
+          ${detailItems(analysis.mechanism)}
+        </section>
+        <section>
+          <h3>${t("Experimental design", "实验设计")}</h3>
           ${detailItems(analysis.experiments)}
         </section>
         <section>
-          <h3>Main findings</h3>
+          <h3>${t("Results & evidence", "主要结果与证据")}</h3>
           ${detailItems(analysis.findings)}
         </section>
         <div class="deep-dive-columns">
           <section>
-            <h3>Contributions</h3>
+            <h3>${t("Contributions", "主要贡献")}</h3>
             ${textList(analysis.contributions)}
           </section>
           <section>
-            <h3>Limitations & checks</h3>
+            <h3>${t("Limitations & checks", "局限与核查要点")}</h3>
             ${textList(analysis.limitations)}
           </section>
         </div>
+        <section>
+          <h3>${t("Open questions", "值得继续追问的问题")}</h3>
+          ${textList(analysis.open_questions)}
+        </section>
         <footer>
-          Generated from ${escapeHTML(
-            analysis.source_scope || "the available source",
-          )} by
+          ${t("Generated from", "内容生成自")}
           ${escapeHTML(
-            analysis.generated_by || "an AI model",
-          )}. Verify important claims in the paper.
+            analysis.source_scope || t("the available source", "现有材料"),
+          )}
+          ${t("by", "；模型：")}
+          ${escapeHTML(analysis.generated_by || t("an AI model", "AI 模型"))}.
+          ${t(
+            "Verify important claims in the paper.",
+            "重要结论请回到论文原文核查。",
+          )}
         </footer>
       </div>
     </div>
@@ -804,6 +859,14 @@ elements.nav.addEventListener("click", (event) => {
   state.view = button.dataset.view;
   render();
   window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+elements.languageToggle.addEventListener("click", () => {
+  state.analysisLanguage = state.analysisLanguage === "zh-CN" ? "en" : "zh-CN";
+  writeStorage(STORAGE.language, state.analysisLanguage);
+  if (elements.deepDive.open) elements.deepDive.close();
+  updateChrome();
+  render();
 });
 
 elements.app.addEventListener("click", async (event) => {

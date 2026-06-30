@@ -93,10 +93,12 @@ class PipelineTests(unittest.TestCase):
                 ],
                 "overview": "Overview",
                 "methodology": [{"title": "Method", "detail": "Detail"}],
+                "mechanism": [{"title": "Mechanism", "detail": "Detail"}],
                 "experiments": [{"title": "Setup", "detail": "Detail"}],
                 "findings": [{"title": "Finding", "detail": "Detail"}],
                 "contributions": ["Contribution"],
                 "limitations": ["Limitation"],
+                "open_questions": ["Question"],
             },
         }
         analysis = radar.parse_model_analysis(

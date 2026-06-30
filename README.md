@@ -199,7 +199,7 @@ JavaScript:
 
 The scheduled workflow sends only the final selected papers to GitHub Models
 using its built-in `GITHUB_TOKEN`; no separate API key is required. The default
-model is `openai/gpt-4o-mini`. Set the optional repository variable
+model is `openai/gpt-4.1-mini`. Set the optional repository variable
 `GITHUB_MODEL` to use another model available to your repository.
 
 Each brief is grounded in the extracted paper text when available, or the title
@@ -212,11 +212,17 @@ results, limitations, and conclusion within an 18,000-character request budget,
 and asks the model for a grounded deep dive. The **Deep dive** dialog includes:
 
 - three complementary research signals;
-- a focused overview;
-- methodology components;
-- experimental setup;
-- main findings;
-- contributions and limitations.
+- a detailed research question and thesis;
+- the method pipeline and mechanism or theory;
+- experimental design with named models, datasets, baselines, and metrics;
+- results tied to concrete evidence;
+- contributions, limitations, and open questions.
+
+The default profile generates English and Simplified Chinese analyses. The
+header language toggle switches both the three-line brief and the complete
+dialog while keeping model names, datasets, equations, and standard technical
+terms intact. Remove `zh-CN` from `analysis_languages` in `config/profile.json`
+to disable the additional translation request.
 
 PDFs are capped at 25 MB. If full-text extraction fails, the analysis is
 explicitly marked as abstract-based. Missing evidence must be stated rather
