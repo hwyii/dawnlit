@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T19:25:57.248718+00:00",
+  "generated_at": "2026-06-30T19:46:14.602485+00:00",
   "papers": [
     {
       "id": "2606.27632",
@@ -347,11 +347,11 @@
         }
       ],
       "scores": {
-        "total": 0.6477,
+        "total": 0.6476,
         "relevance": 0.7687,
         "quality": 0.44,
         "novelty": 0.2,
-        "freshness": 0.8018
+        "freshness": 0.7998
       },
       "quality_signals": [
         "baseline comparison",
@@ -466,110 +466,8 @@
           "How does GAIA perform in continual learning or streaming data scenarios where data distribution shifts significantly?"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive_i18n": {
-        "zh-CN": {
-          "signals": [
-            {
-              "icon": "🧠",
-              "text": "GAIA采用高斯过程回归（Gaussian Process regression）对整个训练语料库上的连续潜在质量函数进行建模，实现了数据估值信号对训练过程中未见样本的原则性泛化。"
-            },
-            {
-              "icon": "🛡️",
-              "text": "固定份额Hedge更新机制（fixed-share Hedge update）维护离散化高斯过程策略的后验分布，允许动态适应非平稳的质量评分，并具备可证明的动态遗憾保证。"
-            },
-            {
-              "icon": "📉",
-              "text": "在MMLU、SAMSUM和TYDIQA数据集上，结合LLaMA-2、LLaMA-3、Qwen和Mistral骨干模型的实证结果表明，GAIA-GREATS相比GREATS及其他基线显著加速收敛并提升测试困惑度（perplexity）和准确率（accuracy）。"
-            }
-          ],
-          "overview": "本文针对大规模语言模型（LLMs）指令微调中的在线数据选择这一关键挑战，指出现有方法受限于批次约束的候选池且均匀随机采样，导致局部最优和随机脆弱性。GAIA提出了基于高斯过程（Gaussian Processes）对整个训练语料库潜在质量函数进行建模的全局数据估值框架，实现了效用分数对未见数据的平滑泛化。为扩展该方法，GAIA将高斯过程离散化为有限策略集，并通过固定份额Hedge更新维护其后验分布，适应模型参数演化导致的质量分数非平稳性。该后验引导候选批次采样，偏向高效用区域，且可结合GREATS等现有选择方法进一步优化。多数据集和多模型架构的实证评估表明，GAIA在计算开销极小的情况下显著优于最先进基线，验证了其作为稳健在线数据选择方法在指令微调中的有效性和可扩展性。",
-          "methodology": [
-            {
-              "title": "高斯过程建模（Gaussian Process Modeling）",
-              "detail": "GAIA将整个训练语料库上的潜在质量函数建模为高斯过程（GP），其核函数基于预热数据拟合，实现了语义嵌入空间中数据效用的连续估计，支持对未见样本的泛化。"
-            },
-            {
-              "title": "策略离散化与后验维护（Strategy Discretization and Posterior Maintenance）",
-              "detail": "将连续的高斯过程离散为有限函数样本集，称为策略。GAIA通过固定份额Hedge更新结合top-k似然维护这些策略的后验分布，适应训练过程中数据质量的变化。"
-            },
-            {
-              "title": "固定份额Hedge更新（Fixed-Share Hedge Update）",
-              "detail": "为应对非平稳质量分数，GAIA采用固定份额Hedge更新，在每步将后验与均匀分布混合，防止任何策略被永久排除，并提供动态遗憾保证以增强鲁棒性。"
-            },
-            {
-              "title": "候选批次采样（Candidate Batch Sampling）",
-              "detail": "每次迭代中，GAIA从后验中采样策略，并根据策略分数的指数加权概率从训练池中抽取候选批次，温度参数控制利用与多样性的平衡。"
-            },
-            {
-              "title": "与现有选择方法的集成（Integration with Existing Selection Methods）",
-              "detail": "GAIA可与GREATS等方法结合，先全局偏向高效用区域采样候选池，再局部批次优化以提升批次内质量和多样性。"
-            }
-          ],
-          "mechanism": [
-            {
-              "title": "通过固定份额Hedge的动态后验更新（Dynamic Posterior Update via Fixed-Share Hedge）",
-              "detail": "GAIA利用固定份额Hedge更新对策略后验建模，该更新以学习率λ调节每批次证据，并以混合率α与均匀分布混合。此更新可视为带马尔可夫切换先验的贝叶斯滤波，支持模型参数演化时最佳策略的恢复。"
-            }
-          ],
-          "experiments": [
-            {
-              "title": "数据集与模型（Datasets and Models）",
-              "detail": "评估涵盖三个指令微调数据集：MMLU、SAMSUM和TYDIQA，使用四个骨干大语言模型：LLaMA-2-7B、LLaMA-3-18B、Qwen-3.4B和Mistral-7B。"
-            },
-            {
-              "title": "基线与指标（Baselines and Metrics）",
-              "detail": "GAIA与基于梯度的GradNorm、优先损失的MaxLoss和RHOLoss、语义感知的SBERT及贪心优化的GREATS基线比较，采用验证集和测试集上的困惑度和准确率指标。"
-            },
-            {
-              "title": "效率与开销（Efficiency and Overhead）",
-              "detail": "GAIA计算开销极小，例如在13k样本的MMLU数据集上高斯过程训练约需23秒，展示了实用的可扩展性。"
-            },
-            {
-              "title": "消融与敏感性分析（Ablations and Sensitivity）",
-              "detail": "分析了采样温度τ和通过奇异值分解（SVD）投影的嵌入维度对性能的影响，揭示了利用速度与批次多样性之间的权衡。"
-            }
-          ],
-          "findings": [
-            {
-              "title": "收敛性提升（Improved Convergence）",
-              "detail": "GAIA-GREATS在MMLU-社会学和SAMSUM数据集上，在困惑度和准确率方面显著快于所有基线，体现了全局自适应数据选择的优势。"
-            },
-            {
-              "title": "对非平稳性的鲁棒性（Robustness to Non-Stationarity）",
-              "detail": "固定份额Hedge更新使GAIA能适应训练中数据质量的演变，维持动态遗憾保证，防止策略崩溃。"
-            },
-            {
-              "title": "极小的开销（Minimal Overhead）",
-              "detail": "尽管引入了高斯过程建模和后验更新，GAIA相较基线训练时间几乎无额外运行时开销。"
-            },
-            {
-              "title": "有效的集成（Effective Integration）",
-              "detail": "GAIA与GREATS结合利用全局引导和局部批次优化，性能优于单独使用任一方法。"
-            }
-          ],
-          "contributions": [
-            "将数据估值问题形式化为基于整个训练语料库的高斯过程全局估计问题。",
-            "引入固定份额Hedge后验更新以处理非平稳质量分数，具备动态遗憾保证。",
-            "提出可扩展且计算高效的框架，能与现有在线数据选择方法集成以提升指令微调效果。",
-            "在多数据集和多大语言模型架构上进行全面实证验证，展示优越的性能和效率。"
-          ],
-          "limitations": [
-            "需要带标签数据的预热阶段以拟合初始高斯过程模型，限制了在完全无监督场景下的适用性。",
-            "固定份额Hedge更新的超参数（学习率λ和混合率α）需经验调优，缺乏自动适应机制。",
-            "未明确展示在更大数据集规模和更高嵌入维度下的可扩展性。",
-            "未提供针对极大规模或流式数据集的显式处理机制，除离散策略方法外。"
-          ],
-          "open_questions": [
-            "如何扩展或适配GAIA以支持无预热初始化的完全无监督或零标签场景？",
-            "固定份额Hedge更新参数能否在线学习或自适应以减少超参数调优？",
-            "GAIA在数据集规模、嵌入维度和模型规模方面的可扩展性极限为何？",
-            "在数据分布显著变化的持续学习或流式数据场景中，GAIA表现如何？"
-          ],
-          "source_scope": "selected full-text regions (up to 30 pages)",
-          "generated_by": "openai/gpt-4.1-mini · zh-CN translation"
-        }
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
       },
       "recommendation_reason": {
         "topic": "Data selection for LLMs",
@@ -581,7 +479,7 @@
         ],
         "lane": "llm"
       },
-      "recommended_at": "2026-06-30T19:25:57.248718+00:00"
+      "recommended_at": "2026-06-30T19:46:14.602485+00:00"
     },
     {
       "id": "2606.27709",
@@ -1769,11 +1667,11 @@
         }
       ],
       "scores": {
-        "total": 0.5516,
+        "total": 0.5515,
         "relevance": 0.4987,
         "quality": 0.6,
         "novelty": 0.7974,
-        "freshness": 0.5541
+        "freshness": 0.5512
       },
       "quality_signals": [
         "code available",
@@ -1781,14 +1679,117 @@
         "publication metadata"
       ],
       "summary": {
-        "takeaway": "We find that pretrained-to-aligned pathways achieve larger improvements in the aligned variant over its pretrained variant.",
-        "problem": "Large Language Model (LLM) alignment trains an LLM using preference data to produce outputs that better meet established quality standards.",
-        "method": "While LLM alignment techniques are studied for non-coding tasks, we know little about their usefulness for coding tasks.",
-        "evidence": "We find that pretrained-to-aligned pathways achieve larger improvements in the aligned variant over its pretrained variant.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Trustworthy LLM.",
+        "takeaway": "Alignment of code generation LLMs from pretrained models yields larger relative improvements, especially in non-functional code quality, compared to alignment from finetuned models.",
+        "problem": "It is unclear whether LLM alignment for code generation should target both functional and non-functional requirements and whether alignment should start from pretrained or finetuned LLMs.",
+        "method": "The study empirically evaluates five SOTA LLMs aligned via reward-free techniques DPO and BoNBoN on both pretrained and finetuned versions, assessing functional and non-functional code quality using multiple benchmarks.",
+        "evidence": "Pretrained-to-aligned models show substantial relative gains (e.g., CodeLlama-7b +75% non-functional), while finetuned-to-aligned models show smaller or negative improvements, with consistent non-functional quality gains across models.",
+        "limitations": "The study does not provide mechanistic explanations for why alignment from finetuned models underperforms and lacks exploration of alignment effects on larger or more diverse LLM families beyond the five studied.",
+        "why_for_you": "Understanding the trade-offs in alignment starting points and techniques informs trustworthy code generation by optimizing both correctness and software engineering quality in LLM outputs.",
         "source": "abstract",
-        "generated_by": "extractive"
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Pretrained-to-aligned pathway yields a +75% improvement in non-functional code quality for CodeLlama-7b and +42% functional improvement for Llama3-8b, indicating alignment effectiveness depends on model initialization."
+          },
+          {
+            "icon": "🛡️",
+            "text": "Direct Preference Optimization (DPO) and BoNBoN are reward-free alignment methods that respectively optimize preference classification and best-of-n sampling distributions, reducing computational overhead while improving code generation quality."
+          },
+          {
+            "icon": "📉",
+            "text": "Finetuned-to-aligned models sometimes degrade in performance compared to their finetuned baselines, suggesting alignment may conflict with instruction tuning or cause alignment incompatibility rather than catastrophic forgetting."
+          }
+        ],
+        "overview": "This paper investigates the efficacy of reward-free alignment techniques, DPO and BoNBoN, applied to code generation LLMs starting from either pretrained or finetuned checkpoints. The research addresses two key questions: whether alignment should target both functional correctness and non-functional code quality, and whether alignment should begin from pretrained or finetuned models. Five state-of-the-art LLMs and their instruction-tuned variants were aligned using preference pairs generated by the SelfCodeAlign pipeline. Functional performance was evaluated on four benchmarks (HumanEval+, MBPP+, EvalPerf, EvoEval), while non-functional quality was assessed via the CODAL benchmark covering readability, style, and maintainability. Results show pretrained-to-aligned models achieve larger relative improvements, particularly in non-functional metrics, despite starting from weaker baselines. Conversely, finetuned-to-aligned models exhibit smaller gains or performance degradation, indicating alignment may interfere with prior instruction tuning. The study highlights the importance of prioritizing non-functional requirements in code alignment and reveals model family-specific preferences for alignment techniques. These findings provide actionable guidance for trustworthy code generation LLM alignment strategies.",
+        "methodology": [
+          {
+            "title": "Direct Preference Optimization (DPO)",
+            "detail": "DPO reformulates alignment as a classification problem by directly optimizing the model to distinguish preferred from rejected outputs using maximum likelihood, eliminating the need for a separate reward model and reducing computational overhead compared to RLHF."
+          },
+          {
+            "title": "BoNBoN Alignment",
+            "detail": "BoNBoN trains models to mimic the best-of-n sampling distribution by combining supervised fine-tuning on best responses with Iterative Preference Optimization contrasting best and worst samples, thereby achieving high-quality outputs without inference-time sampling costs."
+          },
+          {
+            "title": "Preference Data Generation via SelfCodeAlign",
+            "detail": "Preference pairs for alignment training were created using the SelfCodeAlign pipeline, which generates accepted and rejected code instances to represent user preferences for both functional correctness and non-functional code quality."
+          },
+          {
+            "title": "Evaluation Benchmarks",
+            "detail": "Functional correctness was measured using HumanEval+, MBPP+, EvalPerf, and EvoEval benchmarks, while non-functional code quality was assessed using the CODAL benchmark, which evaluates code across five software engineering dimensions such as readability and style."
+          },
+          {
+            "title": "Alignment Training Protocol",
+            "detail": "Models were aligned in two pathways: pretrained-to-aligned and finetuned-to-aligned, each trained for 120k iterations using either DPO or BoNBoN, with supervised fine-tuning preceding alignment to establish a stable base."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "No Explicit Mechanism Provided",
+            "detail": "The paper does not provide mechanistic or theoretical explanations for the observed performance differences between pretrained-to-aligned and finetuned-to-aligned pathways or for the differential improvements in functional versus non-functional code quality."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Model and Dataset Selection",
+            "detail": "Five SOTA LLMs (Meta-Llama-3-8B, Qwen2.5-Coder-7B, CodeLlama-7b, deepseek-coder-1.3b, deepseek-coder-7b) and their instruction-tuned variants were aligned using DPO and BoNBoN on preference datasets generated by SelfCodeAlign."
+          },
+          {
+            "title": "Functional and Non-Functional Evaluation",
+            "detail": "Functional code generation was evaluated on HumanEval+, MBPP+, EvalPerf, and EvoEval benchmarks, while non-functional code quality was assessed using the CODAL benchmark, covering instruction following, readability, complexity, style adherence, and code explanation."
+          },
+          {
+            "title": "Alignment Pathways and Training",
+            "detail": "Two alignment pathways were compared: pretrained-to-aligned and finetuned-to-aligned, each trained for 120k steps with DPO or BoNBoN, following supervised fine-tuning to avoid catastrophic forgetting and ensure convergence."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Pretrained-to-Aligned Yields Larger Relative Gains",
+            "detail": "Pretrained-to-aligned models showed substantial relative improvements over their pretrained baselines, e.g., CodeLlama-7b improved +75% on non-functional CODAL metrics and Llama3-8b improved +42% on functional benchmarks."
+          },
+          {
+            "title": "Finetuned-to-Aligned Shows Smaller or Negative Improvements",
+            "detail": "Alignment from finetuned models resulted in smaller performance gains or even degradation compared to finetuned baselines, indicating potential incompatibility between alignment and prior instruction tuning."
+          },
+          {
+            "title": "Non-Functional Requirements Improve More Consistently",
+            "detail": "Non-functional code quality improved consistently across all models and alignment techniques, with gains such as +75% for CodeLlama-7b and +27.8% for deepseek-coder-7b, suggesting alignment better supports software engineering quality than functional correctness."
+          },
+          {
+            "title": "Model Family-Specific Technique Preferences",
+            "detail": "Meta-Llama models performed better with DPO alignment, while deepseek models favored BoNBoN, indicating alignment technique effectiveness depends on model architecture and training history."
+          },
+          {
+            "title": "Early SFT-Stage Degradation Predicts Alignment Failure",
+            "detail": "Degradation during supervised fine-tuning on preference data correlated with final alignment failure, suggesting early training instability is a useful indicator of alignment success."
+          }
+        ],
+        "contributions": [
+          "Empirical comparison of reward-free alignment techniques DPO and BoNBoN applied to code generation LLMs from pretrained and finetuned checkpoints.",
+          "Demonstration that pretrained-to-aligned models achieve larger relative improvements, especially in non-functional code quality, than finetuned-to-aligned models.",
+          "Identification of model family-specific preferences for alignment techniques and early failure indicators during supervised fine-tuning.",
+          "Provision of nine actionable recommendations to guide alignment strategies for code generation LLMs.",
+          "Comprehensive evaluation using multiple functional and non-functional benchmarks to capture diverse code quality dimensions."
+        ],
+        "limitations": [
+          "Lack of mechanistic explanation for why alignment from finetuned models underperforms or degrades performance.",
+          "Limited exploration of alignment effects on larger or more diverse LLM families beyond the five studied.",
+          "No analysis of long-term effects of alignment on model robustness or generalization beyond benchmark tasks.",
+          "Absence of ablation studies isolating the impact of individual alignment components or preference data quality."
+        ],
+        "open_questions": [
+          "What underlying mechanisms cause alignment from finetuned models to yield smaller or negative improvements compared to pretrained models?",
+          "How do alignment techniques scale and generalize to larger code generation models or different programming languages?",
+          "Can alignment methods be adapted to jointly optimize functional correctness and non-functional code quality without trade-offs?",
+          "What role does the quality and diversity of preference data play in the success of code LLM alignment?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
       },
       "recommendation_reason": {
         "topic": "Trustworthy LLM",
@@ -1799,7 +1800,7 @@
         ],
         "lane": "llm"
       },
-      "recommended_at": "2026-06-30T19:16:33.621543+00:00"
+      "recommended_at": "2026-06-30T19:46:14.602485+00:00"
     }
   ]
 }
