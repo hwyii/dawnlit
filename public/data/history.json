@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T19:46:14.602485+00:00",
+  "generated_at": "2026-07-01T12:47:45.211812+00:00",
   "papers": [
     {
       "id": "2606.30077",
@@ -69,11 +69,11 @@
         }
       ],
       "scores": {
-        "total": 0.6476,
+        "total": 0.6426,
         "relevance": 0.7687,
         "quality": 0.44,
         "novelty": 0.2,
-        "freshness": 0.7998
+        "freshness": 0.6985
       },
       "quality_signals": [
         "baseline comparison",
@@ -201,7 +201,909 @@
         ],
         "lane": "llm"
       },
-      "recommended_at": "2026-06-30T19:46:14.602485+00:00"
+      "recommended_at": "2026-07-01T12:47:45.211812+00:00"
+    },
+    {
+      "id": "2606.29863",
+      "title": "KbSD: Knowledge Boundary aware Self-Distillation for Behavioral Calibration in Agentic Search",
+      "abstract": "Agentic search equips large language models with dynamic retrieval abilities, but existing reinforcement learning methods remain limited by reward sparsity in knowledge boundary calibration -- deciding when to trust parametric memory, when to rely on retrieved evidence, and when to abstain. Binary rewards can penalize undesirable outcomes, but provide little guidance on the reasoning process required to make calibrated decisions across different knowledge states. To address this, we propose KbSD (Knowledge boundary Self-Distillation), a framework that tackles this limitation through dense token-level supervision, outcome-level sparse rewards, and quadrant-adaptive optimization. KbSD constructs a hint-augmented teacher, architecturally identical to the student, that receives explicit knowledge boundary signals -- including parametric certainty, retrieval quality, and ground-truth answers -- to generate calibrated reasoning demonstrations. This information-asymmetric self-distillation enables dense supervision without requiring a larger external model. To further account for the heterogeneous reasoning distributions across knowledge states, we introduce a quadrant-adaptive distillation objective: reverse KL for concentrated integration, forward KL for diverse refusal, and Pareto-optimal bidirectional KL for asymmetric quadrants requiring both precision and coverage. Experiments on multiple benchmarks show that KbSD consistently improves both task accuracy and hallucination mitigation over strong baselines, with the largest gains appearing in the challenging quadrants where sparse rewards are least informative.",
+      "authors": [
+        "Tao Feng",
+        "Xinke Jiang",
+        "Chao Wu"
+      ],
+      "published": "2026-06-29T06:56:18Z",
+      "updated": "2026-06-29T06:56:18Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2606.29863v1",
+      "pdf_url": "https://arxiv.org/pdf/2606.29863v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "watch",
+          "score": 0.5651,
+          "matched": [
+            "self-distillation",
+            "token-level",
+            "distillation",
+            "self-distillation"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3291,
+          "matched": [
+            "calibration",
+            "hallucination"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5718,
+        "relevance": 0.5179,
+        "quality": 0.59,
+        "novelty": 0.8316,
+        "freshness": 0.6794
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation",
+        "experiments",
+        "formal bound"
+      ],
+      "summary": {
+        "takeaway": "KbSD introduces a quadrant-adaptive self-distillation framework that provides dense token-level supervision and tailored KL divergence objectives to improve knowledge boundary calibration in agentic search.",
+        "problem": "Existing reinforcement learning methods for agentic search suffer from sparse binary rewards that inadequately guide the reasoning process for calibrated decisions across heterogeneous knowledge states.",
+        "method": "KbSD constructs a hint-augmented teacher model identical to the student that receives explicit knowledge boundary signals to generate dense reasoning demonstrations and applies quadrant-adaptive KL objectives for optimized distillation.",
+        "evidence": "Experiments on nine benchmarks with Qwen2.5 models show KbSD consistently reduces unreliability rates and improves task accuracy and hallucination mitigation compared to strong baselines including KbPO and RL-based agents.",
+        "limitations": "The paper does not provide detailed analysis on computational overhead or generalization beyond the tested benchmarks and model scales.",
+        "why_for_you": "KbSD’s approach to dense process-level supervision and quadrant-specific optimization offers a novel solution to reward sparsity and heterogeneous reasoning distributions in trustworthy agentic LLMs.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "KbSD achieves an absolute reduction of approximately 17 points in unreliability rate on Qwen2.5-3B and 7B models compared to KbPO, demonstrating improved behavioral calibration across knowledge boundary quadrants."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The quadrant-adaptive distillation objective applies reverse KL divergence for concentrated integration in Quadrant 1, forward KL for diverse refusal in Quadrant 3, and bidirectional KL for asymmetric quadrants 2 and 4, enabling tailored optimization per knowledge state."
+          },
+          {
+            "icon": "📉",
+            "text": "Ablation studies show that removing the distillation loss or replacing quadrant-adaptive KL with fixed KL variants degrades performance, confirming the necessity of dense supervision and adaptive divergence measures for effective calibration."
+          }
+        ],
+        "overview": "The paper addresses the challenge of reward sparsity in agentic search systems where large language models must decide when to trust internal parametric memory, rely on retrieved evidence, or abstain from answering. Traditional binary rewards provide insufficient guidance on the intermediate reasoning steps necessary for calibrated decisions across four knowledge boundary quadrants defined by internal certainty and retrieval quality. KbSD proposes a self-distillation framework that constructs a hint-augmented teacher model receiving explicit knowledge boundary signals to generate dense token-level supervision. This dense supervision complements sparse outcome-level rewards and is optimized with quadrant-adaptive KL divergence objectives tailored to the heterogeneous reasoning distributions of each quadrant. Experiments on nine diverse benchmarks using Qwen2.5 models demonstrate that KbSD consistently lowers unreliability rates and improves task accuracy and hallucination mitigation compared to strong baselines, especially in challenging quadrants where sparse rewards are least informative. Ablations validate the importance of dense supervision and adaptive KL objectives, establishing KbSD as an effective method for behavioral calibration in agentic search.",
+        "methodology": [
+          {
+            "title": "Hint-Augmented Teacher Construction",
+            "detail": "KbSD builds a teacher model architecturally identical to the student that receives explicit knowledge boundary signals including parametric certainty, retrieval quality, and ground-truth answers. This teacher generates calibrated reasoning demonstrations providing dense token-level supervision to the student without requiring a larger external model."
+          },
+          {
+            "title": "Quadrant-Adaptive Distillation Objective",
+            "detail": "The distillation loss applies different KL divergence measures per knowledge quadrant: reverse KL for concentrated, unimodal integration in Quadrant 1; forward KL for diverse refusal behavior in Quadrant 3; and Pareto-optimal bidirectional KL for asymmetric quadrants 2 and 4 requiring both precision and coverage."
+          },
+          {
+            "title": "Integration of Dense Supervision and Sparse Rewards",
+            "detail": "KbSD combines dense token-level supervision from the teacher with sparse outcome-level rewards to guide the agent’s reasoning process and behavior selection during multi-turn agentic search, addressing reward sparsity at the process level."
+          },
+          {
+            "title": "Training Setup and Optimization",
+            "detail": "Training uses the VERL framework with GRPO optimizer, generating multiple rollouts per query. Hyperparameters include learning rate 1e-6, KL coefficient 0.001, process reward weight 0.2, and distillation weight 0.1. Knowledge boundary thresholds are set to 0.5 and 0.6 for parametric certainty and retrieval quality."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "No Explicit Mechanism Equations Provided",
+            "detail": "The paper does not present formal equations or causal models for the knowledge boundary calibration mechanism but describes the quadrant taxonomy and adaptive KL objectives conceptually."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Datasets and Benchmarks",
+            "detail": "Training data is synthesized from HotpotQA and 2WikiMultiHopQA. Evaluation spans nine benchmarks across multi-hop QA, open-domain QA, and agentic reasoning categories, including HotpotQA, TriviaQA, NQ, GAIA, and FRAMES."
+          },
+          {
+            "title": "Models and Retrieval",
+            "detail": "Experiments use Qwen2.5 backbone models at 3B and 7B parameter scales. Retrieval is performed with the E5 dense retriever over the 2018 Wikipedia dump, retrieving top-3 passages per query."
+          },
+          {
+            "title": "Baselines and Metrics",
+            "detail": "Comparisons include standard RAG methods (Naive RAG, FS-RAG, FLARE), agentic RAG methods (ReAct, IRCoT, Self-RAG, CRAG), and RL-based agents (Search-R1, ARPO, AEPO, MEM1, KbPO). Metrics are F1 for task utility and unreliability rate (1 - (F1 + refusal rate)) for unsafe behaviors."
+          },
+          {
+            "title": "Ablation Studies",
+            "detail": "Ablations on Qwen2.5-3B analyze the impact of removing distillation loss and replacing quadrant-adaptive KL with fixed KL variants, demonstrating performance degradation and validating the design choices."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Improved Reliability Across Scales",
+            "detail": "KbSD reduces unreliability rate from 64.32 to 47.60 on Qwen2.5-3B and from 57.99 to 41.18 on Qwen2.5-7B compared to KbPO, showing consistent gains with larger model capacity."
+          },
+          {
+            "title": "Superior Calibration on Challenging Quadrants",
+            "detail": "KbSD achieves the largest performance improvements on benchmarks requiring precise knowledge boundary calibration, such as TriviaQA and NQ, outperforming Search-R1 and AEPO."
+          },
+          {
+            "title": "Necessity of Dense Supervision",
+            "detail": "Removing the distillation loss leads to performance drops across all benchmarks, confirming that dense token-level supervision is essential for guiding the reasoning process."
+          },
+          {
+            "title": "Effectiveness of Quadrant-Adaptive KL",
+            "detail": "Replacing quadrant-adaptive KL with fixed forward or reverse KL harms performance, especially on benchmarks requiring diverse refusal or concentrated integration, validating the adaptive divergence approach."
+          },
+          {
+            "title": "Balanced Quadrant Rebalancing",
+            "detail": "Proper calibration between the four quadrants reduces unreliability rates, avoiding hallucination from over-rewarding internal answers and loss of helpfulness from over-rewarding refusal."
+          }
+        ],
+        "contributions": [
+          "Proposed KbSD, a self-distillation framework with a hint-augmented teacher for dense token-level supervision in agentic search.",
+          "Introduced a quadrant-adaptive KL divergence objective tailored to heterogeneous reasoning distributions across knowledge boundary quadrants.",
+          "Demonstrated consistent improvements in task accuracy and hallucination mitigation over strong baselines on nine diverse benchmarks.",
+          "Validated the necessity of dense supervision and adaptive divergence through comprehensive ablation studies."
+        ],
+        "limitations": [
+          "Lack of analysis on computational cost and efficiency of the self-distillation framework.",
+          "No exploration of generalization to other model architectures beyond Qwen2.5 or to retrieval systems beyond E5.",
+          "Absence of formal mechanistic or theoretical modeling of the knowledge boundary calibration process.",
+          "Limited discussion on the impact of hyperparameter sensitivity or robustness across different task domains."
+        ],
+        "open_questions": [
+          "How does KbSD scale computationally and perform in real-time or resource-constrained agentic search applications?",
+          "Can the quadrant-adaptive distillation approach generalize to other LLM architectures or retrieval paradigms?",
+          "What are the theoretical guarantees or limitations of using KL divergence variants for heterogeneous reasoning distributions?",
+          "How can the framework be extended to incorporate richer knowledge boundary signals or multi-modal evidence?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "On-policy distillation",
+        "matched": [
+          "self-distillation",
+          "token-level",
+          "distillation",
+          "self-distillation"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-01T12:47:45.211812+00:00"
+    },
+    {
+      "id": "2606.30914",
+      "title": "Beyond Clean Text: Evaluating Encoder and Decoder Robustness for Bangla Event Detection in Noisy Text",
+      "abstract": "Event detection (ED) systems are typically evaluated on clean, curated text, leaving their robustness to real-world noise largely unexplored, particularly for low-resource languages such as Bangla. We introduce a generalized Bangla news event ontology and a benchmark comprising 9,979 annotated sentences across 40 event subtypes, spanning clean news text, real-world Automatic Speech Recognition (ASR) transcripts, and orthographically corrupted text. We systematically evaluate fine-tuned encoder-only models (BanglaBERT and XLM-R) alongside instruction-tuned decoder-only large language models (Llama 3 and Gemma 3). Our results reveal a clear architectural trade-off: encoder models achieve higher performance on clean text but degrade substantially under noise, whereas decoder-only LLMs are markedly more robust, particularly when event triggers are corrupted. We further show that embedding annotation guidelines during instruction tuning establishes a higher performance baseline on noisy text but yields inconsistent reductions in performance degradation across noisy conditions. Finally, model scaling consistently improves the robustness of decoder-only LLMs, while combined training on clean and noisy data serves as an effective regularization strategy that disproportionately benefits encoder architectures, significantly narrowing the robustness gap.",
+      "authors": [
+        "Tanvir Ahmed Sijan",
+        "S. M Golam Rifat",
+        "Nayeemul Islam",
+        "Md. Musfique Anwar"
+      ],
+      "published": "2026-06-29T21:03:32Z",
+      "updated": "2026-06-29T21:03:32Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2606.30914v1",
+      "pdf_url": "https://arxiv.org/pdf/2606.30914v1",
+      "comment": "17 pages, 8 figures",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.7177,
+          "matched": [
+            "robustness",
+            "robust",
+            "training"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.5911,
+          "matched": [
+            "robustness",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.7063,
+        "relevance": 0.6924,
+        "quality": 0.69,
+        "novelty": 0.8008,
+        "freshness": 0.7635
+      },
+      "quality_signals": [
+        "code available",
+        "baseline comparison",
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Decoder-only large language models exhibit superior robustness to noisy Bangla text in event detection compared to encoder-only models, especially under trigger corruption, with combined training on clean and noisy data narrowing the robustness gap.",
+        "problem": "Event detection systems for Bangla are predominantly evaluated on clean text, lacking robustness assessments under real-world noise such as ASR transcription errors and orthographic corruption.",
+        "method": "The study introduces a generalized Bangla news event ontology and benchmark dataset, systematically evaluates encoder-only (BanglaBERT, XLM-R) and decoder-only (Llama 3, Gemma 3) models under clean, ASR, and simulated orthographic noise, and explores instruction tuning with embedded annotation guidelines and combined training strategies.",
+        "evidence": "Empirical results show encoder models outperform on clean text but degrade significantly under noise, while decoder-only LLMs maintain higher robustness, with model scaling and combined training further improving performance, supported by statistical significance tests such as McNemar’s test.",
+        "limitations": "The paper does not provide detailed ablation on the impact of different noise levels on decoder-only LLMs’ robustness nor extensive analysis on the inconsistency of annotation guideline benefits across noise conditions.",
+        "why_for_you": "This work offers critical insights into architectural trade-offs and training strategies for robust event detection in low-resource languages, directly informing efficient adversarial training and trustworthy LLM deployment under noisy real-world conditions.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Decoder-only LLMs like Llama 3 and Gemma 3 demonstrate markedly stronger robustness to both real-world ASR transcription noise and simulated orthographic noise compared to encoder-only models such as BanglaBERT and XLM-R, especially when event triggers are corrupted."
+          },
+          {
+            "icon": "🛡️",
+            "text": "Instruction tuning with embedded annotation guidelines in code-format prompts establishes a higher baseline performance on noisy text but yields inconsistent reductions in performance degradation across different noisy conditions."
+          },
+          {
+            "icon": "📉",
+            "text": "Combined training on clean and noisy data acts as an effective regularization strategy that disproportionately benefits encoder architectures, significantly narrowing the robustness gap between encoder-only and decoder-only models."
+          }
+        ],
+        "overview": "This paper addresses the underexplored problem of robustness in Bangla event detection systems under real-world noise conditions, including ASR transcription errors and orthographic corruption. The authors develop a generalized news-domain event ontology and release a benchmark dataset of 9,979 annotated sentences spanning clean news text, ASR transcripts, and synthetically corrupted text. They systematically compare encoder-only models (BanglaBERT, XLM-R) and decoder-only LLMs (Llama 3, Gemma 3) across these noisy conditions. The study formulates event detection as token classification for encoders and structured code generation for decoders, employing instruction tuning with and without embedded annotation guidelines. Results reveal a clear architectural trade-off: encoder models excel on clean text but degrade sharply under noise, whereas decoder-only LLMs maintain robustness, particularly when event triggers are corrupted. Model scaling improves decoder robustness, while combined training on clean and noisy data effectively regularizes encoders, narrowing the robustness gap. Statistical significance tests confirm these findings. This comprehensive evaluation highlights the importance of noise-aware training and model selection for robust event detection in low-resource languages.",
+        "methodology": [
+          {
+            "title": "Dataset Construction and Annotation",
+            "detail": "The authors develop a generalized Bangla news event ontology covering 40 event subtypes and annotate 9,979 sentences from clean news text and ASR transcripts, ensuring balanced topic representation and multi-label stratified splits for training, validation, and testing."
+          },
+          {
+            "title": "Model Architectures and Formulations",
+            "detail": "Encoder-only models (BanglaBERT, XLM-R) are fine-tuned for token classification to detect event triggers, while decoder-only LLMs (Llama 3, Gemma 3) are instruction-tuned to perform structured code generation representing event extraction, with prompts optionally embedding annotation guidelines as Python docstrings."
+          },
+          {
+            "title": "Noise Simulation and Evaluation Protocol",
+            "detail": "Orthographic noise is simulated using an error generation algorithm reflecting common Bangla typographical patterns at varying word corruption rates, complemented by real-world ASR transcript noise; models are evaluated on clean, ASR, and orthographically corrupted test sets using exact trigger boundary and event type matching."
+          },
+          {
+            "title": "Instruction Tuning and Negative Sampling",
+            "detail": "Decoder-only LLMs are instruction-tuned with a 1:5 positive-to-negative sampling ratio, where negative samples provide contrastive supervision to suppress hallucinated predictions; two prompting settings are compared: with and without embedded annotation guidelines."
+          },
+          {
+            "title": "Combined Training Strategy",
+            "detail": "Models are trained on either clean data alone or a combined dataset of clean and noisy (ASR) data to assess the impact of joint exposure on robustness, with performance degradation measured across noise conditions."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Architectural Trade-off in Robustness",
+            "detail": "Encoder-only models rely on precise token-level trigger localization, which yields high accuracy on clean text but is vulnerable to lexical corruption; decoder-only LLMs generate structured event representations conditioned on instruction prompts, enabling greater tolerance to noisy inputs and corrupted triggers. No explicit equations or causal models are provided."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Model Evaluation on Clean, ASR, and Orthographic Noise",
+            "detail": "Encoder-only (BanglaBERT, XLM-R) and decoder-only (Llama 3, Gemma 3) models are evaluated on three test sets: Clean Test (news text), ASR Test (real-world transcripts), and Ortho Test (simulated orthographic noise at 10%-40% word corruption rates), using exact match metrics for trigger boundaries and event types."
+          },
+          {
+            "title": "Instruction Tuning Ablation",
+            "detail": "Decoder-only LLMs are instruction-tuned with and without embedded annotation guidelines in prompts to assess their effect on baseline performance and robustness under noise, revealing higher baseline performance but inconsistent robustness improvements."
+          },
+          {
+            "title": "Model Scaling Impact",
+            "detail": "Scaling decoder-only LLMs from 4B to 8B parameters consistently improves robustness to noisy inputs, whereas scaling encoder-only models yields limited robustness gains despite better clean-text performance."
+          },
+          {
+            "title": "Combined Training Effectiveness",
+            "detail": "Training on combined clean and noisy data significantly reduces performance degradation under noise, with disproportionately larger benefits observed for encoder-only models, effectively narrowing the robustness gap with decoder-only LLMs."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Encoder vs Decoder Performance Trade-off",
+            "detail": "Encoder-only models outperform decoder-only LLMs on clean Bangla news text event detection but suffer substantial performance drops under ASR and orthographic noise, while decoder-only LLMs maintain higher accuracy, especially when event triggers are corrupted."
+          },
+          {
+            "title": "Instruction Tuning with Annotation Guidelines",
+            "detail": "Embedding detailed annotation guidelines in instruction tuning prompts raises the baseline performance of decoder-only LLMs on noisy text but does not consistently reduce performance degradation across different noise types."
+          },
+          {
+            "title": "Model Scaling Benefits",
+            "detail": "Increasing decoder-only LLM size from 4B to 8B parameters yields consistent robustness improvements, whereas encoder-only model scaling improves clean-text accuracy but offers limited noise robustness gains."
+          },
+          {
+            "title": "Combined Training as Regularization",
+            "detail": "Joint training on clean and noisy datasets acts as an effective regularizer, significantly mitigating noise-induced performance degradation, with encoder-only models benefiting disproportionately and narrowing the robustness gap with decoder-only LLMs."
+          },
+          {
+            "title": "Statistical Significance of Robustness Differences",
+            "detail": "Pairwise McNemar’s exact tests at 40% word corruption rate confirm that decoder-only LLMs significantly outperform encoder-only models under trigger corruption and context corruption noise conditions."
+          }
+        ],
+        "contributions": [
+          "Development of a generalized Bangla news event ontology and release of a 9,979-sentence benchmark dataset spanning clean, ASR, and orthographically corrupted text.",
+          "Systematic evaluation of encoder-only and decoder-only architectures with varying parameter sizes under multiple noisy conditions for Bangla event detection.",
+          "Application of instruction tuning with embedded annotation guidelines for structured code generation in decoder-only LLMs.",
+          "Comprehensive robustness analysis under real-world ASR noise and simulated orthographic noise, highlighting architectural trade-offs.",
+          "Demonstration that combined training on clean and noisy data effectively regularizes models and narrows robustness gaps."
+        ],
+        "limitations": [
+          "Lack of detailed ablation on the impact of varying noise levels on decoder-only LLM robustness.",
+          "Inconsistent improvements from embedding annotation guidelines during instruction tuning are not fully analyzed or explained.",
+          "Limited exploration of encoder model scaling effects on robustness beyond clean-text performance.",
+          "No explicit mechanistic or causal modeling of robustness differences between architectures."
+        ],
+        "open_questions": [
+          "How can instruction tuning be optimized to consistently improve robustness across diverse noisy conditions in decoder-only LLMs?",
+          "What architectural or training modifications can further enhance encoder model robustness to real-world noise in low-resource languages?",
+          "Can hybrid encoder-decoder architectures leverage the strengths of both paradigms to improve event detection robustness?",
+          "How do different types and degrees of noise interact with model scale and training strategies to affect robustness?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "robustness",
+          "robust",
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-01T12:47:45.211812+00:00"
+    },
+    {
+      "id": "2606.31801",
+      "title": "RAISE: LLM-based Automated Heuristic Design with Robust Adversary Instance Search",
+      "abstract": "Automated Heuristic Design (AHD) with Large Language Models (LLMs) has shown remarkable progress in discovering high-quality heuristics. However, existing LLM-based AHD methods optimize heuristics for a fixed training instance set and may fail catastrophically when deployed under real-world distributional shifts. We propose Robust Adversary Instance Search (RAISE), a framework that integrates constrained worst-case instance search within a principled neighborhood of the training distribution into the LLM-based evolutionary search loop. RAISE treats robust AHD as a constrained adversarial instance search problem: the outer loop evolves heuristics via LLM operators, while an LLM-free inner loop efficiently identifies hard instances within an epsilon-ball around the training instance set using a basis distribution parameterization with boundary projection. Comprehensive experiments on Online Bin Packing (OBP), Online Job Shop Scheduling (OJSP), and Online Vehicle Routing (OVRP) across five distribution families demonstrate that existing LLM-based AHD methods degrade by up to 19 times under distribution shift, while RAISE consistently maintains strong performance across all tested distributions and problem scales",
+      "authors": [
+        "Fei Liu",
+        "Alessio Figalli",
+        "Patrick Owen",
+        "Nicola Serra"
+      ],
+      "published": "2026-06-30T15:19:27Z",
+      "updated": "2026-06-30T15:19:27Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2606.31801v1",
+      "pdf_url": "https://arxiv.org/pdf/2606.31801v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.7617,
+          "matched": [
+            "adversarial",
+            "robust",
+            "training"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.627,
+        "relevance": 0.6094,
+        "quality": 0.53,
+        "novelty": 0.8135,
+        "freshness": 0.8722
+      },
+      "quality_signals": [
+        "experiments",
+        "formal bound",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "RAISE integrates constrained adversarial instance search into LLM-based evolutionary heuristic design, achieving robust performance under distributional shifts across multiple online optimization problems.",
+        "problem": "Existing LLM-based Automated Heuristic Design methods optimize heuristics on fixed training instance sets and fail catastrophically under real-world distributional shifts.",
+        "method": "RAISE formulates robust heuristic design as a constrained minimax problem with an outer LLM-driven heuristic evolution loop and an inner LLM-free adversarial instance search within an ε-ball around the training distribution.",
+        "evidence": "Experiments on Online Bin Packing, Job Shop Scheduling, and Vehicle Routing show RAISE maintains strong performance across five distribution families and problem scales, while existing methods degrade by up to 19× under distribution shift.",
+        "limitations": "The paper does not provide explicit computational cost comparisons or detailed analysis of RAISE’s scalability to very large problem instances beyond tested scales.",
+        "why_for_you": "RAISE offers a principled and efficient framework to improve robustness of LLM-based heuristic design against distributional uncertainty, addressing a critical gap in deploying learned heuristics in dynamic real-world environments.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "RAISE achieves an average waste ratio of 1.95% on Online Bin Packing under distributional shifts, outperforming state-of-the-art LLM-based methods like EoH-S (2.13%) and MoH (3.86%), demonstrating superior robustness."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The inner adversarial instance search uses a nine-basis distribution parameterization with boundary projection to efficiently identify worst-case instances within an ε-ball, ensuring controlled divergence from the nominal training distribution."
+          },
+          {
+            "icon": "📉",
+            "text": "Ablation studies show removing the ε-mapping boundary projection causes catastrophic degradation (waste ratio rising from 1.95% to 7.16%), confirming the necessity of constrained adversarial search for robust heuristic evolution."
+          }
+        ],
+        "overview": "The paper addresses the brittleness of LLM-based Automated Heuristic Design (AHD) methods that optimize heuristics on fixed training distributions but fail under distributional shifts common in real-world deployment. RAISE proposes a bi-level evolutionary framework where the outer loop uses LLM operators to evolve heuristics, and the inner loop performs an LLM-free adversarial instance search constrained within an ε-ball around the nominal training instances. This constrained search identifies hard instances that expose heuristic weaknesses without drifting into unrealistic distributions. The approach is validated on three online combinatorial optimization problems—Online Bin Packing, Job Shop Scheduling, and Vehicle Routing—across five distinct distribution families and multiple problem scales. Results show that existing LLM-based AHD methods degrade up to 19× under distribution shifts, whereas RAISE consistently maintains strong performance. Ablations confirm the critical role of the ε-ball constraint, basis distribution parameterization, and boundary projection in achieving robustness. Thus, RAISE effectively balances worst-case robustness and nominal performance, enabling reliable heuristic design under uncertainty.",
+        "methodology": [
+          {
+            "title": "Outer Loop: LLM-driven Heuristic Evolution",
+            "detail": "Uses Large Language Models as evolutionary operators to generate, recombine, and refine heuristic functions iteratively. The population of heuristics is evolved by exploration (diversity generation) and exploitation (refinement and combination), guided by performance evaluations on instance sets."
+          },
+          {
+            "title": "Inner Loop: Adversarial Instance Search",
+            "detail": "An LLM-free optimization that searches for worst-case problem instances within an ε-ball around the nominal training set. It uses a nine-basis distribution parameterization and boundary projection to efficiently generate hard instances that challenge heuristics without exceeding distributional constraints."
+          },
+          {
+            "title": "Distributional Robustness Formulation",
+            "detail": "Formulates heuristic design as a constrained minimax optimization: maximize heuristic performance against the worst-case instance within a constrained uncertainty set defined by normalized ℓ1 distance between instances, approximating distributional robustness at the instance level."
+          },
+          {
+            "title": "Basis Distribution Parameterization and Boundary Projection",
+            "detail": "Represents adversarial instances as mixtures of nine basis distributions parameterized by a gene vector in [0,1]^18, with boundary projection ensuring generated instances remain within the ε-ball, preventing over-optimization on unrealistic extremes."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Constrained Adversarial Instance Search Mechanism",
+            "detail": "RAISE’s inner loop solves a constrained minimization problem to find the hardest instance s′ within an ε-ball around nominal instances S, defined by normalized ℓ1 distance. This ensures adversarial instances are close to the training distribution, balancing robustness and practical relevance."
+          },
+          {
+            "title": "No Explicit Theoretical Equations Beyond Instance-Level Robustness",
+            "detail": "The paper does not provide explicit equations beyond the instance-level robust optimization formulation h* = arg max_h min_{s' ∈ B_ε(S)} eval(h, s'), nor detailed causal or geometric claims."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Online Bin Packing (OBP)",
+            "detail": "Trained on 5 Weibull instances; tested on 60 datasets combining 4 bin capacities, 3 problem sizes, and 5 item size distributions (Uniform, Normal, Lognormal, Exponential, Triangular). Performance measured by waste ratio (%), lower is better."
+          },
+          {
+            "title": "Online Job Shop Scheduling (OJSP)",
+            "detail": "Trained on 5 uniform distribution instances with 10 machines and 20 jobs; tested on 20 datasets varying machines (10, 20), jobs (20, 50), and 5 distributions. Objective is normalized makespan minimization."
+          },
+          {
+            "title": "Online Vehicle Routing Problem (OVRP)",
+            "detail": "Trained on 5 instances with 10 vehicles and 50 customers; tested on 20 datasets varying vehicles (10, 20), customers (50, 100), and 5 demand distributions. Objective is normalized route length ratio minimization."
+          },
+          {
+            "title": "Ablation Study on OBP",
+            "detail": "Evaluated impact of removing robust search, distribution constraints, basis distributions, and ε-mapping. Each removal consistently degraded out-of-distribution robustness, with ε-mapping removal causing catastrophic performance loss."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Robustness Under Distribution Shift",
+            "detail": "RAISE maintains low waste ratios (e.g., 1.95% average on OBP) across five shifted distributions, outperforming prior LLM-based AHD methods that degrade up to 19×, confirming effectiveness of constrained adversarial instance search."
+          },
+          {
+            "title": "Critical Role of ε-Mapping",
+            "detail": "Removing the ε-ball boundary projection increases average waste ratio by +4.01 (205%) and causes catastrophic degradation on Triangular distribution (2.43% to 10.23%), demonstrating the necessity of constraining adversarial search."
+          },
+          {
+            "title": "Importance of Basis Distribution Parameterization",
+            "detail": "Replacing the nine-basis parameterization with flat-vector mutation doubles average waste ratio (+2.03, 104%), indicating that structured distributional diversity is essential to expose hard instances effectively."
+          },
+          {
+            "title": "Necessity of Robust Search Procedure",
+            "detail": "Ablating the adversarial inner loop entirely degrades average performance by +1.65 (85%), confirming that worst-case evaluation during heuristic evolution is critical for cross-distribution reliability."
+          }
+        ],
+        "contributions": [
+          "Formulation of robust Automated Heuristic Design as a constrained minimax optimization integrating adversarial instance search within an ε-ball uncertainty set.",
+          "Development of a bi-level evolutionary framework combining LLM-driven heuristic evolution with an LLM-free adversarial instance search using basis distribution parameterization and boundary projection.",
+          "Comprehensive empirical validation on three online combinatorial optimization problems across multiple distributions and scales, demonstrating superior robustness compared to state-of-the-art LLM-based AHD methods.",
+          "Ablation studies identifying critical components (ε-mapping, basis distributions, robust search) necessary for robust performance under distributional shifts."
+        ],
+        "limitations": [
+          "Lack of explicit computational cost and scalability analysis for RAISE compared to competing methods.",
+          "Experiments limited to three online optimization problems; generalization to other problem domains remains untested.",
+          "Dependence on normalized ℓ1 distance as the instance similarity metric without exploration of alternative metrics or their impact.",
+          "No theoretical guarantees or formal bounds on robustness or convergence properties of the proposed framework."
+        ],
+        "open_questions": [
+          "How does RAISE scale computationally and performance-wise to very large-scale or high-dimensional optimization problems?",
+          "Can alternative instance similarity metrics or uncertainty set definitions improve robustness or efficiency of adversarial instance search?",
+          "What are the theoretical convergence properties and robustness guarantees of the bi-level evolutionary framework?",
+          "How transferable is RAISE to other heuristic design tasks beyond the tested online combinatorial optimization problems?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "adversarial",
+          "robust",
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-01T12:47:45.211812+00:00"
+    },
+    {
+      "id": "2606.30704",
+      "title": "From Search to Synthesis: Training LLMs as Zero-Shot Workflow Generators",
+      "abstract": "Large language models (LLMs) excel across a wide range of tasks, yet their instance-specific solutions often lack the structural consistency needed for reliable deployment. Workflows that encode recurring algorithmic patterns at the task level provide a principled framework, offering robustness across instance variations, interpretable traces for debugging, and reusability across problem instances. However, manually designing such workflows requires significant expertise and effort, limiting their broader application. While automatic workflow generation could address this bottleneck, existing methods either produce instance-specific solutions without learning task-level patterns, or cannot generalize beyond their training configurations. We present MetaFlow, which casts workflow generation as a meta-learning problem: given a task and an operator set, the model learns to compose solution strategies. MetaFlow trains in two stages: supervised fine-tuning on synthetic workflow data, followed by reinforcement learning with verifiable rewards (RLVR) that uses execution feedback across problem instances in the task to improve end-to-end success. The resulting model produces effective workflows for trained tasks and exhibits strong generalization to untrained tasks and novel operator sets. Across benchmarks in question answering, code generation, and mathematical reasoning, MetaFlow achieves performance comparable to state-of-the-art baselines on in-domain tasks with single inference, while demonstrating remarkable zero-shot generalization capabilities on out-of-domain tasks and operator sets.",
+      "authors": [
+        "Gan Luo",
+        "Zihan Qin",
+        "Bin Dong",
+        "Wotao Yin"
+      ],
+      "published": "2026-06-29T14:17:09Z",
+      "updated": "2026-06-29T14:17:09Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2606.30704v1",
+      "pdf_url": "https://arxiv.org/pdf/2606.30704v1",
+      "comment": "35 pages, 8 figures",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.6099,
+          "matched": [
+            "robustness",
+            "fine-tuning",
+            "training"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.2914,
+          "matched": [
+            "generalization",
+            "generalization"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.1993,
+          "matched": [
+            "robustness",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6188,
+        "relevance": 0.5861,
+        "quality": 0.61,
+        "novelty": 0.7966,
+        "freshness": 0.7232
+      },
+      "quality_signals": [
+        "code available",
+        "baseline comparison",
+        "benchmark evaluation"
+      ],
+      "summary": {
+        "takeaway": "MetaFlow effectively generates workflows for LLMs, enhancing generalization across tasks.",
+        "problem": "Existing workflow generation methods lack structural consistency and generalization capabilities.",
+        "method": "MetaFlow employs a two-stage training process combining supervised fine-tuning and reinforcement learning with verifiable rewards.",
+        "evidence": "MetaFlow achieves an average accuracy of 78.8, competitive with state-of-the-art methods while requiring single-inference generation.",
+        "limitations": "The model's performance can suffer from syntax errors affecting all test instances due to its task-level generation approach.",
+        "why_for_you": "This research aligns with interests in efficient adversarial training and statistical theory for LLMs.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4o-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "MetaFlow demonstrates strong zero-shot generalization capabilities, effectively generating workflows for untrained tasks and novel operator sets, showcasing its adaptability."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The two-stage training process of MetaFlow, involving supervised fine-tuning followed by reinforcement learning with verifiable rewards, enhances workflow generation efficiency."
+          },
+          {
+            "icon": "📉",
+            "text": "MetaFlow's average accuracy of 78.8 is competitive with existing methods, indicating its effectiveness in generating reusable workflows across diverse domains."
+          }
+        ],
+        "overview": "The research addresses the challenge of generating consistent and reusable workflows for LLMs, which often produce instance-specific solutions. MetaFlow reformulates workflow generation as a meta-learning problem, allowing the model to learn from a diverse set of tasks and operator combinations. The two-stage training process, which includes supervised fine-tuning and reinforcement learning with verifiable rewards, enables the model to produce effective workflows that generalize well to untrained tasks. The evidence shows that MetaFlow achieves competitive performance across various benchmarks, validating its approach to automatic workflow generation.",
+        "methodology": [
+          {
+            "title": "Supervised Fine-Tuning (SFT)",
+            "detail": "MetaFlow begins with SFT on a dataset of task-operator pairs and corresponding workflows, teaching the model to generate syntactically correct workflows. This phase ensures that the model can produce well-formed code, setting the stage for effective reinforcement learning."
+          },
+          {
+            "title": "Reinforcement Learning with Verifiable Reward (RLVR)",
+            "detail": "Following SFT, RLVR optimizes workflow effectiveness by generating candidate workflows, executing them, and calculating a reward score based on their success rates. This process refines the model's ability to produce high-performing workflows."
+          },
+          {
+            "title": "Policy Gradient Optimization",
+            "detail": "The RLVR phase employs policy gradient algorithms to update the model's parameters based on the performance of generated workflows. This approach allows for continuous improvement and adaptation to new tasks."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Reward Calculation",
+            "detail": "The reward score for each workflow is computed as the average success rate over multiple instances, guiding the model's learning process and ensuring that it focuses on effective workflow generation."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Benchmark Evaluation",
+            "detail": "MetaFlow was evaluated on question answering (HotpotQA, DROP), code generation (MBPP, HumanEval), and mathematical reasoning (GSM8K, MATH) benchmarks, achieving an average accuracy of 78.8."
+          },
+          {
+            "title": "Comparison with Baselines",
+            "detail": "MetaFlow's performance was compared against manually designed workflows and automated methods like ADAS and AFlow, demonstrating competitive results while requiring only single-inference generation."
+          },
+          {
+            "title": "Zero-Shot Generalization",
+            "detail": "The model exhibited remarkable zero-shot generalization capabilities, successfully solving programming problems with novel operator combinations not seen during training."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Competitive Accuracy",
+            "detail": "MetaFlow achieved an average accuracy of 78.8, closely trailing ScoreFlow's 82.5, indicating its effectiveness in generating workflows."
+          },
+          {
+            "title": "Generalization Across Domains",
+            "detail": "The model demonstrated strong performance across diverse domains, validating its ability to generalize workflows effectively."
+          },
+          {
+            "title": "Impact of Syntax Errors",
+            "detail": "The task-level generation approach led to a 31% failure rate in workflow execution, highlighting the risks associated with syntax errors affecting overall accuracy."
+          }
+        ],
+        "contributions": [
+          "Introduced MetaFlow as a meta-learning approach for workflow generation.",
+          "Demonstrated the effectiveness of a two-stage training process combining supervised fine-tuning and reinforcement learning.",
+          "Validated the model's strong generalization capabilities across various tasks and operator sets."
+        ],
+        "limitations": [
+          "The model's performance is sensitive to syntax errors, which can affect all test instances due to its task-level generation approach.",
+          "The reliance on specific operator sets may limit flexibility in generating workflows for entirely novel tasks."
+        ],
+        "open_questions": [
+          "How can MetaFlow be adapted to improve robustness against syntax errors in workflow generation?",
+          "What additional operator sets could enhance the model's flexibility and generalization capabilities?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4o-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "robustness",
+          "fine-tuning",
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-01T12:47:45.211812+00:00"
+    },
+    {
+      "id": "2606.31099",
+      "title": "Seeing Through Multiple Views: Parameter-Efficient Fine-Tuning via Selective Neurons for Consistent Radiology Report Generation",
+      "abstract": "Recent years have seen substantial advances in radiology report generation (RRG), yet existing approaches predominantly adopt direct feature fusion when handling multi-view X-ray images. Such approaches overlook the potential clinical inconsistencies and inaccuracies arising when a single model processes different views, adversely impacting performance and clinical reliability. To this end, we introduce View-PNDF (View-specific Pattern Neuron Detection and Fine-tuning), a parameter-efficient framework that fosters view-consistent report generation from a neuronal perspective. Specifically, View-PNDF comprises: (i) a view-specific neuron detection module identifying neurons responsive to particular views, (ii) a verification module quantifying the existence of these neurons, and (iii) a selective fine-tuning strategy strengthening detected neurons while preserving view-agnostic representations. By updating only view-specific neurons, View-PNDF achieves consistent diagnoses across different views with reduced computational costs. Subsequently, we employ Large Language Models (LLMs) to consolidate the view-specific reports into a complete radiology report. Furthermore, we use traditional Natural Language Generation (NLG) metrics-based assessment on integrated reports for baseline comparison and employ LLM-based assessment (e.g., GPT-4o) on view-specific reports to capture clinical significance. Extensive experiments on two medical RRG benchmarks demonstrate that View-PNDF substantially improves view-specific chest X-ray report generation quality while maintaining robust general-view performance.",
+      "authors": [
+        "Yucheng Chen",
+        "Jinjing Zhu",
+        "Yang Yu",
+        "Yufei Shi",
+        "Hane Naghshbandi",
+        "Jinhua Liu",
+        "Angela S. Koh",
+        "Fang Fen",
+        "Kian Eng Ong",
+        "Si Yong Yeo"
+      ],
+      "published": "2026-06-30T03:48:20Z",
+      "updated": "2026-06-30T03:48:20Z",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CV",
+      "abs_url": "https://arxiv.org/abs/2606.31099v1",
+      "pdf_url": "https://arxiv.org/pdf/2606.31099v1",
+      "comment": "Accepted by MICCAI2026",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.6108,
+          "matched": [
+            "robust",
+            "fine-tuning"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.1971,
+          "matched": [
+            "reliability",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5737,
+        "relevance": 0.5281,
+        "quality": 0.53,
+        "novelty": 0.8433,
+        "freshness": 0.8036
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation",
+        "experiments"
+      ],
+      "summary": {
+        "takeaway": "View-PNDF enhances radiology report generation by optimizing view-specific neurons for consistent output across different X-ray views.",
+        "problem": "Existing multi-view radiology report generation methods struggle with inconsistencies due to direct feature fusion.",
+        "method": "View-PNDF employs a neuron detection and fine-tuning strategy to improve report consistency while reducing computational costs.",
+        "evidence": "Experiments on IU-XRay and MIMIC-CXR datasets show that View-PNDF significantly improves report quality, with lateral view scores increasing by up to 4.2 points.",
+        "limitations": "The study does not explore the impact of View-PNDF on other imaging modalities beyond X-rays.",
+        "why_for_you": "This research is relevant for developing efficient and reliable LLMs in medical applications, particularly in adversarial training contexts.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4o-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "View-PNDF identifies and fine-tunes less than 5% of neurons, leading to substantial improvements in report generation consistency across different X-ray views."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The framework includes a View-specific Neuron Detection module that identifies neurons critical for specific views, enhancing model interpretability and performance."
+          },
+          {
+            "icon": "📉",
+            "text": "Ablation studies reveal that view-specific neuron deactivation leads to significant performance drops, confirming the importance of targeted neuron optimization."
+          }
+        ],
+        "overview": "The research addresses the challenge of inconsistencies in radiology report generation from multi-view X-ray images. By introducing View-PNDF, the authors propose a novel framework that detects and fine-tunes view-specific neurons, thereby enhancing report consistency and clinical reliability. The strongest evidence comes from extensive experiments on two medical benchmarks, demonstrating significant improvements in report quality while maintaining general performance across views.",
+        "methodology": [
+          {
+            "title": "View-specific Neuron Detection (VND)",
+            "detail": "This module identifies neurons that are responsive to specific X-ray views by measuring their influence on model outputs through perturbation effects."
+          },
+          {
+            "title": "Neuron Verification (VNV)",
+            "detail": "VNV quantifies the existence of identified neurons, ensuring that only those contributing to view-specific patterns are fine-tuned."
+          },
+          {
+            "title": "Neuron Fine-tuning (VNF)",
+            "detail": "This strategy selectively updates the identified neurons while preserving view-agnostic representations, optimizing performance without retraining the entire model."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Neuron Influence Measurement",
+            "detail": "The influence of a neuron is defined as the difference in model output when the neuron is deactivated, allowing for targeted neuron optimization."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Dataset Evaluation",
+            "detail": "The model was evaluated on IU-XRay and MIMIC-CXR datasets, with specific attention to lateral and frontal view performance."
+          },
+          {
+            "title": "NLG Metrics Assessment",
+            "detail": "Integrated reports were assessed using BLEU, METEOR, and ROUGE-L, while view-specific reports were evaluated using LLM-based metrics like GPT-4o."
+          },
+          {
+            "title": "Ablation Studies",
+            "detail": "Ablation studies confirmed the effectiveness of VND and VNF, showing significant performance drops with view-specific neuron deactivation."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Improved Report Quality",
+            "detail": "View-PNDF achieved a BLEU-1 score of 0.510 on IU-XRay, outperforming baseline models consistently across all metrics."
+          },
+          {
+            "title": "Lateral View Performance",
+            "detail": "Lateral view scores improved significantly, with increases of up to 4.2 points on MIMIC-CXR when using View-PNDF."
+          },
+          {
+            "title": "Clinical Validity of LLM Evaluation",
+            "detail": "LLM-based evaluations revealed clear performance differences, highlighting the inadequacy of traditional NLG metrics in capturing clinical nuances."
+          }
+        ],
+        "contributions": [
+          "Introduction of View-PNDF framework for parameter-efficient fine-tuning in radiology report generation.",
+          "Demonstration of neuron-level analysis to address view-specific discrepancies in multi-view imaging.",
+          "Establishment of LLM-based evaluation methods for assessing clinical validity in generated reports."
+        ],
+        "limitations": [
+          "The study does not explore the impact of View-PNDF on other imaging modalities beyond X-rays.",
+          "Limited generalizability of findings to other types of medical report generation tasks."
+        ],
+        "open_questions": [
+          "How can the View-PNDF framework be adapted for other imaging modalities beyond X-rays?",
+          "What are the implications of view-specific neuron optimization on the interpretability of model decisions in clinical settings?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4o-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "robust",
+          "fine-tuning"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-01T12:47:45.211812+00:00"
     },
     {
       "id": "2606.28823",
@@ -1125,289 +2027,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-06-30T19:46:14.602485+00:00"
-    },
-    {
-      "id": "2606.29863",
-      "title": "KbSD: Knowledge Boundary aware Self-Distillation for Behavioral Calibration in Agentic Search",
-      "abstract": "Agentic search equips large language models with dynamic retrieval abilities, but existing reinforcement learning methods remain limited by reward sparsity in knowledge boundary calibration -- deciding when to trust parametric memory, when to rely on retrieved evidence, and when to abstain. Binary rewards can penalize undesirable outcomes, but provide little guidance on the reasoning process required to make calibrated decisions across different knowledge states. To address this, we propose KbSD (Knowledge boundary Self-Distillation), a framework that tackles this limitation through dense token-level supervision, outcome-level sparse rewards, and quadrant-adaptive optimization. KbSD constructs a hint-augmented teacher, architecturally identical to the student, that receives explicit knowledge boundary signals -- including parametric certainty, retrieval quality, and ground-truth answers -- to generate calibrated reasoning demonstrations. This information-asymmetric self-distillation enables dense supervision without requiring a larger external model. To further account for the heterogeneous reasoning distributions across knowledge states, we introduce a quadrant-adaptive distillation objective: reverse KL for concentrated integration, forward KL for diverse refusal, and Pareto-optimal bidirectional KL for asymmetric quadrants requiring both precision and coverage. Experiments on multiple benchmarks show that KbSD consistently improves both task accuracy and hallucination mitigation over strong baselines, with the largest gains appearing in the challenging quadrants where sparse rewards are least informative.",
-      "authors": [
-        "Tao Feng",
-        "Xinke Jiang",
-        "Chao Wu"
-      ],
-      "published": "2026-06-29T06:56:18Z",
-      "updated": "2026-06-29T06:56:18Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2606.29863v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.29863v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "watch",
-          "score": 0.5651,
-          "matched": [
-            "self-distillation",
-            "token-level",
-            "distillation",
-            "self-distillation"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3291,
-          "matched": [
-            "calibration",
-            "hallucination"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5769,
-        "relevance": 0.5179,
-        "quality": 0.59,
-        "novelty": 0.8316,
-        "freshness": 0.7828
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "benchmark evaluation",
-        "experiments",
-        "formal bound"
-      ],
-      "summary": {
-        "takeaway": "KbSD introduces a quadrant-adaptive self-distillation framework that provides dense token-level supervision and tailored KL divergence objectives to improve knowledge boundary calibration in agentic search.",
-        "problem": "Existing reinforcement learning methods for agentic search suffer from sparse binary rewards that inadequately guide the reasoning process for calibrated decisions across heterogeneous knowledge states.",
-        "method": "KbSD constructs a hint-augmented teacher model identical to the student that receives explicit knowledge boundary signals to generate dense reasoning demonstrations and applies quadrant-adaptive KL objectives for optimized distillation.",
-        "evidence": "Experiments on nine benchmarks with Qwen2.5 models show KbSD consistently reduces unreliability rates and improves task accuracy and hallucination mitigation compared to strong baselines including KbPO and RL-based agents.",
-        "limitations": "The paper does not provide explicit analysis on the computational overhead of the self-distillation process or its applicability to models beyond Qwen2.5 and the tested datasets.",
-        "why_for_you": "KbSD’s approach to dense process-level supervision and quadrant-specific optimization directly addresses reward sparsity and heterogeneous reasoning distributions, advancing trustworthy on-policy distillation in agentic LLMs.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "KbSD’s quadrant-adaptive distillation uses reverse KL for concentrated integration (Q1), forward KL for diverse refusal (Q3), and bidirectional KL for asymmetric quadrants (Q2/Q4), effectively tailoring optimization to heterogeneous reasoning distributions."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The hint-augmented teacher model receives parametric certainty, retrieval quality, and ground-truth answers as explicit knowledge boundary signals, enabling dense token-level supervision without requiring a larger external teacher."
-          },
-          {
-            "icon": "📉",
-            "text": "Ablation studies show removing distillation loss or replacing quadrant-adaptive KL with fixed KL variants degrades performance, confirming the necessity of dense supervision and adaptive divergence objectives for reliable calibration."
-          }
-        ],
-        "overview": "Agentic search in LLMs requires calibrated decisions on when to trust parametric memory, rely on retrieved evidence, or abstain, but sparse binary rewards provide insufficient guidance for this complex reasoning. KbSD addresses this by introducing a self-distillation framework that leverages a hint-augmented teacher model to generate dense token-level supervision informed by explicit knowledge boundary signals. This dense supervision guides the student model through the full cognitive process of assessing internal certainty and retrieval quality. To handle the heterogeneous reasoning patterns across four knowledge boundary quadrants, KbSD employs quadrant-adaptive KL divergence objectives: reverse KL for unimodal integration, forward KL for diverse refusal, and bidirectional KL for asymmetric cases requiring both precision and coverage. Empirical results on nine diverse benchmarks with Qwen2.5 models demonstrate that KbSD consistently lowers unreliability rates and improves task accuracy and hallucination mitigation compared to strong baselines, with the largest gains in challenging quadrants where sparse rewards are least informative. Ablations validate the critical role of dense supervision and adaptive KL objectives, establishing KbSD as a robust method for behavioral calibration in agentic search.",
-        "methodology": [
-          {
-            "title": "Hint-Augmented Teacher Construction",
-            "detail": "KbSD builds a teacher model architecturally identical to the student that receives explicit knowledge boundary signals—parametric certainty, retrieval quality, and ground-truth answers—to produce calibrated reasoning demonstrations. This information asymmetry enables dense token-level supervision without requiring a larger external teacher model."
-          },
-          {
-            "title": "Quadrant-Adaptive Distillation Objective",
-            "detail": "The distillation loss adapts the KL divergence measure per knowledge quadrant: reverse KL for concentrated, unimodal integration in Q1; forward KL for diverse refusal behavior in Q3; and Pareto-optimal bidirectional KL for asymmetric quadrants Q2 and Q4 that require balancing precision and coverage."
-          },
-          {
-            "title": "Dense Token-Level Supervision",
-            "detail": "Beyond sparse outcome-level rewards, KbSD provides dense supervision at each reasoning step, guiding the agent through intermediate cognitive processes such as assessing internal certainty and retrieval relevance, thus addressing reward sparsity and enabling fine-grained behavioral calibration."
-          },
-          {
-            "title": "Training Setup and Optimization",
-            "detail": "KbSD is implemented on the VERL framework with GRPO optimizer, training Qwen2.5 models (3B and 7B) on synthesized data from HotpotQA and 2WikiMultiHopQA. Training uses batch size 128, 5 rollouts per query, learning rate 1e-6, and balances distillation and process rewards with coefficients γ=0.1 and λ=0.2."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Knowledge Boundary Quadrants",
-            "detail": "KbSD formalizes knowledge boundary calibration into four quadrants defined by internal knowledge reliability and retrieval quality: Q1 (both reliable, integrate), Q2 (rely on retrieval), Q3 (refuse to answer), and Q4 (rely on internal knowledge). Each quadrant exhibits distinct reasoning distribution characteristics requiring tailored optimization."
-          },
-          {
-            "title": "No Explicit Mechanistic Equations",
-            "detail": "The paper does not provide explicit mathematical equations or causal models beyond the quadrant taxonomy and KL divergence adaptations; the mechanism relies on empirical adaptation of divergence objectives to heterogeneous reasoning distributions."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Benchmark Evaluation",
-            "detail": "KbSD is evaluated on nine benchmarks spanning multi-hop QA (HotpotQA, 2WikiMultiHopQA, MuSiQue, Bamboogle), open-domain QA (NQ, TriviaQA, PopQA), and agentic reasoning (FRAMES, GAIA), using Qwen2.5 models at 3B and 7B scales with E5 dense retriever over 2018 Wikipedia."
-          },
-          {
-            "title": "Baselines and Metrics",
-            "detail": "Comparisons include standard RAG methods (Naive RAG, FS-RAG, FLARE), agentic RAG (ReAct, IRCoT, Self-RAG, CRAG), and RL-based agents (Search-R1, ARPO, AEPO, MEM1, KbPO). Metrics are F1 for task utility and unreliability rate (1 - (F1 + refusal rate)) for unsafe behaviors."
-          },
-          {
-            "title": "Ablation Studies",
-            "detail": "Ablations on Qwen2.5-3B show removing distillation loss or replacing quadrant-adaptive KL with fixed forward or reverse KL degrades performance, especially on benchmarks requiring diverse refusal or concentrated integration, confirming the importance of each design component."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Improved Reliability Across Scales",
-            "detail": "KbSD reduces unreliability rates from 64.32 to 47.60 on Qwen2.5-3B and from 57.99 to 41.18 on Qwen2.5-7B, demonstrating consistent reliability gains that scale with model size."
-          },
-          {
-            "title": "Superior Knowledge Boundary Calibration",
-            "detail": "KbSD outperforms Search-R1 and AEPO on TriviaQA and NQ benchmarks, showing substantial improvements in precise calibration of when to integrate, rely on retrieval, or refuse, especially in challenging quadrants with sparse rewards."
-          },
-          {
-            "title": "Necessity of Dense Supervision",
-            "detail": "Removing the distillation loss causes performance degradation across all benchmarks, indicating that dense token-level supervision is essential to overcome reward sparsity and guide intermediate reasoning."
-          },
-          {
-            "title": "Effectiveness of Quadrant-Adaptive KL",
-            "detail": "Replacing quadrant-adaptive KL with fixed forward or reverse KL harms performance, particularly on TriviaQA (diverse refusal) and 2WikiMultiHopQA (concentrated integration), validating the need for adaptive divergence objectives."
-          }
-        ],
-        "contributions": [
-          "Proposed KbSD, a self-distillation framework that leverages a hint-augmented teacher to provide dense token-level supervision for knowledge boundary calibration.",
-          "Introduced a quadrant-adaptive KL divergence objective tailored to heterogeneous reasoning distributions across four knowledge boundary quadrants.",
-          "Demonstrated consistent improvements in task accuracy and hallucination mitigation over strong baselines on nine diverse benchmarks.",
-          "Provided ablation studies validating the necessity of dense supervision and quadrant-adaptive optimization.",
-          "Released code to facilitate reproducibility and further research."
-        ],
-        "limitations": [
-          "Lack of explicit analysis on computational cost and efficiency of the self-distillation process.",
-          "Evaluation limited to Qwen2.5 models and selected QA and agentic reasoning benchmarks, leaving generalization to other architectures and tasks untested.",
-          "No detailed exploration of failure modes or qualitative analysis of reasoning trajectories.",
-          "Absence of explicit mechanistic or causal modeling beyond empirical KL divergence adaptations."
-        ],
-        "open_questions": [
-          "How does KbSD scale computationally and perform on larger or different LLM architectures beyond Qwen2.5?",
-          "Can the quadrant-adaptive distillation framework be extended to other agentic tasks beyond QA and retrieval-augmented generation?",
-          "What are the qualitative characteristics of the reasoning trajectories learned under dense supervision, and how do they differ across quadrants?",
-          "How robust is KbSD to noisy or adversarial retrieval evidence in real-world deployment scenarios?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive_i18n": {
-        "zh-CN": {
-          "signals": [
-            {
-              "icon": "🧠",
-              "text": "KbSD 的象限自适应蒸馏使用反向 KL（reverse KL）进行集中整合（Q1），正向 KL（forward KL）进行多样拒绝（Q3），以及双向 KL（bidirectional KL）处理不对称象限（Q2/Q4），有效地针对异质推理分布定制优化。"
-            },
-            {
-              "icon": "🛡️",
-              "text": "提示增强的教师模型接收参数确定性、检索质量和真实答案作为显式知识边界信号，实现密集的令牌级监督，无需更大的外部教师模型。"
-            },
-            {
-              "icon": "📉",
-              "text": "消融研究表明，移除蒸馏损失或用固定 KL 变体替代象限自适应 KL 会降低性能，确认了密集监督和自适应散度目标对于可靠校准的必要性。"
-            }
-          ],
-          "overview": "大型语言模型（LLMs）中的自主搜索需要对何时信任参数记忆、依赖检索证据或选择放弃做出校准决策，但稀疏的二元奖励无法为这一复杂推理提供充分指导。KbSD 通过引入一个利用提示增强教师模型生成基于显式知识边界信号的密集令牌级监督的自蒸馏框架来解决此问题。该密集监督引导学生模型完成评估内部确定性和检索质量的完整认知过程。为处理四个知识边界象限中异质的推理模式，KbSD 采用象限自适应 KL 散度目标：反向 KL 用于单峰整合，正向 KL 用于多样拒绝，双向 KL 用于需要兼顾精度和覆盖率的不对称象限。基于 Qwen2.5 模型在九个多样化基准上的实证结果表明，KbSD 持续降低不可靠率并提升任务准确率及幻觉缓解效果，相较强基线在奖励最稀疏的挑战性象限中获得最大提升。消融验证了密集监督和自适应 KL 目标的关键作用，确立了 KbSD 作为自主搜索行为校准的稳健方法。",
-          "methodology": [
-            {
-              "title": "提示增强教师构建",
-              "detail": "KbSD 构建了一个与学生模型结构相同的教师模型，接收显式知识边界信号——参数确定性、检索质量和真实答案，以生成校准的推理示范。这种信息不对称实现了密集的令牌级监督，无需更大的外部教师模型。"
-            },
-            {
-              "title": "象限自适应蒸馏目标",
-              "detail": "蒸馏损失根据知识象限调整 KL 散度度量：Q1 中用于集中单峰整合的反向 KL；Q3 中用于多样拒绝行为的正向 KL；以及 Q2 和 Q4 中需平衡精度与覆盖率的不对称象限采用帕累托最优的双向 KL。"
-            },
-            {
-              "title": "密集令牌级监督",
-              "detail": "除了稀疏的结果级奖励外，KbSD 在每个推理步骤提供密集监督，引导代理完成评估内部确定性和检索相关性等中间认知过程，从而解决奖励稀疏问题并实现细粒度行为校准。"
-            },
-            {
-              "title": "训练设置与优化",
-              "detail": "KbSD 基于 VERL 框架实现，采用 GRPO 优化器，训练 Qwen2.5 模型（3B 和 7B）使用 HotpotQA 和 2WikiMultiHopQA 合成数据。训练批量大小为 128，每个查询 5 次 rollout，学习率 1e-6，蒸馏与过程奖励权重系数分别为 γ=0.1 和 λ=0.2。"
-            }
-          ],
-          "mechanism": [
-            {
-              "title": "知识边界象限",
-              "detail": "KbSD 将知识边界校准形式化为由内部知识可靠性和检索质量定义的四个象限：Q1（两者均可靠，整合），Q2（依赖检索），Q3（拒绝回答），Q4（依赖内部知识）。每个象限表现出不同的推理分布特征，需定制优化。"
-            },
-            {
-              "title": "无显式机制方程",
-              "detail": "论文未提供除象限分类和 KL 散度调整外的显式数学方程或因果模型；机制依赖于对异质推理分布的散度目标的经验性调整。"
-            }
-          ],
-          "experiments": [
-            {
-              "title": "基准评估",
-              "detail": "KbSD 在九个基准上评估，涵盖多跳问答（HotpotQA、2WikiMultiHopQA、MuSiQue、Bamboogle）、开放域问答（NQ、TriviaQA、PopQA）和自主推理（FRAMES、GAIA），使用 Qwen2.5 3B 和 7B 模型，配合基于 2018 年维基百科的 E5 密集检索器。"
-            },
-            {
-              "title": "基线与指标",
-              "detail": "比较方法包括标准 RAG（Naive RAG、FS-RAG、FLARE）、自主 RAG（ReAct、IRCoT、Self-RAG、CRAG）和基于强化学习的代理（Search-R1、ARPO、AEPO、MEM1、KbPO）。指标为任务效用的 F1 和不安全行为的不可依赖率（1 - (F1 + 拒绝率)）。"
-            },
-            {
-              "title": "消融研究",
-              "detail": "在 Qwen2.5-3B 上的消融显示，移除蒸馏损失或用固定正向或反向 KL 替代象限自适应 KL 会降低性能，尤其在需要多样拒绝或集中整合的基准上，验证了各设计组件的重要性。"
-            }
-          ],
-          "findings": [
-            {
-              "title": "跨规模提升可靠性",
-              "detail": "KbSD 将 Qwen2.5-3B 的不可依赖率从 64.32 降至 47.60，Qwen2.5-7B 从 57.99 降至 41.18，展示了随模型规模增长的一致可靠性提升。"
-            },
-            {
-              "title": "卓越的知识边界校准",
-              "detail": "KbSD 在 TriviaQA 和 NQ 基准上优于 Search-R1 和 AEPO，显著提升了何时整合、依赖检索或拒绝的精确校准，尤其在奖励稀疏的挑战性象限中表现突出。"
-            },
-            {
-              "title": "密集监督的必要性",
-              "detail": "移除蒸馏损失导致所有基准性能下降，表明密集令牌级监督对于克服奖励稀疏并引导中间推理至关重要。"
-            },
-            {
-              "title": "象限自适应 KL 的有效性",
-              "detail": "用固定正向或反向 KL 替代象限自适应 KL 会损害性能，特别是在 TriviaQA（多样拒绝）和 2WikiMultiHopQA（集中整合）上，验证了自适应散度目标的必要性。"
-            }
-          ],
-          "contributions": [
-            "提出 KbSD，一种利用提示增强教师提供密集令牌级监督以实现知识边界校准的自蒸馏框架。",
-            "引入针对四个知识边界象限中异质推理分布的象限自适应 KL 散度目标。",
-            "在九个多样化基准上展示了相较强基线持续提升任务准确率和幻觉缓解效果。",
-            "通过消融研究验证了密集监督和象限自适应优化的必要性。",
-            "发布代码以促进可复现性和后续研究。"
-          ],
-          "limitations": [
-            "缺乏对自蒸馏过程计算成本和效率的显式分析。",
-            "评估仅限于 Qwen2.5 模型及选定的问答和自主推理基准，未测试对其他架构和任务的泛化能力。",
-            "未详细探讨失败模式或推理轨迹的定性分析。",
-            "缺乏除经验性 KL 散度调整外的显式机制或因果建模。"
-          ],
-          "open_questions": [
-            "KbSD 在计算规模上如何扩展，及其在 Qwen2.5 以外更大或不同 LLM 架构上的表现如何？",
-            "象限自适应蒸馏框架能否扩展到问答和检索增强生成之外的其他自主任务？",
-            "在密集监督下学习的推理轨迹有哪些定性特征，不同象限间有何差异？",
-            "KbSD 在真实部署场景中对噪声或对抗性检索证据的鲁棒性如何？"
-          ],
-          "source_scope": "selected full-text regions (up to 30 pages)",
-          "generated_by": "openai/gpt-4.1-mini · zh-CN translation"
-        }
-      },
-      "recommendation_reason": {
-        "topic": "On-policy distillation",
-        "matched": [
-          "self-distillation",
-          "token-level",
-          "distillation",
-          "self-distillation"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-06-30T19:25:57.248718+00:00"
     },
     {
       "id": "2606.29960",
