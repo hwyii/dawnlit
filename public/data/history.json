@@ -1,6 +1,513 @@
 {
-  "generated_at": "2026-07-02T15:07:24.086596+00:00",
+  "generated_at": "2026-07-02T15:38:55.315646+00:00",
   "papers": [
+    {
+      "id": "2607.01103",
+      "title": "Clinician-Level Agreement Without Clinical Caution: LLM Evaluator Limits in Medical AI Benchmarking",
+      "abstract": "Open-response evaluation provides stronger clinical validity than multiple-choice benchmarks but creates a scoring bottleneck that motivates automated LLM-asa-Judge approaches. Whether such evaluators replicate clinical calibration and caution, however, remains untested. We introduce MedQADE, the first standardised open-response clinical benchmark for German, a major clinical language lacking native evaluation infrastructure, comprising 3,800 items annotated by ten practising physicians and nine Large Language Model (LLM) evaluators. The top-performing evaluator model, Gemini 3 Flash, reached alignment consistent with the physician ceiling (\\k{appa} = 0.694 vs. \\k{appa} = 0.709), though wide confidence intervals limit interpretation. Despite this statistical alignment, automated evaluators exhibited near-absent clinical metacognition: physicians scaled abstention with item difficulty, while frontier models assigned definitive scores in every case. We additionally quantified systematic lineage-dependent biases, where models preferentially scored architectural siblings, an effect independent of language. These results show that statistical alignment does not ensure clinical caution, and that evaluator independence requires explicit verification.",
+      "authors": [
+        "William Philipp",
+        "Finn Fassbender",
+        "Thorsten Langer",
+        "Martje Pauly",
+        "Rebecca Herzog",
+        "Alexander Baumann",
+        "Markus Hobert",
+        "Theresa Paulus",
+        "Ip Chi Wang",
+        "Lukas Goede",
+        "Johanna Reimer",
+        "Sebastian Löns",
+        "Ronald Böck",
+        "Sebastian Fudickar"
+      ],
+      "published": "2026-07-01T15:55:31Z",
+      "updated": "2026-07-01T15:55:31Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.01103v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.01103v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.517,
+          "matched": [
+            "alignment",
+            "calibration",
+            "alignment",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4954,
+        "relevance": 0.4136,
+        "quality": 0.48,
+        "novelty": 0.8766,
+        "freshness": 0.8588
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Automated LLM evaluators can statistically align with physician judgments on open-response clinical benchmarks but fail to exhibit clinical caution and metacognition.",
+        "problem": "Current medical LLM evaluation relies heavily on multiple-choice benchmarks that inadequately capture clinical reasoning and lack native evaluation resources for languages like German.",
+        "method": "The study introduces MedQADE, a standardized German open-response clinical benchmark with 3,800 items annotated by physicians and nine LLM evaluators, comparing their agreement and clinical metacognition.",
+        "evidence": "Gemini 3 Flash achieved a kappa agreement of 0.694 close to the physician ceiling of 0.709, yet LLM evaluators assigned definitive scores without abstention, unlike physicians who scaled abstention by item difficulty.",
+        "limitations": "Wide confidence intervals in agreement metrics limit interpretation, and the study identifies systematic lineage-dependent biases in LLM evaluators that require further investigation.",
+        "why_for_you": "This work highlights critical gaps in trusting LLM evaluators for clinical AI benchmarking, emphasizing the need to verify evaluator independence and clinical caution beyond statistical alignment.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Gemini 3 Flash, the top-performing LLM evaluator, reached a kappa agreement of 0.694 with physician annotations on MedQADE, nearly matching the physician inter-rater ceiling of 0.709, demonstrating strong statistical alignment."
+          },
+          {
+            "icon": "🛡️",
+            "text": "MedQADE was constructed from the Ankizin flashcard corpus, filtered to 26,598 single-cloze clinical questions, and annotated by ten practicing physicians and nine LLM evaluators, enabling open-response evaluation in German clinical NLP."
+          },
+          {
+            "icon": "📉",
+            "text": "Despite statistical agreement, LLM evaluators showed near-absent clinical metacognition by assigning definitive scores to all items, whereas physicians abstained more frequently on difficult items, indicating a lack of clinical caution in automated judgments."
+          }
+        ],
+        "overview": "This paper addresses the inadequacy of multiple-choice benchmarks in evaluating clinical reasoning of LLMs, especially in German where native resources are scarce. It introduces MedQADE, a large-scale open-response clinical benchmark derived from a peer-reviewed German medical flashcard corpus. The study compares annotations from ten physicians and nine LLM evaluators, including Gemini 3 Flash, across 3,800 items. While Gemini 3 Flash achieved near-physician-level statistical agreement (kappa 0.694 vs. 0.709), the LLMs failed to replicate clinical metacognition, as they never abstained from scoring regardless of item difficulty. Additionally, the study reveals lineage-dependent biases where LLM evaluators favor architectural siblings, independent of language. These findings demonstrate that statistical alignment alone is insufficient to ensure clinical caution or evaluator independence, underscoring the need for explicit verification of automated evaluators in medical AI benchmarking.",
+        "methodology": [
+          {
+            "title": "Dataset Formulation and Processing",
+            "detail": "MedQADE was created from the Ankizin project’s version 5 flashcard collection, a German medical study tool with peer-reviewed clinical validity. The dataset was filtered to 26,598 single-cloze deletion items to ensure open-response format, suitable for evaluating free recall clinical knowledge."
+          },
+          {
+            "title": "LLM Student Generation",
+            "detail": "Five LLMs (Gemini 2.5 Flash, GPT-5 Nano, Gemma 3 27B, Gemma 3 4B, Qwen3-4B) generated synthetic answers for all single-cloze items using a German-language system prompt simulating a high-stakes medical exam. Generation temperature was fixed at 0.2 to balance precision and variability."
+          },
+          {
+            "title": "Annotation Design and Evaluation",
+            "detail": "Ten practicing physicians and nine LLM evaluators independently scored 3,800 MedQADE items. Agreement was measured using Krippendorff’s alpha and Cohen’s kappa. Abstention behavior and scoring biases were analyzed to assess clinical metacognition and evaluator independence."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Clinical Metacognition Mechanism",
+            "detail": "No explicit mechanistic model is provided; however, the study operationalizes clinical metacognition as the ability to abstain from scoring on difficult items, a behavior observed in physicians but absent in LLM evaluators, indicating a qualitative difference in judgment calibration."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Evaluator Agreement Experiment",
+            "detail": "Nine LLM evaluators and ten physicians scored 3,800 MedQADE items. Agreement metrics (kappa) were computed, showing Gemini 3 Flash achieved 0.694, close to the physician ceiling of 0.709, with wide confidence intervals noted."
+          },
+          {
+            "title": "Abstention Behavior Analysis",
+            "detail": "Physician annotators scaled abstention rates with item difficulty, whereas LLM evaluators assigned definitive scores to all items, revealing a lack of clinical caution in automated evaluation."
+          },
+          {
+            "title": "Lineage-Dependent Bias Quantification",
+            "detail": "The study identified systematic biases where LLM evaluators preferentially scored outputs from architectural siblings, independent of language, suggesting evaluator dependence on model lineage."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Statistical Agreement",
+            "detail": "Gemini 3 Flash’s kappa agreement of 0.694 closely matches the physician inter-rater ceiling of 0.709, indicating strong statistical alignment between automated and human evaluators."
+          },
+          {
+            "title": "Absence of Clinical Metacognition",
+            "detail": "Unlike physicians who abstained more on difficult items, LLM evaluators assigned definitive scores in every case, demonstrating near-absent clinical metacognition."
+          },
+          {
+            "title": "Lineage-Dependent Bias",
+            "detail": "LLM evaluators showed systematic preference for scoring architectural sibling models, an effect independent of language, indicating evaluator bias linked to model lineage."
+          }
+        ],
+        "contributions": [
+          "Introduction of MedQADE, the first standardized open-response clinical benchmark for German with expert physician and LLM annotations.",
+          "Demonstration that statistical agreement metrics alone do not capture clinical caution or metacognition in LLM evaluators.",
+          "Identification of lineage-dependent biases in LLM evaluators, highlighting the need for explicit verification of evaluator independence.",
+          "Provision of a methodology combining open-response clinical questions with multi-annotator evaluation to better assess LLM clinical reasoning."
+        ],
+        "limitations": [
+          "Wide confidence intervals in kappa agreement metrics limit the robustness of statistical alignment claims.",
+          "Absence of mechanistic modeling for clinical metacognition restricts understanding of underlying evaluator behaviors.",
+          "Potential bias introduced by using synthetic LLM-generated student answers was not fully explored.",
+          "The study focuses on German clinical language, limiting immediate generalizability to other languages or clinical contexts."
+        ],
+        "open_questions": [
+          "How can clinical metacognition be explicitly modeled and integrated into LLM evaluators to improve clinical caution?",
+          "What methods can mitigate lineage-dependent biases in automated LLM evaluation to ensure evaluator independence?",
+          "Can open-response benchmarks like MedQADE be extended or adapted to other languages and clinical domains effectively?",
+          "How do synthetic LLM-generated student answers impact the evaluation of LLM evaluators compared to real human responses?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment",
+          "calibration",
+          "alignment",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-02T15:38:55.315646+00:00"
+    },
+    {
+      "id": "2607.01138",
+      "title": "Antaeus: Hunting Repository-Level Logic Vulnerabilities via Context-Grounded LLM Reasoning",
+      "abstract": "LLM-based vulnerability detectors have shown promising results in identifying memory-safety bugs and vulnerability classes whose violations can often be expressed through established security properties. Logic vulnerabilities, however, pose a different challenge, as their identification requires inferring application-specific security invariants and implicit assumptions about intended behavior. Even frontier agentic models struggle because these invariants are often implicit and buried among unrelated code. Motivated by this gap, we present Antaeus, a framework for detecting logic vulnerabilities that grounds LLM reasoning in repository-level code context. Antaeus follows a repository-scale pipeline combining function prioritization, context-grounded reasoning, comparative validation, and structured reporting. It ranks functions using lightweight repo-wide security signals, directing costly LLM analysis toward relevant code and reducing calls, cost, and triage effort. For each prioritized function, Antaeus combines local code context with a repository-level view of the application's functionality, security resources, and trust boundaries. This enables reasoning about how the function is executed within the broader application rather than as an isolated snippet. Antaeus identifies security-sensitive sinks, derives safety conditions for safe execution, and checks whether they are locally satisfied. Candidate findings undergo comparative validation, pruning concerns that reflect project-wide norms rather than distinctive violations. Finally, Antaeus reports sinks, violated safety conditions, and evidence, making findings actionable and traceable. We evaluate Antaeus on 28 repositories with confirmed logic vulnerabilities and compare it against function-level and agentic models. Antaeus detects and explains 15 vulnerabilities, outperforming baselines with comparable token usage and cost.",
+      "authors": [
+        "Michele Armillotta",
+        "Nicolò Romandini",
+        "Rebecca Montanari",
+        "Lorenzo Cavallaro"
+      ],
+      "published": "2026-07-01T16:22:05Z",
+      "updated": "2026-07-01T16:22:05Z",
+      "categories": [
+        "cs.CR"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2607.01138v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.01138v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3761,
+          "matched": [
+            "safety",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4608,
+        "relevance": 0.3009,
+        "quality": 0.68,
+        "novelty": 0.862,
+        "freshness": 0.8614
+      },
+      "quality_signals": [
+        "code available",
+        "baseline comparison",
+        "formal bound",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Antaeus effectively detects repository-level logic vulnerabilities by grounding LLM reasoning in prioritized, context-rich code views, outperforming function-level and agentic baselines with comparable cost.",
+        "problem": "Logic vulnerabilities require inferring implicit, application-specific security invariants distributed across large codebases, which frontier LLMs struggle to identify from isolated code snippets or exhaustive search.",
+        "method": "Antaeus combines lightweight function prioritization, context-grounded LLM reasoning incorporating repository-level evidence, comparative validation to prune false positives, and structured reporting of sinks and violated safety conditions.",
+        "evidence": "Evaluation on 28 real-world repositories with confirmed logic vulnerabilities shows Antaeus detects and explains 15 vulnerabilities, substantially outperforming function-level and agentic baselines while maintaining similar token usage and cost.",
+        "limitations": "The paper does not provide detailed quantitative analysis of false positive rates or scalability beyond the 28 evaluated repositories, and the approach depends on heuristic prioritization and domain-specific sink and safety condition definitions.",
+        "why_for_you": "Antaeus advances trustworthy LLM-based vulnerability detection by addressing the challenge of implicit security invariants in logic bugs through structured, context-aware reasoning at repository scale.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Antaeus detects 15 confirmed logic vulnerabilities across 28 repositories, outperforming function-level and agentic baselines such as Opus 4.7 and 4.8, which analyze fewer functions and yield more false positives."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The method prioritizes functions using lightweight repository-wide security signals to reduce LLM calls and cost, then grounds reasoning in local code plus repository-level context including security resources and trust boundaries."
+          },
+          {
+            "icon": "📉",
+            "text": "Comparative validation prunes candidate findings that reflect project-wide norms rather than distinctive violations, improving precision by filtering out false positives caused by common repository conventions."
+          }
+        ],
+        "overview": "Logic vulnerabilities differ from memory-safety bugs as they require inferring implicit, application-specific security invariants often distributed across large codebases. Existing LLM-based vulnerability detectors struggle because isolated function-level analysis lacks sufficient context, while exhaustive repository exploration is costly and unfocused. Antaeus addresses this by first prioritizing functions using lightweight heuristics to focus analysis on relevant code regions. It then grounds LLM reasoning in a combined local and repository-level context that includes application functionality, security resources, and trust boundaries, enabling the model to reason about function execution within the broader application. Antaeus identifies security-sensitive sinks, derives safety conditions for safe execution, and checks their local satisfaction. Candidate findings undergo comparative validation to prune false positives reflecting project-wide norms. Evaluated on 28 repositories with confirmed logic vulnerabilities, Antaeus detects and explains 15 vulnerabilities, outperforming function-level and agentic baselines such as Opus 4.7 and 4.8, while maintaining comparable token usage and cost. This demonstrates that structured, context-grounded LLM reasoning at repository scale can effectively detect complex logic vulnerabilities.",
+        "methodology": [
+          {
+            "title": "Function Prioritization",
+            "detail": "Antaeus applies lightweight heuristics to rank functions across the repository using security signals, reducing the number of functions passed to costly LLM analysis and thus lowering computational cost and triage effort."
+          },
+          {
+            "title": "Context-Grounded Reasoning",
+            "detail": "For each prioritized function, Antaeus constructs an input combining local code context with repository-level evidence such as application functionality, security resources, and trust boundaries, enabling the LLM to reason about the function within its broader application context."
+          },
+          {
+            "title": "Safety Condition Derivation and Checking",
+            "detail": "Antaeus identifies security-sensitive sinks in the code, derives the safety conditions required for their safe execution, and uses the LLM to check whether these conditions are locally satisfied within the function."
+          },
+          {
+            "title": "Comparative Validation",
+            "detail": "Candidate vulnerability findings are validated by comparing them against project-wide norms to prune those that reflect common repository conventions rather than distinctive violations, reducing false positives."
+          },
+          {
+            "title": "Structured Reporting",
+            "detail": "Antaeus outputs detailed reports including the identified sinks, violated safety conditions, and supporting evidence, making findings actionable and traceable for security analysts."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "No Explicit Mechanism Provided",
+            "detail": "The paper does not provide formal equations or causal models but explains that grounding LLM reasoning in repository-level context improves detection by enabling inference of implicit security invariants distributed across code."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Dataset and Evaluation",
+            "detail": "Antaeus is evaluated on 28 real-world repositories from the ReposVul dataset, containing 12 CWE-200 and 16 CWE-284 logic vulnerabilities, with ground truth from CVE records and patch commits."
+          },
+          {
+            "title": "Model Configurations",
+            "detail": "Experiments use two frontier LLMs: Claude Opus 4.7 (AntaeusO4.7) and GPT-5.4 (AntaeusG5.4), with additional recall reported for Opus 4.8, all accessed via APIs without local compute."
+          },
+          {
+            "title": "Baselines and Metrics",
+            "detail": "Antaeus is compared against function-level LLM analysis and agentic baselines (Opus 4.7 and 4.8 agentic models), measuring true positives and false positives, with true positives requiring correct sink and safety condition explanations."
+          },
+          {
+            "title": "Prioritization Impact",
+            "detail": "Function prioritization reduces the number of functions analyzed by over 30×, focusing LLM calls on relevant code and reducing cost without sacrificing recall."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Superior Detection Performance",
+            "detail": "Antaeus detects 15 confirmed logic vulnerabilities, outperforming agentic baselines that analyze fewer functions and produce more false positives, e.g., Opus 4.7 agentic analyzes 1,379 functions versus Antaeus’s 4,859."
+          },
+          {
+            "title": "Cost Efficiency",
+            "detail": "Despite analyzing more functions, Antaeus maintains comparable token usage and cost to baselines by prioritizing functions and grounding reasoning, avoiding exhaustive repository exploration."
+          },
+          {
+            "title": "False Positive Reduction",
+            "detail": "Comparative validation effectively prunes false positives caused by project-wide norms, improving precision over agentic baselines that increase false positives when supplied with Antaeus’s prioritized function sets."
+          },
+          {
+            "title": "Context Quality Over Quantity",
+            "detail": "Providing the LLM with structured, repository-level context rather than isolated snippets or exhaustive code enables better inference of implicit security invariants critical for logic vulnerability detection."
+          }
+        ],
+        "contributions": [
+          "A novel framework, Antaeus, for detecting logic vulnerabilities by grounding LLM reasoning in repository-level context.",
+          "A function prioritization technique that reduces analysis cost by focusing LLM calls on relevant code regions.",
+          "A comparative validation step that prunes false positives reflecting project-wide norms.",
+          "An evaluation on 28 real-world repositories demonstrating superior detection and explanation of logic vulnerabilities compared to state-of-the-art baselines."
+        ],
+        "limitations": [
+          "Limited quantitative analysis of false positive rates and scalability beyond the 28 evaluated repositories.",
+          "Dependence on heuristic prioritization and vulnerability class-specific sink and safety condition definitions.",
+          "No formal mechanistic model or theoretical guarantees provided for the reasoning approach.",
+          "Evaluation restricted to C and C++ repositories with logic vulnerabilities from ReposVul dataset."
+        ],
+        "open_questions": [
+          "How well does Antaeus generalize to other programming languages and vulnerability classes beyond CWE-200 and CWE-284?",
+          "Can the function prioritization heuristics be further optimized or learned to improve recall and precision?",
+          "How can the comparative validation step be automated or enhanced to reduce manual tuning?",
+          "What are the trade-offs between context size, LLM cost, and detection accuracy in large-scale repositories?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "safety",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-02T15:38:55.315646+00:00"
+    },
+    {
+      "id": "2607.01153",
+      "title": "Adversarial Pragmatics for AI Safety Evaluation: A Benchmark for Instruction Conflict, Embedded Commands, and Policy Ambiguity",
+      "abstract": "Safety evaluations for language models increasingly depend on judgments about ambiguous natural-language behaviour: whether a model has followed an instruction, refused appropriately, complied with a policy, resisted an embedded command, or misreported progress in an agentic task. Existing benchmarks often compress these distinctions into pass/fail labels, obscuring whether failures arise from capability limits, policy ambiguity, instruction conflict, scaffold failure, or unstable evaluator judgments. This paper introduces adversarial pragmatics as a benchmark and annotation protocol for evaluating model behaviour under instruction conflict, embedded commands, quotation, scope ambiguity, deixis, indirect speech acts, and multi-turn agent transcripts. The contribution is empirical and methodological: a linguistically controlled taxonomy, an 18-item seed benchmark with validator-enforced metadata, a 54-row local seed pilot, an expert-evaluation protocol distinguishing task success, policy compliance, safety risk, refusal outcome, and evaluator confidence, and metrics for judge validity, diagnostic ambiguity, and taxonomy drift. The framework turns linguistic judgment methodology into a practical tool for validating safety evals, LLM judges, gold-set construction, prompt-injection tests, and safety documentation.",
+      "authors": [
+        "Brett Reynolds"
+      ],
+      "published": "2026-07-01T16:33:14Z",
+      "updated": "2026-07-01T16:33:14Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.SE"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.01153v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.01153v1",
+      "comment": "15-page main paper plus 9-page supplement; 6 figures and 8 tables total; code and data artifact available at the linked repository",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.37,
+          "matched": [
+            "safety",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.418,
+        "relevance": 0.296,
+        "quality": 0.48,
+        "novelty": 0.8647,
+        "freshness": 0.8625
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Adversarial pragmatics provides a linguistically controlled benchmark and annotation protocol to evaluate nuanced safety-relevant behaviors of language models under instruction conflict, embedded commands, and policy ambiguity.",
+        "problem": "Existing safety benchmarks reduce complex language-model behaviors to pass/fail labels, obscuring failure causes like policy ambiguity, instruction conflict, or evaluator instability.",
+        "method": "The paper introduces an 18-item seed benchmark with a taxonomy, expert evaluation protocol, validator-enforced metadata, and metrics for judge validity, diagnostic ambiguity, and taxonomy drift.",
+        "evidence": "A local pilot with three models and expert adjudication showed varied task success and policy compliance rates, revealing stable and unstable linguistic phenomena affecting safety evaluation.",
+        "limitations": "The pilot uses a small seed set, local models, toy payloads, and a single adjudicator, limiting psychometric validation and frontier-model safety claims.",
+        "why_for_you": "This work offers a rigorous, linguistically grounded framework to audit and improve LLM safety evaluations by distinguishing subtle pragmatic failures from capability or policy issues.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "The benchmark distinguishes nuanced refusal outcomes including over-refusal, under-refusal, safe redirection, and incapability masquerading as refusal, enabling fine-grained safety risk assessment beyond binary pass/fail."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The expert-evaluation protocol collects criterion-specific labels for task success, policy compliance, safety risk, refusal outcome, and evaluator confidence, followed by adjudication classifying disagreement sources like annotation error or policy-boundary ambiguity."
+          },
+          {
+            "icon": "📉",
+            "text": "Pilot results show that some linguistic contrasts (e.g., embedded-command source, mention/use, scope-negation) yield stable model performance, while others (e.g., deictic-reference, agent transcript, policy boundary) produce zero strict pair passes, indicating diagnostic ambiguity."
+          }
+        ],
+        "overview": "This paper addresses the challenge of evaluating language models' safety-relevant behaviors that hinge on interpreting ambiguous natural language instructions, policies, and embedded commands. Traditional benchmarks collapse these complex phenomena into pass/fail labels, losing critical information about failure causes. The authors propose adversarial pragmatics as a framework that uses a linguistically controlled taxonomy and a seed benchmark of 18 items organized in minimal pairs to isolate phenomena like instruction conflict, quotation, scope ambiguity, and indirect speech acts. An expert evaluation protocol collects detailed labels on task success, policy compliance, refusal types, and evaluator confidence, with adjudication to diagnose disagreement sources. A local pilot with three models demonstrates the framework's ability to reveal stable and unstable linguistic contrasts affecting safety evaluation. Metrics for judge validity, taxonomy drift, and diagnostic ambiguity enable rigorous auditing of safety claims. The approach transforms linguistic judgment methodology into a practical tool for validating safety evaluations, LLM judges, prompt-injection tests, and safety documentation, thus advancing trustworthy LLM research.",
+        "methodology": [
+          {
+            "title": "Linguistically Controlled Taxonomy",
+            "detail": "Develops a taxonomy capturing distinctions such as instruction conflict, embedded commands, quotation, scope ambiguity, deixis, and indirect speech acts to structure evaluation targets and interpret model behavior under adversarial pragmatics."
+          },
+          {
+            "title": "Seed Benchmark Construction",
+            "detail": "Creates an 18-item seed benchmark organized into nine minimal pairs, each controlling a specific linguistic contrast relevant to safety evaluation, with validator-enforced metadata ensuring item integrity and reproducibility."
+          },
+          {
+            "title": "Expert-Evaluation Protocol",
+            "detail": "Collects multi-dimensional labels per item including task success, policy compliance, refusal outcome, safety risk, and evaluator confidence, enabling nuanced assessment beyond binary outcomes; followed by adjudication to classify disagreement sources."
+          },
+          {
+            "title": "Metrics for Judge Validity and Taxonomy Drift",
+            "detail": "Introduces metrics to measure judge agreement, label stability under paraphrase and wrapper changes (taxonomy drift), and persistent disagreement (diagnostic ambiguity), supporting robust and auditable safety claims."
+          },
+          {
+            "title": "Local Pilot Evaluation",
+            "detail": "Runs the seed benchmark on three local models with expert adjudication, analyzing task and policy labels, strict pair passes, and disagreement patterns to validate the measurement pipeline and identify stable versus ambiguous phenomena."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Adversarial Pragmatics Mechanism",
+            "detail": "No explicit formal mechanism or equations are provided; the approach relies on linguistic theory to interpret how language-mediated control failures arise from ambiguous instruction status, source authority, quotation, scope, reference, speech-act force, or policy category."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Local Seed Pilot",
+            "detail": "Evaluated 18 seed items in nine minimal pairs across three local models (gemma3:12b, glm-4.7-flash:q4_K_M, qwen3:8b) with expert adjudication labeling task success, policy compliance, refusal outcomes, and confidence; analyzed strict pair passes and disagreement sources."
+          },
+          {
+            "title": "Adjudication Protocol",
+            "detail": "Two-stage adjudication where evaluators first provide criterion-specific labels and confidence without forced consensus, then an adjudicator classifies disagreement sources such as annotation error, missing context, or policy-boundary ambiguity."
+          },
+          {
+            "title": "Judge Validation",
+            "detail": "Comparison of expert labels with LLM-judge annotations showed LLM judges useful as triage tools but not substitutes for expert adjudication, highlighting the need for judge-prompt sensitivity analysis and multiple judge prompts."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Task and Policy Label Outcomes",
+            "detail": "Out of 54 item-model rows, 36 outputs were full task successes, 11 partial successes, and 7 failures; policy compliance was higher with 46 compliant, 7 noncompliant, and 1 ambiguous, indicating policy compliance does not guarantee task success."
+          },
+          {
+            "title": "Phenomenon Stability",
+            "detail": "Three minimal pairs (embedded-command source, mention/use, scope-negation) were stable across all models, while others (deictic-reference, agent transcript, policy boundary) had zero strict pair passes, revealing linguistic contrasts that challenge model safety."
+          },
+          {
+            "title": "Disagreement as Diagnostic Signal",
+            "detail": "Persistent evaluator disagreement often indicated genuine ambiguity or underspecified policy boundaries rather than annotation error, supporting the use of disagreement classification to refine taxonomy and evaluation protocols."
+          },
+          {
+            "title": "LLM Judge Limitations",
+            "detail": "LLM judges underweighted ambiguity and sometimes penalized correct summaries, demonstrating that LLM-based evaluation requires careful validation and cannot replace expert adjudication."
+          }
+        ],
+        "contributions": [
+          "Introduces adversarial pragmatics as a novel framework for safety evaluation focusing on linguistic control phenomena.",
+          "Develops a linguistically controlled taxonomy and an 18-item seed benchmark with validator-enforced metadata.",
+          "Proposes an expert-evaluation protocol capturing multi-dimensional labels and adjudication to diagnose disagreement sources.",
+          "Defines metrics for judge validity, taxonomy drift, and diagnostic ambiguity to support robust safety claims.",
+          "Demonstrates feasibility and diagnostic value through a local pilot with three models and expert adjudication."
+        ],
+        "limitations": [
+          "The pilot uses a small, hand-authored seed set of 18 items, limiting generalizability and psychometric validation.",
+          "Only three local models with toy payloads were evaluated, so results do not establish frontier-model safety differences.",
+          "A single expert adjudicator was used, restricting assessment of adjudication reliability and population-level evaluator behavior.",
+          "LLM-judge validation remains preliminary and requires further experiments with multiple prompts and adjudicators."
+        ],
+        "open_questions": [
+          "How does the benchmark scale and perform with a larger, more diverse item set and frontier models?",
+          "What is the reliability and validity of multi-adjudicator protocols across different evaluator populations?",
+          "How can LLM judges be reliably calibrated and validated to complement or partially automate expert adjudication?",
+          "Which linguistic phenomena most critically impact safety evaluation stability and how can taxonomy drift be minimized?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "safety",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-02T15:38:55.315646+00:00"
+    },
     {
       "id": "2606.31039",
       "title": "Truth or Sophistry? LoFa: A Benchmark for LLM Robustness Against Logical Fallacies",
