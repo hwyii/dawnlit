@@ -265,10 +265,9 @@ The update workflow runs every day at 06:17 in `America/Detroit`. It avoids the
 start of the hour because scheduled GitHub workflows can be delayed under heavy
 load. Changes to `config/**` or `scripts/**` also trigger an immediate update.
 
-The arXiv query uses a four-day recovery window so delayed indexing or a missed
-workflow does not lose papers. This is not a refill pool: IDs already present in
-`public/data/seen.json` are excluded before ranking, and Today stays short when
-fewer than six unseen papers clear the relevance threshold.
+The arXiv query covers only the previous 24 hours. IDs already present in
+`public/data/seen.json` are excluded before ranking, and Today stays short—even
+empty—when fewer than six unseen papers clear the relevance threshold.
 
 ## Optional preference and feedback sync
 
@@ -319,7 +318,7 @@ The project stores descriptive metadata and generated notes, and links users to
 the arXiv abstract/PDF pages. It does not redistribute PDFs. Requests use one
 paginated query per build, with a three-second pause between pages. The default
 scope is `cs.LG`, `cs.AI`, `cs.CL`, `cs.CR`, and `stat.ML` over the previous
-four days, with a 2,000-result safety limit. Generated feeds expose
+24 hours, with a 2,000-result safety limit. Generated feeds expose
 `source_total` and `source_truncated`, so incomplete retrieval is visible rather
 than silently presented as complete.
 
