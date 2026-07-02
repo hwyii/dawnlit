@@ -1,6 +1,1056 @@
 {
-  "generated_at": "2026-07-02T12:21:00.110067+00:00",
+  "generated_at": "2026-07-02T15:07:24.086596+00:00",
   "papers": [
+    {
+      "id": "2606.31039",
+      "title": "Truth or Sophistry? LoFa: A Benchmark for LLM Robustness Against Logical Fallacies",
+      "abstract": "Large Language Models (LLMs) exhibit strong semantic capabilities, yet their resilience to manipulative linguistic patterns such as logical fallacies remains underexplored. Prior work has primarily examined whether LLMs can identify or classify fallacies, leaving their robustness against fallacious persuasion insufficiently studied. To address this gap, we introduce LoFa (Logical Fallacy), a comprehensive benchmark for evaluating LLM robustness against fallacies. LoFa is constructed through a multi-agent pipeline that pairs factual questions with fallacious arguments, and is accompanied by a multi-round debate framework for assessing model resilience under sustained adversarial persuasion. To disentangle fallacy robustness from a model's inherent knowledge limitations, we further propose Logical Fallacy Resistance at k (LFR@k), a metric that quantifies resistance to fallacious attacks. Experiments show that LLMs exhibit varying levels of robustness across different fallacy types, revealing distinct vulnerability profiles among models.",
+      "authors": [
+        "Xudong Shen",
+        "Li Yuan",
+        "Ye Chen",
+        "Xin Wu",
+        "Yi Cai",
+        "Zhiyong Wu"
+      ],
+      "published": "2026-06-30T02:17:45Z",
+      "updated": "2026-06-30T02:17:45Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2606.31039v1",
+      "pdf_url": "https://arxiv.org/pdf/2606.31039v1",
+      "comment": "Accepted to ACL 2026 Main. 33 pages (9 pages main text)",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.6407,
+          "matched": [
+            "robustness",
+            "llm",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5404,
+        "relevance": 0.5126,
+        "quality": 0.46,
+        "novelty": 0.8339,
+        "freshness": 0.6379
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "experiments"
+      ],
+      "summary": {
+        "takeaway": "LoFa benchmark reveals that LLMs exhibit varied robustness to different logical fallacies, with notable vulnerabilities to distraction/distortion fallacies and a surprising deference to authority.",
+        "problem": "Existing research focuses on LLMs' ability to identify fallacies but neglects their robustness against fallacious persuasive attacks.",
+        "method": "LoFa constructs a dataset pairing factual questions with fallacious arguments and employs a multi-round debate framework alongside the LFR@k metric to quantify LLM resistance to fallacies.",
+        "evidence": "Experiments show LLMs like Llama-3.1 and GPT-4 have distinct vulnerability profiles, with LFR@3 scores as low as 29.4% for Equivocation and 39.2% for Appeal to Authority fallacies.",
+        "limitations": "LoFa's limited scale (~2000 items) and evaluation on a narrow set of dense, decoder-only LLM architectures constrain generalizability.",
+        "why_for_you": "Understanding LLM susceptibility to logical fallacies is critical for developing trustworthy models resilient to manipulative linguistic attacks.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "LLMs show higher resistance to fallacies involving flawed reasoning (e.g., Hasty Generalization) but are more vulnerable to distraction/distortion fallacies like Equivocation and Straw Man, with Llama-3.1-405B scoring only 29.4% LFR@3 on Equivocation."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The LoFa benchmark uses a multi-agent pipeline to pair factual questions from Wikipedia-derived datasets with fallacious arguments, evaluated via a multi-round debate framework and the novel LFR@k metric to isolate fallacy resistance from knowledge limitations."
+          },
+          {
+            "icon": "📉",
+            "text": "GPT-4 exhibits a cognitive deference to fabricated authoritative cues in the Appeal to Authority fallacy, resulting in a low LFR@3 score of 39.2%, likely due to RLHF training bias favoring context adherence over factual verification."
+          }
+        ],
+        "overview": "This paper addresses the underexplored problem of LLM robustness against logical fallacies used as manipulative persuasive attacks. Unlike prior work focusing on fallacy identification, the authors introduce LoFa, a benchmark that rigorously evaluates LLMs' passive resilience by pairing objective factual questions with fallacious arguments crafted via a multi-agent pipeline. The evaluation employs a multi-round debate framework and a novel metric, LFR@k, to quantify resistance while disentangling it from inherent knowledge gaps. Experiments across multiple LLMs, including open-source Llama-3.1 variants and closed-source GPT models, reveal distinct vulnerability profiles. Models generally resist flawed reasoning fallacies but are susceptible to distraction/distortion fallacies, with Llama models particularly vulnerable. Notably, GPT models show a pronounced deference to authority, undermining resistance to the Appeal to Authority fallacy. Attempts to mitigate this via chain-of-thought prompting yield mixed results. The benchmark's modest scale and limited model diversity constrain generalizability, but the findings highlight critical weaknesses in LLM reasoning robustness and suggest directions for future research to enhance trustworthy AI.",
+        "methodology": [
+          {
+            "title": "LoFa Dataset Construction",
+            "detail": "LoFa is constructed by pairing factual questions from Wikipedia-derived datasets (Natural Questions, TruthfulQA, BoolQ) with fallacious arguments generated via a multi-agent pipeline. The dataset covers 10 logical fallacies categorized into Distraction/Distortion and Flaws in Reasoning/Evidence, ensuring objective ground truth for evaluation."
+          },
+          {
+            "title": "Multi-Round Debate Framework",
+            "detail": "The evaluation framework simulates sustained adversarial persuasion by engaging LLMs in multi-turn debates where fallacious arguments challenge the model's initial correct answers, measuring the model's ability to maintain factual correctness under pressure."
+          },
+          {
+            "title": "Logical Fallacy Resistance Metric (LFR@k)",
+            "detail": "LFR@k quantifies the model's resistance to fallacious attacks by measuring the proportion of rounds in which the model maintains correct answers despite fallacious persuasion, effectively separating robustness from knowledge limitations."
+          },
+          {
+            "title": "Model Selection and Evaluation Protocol",
+            "detail": "The study evaluates multiple LLMs including Llama-3.1 (8B, 70B, 405B), DeepSeek-V3 (~671B), GPT-3.5 Turbo (~175B), and GPT-4 (~1760B). Closed-source models were accessed via API calls. Performance is averaged over three runs and analyzed per fallacy type."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Cognitive Deference to Authority",
+            "detail": "GPT models' susceptibility to the Appeal to Authority fallacy is hypothesized to stem from RLHF training, which rewards context adherence and may bias models to accept authoritative cues without verification, overriding internal factual knowledge."
+          },
+          {
+            "title": "No Explicit Mechanistic Equations",
+            "detail": "The paper does not provide formal mechanistic equations or causal models but discusses the cognitive and training-induced biases influencing LLM fallacy resilience."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Fallacy Resistance Evaluation on NQ1 Dataset",
+            "detail": "Models were tested on a subset of the Natural Questions dataset (NQ1) with 488 samples, paired with fallacious arguments representing 10 fallacy types. Resistance was measured using LFR@3 scores across multiple rounds of debate."
+          },
+          {
+            "title": "Model Scale Impact Analysis",
+            "detail": "Within the Llama-3.1 family, increasing model size from 8B to 405B parameters consistently improved average LFR@3 scores from 59.75% to 77.17%, demonstrating a positive scaling effect on fallacy resistance."
+          },
+          {
+            "title": "Chain-of-Thought (CoT) Prompting Defense",
+            "detail": "Applying CoT prompting to GPT-4 improved average LFR@3 scores by 7-13% for most fallacies but decreased resistance by 1.87% for the Appeal to Authority, indicating CoT's limited efficacy against authority-based fallacies."
+          },
+          {
+            "title": "Active Argument Generation vs. Passive Resilience",
+            "detail": "An additional experiment compared DeepSeek-V3 and GPT-4 on their ability to generate persuasive arguments and resist fallacious persuasion, exploring the relationship between active generation capabilities and passive robustness."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Vulnerability to Distraction/Distortion Fallacies",
+            "detail": "LLMs are more susceptible to distraction/distortion fallacies such as Equivocation and Straw Man, with Llama-3.1-405B scoring only 29.4% and 57.0% LFR@3 respectively, indicating these fallacies effectively exploit semantic shortcuts."
+          },
+          {
+            "title": "Robustness to Flaws in Reasoning/Evidence Fallacies",
+            "detail": "Models generally show higher resistance to fallacies involving flawed reasoning like Hasty Generalization and Circular Reasoning, suggesting better handling of logical inconsistencies than semantic distractions."
+          },
+          {
+            "title": "Scaling Improves Fallacy Resistance",
+            "detail": "Within the Llama-3.1 series, larger models consistently achieve higher LFR@3 scores, with the 405B parameter model reaching 77.17%, confirming that increased scale enhances robustness."
+          },
+          {
+            "title": "GPT Models’ Deference to Authority",
+            "detail": "GPT-3.5 Turbo and GPT-4 exhibit pronounced vulnerability to the Appeal to Authority fallacy, with LFR@3 scores of 22.54% and 39.20% respectively, attributed to cognitive deference induced by RLHF."
+          },
+          {
+            "title": "Chain-of-Thought Prompting Effects",
+            "detail": "CoT prompting improves GPT-4’s resistance to most fallacies by 7-13% but paradoxically reduces resistance to the Appeal to Authority fallacy by 1.87%, highlighting nuanced effects of reasoning enhancements."
+          }
+        ],
+        "contributions": [
+          "Introduction of LoFa, a novel benchmark pairing factual questions with fallacious arguments to evaluate LLM robustness against logical fallacies.",
+          "Development of a multi-round debate framework simulating sustained adversarial persuasion for rigorous robustness assessment.",
+          "Proposal of the LFR@k metric to quantify fallacy resistance while controlling for knowledge limitations.",
+          "Comprehensive evaluation of multiple LLMs revealing distinct vulnerability profiles and the impact of model scale.",
+          "Identification of GPT models’ cognitive deference to authority as a critical vulnerability linked to RLHF training."
+        ],
+        "limitations": [
+          "LoFa benchmark size is limited (~2000 items), potentially restricting statistical generalizability across domains and linguistic styles.",
+          "Evaluation focuses on a narrow set of dense, decoder-only LLM architectures, leaving uncertainty about generalization to other model types like Mixture-of-Experts.",
+          "The study does not explore mechanistic causal models or formal theoretical explanations for observed vulnerabilities.",
+          "Mitigation strategies such as CoT prompting show limited efficacy, especially against authority-based fallacies, indicating a need for more robust defenses."
+        ],
+        "open_questions": [
+          "How can LLM training paradigms be adapted to reduce cognitive deference to fabricated authoritative cues without sacrificing context adherence?",
+          "What architectural or training modifications can enhance LLM robustness specifically against distraction/distortion fallacies?",
+          "Can larger and more diverse datasets improve the statistical reliability and domain generalization of fallacy resistance benchmarks?",
+          "What is the relationship between a model’s active argument generation quality and its passive resilience to fallacious persuasion?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "robustness",
+          "llm",
+          "robustness"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-02T15:07:24.086596+00:00"
+    },
+    {
+      "id": "2607.00572",
+      "title": "HARC: Coupling Harmfulness and Refusal Directions for Robust Safety Alignment",
+      "abstract": "Understanding how aligned LLMs internally represent safety is critical for diagnosing alignment vulnerabilities, as it explains why jailbreaks succeed and informs the design of robust alignment strategies. Prior work shows that aligned LLMs encode harmfulness and refusal as separable directions in the residual stream at prompt-side token positions. We show that jailbreaks succeed at prompt encoding by suppressing either the refusal or harmfulness direction before any token is generated, with distinct attack classes occupying separable regions of the harmfulness-refusal plane. Extending the analysis to response-token positions, we find that the model recognizes harmful content while it is generating that content, even when it failed to recognize the input as harmful at the prompt side. Motivated by our findings, we introduce HARC (Harmfulness-And-Refusal Coupling), a fine-tuning method that pairs the two directions across both prompt and response positions. Since the intervention is confined to the harmfulness-refusal subspace, it leaves the rest of the residual stream intact and does not degrade general capability or inflate over-refusal. Across extensive experiments, HARC achieves the strongest robustness-capability-usability trade-off among six baselines spanning the major training-time and inference-time safety methods. The harmfulness and refusal directions at prompt and response positions transfer across the five model families and two scales we tested without architecture-specific tuning.",
+      "authors": [
+        "Shei Pern Chua",
+        "Fangzhao Wu"
+      ],
+      "published": "2026-07-01T07:58:16Z",
+      "updated": "2026-07-01T07:58:16Z",
+      "categories": [
+        "cs.AI",
+        "cs.CR"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2607.00572v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.00572v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.452,
+          "matched": [
+            "robustness",
+            "robust",
+            "attack",
+            "fine-tuning",
+            "training"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4089,
+          "matched": [
+            "robustness",
+            "alignment",
+            "alignment",
+            "safety",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5348,
+        "relevance": 0.4434,
+        "quality": 0.6,
+        "novelty": 0.8583,
+        "freshness": 0.8146
+      },
+      "quality_signals": [
+        "code available",
+        "baseline comparison",
+        "experiments"
+      ],
+      "summary": {
+        "takeaway": "HARC fine-tuning couples harmfulness and refusal directions at both prompt and response positions, achieving superior robustness and usability without degrading general capability.",
+        "problem": "Aligned LLMs encode harmfulness and refusal as separable directions, allowing jailbreak attacks to suppress refusal or harmfulness signals and bypass safety alignment.",
+        "method": "HARC fine-tunes models by coupling harmfulness and refusal directions in the residual stream subspace at prompt and response tokens, enforcing refusal activation whenever harmfulness is detected.",
+        "evidence": "Experiments on Llama-3.1-8B and Qwen-2.5-7B across four jailbreak attacks, over-refusal benchmarks, and capability tests show HARC achieves the best robustness-capability-usability trade-off among six baselines.",
+        "limitations": "CodeAttack jailbreaks remain partially resistant as their residual activations are orthogonal to harmfulness and refusal directions, limiting coupling loss gradients.",
+        "why_for_you": "HARC provides an interpretable, efficient adversarial training approach that improves trustworthy LLM safety alignment by leveraging internal harmfulness-refusal representations without sacrificing model utility.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Jailbreak attacks like DAN and PAIR exploit the dissociation between harmfulness (vharm) and refusal (vref) directions by suppressing one direction at prompt encoding, enabling harmful responses despite refusal signals."
+          },
+          {
+            "icon": "🛡️",
+            "text": "HARC fine-tuning couples vharm and vref directions at layers L25–L28 (Llama) and L21–L24 (Qwen) using LoRA adapters, reshaping residual activations to propagate refusal whenever harmfulness is detected."
+          },
+          {
+            "icon": "📉",
+            "text": "Coupling fine-tuning collapses dissociated regions exploited by jailbreaks, compressing harmful, DAN, and PAIR clusters into a single ridge along the diagonal in the harmfulness-refusal plane, reducing attack success rates."
+          }
+        ],
+        "overview": "This work investigates how aligned large language models internally represent safety via harmfulness and refusal directions in the residual stream. Prior work identified these as separable at prompt tokens, but this paper extends analysis to response tokens, revealing that models recognize harmful content during generation even if prompt-side recognition fails. Jailbreak attacks exploit this dissociation by suppressing refusal or harmfulness directions, enabling harmful outputs. Motivated by this, the authors propose HARC, a fine-tuning method that couples harmfulness and refusal directions at both prompt and response positions, enforcing refusal activation whenever harmfulness is detected. This coupling is confined to a two-dimensional subspace, preserving general capabilities and avoiding over-refusal. Extensive experiments on Llama-3.1-8B and Qwen-2.5-7B models across multiple jailbreak attacks, over-refusal, and capability benchmarks demonstrate that HARC achieves the strongest robustness-capability-usability trade-off compared to six baselines. The harmfulness-refusal structure and HARC’s effectiveness transfer across five model families and two scales without architecture-specific tuning, highlighting a general property of aligned LLMs and a promising alignment strategy.",
+        "methodology": [
+          {
+            "title": "Direction Extraction",
+            "detail": "Harmfulness (vharm) and refusal (vref) directions are extracted from residual stream activations at both prompt-side and response-side token positions, identifying subspaces encoding safety concepts."
+          },
+          {
+            "title": "Coupling Fine-Tuning",
+            "detail": "HARC fine-tunes models by applying a coupling loss that increases cosine similarity between vharm and vref directions within selected layers (L25–L28 for Llama, L21–L24 for Qwen), using LoRA adapters on attention and MLP projections, with directions recomputed every 200 steps."
+          },
+          {
+            "title": "Dual-Position Objective",
+            "detail": "The coupling loss is applied simultaneously at prompt and response token positions to ensure refusal activation propagates regardless of where harmful intent is first detected, reducing over-refusal and preserving helpfulness."
+          },
+          {
+            "title": "Evaluation Protocol",
+            "detail": "Attack success rate (ASR) is measured using an LLM judge (GPT-4o) with the HexPHI scoring template on JailbreakBench attacks; over-refusal is evaluated on XSTest and CoCoNot; general capability is assessed on MMLU, GSM8K, IFEval, HumanEval, and MT-Bench."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Harmfulness-Refusal Direction Coupling",
+            "detail": "The model’s residual stream contains distinct vharm and vref directions that are nearly orthogonal at late layers, allowing inputs to activate harmfulness without refusal. HARC reshapes this subspace by increasing cosine similarity between vharm and vref, causing refusal activation to reliably follow harmfulness detection, thus blocking jailbreaks that suppress refusal."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Model Fine-Tuning and Baselines",
+            "detail": "Llama-3.1-8B and Qwen-2.5-7B models are fine-tuned with HARC using LoRA adapters; six baselines include supervised fine-tuning (SFT), DPO, Circuit Breakers, RepBend, and CAST, covering major training-time and inference-time safety methods."
+          },
+          {
+            "title": "Jailbreak Attack Evaluation",
+            "detail": "Four jailbreak attacks (DAN, PAIR, CodeAttack, DeepInception) are evaluated on JailbreakBench using GPT-4o judge to compute attack success rates, assessing robustness improvements from HARC and baselines."
+          },
+          {
+            "title": "Over-Refusal and Capability Benchmarks",
+            "detail": "Over-refusal is measured on XSTest and CoCoNot datasets; general capability is evaluated on MMLU, GSM8K, IFEval, HumanEval, and MT-Bench to verify that HARC preserves usability and helpfulness."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Jailbreaks Exploit Direction Dissociation",
+            "detail": "DAN and PAIR attacks suppress refusal or harmfulness directions at prompt encoding, enabling harmful responses; CodeAttack suppresses both, remaining orthogonal to these directions."
+          },
+          {
+            "title": "Response-Side Recognition of Harmfulness",
+            "detail": "Models recognize harmful content during generation even when prompt-side harmfulness detection fails, indicating a four-direction structure at response tokens."
+          },
+          {
+            "title": "HARC Collapses Dissociated Regions",
+            "detail": "Coupling fine-tuning compresses harmful, DAN, and PAIR clusters into a single ridge along the diagonal in the harmfulness-refusal plane, reducing attack success rates and improving robustness."
+          },
+          {
+            "title": "Preservation of Capability and Over-Refusal",
+            "detail": "HARC confines intervention to the harmfulness-refusal subspace, avoiding degradation of general capabilities and preventing inflation of over-refusal rates, unlike other baselines."
+          },
+          {
+            "title": "CodeAttack Remains Partially Resistant",
+            "detail": "CodeAttack residuals are nearly orthogonal to vharm and vref, limiting gradient signals for coupling loss and making it the hardest attack to fully mitigate."
+          }
+        ],
+        "contributions": [
+          "Identification of a four-direction harmfulness-refusal structure at prompt and response token positions in aligned LLMs.",
+          "Demonstration that jailbreak attacks exploit dissociation between harmfulness and refusal directions to bypass safety.",
+          "Introduction of HARC, a fine-tuning method coupling harmfulness and refusal directions to enforce refusal activation upon harmfulness detection.",
+          "Extensive evaluation showing HARC’s superior robustness-capability-usability trade-off across multiple models, attacks, and benchmarks.",
+          "Evidence that harmfulness and refusal directions and HARC’s effectiveness generalize across model families and scales without architecture-specific tuning."
+        ],
+        "limitations": [
+          "CodeAttack jailbreaks remain partially resistant due to orthogonality to harmfulness and refusal directions, limiting coupling loss effectiveness.",
+          "The approach relies on accurate extraction of harmfulness and refusal directions, which may vary with model architecture or training data.",
+          "No explicit mechanism or theoretical proof is provided for why coupling these directions improves refusal propagation beyond empirical evidence.",
+          "Evaluation is limited to instruction-tuned models and specific jailbreak attacks; broader generalization to other attack types or model classes is untested."
+        ],
+        "open_questions": [
+          "Can HARC be extended or adapted to mitigate jailbreaks like CodeAttack that evade harmfulness-refusal coupling?",
+          "How stable and consistent are harmfulness and refusal directions across diverse model architectures and training regimes?",
+          "What are the theoretical underpinnings explaining why coupling harmfulness and refusal directions improves alignment robustness?",
+          "Can the harmfulness-refusal coupling approach be integrated with other alignment strategies to further reduce the alignment tax?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "robustness",
+          "robust",
+          "attack",
+          "fine-tuning"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-02T15:07:24.086596+00:00"
+    },
+    {
+      "id": "2607.00479",
+      "title": "Ghost in the Kernel: In-Context Learning with Efficient Transformers via Domain Generalization",
+      "abstract": "Transformer-based large models have demonstrated remarkable generalization abilities across different tasks by leveraging a context-aware attention module for in-context learning. With richer context, transformers adapt more effectively to the current use case without any parameter updates. However, the quadratic computational and memory complexity with respect to context length significantly slows data processing in softmax transformers. Linear transformers were proposed to address this issue by reducing the complexity to linear dependence on context length, but the design and understanding of the feature mapping in linear attention, from a theoretical viewpoint, remain unclear. In this paper, we investigate the approximation and generalization abilities of linear transformers under a two-staged sampling process from domain generalization. We show that linear transformers perform in-context learning as learning a mapping from context distributions to response functions. A dimension-independent convergence rate is obtained for our generalization analysis, which also exhibits the tradeoff between the regularities of data distributions and latent features. Guided by our theoretical framework, we propose a new perspective on activation and loss design for linearizing pretrained softmax large language models.",
+      "authors": [
+        "Peilin Liu",
+        "Ding-Xuan Zhou"
+      ],
+      "published": "2026-07-01T06:03:14Z",
+      "updated": "2026-07-01T06:03:14Z",
+      "categories": [
+        "cs.LG",
+        "stat.ML"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2607.00479v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.00479v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "transformer"
+      ],
+      "topics": [
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.5702,
+          "matched": [
+            "in-context learning",
+            "generalization",
+            "generalization",
+            "convergence"
+          ]
+        },
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "emerging",
+          "score": 0.3148,
+          "matched": [
+            "sampling",
+            "data"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5255,
+        "relevance": 0.5191,
+        "quality": 0.33,
+        "novelty": 0.8194,
+        "freshness": 0.8032
+      },
+      "quality_signals": [],
+      "summary": {
+        "takeaway": "Linear transformers enhance in-context learning by leveraging domain generalization principles.",
+        "problem": "Quadratic complexity in softmax transformers limits their efficiency in processing long contexts.",
+        "method": "The paper proposes a two-staged sampling process to analyze linear transformers' approximation and generalization abilities.",
+        "evidence": "A dimension-independent convergence rate is established, demonstrating the tradeoff between data distribution regularities and latent features.",
+        "limitations": "The theoretical understanding of linear attention mechanisms remains limited despite empirical successes.",
+        "why_for_you": "This research provides insights into improving LLM efficiency and generalization, relevant for statistical theory and data selection.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4o-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "The paper establishes that linear transformers perform in-context learning as a mapping from context distributions to response functions, enhancing their generalization capabilities."
+          },
+          {
+            "icon": "🛡️",
+            "text": "A two-staged sampling process is introduced to analyze linear transformers, connecting in-context learning with domain generalization frameworks."
+          },
+          {
+            "icon": "📉",
+            "text": "The authors demonstrate a dimension-independent convergence rate in their generalization analysis, revealing a tradeoff between data distribution regularities and latent feature representation."
+          }
+        ],
+        "overview": "This paper addresses the inefficiencies of softmax transformers in long-context scenarios due to their quadratic computational complexity. By investigating linear transformers through a two-staged sampling process, the authors connect in-context learning with domain generalization, revealing that linear transformers can effectively generalize across tasks without parameter updates. The strongest evidence presented is a dimension-independent convergence rate, which highlights the tradeoff between the regularities of data distributions and latent features, thus providing a theoretical foundation for improving transformer architectures in practical applications.",
+        "methodology": [
+          {
+            "title": "Two-Staged Sampling Process",
+            "detail": "This method involves generating context-augmented inputs from empirical distributions, allowing the analysis of linear transformers' performance in in-context learning scenarios."
+          },
+          {
+            "title": "Activation and Loss Design",
+            "detail": "The authors propose new activation functions and regularity conditions for feature mappings, facilitating the linear conversion of pretrained softmax LLMs."
+          },
+          {
+            "title": "Generalization Analysis Framework",
+            "detail": "A theoretical framework is established to analyze the approximation and generalization abilities of linear transformers, focusing on their performance under distribution shifts."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Connection to Domain Generalization",
+            "detail": "The paper connects in-context learning to domain generalization, suggesting that linear transformers can generalize effectively across different tasks by learning from context distributions."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Empirical Evaluation of Linear Transformers",
+            "detail": "The authors conduct experiments to validate the theoretical findings, although specific models, datasets, and metrics are not detailed in the provided text."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Dimension-Independent Convergence Rate",
+            "detail": "The analysis reveals a dimension-independent convergence rate for linear transformers, indicating robust generalization capabilities under varying data distributions."
+          },
+          {
+            "title": "Tradeoff Between Regularities and Features",
+            "detail": "The study demonstrates a tradeoff between the regularities of data distributions and the representation of latent features, impacting the performance of linear transformers."
+          },
+          {
+            "title": "Fast Eigen-decay Phenomenon",
+            "detail": "The authors observe a fast eigendecay phenomenon in softmax attention weight matrices, which aids linear transformers in mitigating distribution shift effects."
+          }
+        ],
+        "contributions": [
+          "Theoretical analysis framework for linear transformers connecting domain generalization with in-context learning.",
+          "Establishment of a dimension-independent convergence rate for linear transformers.",
+          "Introduction of new activation functions and regularity conditions for linearizing pretrained softmax LLMs."
+        ],
+        "limitations": [
+          "The theoretical understanding of linear attention mechanisms remains limited despite empirical successes.",
+          "Challenges in directly applying the proposed approximation due to the anisotropic nature of token distributions."
+        ],
+        "open_questions": [
+          "How can the proposed linearization algorithm be empirically validated across various open-weight LLMs?",
+          "What are the implications of hybrid models combining linear and softmax attention on transformer performance?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4o-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Statistical theory for LLMs",
+        "matched": [
+          "in-context learning",
+          "generalization",
+          "generalization",
+          "convergence"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-02T15:07:24.086596+00:00"
+    },
+    {
+      "id": "2606.31639",
+      "title": "A Lifecycle and Application-Stack Survey of Large Language Model Vulnerabilities: Attacks, Risks, Defenses, and Open Problems",
+      "abstract": "Large language models are no longer only text generators. They are increasingly embedded in retrieval pipelines, enterprise assistants, coding environments, robotic systems, security-operation workflows, and autonomous agents that can read private data, call tools, write files, execute code, and act across organizational boundaries. This shift changes the security problem: risks do not arise from the model weights alone, but from the full lifecycle and application stack through which data, prompts, model outputs, tools, memories, and user authority interact. This paper systematizes the literature on vulnerabilities in large language model systems through a lifecycle and application-stack lens. We organize attacks across eight stages: data collection, pretraining, post-training alignment, model packaging and supply chain, retrieval and memory, prompting and inference, tool/agent execution, and deployment/maintenance. For each stage, we analyze attacker capabilities, affected security objectives, representative attacks, practical risks, evaluation practices, and defenses. We further map LLM-specific vulnerabilities to confidentiality, integrity, availability, safety, privacy, fairness, accountability, and agency-control objectives. Unlike taxonomies that list isolated attack names, the proposed systematization emphasizes where trust boundaries fail, how untrusted data becomes executable instruction, how delegated authority amplifies model errors, and why point defenses rarely compose. We close with a research agenda for secure LLM systems, including compositional security, provenance-aware retrieval, tool-call containment, long-horizon agent evaluation, privacy-preserving adaptation, realistic red teaming, and deployment-grade incident response.",
+      "authors": [
+        "Seyed Bagher Hashemi Natanzi",
+        "Bo Tang"
+      ],
+      "published": "2026-06-30T13:21:43Z",
+      "updated": "2026-06-30T13:21:43Z",
+      "categories": [
+        "cs.CR",
+        "cs.AI",
+        "cs.GT",
+        "cs.LO"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2606.31639v1",
+      "pdf_url": "https://arxiv.org/pdf/2606.31639v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.5676,
+          "matched": [
+            "privacy",
+            "alignment",
+            "privacy",
+            "alignment",
+            "safety",
+            "red teaming"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5219,
+        "relevance": 0.4541,
+        "quality": 0.53,
+        "novelty": 0.8559,
+        "freshness": 0.7038
+      },
+      "quality_signals": [
+        "code available",
+        "formal bound"
+      ],
+      "summary": {
+        "takeaway": "The paper systematizes vulnerabilities in large language models (LLMs) across their lifecycle and application stack.",
+        "problem": "LLMs pose security risks not just from model weights but from their entire operational context.",
+        "method": "The authors categorize attacks into eight stages, analyzing attacker capabilities and defenses at each stage.",
+        "evidence": "The paper identifies vulnerabilities related to confidentiality, integrity, and safety, emphasizing the need for a comprehensive security framework.",
+        "limitations": "The paper does not provide empirical data or quantitative analysis to support its claims.",
+        "why_for_you": "Understanding LLM vulnerabilities is crucial for developing secure AI applications in your research.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4o-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "The paper highlights that LLMs can memorize sensitive training data, leading to privacy breaches through extraction attacks."
+          },
+          {
+            "icon": "🛡️",
+            "text": "It proposes a defense-in-depth architecture that combines deterministic and probabilistic controls to mitigate risks across the application stack."
+          },
+          {
+            "icon": "📉",
+            "text": "The authors emphasize that point defenses are insufficient, as they often fail to address the complexities of LLM interactions with external systems."
+          }
+        ],
+        "overview": "This paper addresses the evolving security landscape of large language models (LLMs) as they transition from mere text generators to integral components of complex application stacks. By systematizing vulnerabilities across eight lifecycle stages, the authors reveal how risks emerge not only from model weights but also from interactions with data, tools, and user authority. The strongest evidence presented is the mapping of LLM-specific vulnerabilities to critical security objectives, underscoring the necessity for a holistic approach to LLM security that transcends traditional defenses.",
+        "methodology": [
+          {
+            "title": "Lifecycle and Application-Stack Analysis",
+            "detail": "The authors categorize vulnerabilities into eight stages: data collection, pretraining, post-training alignment, model packaging, retrieval and memory, prompting, tool execution, and deployment. Each stage is analyzed for attacker capabilities and defenses."
+          },
+          {
+            "title": "Systematization of Knowledge",
+            "detail": "The paper employs a systematic review protocol, coding representative papers based on lifecycle stages, attack types, and security objectives to create a comprehensive understanding of LLM vulnerabilities."
+          },
+          {
+            "title": "Defense-in-Depth Architecture",
+            "detail": "The proposed architecture integrates deterministic controls (e.g., least-privilege permissions) and probabilistic controls (e.g., anomaly detection) to create a layered defense strategy against various attack vectors."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Information Flow and Trust Boundaries",
+            "detail": "The paper posits that LLM vulnerabilities arise from failures in information flow and trust boundaries, where untrusted data can lead to harmful actions when processed by the model."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Attacker Models",
+            "detail": "The paper outlines various attacker models, including black-box prompt users who can submit queries and optimize based on responses, highlighting the need for defenses like rate limits and output filtering."
+          },
+          {
+            "title": "Evaluation Practices",
+            "detail": "The authors discuss evaluation practices that should include realistic tool permissions and multi-step attacks to better assess LLM security in practical scenarios."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Vulnerability Mapping",
+            "detail": "The paper maps LLM vulnerabilities to security objectives such as confidentiality and integrity, indicating that traditional defenses often fail to address these risks."
+          },
+          {
+            "title": "Risks of Tool-Using Agents",
+            "detail": "It identifies that tool-using agents introduce new attack surfaces due to delegated authority and persistent memory, complicating the security landscape."
+          },
+          {
+            "title": "Limitations of Point Defenses",
+            "detail": "The authors conclude that point defenses are rarely sufficient, as they do not account for the complex interactions within the application stack."
+          }
+        ],
+        "contributions": [
+          "Systematization of LLM vulnerabilities across the lifecycle and application stack.",
+          "Identification of critical security objectives related to LLMs.",
+          "Proposed defense-in-depth architecture for mitigating LLM risks."
+        ],
+        "limitations": [
+          "Lack of empirical data or quantitative analysis to support claims.",
+          "The framework may not cover all potential vulnerabilities in emerging LLM applications."
+        ],
+        "open_questions": [
+          "How can we effectively measure the impact of LLM vulnerabilities in real-world applications?",
+          "What are the best practices for ensuring secure interactions between LLMs and external tools?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4o-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "privacy",
+          "alignment",
+          "privacy",
+          "alignment"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-02T15:07:24.086596+00:00"
+    },
+    {
+      "id": "2606.32032",
+      "title": "Reinforcement Learning with Metacognitive Feedback Elicits Faithful Uncertainty Expression in LLMs",
+      "abstract": "Metacognition is a critical component of intelligence that describes the ability to monitor and regulate one's own cognitive processes. Yet LLMs exhibit systemic deficiencies in key metacognitive faculties: they hallucinate with high confidence, fail to recognize knowledge boundaries, and misrepresent their internal uncertainty--undermining trustworthiness and reliability. Since monitoring task performance and adapting behavior accordingly are central to metacognition, we posit that models capable of accurately judging their own performance are better positioned to improve it. We operationalize this idea via two novel mechanisms: reinforcement learning with metacognitive feedback (RLMF), a paradigm to refine completion rankings during preference optimization based on the quality of a model's self-judgments of performance, and metacognitive data selection, which uses similar self-judgments to identify high-value training examples, outperforming naive active learning. We apply these innovations to the problem of faithful calibration (FC), a task that is itself fundamentally metacognitive: the goal is to align expressed with intrinsic uncertainty, difficult even for frontier LLMs. We adopt a two-stage, decoupled approach, first using these methods to calibrate the faithfulness of models' self-reported confidence scores, then mapping to natural, context-adaptable linguistic uncertainty via targeted output editing. Extensive experiments show RLMF achieves generalizable, state-of-the-art FC on diverse tasks while preserving accuracy. Further, RLMF surpasses standard RL by up to 63% while enhancing models' ability to assess and express their own capability limits. This positions RLMF as a promising paradigm to enhance LLM metacognition toward improved abilities and alignment, and suggests metacognitive performance as an effective RL signal to overcome limits of prior intrinsic feedback methods.",
+      "authors": [
+        "Gabrielle Kaili-May Liu",
+        "Avi Caciularu",
+        "Gal Yona",
+        "Idan Szpektor",
+        "Arman Cohan"
+      ],
+      "published": "2026-06-30T17:56:01Z",
+      "updated": "2026-06-30T17:56:01Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2606.32032v1",
+      "pdf_url": "https://arxiv.org/pdf/2606.32032v1",
+      "comment": "Code: https://github.com/yale-nlp/RLMF",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "llm",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.5008,
+          "matched": [
+            "alignment",
+            "uncertainty",
+            "calibration",
+            "alignment",
+            "reliability",
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "emerging",
+          "score": 0.2918,
+          "matched": [
+            "data selection",
+            "data",
+            "selection"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5253,
+        "relevance": 0.459,
+        "quality": 0.53,
+        "novelty": 0.8439,
+        "freshness": 0.731
+      },
+      "quality_signals": [
+        "experiments",
+        "formal bound",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Reinforcement learning with metacognitive feedback (RLMF) significantly improves faithful calibration of LLMs’ uncertainty expression, surpassing standard RL by up to 63% while preserving accuracy.",
+        "problem": "LLMs exhibit systemic metacognitive deficiencies, including overconfident hallucinations and poor uncertainty calibration, undermining trustworthiness and reliability.",
+        "method": "RLMF refines completion rankings during preference optimization by scaling RL advantages based on the accuracy of a model’s self-judgments, complemented by metacognitive data selection and targeted linguistic uncertainty rewriting.",
+        "evidence": "Extensive experiments on 10 diverse datasets and multiple LLM families demonstrate RLMF achieves state-of-the-art faithful calibration (cMFG* ≥ 0.80) and outperforms baselines including prompting, SFT, and standard RL.",
+        "limitations": "The paper does not provide detailed mechanistic explanations for how metacognitive feedback causally improves calibration beyond empirical results.",
+        "why_for_you": "RLMF offers a novel, effective training paradigm leveraging metacognitive signals to enhance LLM uncertainty calibration and reliability, directly addressing key challenges in trustworthy LLM deployment.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "RLMF improves faithful calibration by up to 63% over standard RL, achieving cMFG* scores ≥ 0.80 across diverse tasks and models, including Qwen3 and Llama3.1-Instruct families."
+          },
+          {
+            "icon": "🛡️",
+            "text": "Metacognitive advantage scaling in RLMF uses the accuracy of a model’s self-assessment to weight RL rewards, reinforcing completions with better metacognitive performance."
+          },
+          {
+            "icon": "📉",
+            "text": "Metacognitive data selection outperforms naive and active-learning baselines by selecting training examples where the model’s self-judgments indicate high informational value, improving calibration robustness."
+          }
+        ],
+        "overview": "This work addresses the critical problem of LLMs’ poor metacognitive faculties, specifically their inability to faithfully express uncertainty, which leads to overconfident hallucinations and trust issues. The authors propose reinforcement learning with metacognitive feedback (RLMF), a novel paradigm that incorporates the quality of a model’s self-judgments into the RL reward signal via metacognitive advantage scaling. This approach encourages models to not only produce accurate outputs but also to accurately assess their own performance. Complementing RLMF, metacognitive data selection uses these self-assessments to curate high-value training samples, outperforming standard active learning. The pipeline further includes a targeted rewriting stage to map numerical confidence scores to natural linguistic uncertainty expressions. Extensive experiments on 10 datasets and multiple LLM architectures demonstrate that RLMF achieves state-of-the-art faithful calibration (measured by cMFG*), generalizes across tasks and domains, and preserves task accuracy. These results position metacognitive performance as a powerful RL signal to overcome limitations of prior intrinsic feedback methods, advancing trustworthy LLM capabilities.",
+        "methodology": [
+          {
+            "title": "Reinforcement Learning with Metacognitive Feedback (RLMF)",
+            "detail": "RLMF integrates metacognitive feedback into RL by scaling the advantage of each completion based on the accuracy of the model’s self-judgment of its performance. The model is rewarded not only for task success but also for accurate self-assessment, encouraging improved metacognitive awareness during preference optimization."
+          },
+          {
+            "title": "Metacognitive Data Selection",
+            "detail": "This method uses the model’s self-assessed performance scores to select informative training examples. Samples where the model exhibits high or low confidence aligned with actual performance are prioritized, outperforming naive random and active-learning baselines in improving calibration."
+          },
+          {
+            "title": "Two-Stage Faithful Calibration Pipeline",
+            "detail": "Stage one applies RLMF and metacognitive data selection to calibrate numerical confidence scores. Stage two uses targeted output rewriting with Gemini-2.5-FlashLite to convert numerical confidence into natural, context-adaptable linguistic uncertainty expressions, enhancing communication naturalness."
+          },
+          {
+            "title": "Supervised Fine-Tuning (SFT) Pretraining",
+            "detail": "Prior to RL training, models undergo supervised fine-tuning to learn the custom output format for uncertainty expression, generalize across tasks, and adhere to task-specific output lengths, establishing a foundation for subsequent metacognitive training."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Metacognitive Advantage Scaling",
+            "detail": "During RL training, the advantage (learning signal) for each completion is scaled by the accuracy of the model’s self-judgment of its performance, effectively weighting updates toward completions where the model better predicts its own success. This mechanism operationalizes metacognitive feedback as a higher-level intrinsic reward signal beyond raw output confidence."
+          },
+          {
+            "title": "No Explicit Mechanistic Equations Provided",
+            "detail": "The paper does not provide formal mechanistic equations or causal models explaining how metacognitive feedback causally improves calibration, focusing instead on empirical validation."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Faithful Calibration Evaluation",
+            "detail": "Evaluation uses 10 diverse datasets sampled with 1000 examples each, spanning multiple domains and difficulty levels. Models include Qwen3 (1.7B, 4B, 8B) and Llama3.1-Instruct (8B). Metrics include cMFG* for faithful calibration, accuracy via LLM-as-a-Judge, and Brier Score for factual alignment."
+          },
+          {
+            "title": "Ablation Studies",
+            "detail": "Ablations remove metacognitive advantage scaling or replace metacognitive data selection with random or active-learning baselines, demonstrating the critical contribution of each component to calibration improvements."
+          },
+          {
+            "title": "Generalization Across Training Tasks",
+            "detail": "RLMF training on different datasets (PopQA, SelfAware, UMWP, HaluEval) shows consistent strong numerical faithful calibration, indicating robustness to training data choice."
+          },
+          {
+            "title": "Linguistic Uncertainty Rewriting",
+            "detail": "Using Gemini-2.5-FlashLite, numerical confidence scores are mapped to natural linguistic uncertainty expressions, achieving a 96% win rate over GPT-5-Mini in diversity, naturalness, helpfulness, and contextual suitability."
+          }
+        ],
+        "findings": [
+          {
+            "title": "RLMF Outperforms Baselines",
+            "detail": "RLMF achieves average cMFG* gains of 29% and 25% over prompting and SFT methods respectively, with cMFG* ≥ 0.80 across tasks, surpassing standard RL by up to 63%."
+          },
+          {
+            "title": "Preservation of Task Accuracy",
+            "detail": "Unlike some baselines (MetaFaith, FUT), RLMF maintains or improves task accuracy and factual calibration while enhancing faithful calibration."
+          },
+          {
+            "title": "Metacognitive Data Selection Effectiveness",
+            "detail": "Data selection based on model self-assessments yields better calibration improvements than random or active-learning selection, as shown by higher cMFG* and stable accuracy."
+          },
+          {
+            "title": "Generalization to Out-of-Distribution Tasks",
+            "detail": "RLMF trained on PopQA generalizes well to complex reasoning tasks (e.g., MATH) and out-of-distribution datasets (e.g., SimpleQA), demonstrating robustness."
+          },
+          {
+            "title": "Small Models Surpass Large Proprietary LLMs",
+            "detail": "Small models trained with RLMF outperform larger proprietary LLMs like GPT-5 in faithful calibration by 17-37% on average."
+          }
+        ],
+        "contributions": [
+          "Introduction of RLMF, a novel RL paradigm leveraging metacognitive feedback to improve LLM uncertainty calibration.",
+          "Development of metacognitive data selection to curate high-value training examples based on self-assessed performance.",
+          "Establishment of the first end-to-end pipeline for faithful numerical and linguistic uncertainty calibration in LLMs.",
+          "Demonstration of state-of-the-art faithful calibration across diverse models, tasks, and domains with preserved accuracy.",
+          "Provision of extensive empirical evidence showing RLMF’s superiority over standard RL and prior calibration methods."
+        ],
+        "limitations": [
+          "Lack of formal mechanistic or causal modeling explaining how metacognitive feedback improves calibration.",
+          "Experiments focus on specific LLM families and datasets; broader applicability to other architectures or domains remains to be validated.",
+          "The rewriting stage relies on a specific model (Gemini-2.5-FlashLite), and its generalizability or dependence on this choice is not deeply analyzed.",
+          "Potential computational overhead and complexity introduced by metacognitive advantage scaling and data selection are not quantified."
+        ],
+        "open_questions": [
+          "How can metacognitive feedback mechanisms be theoretically modeled to explain their causal impact on calibration?",
+          "Can RLMF be effectively applied to larger-scale or multimodal LLMs beyond the tested families?",
+          "What are the trade-offs in computational cost and training stability introduced by metacognitive advantage scaling?",
+          "How robust is the linguistic uncertainty rewriting stage across different languages, cultures, or user preferences?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment",
+          "uncertainty",
+          "calibration",
+          "alignment"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-02T15:07:24.086596+00:00"
+    },
+    {
+      "id": "2606.30345",
+      "title": "DRIFT: Difficulty Routing Self-DIstillation with Rhythm-Gated Exploration and Success BuFfer Training",
+      "abstract": "Enabling large language models to achieve stable self-improvement without external expert supervision remains a central challenge in complex reasoning tasks. Existing self-distillation and reinforcement learning methods lack explicit mechanisms for tracking problem-level learning progress and adapting optimization strategies accordingly. Consequently, training may over-optimize easy problems, receive weak supervision from hard problems, and fail to sufficiently explore borderline cases. To resolve these issues, we propose DRIFT, an online self-evolution policy optimization framework for large language models. DRIFT regulates the model's self-improvement process through the joint use of Difficulty Routing and Rhythm Gating. The former identifies the model's learning state at the problem level and dynamically allocates self-distillation and reinforcement learning signals, while the latter refines policy updates at the token level, concentrating exploration on critical reasoning positions. By further incorporating a success buffer and a two-stage curriculum learning strategy, DRIFT preserves high-quality historical experience while progressively guiding the model from reliable behavior acquisition toward stable policy evolution. Evaluated across five benchmarks and three model scales, DRIFT surpasses the peak performance of both GRPO and SDPO across all evaluated metrics. On the average score over the five benchmarks, DRIFT achieves 79.5$\\%$, outperforming GRPO by 9.5$\\%$ and SDPO by 7.5$\\%$, establishing a new state-of-the-art result. Notably, on ToolUse, DRIFT reaches an accuracy of 79.2$\\%$, improving over GRPO by 13.5$\\%$ and SDPO by 10.7$\\%$, setting a new state-of-the-art and substantially outperforming all concurrent methods.",
+      "authors": [
+        "Haisen Luo",
+        "Yiwei Liu",
+        "Haoning Wang",
+        "Dan Liu",
+        "Junxi Yin",
+        "Haotian Wang",
+        "Lei Zhang",
+        "Xiaoyu Tian",
+        "Shuaiting Chen",
+        "Yuansheng Song",
+        "Baoyan Guo",
+        "Xiongfei Yan",
+        "Bolan Yang",
+        "Chengwei Liu",
+        "Ming Cui",
+        "Jiong Chen"
+      ],
+      "published": "2026-06-29T14:20:47Z",
+      "updated": "2026-06-29T14:20:47Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2606.30345v1",
+      "pdf_url": "https://arxiv.org/pdf/2606.30345v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "watch",
+          "score": 0.5482,
+          "matched": [
+            "self-distillation",
+            "distillation",
+            "self-distillation"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4914,
+        "relevance": 0.4386,
+        "quality": 0.48,
+        "novelty": 0.8196,
+        "freshness": 0.5668
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "DRIFT introduces difficulty routing and rhythm-gated exploration to adaptively coordinate self-distillation and reinforcement learning, achieving state-of-the-art performance on complex reasoning benchmarks.",
+        "problem": "Existing self-distillation and reinforcement learning methods for LLM self-improvement lack mechanisms to track problem-level learning progress and adapt training signals accordingly, leading to suboptimal exploration and supervision.",
+        "method": "DRIFT dynamically routes problems by difficulty to tailored optimization strategies and applies token-level rhythm gating to focus exploration on critical reasoning steps, while maintaining a success buffer and curriculum learning for stable policy evolution.",
+        "evidence": "DRIFT outperforms GRPO and SDPO by 9.5% and 7.5% respectively on average across five benchmarks, achieving 79.5% accuracy and setting new state-of-the-art results, notably 79.2% on ToolUse with a 13.5% improvement over GRPO.",
+        "limitations": "The paper does not provide detailed ablations isolating the individual contributions of difficulty routing, rhythm gating, and success buffer components.",
+        "why_for_you": "DRIFT offers a novel on-policy distillation framework that adaptively balances exploration and exploitation at both problem and token levels, addressing key challenges in stable LLM self-improvement.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "DRIFT achieves 79.5% mean@16 accuracy on five scientific reasoning and tool use benchmarks, surpassing SRPO by 2.1 points and improving over the Qwen3-8B baseline by 30 points, demonstrating robust gains across diverse tasks."
+          },
+          {
+            "icon": "🛡️",
+            "text": "Difficulty Routing classifies problems into easy, medium, and hard categories, allocating self-distillation to hard problems, reinforcement learning to medium-difficulty problems, and suppressing updates on easy problems to avoid redundant training."
+          },
+          {
+            "icon": "📉",
+            "text": "Rhythm-Gated Exploration refines token-level credit assignment by gating policy gradient updates with a rebellious bonus based on local exceedance of student over teacher log-probabilities and structural salience derived from temporal entropy differences."
+          }
+        ],
+        "overview": "The paper addresses the challenge of stable self-improvement in large language models (LLMs) for complex reasoning tasks without external supervision. Existing methods like GRPO and SDPO inadequately adapt training signals to the model's evolving capabilities, causing over-optimization of easy problems and insufficient exploration of borderline cases. DRIFT proposes an online self-evolution framework that dynamically routes problems by difficulty, applying self-distillation to hard problems, reinforcement learning to medium-difficulty problems, and reducing updates on easy problems. Additionally, it introduces rhythm-gated exploration to focus token-level policy updates on structurally salient reasoning steps, improving credit assignment and reducing gradient noise. A success buffer retains high-quality historical solutions, enabling durable memory across batches, and a two-stage curriculum guides stable policy evolution. Empirical evaluation on five benchmarks and three model scales shows DRIFT consistently outperforms state-of-the-art baselines, achieving a new peak accuracy of 79.5% and substantial gains on the ToolUse benchmark. These results validate DRIFT's adaptive training signal allocation and token-level exploration as effective mechanisms for LLM self-evolution.",
+        "methodology": [
+          {
+            "title": "Difficulty Routing",
+            "detail": "DRIFT estimates the model's mastery per problem and categorizes problems into easy, medium, and hard. It routes easy problems to receive fewer updates to prevent redundant training, hard problems to self-distillation for explicit guidance, and medium-difficulty problems to reinforcement learning for focused exploration, balancing error correction and policy evolution."
+          },
+          {
+            "title": "Rhythm-Gated Exploration",
+            "detail": "This component refines token-level policy updates by computing a rebellious bonus based on the student's local exceedance over the teacher's log-probabilities, filtered by a margin. Structural salience is estimated from temporal entropy differences between teacher and student, gating updates to critical reasoning tokens and improving credit assignment."
+          },
+          {
+            "title": "Success Buffer",
+            "detail": "A cross-batch memory stores high-quality correct solutions, enabling reuse of successful trajectories across training batches. This preserves reliable supervision for hard problems that are rarely solved in the current batch, supporting stable and durable self-evolution."
+          },
+          {
+            "title": "Two-Stage Curriculum Learning",
+            "detail": "DRIFT employs a curriculum that first guides the model to acquire reliable behavior through stable self-distillation, then progressively shifts toward policy evolution via reinforcement learning, ensuring smooth transition and convergence."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Token-Level Credit Assignment via Rhythm Gating",
+            "detail": "The rhythm gating mechanism calculates a token-level weight as the product of a rebellious bonus (local exceedance of student log-probability over teacher minus a margin) and structural salience (derived from temporal entropy dynamics). This selectively amplifies policy gradients at critical tokens only when the sample is in the medium-difficulty region, improving exploration efficiency and interpretability."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Benchmark Evaluation",
+            "detail": "DRIFT is evaluated on five benchmarks: Chemistry, Physics, Biology, Materials (from SciKnowEval), and Tool Use (from ToolAlpaca). The evaluation protocol follows SDPO with in-domain train/test splits, measuring mean@16 accuracy across tasks."
+          },
+          {
+            "title": "Baselines and Comparisons",
+            "detail": "DRIFT is compared against six baselines: GRPO, SDPO, SRPO, DistIL, SC-SDPO, and PGPO. GRPO and SDPO are reproduced with default hyperparameters; other baselines use reported results. Metrics include accuracy and best@16 performance."
+          },
+          {
+            "title": "Ablation and Hyperparameter Settings",
+            "detail": "Experiments set difficulty routing parameters (γhard=0, γeasy=0.5, reasy=0.8, rhard=0.2) to suppress redundant updates on easy problems and focus reinforcement learning on medium difficulty. Ablations isolating individual components are not detailed."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Superior Average Performance",
+            "detail": "DRIFT achieves 79.5% mean@16 accuracy across five benchmarks, outperforming SRPO by 2.1 points, SC-SDPO by 4.7 points, and GRPO/SDPO by 7.5–9.5 points, demonstrating consistent gains over strong baselines."
+          },
+          {
+            "title": "Balanced Task Performance",
+            "detail": "DRIFT ranks top two on every task, leading on biology (74.4%) and tool use (79.2%), and second-best on chemistry (82.0%), materials (81.4%), and physics (80.5%), with less than 1.1 points gap from per-task best, indicating robust generalization."
+          },
+          {
+            "title": "Improved Exploration on Hard Problems",
+            "detail": "On the hardest task, biology, DRIFT attains 74.4% accuracy versus 47.4% for GRPO reproduction, attributed to routing hard problems to self-distillation and token-level correction via rhythm gating."
+          },
+          {
+            "title": "Effective Suppression of Redundant Updates",
+            "detail": "Difficulty routing suppresses updates on easy problems with homogeneous rewards and vanishing advantage, preventing over-optimization and stabilizing training."
+          }
+        ],
+        "contributions": [
+          "Proposed Difficulty Routing to adaptively allocate self-distillation and reinforcement learning signals based on problem-level mastery.",
+          "Introduced Rhythm-Gated Exploration to refine token-level credit assignment focusing on structurally salient reasoning tokens.",
+          "Developed a Success Buffer to retain and reuse high-quality correct solutions across batches for durable self-evolution.",
+          "Designed a two-stage curriculum learning strategy guiding stable policy evolution from behavior acquisition to exploration.",
+          "Demonstrated state-of-the-art performance on five scientific reasoning and tool use benchmarks across multiple model scales."
+        ],
+        "limitations": [
+          "Lack of detailed ablation studies isolating the impact of difficulty routing, rhythm gating, and success buffer components.",
+          "No explicit analysis of computational overhead or training efficiency introduced by the rhythm gating mechanism.",
+          "Limited discussion on generalization to out-of-domain tasks or robustness to noisy or adversarial inputs.",
+          "Absence of theoretical guarantees or formal convergence analysis for the proposed adaptive routing framework."
+        ],
+        "open_questions": [
+          "How does each component of DRIFT (difficulty routing, rhythm gating, success buffer) individually contribute to performance gains?",
+          "Can the rhythm-gated exploration mechanism be generalized to other sequence modeling tasks beyond reasoning?",
+          "What are the trade-offs between exploration and exploitation in DRIFT when scaling to larger models or more complex tasks?",
+          "How robust is DRIFT to noisy or adversarial training signals, and can it be extended to handle such scenarios?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "On-policy distillation",
+        "matched": [
+          "self-distillation",
+          "distillation",
+          "self-distillation"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-02T15:07:24.086596+00:00"
+    },
     {
       "id": "2606.30077",
       "title": "Online Data Selection for Instruction Tuning via Gaussian Processes",
