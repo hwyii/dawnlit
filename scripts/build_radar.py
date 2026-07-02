@@ -639,6 +639,33 @@ def load_previous_items(output_path: Path) -> dict[str, dict[str, Any]]:
         return {}
 
 
+def load_seen_paper_ids(output_path: Path) -> set[str]:
+    """Load every previously recommended arXiv ID, including pre-index archives."""
+    data_dir = output_path.parent
+    seen: set[str] = set()
+    paths = [
+        data_dir / "seen.json",
+        output_path,
+        data_dir / "history.json",
+        *sorted((data_dir / "archive").glob("*.json")),
+    ]
+    for path in paths:
+        if not path.exists():
+            continue
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        for paper_id in payload.get("paper_ids", []):
+            if isinstance(paper_id, str) and paper_id:
+                seen.add(paper_id)
+        for item in payload.get("papers", []):
+            paper_id = item.get("id") if isinstance(item, dict) else None
+            if isinstance(paper_id, str) and paper_id:
+                seen.add(paper_id)
+    return seen
+
+
 def novelty_score(paper: Paper, previous: list[set[str]]) -> float:
     if not previous:
         return 0.55
@@ -1290,7 +1317,9 @@ def build(
     papers = parse_atom(payload)
     previous = load_previous_papers(output_path)
     previous_items = load_previous_items(output_path)
-    scored = score_papers(papers, profile, feedback, previous, now)
+    seen_ids = load_seen_paper_ids(output_path)
+    unseen_papers = [paper for paper in papers if paper.id not in seen_ids]
+    scored = score_papers(unseen_papers, profile, feedback, previous, now)
     selected = diversify(scored, profile)
     serialized = [
         serialize_item(
@@ -1308,12 +1337,29 @@ def build(
         "source_count": len(papers),
         "source_total": query_total,
         "source_truncated": query_total > len(papers),
+        "unseen_source_count": len(unseen_papers),
+        "previously_recommended_count": len(seen_ids),
         "eligible_count": len(scored),
         "feedback_count": len(feedback),
         "papers": serialized,
     }
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(feed, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+    seen_ids.update(item["id"] for item in serialized)
+    seen_path = output_path.parent / "seen.json"
+    seen_path.write_text(
+        json.dumps(
+            {
+                "updated_at": now.isoformat(),
+                "paper_ids": sorted(seen_ids),
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
 
     history_path = output_path.parent / "history.json"
     if reset_history:

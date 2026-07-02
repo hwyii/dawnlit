@@ -124,6 +124,27 @@ class PipelineTests(unittest.TestCase):
             cached = radar.load_previous_items(output)
             self.assertEqual(cached["2606.12345"]["title"], "Cached")
 
+    def test_seen_ids_include_current_history_archive_and_index(self):
+        with tempfile.TemporaryDirectory() as directory:
+            data_dir = Path(directory)
+            (data_dir / "archive").mkdir()
+            (data_dir / "papers.json").write_text(
+                json.dumps({"papers": [{"id": "current"}]})
+            )
+            (data_dir / "history.json").write_text(
+                json.dumps({"papers": [{"id": "history"}]})
+            )
+            (data_dir / "archive" / "old.json").write_text(
+                json.dumps({"papers": [{"id": "archive"}]})
+            )
+            (data_dir / "seen.json").write_text(
+                json.dumps({"paper_ids": ["indexed"]})
+            )
+            self.assertEqual(
+                radar.load_seen_paper_ids(data_dir / "papers.json"),
+                {"current", "history", "archive", "indexed"},
+            )
+
     def test_unchanged_paper_reuses_valid_deep_dive(self):
         paper = self.papers[0]
         topics = [{"name": "LLM loss landscape", "matched": ["loss landscape"]}]
@@ -238,7 +259,17 @@ class PipelineTests(unittest.TestCase):
             self.assertTrue((output.parent / "archive" / "2026-06-27.json").exists())
             self.assertTrue((output.parent / "history.json").exists())
             self.assertTrue((output.parent / "weekly.json").exists())
+            self.assertTrue((output.parent / "seen.json").exists())
             self.assertEqual(feed["papers"][0]["summary"]["source"], "abstract")
+
+            second_feed = radar.build(
+                ROOT / "config" / "profile.json",
+                output,
+                ROOT / "tests" / "fixtures" / "arxiv_feed.xml",
+                self.now + dt.timedelta(days=1),
+                use_ai=False,
+            )
+            self.assertEqual(second_feed["papers"], [])
 
 
 if __name__ == "__main__":

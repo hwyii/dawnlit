@@ -232,7 +232,7 @@ function renderPaperView(papers) {
       eyebrow: "DAILY SIGNAL",
       title: "Today’s radar",
       subtitle:
-        "Core LLM research signals, with relevance, quality, and exploration scored separately.",
+        "New, never-before-recommended LLM papers; quiet days stay intentionally short.",
       date: prettyDate(state.feed.generated_at),
     },
     weekly: {

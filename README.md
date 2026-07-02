@@ -9,6 +9,8 @@ configured.
 
 - Fetches recent papers from `cs.LG`, `cs.AI`, `cs.CL`, `cs.CR`, and `stat.ML`.
 - Paginates the configured arXiv query and reports if its safety limit truncates results.
+- Keeps a durable index of recommended arXiv IDs, so Today never repeats a
+  paper and may contain fewer than the configured feed size.
 - Applies an LLM scope gate, with a small separate lane for transferable methods.
 - Scores each topic independently instead of using one seed-paper centroid.
 - Separates relevance, evidence-quality, novelty, and freshness scores.
@@ -262,6 +264,11 @@ https://hwyii.github.io/dawnlit/
 The update workflow runs every day at 06:17 in `America/Detroit`. It avoids the
 start of the hour because scheduled GitHub workflows can be delayed under heavy
 load. Changes to `config/**` or `scripts/**` also trigger an immediate update.
+
+The arXiv query uses a four-day recovery window so delayed indexing or a missed
+workflow does not lose papers. This is not a refill pool: IDs already present in
+`public/data/seen.json` are excluded before ranking, and Today stays short when
+fewer than six unseen papers clear the relevance threshold.
 
 ## Optional preference and feedback sync
 
