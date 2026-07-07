@@ -639,10 +639,30 @@ def load_previous_items(output_path: Path) -> dict[str, dict[str, Any]]:
         return {}
 
 
-def load_seen_paper_ids(output_path: Path) -> set[str]:
-    """Load every previously recommended arXiv ID, including pre-index archives."""
+def payload_generated_date(payload: dict[str, Any]) -> dt.date | None:
+    raw_date = payload.get("generated_at")
+    if not isinstance(raw_date, str) or not raw_date:
+        return None
+    try:
+        return parse_date(raw_date).date()
+    except ValueError:
+        return None
+
+
+def load_seen_paper_ids(
+    output_path: Path,
+    current_date: dt.date | None = None,
+) -> set[str]:
+    """Load previously recommended arXiv IDs, including pre-index archives.
+
+    Same-day recommendations are excluded from the returned set so maintenance
+    reruns remain idempotent: today's current feed can be regenerated without
+    immediately hiding itself. On following days, those IDs remain part of the
+    durable seen index and are not recommended again.
+    """
     data_dir = output_path.parent
     seen: set[str] = set()
+    same_day_seen: set[str] = set()
     paths = [
         data_dir / "seen.json",
         output_path,
@@ -656,6 +676,7 @@ def load_seen_paper_ids(output_path: Path) -> set[str]:
             payload = json.loads(path.read_text(encoding="utf-8"))
         except (OSError, ValueError):
             continue
+        payload_date = payload_generated_date(payload) if isinstance(payload, dict) else None
         for paper_id in payload.get("paper_ids", []):
             if isinstance(paper_id, str) and paper_id:
                 seen.add(paper_id)
@@ -663,6 +684,18 @@ def load_seen_paper_ids(output_path: Path) -> set[str]:
             paper_id = item.get("id") if isinstance(item, dict) else None
             if isinstance(paper_id, str) and paper_id:
                 seen.add(paper_id)
+                recommended_at = item.get("recommended_at") if isinstance(item, dict) else None
+                item_date = None
+                if isinstance(recommended_at, str) and recommended_at:
+                    try:
+                        item_date = parse_date(recommended_at).date()
+                    except ValueError:
+                        item_date = None
+                item_date = item_date or payload_date
+                if current_date is not None and item_date == current_date:
+                    same_day_seen.add(paper_id)
+    if current_date is not None:
+        seen.difference_update(same_day_seen)
     return seen
 
 
@@ -1339,7 +1372,7 @@ def build(
     papers = parse_atom(payload)
     previous = load_previous_papers(output_path)
     previous_items = load_previous_items(output_path)
-    seen_ids = load_seen_paper_ids(output_path)
+    seen_ids = load_seen_paper_ids(output_path, now.date())
     unseen_papers = [paper for paper in papers if paper.id not in seen_ids]
     scored = score_papers(unseen_papers, profile, feedback, previous, now)
     selected = diversify(scored, profile)

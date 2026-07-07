@@ -129,13 +129,32 @@ class PipelineTests(unittest.TestCase):
             data_dir = Path(directory)
             (data_dir / "archive").mkdir()
             (data_dir / "papers.json").write_text(
-                json.dumps({"papers": [{"id": "current"}]})
+                json.dumps(
+                    {
+                        "generated_at": "2026-06-27T12:00:00+00:00",
+                        "papers": [{"id": "current"}],
+                    }
+                )
             )
             (data_dir / "history.json").write_text(
-                json.dumps({"papers": [{"id": "history"}]})
+                json.dumps(
+                    {
+                        "papers": [
+                            {
+                                "id": "history",
+                                "recommended_at": "2026-06-27T12:30:00+00:00",
+                            }
+                        ]
+                    }
+                )
             )
             (data_dir / "archive" / "old.json").write_text(
-                json.dumps({"papers": [{"id": "archive"}]})
+                json.dumps(
+                    {
+                        "generated_at": "2026-06-26T12:00:00+00:00",
+                        "papers": [{"id": "archive"}],
+                    }
+                )
             )
             (data_dir / "seen.json").write_text(
                 json.dumps({"paper_ids": ["indexed"]})
@@ -143,6 +162,13 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(
                 radar.load_seen_paper_ids(data_dir / "papers.json"),
                 {"current", "history", "archive", "indexed"},
+            )
+            self.assertEqual(
+                radar.load_seen_paper_ids(
+                    data_dir / "papers.json",
+                    dt.date(2026, 6, 27),
+                ),
+                {"archive", "indexed"},
             )
 
     def test_unchanged_paper_reuses_valid_deep_dive(self):
