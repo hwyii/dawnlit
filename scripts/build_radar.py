@@ -1016,17 +1016,20 @@ def cloudflare_summary(paper: Paper, topics: list[dict[str, Any]]) -> dict[str, 
 def github_chat(token: str, body: dict[str, Any]) -> dict[str, Any]:
     url = "https://models.github.ai/inference/chat/completions"
     last_error: Exception | None = None
-    for attempt in range(3):
+    # Daily feed freshness is more important than waiting many minutes for
+    # hosted-model retries. If a model is slow or unavailable, fall back to the
+    # next model and then to the extractive summary.
+    for attempt in range(1):
         try:
-            return request_json(url, token, "POST", body, timeout=180)
+            return request_json(url, token, "POST", body, timeout=90)
         except urllib.error.HTTPError as error:
             last_error = error
-            if error.code not in {429, 500, 502, 503, 504} or attempt == 2:
+            if error.code not in {429, 500, 502, 503, 504} or attempt == 0:
                 raise
             time.sleep(6 * (attempt + 1))
         except (urllib.error.URLError, TimeoutError) as error:
             last_error = error
-            if attempt == 2:
+            if attempt == 0:
                 raise
             time.sleep(12 * (attempt + 1))
     raise RuntimeError(f"GitHub Models request failed: {last_error}")
