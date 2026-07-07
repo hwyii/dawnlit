@@ -209,6 +209,33 @@ class PipelineTests(unittest.TestCase):
         self.assertIn("METHOD REGION", condensed)
         self.assertIn("ENDING REGION", condensed)
 
+    def test_ai_analysis_crash_falls_back_to_extractive_summary(self):
+        paper = self.papers[0]
+        topics = [{"name": "LLM safety", "matched": ["llm"], "status": "core"}]
+        item = {
+            "id": paper.id,
+            "title": paper.title,
+            "abstract": paper.abstract,
+            "topics": topics,
+            "lane": "llm",
+            "_paper": paper,
+            "_tokens": set(),
+        }
+        with patch.object(
+            radar,
+            "github_analysis",
+            side_effect=RuntimeError("models timeout"),
+        ), patch.object(
+            radar,
+            "cloudflare_summary",
+            side_effect=RuntimeError("fallback timeout"),
+        ):
+            serialized = radar.serialize_item(item, True)
+
+        self.assertEqual(serialized["summary"]["source"], "abstract")
+        self.assertEqual(serialized["summary"]["generated_by"], "extractive")
+        self.assertNotIn("deep_dive", serialized)
+
     def test_simple_interests_retain_advanced_rules_and_add_topics(self):
         with tempfile.TemporaryDirectory() as directory:
             interests_path = Path(directory) / "interests.txt"

@@ -1078,7 +1078,13 @@ def github_analysis(
                 )
                 continue
             return analysis
-        except (OSError, ValueError, urllib.error.URLError, IndexError) as error:
+        except (
+            OSError,
+            RuntimeError,
+            ValueError,
+            urllib.error.URLError,
+            IndexError,
+        ) as error:
             print(f"{model} analysis failed for {paper.id}: {error}", file=sys.stderr)
     return None
 
@@ -1234,11 +1240,24 @@ def serialize_item(
                 ):
                     summary = copy.deepcopy(cached_summary)
         else:
-            analysis = github_analysis(paper, item["topics"])
+            try:
+                analysis = github_analysis(paper, item["topics"])
+            except Exception as error:
+                print(
+                    f"AI analysis crashed for {paper.id}; falling back to extractive summary: {error}",
+                    file=sys.stderr,
+                )
+                analysis = None
             if analysis:
                 summary, deep_dive = analysis
             else:
-                summary = cloudflare_summary(paper, item["topics"])
+                try:
+                    summary = cloudflare_summary(paper, item["topics"])
+                except Exception as error:
+                    print(
+                        f"Cloudflare summary crashed for {paper.id}; falling back to extractive summary: {error}",
+                        file=sys.stderr,
+                    )
     item["summary"] = summary or extractive_summary(paper, item["topics"])
     if deep_dive:
         item["deep_dive"] = deep_dive
@@ -1459,7 +1478,10 @@ def main() -> int:
     )
     print(
         f"Generated {len(feed['papers'])} recommendations "
-        f"from {feed['source_count']} source papers ({feed['eligible_count']} eligible)."
+        f"from {feed['source_count']} source papers "
+        f"({feed['unseen_source_count']} unseen, "
+        f"{feed['eligible_count']} eligible, "
+        f"{feed['previously_recommended_count']} previously recommended)."
     )
     return 0
 
