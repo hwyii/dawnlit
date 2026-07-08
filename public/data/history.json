@@ -1,6 +1,709 @@
 {
-  "generated_at": "2026-07-07T15:11:18.490356+00:00",
+  "generated_at": "2026-07-08T11:57:23.024570+00:00",
   "papers": [
+    {
+      "id": "2607.06326",
+      "title": "DT-Guard: Intent-Driven Reasoning-Active Training for Reasoning-Free LLM Safety Guardrail",
+      "abstract": "Large language models deployed in open-world applications require safety guardrails that are both robust to complex risks and efficient enough for low-latency runtime moderation. Existing guardrails face a practical trade-off between lightweight classification-based models, which are efficient but often struggle with concealed intent, ambiguous semantics, and borderline safety decisions, and reasoning-based guards, which improve judgment quality but introduce additional token generation and inference latency. We present DT-Guard, a content safety guardrail model based on a Reasoning-Active Training, Reasoning-Free Inference paradigm. The key idea is to use reasoning supervision during training while emitting only structured safety labels at inference time. DT-Guard formulates safety judgment as a progressive decision process, Intent - Category - Safety, and constructs an intent-driven dataset with intent labels, risk categories, safety labels, and structured reasoning trajectories. To further improve hard-case robustness, we propose Rollout-Guided Progressive Hard-Case Optimization (RG-PHO), which uses multi-rollout consistency to identify stably mastered, persistently failed, and preference-unstable samples, and applies targeted supervised and preference optimization accordingly. At inference time, DT-Guard directly generates structured labels without explicit reasoning traces, preserving deployment efficiency. Experiments on prompt-side and response-side safety benchmarks show that DT-Guard achieves average F1 scores of 0.886 and 0.870, respectively. With only a 4B backbone, it reaches a dual-side average F1 of 0.878, outperforming strong 8B guardrail baselines. These results demonstrate that reasoning supervision can be effectively internalized into low-latency safety discrimination.",
+      "authors": [
+        "He Liu",
+        "Changtao Miao",
+        "Xinjie Yang",
+        "Tianle Song",
+        "Yin Wu",
+        "Junchi Chen",
+        "Bintao He",
+        "Xinyuan Zhang",
+        "Bo Zhang",
+        "Shi Yan",
+        "Wei Lu",
+        "Wei Wang",
+        "Danyang Xu",
+        "Jiansheng Cai",
+        "Zhe Li"
+      ],
+      "published": "2026-07-07T14:25:05Z",
+      "updated": "2026-07-07T14:25:05Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2607.06326v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.06326v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.6714,
+          "matched": [
+            "robustness",
+            "robust",
+            "training"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.6581,
+          "matched": [
+            "llm safety",
+            "LLM safety",
+            "robustness",
+            "safety",
+            "llm",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6924,
+        "relevance": 0.6687,
+        "quality": 0.65,
+        "novelty": 0.8418,
+        "freshness": 0.8718
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation",
+        "experiments",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "DT-Guard internalizes reasoning supervision during training to achieve efficient, reasoning-free inference for robust LLM safety guardrails.",
+        "problem": "Existing LLM safety guardrails trade off between efficient but shallow classification and robust but slow reasoning-based methods.",
+        "method": "DT-Guard uses a progressive Intent → Category → Safety decision process with reasoning-active training and rollout-guided hard-case optimization, emitting only structured labels at inference.",
+        "evidence": "DT-Guard achieves average F1 scores of 0.886 on prompt-side and 0.870 on response-side benchmarks, outperforming 8B baselines with a 4B backbone.",
+        "limitations": "The paper does not provide detailed analysis of failure modes or generalization beyond tested benchmarks.",
+        "why_for_you": "DT-Guard offers a novel training paradigm that leverages reasoning supervision to improve adversarial robustness and efficiency in LLM safety guardrails.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "DT-Guard formulates safety judgment as a progressive decision process: Intent recognition, risk Category attribution, and final Safety prediction, enabling clearer intermediate supervision for complex cases."
+          },
+          {
+            "icon": "🛡️",
+            "text": "Rollout-Guided Progressive Hard-Case Optimization (RG-PHO) stratifies samples by multi-rollout consistency into mastered, persistently failed, and preference-unstable, applying targeted supervised fine-tuning and contrastive preference optimization."
+          },
+          {
+            "icon": "📉",
+            "text": "Selective Chain-of-Thought (CoT) training on borderline samples improves average F1 from 0.828 (full CoT) to 0.860, showing that uniform CoT supervision mismatches reasoning-free inference."
+          }
+        ],
+        "overview": "DT-Guard addresses the challenge of deploying LLM safety guardrails that are both robust to complex, concealed intents and efficient for low-latency inference. Existing methods either rely on lightweight classification models that struggle with ambiguous or adversarial inputs or on reasoning-based models that incur high inference latency due to token generation of reasoning chains. DT-Guard introduces a Reasoning-Active Training, Reasoning-Free Inference paradigm, where explicit reasoning supervision is used only during training to internalize complex safety judgments. The model predicts structured safety labels through a progressive decision process: identifying user intent, attributing risk categories, and adjudicating safety levels. To enhance robustness on hard cases, DT-Guard employs RG-PHO, which uses multi-rollout consistency to identify sample difficulty and applies tailored supervised and preference-based optimization. Experiments on multiple prompt-side and response-side safety benchmarks demonstrate that DT-Guard outperforms larger 8B parameter baselines with only a 4B backbone, achieving average F1 scores of 0.886 and 0.870 respectively, validating the effectiveness of reasoning supervision internalization for efficient safety discrimination.",
+        "methodology": [
+          {
+            "title": "Intent-Driven Progressive Safety Judgment",
+            "detail": "Safety judgment is decomposed into a three-stage process: Intent recognition to capture underlying user motivation, Category attribution to assign relevant risk types, and Safety prediction to determine final safety labels. This structured approach provides intermediate supervision signals that improve robustness on ambiguous and borderline cases."
+          },
+          {
+            "title": "Reasoning-Active Training with Reasoning-Free Inference",
+            "detail": "During training, DT-Guard uses explicit reasoning trajectories as supervision to guide the model in understanding complex safety decisions. At inference, the model emits only structured safety labels without generating reasoning chains, preserving low-latency deployment."
+          },
+          {
+            "title": "Rollout-Guided Progressive Hard-Case Optimization (RG-PHO)",
+            "detail": "RG-PHO uses multiple model rollouts to assess sample consistency, stratifying samples into stably mastered, persistently failed, and preference-unstable. Persistently failed samples receive stronger supervised fine-tuning, while preference-unstable samples undergo contrastive preference optimization to stabilize judgments."
+          },
+          {
+            "title": "Selective Chain-of-Thought (CoT) Supervision",
+            "detail": "CoT reasoning supervision is selectively applied only to borderline samples rather than uniformly across all data, mitigating format mismatch with reasoning-free inference and improving overall F1 performance."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "No explicit mechanism equations provided",
+            "detail": "The paper does not present formal equations or causal models but describes the progressive decision process and rollout consistency as conceptual mechanisms for improving safety judgment robustness."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Benchmark Evaluation on Prompt-Side and Response-Side Safety",
+            "detail": "DT-Guard is evaluated on 10 prompt-side benchmarks (e.g., ToxicChat, OpenAI Moderation, AegisSafety) and 7 response-side benchmarks (e.g., HarmBench-Response, SafeRLHF). Metrics reported are classification F1 scores, comparing against Qwen3Guard and YuFeng-XGuard baselines with parameter sizes from 0.6B to 8B."
+          },
+          {
+            "title": "Ablation Studies on Training Components",
+            "detail": "Ablations isolate the effects of intent labels, CoT allocation strategies, hard-case supervised fine-tuning (SFT), and direct preference optimization (DPO). Selective CoT on borderline samples yields the best average F1, confirming the importance of matching supervision to sample difficulty."
+          },
+          {
+            "title": "Model Size and Efficiency Comparison",
+            "detail": "DT-Guard with a 4B backbone outperforms strong 8B guardrail baselines, demonstrating that reasoning supervision internalized during training can compensate for smaller model size while maintaining low-latency inference."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Superior Safety Classification Performance",
+            "detail": "DT-Guard achieves average F1 scores of 0.886 on prompt-side and 0.870 on response-side safety benchmarks, outperforming Qwen3Guard-8B (0.852 prompt-side) and YuFeng-XGuard-8B baselines."
+          },
+          {
+            "title": "Effectiveness of Intent Labels",
+            "detail": "Adding intent supervision improves prompt-side average F1 from 0.855 to 0.863, indicating that modeling interaction motivation aids in disambiguating semantically similar but safety-divergent requests."
+          },
+          {
+            "title": "Selective CoT Training Improves Robustness",
+            "detail": "Applying chain-of-thought supervision only to borderline samples increases average F1 to 0.860, whereas full CoT training reduces performance to 0.828 due to format mismatch with reasoning-free inference."
+          },
+          {
+            "title": "RG-PHO Enhances Hard-Case Handling",
+            "detail": "Multi-rollout consistency stratification enables targeted optimization of persistently failed and preference-unstable samples, improving model stability and judgment quality on difficult cases."
+          },
+          {
+            "title": "Efficiency Gains from Reasoning-Free Inference",
+            "detail": "By emitting only structured safety labels at inference, DT-Guard avoids token-generation overhead of reasoning chains, enabling deployment in low-latency, high-throughput industrial systems."
+          }
+        ],
+        "contributions": [
+          "Proposed DT-Guard, a safety guardrail model combining reasoning-active training with reasoning-free inference for efficient and robust safety judgment.",
+          "Formulated safety judgment as a progressive Intent → Category → Safety decision process with intent-driven dataset construction.",
+          "Introduced Rollout-Guided Progressive Hard-Case Optimization to stratify and optimize hard safety cases via multi-rollout consistency.",
+          "Demonstrated that reasoning supervision can be internalized to outperform larger guardrail models with smaller backbones under low-latency inference constraints."
+        ],
+        "limitations": [
+          "Lack of detailed failure mode analysis or error case studies limits understanding of residual risks.",
+          "Generalization to unseen or evolving safety risks beyond benchmark datasets is not evaluated.",
+          "No explicit mechanism or theoretical guarantees are provided for the rollout consistency stratification approach.",
+          "The impact of model architecture variations or larger-scale training data on DT-Guard performance is not explored."
+        ],
+        "open_questions": [
+          "How well does DT-Guard generalize to novel or adversarially crafted safety risks outside the training distribution?",
+          "Can rollout-guided hard-case optimization be extended or formalized with theoretical guarantees for safety-critical applications?",
+          "What are the trade-offs between reasoning supervision granularity and inference efficiency in other safety-critical LLM tasks?",
+          "How does DT-Guard perform when integrated with larger backbone models or multimodal inputs?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "robustness",
+          "robust",
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-08T11:57:23.024570+00:00"
+    },
+    {
+      "id": "2607.06461",
+      "title": "WordVoice: Explicit and Decoupled Multi-Dimensional Word-Level Control for LLM-Based TTS",
+      "abstract": "While recent Large Language Model (LLM)-based Text-to-Speech (TTS) systems have achieved remarkable naturalness, they predominantly rely on implicit end-to-end generation paradigms, resulting in coarse-grained control. In scenarios demanding precise stylistic interventions and strict temporal alignment, such as audiobook narration and video dubbing, the inability to explicitly manipulate word-level acoustic attributes remains a critical bottleneck. This limitation is primarily amplified by the severe scarcity of fine-grained annotated datasets and the architectural challenge of integrating multi-dimensional control signals into discrete autoregressive generation. To address this, we propose a unified framework for highly precise word-level control. First, we construct WordVoice-5A, a massive 4.7k-hour bilingual dataset featuring five-dimensional word-level annotations (duration, boundary, energy, pitch and tone) developed through a rigorous linguistically-guided pipeline. Second, we introduce WordVoice to transform the implicit generation process into an explicit, highly controllable paradigm. Specifically, we introduce a bound-token mechanism within the LLM to formulate an explicit ``acoustic planning'' process, enabling adaptive multi-task prosodic planning and flexible manual intervention. Furthermore, we augment the token-to-waveform stage with a fine-grained acoustic modulation module, bridging the resolution gap to strictly align word-level attributes between highly compressed discrete tokens and continuous waveforms. Extensive experiments demonstrate that WordVoice achieves superior, decoupled control over multiple acoustic dimensions while maintaining competitive zero-shot synthesis stability. The code and audio samples are publicly available at https://xxh333.github.io/wordvoice-demo/.",
+      "authors": [
+        "Sihang Nie",
+        "Jinxin Ji",
+        "Xiaofen Xing",
+        "Deyi Tuo",
+        "Chengbin Jin",
+        "Jialong Mai",
+        "Xiangmin Xu"
+      ],
+      "published": "2026-07-07T16:22:59Z",
+      "updated": "2026-07-07T16:22:59Z",
+      "categories": [
+        "eess.AS",
+        "cs.CL",
+        "cs.SD"
+      ],
+      "primary_category": "eess.AS",
+      "abs_url": "https://arxiv.org/abs/2607.06461v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.06461v1",
+      "comment": "10 pages, 4 figures, 6 tables; Preprint",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4042,
+          "matched": [
+            "alignment",
+            "alignment",
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.0813,
+          "matched": [
+            "bound"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4968,
+        "relevance": 0.3396,
+        "quality": 0.71,
+        "novelty": 0.8989,
+        "freshness": 0.8835
+      },
+      "quality_signals": [
+        "code available",
+        "experiments",
+        "formal bound",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "WordVoice introduces explicit, multi-dimensional word-level control in LLM-based TTS, achieving precise prosodic manipulation and strict temporal alignment.",
+        "problem": "Current LLM-based TTS systems lack fine-grained, explicit control over multiple acoustic attributes at the word level, limiting applications requiring precise stylistic and temporal adjustments.",
+        "method": "WordVoice combines a large-scale, linguistically annotated dataset (WordVoice-5A) with an explicit bound-token acoustic planning mechanism in the LLM and a fine-grained acoustic modulation module in the token-to-waveform stage.",
+        "evidence": "Experiments on a 4.7k-hour bilingual test set show WordVoice outperforms baselines like CosyVoice3 in controllability (Ctrl-MOS) and naturalness (N-MOS), with objective metrics confirming superior multi-attribute alignment and temporal precision.",
+        "limitations": "Tone control remains partially entangled with other acoustic features due to its dynamic nature, and strong localized prosodic variations slightly reduce speaker similarity.",
+        "why_for_you": "This work provides a novel, data-driven framework and architectural design enabling explicit, decoupled multi-dimensional word-level control in LLM-based TTS, advancing trustworthy and precise prosodic synthesis.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "WordVoice-5A is a 4.7k-hour bilingual dataset with five-dimensional word-level annotations (duration, boundary, energy, pitch, tone), enabling supervised training for explicit multi-attribute control."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The bound-token mechanism restructures the LLM’s autoregressive generation to explicitly plan acoustic attributes before speech token generation, allowing adaptive multi-task prosodic planning and manual intervention."
+          },
+          {
+            "icon": "📉",
+            "text": "Objective evaluations show WordVoice reduces duration mean absolute error (Dur-MAE) and boundary error rate (Bnd-ER) compared to MagicTTS, demonstrating improved temporal alignment precision."
+          }
+        ],
+        "overview": "This paper addresses the critical limitation of coarse-grained control in current LLM-based TTS systems by proposing WordVoice, a framework enabling explicit, multi-dimensional word-level control. The authors first construct WordVoice-5A, a large-scale bilingual dataset with detailed word-level acoustic annotations across five dimensions. Leveraging this data, WordVoice introduces a novel bound-token mechanism within the LLM to explicitly plan acoustic attributes in an autoregressive manner, enabling both autonomous prosodic generation and manual attribute specification. To bridge the resolution gap between discrete tokens and continuous waveforms, a fine-grained acoustic modulation module is integrated into the token-to-waveform stage. Extensive experiments on unseen Chinese and English utterances demonstrate that WordVoice achieves superior controllability and naturalness compared to strong baselines, validated by subjective MOS tests and objective acoustic metrics. Ablation studies confirm the decoupling of acoustic attributes and the necessity of the modulation module for detailed acoustic reconstruction. The work significantly advances precise prosodic control in TTS, crucial for applications like audiobook narration and video dubbing requiring strict temporal and stylistic fidelity.",
+        "methodology": [
+          {
+            "title": "WordVoice-5A Dataset Construction",
+            "detail": "A linguistically-guided annotation pipeline produces a 4.7k-hour bilingual dataset with five word-level acoustic attributes: duration, boundary, energy, pitch, and tone. This dataset supports supervised training for explicit multi-dimensional control."
+          },
+          {
+            "title": "Bound-Token Acoustic Planning Mechanism",
+            "detail": "Within the autoregressive LLM, special bound-tokens explicitly represent acoustic attributes, enabling the model to plan prosody before generating speech tokens. This restructures generation from implicit to explicit, allowing adaptive multi-task control and manual intervention."
+          },
+          {
+            "title": "Fine-Grained Acoustic Modulation Module",
+            "detail": "Inserted in the token-to-waveform stage, this module compensates for acoustic details lost during discrete token quantization by modulating continuous waveforms with word-level style tokens, ensuring strict alignment of acoustic attributes."
+          },
+          {
+            "title": "Training Objectives",
+            "detail": "The LLM is trained to predict acoustic attributes and speech tokens autoregressively, while the modulation module uses a Flow Matching objective to reconstruct acoustic details, with random masking of speech tokens to enforce reliance on style conditions."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Acoustic Planning via Bound-Tokens",
+            "detail": "The bound-token mechanism explicitly encodes word-level acoustic attributes within the LLM’s autoregressive generation, enabling causal reasoning about prosodic execution prior to speech token generation. This explicit planning contrasts with implicit end-to-end generation, facilitating decoupled multi-dimensional control."
+          },
+          {
+            "title": "No Additional Mechanistic Equations Provided",
+            "detail": "The paper does not provide explicit equations or causal models beyond the description of the bound-token mechanism and Flow Matching loss."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Subjective Evaluation on WordVoice-5A Test Set",
+            "detail": "Crowd-sourced listening tests with 20 participants rated 80 utterances per model on naturalness (N-MOS), speaker similarity (Spk-MOS), and word style control (Ctrl-MOS). WordVoice-Control achieved statistically significant improvements in controllability and naturalness over CosyVoice3."
+          },
+          {
+            "title": "Objective Acoustic Attribute Evaluation",
+            "detail": "Metrics such as Word Error Rate (WER), Duration Mean Absolute Error (Dur-MAE), Energy MAE, Pitch MAE, Boundary Error Rate (Bnd-ER), and Tone Relative Error Rate (Ton-RER) were computed on Chinese and English test sets, showing WordVoice variants outperform baselines and ablations."
+          },
+          {
+            "title": "Temporal Control Precision Comparison",
+            "detail": "WordVoice demonstrated lower Dur-MAE and Bnd-ER than MagicTTS variants on both Chinese and English test sets, confirming superior explicit temporal alignment."
+          },
+          {
+            "title": "Ablation Studies on Attribute Decoupling and Modulation Module",
+            "detail": "Single-attribute control experiments confirmed decoupling of duration, boundary, energy, and pitch, with tone showing partial entanglement. Removing the modulation module degraded energy and pitch reconstruction, validating its role in acoustic detail compensation."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Superior Multi-Dimensional Control",
+            "detail": "WordVoice achieves explicit, decoupled control over duration, boundary, energy, pitch, and tone at the word level, outperforming prior methods limited to unidimensional or implicit control."
+          },
+          {
+            "title": "Improved Naturalness and Controllability",
+            "detail": "WordVoice-Control variant significantly improves naturalness (N-MOS) and word-level style control (Ctrl-MOS) over CosyVoice3, with p<0.05 and p<0.01 respectively, demonstrating effective prosodic planning."
+          },
+          {
+            "title": "Tradeoff in Speaker Similarity",
+            "detail": "Localized prosodic variations introduced by WordVoice cause minor reductions in speaker similarity (Spk-MOS), reflecting a tradeoff between expressiveness and timbre consistency."
+          },
+          {
+            "title": "Temporal Alignment Precision",
+            "detail": "WordVoice reduces duration MAE and boundary error rates compared to MagicTTS, confirming more precise explicit temporal control."
+          },
+          {
+            "title": "Necessity of Acoustic Modulation Module",
+            "detail": "Ablations show that removing the WordVoice-FM module significantly degrades energy and pitch reconstruction, confirming its critical role in restoring acoustic details lost in token quantization."
+          }
+        ],
+        "contributions": [
+          "Construction and open-sourcing of WordVoice-5A, a large-scale bilingual dataset with five-dimensional word-level acoustic annotations.",
+          "Introduction of the bound-token mechanism enabling explicit acoustic planning within an autoregressive LLM for multi-dimensional prosodic control.",
+          "Development of a fine-grained acoustic modulation module bridging discrete token representations and continuous waveform synthesis.",
+          "Comprehensive evaluation demonstrating superior word-level control, naturalness, and temporal alignment over state-of-the-art baselines."
+        ],
+        "limitations": [
+          "Tone attribute control is only partially decoupled due to its dynamic variation nature, complicating absolute disentanglement from other acoustic features.",
+          "Strong localized prosodic manipulations slightly reduce speaker similarity, indicating a tradeoff between expressiveness and timbre consistency.",
+          "The approach relies on a large-scale annotated dataset, which may limit applicability in low-resource languages or domains without such data.",
+          "No explicit mechanistic or theoretical modeling beyond architectural design and loss functions is provided."
+        ],
+        "open_questions": [
+          "How can tone control be further disentangled from other acoustic attributes to achieve fully independent manipulation?",
+          "Can the WordVoice framework be adapted or extended to low-resource languages lacking large-scale annotated datasets?",
+          "What are the impacts of explicit multi-dimensional control on downstream tasks such as emotion recognition or speaker adaptation?",
+          "How does the tradeoff between localized prosodic expressiveness and speaker similarity affect user acceptance in real-world applications?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment",
+          "alignment",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-08T11:57:23.024570+00:00"
+    },
+    {
+      "id": "2607.06327",
+      "title": "Estimating Uncertainty from Reasoning: A Large-Scale Study of Multi- and Crosslingual MCQA Performance in LLMs",
+      "abstract": "Uncertainty estimation (UE) enables LLM-powered systems to recognize when to abstain, yet existing research has predominantly focused on English. We present the first large-scale evaluation of UE methods across 22 languages, spanning high-, mid-, and low-resource settings. Using two human-curated Q\\&A datasets, we compare open and closed box UE methods (nine in total) across different model sizes and architectures while eliciting long-form reasoning, avoiding LLM-as-a-judge and embedding-based scoring, which can introduce evaluation noise. We report three main actionable findings. First, we find that prompting models to reason in English while keeping questions in low-resource languages substantially improves UE performance, suggesting that comprehension of low-resource languages is largely intact, and that the reliability bottleneck lies in generation rather than understanding. Second, prompting models to reason in English closes the UE performance gap between low and high-resource languages, demonstrating that generation language matters more than the question language. Third, the choice of UE method should depend on model scale: at smaller scales, open-box probability-based methods outperform alternatives; at larger scales, closed-box self-verbalized uncertainty becomes superior. Finally, we provide an analysis of threshold selection for selective prediction, offering guidance on calibrating abstention in multilingual settings.",
+      "authors": [
+        "Andrea Alfarano",
+        "Andrea Bacciu",
+        "Saab Mansour",
+        "Amin Mantrach",
+        "Marcello Federico"
+      ],
+      "published": "2026-07-07T14:25:09Z",
+      "updated": "2026-07-07T14:25:09Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.06327v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.06327v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "llm",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4613,
+          "matched": [
+            "llm-as-a-judge",
+            "uncertainty",
+            "reliability",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4605,
+        "relevance": 0.369,
+        "quality": 0.45,
+        "novelty": 0.8703,
+        "freshness": 0.8718
+      },
+      "quality_signals": [
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "The study reveals that reasoning in English significantly enhances uncertainty estimation (UE) performance across multiple languages.",
+        "problem": "Existing research on uncertainty estimation has primarily focused on English, neglecting multilingual contexts.",
+        "method": "The authors evaluate nine UE methods across 22 languages using two human-curated Q&A datasets.",
+        "evidence": "Prompting models to reason in English while using low-resource languages improves UE performance, closing the gap between resource levels.",
+        "limitations": "The study is limited to two MCQA datasets, which may not fully capture the diversity of real-world NLP applications.",
+        "why_for_you": "This research is crucial for developing trustworthy LLMs capable of effective multilingual uncertainty estimation.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4o-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Prompting models to reason in English while using low-resource languages significantly improves UE performance, indicating that comprehension is intact but generation is the bottleneck."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The study evaluates nine UE methods, including open-box methods like Token Entropy and closed-box methods like Self Verbalized uncertainty, across various model sizes."
+          },
+          {
+            "icon": "📉",
+            "text": "The closed-box Self Verbalized method achieves an average AUROC of 0.72, outperforming other methods, particularly in high-resource languages."
+          }
+        ],
+        "overview": "This research addresses the gap in uncertainty estimation (UE) methods for multilingual large language models (LLMs), focusing on the performance of nine UE methods across 22 languages. The study finds that reasoning in English while using low-resource languages enhances UE performance, suggesting that generation language is more critical than question language. The results indicate that the choice of UE method should be model-scale dependent, with open-box methods performing better at smaller scales and closed-box methods excelling at larger scales. This comprehensive evaluation provides actionable insights for improving multilingual LLM reliability.",
+        "methodology": [
+          {
+            "title": "Open-Box Methods",
+            "detail": "These methods utilize internal model representations to derive uncertainty, including Token Entropy and Maximum-Sequence-Probability, which aggregate token-level logits into sequence-level scores."
+          },
+          {
+            "title": "Closed-Box Methods",
+            "detail": "Closed-box techniques, such as Self Verbalized uncertainty, rely solely on generated text, prompting the model to express its confidence, although they may struggle with calibration."
+          },
+          {
+            "title": "Evaluation Protocol",
+            "detail": "The study employs exact matching against human-curated labels for evaluation, avoiding automated ground truth matching to reduce noise and bias in UE performance assessment."
+          },
+          {
+            "title": "Data Sources",
+            "detail": "Two human-curated Q&A datasets are used, covering high-, mid-, and low-resource languages, ensuring a diverse representation of linguistic contexts."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Uncertainty Estimation Mechanism",
+            "detail": "The study does not provide a specific mechanism for how uncertainty is estimated but categorizes methods into open-box and closed-box approaches based on model access."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Evaluation of UE Methods",
+            "detail": "Nine UE methods are evaluated across 22 languages using two models, Gemma327B and Qwen3-235B, with performance measured by AUROC."
+          },
+          {
+            "title": "Impact of Reasoning Language",
+            "detail": "The experiments demonstrate that reasoning in English while using low-resource languages significantly improves UE performance, with the Self Verbalized method achieving an AUROC of 0.72."
+          },
+          {
+            "title": "Model Scaling Effects",
+            "detail": "The study analyzes how UE performance varies with model scale, showing that open-box methods outperform at smaller scales while closed-box methods excel at larger scales."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Improved UE with English Reasoning",
+            "detail": "Prompting models to reason in English while using low-resource languages improves UE performance, indicating a generation bottleneck."
+          },
+          {
+            "title": "Language Generation Matters",
+            "detail": "The performance gap in UE between low and high-resource languages is closed when models reason in English, highlighting the importance of generation language."
+          },
+          {
+            "title": "Model Scale Dependency",
+            "detail": "At smaller model scales, open-box methods like Token Entropy outperform closed-box methods, while at larger scales, closed-box methods like Self Verbalized uncertainty become superior."
+          }
+        ],
+        "contributions": [
+          "First large-scale evaluation of UE methods across 22 languages.",
+          "Identification of the importance of reasoning language over question language in UE performance.",
+          "Guidance on selecting UE methods based on model scale."
+        ],
+        "limitations": [
+          "Focus on only two MCQA datasets may not represent the full diversity of NLP applications.",
+          "Exclusion of training-based UE methods limits the scope of the analysis."
+        ],
+        "open_questions": [
+          "How can UE methods be further improved for low-resource languages?",
+          "What are the implications of different UE methods in real-world applications?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4o-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "llm-as-a-judge",
+          "uncertainty",
+          "reliability",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-08T11:57:23.024570+00:00"
+    },
+    {
+      "id": "2607.06452",
+      "title": "From Voting to Agent Collaboration: Answer-Type-Aware LLM Pipelines for BioASQ 14b",
+      "abstract": "Biomedical question answering requires not only accurate extraction of information from scientific literature but also reliable integration of evidence across multiple documents. This study presents a question-type-specific large language model (LLM) framework for BioASQ 14b Task B, designed to improve answer robustness and evidence grounding in biomedical question answering. Rather than applying a single prompting strategy to all questions, the framework selects different inference procedures for yes/no, factoid, and list questions according to their distinct reasoning and evaluation requirements. For yes/no questions, snippet shuffling and self-reflection are used to reduce sensitivity to evidence ordering and improve decision stability. For factoid questions, full-snippet input is combined with chain-of-thought-based in-context learning to support accurate biomedical entity identification. For list questions, a multi-agent architecture is employed, in which evidence extraction, candidate generation, answer verification, and final aggregation are handled collaboratively. Preliminary experiments on BioASQ 13b were used to identify effective inference strategies for each question type, and the resulting framework was subsequently evaluated in the official BioASQ 14b Task B challenge. In the official evaluation, our framework showed competitive performance across multiple batches and achieved first place in the factoid subtask of Batch 4. These results demonstrate the effectiveness of combining question-type-specific inference, ensemble prediction, and agent-based verification for reliable biomedical question answering.",
+      "authors": [
+        "Taeyun Roh",
+        "Eunha Lee",
+        "Wonjune Jang",
+        "Sohyun Chung",
+        "Junha Jung",
+        "Jaewoo Kang"
+      ],
+      "published": "2026-07-07T16:12:51Z",
+      "updated": "2026-07-07T16:12:51Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.06452v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.06452v1",
+      "comment": "15 pages",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3721,
+          "matched": [
+            "robustness",
+            "llm",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4179,
+        "relevance": 0.2977,
+        "quality": 0.47,
+        "novelty": 0.8631,
+        "freshness": 0.8825
+      },
+      "quality_signals": [
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "The proposed LLM framework enhances biomedical question answering by tailoring inference strategies to specific question types.",
+        "problem": "Biomedical question answering faces challenges in accurately integrating evidence from diverse sources.",
+        "method": "The framework employs question-type-specific inference procedures, including snippet shuffling and multi-agent collaboration.",
+        "evidence": "In the BioASQ 14b Task B challenge, the framework achieved first place in the factoid subtask of Batch 4, demonstrating its effectiveness.",
+        "limitations": "The study does not provide detailed performance metrics for all question types across all batches.",
+        "why_for_you": "This research offers insights into improving LLM performance in specialized domains, relevant for trustworthy AI applications.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4o-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "The framework achieved a macro F1 score of 0.9110 for yes/no questions, indicating strong decision-making capabilities."
+          },
+          {
+            "icon": "🛡️",
+            "text": "Utilizing a multi-agent architecture for list questions allows for collaborative evidence extraction and verification, enhancing answer reliability."
+          },
+          {
+            "icon": "📉",
+            "text": "The use of snippet shuffling in yes/no questions reduced sensitivity to evidence ordering, improving decision stability and consistency."
+          }
+        ],
+        "overview": "This research addresses the complexities of biomedical question answering by introducing a question-type-specific LLM framework for the BioASQ 14b Task B challenge. The framework adapts inference strategies for yes/no, factoid, and list questions, enhancing answer robustness and evidence grounding. Preliminary experiments on BioASQ 13b informed the selection of effective strategies, leading to competitive performance in the official evaluation, particularly achieving first place in the factoid subtask of Batch 4. This demonstrates the potential of tailored inference methods in improving LLM capabilities in biomedical contexts.",
+        "methodology": [
+          {
+            "title": "Yes/No Question Processing",
+            "detail": "The yes/no subsystem employs snippet shuffling and self-reflection to enhance decision stability. It utilizes an ensemble of four LLM configurations, querying each with varied snippet orders and aggregating results through majority voting."
+          },
+          {
+            "title": "Factoid Question Processing",
+            "detail": "For factoid questions, the framework combines full-snippet input with chain-of-thought-based in-context learning to accurately identify biomedical entities, ensuring precise responses."
+          },
+          {
+            "title": "List Question Processing",
+            "detail": "A multi-agent architecture is implemented for list questions, where evidence extraction, candidate generation, and answer verification are conducted collaboratively, improving overall answer quality."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Ensemble Voting Mechanism",
+            "detail": "The yes/no subsystem utilizes a majority voting mechanism among multiple LLM outputs, with a verification agent employed when outputs conflict, ensuring robust decision-making."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "BioASQ 13b Development Benchmark",
+            "detail": "Preliminary experiments on the BioASQ 13b test set were conducted to evaluate various prompting strategies and model configurations, informing the final system design for BioASQ 14b."
+          },
+          {
+            "title": "Official BioASQ 14b Evaluation",
+            "detail": "The framework was evaluated across four batches in the BioASQ 14b challenge, achieving an average score of 0.9110 for yes/no macro F1 and first place in the factoid subtask of Batch 4."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Performance in Yes/No Questions",
+            "detail": "The framework achieved a macro F1 score of 0.9110 for yes/no questions, indicating effective handling of binary decisions."
+          },
+          {
+            "title": "Factoid Question Success",
+            "detail": "The system ranked first in the factoid subtask of Batch 4, demonstrating superior performance in identifying specific biomedical entities."
+          },
+          {
+            "title": "List Question Challenges",
+            "detail": "The multi-agent architecture for list questions improved evidence integration, although specific performance metrics for this category were not detailed."
+          }
+        ],
+        "contributions": [
+          "Introduction of a question-type-specific LLM framework for biomedical question answering.",
+          "Demonstration of effective ensemble strategies for improving answer robustness.",
+          "Implementation of a multi-agent architecture for collaborative evidence processing."
+        ],
+        "limitations": [
+          "Lack of detailed performance metrics for list questions across all batches.",
+          "No comprehensive analysis of the impact of individual LLM configurations on overall performance."
+        ],
+        "open_questions": [
+          "How can the framework be adapted for other domains beyond biomedical question answering?",
+          "What are the implications of varying LLM configurations on performance across different question types?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4o-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "robustness",
+          "llm",
+          "robustness"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-08T11:57:23.024570+00:00"
+    },
     {
       "id": "2607.05394",
       "title": "Weak-to-Strong Generalization via Direct On-Policy Distillation",
