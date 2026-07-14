@@ -1,6 +1,205 @@
 {
-  "generated_at": "2026-07-13T12:46:06.665831+00:00",
+  "generated_at": "2026-07-14T11:44:02.688717+00:00",
   "papers": [
+    {
+      "id": "2607.11444",
+      "title": "UMoE:Unlocking Every Expert in Domain-Specific Training",
+      "abstract": "Mixture-of-Experts (MoE) models scale capacity without proportional compute cost and have become a key architecture for frontier large language models (LLMs). Yet domain-specific post-training inherits an expert pool shaped by mixed-domain pre-training: a substantial subset of experts contributes little on the target domain, and standard supervised fine-tuning (SFT) leaves the composition of this pool unchanged. We propose a simple, budget-preserving pipeline that realigns the expert pool to the target domain before fine-tuning. Given a target domain, we (1) prune the experts with lowest domain-aligned saliency, (2) regrow the expert pool to its original size through perturbation-based expert expansion, and (3) apply standard SFT. The resulting model preserves the original expert count, parameter count, and inference cost. With a single frozen recipe and no per-domain hyperparameter tuning, UMoE consistently improves over direct sft across two MoE architectures (Qwen3-30B-A3B and Qwen3.5-35B-A3B), five domains (math, code, science, tool-use, and agentic coding), and 12 benchmarks. Representative improvements are 3.4 points in math average accuracy, 6.0 points on SWE-bench Verified. On a strong in-house math corpus, direct sft already surpasses Qwen3-30B-A3B-Thinking (82.81 vs.\\ 81.06), yet UMoE further raises the average to 84.17, an additional 1.36 points, demonstrating robustness to a substantially stronger SFT regime. Data-scaling experiments further show that the gain persists as training data grows. Analysis reveals that the direct-SFT model allocates substantial routed-expert compute to a low-saliency subset that can be removed post hoc with little average degradation; UMoE turns this redundant capacity into useful domain capacity and achieves lower training loss, with gains spanning all difficulty levels in downstream evaluation.",
+      "authors": [
+        "Xuefeng Li",
+        "Pengfei Liu"
+      ],
+      "published": "2026-07-13T11:52:42Z",
+      "updated": "2026-07-13T11:52:42Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.11444v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.11444v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.7549,
+          "matched": [
+            "robustness",
+            "perturbation",
+            "fine-tuning",
+            "training"
+          ]
+        },
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "emerging",
+          "score": 0.3859,
+          "matched": [
+            "training data",
+            "data",
+            "mixture"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.1887,
+          "matched": [
+            "robustness",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.7011,
+        "relevance": 0.7188,
+        "quality": 0.68,
+        "novelty": 0.55,
+        "freshness": 0.858
+      },
+      "quality_signals": [
+        "code available",
+        "benchmark evaluation",
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "UMoE reorganizes the expert pool of pretrained MoE LLMs by pruning low-saliency experts and regrowing them via perturbation, yielding consistent domain-specific performance gains without increasing model size or inference cost.",
+        "problem": "Standard supervised fine-tuning of pretrained MoE models leaves many experts poorly aligned to the target domain, wasting capacity and limiting domain-specific adaptation.",
+        "method": "UMoE prunes the least domain-salient experts using a calibration set, regrows the expert pool by perturbation-based expansion to restore original size, then applies standard supervised fine-tuning.",
+        "evidence": "UMoE improves benchmark averages across five domains and two MoE architectures, e.g., +3.4 points math accuracy and +6.0 points on SWE-bench Verified, while preserving parameter count and inference cost.",
+        "limitations": "The paper does not provide detailed analysis of UMoE’s impact on inference latency or memory beyond parameter count, nor does it explore alternative pruning ratios or perturbation scales extensively.",
+        "why_for_you": "UMoE offers an efficient, budget-preserving approach to enhance domain-specific fine-tuning of large MoE LLMs by better utilizing expert capacity, relevant for improving trustworthy and efficient LLM adaptation.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "UMoE achieves a 3.4-point average accuracy improvement on math benchmarks and a 6.0-point gain on SWE-bench Verified by reorganizing experts before fine-tuning, demonstrating robust domain adaptation across multiple datasets."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The method uses REAP saliency scores on a calibration subset to prune the bottom 50% of experts per layer, then regenerates pruned experts by copying and symmetrically perturbing surviving experts’ MLP weights and router rows."
+          },
+          {
+            "icon": "📉",
+            "text": "Analysis shows direct supervised fine-tuning routes substantial compute to low-saliency experts that can be pruned with minimal degradation, whereas UMoE reallocates this capacity to domain-aligned experts, reducing training loss and improving downstream performance."
+          }
+        ],
+        "overview": "This work addresses the inefficiency in domain-specific fine-tuning of large Mixture-of-Experts (MoE) language models, where many experts pretrained on mixed domains contribute little to the target domain. The authors propose UMoE, a three-step pipeline that first prunes experts with the lowest domain-aligned saliency using a calibration dataset, then regrows the expert pool to its original size by perturbation-based expansion of surviving experts, and finally applies standard supervised fine-tuning. This preserves the original model architecture, parameter count, and inference cost, ensuring deployment budget consistency. Evaluations on two MoE architectures (Qwen3-30B-A3B and Qwen3.5-35B-A3B) across five domains (math, code, science, tool-use, agentic coding) and 12 benchmarks demonstrate consistent improvements, including a 3.4-point gain in math accuracy and 6.0 points on SWE-bench Verified. The approach is robust to stronger fine-tuning regimes and scales well with training data size. The key insight is that direct fine-tuning wastes capacity on low-saliency experts, whereas UMoE reallocates this capacity to domain-relevant experts, improving training efficiency and downstream task performance.",
+        "methodology": [
+          {
+            "title": "Domain-Aligned Expert Pruning",
+            "detail": "UMoE scores each expert’s domain relevance using REAP saliency on a calibration subset of the target domain data, combining router gate values and activation norms. It prunes the bottom 50% of experts per layer, retaining those most relevant to the domain to form a domain-aligned expert subset."
+          },
+          {
+            "title": "Budget-Preserving Expert Expansion",
+            "detail": "To restore the original expert count, each pruned slot is reinitialized by copying MLP weights and router rows from surviving experts in a round-robin fashion. Both the parent and regrown experts are independently perturbed with Gaussian noise scaled by parameter standard deviation (σ=0.05) to promote specialization and avoid initialization asymmetry."
+          },
+          {
+            "title": "Standard Supervised Fine-Tuning (SFT)",
+            "detail": "After expert pool reorganization, the model undergoes standard supervised fine-tuning on the full domain-specific dataset using cross-entropy loss. This step updates the domain-aligned experts to improve downstream task performance without changing model size or inference cost."
+          },
+          {
+            "title": "Evaluation Across Architectures and Domains",
+            "detail": "UMoE is evaluated on Qwen3-30B-A3B and Qwen3.5-35B-A3B MoE architectures across five domains (math, code, science, tool-use, agentic coding) using multiple benchmarks and varying SFT data scales to validate generality and robustness."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Domain-Aligned Saliency Scoring",
+            "detail": "Experts are scored by REAP saliency, which integrates router gate weights and activation norms over a calibration set, reflecting each expert’s functional importance under the target domain distribution. This guides pruning decisions to retain domain-relevant experts."
+          },
+          {
+            "title": "Symmetric Perturbation for Expert Expansion",
+            "detail": "Copied experts are perturbed symmetrically on both the parent and regrown copies by adding Gaussian noise scaled by parameter standard deviation, applied to both MLP weights and router rows. This symmetric perturbation avoids initialization bias and encourages functional specialization."
+          },
+          {
+            "title": "Fixed Budget Constraint",
+            "detail": "UMoE maintains the original expert count E and active expert count K, preserving parameter count and inference cost. This ensures that domain adaptation does not increase deployment resource requirements."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Domain-Specific Fine-Tuning on Qwen3-30B-A3B and Qwen3.5-35B-A3B",
+            "detail": "UMoE is tested on two MoE architectures with 128 and 256 routed experts respectively, across five domains with domain-specific SFT datasets and multiple benchmarks, including math competitions (AIME, HMMT), code reasoning (LiveCodeBench), science (GPQA-Diamond), tool-use (τ-bench), and agentic coding (SWE-bench Verified)."
+          },
+          {
+            "title": "Data-Scaling Experiments",
+            "detail": "UMoE’s performance gains persist across varying amounts of supervised fine-tuning data, demonstrating robustness to training data scale and confirming that improvements are not limited to small data regimes."
+          },
+          {
+            "title": "Ablation on Saliency Metrics and Perturbation Design",
+            "detail": "Comparisons among REAP saliency, activation frequency, and Expert Activation Norm (EAN) show REAP and frequency are competitive, with EAN weaker. Perturbing both parent and regrown experts symmetrically outperforms one-sided perturbation, and perturbing both router and MLP weights yields complementary benefits."
+          }
+        ],
+        "findings": [
+          {
+            "title": "UMoE Improves Domain-Specific Accuracy",
+            "detail": "UMoE consistently outperforms direct supervised fine-tuning, e.g., raising math average accuracy by 3.4 points and SWE-bench Verified pass@1 by 6.0 points, demonstrating effective domain adaptation."
+          },
+          {
+            "title": "Robustness to Stronger Fine-Tuning Regimes",
+            "detail": "On a strong in-house math corpus where direct SFT already surpasses a strong baseline (82.81 vs. 81.06), UMoE further improves average accuracy to 84.17, showing gains under stronger SFT conditions."
+          },
+          {
+            "title": "Expert Pool Reorganization Reduces Redundancy",
+            "detail": "Direct SFT routes substantial compute to low-saliency experts that can be pruned post hoc with little degradation, whereas UMoE reallocates this capacity to domain-aligned experts, lowering training loss and improving performance across difficulty levels."
+          },
+          {
+            "title": "Perturbation Design is Critical",
+            "detail": "Symmetric perturbation of both parent and regrown experts on MLP and router parameters is essential; one-sided perturbation leads to routing decline and performance degradation."
+          }
+        ],
+        "contributions": [
+          "Proposed UMoE, a domain-aware expert pool reorganization method that prunes and regrows experts to improve domain-specific fine-tuning without increasing model size or inference cost.",
+          "Introduced a budget-preserving expert expansion technique using symmetric perturbation of copied experts to promote specialization.",
+          "Demonstrated consistent performance gains across multiple MoE architectures, five diverse domains, and 12 benchmarks, including strong math and agentic coding tasks.",
+          "Provided analysis showing that direct fine-tuning wastes capacity on low-saliency experts, which UMoE effectively reallocates to domain-relevant experts.",
+          "Validated robustness of UMoE gains across varying supervised fine-tuning data scales and stronger fine-tuning regimes."
+        ],
+        "limitations": [
+          "The impact of UMoE on inference latency and memory usage beyond parameter count is not analyzed.",
+          "The pruning ratio is fixed at 50% without extensive exploration of alternative ratios or adaptive pruning strategies.",
+          "The perturbation scale σ is fixed at 0.05; sensitivity to this hyperparameter is not deeply studied.",
+          "UMoE relies on a calibration subset for saliency scoring, but the effect of calibration set size and representativeness is not detailed."
+        ],
+        "open_questions": [
+          "How does UMoE affect inference efficiency metrics such as latency and memory footprint in deployment scenarios?",
+          "Can adaptive or dynamic pruning ratios based on domain complexity further improve expert pool reorganization?",
+          "What is the sensitivity of UMoE performance to the choice and size of the calibration dataset used for saliency scoring?",
+          "Could alternative perturbation schemes or learned expert regeneration methods yield better specialization and downstream gains?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "robustness",
+          "perturbation",
+          "fine-tuning",
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-14T11:44:02.688717+00:00"
+    },
     {
       "id": "2607.06326",
       "title": "DT-Guard: Intent-Driven Reasoning-Active Training for Reasoning-Free LLM Safety Guardrail",
@@ -400,6 +599,193 @@
       "recommended_at": "2026-07-10T12:37:21.836532+00:00"
     },
     {
+      "id": "2607.11475",
+      "title": "HyperSafe: Inference-Time Safety Recovery for Fine-Tuned Language Models",
+      "abstract": "Safety alignment in large language models can be fragile under fine-tuning, as even benign task adaptation may increase harmful compliance. Existing defenses mainly follow two directions: they either intervene during or after fine-tuning through retraining or weight modification, which can be costly and may hurt task performance, or they use model-agnostic safety classifiers, which may miss failures specific to a given fine-tuned checkpoint. These limitations motivate a post hoc, model-specific, and non-invasive approach to safety restoration. To meet these requirements, we propose HyperSafe, a framework that restores safety behavior by generating a model-specific Safe Side Network (SSN) for each fine-tuned checkpoint. HyperSafe uses layer-wise activation fingerprints to capture how fine-tuning changes the model's inner representations. With a small set of given calibration prompts, the hypernetwork maps these fingerprints to the parameters of the \\ssn{} in a single forward pass. The generated \\ssn{} runs alongside the frozen fine-tuned model and performs prompt-level safety classification: harmful prompts are routed to refusal, while safe prompts are answered by the original fine-tuned model. Thus, HyperSafe requires no gradient updates, no safety data at deployment time, and no modification to the deployed model weights. We evaluate HyperSafe on two model families, Qwen2-7B and LLaMA-3-8B, across multiple safety benchmarks. HyperSafe reduces harmful response rates from 19-31% to below 1% on every held-out checkpoint, while keeping downstream task accuracy within 1% of the fine-tuned baseline on average. Code is available at https://github.com/nokronim/project-safety-remedy.",
+      "authors": [
+        "Aznaur Aliev",
+        "Carlos Hinojosa",
+        "Abdelrahman Eldesokey",
+        "Bang An",
+        "Bernard Ghanem",
+        "Yibo Yang"
+      ],
+      "published": "2026-07-13T12:28:43Z",
+      "updated": "2026-07-13T12:28:43Z",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2607.11475v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.11475v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.5299,
+          "matched": [
+            "alignment",
+            "calibration",
+            "alignment",
+            "safety"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5436,
+        "relevance": 0.4239,
+        "quality": 0.85,
+        "novelty": 0.55,
+        "freshness": 0.8616
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "baseline comparison",
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "HyperSafe generates model-specific Safe Side Networks at inference time to restore safety in fine-tuned LLMs, reducing harmful outputs below 1% while preserving task accuracy within 1%.",
+        "problem": "Fine-tuning safety-aligned large language models often degrades their safety alignment, increasing harmful response rates significantly.",
+        "method": "HyperSafe uses layer-wise activation fingerprints from calibration prompts to generate a Safe Side Network via a hypernetwork that classifies prompts at inference, routing harmful ones to refusal without modifying model weights.",
+        "evidence": "Evaluations on Qwen2-7B and LLaMA-3-8B across multiple safety benchmarks show HyperSafe reduces harmful response rates from 19–31% to below 1% on all held-out checkpoints while maintaining task accuracy within 1% of fine-tuned baselines.",
+        "limitations": "The method relies on a calibration set and may degrade if instruction-following data is excluded; it has been evaluated primarily on LoRA fine-tuned checkpoints and two model families.",
+        "why_for_you": "HyperSafe offers a non-invasive, model-specific, and efficient inference-time safety recovery approach that preserves downstream task performance, addressing fine-tuning-induced safety degradation without retraining or weight modification.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "HyperSafe reduces harmful response rates from 19–31% in LoRA fine-tuned Qwen2-7B and LLaMA-3-8B models to below 1% across 12 held-out datasets, demonstrating strong zero-shot safety generalization."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The Safe Side Network (SSN) is generated by a hypernetwork that maps layer-wise activation fingerprints from a small calibration prompt set to SSN parameters in a single forward pass, enabling prompt-level safety classification without weight updates."
+          },
+          {
+            "icon": "📉",
+            "text": "Ablation studies show removing safe-probe supervision or domain-specific calibration degrades task accuracy and safety, indicating the importance of functional supervision and diverse calibration data for SSN effectiveness."
+          }
+        ],
+        "overview": "Fine-tuning aligned large language models often compromises their safety, increasing harmful outputs despite benign task adaptation. Existing defenses either intervene during fine-tuning with costly constraints, modify model weights post hoc risking task performance degradation, or use model-agnostic classifiers that miss fine-tuning-specific failures. HyperSafe addresses these limitations by generating a model-specific Safe Side Network (SSN) at inference time using a hypernetwork conditioned on layer-wise activation fingerprints extracted from a small calibration prompt set. The SSN runs alongside the frozen fine-tuned model, classifying prompts as harmful or safe and routing harmful prompts to refusal, thus restoring safety without retraining or weight modification. Evaluations on Qwen2-7B and LLaMA-3-8B across multiple safety benchmarks demonstrate that HyperSafe reduces harmful response rates from 19–31% to below 1% while preserving task accuracy within 1%. Ablations confirm the necessity of functional supervision and calibration diversity. This approach enables deployment of fine-tuned models with restored safety guarantees efficiently and non-invasively.",
+        "methodology": [
+          {
+            "title": "Layer-wise Activation Fingerprints",
+            "detail": "Extracts activation patterns from multiple layers of the fine-tuned model using a small set of calibration prompts to capture fine-tuning-induced representation changes, serving as input to the hypernetwork."
+          },
+          {
+            "title": "Hypernetwork Parameter Generation",
+            "detail": "A hypernetwork maps the extracted activation fingerprints to the parameters of the Safe Side Network in a single forward pass, enabling rapid generation of a model-specific safety classifier without gradient updates."
+          },
+          {
+            "title": "Safe Side Network (SSN) Architecture",
+            "detail": "The SSN is a lightweight classifier with 12 side layers and reduced hidden size (h/4) that runs alongside the frozen fine-tuned model, performing prompt-level safety classification to route harmful prompts to refusal."
+          },
+          {
+            "title": "Prompt-level Safety Classification",
+            "detail": "The SSN classifies each input prompt as harmful or safe; harmful prompts are refused, while safe prompts are answered by the original fine-tuned model, preserving task utility."
+          },
+          {
+            "title": "Training Objective and Calibration",
+            "detail": "The hypernetwork and SSN are trained using a combination of functional supervision losses including safe-probe supervision and domain calibration prompts, ensuring discriminative safety classification and minimal over-blocking."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "No explicit mechanism equations provided",
+            "detail": "The paper does not provide formal equations or causal models but explains that layer-wise activation fingerprints capture fine-tuning changes, which the hypernetwork uses to generate SSN parameters for prompt-level safety classification."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Model Families and Fine-tuning",
+            "detail": "Evaluations conducted on Qwen2-7B-Instruct and LLaMA-3-8B-Instruct models fine-tuned with LoRA (rank 16, α=32) across 22 diverse datasets spanning QA, reasoning, math, classification, code, and instruction-following."
+          },
+          {
+            "title": "Safety Benchmarks and Evaluation Protocol",
+            "detail": "Safety evaluated on BeaverTails (700 prompts, 14 categories), AdvBench (520 prompts), and HEx-PHI (330 prompts, 11 categories) with disjoint training and evaluation splits; harmful rate and task accuracy metrics reported."
+          },
+          {
+            "title": "Comparison Baselines",
+            "detail": "Compared against base aligned models, LoRA fine-tuned models without safety mechanisms, and Llama Guard 4 (12B) external classifier, demonstrating superior safety reduction and task accuracy preservation."
+          },
+          {
+            "title": "Ablation Studies",
+            "detail": "Ablations on LLaMA-3-8B show removing safe-probe supervision or domain calibration degrades accuracy and safety; calibration prompt set size impacts fingerprint quality and SSN performance; SSNs trained on LoRA checkpoints transfer to full fine-tuning."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Safety Restoration",
+            "detail": "HyperSafe reduces harmful response rates from 19–31% in fine-tuned models to below 1% across all held-out datasets and model families, achieving over 95% relative reduction in harmful outputs."
+          },
+          {
+            "title": "Task Accuracy Preservation",
+            "detail": "Task accuracy remains within 1 percentage point of the fine-tuned baseline on average, indicating minimal utility loss despite safety restoration."
+          },
+          {
+            "title": "Generalization and Transfer",
+            "detail": "SSNs generated from LoRA fingerprints transfer unchanged to fully fine-tuned counterparts, maintaining harmful rates ≤0.1% and stable task accuracy."
+          },
+          {
+            "title": "Calibration Data Importance",
+            "detail": "Instruction-following calibration data is critical for safety; removing it substantially increases harmful rates, while removing other categories has minimal effect."
+          },
+          {
+            "title": "Efficiency",
+            "detail": "SSN adds only 3–4% of backbone parameters and requires a single hypernetwork forward pass amortized over prompts; safe prompts bypass SSN during decoding, keeping generation cost unchanged."
+          }
+        ],
+        "contributions": [
+          "Proposed HyperSafe, a novel inference-time safety recovery framework generating model-specific Safe Side Networks without weight modification or retraining.",
+          "Introduced layer-wise activation fingerprints as a representation of fine-tuning changes for hypernetwork conditioning.",
+          "Demonstrated strong safety restoration reducing harmful outputs below 1% while preserving task accuracy within 1% across two large LLM families and multiple safety benchmarks.",
+          "Provided extensive ablations showing the importance of functional supervision, calibration diversity, and prompt set size.",
+          "Showed SSN transferability from LoRA to full fine-tuning, enabling practical deployment without re-alignment."
+        ],
+        "limitations": [
+          "Dependence on a sufficiently diverse and representative calibration prompt set, especially instruction-following data, for effective safety classification.",
+          "Evaluations limited to two model families (Qwen2-7B and LLaMA-3-8B) and LoRA fine-tuning; generalization to other architectures or fine-tuning methods is unverified.",
+          "No explicit theoretical mechanism or formal guarantees provided for safety restoration effectiveness.",
+          "Potential residual harmful outputs remain (up to 0.7% in some datasets), indicating non-zero failure risk."
+        ],
+        "open_questions": [
+          "How well does HyperSafe generalize to other fine-tuning methods beyond LoRA and to larger or different LLM architectures?",
+          "Can the calibration prompt set be optimized or minimized further without degrading safety and accuracy?",
+          "What are the theoretical limits and guarantees of safety restoration achievable by model-specific SSNs generated from activation fingerprints?",
+          "How does HyperSafe perform against adaptive adversarial harmful prompts designed to evade the SSN?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment",
+          "calibration",
+          "alignment",
+          "safety"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-14T11:44:02.688717+00:00"
+    },
+    {
       "id": "2607.06461",
       "title": "WordVoice: Explicit and Decoupled Multi-Dimensional Word-Level Control for LLM-Based TTS",
       "abstract": "While recent Large Language Model (LLM)-based Text-to-Speech (TTS) systems have achieved remarkable naturalness, they predominantly rely on implicit end-to-end generation paradigms, resulting in coarse-grained control. In scenarios demanding precise stylistic interventions and strict temporal alignment, such as audiobook narration and video dubbing, the inability to explicitly manipulate word-level acoustic attributes remains a critical bottleneck. This limitation is primarily amplified by the severe scarcity of fine-grained annotated datasets and the architectural challenge of integrating multi-dimensional control signals into discrete autoregressive generation. To address this, we propose a unified framework for highly precise word-level control. First, we construct WordVoice-5A, a massive 4.7k-hour bilingual dataset featuring five-dimensional word-level annotations (duration, boundary, energy, pitch and tone) developed through a rigorous linguistically-guided pipeline. Second, we introduce WordVoice to transform the implicit generation process into an explicit, highly controllable paradigm. Specifically, we introduce a bound-token mechanism within the LLM to formulate an explicit ``acoustic planning'' process, enabling adaptive multi-task prosodic planning and flexible manual intervention. Furthermore, we augment the token-to-waveform stage with a fine-grained acoustic modulation module, bridging the resolution gap to strictly align word-level attributes between highly compressed discrete tokens and continuous waveforms. Extensive experiments demonstrate that WordVoice achieves superior, decoupled control over multiple acoustic dimensions while maintaining competitive zero-shot synthesis stability. The code and audio samples are publicly available at https://xxh333.github.io/wordvoice-demo/.",
@@ -594,6 +980,162 @@
       "recommended_at": "2026-07-08T11:57:23.024570+00:00"
     },
     {
+      "id": "2607.11505",
+      "title": "Proxy Exploration and Reusable Guidance: A Modular LLM Post-Training Paradigm via Proxy-Guided Update Signals",
+      "abstract": "Post-training is essential for refining the domain-specific capabilities of large language models (LLMs), yet existing reward optimization and distribution matching methods tightly couple policy exploration with distribution alignment. This coupling forces expensive exploration directly on the policy model and severely hinders the asynchronous generation, reuse, and cross-model transfer of optimization signals. In this paper, we propose Proxy-guided Update Signal Transfer (PUST), a novel post-training framework that fundamentally decouples update-signal exploration from distribution alignment. Instead of utilizing the primary model for costly exploration, PUST employs a lightweight proxy model as an efficient testbed to discover high-reward behaviors. We extract the relative improvement signal between the proxy's initial and optimized states, transferring this directional update to the primary model to guide its policy alignment. This decoupled pipeline, comprising proxy exploration, update-signal extraction, and signal transfer, significantly reduces computational overhead and enables optimization signals to be asynchronously generated, cached, and reused. Crucially, by transferring relative improvements rather than absolute policy distributions, PUST naturally supports weak-to-strong improvement and seamless cross-model transfer. Systematic evaluations on Qwen3-family models across math and code domains demonstrate that update signals extracted from substantially weaker proxies can robustly and adjustably enhance stronger primary models. Ultimately, PUST transforms post-training from a monolithic online optimization process into a highly modular, reusable, and cost-efficient paradigm.",
+      "authors": [
+        "Daocheng Fu",
+        "Rong Wu",
+        "Yu Yang",
+        "Xuemeng Yang",
+        "Jianbiao Mei",
+        "Licheng Wen",
+        "Pinlong Cai",
+        "Yong Liu",
+        "Botian Shi",
+        "Yu Qiao"
+      ],
+      "published": "2026-07-13T12:56:21Z",
+      "updated": "2026-07-13T12:56:21Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2607.11505v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.11505v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.5292,
+          "matched": [
+            "alignment",
+            "alignment",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4674,
+        "relevance": 0.4234,
+        "quality": 0.47,
+        "novelty": 0.55,
+        "freshness": 0.8643
+      },
+      "quality_signals": [
+        "code available"
+      ],
+      "summary": {
+        "takeaway": "The Proxy-guided Update Signal Transfer (PUST) framework enhances post-training efficiency for LLMs by decoupling exploration from alignment.",
+        "problem": "Existing methods couple policy exploration with distribution alignment, leading to high computational costs and inefficiencies.",
+        "method": "PUST employs a lightweight proxy model to explore high-reward behaviors and transfers relative improvement signals to the primary model.",
+        "evidence": "Systematic evaluations on Qwen3-family models show that weaker proxies can effectively enhance stronger primary models through extracted update signals.",
+        "limitations": "The paper does not provide detailed quantitative results on the performance of the proposed method compared to existing baselines.",
+        "why_for_you": "This research offers a novel approach to improve the efficiency of post-training processes in LLMs, relevant for enhancing model adaptability.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4o-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "PUST allows for asynchronous generation and caching of optimization signals, significantly reducing computational overhead compared to traditional methods."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The framework utilizes a proxy model for exploration, which enables the extraction of relative improvement signals that guide the primary model's policy alignment."
+          },
+          {
+            "icon": "📉",
+            "text": "Experiments demonstrate that update signals from weaker proxies can robustly enhance stronger models, indicating effective cross-model transfer capabilities."
+          }
+        ],
+        "overview": "The research addresses the inefficiencies in post-training for LLMs caused by tightly coupling policy exploration with distribution alignment. By introducing the PUST framework, the authors propose a decoupled approach that utilizes a proxy model for exploration, allowing for the extraction and transfer of relative improvement signals to primary models. Evaluations on Qwen3-family models across math and code domains reveal that this method not only reduces computational costs but also enhances the adaptability of stronger models using insights from weaker proxies.",
+        "methodology": [
+          {
+            "title": "Proxy Model Utilization",
+            "detail": "A lightweight proxy model is employed to explore high-reward behaviors, allowing for efficient signal extraction without burdening the primary model."
+          },
+          {
+            "title": "Signal Extraction",
+            "detail": "The relative improvement signal between the proxy's initial and optimized states is extracted, which serves as a directional update for the primary model."
+          },
+          {
+            "title": "Signal Transfer Mechanism",
+            "detail": "The extracted signals are transferred to the primary model, enabling it to align its policy based on the improvements identified during proxy exploration."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Decoupling Exploration and Alignment",
+            "detail": "The PUST framework separates the stages of policy exploration and alignment, allowing for more efficient post-training processes."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Evaluation on Qwen3-family Models",
+            "detail": "Systematic evaluations demonstrate that update signals from weaker proxies can effectively enhance stronger primary models, showcasing the framework's adaptability."
+          },
+          {
+            "title": "Convergence Analysis",
+            "detail": "Comparative analysis reveals that OPD variants achieve rapid convergence, while traditional methods like GRPO require longer exploratory phases."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Efficiency of PUST",
+            "detail": "PUST significantly reduces exploration costs by delegating sampling and reward evaluation to a smaller proxy model."
+          },
+          {
+            "title": "Scalability of Update Signals",
+            "detail": "The framework allows for update signals to be asynchronously generated, cached, and reused across different training runs."
+          },
+          {
+            "title": "Cross-Model Transfer",
+            "detail": "Signals explored by weaker proxies can be flexibly applied to stronger primary models, enhancing their performance."
+          }
+        ],
+        "contributions": [
+          "Reinterpretation of post-training as distinct stages of policy exploration and alignment.",
+          "Introduction of the PUST framework that transfers relative improvement signals for flexible policy updates.",
+          "Demonstration of the reusability and scalability of update signals across models."
+        ],
+        "limitations": [
+          "Lack of detailed quantitative comparisons with existing baselines.",
+          "No exploration of the impact of different proxy model architectures on performance."
+        ],
+        "open_questions": [
+          "How can the PUST framework be adapted for different types of LLM architectures?",
+          "What are the optimal conditions for selecting proxy models to maximize performance gains?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4o-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment",
+          "alignment",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-14T11:44:02.688717+00:00"
+    },
+    {
       "id": "2607.06327",
       "title": "Estimating Uncertainty from Reasoning: A Large-Scale Study of Multi- and Crosslingual MCQA Performance in LLMs",
       "abstract": "Uncertainty estimation (UE) enables LLM-powered systems to recognize when to abstain, yet existing research has predominantly focused on English. We present the first large-scale evaluation of UE methods across 22 languages, spanning high-, mid-, and low-resource settings. Using two human-curated Q\\&A datasets, we compare open and closed box UE methods (nine in total) across different model sizes and architectures while eliciting long-form reasoning, avoiding LLM-as-a-judge and embedding-based scoring, which can introduce evaluation noise. We report three main actionable findings. First, we find that prompting models to reason in English while keeping questions in low-resource languages substantially improves UE performance, suggesting that comprehension of low-resource languages is largely intact, and that the reliability bottleneck lies in generation rather than understanding. Second, prompting models to reason in English closes the UE performance gap between low and high-resource languages, demonstrating that generation language matters more than the question language. Third, the choice of UE method should depend on model scale: at smaller scales, open-box probability-based methods outperform alternatives; at larger scales, closed-box self-verbalized uncertainty becomes superior. Finally, we provide an analysis of threshold selection for selective prediction, offering guidance on calibrating abstention in multilingual settings.",
@@ -751,6 +1293,197 @@
         "lane": "llm"
       },
       "recommended_at": "2026-07-08T11:57:23.024570+00:00"
+    },
+    {
+      "id": "2607.11883",
+      "title": "Requential Coding: Pushing the Limits of Model Compression with Self-Generated Training Data",
+      "abstract": "Compression is fundamental to intelligence. A model that can represent its training data as a short code has discovered regularities that enable generalization. Large neural networks may learn functions far simpler than their parameter counts suggest, but it is challenging to construct codes that realize this simplicity. Parameter-based methods such as quantization produce code lengths that scale with model size, insensitive to how much information the parameters store. Prequential coding bypasses this issue by compressing the training trajectory, but codes the exact data sequence regardless of how much the model learns, yielding large codes when the data has high entropy. We introduce requential coding, where a teacher model selects training samples drawn from the student's own distribution. The student's code records only these selections, which cost bits only where teacher and student disagree. The resulting code length is independent of parameter count and data entropy, and often orders of magnitude shorter than the prequential counterpart, with an advantage that grows with scale. This compression sheds light on phenomena inaccessible to prior compressors. Holding loss fixed, larger models and ensembles compress to much smaller sizes despite more parameters. Plugged into a PAC-Bayes bound, the requential code yields state-of-the-art generalization guarantees for billion-parameter LLMs, outperforming bounds built on aggressive post-training quantization even granted zero error. The bound tightens with scale in the compute-optimal regime, as models become increasingly compressible relative to dataset size. The same code predicts that models gradually overfit when trained for multiple epochs. It also isolates the learnable information in a dataset from its unpredictable, random content, revealing that lower-entropy text holds far more learnable structure than higher-entropy image data.",
+      "authors": [
+        "Shikai Qiu",
+        "Marc Finzi",
+        "Yujia Zheng",
+        "Kun Zhang",
+        "Andrew Gordon Wilson"
+      ],
+      "published": "2026-07-13T17:58:50Z",
+      "updated": "2026-07-13T17:58:50Z",
+      "categories": [
+        "cs.LG"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2607.11883v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.11883v1",
+      "comment": "Code available at https://github.com/shikaiqiu/requential-coding",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "emerging",
+          "score": 0.4115,
+          "matched": [
+            "training data",
+            "data"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.2349,
+          "matched": [
+            "generalization",
+            "generalization",
+            "bound"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4582,
+        "relevance": 0.3762,
+        "quality": 0.57,
+        "novelty": 0.55,
+        "freshness": 0.8943
+      },
+      "quality_signals": [
+        "code available",
+        "formal bound",
+        "dataset evidence"
+      ],
+      "summary": {
+        "takeaway": "Requential coding compresses large neural networks by encoding only teacher-selected training samples from the student's distribution, achieving code lengths independent of parameter count and data entropy, enabling state-of-the-art generalization bounds for billion-parameter LLMs.",
+        "problem": "Existing model compression methods scale code length with parameter count or data entropy, failing to capture the actual information learned by large neural networks.",
+        "method": "Requential coding iteratively trains a student model on samples selected by a teacher model from the student's own distribution, encoding only the indices of accepted samples via relative entropy coding to minimize code length.",
+        "evidence": "Experiments show requential coding yields code lengths orders of magnitude shorter than prequential coding, with compression improving with model scale and producing tighter PAC-Bayes generalization bounds than aggressive post-training quantization.",
+        "limitations": "Encoding time can be prohibitively slow due to the need for many proposals in relative entropy coding, and the method requires a teacher model trained on real data with similar architecture and hyperparameters.",
+        "why_for_you": "This method offers a principled, scalable approach to quantify and leverage the compressibility of large LLMs beyond parameter counts, directly relevant to data selection and statistical theory for LLM generalization.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Requential coding achieves code lengths roughly equal to the cumulative KL divergence between teacher and student distributions, enabling compression rates near 1 bit per parameter for compute-optimal LLMs."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The method uses relative entropy coding (REC) with a pseudorandom number generator to generate candidate samples from the student, encoding only the index of the teacher-accepted sample, reducing communication cost to KL(Q∥P) bits."
+          },
+          {
+            "icon": "📉",
+            "text": "Empirical results demonstrate that larger models and ensembles compress to smaller sizes despite more parameters, and the requential code predicts gradual overfitting with multiple training epochs."
+          }
+        ],
+        "overview": "The paper addresses the challenge that traditional model compression methods, such as parameter quantization or prequential coding, produce code lengths scaling with model size or data entropy, failing to reflect the actual information learned by large neural networks. Requential coding innovates by having a teacher model select training samples from the student's own distribution, encoding only the indices of accepted samples via relative entropy coding. This approach yields code lengths independent of parameter count and data entropy, often orders of magnitude shorter than prequential coding. The method is implemented by iteratively training a student model on teacher-selected samples, with the teacher evolving by training on real data. The resulting compression reveals phenomena inaccessible to prior compressors, such as improved compressibility with scale and tighter PAC-Bayes generalization bounds for billion-parameter LLMs. Experiments on transformers trained on text and images validate the approach, showing strong compression and predictive insights into overfitting and dataset learnability. The method requires shared randomness and incurs computational overhead but offers a principled framework for understanding and leveraging model compressibility at scale.",
+        "methodology": [
+          {
+            "title": "Requential Coding Protocol",
+            "detail": "At each training step t, the student model Pt generates candidate samples Yt,i from its distribution using a pseudorandom number generator with a shared seed. The teacher model Qt selects an accepted sample Xt by choosing an index i⋆ such that Xt is marginally distributed as Qt. The encoder transmits the index i⋆ using relative entropy coding (REC), which requires approximately KL(Qt ∥ Pt) bits. The student then trains on Xt to update Pt+1. This iterative process compresses the training trajectory by encoding only the teacher's selections."
+          },
+          {
+            "title": "Relative Entropy Coding (REC)",
+            "detail": "REC reduces the communication of a sample from distribution Q to communicating an index of a proposal from distribution P, leveraging shared randomness. The encoder and decoder share a pseudorandom number generator to produce identical candidate sequences. The encoder transmits a prefix-free code of the accepted proposal's index, achieving an expected code length bounded by KL(Q∥P) plus small logarithmic overheads, approaching the information-theoretic lower bound."
+          },
+          {
+            "title": "Teacher Model and Training Dynamics",
+            "detail": "The teacher model Qt is trained on real data batches and shares architecture and hyperparameters with the student to maintain low divergence. Enhancements include teacher smoothing via exponential moving average of checkpoints to reduce noise and iso-loss projection to periodically reset the teacher closer to the student, balancing divergence and pulling the student toward the target distribution."
+          },
+          {
+            "title": "Code Length Evaluation and Runtime",
+            "detail": "Code length is evaluated by simulating the stochastic process where REC encoding/decoding is replaced by sampling from the teacher. This requires roughly 2× memory and 2.33× FLOPs compared to ordinary training. Encoding time can be reduced by dividing batches into smaller blocks, trading off code length for encoding speed. Decoding cost remains close to ordinary training."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Compression via Teacher-Student KL Divergence",
+            "detail": "The code length accumulates approximately as the sum over training steps of KL divergences between the teacher and student distributions, reflecting the information difference the student must learn. This mechanism decouples code length from parameter count and data entropy, focusing on the actual information transferred during training."
+          },
+          {
+            "title": "REC Index Encoding with Elias Delta Code",
+            "detail": "Indices of accepted samples are encoded using the parameter-free Elias delta universal integer code, which adds negligible overhead and avoids requiring the decoder to know the teacher-student KL. This ensures prefix-free coding with expected length bounded by KL(Qt ∥ Pt) plus small logarithmic terms."
+          },
+          {
+            "title": "No Explicit Mechanism for Overfitting Prediction",
+            "detail": "While the code predicts gradual overfitting with multiple epochs, the paper does not provide explicit equations or causal mechanisms for this phenomenon."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Compression Comparison on Transformers",
+            "detail": "Requential coding is evaluated against prequential coding and quantization on transformer models trained on text and image datasets. Results show requential coding achieves orders of magnitude shorter code lengths, with compression rates near 1 bit per parameter for compute-optimal LLMs."
+          },
+          {
+            "title": "Generalization Bound Evaluation",
+            "detail": "The requential code is plugged into a PAC-Bayes generalization bound, evaluated on billion-parameter LLMs. It outperforms bounds based on aggressive 4-bit post-training quantization, even assuming zero training error, and tightens with scale in the compute-optimal regime."
+          },
+          {
+            "title": "Teacher Smoothing and Iso-Loss Projection Ablations",
+            "detail": "Improvements such as teacher smoothing via EMA and iso-loss projection are introduced to reduce noise and maintain low divergence between teacher and student, improving code length and training stability."
+          },
+          {
+            "title": "Runtime and Encoding Tradeoffs",
+            "detail": "Experiments analyze the computational overhead of requential coding, showing it requires roughly double memory and 2.33× FLOPs compared to ordinary training. Encoding time can be reduced by block-wise transmission at the cost of longer codes."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Code Length Independent of Parameter Count and Data Entropy",
+            "detail": "Requential coding produces code lengths that do not scale with model size or data entropy, unlike parameter quantization or prequential coding, enabling compression orders of magnitude shorter than prequential codes."
+          },
+          {
+            "title": "Larger Models Compress Better Despite More Parameters",
+            "detail": "Holding loss fixed, larger models and ensembles achieve smaller code lengths, indicating increased compressibility with scale, a phenomenon inaccessible to prior compressors."
+          },
+          {
+            "title": "State-of-the-Art Generalization Bounds",
+            "detail": "When plugged into PAC-Bayes bounds, requential coding yields tighter generalization guarantees for billion-parameter LLMs than aggressive post-training quantization bounds, with the bound tightening as model scale increases."
+          },
+          {
+            "title": "Prediction of Overfitting Dynamics",
+            "detail": "The requential code predicts that models gradually overfit when trained for multiple epochs, isolating learnable information from unpredictable random content in datasets."
+          },
+          {
+            "title": "Lower-Entropy Text Holds More Learnable Structure",
+            "detail": "Analysis reveals that lower-entropy text data contains far more learnable structure than higher-entropy image data, as reflected in compression behavior."
+          }
+        ],
+        "contributions": [
+          "Introduction of requential coding, a novel compression scheme encoding only teacher-selected samples from the student's distribution, independent of parameter count and data entropy.",
+          "Demonstration of orders of magnitude shorter code lengths than prequential coding on large transformers trained on text and images.",
+          "Integration of requential coding into PAC-Bayes bounds yielding state-of-the-art generalization guarantees for billion-parameter LLMs.",
+          "Empirical insights into model compressibility scaling with size and dataset learnability, including overfitting prediction and data entropy analysis.",
+          "Development of practical encoding schemes using relative entropy coding with universal integer codes and shared randomness."
+        ],
+        "limitations": [
+          "Encoding time can be prohibitively slow due to the need for many proposals in relative entropy coding, limiting practical transmission speed.",
+          "The method requires a teacher model trained on real data with similar architecture and hyperparameters, which may not always be available or efficient.",
+          "The approach incurs roughly double memory and more than double FLOPs compared to ordinary training, increasing computational cost.",
+          "No explicit causal mechanism or equations are provided for phenomena such as overfitting prediction."
+        ],
+        "open_questions": [
+          "How can encoding time be further reduced without significantly increasing code length, enabling practical model transmission?",
+          "Can requential coding be extended or adapted to settings without access to a teacher model trained on real data?",
+          "What are the theoretical limits of compressibility for different model architectures and data modalities under requential coding?",
+          "How does requential coding interact with other compression techniques such as pruning or knowledge distillation in large-scale LLMs?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Data selection for LLMs",
+        "matched": [
+          "training data",
+          "data"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-14T11:44:02.688717+00:00"
     },
     {
       "id": "2607.08700",
@@ -917,6 +1650,182 @@
         "lane": "llm"
       },
       "recommended_at": "2026-07-10T12:37:21.836532+00:00"
+    },
+    {
+      "id": "2607.11706",
+      "title": "VoxENES 2026: Benchmarking Generalization of Speech Spoofing Detectors Against LLM-Era TTS and Voice Conversion",
+      "abstract": "Modern LLM-driven text-to-speech (TTS) and voice conversion (VC) systems produce synthetic speech that differs from the generators represented in many legacy spoofing benchmarks. This mismatch creates a temporal generalization gap that can overestimate detector robustness under real-world post-processing conditions. We bridge this gap by introducing VoxENES 2026, a bilingual (English and Spanish) benchmark of 53,628 audio samples generated using 10 contemporary speech synthesis methods and evaluated under 10 standardized post-processing conditions. Using VoxENES 2026, we benchmark eight pretrained detectors without fine-tuning and observe substantial performance degradation: the best model achieves 28.98\\% EER overall, while most perform near or below random chance across modern generators and perturbations. Our results highlight the reliance on brittle artifacts in current detectors and establish VoxENES 2026 as a practical testbed for developing robust audio spoofing countermeasures.",
+      "authors": [
+        "Aastha Sharma",
+        "Guangjing Wang"
+      ],
+      "published": "2026-07-13T15:35:29Z",
+      "updated": "2026-07-13T15:35:29Z",
+      "categories": [
+        "cs.SD",
+        "cs.AI"
+      ],
+      "primary_category": "cs.SD",
+      "abs_url": "https://arxiv.org/abs/2607.11706v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.11706v1",
+      "comment": "Accepted in InterSpeech 2026",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3038,
+          "matched": [
+            "robustness",
+            "llm",
+            "robustness"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.3022,
+          "matched": [
+            "generalization",
+            "generalization"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.2839,
+          "matched": [
+            "robustness",
+            "robust",
+            "fine-tuning"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4292,
+        "relevance": 0.3603,
+        "quality": 0.48,
+        "novelty": 0.55,
+        "freshness": 0.8801
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "VoxENES 2026 reveals that current pretrained speech spoofing detectors degrade significantly against modern LLM-driven TTS and VC systems, achieving at best 28.98% EER and often near random chance.",
+        "problem": "Legacy spoofing benchmarks fail to capture the acoustic characteristics of synthetic speech generated by contemporary LLM-driven TTS and VC systems, causing overestimated detector robustness.",
+        "method": "The authors introduce VoxENES 2026, a bilingual benchmark with 53,628 audio samples from 10 modern LLM-driven speech synthesis methods, augmented by 10 standardized post-processing conditions, to evaluate pretrained detectors without fine-tuning.",
+        "evidence": "Evaluation of eight pretrained detectors on VoxENES 2026 shows substantial performance degradation compared to legacy benchmarks, with the best model achieving only 28.98% EER overall and most near or below random chance.",
+        "limitations": "The paper does not provide fine-tuning or adaptation experiments to improve detector robustness on the new benchmark, nor mechanistic explanations for why detectors fail on modern generators.",
+        "why_for_you": "This benchmark exposes critical generalization failures of current spoofing detectors against LLM-era synthetic speech, highlighting the need for robust countermeasures aligned with evolving generative models.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "The best pretrained detector evaluated on VoxENES 2026 achieves only 28.98% equal error rate (EER), indicating severe degradation compared to legacy benchmarks."
+          },
+          {
+            "icon": "🛡️",
+            "text": "VoxENES 2026 includes 53,628 audio samples generated by 10 state-of-the-art LLM-driven TTS and VC methods, covering English and Spanish, and applies 10 standardized post-processing augmentations to simulate real-world conditions."
+          },
+          {
+            "icon": "📉",
+            "text": "Performance degradation is attributed to detectors relying on brittle artifact cues tied to older synthesis methods, which are progressively suppressed or concealed by modern LLM-driven generators and post-processing."
+          }
+        ],
+        "overview": "The paper addresses the temporal generalization gap in speech spoofing detection caused by the rapid evolution of LLM-driven text-to-speech (TTS) and voice conversion (VC) systems. Legacy benchmarks predominantly contain synthetic speech from pre-2024 generators, which differ acoustically from modern LLM-based methods such as autoregressive, flow-matching, diffusion, and hybrid architectures. This mismatch leads to overestimated robustness of detectors when deployed in real-world scenarios involving new generation pipelines and common audio post-processing like compression and noise. To bridge this gap, the authors introduce VoxENES 2026, a bilingual benchmark dataset with over 53,000 samples generated from 10 contemporary LLM-driven TTS and VC systems, augmented by 10 standardized post-processing conditions. Evaluating eight pretrained detectors without fine-tuning reveals substantial performance degradation, with the best model achieving only 28.98% EER and most detectors performing near or below random chance. These results demonstrate that current detectors rely on fragile artifact cues that do not generalize to modern synthetic speech, establishing VoxENES 2026 as a critical testbed for developing robust spoofing countermeasures aligned with the evolving synthesis frontier.",
+        "methodology": [
+          {
+            "title": "Dataset Construction",
+            "detail": "VoxENES 2026 comprises 53,628 audio samples generated from 10 modern LLM-driven speech synthesis methods, including 7 TTS and 3 VC systems, covering English and Spanish languages. Real speech samples from LibriSpeech and VoxPopuli corpora are included for reference."
+          },
+          {
+            "title": "Post-Processing Augmentation",
+            "detail": "To simulate real-world transmission and manipulation effects, the dataset applies 10 standardized audio augmentations such as codec compression, additive noise, resampling, speed perturbation, and loudness normalization, modeling common distortions that affect detector performance."
+          },
+          {
+            "title": "Evaluation Protocol",
+            "detail": "Eight pretrained speech spoofing detectors are evaluated on VoxENES 2026 without any fine-tuning to measure out-of-distribution generalization. Performance is quantified primarily using equal error rate (EER) across all synthetic and augmented samples."
+          },
+          {
+            "title": "Benchmarking Modern Generators",
+            "detail": "The benchmark explicitly includes state-of-the-art LLM-driven TTS architectures such as VoxCPM, Qwen3-TTS, GLM-TTS, CosyVoice 3, Chatterbox, FlashLabs Chroma, and VibeVoice, as well as VC methods like Seed-VC, OpenVoice v2, and RVC v2, representing the current synthesis frontier."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Data Drift and Artifact Reliance",
+            "detail": "No explicit mechanistic equations are provided; however, the paper theorizes that detectors trained on legacy datasets learn brittle artifact cues specific to older synthesis methods. Modern LLM-driven generators and post-processing steps suppress or conceal these cues, causing detectors to fail due to distributional shifts and data drift."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Pretrained Detector Evaluation",
+            "detail": "Eight pretrained speech spoofing detectors are benchmarked on VoxENES 2026 without fine-tuning. The evaluation covers synthetic speech from 10 modern generators and 10 post-processing conditions, measuring equal error rate (EER) to assess robustness and generalization."
+          },
+          {
+            "title": "Dataset Composition",
+            "detail": "The dataset includes 3,028 real speech samples, 4,600 original synthetic samples, and 46,000 augmented synthetic samples, sourced from LibriSpeech and VoxPopuli corpora for real speech, and 10 LLM-driven TTS and VC systems for synthetic speech."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Severe Performance Degradation",
+            "detail": "The best performing pretrained detector achieves only 28.98% EER on VoxENES 2026, a substantial drop from reported results on legacy benchmarks, indicating poor generalization to modern LLM-driven synthetic speech."
+          },
+          {
+            "title": "Near Random Chance Performance",
+            "detail": "Most evaluated detectors perform near or below random chance levels across modern generators and post-processing augmentations, demonstrating reliance on brittle artifact cues that do not generalize."
+          },
+          {
+            "title": "Impact of Post-Processing",
+            "detail": "Standardized post-processing augmentations such as compression, noise, and resampling further degrade detector performance, highlighting the importance of modeling real-world audio transformations."
+          }
+        ],
+        "contributions": [
+          "Introduction of VoxENES 2026, a large-scale bilingual benchmark dataset with 53,628 samples from 10 modern LLM-driven TTS and VC systems.",
+          "Inclusion of 10 standardized post-processing augmentations to simulate real-world audio transmission and manipulation effects.",
+          "Comprehensive evaluation of eight pretrained speech spoofing detectors without fine-tuning, revealing significant generalization failures.",
+          "Demonstration that current detectors rely on brittle artifact cues tied to legacy synthesis methods, motivating development of robust countermeasures.",
+          "Provision of a practical testbed for advancing speech spoofing detection aligned with the evolving LLM-driven synthesis frontier."
+        ],
+        "limitations": [
+          "Lack of experiments involving fine-tuning or adaptation of detectors on VoxENES 2026 to improve robustness.",
+          "Absence of mechanistic or theoretical analysis explaining why detectors fail on modern LLM-driven synthetic speech.",
+          "No exploration of new detector architectures or training strategies to address the identified generalization gap.",
+          "Limited discussion on multilingual performance differences beyond English and Spanish inclusion."
+        ],
+        "open_questions": [
+          "How can speech spoofing detectors be adapted or retrained to generalize effectively to LLM-driven TTS and VC systems?",
+          "What novel artifact cues or features can be leveraged to detect synthetic speech generated by modern LLM-based architectures?",
+          "How do different post-processing augmentations individually and jointly affect detector robustness, and can detectors be made invariant to them?",
+          "Can theoretical frameworks be developed to model the data drift and distributional shifts caused by evolving speech synthesis methods?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "robustness",
+          "llm",
+          "robustness"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-14T11:44:02.688717+00:00"
     },
     {
       "id": "2607.08535",
@@ -1095,231 +2004,73 @@
       "recommended_at": "2026-07-10T12:37:21.836532+00:00"
     },
     {
-      "id": "2607.06452",
-      "title": "From Voting to Agent Collaboration: Answer-Type-Aware LLM Pipelines for BioASQ 14b",
-      "abstract": "Biomedical question answering requires not only accurate extraction of information from scientific literature but also reliable integration of evidence across multiple documents. This study presents a question-type-specific large language model (LLM) framework for BioASQ 14b Task B, designed to improve answer robustness and evidence grounding in biomedical question answering. Rather than applying a single prompting strategy to all questions, the framework selects different inference procedures for yes/no, factoid, and list questions according to their distinct reasoning and evaluation requirements. For yes/no questions, snippet shuffling and self-reflection are used to reduce sensitivity to evidence ordering and improve decision stability. For factoid questions, full-snippet input is combined with chain-of-thought-based in-context learning to support accurate biomedical entity identification. For list questions, a multi-agent architecture is employed, in which evidence extraction, candidate generation, answer verification, and final aggregation are handled collaboratively. Preliminary experiments on BioASQ 13b were used to identify effective inference strategies for each question type, and the resulting framework was subsequently evaluated in the official BioASQ 14b Task B challenge. In the official evaluation, our framework showed competitive performance across multiple batches and achieved first place in the factoid subtask of Batch 4. These results demonstrate the effectiveness of combining question-type-specific inference, ensemble prediction, and agent-based verification for reliable biomedical question answering.",
+      "id": "2607.11760",
+      "title": "From Expressivity to Sample Complexity: Narrow Teachers for Transformers via C-RASP",
+      "abstract": "A theoretical understanding of Transformers is crucial to better understand the capacities and limitations of large language models (LLMs). There is much work analyzing the expressivity of attention-based models. By proposing handcrafted weights or using computational complexity arguments, a large amount of past theoretical works have sought to characterize which tasks are and which are not in the hypothesis class of Transformer models. However, little work investigates the learnability of such solutions. In this work, we make progress towards this goal. Inspired by recent loss landscape analysis work, we propose preliminary sample complexity bounds for learning C-RASP constructions with Transformers.",
       "authors": [
-        "Taeyun Roh",
-        "Eunha Lee",
-        "Wonjune Jang",
-        "Sohyun Chung",
-        "Junha Jung",
-        "Jaewoo Kang"
+        "Michael Rizvi-Martel",
+        "Satwik Bhattamishra",
+        "Guillaume Rabusseau",
+        "Michael Hahn"
       ],
-      "published": "2026-07-07T16:12:51Z",
-      "updated": "2026-07-07T16:12:51Z",
+      "published": "2026-07-13T16:22:36Z",
+      "updated": "2026-07-13T16:22:36Z",
       "categories": [
-        "cs.CL",
-        "cs.AI"
+        "cs.LG",
+        "cs.CL"
       ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.06452v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.06452v1",
-      "comment": "15 pages",
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2607.11760v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.11760v1",
+      "comment": "9 pages total",
       "journal_ref": "",
       "lane": "llm",
       "scope_matches": [
         "large language model",
+        "large language models",
         "language model",
-        "llm"
+        "language models",
+        "llms"
       ],
       "topics": [
         {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3721,
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "core",
+          "score": 0.4181,
           "matched": [
-            "robustness",
-            "llm",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4179,
-        "relevance": 0.2977,
-        "quality": 0.47,
-        "novelty": 0.8631,
-        "freshness": 0.8825
-      },
-      "quality_signals": [
-        "experiments",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "The proposed LLM framework enhances biomedical question answering by tailoring inference strategies to specific question types.",
-        "problem": "Biomedical question answering faces challenges in accurately integrating evidence from diverse sources.",
-        "method": "The framework employs question-type-specific inference procedures, including snippet shuffling and multi-agent collaboration.",
-        "evidence": "In the BioASQ 14b Task B challenge, the framework achieved first place in the factoid subtask of Batch 4, demonstrating its effectiveness.",
-        "limitations": "The study does not provide detailed performance metrics for all question types across all batches.",
-        "why_for_you": "This research offers insights into improving LLM performance in specialized domains, relevant for trustworthy AI applications.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "The framework achieved a macro F1 score of 0.9110 for yes/no questions, indicating strong decision-making capabilities."
-          },
-          {
-            "icon": "🛡️",
-            "text": "Utilizing a multi-agent architecture for list questions allows for collaborative evidence extraction and verification, enhancing answer reliability."
-          },
-          {
-            "icon": "📉",
-            "text": "The use of snippet shuffling in yes/no questions reduced sensitivity to evidence ordering, improving decision stability and consistency."
-          }
-        ],
-        "overview": "This research addresses the complexities of biomedical question answering by introducing a question-type-specific LLM framework for the BioASQ 14b Task B challenge. The framework adapts inference strategies for yes/no, factoid, and list questions, enhancing answer robustness and evidence grounding. Preliminary experiments on BioASQ 13b informed the selection of effective strategies, leading to competitive performance in the official evaluation, particularly achieving first place in the factoid subtask of Batch 4. This demonstrates the potential of tailored inference methods in improving LLM capabilities in biomedical contexts.",
-        "methodology": [
-          {
-            "title": "Yes/No Question Processing",
-            "detail": "The yes/no subsystem employs snippet shuffling and self-reflection to enhance decision stability. It utilizes an ensemble of four LLM configurations, querying each with varied snippet orders and aggregating results through majority voting."
-          },
-          {
-            "title": "Factoid Question Processing",
-            "detail": "For factoid questions, the framework combines full-snippet input with chain-of-thought-based in-context learning to accurately identify biomedical entities, ensuring precise responses."
-          },
-          {
-            "title": "List Question Processing",
-            "detail": "A multi-agent architecture is implemented for list questions, where evidence extraction, candidate generation, and answer verification are conducted collaboratively, improving overall answer quality."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Ensemble Voting Mechanism",
-            "detail": "The yes/no subsystem utilizes a majority voting mechanism among multiple LLM outputs, with a verification agent employed when outputs conflict, ensuring robust decision-making."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "BioASQ 13b Development Benchmark",
-            "detail": "Preliminary experiments on the BioASQ 13b test set were conducted to evaluate various prompting strategies and model configurations, informing the final system design for BioASQ 14b."
-          },
-          {
-            "title": "Official BioASQ 14b Evaluation",
-            "detail": "The framework was evaluated across four batches in the BioASQ 14b challenge, achieving an average score of 0.9110 for yes/no macro F1 and first place in the factoid subtask of Batch 4."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Performance in Yes/No Questions",
-            "detail": "The framework achieved a macro F1 score of 0.9110 for yes/no questions, indicating effective handling of binary decisions."
-          },
-          {
-            "title": "Factoid Question Success",
-            "detail": "The system ranked first in the factoid subtask of Batch 4, demonstrating superior performance in identifying specific biomedical entities."
-          },
-          {
-            "title": "List Question Challenges",
-            "detail": "The multi-agent architecture for list questions improved evidence integration, although specific performance metrics for this category were not detailed."
-          }
-        ],
-        "contributions": [
-          "Introduction of a question-type-specific LLM framework for biomedical question answering.",
-          "Demonstration of effective ensemble strategies for improving answer robustness.",
-          "Implementation of a multi-agent architecture for collaborative evidence processing."
-        ],
-        "limitations": [
-          "Lack of detailed performance metrics for list questions across all batches.",
-          "No comprehensive analysis of the impact of individual LLM configurations on overall performance."
-        ],
-        "open_questions": [
-          "How can the framework be adapted for other domains beyond biomedical question answering?",
-          "What are the implications of varying LLM configurations on performance across different question types?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4o-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "robustness",
-          "llm",
-          "robustness"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-08T11:57:23.024570+00:00"
-    },
-    {
-      "id": "2607.05394",
-      "title": "Weak-to-Strong Generalization via Direct On-Policy Distillation",
-      "abstract": "Reinforcement learning with verifiable rewards (RLVR) is a powerful recipe for improving language-model reasoning, but it is expensive to repeat on every new strong model because the target model must generate many rollouts during training. As models scale, post-training itself becomes a bottleneck. We study a weak-to-strong alternative: run RL on a smaller model where rollouts are cheaper, then reuse what that RL run learned to improve a stronger target model. Directly distilling the post-RL weak teacher is not enough, because the teacher's final policy mixes useful RL gains with the limitations of the smaller model. We propose Direct On-Policy Distillation (Direct-OPD), which transfers the teacher's RL-induced policy shift instead. Direct-OPD compares the post-RL teacher with its own pre-RL reference and treats their log-ratio as a dense implicit reward for the student. In plain terms, the checkpoint pair tells us which actions RL made the weak model more or less likely to take, and Direct-OPD applies that signal on the stronger student's own on-policy states. This directly reuses the weak model's RL supervision signal without training an explicit reward model or running sparse-reward RL on the target model. Empirically, Direct-OPD consistently leverages weaker teachers to improve stronger target models; notably, it boosts Qwen3-1.7B from 48.3% to 62.4% on AIME 2024 in just 4 hours on 8 A100 GPUs. It outperforms step-matched direct RL and enables the sequential composition of multiple policy shifts. Our results show that RL outcomes can be reused across model scales as implicit reward signals, not merely as final models to imitate.",
-      "authors": [
-        "Shiyuan Feng",
-        "Huan-ang Gao",
-        "Haohan Chi",
-        "Hanlin Wu",
-        "Zhilong Zhang",
-        "Zheng Jiang",
-        "Bingxiang He",
-        "Wei-Ying Ma",
-        "Ya-Qin Zhang",
-        "Hao Zhou"
-      ],
-      "published": "2026-07-06T17:59:58Z",
-      "updated": "2026-07-06T17:59:58Z",
-      "categories": [
-        "cs.LG",
-        "cs.AI",
-        "cs.CL"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2607.05394v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.05394v1",
-      "comment": "Project Page: https://bytedtsinghua-sia.github.io/Direct-OPD/",
-      "journal_ref": "",
-      "lane": "transferable",
-      "scope_matches": [
-        "on-policy distillation"
-      ],
-      "topics": [
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "watch",
-          "score": 0.3289,
-          "matched": [
-            "on-policy distillation",
-            "OPD",
-            "policy distillation",
-            "opd",
-            "distillation",
-            "on-policy"
+            "loss landscape",
+            "landscape",
+            "loss"
           ]
         },
         {
           "id": "llm_statistical_theory",
           "name": "Statistical theory for LLMs",
           "status": "background",
-          "score": 0.1715,
+          "score": 0.3306,
           "matched": [
-            "generalization",
-            "generalization"
+            "sample complexity"
           ]
         }
       ],
       "scores": {
-        "total": 0.374,
-        "relevance": 0.2974,
-        "quality": 0.41,
+        "total": 0.4276,
+        "relevance": 0.4006,
+        "quality": 0.34,
         "novelty": 0.55,
-        "freshness": 0.8739
+        "freshness": 0.8848
       },
       "quality_signals": [
-        "quantitative results"
+        "formal bound"
       ],
       "summary": {
-        "takeaway": "Direct On-Policy Distillation (Direct-OPD) effectively enhances stronger language models by leveraging the policy shifts from weaker models trained with reinforcement learning.",
-        "problem": "Reinforcement learning with verifiable rewards (RLVR) is computationally expensive for large models, creating a bottleneck in post-training.",
-        "method": "Direct-OPD transfers the RL-induced policy shift from a weaker model to a stronger model, treating the log-ratio of their policies as an implicit reward.",
-        "evidence": "Direct-OPD improved the Qwen3-1.7B model's performance from 48.3% to 62.4% on AIME 2024 in just 4 hours using 8 A100 GPUs.",
-        "limitations": "The effectiveness of Direct-OPD is conditional on the meaningfulness of the teacher/reference improvement on student-visited states.",
-        "why_for_you": "This research provides insights into efficient model training strategies, relevant for those focused on on-policy distillation and statistical theory for LLMs.",
+        "takeaway": "The paper establishes sample complexity bounds for learning C-RASP constructions with Transformers.",
+        "problem": "Existing theoretical analyses of Transformers focus on expressivity but neglect learnability.",
+        "method": "The authors propose a framework that connects expressivity results to sample complexity bounds.",
+        "evidence": "The results indicate that constant-size constructions like Dyck-1 can be easily learned by Transformers.",
+        "limitations": "The paper lacks empirical validation of the theoretical findings regarding loss landscape impacts.",
+        "why_for_you": "This work bridges expressivity and learnability, which is crucial for understanding LLM training dynamics.",
         "source": "abstract",
         "generated_by": "openai/gpt-4o-mini"
       },
@@ -1327,94 +2078,85 @@
         "signals": [
           {
             "icon": "🧠",
-            "text": "Direct-OPD enables the transfer of RL-induced policy shifts rather than the final policy of the teacher, allowing stronger models to benefit from weaker ones without direct imitation."
+            "text": "The paper demonstrates that C-RASP Transformers can yield sample complexity bounds, specifically showing that constructions like Dyck-1 are easily learned."
           },
           {
             "icon": "🛡️",
-            "text": "The method utilizes the log-ratio of the post-RL teacher's policy against its pre-RL reference as a dense implicit reward, circumventing the need for an explicit reward model."
+            "text": "A novel learning algorithm based on a Guess and Check (G&C) procedure is proposed, which samples weights and computes empirical risk to ensure zero training error."
           },
           {
             "icon": "📉",
-            "text": "Empirical results demonstrate that Direct-OPD consistently improves stronger models across various teacher pairs and student families, indicating its robustness and generalizability."
+            "text": "The authors derive a sample complexity bound that relates the probability of sampling a teacher model to the architecture of the Transformer, providing a theoretical foundation for learning."
           }
         ],
-        "overview": "The paper addresses the challenge of costly reinforcement learning (RL) processes in training large language models by proposing Direct On-Policy Distillation (Direct-OPD). This method allows for the efficient transfer of RL-induced policy shifts from a weaker model to a stronger one, effectively reusing the RL supervision signal without the need for extensive rollouts on the target model. The strongest evidence supporting this approach is the significant performance boost of the Qwen3-1.7B model, which increased from 48.3% to 62.4% accuracy on AIME 2024 in a short training period, showcasing the potential of Direct-OPD in enhancing model capabilities while reducing computational costs.",
+        "overview": "This research addresses the gap in understanding the learnability of Transformers by proposing sample complexity bounds for C-RASP constructions. The authors extend existing frameworks to show how wide student networks can implement narrow teacher networks, thus linking expressivity with learnability. Their findings suggest that certain constant-size constructions, such as Dyck-1, can be effectively learned by Transformers, providing a theoretical basis for future explorations in LLM training dynamics.",
         "methodology": [
           {
-            "title": "Direct On-Policy Distillation (Direct-OPD)",
-            "detail": "Direct-OPD involves running RL on a smaller, cheaper model and transferring the learned policy shift to a stronger model. The method compares the post-RL teacher's policy with its pre-RL reference, using their log-ratio as an implicit reward for the student."
+            "title": "Sample Complexity Bounds",
+            "detail": "The authors derive bounds based on the architecture of Transformers and the characteristics of C-RASP programs, focusing on the relationship between model width, depth, and the number of variables."
           },
           {
-            "title": "Policy Shift Transfer",
-            "detail": "The transfer process focuses on the behavioral changes induced by the RL training of the weak model, rather than attempting to replicate the weak model's final policy, ensuring that stronger models can leverage useful RL insights."
+            "title": "Guess and Check Learning Algorithm",
+            "detail": "The learning algorithm samples weights uniformly at random and computes the empirical risk until zero training error is achieved, linking the success rate to the volume of generalizing solutions."
           },
           {
-            "title": "Evaluation Protocol",
-            "detail": "The evaluation of model performance is conducted using the AIME benchmarks, with specific metrics such as accuracy averaged over multiple samples to assess the effectiveness of the Direct-OPD approach."
+            "title": "C-RASP Framework Extension",
+            "detail": "The paper extends the C-RASP framework to include a broader class of constructions, allowing for the analysis of their learnability in the context of Transformers."
           }
         ],
         "mechanism": [
           {
-            "title": "Policy-as-Reward Identity",
-            "detail": "Direct-OPD leverages the policy-as-reward identity, where the log-ratio of policies under KL-regularized RL can recover the reward signal, allowing for effective transfer of learned behaviors."
+            "title": "Teacher-Equivalent Models",
+            "detail": "The paper defines a teacher-equivalent model in relation to a data distribution, establishing a framework for understanding how well a predictor can match a teacher model."
           }
         ],
         "experiments": [
           {
-            "title": "Improvement of Stronger Students",
-            "detail": "In experiments, the policy shift from R1-Distill-1.5B to JustRL-1.5B was transferred to stronger models like R1-Distill-7B and Qwen3-4B, showing consistent performance improvements across different model families."
-          },
-          {
-            "title": "Comparison with Direct RL",
-            "detail": "Direct-OPD was compared against step-matched direct RL, demonstrating superior performance in both accuracy and computational efficiency, validating the effectiveness of the proposed method."
-          },
-          {
-            "title": "Sequential Composition of Policy Shifts",
-            "detail": "The ability to compose multiple independently learned policy shifts was tested, confirming that Direct-OPD can accumulate gains in a single student model, enhancing its overall performance."
+            "title": "Learning Dyck-1",
+            "detail": "The authors illustrate their theoretical results by demonstrating that a single-head student Transformer can learn a C-RASP program for Dyck-1 with a sample complexity bound better than traditional Occam's razor arguments."
           }
         ],
         "findings": [
           {
-            "title": "Effective Transfer Across Models",
-            "detail": "Direct-OPD successfully improved the performance of stronger models, such as Qwen3-1.7B, by utilizing policy shifts from weaker models, demonstrating the method's versatility."
+            "title": "Expressivity and Learnability Link",
+            "detail": "The work is among the first to connect expressivity results of Transformers to sample complexity, showing that expressive capabilities can be learned."
           },
           {
-            "title": "Significant Performance Gains",
-            "detail": "The Qwen3-1.7B model achieved a notable accuracy increase from 48.3% to 62.4% on AIME 2024, showcasing the practical benefits of Direct-OPD."
+            "title": "Sample Complexity for C-RASP",
+            "detail": "The derived sample complexity bounds indicate that a narrow teacher can be effectively learned by a wider student Transformer under specific conditions."
           },
           {
-            "title": "Generalizability of Direct-OPD",
-            "detail": "The method proved effective across various teacher pairs and student families, indicating that Direct-OPD is not limited to specific model architectures or training data."
+            "title": "Impact of Model Architecture",
+            "detail": "The findings suggest that the architecture of Transformers significantly influences their ability to learn specific tasks, such as those defined by C-RASP."
           }
         ],
         "contributions": [
-          "Introduction of Direct On-Policy Distillation (Direct-OPD) as a novel approach for weak-to-strong model training.",
-          "Demonstration of the effectiveness of transferring RL-induced policy shifts rather than final policies.",
-          "Empirical validation of Direct-OPD's performance improvements across different model families and training setups."
+          "The paper extends the framework of Buzaglo et al. to Transformers.",
+          "It provides a constraint-counting argument for implementing narrow teachers with wide student networks.",
+          "It bridges the gap between expressivity and learnability in the context of Transformers."
         ],
         "limitations": [
-          "The signal's effectiveness is conditional on the meaningfulness of the teacher/reference improvement on student-visited states.",
-          "The best response length and KL strength remain dependent on the specific teacher-student pair."
+          "The lack of empirical validation for the theoretical findings.",
+          "The current approach only accounts for a single encoding of the teacher within the student."
         ],
         "open_questions": [
-          "How can the conditional nature of the signal be mitigated to ensure consistent performance across all model pairs?",
-          "What are the optimal configurations for KL strength and response length in various training scenarios?"
+          "How does the loss landscape impact length generalization in Transformers?",
+          "Can the bounds on the probability of sampling a teacher model be further tightened?"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
         "generated_by": "openai/gpt-4o-mini",
         "schema_version": 2
       },
       "recommendation_reason": {
-        "topic": "On-policy distillation",
+        "topic": "LLM loss landscape",
         "matched": [
-          "on-policy distillation",
-          "OPD",
-          "policy distillation",
-          "opd"
+          "loss landscape",
+          "landscape",
+          "loss"
         ],
-        "lane": "transferable"
+        "lane": "llm"
       },
-      "recommended_at": "2026-07-07T15:11:18.490356+00:00"
+      "recommended_at": "2026-07-14T11:44:02.688717+00:00"
     }
   ]
 }
