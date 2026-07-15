@@ -1,6 +1,864 @@
 {
-  "generated_at": "2026-07-14T11:44:02.688717+00:00",
+  "generated_at": "2026-07-15T11:47:59.097160+00:00",
   "papers": [
+    {
+      "id": "2607.12831",
+      "title": "Knowledgeless Language Models: Suppressing Parametric Recall for Evidence-Grounded Language Modeling",
+      "abstract": "Language models encode substantial factual knowledge in their parameters, which can lead to unreliable behavior when this knowledge is outdated, incomplete, or misaligned with the provided context. In this work, we study whether modifying the pretraining signal can systematically shift models away from parametric recall and toward evidence-grounded reasoning. We introduce Knowledge--''Less'' Language Models (KLLMs), a fundamentally different epistemic training paradigm for LLMs, which are pretrained on corpora in which named entities are anonymized, thereby removing a primary channel for entity-linked factual supervision. This intervention substantially reduces closed-book factual recall, while often improving performance on tasks where relevant information is provided as context. Across multiple model scales, KLLMs consistently outperform matched baselines on contextual question answering, fact verification, and hallucination detection benchmarks. Crucially, in retrieval-grounded settings with imperfect evidence, KLLMs show improved robustness and achieve up to 20--25\\% relative gains over standard language models. They further exhibit better calibration, with improved ECE, Brier score, and AUROC, as well as more reliable abstention behavior. Our results demonstrate that suppressing entity-linked supervision during pretraining induces a shift in epistemic behavior: KLLMs rely less on parametric knowledge and more on external evidence, leading to improved reliability under realistic conditions. This suggests that pretraining-time control over knowledge acquisition can complement retrieval-augmented and tool-based systems by providing a more evidence-sensitive base model.",
+      "authors": [
+        "Roi Cohen",
+        "Yvan Carré",
+        "Nick Lechtenbörger",
+        "Hendrik Droste",
+        "Lucas Kerschke",
+        "Russa Biswas",
+        "Gerard de Melo",
+        "Jan Buys"
+      ],
+      "published": "2026-07-14T14:48:53Z",
+      "updated": "2026-07-14T14:48:53Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.12831v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.12831v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3702,
+          "matched": [
+            "robustness",
+            "calibration",
+            "hallucination",
+            "reliability",
+            "robustness"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.2702,
+          "matched": [
+            "robustness",
+            "training"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4942,
+        "relevance": 0.3502,
+        "quality": 0.69,
+        "novelty": 0.8482,
+        "freshness": 0.8751
+      },
+      "quality_signals": [
+        "code available",
+        "baseline comparison",
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Pretraining language models on anonymized corpora reduces parametric factual recall and improves evidence-grounded reasoning, robustness, and calibration.",
+        "problem": "Language models rely heavily on parametric knowledge, which can be outdated or misaligned, causing unreliable behavior in evidence-grounded tasks.",
+        "method": "KLLMs are pretrained on corpora with anonymized named entities to suppress entity-linked factual supervision and shift models toward external evidence reliance.",
+        "evidence": "KLLMs outperform matched baselines by up to 20–25% on retrieval-grounded tasks with imperfect evidence and show improved calibration metrics like ECE, Brier score, and AUROC.",
+        "limitations": "The paper does not provide detailed quantitative results or ablation studies on the impact of anonymization granularity or downstream task diversity.",
+        "why_for_you": "This approach offers a novel pretraining paradigm to enhance trustworthy LLM behavior by reducing harmful parametric recall and improving robustness in evidence-grounded applications.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "KLLMs pretrained on anonymized corpora reduce closed-book factual recall but improve performance on contextual QA, fact verification, and hallucination detection benchmarks."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The anonymization of named entities during pretraining removes a primary channel for entity-linked factual supervision, fundamentally shifting the epistemic behavior of LLMs."
+          },
+          {
+            "icon": "📉",
+            "text": "In retrieval-grounded settings with imperfect evidence, KLLMs achieve up to 20–25% relative gains over standard LMs and exhibit better calibration metrics such as ECE, Brier score, and AUROC."
+          }
+        ],
+        "overview": "This work addresses the challenge that large language models (LLMs) encode factual knowledge parametrically, which can lead to unreliable outputs when such knowledge is outdated or misaligned with context. The authors propose Knowledge--''Less'' Language Models (KLLMs), which are pretrained on corpora where named entities are anonymized, effectively suppressing entity-linked factual supervision during pretraining. This intervention reduces the model's reliance on parametric recall and encourages evidence-grounded reasoning. Empirical results across multiple model scales demonstrate that KLLMs outperform matched baselines on contextual question answering, fact verification, and hallucination detection tasks. Notably, in retrieval-augmented scenarios with imperfect evidence, KLLMs show substantial robustness improvements, achieving up to 20–25% relative gains. Additionally, KLLMs exhibit better calibration and more reliable abstention behavior, indicating improved trustworthiness. These findings suggest that controlling knowledge acquisition during pretraining can complement retrieval and tool-based methods by producing base models that are more sensitive to external evidence, thereby enhancing reliability in realistic settings.",
+        "methodology": [
+          {
+            "title": "Anonymization of Named Entities",
+            "detail": "During pretraining, all named entities in the corpus are anonymized to remove explicit entity-linked factual supervision. This process prevents the model from memorizing specific factual knowledge tied to entities, aiming to reduce parametric recall."
+          },
+          {
+            "title": "Pretraining Paradigm Shift",
+            "detail": "KLLMs are pretrained under this anonymized data regime, fundamentally altering the epistemic training signal. The objective remains language modeling, but the input distribution lacks direct entity references, encouraging reliance on contextual evidence."
+          },
+          {
+            "title": "Evaluation on Contextual Tasks",
+            "detail": "Models are evaluated on contextual question answering, fact verification, and hallucination detection benchmarks to measure performance shifts from parametric recall to evidence-grounded reasoning."
+          },
+          {
+            "title": "Robustness Testing in Retrieval-Grounded Settings",
+            "detail": "KLLMs are tested in retrieval-augmented scenarios with imperfect evidence to assess robustness and reliability gains compared to standard LMs."
+          },
+          {
+            "title": "Calibration and Abstention Metrics",
+            "detail": "Calibration is measured using Expected Calibration Error (ECE), Brier score, and AUROC, alongside abstention behavior to evaluate trustworthiness improvements."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Suppression of Parametric Recall via Anonymization",
+            "detail": "By anonymizing named entities during pretraining, the model's primary channel for learning entity-linked factual knowledge is removed. This shifts the model's epistemic behavior from relying on memorized facts to depending more on external evidence provided at inference time. No explicit equations or causal models are provided."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Contextual Question Answering and Fact Verification",
+            "detail": "KLLMs and matched baseline LMs are evaluated on benchmarks requiring grounding in provided context, demonstrating consistent performance improvements across multiple model scales."
+          },
+          {
+            "title": "Hallucination Detection",
+            "detail": "KLLMs outperform baselines in detecting hallucinated content, indicating better alignment with external evidence rather than parametric memorization."
+          },
+          {
+            "title": "Retrieval-Grounded Robustness Evaluation",
+            "detail": "In scenarios with imperfect retrieved evidence, KLLMs achieve up to 20–25% relative gains over standard LMs, showing enhanced robustness to noisy or incomplete context."
+          },
+          {
+            "title": "Calibration and Abstention Behavior Analysis",
+            "detail": "KLLMs exhibit improved calibration metrics (ECE, Brier score, AUROC) and more reliable abstention, suggesting increased trustworthiness in uncertain or ambiguous cases."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Reduced Closed-Book Recall",
+            "detail": "Anonymization during pretraining substantially reduces the model's closed-book factual recall, confirming suppression of parametric knowledge."
+          },
+          {
+            "title": "Improved Contextual Task Performance",
+            "detail": "Despite reduced parametric recall, KLLMs outperform matched baselines on contextual QA, fact verification, and hallucination detection tasks."
+          },
+          {
+            "title": "Robustness Gains in Retrieval Settings",
+            "detail": "KLLMs achieve up to 20–25% relative performance gains over standard LMs in retrieval-grounded tasks with imperfect evidence."
+          },
+          {
+            "title": "Better Calibration and Abstention",
+            "detail": "KLLMs show improved Expected Calibration Error, Brier score, AUROC, and more reliable abstention behavior, indicating enhanced reliability."
+          }
+        ],
+        "contributions": [
+          "Introduction of KLLMs, a novel pretraining paradigm using anonymized corpora to suppress parametric factual recall.",
+          "Demonstration that suppressing entity-linked supervision shifts LLM epistemic behavior toward evidence-grounded reasoning.",
+          "Empirical evidence of improved robustness and calibration in retrieval-augmented and contextual tasks.",
+          "Proposal that pretraining-time control over knowledge acquisition complements retrieval and tool-based systems."
+        ],
+        "limitations": [
+          "Lack of detailed quantitative ablations on the degree and method of entity anonymization.",
+          "No explicit analysis of potential trade-offs in general language understanding beyond factual tasks.",
+          "Absence of mechanistic or theoretical modeling explaining the epistemic shift beyond empirical results.",
+          "Limited disclosure of dataset specifics and baseline model architectures."
+        ],
+        "open_questions": [
+          "How does the granularity and method of entity anonymization affect the balance between parametric recall and evidence grounding?",
+          "Can KLLMs maintain or improve general language understanding capabilities while suppressing factual recall?",
+          "What are the long-term effects of this pretraining paradigm on downstream tasks beyond factual reasoning?",
+          "How can this approach be integrated with retrieval-augmented and tool-augmented LLM architectures for optimal performance?"
+        ],
+        "source_scope": "abstract",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "robustness",
+          "calibration",
+          "hallucination",
+          "reliability"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-15T11:47:59.097160+00:00"
+    },
+    {
+      "id": "2607.12856",
+      "title": "Verifier-Based Reinforcement Fine-Tuning of Reasoning Models for Thermal Energy Storage Control",
+      "abstract": "Buildings are expected to shift cooling loads in response to grid conditions. Thermal energy storage (TES) enables this shift, but scheduling it well requires planning hours ahead under storage constraints. Model predictive control (MPC) and reinforcement learning are difficult to scale across buildings. This study instead adapts an open-weight reasoning model through reinforcement learning with verifiable rewards (RLVR). We convert exact offline dynamic-programming (DP) action values into dense rewards for every candidate action. Using only 30 training prompts, reinforcement fine-tuning (RFT) trains the model as an upper-level scheduler that outputs hourly heat-pump setpoints from text-based states and forecasts. Evaluation uses a deliberately simple office-building TES benchmark where exact DP is tractable and the optimum is known. RFT reduces the open-weight model's emissions from 70.5 to 61.2 kg-CO2, close to the DP optimum of 60.8 kg-CO2. GPT-5 nearly matches DP and MPC without task-specific training, while GPT-4o, a non-reasoning LLM, produces higher emissions than the no-storage baseline, so inference-time reasoning appears important. Trace analysis shows that RFT mainly stabilizes observable planning patterns (candidate comparison, look-ahead, and feasibility checking) rather than creating a new strategy. Robustness and generalization tests clarify what transfers: the reinforced planning patterns persist under forecast errors and an unseen TES condition and carry over to a battery task, but its different structure limits the gains. DP-based verifiable rewards offer a practical way to adapt open-weight reasoning models to building storage scheduling. These results motivate higher-fidelity tests of whole-building control and scalable verifiers for city-scale energy management.",
+      "authors": [
+        "Takumi Shioda",
+        "Kohei Terashima",
+        "Tatsuo Nagai"
+      ],
+      "published": "2026-07-14T15:08:39Z",
+      "updated": "2026-07-14T15:08:39Z",
+      "categories": [
+        "cs.LG"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2607.12856v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.12856v1",
+      "comment": "29 pages, 8 figures",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.42,
+          "matched": [
+            "robustness",
+            "fine-tuning",
+            "training"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.1716,
+          "matched": [
+            "robustness",
+            "llm",
+            "robustness"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.1097,
+          "matched": [
+            "generalization",
+            "generalization"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.494,
+        "relevance": 0.3923,
+        "quality": 0.55,
+        "novelty": 0.8513,
+        "freshness": 0.8771
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Reinforcement fine-tuning with dynamic programming-based verifiable rewards effectively adapts open-weight reasoning models for thermal energy storage scheduling, achieving near-optimal emissions reduction.",
+        "problem": "Efficiently scheduling thermal energy storage in buildings requires scalable planning under storage constraints, which is challenging for model predictive control and reinforcement learning methods.",
+        "method": "The study uses reinforcement learning with verifiable rewards derived from exact offline dynamic programming action values to fine-tune an open-weight reasoning model as an upper-level scheduler.",
+        "evidence": "Reinforcement fine-tuning reduces emissions from 70.5 to 61.2 kg-CO2, closely approaching the dynamic programming optimum of 60.8 kg-CO2 on a simple TES benchmark.",
+        "limitations": "The approach’s gains are limited when transferring to structurally different tasks like battery control, and higher-fidelity tests on whole-building control remain to be conducted.",
+        "why_for_you": "This work demonstrates a practical method to leverage verifiable rewards for efficient adversarial training of reasoning LLMs in energy management, relevant for trustworthy and scalable LLM control applications.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Reinforcement fine-tuning (RFT) stabilizes planning patterns such as candidate comparison, look-ahead, and feasibility checking rather than inventing new strategies, indicating the model learns to reliably execute known reasoning steps."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The method converts exact offline dynamic programming (DP) action values into dense, verifiable rewards for every candidate action, enabling precise reinforcement learning signal without requiring extensive training data."
+          },
+          {
+            "icon": "📉",
+            "text": "Evaluation on a simple office-building TES benchmark shows RFT reduces emissions from 70.5 to 61.2 kg-CO2, nearly matching the DP optimum of 60.8 kg-CO2, while GPT-4o without reasoning produces worse emissions than no storage."
+          }
+        ],
+        "overview": "This paper addresses the challenge of scheduling thermal energy storage (TES) in buildings to shift cooling loads efficiently under storage constraints, a task difficult for traditional model predictive control (MPC) and reinforcement learning due to scalability issues. The authors propose reinforcement learning with verifiable rewards (RLVR), leveraging exact offline dynamic programming (DP) action values as dense rewards to fine-tune an open-weight reasoning model. Using only 30 training prompts, reinforcement fine-tuning (RFT) trains the model to output hourly heat-pump setpoints from text-based states and forecasts. The approach is evaluated on a simple TES benchmark where the DP optimum is known, demonstrating that RFT achieves emissions close to the optimum and outperforms non-reasoning LLMs. Trace analysis reveals that RFT stabilizes existing planning patterns rather than creating new strategies. Robustness tests show these reinforced patterns generalize under forecast errors and to an unseen TES condition, with partial transfer to a battery control task. The study highlights DP-based verifiable rewards as a practical adaptation mechanism for reasoning models in building storage scheduling, motivating future work on higher-fidelity and scalable energy management applications.",
+        "methodology": [
+          {
+            "title": "Reinforcement Learning with Verifiable Rewards (RLVR)",
+            "detail": "Transforms exact offline dynamic programming action values into dense rewards for each candidate action, providing precise and verifiable reinforcement signals to fine-tune the reasoning model."
+          },
+          {
+            "title": "Reinforcement Fine-Tuning (RFT)",
+            "detail": "Uses only 30 training prompts to adapt an open-weight reasoning model as an upper-level scheduler that outputs hourly heat-pump setpoints from text-based states and forecasts, optimizing emissions reduction."
+          },
+          {
+            "title": "Text-Based State and Forecast Input",
+            "detail": "The model receives textual descriptions of building states and weather forecasts, enabling flexible input representation and leveraging the reasoning capabilities of large language models."
+          },
+          {
+            "title": "Trace Analysis of Planning Patterns",
+            "detail": "Analyzes model behavior to identify stabilization of candidate comparison, look-ahead, and feasibility checking patterns, indicating reinforcement of existing reasoning strategies rather than novel policy creation."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Dynamic Programming-Based Reward Conversion",
+            "detail": "Exact offline DP computes action values for all candidate actions, which are converted into dense rewards that guide reinforcement learning fine-tuning, ensuring verifiable and grounded reward signals."
+          },
+          {
+            "title": "No Explicit Mechanistic Equations Provided",
+            "detail": "The paper does not present formal equations or causal models beyond the description of DP-based reward conversion and reinforcement fine-tuning procedures."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "TES Benchmark Evaluation",
+            "detail": "Evaluates RFT on a simple office-building TES benchmark where exact DP is tractable and the optimum is known; compares emissions reductions against DP optimum, MPC, GPT-5, and GPT-4o baselines."
+          },
+          {
+            "title": "Robustness and Generalization Tests",
+            "detail": "Assesses transfer of reinforced planning patterns under forecast errors, an unseen TES condition, and a structurally different battery control task to evaluate robustness and cross-task generalization."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Emissions Reduction Close to Optimum",
+            "detail": "RFT reduces emissions from 70.5 to 61.2 kg-CO2, closely approaching the DP optimum of 60.8 kg-CO2, demonstrating effective adaptation of the reasoning model."
+          },
+          {
+            "title": "Importance of Inference-Time Reasoning",
+            "detail": "GPT-5 nearly matches DP and MPC without task-specific training, while GPT-4o, a non-reasoning LLM, produces higher emissions than the no-storage baseline, highlighting the role of reasoning capabilities."
+          },
+          {
+            "title": "Stabilization of Planning Patterns",
+            "detail": "Trace analysis shows RFT mainly stabilizes candidate comparison, look-ahead, and feasibility checking rather than creating new strategies, indicating reinforcement of existing reasoning behaviors."
+          },
+          {
+            "title": "Partial Transfer to Battery Task",
+            "detail": "Reinforced planning patterns carry over to a battery control task but yield limited gains due to structural differences, indicating task-specific adaptation challenges."
+          }
+        ],
+        "contributions": [
+          "Introduces reinforcement learning with verifiable rewards derived from exact dynamic programming for fine-tuning reasoning models in TES scheduling.",
+          "Demonstrates effective emissions reduction close to the DP optimum using only 30 training prompts for reinforcement fine-tuning.",
+          "Provides trace analysis revealing that reinforcement stabilizes existing planning patterns rather than inventing new strategies.",
+          "Validates robustness and partial generalization of reinforced planning patterns under forecast errors and to an unseen TES condition.",
+          "Motivates scalable verifiers and higher-fidelity tests for broader energy management applications."
+        ],
+        "limitations": [
+          "Limited transferability of reinforced planning patterns to structurally different tasks such as battery control.",
+          "Evaluation restricted to a deliberately simple TES benchmark with known DP optimum; lacks tests on complex whole-building control scenarios.",
+          "No explicit mechanistic or causal model equations beyond DP reward conversion are provided.",
+          "Scalability and performance on city-scale energy management remain untested."
+        ],
+        "open_questions": [
+          "How can reinforcement fine-tuning with verifiable rewards be scaled to complex, real-world whole-building control systems?",
+          "What methods can improve transferability of reinforced planning patterns across structurally different energy storage tasks?",
+          "How can scalable verifiers be designed for city-scale energy management using reasoning LLMs?",
+          "What are the theoretical guarantees or limitations of using DP-based verifiable rewards for reinforcement learning in reasoning models?"
+        ],
+        "source_scope": "abstract",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "robustness",
+          "fine-tuning",
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-15T11:47:59.097160+00:00"
+    },
+    {
+      "id": "2607.12835",
+      "title": "Can LLMs Write Reliable Rubrics? A Meta-Evaluation for Experiment Reproduction",
+      "abstract": "Rubric-based evaluation is a promising approach for assessing open-ended outputs from LLM-based research agents, particularly in paper reproduction, where direct paper-to-repository comparison is prone to hallucination. However, constructing paper-specific rubrics requires substantial expert effort, limiting the scalability of benchmarks such as PaperBench. In this work, we present, to our knowledge, the first systematic meta-evaluation of LLM-generated rubrics for paper reproduction. We reformulate rubrics into a checklist-style format and evaluate four generation settings across two backbone models. We meta-evaluate generated rubrics intrinsically by semantic similarity and extrinsically by score alignment with ground-truth rubrics. Our results show that the augmented settings substantially improves downstream evaluation alignment, with the strongest setting approaching the human baseline, while intrinsic gains are more modest. Further analyses reveal that LLM-generated rubrics are often overly fine-grained, biased toward high scores, and less adaptive to paper domains, highlighting both the affordances and limitations.",
+      "authors": [
+        "Hanhua Hong",
+        "Yizhi Li",
+        "Jiaoyan Chen",
+        "Luu Gia Huy",
+        "Sophia Ananiadou",
+        "Jung-jae Kim",
+        "Chenghua Lin"
+      ],
+      "published": "2026-07-14T14:52:42Z",
+      "updated": "2026-07-14T14:52:42Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.12835v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.12835v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "llm",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4414,
+          "matched": [
+            "alignment",
+            "hallucination",
+            "alignment",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4786,
+        "relevance": 0.3531,
+        "quality": 0.61,
+        "novelty": 0.8329,
+        "freshness": 0.8755
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation",
+        "experiments",
+        "reproducibility"
+      ],
+      "summary": {
+        "takeaway": "Augmented LLM-generated rubrics substantially improve alignment with human evaluation in paper reproduction tasks, nearing human baseline performance.",
+        "problem": "Constructing paper-specific rubrics for evaluating LLM-based paper reproduction is expert-intensive and limits benchmark scalability.",
+        "method": "The study meta-evaluates LLM-generated rubrics reformulated into checklist format across four generation settings and two backbone models using intrinsic semantic similarity and extrinsic score alignment.",
+        "evidence": "Augmented rubric generation settings show substantial improvement in downstream evaluation alignment, with the best setting approaching human baseline, despite modest intrinsic semantic gains.",
+        "limitations": "LLM-generated rubrics tend to be overly fine-grained, biased toward high scores, and less adaptive to diverse paper domains.",
+        "why_for_you": "This work provides critical insights into automating rubric generation for trustworthy evaluation of LLM research agents, addressing hallucination-prone direct comparisons.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "The strongest augmented rubric generation setting achieves downstream evaluation alignment close to human baseline, demonstrating effective rubric automation for paper reproduction."
+          },
+          {
+            "icon": "🛡️",
+            "text": "Rubrics are reformulated into a checklist-style format and evaluated across four generation settings and two backbone LLMs, enabling systematic meta-evaluation of rubric quality."
+          },
+          {
+            "icon": "📉",
+            "text": "Intrinsic evaluation via semantic similarity shows only modest gains, indicating that semantic closeness alone is insufficient to guarantee evaluation alignment."
+          }
+        ],
+        "overview": "This paper addresses the challenge of scalable, reliable evaluation of LLM-generated research outputs in paper reproduction tasks, where direct comparison to repositories is prone to hallucination. The authors propose automating rubric generation using LLMs and conduct the first systematic meta-evaluation of these rubrics. They convert rubrics into checklist-style formats and test four generation settings across two backbone models. Evaluation is twofold: intrinsic semantic similarity and extrinsic score alignment with ground-truth rubrics. Results reveal that augmented rubric generation settings significantly improve downstream evaluation alignment, nearly matching human baselines, while intrinsic semantic similarity gains remain modest. Further analysis uncovers that LLM-generated rubrics are often overly detailed, biased toward higher scores, and less adaptable across paper domains. These findings highlight both the potential and current limitations of LLM-generated rubrics for trustworthy, scalable evaluation in LLM-based research agent benchmarks.",
+        "methodology": [
+          {
+            "title": "Rubric Reformulation",
+            "detail": "Original rubrics are reformulated into a checklist-style format to standardize evaluation criteria and facilitate systematic comparison across generation settings and models."
+          },
+          {
+            "title": "Generation Settings",
+            "detail": "Four distinct rubric generation settings are tested, varying augmentation strategies to assess their impact on rubric quality and downstream evaluation alignment."
+          },
+          {
+            "title": "Backbone Models",
+            "detail": "Two backbone LLMs serve as the basis for rubric generation, enabling analysis of model-dependent effects on rubric reliability and adaptability."
+          },
+          {
+            "title": "Intrinsic Meta-Evaluation",
+            "detail": "Generated rubrics are evaluated intrinsically by measuring semantic similarity to ground-truth rubrics, assessing content closeness independent of scoring outcomes."
+          },
+          {
+            "title": "Extrinsic Meta-Evaluation",
+            "detail": "Rubrics are extrinsically evaluated by aligning their scoring outcomes with ground-truth rubric scores, measuring practical evaluation reliability."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "No Explicit Mechanism Provided",
+            "detail": "The paper does not present formal equations or causal mechanisms but focuses on empirical meta-evaluation of rubric generation and scoring alignment."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Rubric Generation and Evaluation",
+            "detail": "Experiments involve generating rubrics under four settings using two backbone LLMs, reformulating rubrics into checklist format, and evaluating via intrinsic semantic similarity and extrinsic score alignment metrics."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Augmented Settings Improve Alignment",
+            "detail": "Augmented rubric generation settings substantially improve downstream evaluation alignment, with the strongest setting approaching human baseline performance."
+          },
+          {
+            "title": "Modest Intrinsic Gains",
+            "detail": "Intrinsic semantic similarity between generated and ground-truth rubrics shows only modest improvement, indicating semantic closeness is not fully predictive of evaluation quality."
+          },
+          {
+            "title": "Overly Fine-Grained Rubrics",
+            "detail": "LLM-generated rubrics tend to be overly detailed, which may complicate evaluation and reduce practical usability."
+          },
+          {
+            "title": "Bias Toward High Scores",
+            "detail": "Generated rubrics exhibit a bias toward assigning higher scores, potentially skewing evaluation outcomes."
+          },
+          {
+            "title": "Limited Domain Adaptability",
+            "detail": "Rubrics generated by LLMs are less adaptive to different paper domains, limiting generalizability across diverse research topics."
+          }
+        ],
+        "contributions": [
+          "First systematic meta-evaluation of LLM-generated rubrics for paper reproduction tasks.",
+          "Introduction of checklist-style rubric reformulation to standardize evaluation.",
+          "Demonstration that augmented rubric generation settings improve downstream evaluation alignment near human baselines.",
+          "Identification of key limitations in LLM-generated rubrics including fine-grained detail, scoring bias, and domain adaptability."
+        ],
+        "limitations": [
+          "LLM-generated rubrics are often overly fine-grained, complicating practical evaluation.",
+          "Bias toward high scores in generated rubrics may distort evaluation fairness.",
+          "Limited adaptability of rubrics across diverse paper domains restricts generalizability.",
+          "Intrinsic semantic similarity metrics do not strongly correlate with downstream evaluation alignment."
+        ],
+        "open_questions": [
+          "How can rubric generation be improved to reduce scoring bias and increase fairness?",
+          "What methods can enhance rubric adaptability across diverse research domains?",
+          "Can intrinsic evaluation metrics be developed that better predict downstream evaluation alignment?",
+          "How to balance rubric granularity to optimize usability without sacrificing evaluation fidelity?"
+        ],
+        "source_scope": "abstract",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment",
+          "hallucination",
+          "alignment",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-15T11:47:59.097160+00:00"
+    },
+    {
+      "id": "2607.12963",
+      "title": "The Illusion of Robustness: Aggregate Accuracy Hides Prediction Flips under Task-Irrelevant Context",
+      "abstract": "As large language models (LLMs) grow more capable, they are increasingly deployed in context-rich settings where task inputs are often accompanied by long, partially irrelevant context. In a controlled setting, we find that state-of-the-art models often appear robust to task-irrelevant context at the aggregate level: prepending it to benchmark questions causes little change in overall accuracy. This aggregate stability, however, masks significant per-example instability. Even semantically meaningless pseudo-words, formed by randomly combining characters, can markedly shift model predictions on a small fraction of examples, degrading performance on some while improving it on others. This two-sided effect holds consistently across a wide range of models and datasets, yet the affected examples are largely model-specific. We further show that this instability is modulated by context type, context length, test-time compute, and model development stage. Together, our findings reveal context-induced tail risks concealed by aggregate accuracy, motivating per-example reliability evaluation of language models.",
+      "authors": [
+        "Yanzhe Zhang",
+        "Sanmi Koyejo",
+        "Diyi Yang"
+      ],
+      "published": "2026-07-14T17:01:12Z",
+      "updated": "2026-07-14T17:01:12Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.12963v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.12963v1",
+      "comment": "Preprint",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4339,
+          "matched": [
+            "robustness",
+            "reliability",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4436,
+        "relevance": 0.3471,
+        "quality": 0.44,
+        "novelty": 0.8558,
+        "freshness": 0.8882
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "dataset evidence"
+      ],
+      "summary": {
+        "takeaway": "Aggregate accuracy metrics obscure significant per-example prediction instability caused by task-irrelevant context in state-of-the-art LLMs.",
+        "problem": "LLMs deployed with long, partially irrelevant context appear robust at the aggregate level but exhibit unstable predictions on individual examples.",
+        "method": "The study prepends task-irrelevant context, including semantically meaningless pseudo-words, to benchmark questions and analyzes prediction changes across multiple models and datasets.",
+        "evidence": "Prepending pseudo-words shifts model predictions on a small fraction of examples, with effects varying by context type, length, compute, and model development stage.",
+        "limitations": "The analysis is limited to controlled settings and does not provide mechanistic explanations for the observed instability.",
+        "why_for_you": "Understanding per-example prediction flips under irrelevant context is critical for trustworthy LLM deployment in real-world, context-rich environments.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "State-of-the-art LLMs show stable aggregate accuracy when irrelevant context is prepended, yet individual examples experience significant prediction flips."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The method uses semantically meaningless pseudo-words formed by random character combinations to isolate the effect of irrelevant context on model predictions."
+          },
+          {
+            "icon": "📉",
+            "text": "Prediction instability is modulated by factors including context type, context length, test-time compute, and model development stage, indicating nuanced sensitivity."
+          }
+        ],
+        "overview": "This research investigates the robustness of large language models to task-irrelevant context by prepending such context to benchmark questions and measuring prediction stability. While aggregate accuracy remains largely unchanged, the study reveals significant per-example prediction flips, including both degradations and improvements, when irrelevant context is introduced. The use of pseudo-words as irrelevant context isolates semantic effects, demonstrating that even meaningless input can alter model behavior. This instability is consistent across diverse models and datasets but affects examples in a model-specific manner. Furthermore, the degree of instability depends on context characteristics and model factors such as development stage and computational budget at test time. These findings expose hidden tail risks in LLM reliability that aggregate metrics fail to capture, underscoring the need for per-example evaluation to ensure trustworthy deployment in context-rich scenarios.",
+        "methodology": [
+          {
+            "title": "Prepending Task-Irrelevant Context",
+            "detail": "The study prepends long, partially irrelevant context, including semantically meaningless pseudo-words created by random character combinations, to benchmark questions to test model robustness to irrelevant input."
+          },
+          {
+            "title": "Controlled Evaluation Across Models and Datasets",
+            "detail": "Multiple state-of-the-art LLMs and benchmark datasets are evaluated under identical conditions to assess the consistency and specificity of prediction instability caused by irrelevant context."
+          },
+          {
+            "title": "Analysis of Prediction Flips",
+            "detail": "Per-example prediction changes are tracked to identify instances where irrelevant context causes shifts in model outputs, measuring both performance degradation and improvement."
+          },
+          {
+            "title": "Modulation Factors Study",
+            "detail": "The impact of context type, context length, test-time compute resources, and model development stage on prediction stability is systematically analyzed to understand factors influencing instability."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "No Explicit Mechanism Provided",
+            "detail": "The paper does not provide a mechanistic or theoretical explanation for why irrelevant context induces prediction flips, focusing instead on empirical observation."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Benchmark Question Evaluation with Irrelevant Context",
+            "detail": "Models are tested on standard benchmark questions with and without prepended irrelevant context, including pseudo-words, to measure changes in aggregate accuracy and per-example predictions."
+          },
+          {
+            "title": "Cross-Model and Dataset Consistency Checks",
+            "detail": "Experiments span a wide range of state-of-the-art LLMs and datasets to verify that the two-sided effect of irrelevant context on prediction flips is consistent yet model-specific."
+          },
+          {
+            "title": "Context and Model Factor Ablations",
+            "detail": "Ablation studies vary context type, length, test-time compute, and model development stage to quantify their modulation of prediction instability."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Aggregate Accuracy Masks Instability",
+            "detail": "Despite little change in overall accuracy when irrelevant context is prepended, individual examples frequently experience prediction flips, revealing hidden instability."
+          },
+          {
+            "title": "Pseudo-Words Cause Prediction Shifts",
+            "detail": "Even meaningless pseudo-words significantly alter model predictions on a subset of examples, demonstrating sensitivity to non-semantic context."
+          },
+          {
+            "title": "Two-Sided Effect on Performance",
+            "detail": "Irrelevant context can both degrade and improve performance on different examples, indicating complex, example-specific effects."
+          },
+          {
+            "title": "Model-Specific Affected Examples",
+            "detail": "The examples impacted by irrelevant context vary across models, suggesting that instability is not uniform but dependent on model architecture or training."
+          },
+          {
+            "title": "Instability Modulated by Multiple Factors",
+            "detail": "Context type, length, test-time compute, and model development stage all influence the degree of prediction instability observed."
+          }
+        ],
+        "contributions": [
+          "Demonstration that aggregate accuracy conceals significant per-example prediction instability under task-irrelevant context.",
+          "Introduction of semantically meaningless pseudo-words as a tool to isolate context effects on LLM predictions.",
+          "Empirical evidence that prediction instability is two-sided and model-specific across diverse LLMs and datasets.",
+          "Identification of factors modulating instability, including context characteristics and model development parameters.",
+          "Motivation for per-example reliability evaluation metrics in LLM deployment."
+        ],
+        "limitations": [
+          "Lack of mechanistic or theoretical explanation for the observed prediction flips.",
+          "Experiments conducted in controlled settings may not fully capture real-world context complexity.",
+          "No quantitative metrics or numerical results are provided in the abstract to gauge effect sizes.",
+          "The study does not explore mitigation strategies for the identified instability."
+        ],
+        "open_questions": [
+          "What underlying mechanisms cause LLMs to be sensitive to semantically meaningless context?",
+          "How can per-example prediction instability be effectively measured and mitigated in deployed systems?",
+          "To what extent do different model architectures or training regimes influence susceptibility to irrelevant context?",
+          "Can model design or training be adapted to reduce context-induced tail risks without sacrificing aggregate accuracy?"
+        ],
+        "source_scope": "abstract",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "robustness",
+          "reliability",
+          "robustness"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-15T11:47:59.097160+00:00"
+    },
+    {
+      "id": "2607.12885",
+      "title": "LLM Judges Can Be Too Generous When There Is No Reference Answer",
+      "abstract": "LLM judges are increasingly being used to evaluate open-ended model responses, often in no-reference settings where a ground-truth answer is unavailable. However, can they reliably assess in such evaluation setups? We explore this question in this paper through a two stage pipeline with a) calibration experiments that assess the judge model's knowledge of the task it is evaluating, and b) sensitivity experiments that assess how the judge model's performance is impacted by the presence and positioning of the reference answer in the prompt. Across experiments covering three languages, we show that the judge models we evaluated tend to over-credit incorrect answers in the absence of a reference answer, and adding reference answer information to the prompt flips the judge model's correct/incorrect decisions by as much as 85% in some experimental settings. Comparison with a subset of human annotations shows that these reference-driven changes generally align with human judgments. Our results emphasize the need for calibrating the LLM judges with a sample with reference-aware evaluation before using them in reference-free setups reliably, and our methodology provides a blueprint for researchers and practitioners in doing such calibration of LLM judges for other tasks.",
+      "authors": [
+        "Chalamalasetti Kranti",
+        "Sowmya Vajjala"
+      ],
+      "published": "2026-07-14T15:31:33Z",
+      "updated": "2026-07-14T15:31:33Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.12885v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.12885v1",
+      "comment": "Preprint",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3551,
+          "matched": [
+            "calibration",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4083,
+        "relevance": 0.2841,
+        "quality": 0.47,
+        "novelty": 0.8569,
+        "freshness": 0.8793
+      },
+      "quality_signals": [
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "LLM judges tend to over-credit incorrect answers without reference answers, and their decisions shift drastically when reference answers are included.",
+        "problem": "Can LLM judges reliably evaluate open-ended model responses in no-reference settings where ground-truth answers are unavailable?",
+        "method": "A two-stage pipeline involving calibration experiments to assess judge model task knowledge and sensitivity experiments to measure impact of reference answer presence and positioning.",
+        "evidence": "Experiments across three languages show up to 85% flips in judge decisions when reference answers are added, aligning with human annotations.",
+        "limitations": "The study does not provide quantitative metrics beyond decision flip rates or detailed analysis of judge model architectures.",
+        "why_for_you": "Understanding and calibrating LLM judges is critical for trustworthy evaluation of open-ended LLM outputs in reference-free scenarios.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "LLM judges over-credit incorrect answers in no-reference settings, indicating a systematic bias in their evaluation without ground-truth context."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The two-stage pipeline includes calibration experiments to verify judge model task knowledge and sensitivity experiments to test how reference answer presence affects judgments."
+          },
+          {
+            "icon": "📉",
+            "text": "Adding reference answers to prompts causes up to 85% of judge model decisions to flip between correct and incorrect, demonstrating high sensitivity to reference information."
+          }
+        ],
+        "overview": "This paper investigates the reliability of large language model (LLM) judges when evaluating open-ended responses without access to ground-truth reference answers. The authors propose a two-stage evaluation pipeline: first, calibration experiments assess whether the judge model understands the task it is evaluating; second, sensitivity experiments measure how the presence and positioning of reference answers in the prompt influence the judge's decisions. Conducted across three languages, the experiments reveal that LLM judges systematically over-credit incorrect answers when no reference is provided. Introducing reference answers into the prompt causes dramatic shifts in evaluation outcomes, with up to 85% of decisions flipping from correct to incorrect or vice versa. These shifts align well with human annotations, suggesting that reference-aware calibration is essential for trustworthy LLM judging. The methodology offers a practical blueprint for calibrating LLM judges before deploying them in no-reference evaluation settings, addressing a critical gap in reliable automated evaluation of open-ended LLM outputs.",
+        "methodology": [
+          {
+            "title": "Calibration Experiments",
+            "detail": "These experiments assess the judge model's understanding of the evaluation task by testing its ability to correctly judge responses when reference answers are present, ensuring the model has task-relevant knowledge before no-reference evaluation."
+          },
+          {
+            "title": "Sensitivity Experiments",
+            "detail": "These experiments evaluate how the judge model's decisions change when reference answers are added or repositioned in the prompt, quantifying the impact of reference information on judgment reliability."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "No explicit mechanism provided",
+            "detail": "The paper does not present a formal mechanism or theoretical model explaining why LLM judges over-credit incorrect answers without references or why reference presence causes decision flips."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Multilingual Evaluation",
+            "detail": "Experiments were conducted across three languages to test judge model behavior in diverse linguistic contexts, measuring decision flips and comparing judge outputs to human annotations."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Over-crediting Incorrect Answers",
+            "detail": "LLM judges tend to assign credit to incorrect model responses when no reference answer is provided, indicating unreliable evaluation in no-reference settings."
+          },
+          {
+            "title": "High Sensitivity to Reference Answers",
+            "detail": "Inclusion of reference answers in prompts causes up to 85% of judge decisions to flip, demonstrating that reference information strongly influences evaluation outcomes."
+          },
+          {
+            "title": "Alignment with Human Judgments",
+            "detail": "Changes in judge decisions driven by reference answer presence generally align with human annotations, validating the importance of reference-aware calibration."
+          }
+        ],
+        "contributions": [
+          "Identification of systematic over-crediting by LLM judges in no-reference evaluation settings.",
+          "Development of a two-stage pipeline combining calibration and sensitivity experiments to assess judge reliability.",
+          "Empirical demonstration of up to 85% decision flips caused by reference answer inclusion across three languages.",
+          "Provision of a practical methodology blueprint for calibrating LLM judges before no-reference deployment."
+        ],
+        "limitations": [
+          "Lack of detailed quantitative metrics beyond decision flip percentages limits understanding of judge accuracy.",
+          "No analysis of the impact of different judge model architectures or sizes on evaluation reliability.",
+          "Absence of a formal theoretical mechanism explaining observed judge behavior.",
+          "Limited information on dataset specifics or task domains used in experiments."
+        ],
+        "open_questions": [
+          "How do different LLM judge architectures or training regimes affect over-crediting behavior in no-reference settings?",
+          "Can formal theoretical models explain why reference answers cause large decision flips in LLM judges?",
+          "What are effective calibration strategies to improve judge reliability across diverse tasks and languages?",
+          "How does judge performance vary with different types of open-ended tasks beyond those tested?"
+        ],
+        "source_scope": "abstract",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "calibration",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-15T11:47:59.097160+00:00"
+    },
     {
       "id": "2607.11444",
       "title": "UMoE:Unlocking Every Expert in Domain-Specific Training",

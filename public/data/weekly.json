@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-14T11:44:02.688717+00:00",
+  "generated_at": "2026-07-15T11:47:59.097160+00:00",
   "papers": [
     {
       "id": "2607.11444",
@@ -980,6 +980,554 @@
       "recommended_at": "2026-07-08T11:57:23.024570+00:00"
     },
     {
+      "id": "2607.12831",
+      "title": "Knowledgeless Language Models: Suppressing Parametric Recall for Evidence-Grounded Language Modeling",
+      "abstract": "Language models encode substantial factual knowledge in their parameters, which can lead to unreliable behavior when this knowledge is outdated, incomplete, or misaligned with the provided context. In this work, we study whether modifying the pretraining signal can systematically shift models away from parametric recall and toward evidence-grounded reasoning. We introduce Knowledge--''Less'' Language Models (KLLMs), a fundamentally different epistemic training paradigm for LLMs, which are pretrained on corpora in which named entities are anonymized, thereby removing a primary channel for entity-linked factual supervision. This intervention substantially reduces closed-book factual recall, while often improving performance on tasks where relevant information is provided as context. Across multiple model scales, KLLMs consistently outperform matched baselines on contextual question answering, fact verification, and hallucination detection benchmarks. Crucially, in retrieval-grounded settings with imperfect evidence, KLLMs show improved robustness and achieve up to 20--25\\% relative gains over standard language models. They further exhibit better calibration, with improved ECE, Brier score, and AUROC, as well as more reliable abstention behavior. Our results demonstrate that suppressing entity-linked supervision during pretraining induces a shift in epistemic behavior: KLLMs rely less on parametric knowledge and more on external evidence, leading to improved reliability under realistic conditions. This suggests that pretraining-time control over knowledge acquisition can complement retrieval-augmented and tool-based systems by providing a more evidence-sensitive base model.",
+      "authors": [
+        "Roi Cohen",
+        "Yvan Carré",
+        "Nick Lechtenbörger",
+        "Hendrik Droste",
+        "Lucas Kerschke",
+        "Russa Biswas",
+        "Gerard de Melo",
+        "Jan Buys"
+      ],
+      "published": "2026-07-14T14:48:53Z",
+      "updated": "2026-07-14T14:48:53Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.12831v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.12831v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3702,
+          "matched": [
+            "robustness",
+            "calibration",
+            "hallucination",
+            "reliability",
+            "robustness"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.2702,
+          "matched": [
+            "robustness",
+            "training"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4942,
+        "relevance": 0.3502,
+        "quality": 0.69,
+        "novelty": 0.8482,
+        "freshness": 0.8751
+      },
+      "quality_signals": [
+        "code available",
+        "baseline comparison",
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Pretraining language models on anonymized corpora reduces parametric factual recall and improves evidence-grounded reasoning, robustness, and calibration.",
+        "problem": "Language models rely heavily on parametric knowledge, which can be outdated or misaligned, causing unreliable behavior in evidence-grounded tasks.",
+        "method": "KLLMs are pretrained on corpora with anonymized named entities to suppress entity-linked factual supervision and shift models toward external evidence reliance.",
+        "evidence": "KLLMs outperform matched baselines by up to 20–25% on retrieval-grounded tasks with imperfect evidence and show improved calibration metrics like ECE, Brier score, and AUROC.",
+        "limitations": "The paper does not provide detailed quantitative results or ablation studies on the impact of anonymization granularity or downstream task diversity.",
+        "why_for_you": "This approach offers a novel pretraining paradigm to enhance trustworthy LLM behavior by reducing harmful parametric recall and improving robustness in evidence-grounded applications.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "KLLMs pretrained on anonymized corpora reduce closed-book factual recall but improve performance on contextual QA, fact verification, and hallucination detection benchmarks."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The anonymization of named entities during pretraining removes a primary channel for entity-linked factual supervision, fundamentally shifting the epistemic behavior of LLMs."
+          },
+          {
+            "icon": "📉",
+            "text": "In retrieval-grounded settings with imperfect evidence, KLLMs achieve up to 20–25% relative gains over standard LMs and exhibit better calibration metrics such as ECE, Brier score, and AUROC."
+          }
+        ],
+        "overview": "This work addresses the challenge that large language models (LLMs) encode factual knowledge parametrically, which can lead to unreliable outputs when such knowledge is outdated or misaligned with context. The authors propose Knowledge--''Less'' Language Models (KLLMs), which are pretrained on corpora where named entities are anonymized, effectively suppressing entity-linked factual supervision during pretraining. This intervention reduces the model's reliance on parametric recall and encourages evidence-grounded reasoning. Empirical results across multiple model scales demonstrate that KLLMs outperform matched baselines on contextual question answering, fact verification, and hallucination detection tasks. Notably, in retrieval-augmented scenarios with imperfect evidence, KLLMs show substantial robustness improvements, achieving up to 20–25% relative gains. Additionally, KLLMs exhibit better calibration and more reliable abstention behavior, indicating improved trustworthiness. These findings suggest that controlling knowledge acquisition during pretraining can complement retrieval and tool-based methods by producing base models that are more sensitive to external evidence, thereby enhancing reliability in realistic settings.",
+        "methodology": [
+          {
+            "title": "Anonymization of Named Entities",
+            "detail": "During pretraining, all named entities in the corpus are anonymized to remove explicit entity-linked factual supervision. This process prevents the model from memorizing specific factual knowledge tied to entities, aiming to reduce parametric recall."
+          },
+          {
+            "title": "Pretraining Paradigm Shift",
+            "detail": "KLLMs are pretrained under this anonymized data regime, fundamentally altering the epistemic training signal. The objective remains language modeling, but the input distribution lacks direct entity references, encouraging reliance on contextual evidence."
+          },
+          {
+            "title": "Evaluation on Contextual Tasks",
+            "detail": "Models are evaluated on contextual question answering, fact verification, and hallucination detection benchmarks to measure performance shifts from parametric recall to evidence-grounded reasoning."
+          },
+          {
+            "title": "Robustness Testing in Retrieval-Grounded Settings",
+            "detail": "KLLMs are tested in retrieval-augmented scenarios with imperfect evidence to assess robustness and reliability gains compared to standard LMs."
+          },
+          {
+            "title": "Calibration and Abstention Metrics",
+            "detail": "Calibration is measured using Expected Calibration Error (ECE), Brier score, and AUROC, alongside abstention behavior to evaluate trustworthiness improvements."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Suppression of Parametric Recall via Anonymization",
+            "detail": "By anonymizing named entities during pretraining, the model's primary channel for learning entity-linked factual knowledge is removed. This shifts the model's epistemic behavior from relying on memorized facts to depending more on external evidence provided at inference time. No explicit equations or causal models are provided."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Contextual Question Answering and Fact Verification",
+            "detail": "KLLMs and matched baseline LMs are evaluated on benchmarks requiring grounding in provided context, demonstrating consistent performance improvements across multiple model scales."
+          },
+          {
+            "title": "Hallucination Detection",
+            "detail": "KLLMs outperform baselines in detecting hallucinated content, indicating better alignment with external evidence rather than parametric memorization."
+          },
+          {
+            "title": "Retrieval-Grounded Robustness Evaluation",
+            "detail": "In scenarios with imperfect retrieved evidence, KLLMs achieve up to 20–25% relative gains over standard LMs, showing enhanced robustness to noisy or incomplete context."
+          },
+          {
+            "title": "Calibration and Abstention Behavior Analysis",
+            "detail": "KLLMs exhibit improved calibration metrics (ECE, Brier score, AUROC) and more reliable abstention, suggesting increased trustworthiness in uncertain or ambiguous cases."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Reduced Closed-Book Recall",
+            "detail": "Anonymization during pretraining substantially reduces the model's closed-book factual recall, confirming suppression of parametric knowledge."
+          },
+          {
+            "title": "Improved Contextual Task Performance",
+            "detail": "Despite reduced parametric recall, KLLMs outperform matched baselines on contextual QA, fact verification, and hallucination detection tasks."
+          },
+          {
+            "title": "Robustness Gains in Retrieval Settings",
+            "detail": "KLLMs achieve up to 20–25% relative performance gains over standard LMs in retrieval-grounded tasks with imperfect evidence."
+          },
+          {
+            "title": "Better Calibration and Abstention",
+            "detail": "KLLMs show improved Expected Calibration Error, Brier score, AUROC, and more reliable abstention behavior, indicating enhanced reliability."
+          }
+        ],
+        "contributions": [
+          "Introduction of KLLMs, a novel pretraining paradigm using anonymized corpora to suppress parametric factual recall.",
+          "Demonstration that suppressing entity-linked supervision shifts LLM epistemic behavior toward evidence-grounded reasoning.",
+          "Empirical evidence of improved robustness and calibration in retrieval-augmented and contextual tasks.",
+          "Proposal that pretraining-time control over knowledge acquisition complements retrieval and tool-based systems."
+        ],
+        "limitations": [
+          "Lack of detailed quantitative ablations on the degree and method of entity anonymization.",
+          "No explicit analysis of potential trade-offs in general language understanding beyond factual tasks.",
+          "Absence of mechanistic or theoretical modeling explaining the epistemic shift beyond empirical results.",
+          "Limited disclosure of dataset specifics and baseline model architectures."
+        ],
+        "open_questions": [
+          "How does the granularity and method of entity anonymization affect the balance between parametric recall and evidence grounding?",
+          "Can KLLMs maintain or improve general language understanding capabilities while suppressing factual recall?",
+          "What are the long-term effects of this pretraining paradigm on downstream tasks beyond factual reasoning?",
+          "How can this approach be integrated with retrieval-augmented and tool-augmented LLM architectures for optimal performance?"
+        ],
+        "source_scope": "abstract",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "robustness",
+          "calibration",
+          "hallucination",
+          "reliability"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-15T11:47:59.097160+00:00"
+    },
+    {
+      "id": "2607.12856",
+      "title": "Verifier-Based Reinforcement Fine-Tuning of Reasoning Models for Thermal Energy Storage Control",
+      "abstract": "Buildings are expected to shift cooling loads in response to grid conditions. Thermal energy storage (TES) enables this shift, but scheduling it well requires planning hours ahead under storage constraints. Model predictive control (MPC) and reinforcement learning are difficult to scale across buildings. This study instead adapts an open-weight reasoning model through reinforcement learning with verifiable rewards (RLVR). We convert exact offline dynamic-programming (DP) action values into dense rewards for every candidate action. Using only 30 training prompts, reinforcement fine-tuning (RFT) trains the model as an upper-level scheduler that outputs hourly heat-pump setpoints from text-based states and forecasts. Evaluation uses a deliberately simple office-building TES benchmark where exact DP is tractable and the optimum is known. RFT reduces the open-weight model's emissions from 70.5 to 61.2 kg-CO2, close to the DP optimum of 60.8 kg-CO2. GPT-5 nearly matches DP and MPC without task-specific training, while GPT-4o, a non-reasoning LLM, produces higher emissions than the no-storage baseline, so inference-time reasoning appears important. Trace analysis shows that RFT mainly stabilizes observable planning patterns (candidate comparison, look-ahead, and feasibility checking) rather than creating a new strategy. Robustness and generalization tests clarify what transfers: the reinforced planning patterns persist under forecast errors and an unseen TES condition and carry over to a battery task, but its different structure limits the gains. DP-based verifiable rewards offer a practical way to adapt open-weight reasoning models to building storage scheduling. These results motivate higher-fidelity tests of whole-building control and scalable verifiers for city-scale energy management.",
+      "authors": [
+        "Takumi Shioda",
+        "Kohei Terashima",
+        "Tatsuo Nagai"
+      ],
+      "published": "2026-07-14T15:08:39Z",
+      "updated": "2026-07-14T15:08:39Z",
+      "categories": [
+        "cs.LG"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2607.12856v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.12856v1",
+      "comment": "29 pages, 8 figures",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.42,
+          "matched": [
+            "robustness",
+            "fine-tuning",
+            "training"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.1716,
+          "matched": [
+            "robustness",
+            "llm",
+            "robustness"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.1097,
+          "matched": [
+            "generalization",
+            "generalization"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.494,
+        "relevance": 0.3923,
+        "quality": 0.55,
+        "novelty": 0.8513,
+        "freshness": 0.8771
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Reinforcement fine-tuning with dynamic programming-based verifiable rewards effectively adapts open-weight reasoning models for thermal energy storage scheduling, achieving near-optimal emissions reduction.",
+        "problem": "Efficiently scheduling thermal energy storage in buildings requires scalable planning under storage constraints, which is challenging for model predictive control and reinforcement learning methods.",
+        "method": "The study uses reinforcement learning with verifiable rewards derived from exact offline dynamic programming action values to fine-tune an open-weight reasoning model as an upper-level scheduler.",
+        "evidence": "Reinforcement fine-tuning reduces emissions from 70.5 to 61.2 kg-CO2, closely approaching the dynamic programming optimum of 60.8 kg-CO2 on a simple TES benchmark.",
+        "limitations": "The approach’s gains are limited when transferring to structurally different tasks like battery control, and higher-fidelity tests on whole-building control remain to be conducted.",
+        "why_for_you": "This work demonstrates a practical method to leverage verifiable rewards for efficient adversarial training of reasoning LLMs in energy management, relevant for trustworthy and scalable LLM control applications.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Reinforcement fine-tuning (RFT) stabilizes planning patterns such as candidate comparison, look-ahead, and feasibility checking rather than inventing new strategies, indicating the model learns to reliably execute known reasoning steps."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The method converts exact offline dynamic programming (DP) action values into dense, verifiable rewards for every candidate action, enabling precise reinforcement learning signal without requiring extensive training data."
+          },
+          {
+            "icon": "📉",
+            "text": "Evaluation on a simple office-building TES benchmark shows RFT reduces emissions from 70.5 to 61.2 kg-CO2, nearly matching the DP optimum of 60.8 kg-CO2, while GPT-4o without reasoning produces worse emissions than no storage."
+          }
+        ],
+        "overview": "This paper addresses the challenge of scheduling thermal energy storage (TES) in buildings to shift cooling loads efficiently under storage constraints, a task difficult for traditional model predictive control (MPC) and reinforcement learning due to scalability issues. The authors propose reinforcement learning with verifiable rewards (RLVR), leveraging exact offline dynamic programming (DP) action values as dense rewards to fine-tune an open-weight reasoning model. Using only 30 training prompts, reinforcement fine-tuning (RFT) trains the model to output hourly heat-pump setpoints from text-based states and forecasts. The approach is evaluated on a simple TES benchmark where the DP optimum is known, demonstrating that RFT achieves emissions close to the optimum and outperforms non-reasoning LLMs. Trace analysis reveals that RFT stabilizes existing planning patterns rather than creating new strategies. Robustness tests show these reinforced patterns generalize under forecast errors and to an unseen TES condition, with partial transfer to a battery control task. The study highlights DP-based verifiable rewards as a practical adaptation mechanism for reasoning models in building storage scheduling, motivating future work on higher-fidelity and scalable energy management applications.",
+        "methodology": [
+          {
+            "title": "Reinforcement Learning with Verifiable Rewards (RLVR)",
+            "detail": "Transforms exact offline dynamic programming action values into dense rewards for each candidate action, providing precise and verifiable reinforcement signals to fine-tune the reasoning model."
+          },
+          {
+            "title": "Reinforcement Fine-Tuning (RFT)",
+            "detail": "Uses only 30 training prompts to adapt an open-weight reasoning model as an upper-level scheduler that outputs hourly heat-pump setpoints from text-based states and forecasts, optimizing emissions reduction."
+          },
+          {
+            "title": "Text-Based State and Forecast Input",
+            "detail": "The model receives textual descriptions of building states and weather forecasts, enabling flexible input representation and leveraging the reasoning capabilities of large language models."
+          },
+          {
+            "title": "Trace Analysis of Planning Patterns",
+            "detail": "Analyzes model behavior to identify stabilization of candidate comparison, look-ahead, and feasibility checking patterns, indicating reinforcement of existing reasoning strategies rather than novel policy creation."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Dynamic Programming-Based Reward Conversion",
+            "detail": "Exact offline DP computes action values for all candidate actions, which are converted into dense rewards that guide reinforcement learning fine-tuning, ensuring verifiable and grounded reward signals."
+          },
+          {
+            "title": "No Explicit Mechanistic Equations Provided",
+            "detail": "The paper does not present formal equations or causal models beyond the description of DP-based reward conversion and reinforcement fine-tuning procedures."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "TES Benchmark Evaluation",
+            "detail": "Evaluates RFT on a simple office-building TES benchmark where exact DP is tractable and the optimum is known; compares emissions reductions against DP optimum, MPC, GPT-5, and GPT-4o baselines."
+          },
+          {
+            "title": "Robustness and Generalization Tests",
+            "detail": "Assesses transfer of reinforced planning patterns under forecast errors, an unseen TES condition, and a structurally different battery control task to evaluate robustness and cross-task generalization."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Emissions Reduction Close to Optimum",
+            "detail": "RFT reduces emissions from 70.5 to 61.2 kg-CO2, closely approaching the DP optimum of 60.8 kg-CO2, demonstrating effective adaptation of the reasoning model."
+          },
+          {
+            "title": "Importance of Inference-Time Reasoning",
+            "detail": "GPT-5 nearly matches DP and MPC without task-specific training, while GPT-4o, a non-reasoning LLM, produces higher emissions than the no-storage baseline, highlighting the role of reasoning capabilities."
+          },
+          {
+            "title": "Stabilization of Planning Patterns",
+            "detail": "Trace analysis shows RFT mainly stabilizes candidate comparison, look-ahead, and feasibility checking rather than creating new strategies, indicating reinforcement of existing reasoning behaviors."
+          },
+          {
+            "title": "Partial Transfer to Battery Task",
+            "detail": "Reinforced planning patterns carry over to a battery control task but yield limited gains due to structural differences, indicating task-specific adaptation challenges."
+          }
+        ],
+        "contributions": [
+          "Introduces reinforcement learning with verifiable rewards derived from exact dynamic programming for fine-tuning reasoning models in TES scheduling.",
+          "Demonstrates effective emissions reduction close to the DP optimum using only 30 training prompts for reinforcement fine-tuning.",
+          "Provides trace analysis revealing that reinforcement stabilizes existing planning patterns rather than inventing new strategies.",
+          "Validates robustness and partial generalization of reinforced planning patterns under forecast errors and to an unseen TES condition.",
+          "Motivates scalable verifiers and higher-fidelity tests for broader energy management applications."
+        ],
+        "limitations": [
+          "Limited transferability of reinforced planning patterns to structurally different tasks such as battery control.",
+          "Evaluation restricted to a deliberately simple TES benchmark with known DP optimum; lacks tests on complex whole-building control scenarios.",
+          "No explicit mechanistic or causal model equations beyond DP reward conversion are provided.",
+          "Scalability and performance on city-scale energy management remain untested."
+        ],
+        "open_questions": [
+          "How can reinforcement fine-tuning with verifiable rewards be scaled to complex, real-world whole-building control systems?",
+          "What methods can improve transferability of reinforced planning patterns across structurally different energy storage tasks?",
+          "How can scalable verifiers be designed for city-scale energy management using reasoning LLMs?",
+          "What are the theoretical guarantees or limitations of using DP-based verifiable rewards for reinforcement learning in reasoning models?"
+        ],
+        "source_scope": "abstract",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "robustness",
+          "fine-tuning",
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-15T11:47:59.097160+00:00"
+    },
+    {
+      "id": "2607.12835",
+      "title": "Can LLMs Write Reliable Rubrics? A Meta-Evaluation for Experiment Reproduction",
+      "abstract": "Rubric-based evaluation is a promising approach for assessing open-ended outputs from LLM-based research agents, particularly in paper reproduction, where direct paper-to-repository comparison is prone to hallucination. However, constructing paper-specific rubrics requires substantial expert effort, limiting the scalability of benchmarks such as PaperBench. In this work, we present, to our knowledge, the first systematic meta-evaluation of LLM-generated rubrics for paper reproduction. We reformulate rubrics into a checklist-style format and evaluate four generation settings across two backbone models. We meta-evaluate generated rubrics intrinsically by semantic similarity and extrinsically by score alignment with ground-truth rubrics. Our results show that the augmented settings substantially improves downstream evaluation alignment, with the strongest setting approaching the human baseline, while intrinsic gains are more modest. Further analyses reveal that LLM-generated rubrics are often overly fine-grained, biased toward high scores, and less adaptive to paper domains, highlighting both the affordances and limitations.",
+      "authors": [
+        "Hanhua Hong",
+        "Yizhi Li",
+        "Jiaoyan Chen",
+        "Luu Gia Huy",
+        "Sophia Ananiadou",
+        "Jung-jae Kim",
+        "Chenghua Lin"
+      ],
+      "published": "2026-07-14T14:52:42Z",
+      "updated": "2026-07-14T14:52:42Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.12835v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.12835v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "llm",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4414,
+          "matched": [
+            "alignment",
+            "hallucination",
+            "alignment",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4786,
+        "relevance": 0.3531,
+        "quality": 0.61,
+        "novelty": 0.8329,
+        "freshness": 0.8755
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation",
+        "experiments",
+        "reproducibility"
+      ],
+      "summary": {
+        "takeaway": "Augmented LLM-generated rubrics substantially improve alignment with human evaluation in paper reproduction tasks, nearing human baseline performance.",
+        "problem": "Constructing paper-specific rubrics for evaluating LLM-based paper reproduction is expert-intensive and limits benchmark scalability.",
+        "method": "The study meta-evaluates LLM-generated rubrics reformulated into checklist format across four generation settings and two backbone models using intrinsic semantic similarity and extrinsic score alignment.",
+        "evidence": "Augmented rubric generation settings show substantial improvement in downstream evaluation alignment, with the best setting approaching human baseline, despite modest intrinsic semantic gains.",
+        "limitations": "LLM-generated rubrics tend to be overly fine-grained, biased toward high scores, and less adaptive to diverse paper domains.",
+        "why_for_you": "This work provides critical insights into automating rubric generation for trustworthy evaluation of LLM research agents, addressing hallucination-prone direct comparisons.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "The strongest augmented rubric generation setting achieves downstream evaluation alignment close to human baseline, demonstrating effective rubric automation for paper reproduction."
+          },
+          {
+            "icon": "🛡️",
+            "text": "Rubrics are reformulated into a checklist-style format and evaluated across four generation settings and two backbone LLMs, enabling systematic meta-evaluation of rubric quality."
+          },
+          {
+            "icon": "📉",
+            "text": "Intrinsic evaluation via semantic similarity shows only modest gains, indicating that semantic closeness alone is insufficient to guarantee evaluation alignment."
+          }
+        ],
+        "overview": "This paper addresses the challenge of scalable, reliable evaluation of LLM-generated research outputs in paper reproduction tasks, where direct comparison to repositories is prone to hallucination. The authors propose automating rubric generation using LLMs and conduct the first systematic meta-evaluation of these rubrics. They convert rubrics into checklist-style formats and test four generation settings across two backbone models. Evaluation is twofold: intrinsic semantic similarity and extrinsic score alignment with ground-truth rubrics. Results reveal that augmented rubric generation settings significantly improve downstream evaluation alignment, nearly matching human baselines, while intrinsic semantic similarity gains remain modest. Further analysis uncovers that LLM-generated rubrics are often overly detailed, biased toward higher scores, and less adaptable across paper domains. These findings highlight both the potential and current limitations of LLM-generated rubrics for trustworthy, scalable evaluation in LLM-based research agent benchmarks.",
+        "methodology": [
+          {
+            "title": "Rubric Reformulation",
+            "detail": "Original rubrics are reformulated into a checklist-style format to standardize evaluation criteria and facilitate systematic comparison across generation settings and models."
+          },
+          {
+            "title": "Generation Settings",
+            "detail": "Four distinct rubric generation settings are tested, varying augmentation strategies to assess their impact on rubric quality and downstream evaluation alignment."
+          },
+          {
+            "title": "Backbone Models",
+            "detail": "Two backbone LLMs serve as the basis for rubric generation, enabling analysis of model-dependent effects on rubric reliability and adaptability."
+          },
+          {
+            "title": "Intrinsic Meta-Evaluation",
+            "detail": "Generated rubrics are evaluated intrinsically by measuring semantic similarity to ground-truth rubrics, assessing content closeness independent of scoring outcomes."
+          },
+          {
+            "title": "Extrinsic Meta-Evaluation",
+            "detail": "Rubrics are extrinsically evaluated by aligning their scoring outcomes with ground-truth rubric scores, measuring practical evaluation reliability."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "No Explicit Mechanism Provided",
+            "detail": "The paper does not present formal equations or causal mechanisms but focuses on empirical meta-evaluation of rubric generation and scoring alignment."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Rubric Generation and Evaluation",
+            "detail": "Experiments involve generating rubrics under four settings using two backbone LLMs, reformulating rubrics into checklist format, and evaluating via intrinsic semantic similarity and extrinsic score alignment metrics."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Augmented Settings Improve Alignment",
+            "detail": "Augmented rubric generation settings substantially improve downstream evaluation alignment, with the strongest setting approaching human baseline performance."
+          },
+          {
+            "title": "Modest Intrinsic Gains",
+            "detail": "Intrinsic semantic similarity between generated and ground-truth rubrics shows only modest improvement, indicating semantic closeness is not fully predictive of evaluation quality."
+          },
+          {
+            "title": "Overly Fine-Grained Rubrics",
+            "detail": "LLM-generated rubrics tend to be overly detailed, which may complicate evaluation and reduce practical usability."
+          },
+          {
+            "title": "Bias Toward High Scores",
+            "detail": "Generated rubrics exhibit a bias toward assigning higher scores, potentially skewing evaluation outcomes."
+          },
+          {
+            "title": "Limited Domain Adaptability",
+            "detail": "Rubrics generated by LLMs are less adaptive to different paper domains, limiting generalizability across diverse research topics."
+          }
+        ],
+        "contributions": [
+          "First systematic meta-evaluation of LLM-generated rubrics for paper reproduction tasks.",
+          "Introduction of checklist-style rubric reformulation to standardize evaluation.",
+          "Demonstration that augmented rubric generation settings improve downstream evaluation alignment near human baselines.",
+          "Identification of key limitations in LLM-generated rubrics including fine-grained detail, scoring bias, and domain adaptability."
+        ],
+        "limitations": [
+          "LLM-generated rubrics are often overly fine-grained, complicating practical evaluation.",
+          "Bias toward high scores in generated rubrics may distort evaluation fairness.",
+          "Limited adaptability of rubrics across diverse paper domains restricts generalizability.",
+          "Intrinsic semantic similarity metrics do not strongly correlate with downstream evaluation alignment."
+        ],
+        "open_questions": [
+          "How can rubric generation be improved to reduce scoring bias and increase fairness?",
+          "What methods can enhance rubric adaptability across diverse research domains?",
+          "Can intrinsic evaluation metrics be developed that better predict downstream evaluation alignment?",
+          "How to balance rubric granularity to optimize usability without sacrificing evaluation fidelity?"
+        ],
+        "source_scope": "abstract",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment",
+          "hallucination",
+          "alignment",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-15T11:47:59.097160+00:00"
+    },
+    {
       "id": "2607.11505",
       "title": "Proxy Exploration and Reusable Guidance: A Modular LLM Post-Training Paradigm via Proxy-Guided Update Signals",
       "abstract": "Post-training is essential for refining the domain-specific capabilities of large language models (LLMs), yet existing reward optimization and distribution matching methods tightly couple policy exploration with distribution alignment. This coupling forces expensive exploration directly on the policy model and severely hinders the asynchronous generation, reuse, and cross-model transfer of optimization signals. In this paper, we propose Proxy-guided Update Signal Transfer (PUST), a novel post-training framework that fundamentally decouples update-signal exploration from distribution alignment. Instead of utilizing the primary model for costly exploration, PUST employs a lightweight proxy model as an efficient testbed to discover high-reward behaviors. We extract the relative improvement signal between the proxy's initial and optimized states, transferring this directional update to the primary model to guide its policy alignment. This decoupled pipeline, comprising proxy exploration, update-signal extraction, and signal transfer, significantly reduces computational overhead and enables optimization signals to be asynchronously generated, cached, and reused. Crucially, by transferring relative improvements rather than absolute policy distributions, PUST naturally supports weak-to-strong improvement and seamless cross-model transfer. Systematic evaluations on Qwen3-family models across math and code domains demonstrate that update signals extracted from substantially weaker proxies can robustly and adjustably enhance stronger primary models. Ultimately, PUST transforms post-training from a monolithic online optimization process into a highly modular, reusable, and cost-efficient paradigm.",
@@ -1486,543 +2034,23 @@
       "recommended_at": "2026-07-14T11:44:02.688717+00:00"
     },
     {
-      "id": "2607.08700",
-      "title": "Do You Need a Frontier Model as a Citation Verifier? Benchmarking Rubric LLMs for Deep-Research Source Attribution",
-      "abstract": "Reinforcement learning increasingly relies on an LLM judge to score each rubric criterion, and that judge acts as the reward model during training. Before such a signal can be trusted, we need to know how capable the judge must be and how biased it is. We study this calibration question for citation quality in deep-research systems, where a search-grounded LLM must support each claim it writes with a cited source. Citation quality is a structured rubric task in which each attribution-citation pair is judged along two dimensions that require an LLM, source relevance and factual support. On an adversarial long-form benchmark, we score 8 off-the-shelf LLM judges from 3 model families against gold labels over 1,248 rubric decisions, all of which were human-reviewed and 378 of which were hard cases adjudicated from judge disagreements. Cheaper judges remain competitive across both dimensions, with GPT-5-mini attaining the strongest source-relevance pass-class F1 at 0.908 ($κ$=0.636), while on factual support the judges are statistically indistinguishable (overlapping confidence intervals), so no single model dominates. At comparable F1, the judges still differ substantially in pass-rate drift, false positive rate, and false negative rate. Scalar F1 obscures this directional bias, yet it is exactly what a downstream reinforcement learning loop would reinforce. Calibrating the judge is therefore a prerequisite for using citation rubrics as reward signals, and our results show that this calibration does not require the most expensive available model.",
+      "id": "2607.12963",
+      "title": "The Illusion of Robustness: Aggregate Accuracy Hides Prediction Flips under Task-Irrelevant Context",
+      "abstract": "As large language models (LLMs) grow more capable, they are increasingly deployed in context-rich settings where task inputs are often accompanied by long, partially irrelevant context. In a controlled setting, we find that state-of-the-art models often appear robust to task-irrelevant context at the aggregate level: prepending it to benchmark questions causes little change in overall accuracy. This aggregate stability, however, masks significant per-example instability. Even semantically meaningless pseudo-words, formed by randomly combining characters, can markedly shift model predictions on a small fraction of examples, degrading performance on some while improving it on others. This two-sided effect holds consistently across a wide range of models and datasets, yet the affected examples are largely model-specific. We further show that this instability is modulated by context type, context length, test-time compute, and model development stage. Together, our findings reveal context-induced tail risks concealed by aggregate accuracy, motivating per-example reliability evaluation of language models.",
       "authors": [
-        "Ethan Leung",
-        "Elias Lumer",
-        "Corey Feld",
-        "Austin Huber",
-        "Vamse Kumar Subbiah",
-        "Kevin Paul"
+        "Yanzhe Zhang",
+        "Sanmi Koyejo",
+        "Diyi Yang"
       ],
-      "published": "2026-07-09T17:01:40Z",
-      "updated": "2026-07-09T17:01:40Z",
+      "published": "2026-07-14T17:01:12Z",
+      "updated": "2026-07-14T17:01:12Z",
       "categories": [
         "cs.CL"
       ],
       "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.08700v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.08700v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "llm",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3377,
-          "matched": [
-            "calibration",
-            "llm"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.2513,
-          "matched": [
-            "adversarial",
-            "training"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.432,
-        "relevance": 0.3204,
-        "quality": 0.48,
-        "novelty": 0.836,
-        "freshness": 0.8834
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Cheaper off-the-shelf LLM judges can reliably evaluate citation quality for source relevance and factual support without requiring the most expensive frontier models.",
-        "problem": "Determining how capable and unbiased an LLM judge must be to serve as a trustworthy reward model for citation quality in deep-research systems.",
-        "method": "Benchmarking 8 off-the-shelf LLM judges from 3 model families on an adversarial long-form citation quality task with human-reviewed gold labels across source relevance and factual support dimensions.",
-        "evidence": "GPT-5-mini achieved the highest source-relevance pass-class F1 of 0.908 (κ=0.636), and judges were statistically indistinguishable on factual support, with detailed bias metrics revealing differences in pass-rate drift, false positive, and false negative rates.",
-        "limitations": "The study does not provide evidence on how judge calibration impacts downstream reinforcement learning training quality or explore mechanisms to correct directional biases in judges.",
-        "why_for_you": "Understanding judge calibration and bias in citation verification enables efficient and trustworthy reward modeling for RL training in deep-research LLM applications.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "GPT-5-mini attained the strongest source-relevance pass-class F1 at 0.908 with Cohen’s κ=0.636, outperforming more expensive models on this dimension."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The evaluation framework uses a rubric with two LLM-judged criteria—source relevance and factual support—each scored binarily with rationale, enabling structured and interpretable judge assessments."
-          },
-          {
-            "icon": "📉",
-            "text": "Despite comparable F1 scores, judges differ substantially in pass-rate drift, false positive rate, and false negative rate, indicating that scalar F1 metrics obscure directional biases critical for reinforcement learning reward signals."
-          }
-        ],
-        "overview": "This work addresses the calibration of LLM judges used as reward models in reinforcement learning for citation quality in deep-research systems. The authors construct an adversarial benchmark spanning 25 diverse topics with 1,248 human-reviewed rubric decisions on source relevance and factual support. They evaluate 8 off-the-shelf LLM judges from Anthropic, Google, and OpenAI families, measuring pass-class F1, Cohen’s κ, and bias metrics such as pass-rate drift, false positive rate, and false negative rate. Results show that smaller, cheaper models like GPT-5-mini can match or exceed the performance of larger frontier models on source relevance, while factual support judgments are statistically indistinguishable across judges. However, differences in directional bias metrics reveal that scalar accuracy metrics alone are insufficient to characterize judge reliability for downstream RL training. The study concludes that careful calibration of judges is essential but does not require the most expensive models, enabling more cost-effective and trustworthy citation verification in RL pipelines.",
-        "methodology": [
-          {
-            "title": "Benchmark Construction",
-            "detail": "The Deep-Research Citation Benchmark includes 25 diverse topics with long-form summaries and adversarially edited claims using 19 strategies. Attribution-citation pairs are parsed and scored on three criteria: link accessibility (deterministic), source relevance, and factual support (both LLM-judged). A council of 6 LLM judges independently labels pairs, with human review validating all 1,248 decisions and adjudicating 378 hard cases."
-          },
-          {
-            "title": "Judge Evaluation Metrics",
-            "detail": "Judges produce binary pass/fail scores per criterion with free-text rationales. Metrics include pass-class F1, Cohen’s κ for agreement, pass-rate drift (judge vs. gold pass rate), false positive rate (accepting bad citations), and false negative rate (rejecting good citations). These metrics characterize both accuracy and directional bias relevant for RL reward signals."
-          },
-          {
-            "title": "Judge Models and Setup",
-            "detail": "Eight LLM judges from Anthropic, Google, and OpenAI families are evaluated via cloud inference APIs. Each judge scores all 624 source relevance and 624 factual support pairs. Two judges (GPT-5-mini and Claude Opus 4.6) also contributed to gold labels, enabling council-independent comparisons."
-          },
-          {
-            "title": "Prompt Design",
-            "detail": "Prompts instruct judges to provide binary scores and rationales for source relevance and factual support, emphasizing expert evaluation criteria such as topical relevance, claim support, factual consistency, and contradiction detection. The same prompts are applied uniformly across all judges."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "No Explicit Mechanism Provided",
-            "detail": "The paper does not present formal equations or causal models explaining judge behavior or bias mechanisms, focusing instead on empirical benchmarking and metric analysis."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Adversarial Long-Form Citation Benchmark",
-            "detail": "The benchmark contains 1,248 rubric decisions over 624 attribution-citation pairs, with 378 hard cases adjudicated by humans. Judges are evaluated on source relevance and factual support dimensions using pass-class F1, Cohen’s κ, pass-rate drift, false positive rate, and false negative rate."
-          },
-          {
-            "title": "Judge Cost-Quality Tradeoff Analysis",
-            "detail": "The study compares judge accuracy metrics against estimated cost per decision on a logarithmic scale, showing that cheaper judges like GPT-5-mini achieve competitive or superior performance relative to more expensive models."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Cheaper Judges Competitive on Source Relevance",
-            "detail": "GPT-5-mini achieves the highest source-relevance pass-class F1 of 0.908 and Cohen’s κ of 0.636, outperforming larger models, demonstrating that smaller judges can reliably assess topical relevance."
-          },
-          {
-            "title": "No Single Judge Dominates Factual Support",
-            "detail": "On factual support, judges’ performance overlaps within confidence intervals, indicating no statistically significant difference in accuracy among the evaluated models."
-          },
-          {
-            "title": "Directional Biases Vary Across Judges",
-            "detail": "Despite similar F1 scores, judges differ substantially in pass-rate drift, false positive rate, and false negative rate, revealing biases that scalar metrics like F1 fail to capture but that affect RL reward signals."
-          }
-        ],
-        "contributions": [
-          "Introduces a large adversarial benchmark for citation quality evaluation with human-reviewed gold labels across diverse topics.",
-          "Comprehensively evaluates 8 off-the-shelf LLM judges on source relevance and factual support, including bias metrics critical for RL reward modeling.",
-          "Demonstrates that smaller, cheaper LLM judges can match or exceed frontier models in citation verification tasks.",
-          "Highlights the importance of calibrating judges to account for directional biases that scalar accuracy metrics obscure."
-        ],
-        "limitations": [
-          "Does not analyze the impact of judge calibration on downstream reinforcement learning training outcomes.",
-          "Lacks exploration of methods to mitigate or correct directional biases in judge models.",
-          "No mechanistic or theoretical explanation is provided for observed judge biases or performance differences.",
-          "Evaluation is limited to off-the-shelf models accessed via APIs, without fine-tuning or adaptation experiments."
-        ],
-        "open_questions": [
-          "How do directional biases in LLM judges affect the stability and quality of reinforcement learning with verifiable rewards?",
-          "What calibration or debiasing techniques can effectively reduce false positive and false negative rates in LLM judges?",
-          "Can smaller LLM judges be fine-tuned or adapted to further close gaps in factual support evaluation?",
-          "How does retrieval quality interact with judge performance and bias in citation verification pipelines?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "calibration",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-10T12:37:21.836532+00:00"
-    },
-    {
-      "id": "2607.11706",
-      "title": "VoxENES 2026: Benchmarking Generalization of Speech Spoofing Detectors Against LLM-Era TTS and Voice Conversion",
-      "abstract": "Modern LLM-driven text-to-speech (TTS) and voice conversion (VC) systems produce synthetic speech that differs from the generators represented in many legacy spoofing benchmarks. This mismatch creates a temporal generalization gap that can overestimate detector robustness under real-world post-processing conditions. We bridge this gap by introducing VoxENES 2026, a bilingual (English and Spanish) benchmark of 53,628 audio samples generated using 10 contemporary speech synthesis methods and evaluated under 10 standardized post-processing conditions. Using VoxENES 2026, we benchmark eight pretrained detectors without fine-tuning and observe substantial performance degradation: the best model achieves 28.98\\% EER overall, while most perform near or below random chance across modern generators and perturbations. Our results highlight the reliance on brittle artifacts in current detectors and establish VoxENES 2026 as a practical testbed for developing robust audio spoofing countermeasures.",
-      "authors": [
-        "Aastha Sharma",
-        "Guangjing Wang"
-      ],
-      "published": "2026-07-13T15:35:29Z",
-      "updated": "2026-07-13T15:35:29Z",
-      "categories": [
-        "cs.SD",
-        "cs.AI"
-      ],
-      "primary_category": "cs.SD",
-      "abs_url": "https://arxiv.org/abs/2607.11706v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.11706v1",
-      "comment": "Accepted in InterSpeech 2026",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3038,
-          "matched": [
-            "robustness",
-            "llm",
-            "robustness"
-          ]
-        },
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.3022,
-          "matched": [
-            "generalization",
-            "generalization"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.2839,
-          "matched": [
-            "robustness",
-            "robust",
-            "fine-tuning"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4292,
-        "relevance": 0.3603,
-        "quality": 0.48,
-        "novelty": 0.55,
-        "freshness": 0.8801
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "VoxENES 2026 reveals that current pretrained speech spoofing detectors degrade significantly against modern LLM-driven TTS and VC systems, achieving at best 28.98% EER and often near random chance.",
-        "problem": "Legacy spoofing benchmarks fail to capture the acoustic characteristics of synthetic speech generated by contemporary LLM-driven TTS and VC systems, causing overestimated detector robustness.",
-        "method": "The authors introduce VoxENES 2026, a bilingual benchmark with 53,628 audio samples from 10 modern LLM-driven speech synthesis methods, augmented by 10 standardized post-processing conditions, to evaluate pretrained detectors without fine-tuning.",
-        "evidence": "Evaluation of eight pretrained detectors on VoxENES 2026 shows substantial performance degradation compared to legacy benchmarks, with the best model achieving only 28.98% EER overall and most near or below random chance.",
-        "limitations": "The paper does not provide fine-tuning or adaptation experiments to improve detector robustness on the new benchmark, nor mechanistic explanations for why detectors fail on modern generators.",
-        "why_for_you": "This benchmark exposes critical generalization failures of current spoofing detectors against LLM-era synthetic speech, highlighting the need for robust countermeasures aligned with evolving generative models.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "The best pretrained detector evaluated on VoxENES 2026 achieves only 28.98% equal error rate (EER), indicating severe degradation compared to legacy benchmarks."
-          },
-          {
-            "icon": "🛡️",
-            "text": "VoxENES 2026 includes 53,628 audio samples generated by 10 state-of-the-art LLM-driven TTS and VC methods, covering English and Spanish, and applies 10 standardized post-processing augmentations to simulate real-world conditions."
-          },
-          {
-            "icon": "📉",
-            "text": "Performance degradation is attributed to detectors relying on brittle artifact cues tied to older synthesis methods, which are progressively suppressed or concealed by modern LLM-driven generators and post-processing."
-          }
-        ],
-        "overview": "The paper addresses the temporal generalization gap in speech spoofing detection caused by the rapid evolution of LLM-driven text-to-speech (TTS) and voice conversion (VC) systems. Legacy benchmarks predominantly contain synthetic speech from pre-2024 generators, which differ acoustically from modern LLM-based methods such as autoregressive, flow-matching, diffusion, and hybrid architectures. This mismatch leads to overestimated robustness of detectors when deployed in real-world scenarios involving new generation pipelines and common audio post-processing like compression and noise. To bridge this gap, the authors introduce VoxENES 2026, a bilingual benchmark dataset with over 53,000 samples generated from 10 contemporary LLM-driven TTS and VC systems, augmented by 10 standardized post-processing conditions. Evaluating eight pretrained detectors without fine-tuning reveals substantial performance degradation, with the best model achieving only 28.98% EER and most detectors performing near or below random chance. These results demonstrate that current detectors rely on fragile artifact cues that do not generalize to modern synthetic speech, establishing VoxENES 2026 as a critical testbed for developing robust spoofing countermeasures aligned with the evolving synthesis frontier.",
-        "methodology": [
-          {
-            "title": "Dataset Construction",
-            "detail": "VoxENES 2026 comprises 53,628 audio samples generated from 10 modern LLM-driven speech synthesis methods, including 7 TTS and 3 VC systems, covering English and Spanish languages. Real speech samples from LibriSpeech and VoxPopuli corpora are included for reference."
-          },
-          {
-            "title": "Post-Processing Augmentation",
-            "detail": "To simulate real-world transmission and manipulation effects, the dataset applies 10 standardized audio augmentations such as codec compression, additive noise, resampling, speed perturbation, and loudness normalization, modeling common distortions that affect detector performance."
-          },
-          {
-            "title": "Evaluation Protocol",
-            "detail": "Eight pretrained speech spoofing detectors are evaluated on VoxENES 2026 without any fine-tuning to measure out-of-distribution generalization. Performance is quantified primarily using equal error rate (EER) across all synthetic and augmented samples."
-          },
-          {
-            "title": "Benchmarking Modern Generators",
-            "detail": "The benchmark explicitly includes state-of-the-art LLM-driven TTS architectures such as VoxCPM, Qwen3-TTS, GLM-TTS, CosyVoice 3, Chatterbox, FlashLabs Chroma, and VibeVoice, as well as VC methods like Seed-VC, OpenVoice v2, and RVC v2, representing the current synthesis frontier."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Data Drift and Artifact Reliance",
-            "detail": "No explicit mechanistic equations are provided; however, the paper theorizes that detectors trained on legacy datasets learn brittle artifact cues specific to older synthesis methods. Modern LLM-driven generators and post-processing steps suppress or conceal these cues, causing detectors to fail due to distributional shifts and data drift."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Pretrained Detector Evaluation",
-            "detail": "Eight pretrained speech spoofing detectors are benchmarked on VoxENES 2026 without fine-tuning. The evaluation covers synthetic speech from 10 modern generators and 10 post-processing conditions, measuring equal error rate (EER) to assess robustness and generalization."
-          },
-          {
-            "title": "Dataset Composition",
-            "detail": "The dataset includes 3,028 real speech samples, 4,600 original synthetic samples, and 46,000 augmented synthetic samples, sourced from LibriSpeech and VoxPopuli corpora for real speech, and 10 LLM-driven TTS and VC systems for synthetic speech."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Severe Performance Degradation",
-            "detail": "The best performing pretrained detector achieves only 28.98% EER on VoxENES 2026, a substantial drop from reported results on legacy benchmarks, indicating poor generalization to modern LLM-driven synthetic speech."
-          },
-          {
-            "title": "Near Random Chance Performance",
-            "detail": "Most evaluated detectors perform near or below random chance levels across modern generators and post-processing augmentations, demonstrating reliance on brittle artifact cues that do not generalize."
-          },
-          {
-            "title": "Impact of Post-Processing",
-            "detail": "Standardized post-processing augmentations such as compression, noise, and resampling further degrade detector performance, highlighting the importance of modeling real-world audio transformations."
-          }
-        ],
-        "contributions": [
-          "Introduction of VoxENES 2026, a large-scale bilingual benchmark dataset with 53,628 samples from 10 modern LLM-driven TTS and VC systems.",
-          "Inclusion of 10 standardized post-processing augmentations to simulate real-world audio transmission and manipulation effects.",
-          "Comprehensive evaluation of eight pretrained speech spoofing detectors without fine-tuning, revealing significant generalization failures.",
-          "Demonstration that current detectors rely on brittle artifact cues tied to legacy synthesis methods, motivating development of robust countermeasures.",
-          "Provision of a practical testbed for advancing speech spoofing detection aligned with the evolving LLM-driven synthesis frontier."
-        ],
-        "limitations": [
-          "Lack of experiments involving fine-tuning or adaptation of detectors on VoxENES 2026 to improve robustness.",
-          "Absence of mechanistic or theoretical analysis explaining why detectors fail on modern LLM-driven synthetic speech.",
-          "No exploration of new detector architectures or training strategies to address the identified generalization gap.",
-          "Limited discussion on multilingual performance differences beyond English and Spanish inclusion."
-        ],
-        "open_questions": [
-          "How can speech spoofing detectors be adapted or retrained to generalize effectively to LLM-driven TTS and VC systems?",
-          "What novel artifact cues or features can be leveraged to detect synthetic speech generated by modern LLM-based architectures?",
-          "How do different post-processing augmentations individually and jointly affect detector robustness, and can detectors be made invariant to them?",
-          "Can theoretical frameworks be developed to model the data drift and distributional shifts caused by evolving speech synthesis methods?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "robustness",
-          "llm",
-          "robustness"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-14T11:44:02.688717+00:00"
-    },
-    {
-      "id": "2607.08535",
-      "title": "When the Judge Changes, So Does the Measurement: Auditing LLM-as-Judge Reliability",
-      "abstract": "An LLM-as-judge score can move even when the candidate responses stay fixed, simply because the evaluator has changed. We treat this evaluator-replacement ambiguity as a measurement-validity problem. Across four judgment datasets, we compare two upgrade paths available in practice: scaling Qwen3 dense judges from 1.7B to 32B parameters and moving across MiniMax M2-M2.7 released APIs. The main pattern is that judge upgrades are not interchangeable: only Qwen3 1.7B to 4B gives a robust adjacent gain, while MiniMax adjacent releases do not. Stronger judges reduce but do not remove position and verbosity bias. Repeated-sample juries add little when errors are correlated. Structured debate can move decisions substantially, but without parser and fallback logs those shifts cannot be attributed to deliberation. We argue that LLM-as-judge reports should include dataset slices, bias probes, error-dependence estimates, and protocol audit trails.",
-      "authors": [
-        "Zongyou Yang",
-        "Yinghan Hou",
-        "Xiaokun Yang"
-      ],
-      "published": "2026-07-09T14:31:05Z",
-      "updated": "2026-07-09T14:31:05Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.08535v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.08535v1",
-      "comment": "6 pages, 6 figures, 4 tables",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4024,
-          "matched": [
-            "auditing",
-            "reliability",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4285,
-        "relevance": 0.3219,
-        "quality": 0.45,
-        "novelty": 0.8583,
-        "freshness": 0.8684
-      },
-      "quality_signals": [
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "LLM-as-judge reliability varies with evaluator changes, showing that judge upgrades are not interchangeable and that stronger judges reduce but do not eliminate biases or correlated errors.",
-        "problem": "Replacing an LLM evaluator changes measured scores even with fixed candidate responses, creating evaluator-replacement ambiguity that challenges measurement validity.",
-        "method": "The study compares two evaluator upgrade paths—Qwen3 parameter scaling (1.7B to 32B) and MiniMax M2–M2.7 API releases—across four judgment datasets, analyzing accuracy, bias, error correlation, and protocol auditability.",
-        "evidence": "Empirical results show only Qwen3 1.7B→4B scaling yields robust adjacent gains, MiniMax releases lack consistent gains, stronger judges reduce position and verbosity bias but do not remove them, and jury aggregation gains are limited by high error correlation.",
-        "limitations": "The study does not establish causal claims about MiniMax internals and lacks parser and fallback logs to fully attribute debate-induced decision shifts.",
-        "why_for_you": "Understanding evaluator-replacement ambiguity and multi-dimensional reliability components is critical for trustworthy LLM evaluation and designing robust LLM-as-judge protocols.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Only the Qwen3 parameter scaling from 1.7B to 4B parameters produces a robust adjacent gain in judge reliability, while MiniMax M2 to M2.7 API upgrades do not yield consistent improvements across datasets."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The study operationalizes LLM-as-judge reliability into four components—judgment validity, bias robustness, aggregation independence, and protocol auditability—measured via accuracy, Cohen’s κ, position flip rates, error correlation ρ, and parse status."
-          },
-          {
-            "icon": "📉",
-            "text": "High intra-class error correlations (ρ up to 0.972 for Qwen3 juries) limit jury aggregation gains, as majority voting fails to amplify reliability when errors are dependent rather than independent."
-          }
-        ],
-        "overview": "This paper addresses the evaluator-replacement ambiguity in LLM-as-judge evaluation, where changing the evaluator model alters measured scores despite fixed candidate responses. It investigates whether improvements in judge reliability arise from increased evaluator capability or other factors like bias and protocol design. The authors compare two upgrade paths: parameter scaling of Qwen3 judges (1.7B to 32B parameters) and released-model upgrades of MiniMax M2 to M2.7 APIs, across four diverse judgment datasets. They decompose reliability into four operational components—accuracy, bias robustness, error correlation, and auditability—and analyze how these interact with evaluator scaling and aggregation protocols. Results show that only Qwen3 scaling from 1.7B to 4B yields robust gains, while MiniMax upgrades do not consistently improve reliability. Stronger judges reduce but do not eliminate position and verbosity biases. Jury aggregation gains are limited by high correlated errors, and debate protocols require audit trails to attribute decision shifts properly. The study advocates for comprehensive reporting standards including dataset slices, bias probes, error-dependence estimates, and protocol logs to improve measurement validity in LLM-as-judge evaluations.",
-        "methodology": [
-          {
-            "title": "Evaluator Upgrade Comparison",
-            "detail": "Two evaluator upgrade paths are compared: Qwen3 dense judges scaled from 1.7B to 32B parameters, and MiniMax M2 to M2.7 released APIs. This comparison isolates parameter scaling effects from released-model changes without causal claims about MiniMax internals."
-          },
-          {
-            "title": "Reliability Operationalization",
-            "detail": "LLM-as-judge reliability is decomposed into four constructs: judgment validity (accuracy, Cohen’s κ, Spearman correlation), bias robustness (position flip, verbosity bias, granularity sensitivity), aggregation independence (error correlation ρ, jury gain), and protocol auditability (parse status, fallback behavior, intermediate verdicts)."
-          },
-          {
-            "title": "Datasets and Judges",
-            "detail": "Eight judges (Qwen3-1.7B, 4B, 14B, 32B; MiniMax M2, M2.1, M2.5, M2.7) are evaluated on four datasets: LLMBar (419 adversarial pairs), PandaLM testset-v1 (894 pairwise examples), Chatbot Arena seed-42 (1,997 pairwise examples), and Judge’s Verdict (200 TechQA-derived examples with pointwise labels)."
-          },
-          {
-            "title": "Aggregation and Debate Protocols",
-            "detail": "Jury aggregation experiments estimate intra-class error correlation ρ to assess independence assumptions. Debate experiments analyze decision shifts but highlight the need for parser and fallback logs to attribute changes to deliberation."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Evaluator-Replacement Ambiguity",
-            "detail": "The paper conceptualizes the measurement pipeline as comprising candidate responses, benchmark slice, judge model, prompt/decoding, parser, and aggregation/debate. Changes in any component, especially the judge model, can alter reported scores, creating ambiguity about the source of score changes."
-          },
-          {
-            "title": "Error Correlation and Jury Aggregation",
-            "detail": "High intra-class error correlation ρ among jurors violates independence assumptions of Condorcet-style majority voting, limiting jury accuracy gains. The beta-binomial model corrected by ρ accurately predicts jury accuracy, showing that correlated errors constrain aggregation benefits."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Judge Upgrade Evaluation",
-            "detail": "Evaluated eight judges across four datasets using fixed main prompts. Metrics include accuracy, Cohen’s κ, and Spearman correlation. The study compares adjacent judge upgrades along parameter scaling and released-model axes to assess reliability gains."
-          },
-          {
-            "title": "Bias Probing",
-            "detail": "Position-flip rates, verbosity bias, and granularity sensitivity are measured to assess bias robustness. Results show stronger judges reduce but do not eliminate these biases, with position-flip rates decreasing from 0.320 (Qwen3-1.7B) to 0.117–0.147 (MiniMax releases)."
-          },
-          {
-            "title": "Jury Aggregation Experiment",
-            "detail": "Homogeneous and heterogeneous juries are formed to test aggregation gains. Error correlation ρ is estimated from vote matrices, showing high correlation (up to 0.972) that limits majority voting improvements. Beta-binomial models corrected by ρ closely predict observed jury accuracy."
-          },
-          {
-            "title": "Debate Protocol Case Study",
-            "detail": "Structured debate experiments reveal substantial decision shifts, but lack of parser and fallback logs prevents attribution of these shifts to deliberation, highlighting the need for audit trails in debate protocols."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Non-Interchangeability of Judge Upgrades",
-            "detail": "Only Qwen3 parameter scaling from 1.7B to 4B parameters yields a robust adjacent gain in judge reliability; MiniMax M2 to M2.7 API upgrades do not show consistent improvements across datasets."
-          },
-          {
-            "title": "Bias Reduction but Persistence",
-            "detail": "Stronger judges reduce position-flip rates from 0.320 to approximately 0.117–0.147 and verbosity bias from 0.547 to about 0.13, but biases remain nonzero, indicating capability improves but does not eliminate bias."
-          },
-          {
-            "title": "Limited Jury Gains Due to Correlated Errors",
-            "detail": "High intra-class error correlations (ρ = 0.944–0.972 for Qwen3 juries) cause majority voting to yield minimal accuracy improvements, with jury size increases from 1 to 5 only marginally improving accuracy (e.g., 0.463 to 0.482 on LLMBar)."
-          },
-          {
-            "title": "Debate Shifts Require Audit Trails",
-            "detail": "Structured debate can substantially change decisions, but without parser and fallback logs, these shifts cannot be confidently attributed to deliberation processes."
-          },
-          {
-            "title": "Dataset-Specific Evaluator Strength",
-            "detail": "No single judge dominates all datasets: GLM-5.1 leads on LLMBar, MiniMax-M2.7 leads on PandaLM, and mimo-v2-pro leads on Chatbot Arena, emphasizing slice-specific measurement validity."
-          }
-        ],
-        "contributions": [
-          "Formulation of evaluator-replacement ambiguity as a measurement-validity problem in LLM-as-judge evaluation.",
-          "A two-axis empirical study comparing parameter scaling and released-model upgrades across multiple datasets and judges.",
-          "Decomposition of LLM-as-judge reliability into judgment validity, bias robustness, aggregation independence, and protocol auditability.",
-          "Demonstration that stronger judges reduce but do not eliminate biases and that jury aggregation gains are limited by correlated errors.",
-          "Proposal of a reporting standard including dataset slices, bias probes, error-dependence estimates, and protocol audit trails."
-        ],
-        "limitations": [
-          "No causal claims are made about MiniMax internal model changes due to lack of controlled ablation.",
-          "Absence of parser and fallback logs limits attribution of debate-induced decision shifts to actual deliberation.",
-          "Bias and reliability analyses are limited to the evaluated datasets and judge panels, restricting generalizability.",
-          "Prompt sensitivity is treated as a robustness check but not systematically explored, leaving prompt effects under-specified."
-        ],
-        "open_questions": [
-          "How can audit trails be designed to reliably attribute decision shifts in multi-agent debate protocols?",
-          "What mechanisms underlie the persistence of bias despite increased evaluator capability?",
-          "Can error correlation among heterogeneous juries be reduced to improve aggregation gains?",
-          "How do prompt variations interact with evaluator scaling to affect measurement validity?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "auditing",
-          "reliability",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-10T12:37:21.836532+00:00"
-    },
-    {
-      "id": "2607.11760",
-      "title": "From Expressivity to Sample Complexity: Narrow Teachers for Transformers via C-RASP",
-      "abstract": "A theoretical understanding of Transformers is crucial to better understand the capacities and limitations of large language models (LLMs). There is much work analyzing the expressivity of attention-based models. By proposing handcrafted weights or using computational complexity arguments, a large amount of past theoretical works have sought to characterize which tasks are and which are not in the hypothesis class of Transformer models. However, little work investigates the learnability of such solutions. In this work, we make progress towards this goal. Inspired by recent loss landscape analysis work, we propose preliminary sample complexity bounds for learning C-RASP constructions with Transformers.",
-      "authors": [
-        "Michael Rizvi-Martel",
-        "Satwik Bhattamishra",
-        "Guillaume Rabusseau",
-        "Michael Hahn"
-      ],
-      "published": "2026-07-13T16:22:36Z",
-      "updated": "2026-07-13T16:22:36Z",
-      "categories": [
-        "cs.LG",
-        "cs.CL"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2607.11760v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.11760v1",
-      "comment": "9 pages total",
+      "abs_url": "https://arxiv.org/abs/2607.12963v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.12963v1",
+      "comment": "Preprint",
       "journal_ref": "",
       "lane": "llm",
       "scope_matches": [
@@ -2034,129 +2062,147 @@
       ],
       "topics": [
         {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "core",
-          "score": 0.4181,
-          "matched": [
-            "loss landscape",
-            "landscape",
-            "loss"
-          ]
-        },
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
           "status": "background",
-          "score": 0.3306,
+          "score": 0.4339,
           "matched": [
-            "sample complexity"
+            "robustness",
+            "reliability",
+            "robustness"
           ]
         }
       ],
       "scores": {
-        "total": 0.4276,
-        "relevance": 0.4006,
-        "quality": 0.34,
-        "novelty": 0.55,
-        "freshness": 0.8848
+        "total": 0.4436,
+        "relevance": 0.3471,
+        "quality": 0.44,
+        "novelty": 0.8558,
+        "freshness": 0.8882
       },
       "quality_signals": [
-        "formal bound"
+        "benchmark evaluation",
+        "dataset evidence"
       ],
       "summary": {
-        "takeaway": "The paper establishes sample complexity bounds for learning C-RASP constructions with Transformers.",
-        "problem": "Existing theoretical analyses of Transformers focus on expressivity but neglect learnability.",
-        "method": "The authors propose a framework that connects expressivity results to sample complexity bounds.",
-        "evidence": "The results indicate that constant-size constructions like Dyck-1 can be easily learned by Transformers.",
-        "limitations": "The paper lacks empirical validation of the theoretical findings regarding loss landscape impacts.",
-        "why_for_you": "This work bridges expressivity and learnability, which is crucial for understanding LLM training dynamics.",
+        "takeaway": "Aggregate accuracy metrics obscure significant per-example prediction instability caused by task-irrelevant context in state-of-the-art LLMs.",
+        "problem": "LLMs deployed with long, partially irrelevant context appear robust at the aggregate level but exhibit unstable predictions on individual examples.",
+        "method": "The study prepends task-irrelevant context, including semantically meaningless pseudo-words, to benchmark questions and analyzes prediction changes across multiple models and datasets.",
+        "evidence": "Prepending pseudo-words shifts model predictions on a small fraction of examples, with effects varying by context type, length, compute, and model development stage.",
+        "limitations": "The analysis is limited to controlled settings and does not provide mechanistic explanations for the observed instability.",
+        "why_for_you": "Understanding per-example prediction flips under irrelevant context is critical for trustworthy LLM deployment in real-world, context-rich environments.",
         "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
+        "generated_by": "openai/gpt-4.1-mini"
       },
       "deep_dive": {
         "signals": [
           {
             "icon": "🧠",
-            "text": "The paper demonstrates that C-RASP Transformers can yield sample complexity bounds, specifically showing that constructions like Dyck-1 are easily learned."
+            "text": "State-of-the-art LLMs show stable aggregate accuracy when irrelevant context is prepended, yet individual examples experience significant prediction flips."
           },
           {
             "icon": "🛡️",
-            "text": "A novel learning algorithm based on a Guess and Check (G&C) procedure is proposed, which samples weights and computes empirical risk to ensure zero training error."
+            "text": "The method uses semantically meaningless pseudo-words formed by random character combinations to isolate the effect of irrelevant context on model predictions."
           },
           {
             "icon": "📉",
-            "text": "The authors derive a sample complexity bound that relates the probability of sampling a teacher model to the architecture of the Transformer, providing a theoretical foundation for learning."
+            "text": "Prediction instability is modulated by factors including context type, context length, test-time compute, and model development stage, indicating nuanced sensitivity."
           }
         ],
-        "overview": "This research addresses the gap in understanding the learnability of Transformers by proposing sample complexity bounds for C-RASP constructions. The authors extend existing frameworks to show how wide student networks can implement narrow teacher networks, thus linking expressivity with learnability. Their findings suggest that certain constant-size constructions, such as Dyck-1, can be effectively learned by Transformers, providing a theoretical basis for future explorations in LLM training dynamics.",
+        "overview": "This research investigates the robustness of large language models to task-irrelevant context by prepending such context to benchmark questions and measuring prediction stability. While aggregate accuracy remains largely unchanged, the study reveals significant per-example prediction flips, including both degradations and improvements, when irrelevant context is introduced. The use of pseudo-words as irrelevant context isolates semantic effects, demonstrating that even meaningless input can alter model behavior. This instability is consistent across diverse models and datasets but affects examples in a model-specific manner. Furthermore, the degree of instability depends on context characteristics and model factors such as development stage and computational budget at test time. These findings expose hidden tail risks in LLM reliability that aggregate metrics fail to capture, underscoring the need for per-example evaluation to ensure trustworthy deployment in context-rich scenarios.",
         "methodology": [
           {
-            "title": "Sample Complexity Bounds",
-            "detail": "The authors derive bounds based on the architecture of Transformers and the characteristics of C-RASP programs, focusing on the relationship between model width, depth, and the number of variables."
+            "title": "Prepending Task-Irrelevant Context",
+            "detail": "The study prepends long, partially irrelevant context, including semantically meaningless pseudo-words created by random character combinations, to benchmark questions to test model robustness to irrelevant input."
           },
           {
-            "title": "Guess and Check Learning Algorithm",
-            "detail": "The learning algorithm samples weights uniformly at random and computes the empirical risk until zero training error is achieved, linking the success rate to the volume of generalizing solutions."
+            "title": "Controlled Evaluation Across Models and Datasets",
+            "detail": "Multiple state-of-the-art LLMs and benchmark datasets are evaluated under identical conditions to assess the consistency and specificity of prediction instability caused by irrelevant context."
           },
           {
-            "title": "C-RASP Framework Extension",
-            "detail": "The paper extends the C-RASP framework to include a broader class of constructions, allowing for the analysis of their learnability in the context of Transformers."
+            "title": "Analysis of Prediction Flips",
+            "detail": "Per-example prediction changes are tracked to identify instances where irrelevant context causes shifts in model outputs, measuring both performance degradation and improvement."
+          },
+          {
+            "title": "Modulation Factors Study",
+            "detail": "The impact of context type, context length, test-time compute resources, and model development stage on prediction stability is systematically analyzed to understand factors influencing instability."
           }
         ],
         "mechanism": [
           {
-            "title": "Teacher-Equivalent Models",
-            "detail": "The paper defines a teacher-equivalent model in relation to a data distribution, establishing a framework for understanding how well a predictor can match a teacher model."
+            "title": "No Explicit Mechanism Provided",
+            "detail": "The paper does not provide a mechanistic or theoretical explanation for why irrelevant context induces prediction flips, focusing instead on empirical observation."
           }
         ],
         "experiments": [
           {
-            "title": "Learning Dyck-1",
-            "detail": "The authors illustrate their theoretical results by demonstrating that a single-head student Transformer can learn a C-RASP program for Dyck-1 with a sample complexity bound better than traditional Occam's razor arguments."
+            "title": "Benchmark Question Evaluation with Irrelevant Context",
+            "detail": "Models are tested on standard benchmark questions with and without prepended irrelevant context, including pseudo-words, to measure changes in aggregate accuracy and per-example predictions."
+          },
+          {
+            "title": "Cross-Model and Dataset Consistency Checks",
+            "detail": "Experiments span a wide range of state-of-the-art LLMs and datasets to verify that the two-sided effect of irrelevant context on prediction flips is consistent yet model-specific."
+          },
+          {
+            "title": "Context and Model Factor Ablations",
+            "detail": "Ablation studies vary context type, length, test-time compute, and model development stage to quantify their modulation of prediction instability."
           }
         ],
         "findings": [
           {
-            "title": "Expressivity and Learnability Link",
-            "detail": "The work is among the first to connect expressivity results of Transformers to sample complexity, showing that expressive capabilities can be learned."
+            "title": "Aggregate Accuracy Masks Instability",
+            "detail": "Despite little change in overall accuracy when irrelevant context is prepended, individual examples frequently experience prediction flips, revealing hidden instability."
           },
           {
-            "title": "Sample Complexity for C-RASP",
-            "detail": "The derived sample complexity bounds indicate that a narrow teacher can be effectively learned by a wider student Transformer under specific conditions."
+            "title": "Pseudo-Words Cause Prediction Shifts",
+            "detail": "Even meaningless pseudo-words significantly alter model predictions on a subset of examples, demonstrating sensitivity to non-semantic context."
           },
           {
-            "title": "Impact of Model Architecture",
-            "detail": "The findings suggest that the architecture of Transformers significantly influences their ability to learn specific tasks, such as those defined by C-RASP."
+            "title": "Two-Sided Effect on Performance",
+            "detail": "Irrelevant context can both degrade and improve performance on different examples, indicating complex, example-specific effects."
+          },
+          {
+            "title": "Model-Specific Affected Examples",
+            "detail": "The examples impacted by irrelevant context vary across models, suggesting that instability is not uniform but dependent on model architecture or training."
+          },
+          {
+            "title": "Instability Modulated by Multiple Factors",
+            "detail": "Context type, length, test-time compute, and model development stage all influence the degree of prediction instability observed."
           }
         ],
         "contributions": [
-          "The paper extends the framework of Buzaglo et al. to Transformers.",
-          "It provides a constraint-counting argument for implementing narrow teachers with wide student networks.",
-          "It bridges the gap between expressivity and learnability in the context of Transformers."
+          "Demonstration that aggregate accuracy conceals significant per-example prediction instability under task-irrelevant context.",
+          "Introduction of semantically meaningless pseudo-words as a tool to isolate context effects on LLM predictions.",
+          "Empirical evidence that prediction instability is two-sided and model-specific across diverse LLMs and datasets.",
+          "Identification of factors modulating instability, including context characteristics and model development parameters.",
+          "Motivation for per-example reliability evaluation metrics in LLM deployment."
         ],
         "limitations": [
-          "The lack of empirical validation for the theoretical findings.",
-          "The current approach only accounts for a single encoding of the teacher within the student."
+          "Lack of mechanistic or theoretical explanation for the observed prediction flips.",
+          "Experiments conducted in controlled settings may not fully capture real-world context complexity.",
+          "No quantitative metrics or numerical results are provided in the abstract to gauge effect sizes.",
+          "The study does not explore mitigation strategies for the identified instability."
         ],
         "open_questions": [
-          "How does the loss landscape impact length generalization in Transformers?",
-          "Can the bounds on the probability of sampling a teacher model be further tightened?"
+          "What underlying mechanisms cause LLMs to be sensitive to semantically meaningless context?",
+          "How can per-example prediction instability be effectively measured and mitigated in deployed systems?",
+          "To what extent do different model architectures or training regimes influence susceptibility to irrelevant context?",
+          "Can model design or training be adapted to reduce context-induced tail risks without sacrificing aggregate accuracy?"
         ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4o-mini",
+        "source_scope": "abstract",
+        "generated_by": "openai/gpt-4.1-mini",
         "schema_version": 2
       },
       "recommendation_reason": {
-        "topic": "LLM loss landscape",
+        "topic": "Trustworthy LLM",
         "matched": [
-          "loss landscape",
-          "landscape",
-          "loss"
+          "robustness",
+          "reliability",
+          "robustness"
         ],
         "lane": "llm"
       },
-      "recommended_at": "2026-07-14T11:44:02.688717+00:00"
+      "recommended_at": "2026-07-15T11:47:59.097160+00:00"
     }
   ]
 }
