@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-15T11:47:59.097160+00:00",
+  "generated_at": "2026-07-16T11:53:57.047514+00:00",
   "papers": [
     {
       "id": "2607.11444",
@@ -201,205 +201,6 @@
       "recommended_at": "2026-07-14T11:44:02.688717+00:00"
     },
     {
-      "id": "2607.06326",
-      "title": "DT-Guard: Intent-Driven Reasoning-Active Training for Reasoning-Free LLM Safety Guardrail",
-      "abstract": "Large language models deployed in open-world applications require safety guardrails that are both robust to complex risks and efficient enough for low-latency runtime moderation. Existing guardrails face a practical trade-off between lightweight classification-based models, which are efficient but often struggle with concealed intent, ambiguous semantics, and borderline safety decisions, and reasoning-based guards, which improve judgment quality but introduce additional token generation and inference latency. We present DT-Guard, a content safety guardrail model based on a Reasoning-Active Training, Reasoning-Free Inference paradigm. The key idea is to use reasoning supervision during training while emitting only structured safety labels at inference time. DT-Guard formulates safety judgment as a progressive decision process, Intent - Category - Safety, and constructs an intent-driven dataset with intent labels, risk categories, safety labels, and structured reasoning trajectories. To further improve hard-case robustness, we propose Rollout-Guided Progressive Hard-Case Optimization (RG-PHO), which uses multi-rollout consistency to identify stably mastered, persistently failed, and preference-unstable samples, and applies targeted supervised and preference optimization accordingly. At inference time, DT-Guard directly generates structured labels without explicit reasoning traces, preserving deployment efficiency. Experiments on prompt-side and response-side safety benchmarks show that DT-Guard achieves average F1 scores of 0.886 and 0.870, respectively. With only a 4B backbone, it reaches a dual-side average F1 of 0.878, outperforming strong 8B guardrail baselines. These results demonstrate that reasoning supervision can be effectively internalized into low-latency safety discrimination.",
-      "authors": [
-        "He Liu",
-        "Changtao Miao",
-        "Xinjie Yang",
-        "Tianle Song",
-        "Yin Wu",
-        "Junchi Chen",
-        "Bintao He",
-        "Xinyuan Zhang",
-        "Bo Zhang",
-        "Shi Yan",
-        "Wei Lu",
-        "Wei Wang",
-        "Danyang Xu",
-        "Jiansheng Cai",
-        "Zhe Li"
-      ],
-      "published": "2026-07-07T14:25:05Z",
-      "updated": "2026-07-07T14:25:05Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2607.06326v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.06326v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.6714,
-          "matched": [
-            "robustness",
-            "robust",
-            "training"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.6581,
-          "matched": [
-            "llm safety",
-            "LLM safety",
-            "robustness",
-            "safety",
-            "llm",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6924,
-        "relevance": 0.6687,
-        "quality": 0.65,
-        "novelty": 0.8418,
-        "freshness": 0.8718
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "benchmark evaluation",
-        "experiments",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "DT-Guard internalizes reasoning supervision during training to achieve efficient, reasoning-free inference for robust LLM safety guardrails.",
-        "problem": "Existing LLM safety guardrails trade off between efficient but shallow classification and robust but slow reasoning-based methods.",
-        "method": "DT-Guard uses a progressive Intent → Category → Safety decision process with reasoning-active training and rollout-guided hard-case optimization, emitting only structured labels at inference.",
-        "evidence": "DT-Guard achieves average F1 scores of 0.886 on prompt-side and 0.870 on response-side benchmarks, outperforming 8B baselines with a 4B backbone.",
-        "limitations": "The paper does not provide detailed analysis of failure modes or generalization beyond tested benchmarks.",
-        "why_for_you": "DT-Guard offers a novel training paradigm that leverages reasoning supervision to improve adversarial robustness and efficiency in LLM safety guardrails.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "DT-Guard formulates safety judgment as a progressive decision process: Intent recognition, risk Category attribution, and final Safety prediction, enabling clearer intermediate supervision for complex cases."
-          },
-          {
-            "icon": "🛡️",
-            "text": "Rollout-Guided Progressive Hard-Case Optimization (RG-PHO) stratifies samples by multi-rollout consistency into mastered, persistently failed, and preference-unstable, applying targeted supervised fine-tuning and contrastive preference optimization."
-          },
-          {
-            "icon": "📉",
-            "text": "Selective Chain-of-Thought (CoT) training on borderline samples improves average F1 from 0.828 (full CoT) to 0.860, showing that uniform CoT supervision mismatches reasoning-free inference."
-          }
-        ],
-        "overview": "DT-Guard addresses the challenge of deploying LLM safety guardrails that are both robust to complex, concealed intents and efficient for low-latency inference. Existing methods either rely on lightweight classification models that struggle with ambiguous or adversarial inputs or on reasoning-based models that incur high inference latency due to token generation of reasoning chains. DT-Guard introduces a Reasoning-Active Training, Reasoning-Free Inference paradigm, where explicit reasoning supervision is used only during training to internalize complex safety judgments. The model predicts structured safety labels through a progressive decision process: identifying user intent, attributing risk categories, and adjudicating safety levels. To enhance robustness on hard cases, DT-Guard employs RG-PHO, which uses multi-rollout consistency to identify sample difficulty and applies tailored supervised and preference-based optimization. Experiments on multiple prompt-side and response-side safety benchmarks demonstrate that DT-Guard outperforms larger 8B parameter baselines with only a 4B backbone, achieving average F1 scores of 0.886 and 0.870 respectively, validating the effectiveness of reasoning supervision internalization for efficient safety discrimination.",
-        "methodology": [
-          {
-            "title": "Intent-Driven Progressive Safety Judgment",
-            "detail": "Safety judgment is decomposed into a three-stage process: Intent recognition to capture underlying user motivation, Category attribution to assign relevant risk types, and Safety prediction to determine final safety labels. This structured approach provides intermediate supervision signals that improve robustness on ambiguous and borderline cases."
-          },
-          {
-            "title": "Reasoning-Active Training with Reasoning-Free Inference",
-            "detail": "During training, DT-Guard uses explicit reasoning trajectories as supervision to guide the model in understanding complex safety decisions. At inference, the model emits only structured safety labels without generating reasoning chains, preserving low-latency deployment."
-          },
-          {
-            "title": "Rollout-Guided Progressive Hard-Case Optimization (RG-PHO)",
-            "detail": "RG-PHO uses multiple model rollouts to assess sample consistency, stratifying samples into stably mastered, persistently failed, and preference-unstable. Persistently failed samples receive stronger supervised fine-tuning, while preference-unstable samples undergo contrastive preference optimization to stabilize judgments."
-          },
-          {
-            "title": "Selective Chain-of-Thought (CoT) Supervision",
-            "detail": "CoT reasoning supervision is selectively applied only to borderline samples rather than uniformly across all data, mitigating format mismatch with reasoning-free inference and improving overall F1 performance."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "No explicit mechanism equations provided",
-            "detail": "The paper does not present formal equations or causal models but describes the progressive decision process and rollout consistency as conceptual mechanisms for improving safety judgment robustness."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Benchmark Evaluation on Prompt-Side and Response-Side Safety",
-            "detail": "DT-Guard is evaluated on 10 prompt-side benchmarks (e.g., ToxicChat, OpenAI Moderation, AegisSafety) and 7 response-side benchmarks (e.g., HarmBench-Response, SafeRLHF). Metrics reported are classification F1 scores, comparing against Qwen3Guard and YuFeng-XGuard baselines with parameter sizes from 0.6B to 8B."
-          },
-          {
-            "title": "Ablation Studies on Training Components",
-            "detail": "Ablations isolate the effects of intent labels, CoT allocation strategies, hard-case supervised fine-tuning (SFT), and direct preference optimization (DPO). Selective CoT on borderline samples yields the best average F1, confirming the importance of matching supervision to sample difficulty."
-          },
-          {
-            "title": "Model Size and Efficiency Comparison",
-            "detail": "DT-Guard with a 4B backbone outperforms strong 8B guardrail baselines, demonstrating that reasoning supervision internalized during training can compensate for smaller model size while maintaining low-latency inference."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Superior Safety Classification Performance",
-            "detail": "DT-Guard achieves average F1 scores of 0.886 on prompt-side and 0.870 on response-side safety benchmarks, outperforming Qwen3Guard-8B (0.852 prompt-side) and YuFeng-XGuard-8B baselines."
-          },
-          {
-            "title": "Effectiveness of Intent Labels",
-            "detail": "Adding intent supervision improves prompt-side average F1 from 0.855 to 0.863, indicating that modeling interaction motivation aids in disambiguating semantically similar but safety-divergent requests."
-          },
-          {
-            "title": "Selective CoT Training Improves Robustness",
-            "detail": "Applying chain-of-thought supervision only to borderline samples increases average F1 to 0.860, whereas full CoT training reduces performance to 0.828 due to format mismatch with reasoning-free inference."
-          },
-          {
-            "title": "RG-PHO Enhances Hard-Case Handling",
-            "detail": "Multi-rollout consistency stratification enables targeted optimization of persistently failed and preference-unstable samples, improving model stability and judgment quality on difficult cases."
-          },
-          {
-            "title": "Efficiency Gains from Reasoning-Free Inference",
-            "detail": "By emitting only structured safety labels at inference, DT-Guard avoids token-generation overhead of reasoning chains, enabling deployment in low-latency, high-throughput industrial systems."
-          }
-        ],
-        "contributions": [
-          "Proposed DT-Guard, a safety guardrail model combining reasoning-active training with reasoning-free inference for efficient and robust safety judgment.",
-          "Formulated safety judgment as a progressive Intent → Category → Safety decision process with intent-driven dataset construction.",
-          "Introduced Rollout-Guided Progressive Hard-Case Optimization to stratify and optimize hard safety cases via multi-rollout consistency.",
-          "Demonstrated that reasoning supervision can be internalized to outperform larger guardrail models with smaller backbones under low-latency inference constraints."
-        ],
-        "limitations": [
-          "Lack of detailed failure mode analysis or error case studies limits understanding of residual risks.",
-          "Generalization to unseen or evolving safety risks beyond benchmark datasets is not evaluated.",
-          "No explicit mechanism or theoretical guarantees are provided for the rollout consistency stratification approach.",
-          "The impact of model architecture variations or larger-scale training data on DT-Guard performance is not explored."
-        ],
-        "open_questions": [
-          "How well does DT-Guard generalize to novel or adversarially crafted safety risks outside the training distribution?",
-          "Can rollout-guided hard-case optimization be extended or formalized with theoretical guarantees for safety-critical applications?",
-          "What are the trade-offs between reasoning supervision granularity and inference efficiency in other safety-critical LLM tasks?",
-          "How does DT-Guard perform when integrated with larger backbone models or multimodal inputs?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "robustness",
-          "robust",
-          "training"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-08T11:57:23.024570+00:00"
-    },
-    {
       "id": "2607.08646",
       "title": "UltraX: Refining Pre-Training Data at Scale with Adaptive Programmatic Editing",
       "abstract": "As available training data approaches its physical limit, gains from Scaling Laws have begun to diminish. Consequently, improving Large Language Models (LLMs) now depends less on data expansion and more on higher-quality data utilization. However, in the context of large-scale corpora, existing refinement methodologies face significant limitations in quality, efficiency, and reliability: Rule-based approaches are constrained by fixed heuristics and struggle with instance-level variations; LLM-based approaches improve quality but fail to meet the efficiency and reliability requirements of large-scale data processing. To address these challenges, we propose UltraX, a function-calling refinement framework for large-scale pre-training data that completes the editing function space by introducing insertion in addition to deletion and modification, enabling fine-grained instance-level editing. Specifically, UltraX builds a reliable program-supervision generation pipeline. In this pipeline, dataset-adaptive prompt optimization first guides an expert LLM to produce high-quality end-to-end refined texts, and Line Alignment Mapping and Dynamic Context Replacement then convert original-refined text pairs into structured program supervision. Meanwhile, UltraX improves supervision quality and stabilizes the training distribution with low-confidence example filtering and ratio-controlled sampling by operation combination. During inference and execution, it normalizes and validates model outputs through sliding-window prediction, global operation aggregation, and systematic post-processing, improving the stability and reliability of large-scale execution. Experiments show that UltraX achieves the highest average performance across all corpora and also matches or surpasses baselines with fewer training tokens, demonstrating stronger data efficiency and refinement reliability.",
@@ -599,6 +400,392 @@
       "recommended_at": "2026-07-10T12:37:21.836532+00:00"
     },
     {
+      "id": "2607.13753",
+      "title": "Post-Training Shifts Confidence: A Three-Stage Analysis of How SFT, RL, and OPD Shape Pre-, Intra-, and Post-CoT Calibration",
+      "abstract": "Large language models have made strong reasoning gains through supervised fine-tuning, reinforcement learning, and on-policy distillation, yet these post-training methods are usually evaluated only by final-answer accuracy. We study how they reshape confidence during reasoning. We introduce a three-stage calibration framework that evaluates confidence before, during, and after chain-of-thought generation, corresponding to difficulty estimation, early termination, and answer aggregation. Through a controlled comparison on mathematical reasoning benchmarks, we find that OPD provides the most useful pre-reasoning confidence, SFT gives the strongest online signal for early stopping, and RL produces the most reliable trace-level signal for aggregation. We further show that confidence reliability is position-dependent: RL confidence becomes informative after a path-commitment phase, while OPD confidence is useful early but can become inversely calibrated later. Based on this observation, we propose PosConf, a position-aware confidence strategy that uses confidence only from reliable relative-position intervals. PosConf improves RL answer aggregation by 6.1 points over majority voting and consistently improves OPD early stopping under tight token budgets, with gains up to 4.3 points by avoiding its later inverse-calibration region, showing that \\emph{confidence in reasoning models should be used both stage-wise and position-awarely}. Our code is available at https://github.com/EIT-NLP/Post-Training-Calibration.",
+      "authors": [
+        "Shuhao Li",
+        "Guodong Du",
+        "Anhao Zhao",
+        "Wanyu Lin",
+        "Tianyu Yuan",
+        "Xiaoyu Shen"
+      ],
+      "published": "2026-07-15T12:12:37Z",
+      "updated": "2026-07-15T12:12:37Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.13753v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.13753v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "watch",
+          "score": 0.5634,
+          "matched": [
+            "on-policy distillation",
+            "OPD",
+            "policy distillation",
+            "opd",
+            "distillation",
+            "on-policy"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4046,
+          "matched": [
+            "calibration",
+            "reliability"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6264,
+        "relevance": 0.5316,
+        "quality": 0.78,
+        "novelty": 0.8186,
+        "freshness": 0.859
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Reasoning-oriented post-training methods (SFT, RL, OPD) induce distinct, stage-dependent shifts in confidence calibration, which can be leveraged position-awarely to improve reasoning efficiency and accuracy.",
+        "problem": "Existing evaluations of post-training methods focus on final-answer accuracy, neglecting how these methods reshape confidence calibration before, during, and after chain-of-thought reasoning.",
+        "method": "The paper introduces a three-stage confidence calibration framework (Pre-CoT, Intra-CoT, Post-CoT) to systematically analyze and compare how SFT, RL, and OPD affect confidence signals at different reasoning stages and positions.",
+        "evidence": "Controlled experiments on mathematical reasoning benchmarks with Qwen2.5-7B variants show OPD excels at pre-reasoning difficulty estimation, SFT provides the strongest intra-reasoning early stopping signal, and RL yields the most reliable post-reasoning aggregation confidence, with PosConf improving RL aggregation by 6.1 points and OPD early stopping by up to 4.3 points.",
+        "limitations": "The study is limited to a single backbone (Qwen2.5-7B) and mathematical reasoning benchmarks, with no evidence on other model families, domains, or downstream tasks.",
+        "why_for_you": "Understanding how post-training paradigms reshape confidence calibration stage-wise and position-awarely enables designing more trustworthy and efficient LLM reasoning systems through improved uncertainty estimation and inference-time decisions.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "OPD provides the most informative Pre-CoT confidence for problem difficulty estimation, achieving the highest AUROC and PRR scores across multiple mathematical benchmarks."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The PosConf strategy uses position-aware confidence intervals to selectively leverage reliable confidence signals, improving RL answer aggregation by 6.1 points over majority voting and enhancing OPD early stopping under tight token budgets."
+          },
+          {
+            "icon": "📉",
+            "text": "Confidence reliability is position-dependent: RL confidence becomes informative only after a path-commitment phase, while OPD confidence is useful early but can become inversely calibrated later in the reasoning trace."
+          }
+        ],
+        "overview": "This paper addresses the gap in understanding how different post-training methods—supervised fine-tuning (SFT), reinforcement learning (RL), and on-policy distillation (OPD)—reshape confidence calibration in large language models during chain-of-thought reasoning. Instead of treating confidence as a monolithic final output property, the authors propose a three-stage framework evaluating confidence before reasoning (Pre-CoT), during reasoning (Intra-CoT), and after reasoning (Post-CoT). Using Qwen2.5-7B-based models trained on the same data but with different post-training objectives, they conduct controlled experiments on diverse mathematical reasoning benchmarks. Results show that OPD excels at pre-reasoning difficulty estimation, SFT provides the strongest online signal for early termination of low-quality reasoning traces, and RL yields the most reliable confidence for answer aggregation. They further reveal that confidence calibration varies with token position, motivating PosConf, a position-aware confidence strategy that selectively uses confidence from reliable relative-position intervals. PosConf significantly improves RL aggregation accuracy and OPD early stopping efficiency, demonstrating that confidence should be used both stage-wise and position-awarely to enhance reasoning reliability and efficiency.",
+        "methodology": [
+          {
+            "title": "Three-Stage Confidence Calibration Framework",
+            "detail": "The framework partitions confidence evaluation into Pre-CoT (before chain-of-thought generation, assessing problem difficulty), Intra-CoT (during generation, enabling early termination of uncertain traces), and Post-CoT (after generation, supporting answer aggregation). Confidence is computed from top-k next-token probabilities, smoothed over sliding windows, and normalized by relative token position."
+          },
+          {
+            "title": "Model Variants and Training",
+            "detail": "Four Qwen2.5-7B-based models are compared: Qwen-Instruct (instruction-tuned baseline), Qwen-SFT (supervised fine-tuned on correct chain-of-thought traces), Qwen-RL (trained with group relative policy optimization using binary outcome rewards), and Qwen-OPD (on-policy distillation from a larger teacher model via dense KL divergence). All models share the same backbone and training data to isolate post-training effects."
+          },
+          {
+            "title": "Confidence Metrics and Evaluation",
+            "detail": "Pre-CoT confidence is evaluated by AUROC and PRR to measure difficulty prediction quality. Intra-CoT confidence triggers early stopping when sliding window confidence falls below a threshold, balancing token usage and accuracy. Post-CoT confidence ranks completed traces for confidence-filtered majority voting and most-confident selection, assessing aggregation improvements."
+          },
+          {
+            "title": "PosConf Position-Aware Confidence Strategy",
+            "detail": "PosConf restricts confidence usage to reliable relative-position intervals identified by analyzing confidence calibration dynamics across token positions. This avoids inverse calibration regions, improving early stopping and answer aggregation by leveraging only trustworthy confidence segments."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Token-Level Confidence Computation",
+            "detail": "Confidence at token position ℓ is computed as the negative average log probability over the top-k next-token candidates, smoothed over a sliding window of size w to capture local uncertainty dynamics. Relative token position ρt = t/m normalizes positions across traces of varying lengths, enabling position-aware confidence analysis."
+          },
+          {
+            "title": "No Explicit Theoretical Mechanism Provided",
+            "detail": "The paper does not provide formal equations or causal theories beyond the confidence computation formula and the empirical observation of position-dependent calibration shifts."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Pre-CoT Difficulty Estimation",
+            "detail": "Evaluated on mathematical reasoning benchmarks (AIME 24/25, AMC 23, MATH500) using AUROC and PRR metrics, comparing Qwen-Instruct, Qwen-SFT, Qwen-RL, and Qwen-OPD. OPD achieves the highest average AUROC (0.644) and PRR (0.345), indicating superior pre-reasoning confidence calibration."
+          },
+          {
+            "title": "Intra-CoT Early Stopping",
+            "detail": "Confidence thresholds are swept to produce token-accuracy frontiers under a fixed budget of 256 traces per problem. Early stopping triggered when sliding window confidence falls below threshold reduces token usage without accuracy loss. SFT yields the strongest online signal for early termination."
+          },
+          {
+            "title": "Post-CoT Answer Aggregation",
+            "detail": "Answer aggregation compares majority voting, confidence-filtered majority voting (top 5% or 10% traces by confidence), and most-confident selection. RL confidence filtering improves aggregation accuracy by 6.1 points over majority voting, demonstrating reliable trace-level confidence."
+          },
+          {
+            "title": "PosConf Evaluation",
+            "detail": "PosConf applies position-aware confidence intervals to improve RL aggregation and OPD early stopping. It avoids later inverse-calibration regions in OPD, yielding up to 4.3 points gain under tight token budgets."
+          }
+        ],
+        "findings": [
+          {
+            "title": "OPD Excels at Pre-CoT Confidence",
+            "detail": "OPD achieves the highest AUROC and PRR scores for difficulty estimation across multiple benchmarks, outperforming SFT, RL, and the baseline Qwen-Instruct, indicating its pre-reasoning confidence is most informative."
+          },
+          {
+            "title": "SFT Provides Strongest Intra-CoT Signal",
+            "detail": "During reasoning, SFT yields the most reliable token-level confidence for early stopping, enabling efficient pruning of low-quality reasoning traces without compromising accuracy."
+          },
+          {
+            "title": "RL Confidence Best for Post-CoT Aggregation",
+            "detail": "RL produces the most reliable trace-level confidence for answer aggregation, improving accuracy by 6.1 points over majority voting when using confidence-filtered voting."
+          },
+          {
+            "title": "Confidence Calibration is Position-Dependent",
+            "detail": "RL confidence becomes informative only after a path-commitment phase, while OPD confidence is useful early but can become inversely calibrated later, motivating position-aware confidence usage."
+          },
+          {
+            "title": "PosConf Improves Reasoning Efficiency and Accuracy",
+            "detail": "By restricting confidence usage to reliable relative-position intervals, PosConf improves RL answer aggregation by 6.1 points and OPD early stopping by up to 4.3 points, demonstrating the benefit of stage-wise and position-aware confidence strategies."
+          }
+        ],
+        "contributions": [
+          "Introduced a three-stage confidence calibration framework (Pre-CoT, Intra-CoT, Post-CoT) linking confidence signals to inference-time decisions in reasoning.",
+          "Provided a controlled comparison of SFT, RL, and OPD post-training methods showing distinct stage-dependent confidence calibration shifts.",
+          "Discovered position-dependent confidence reliability and proposed PosConf, a position-aware confidence strategy that improves early stopping and answer aggregation."
+        ],
+        "limitations": [
+          "Experiments are limited to the Qwen2.5-7B backbone and mathematical reasoning benchmarks, limiting generalizability to other models and tasks.",
+          "No evaluation on downstream applications beyond mathematical reasoning or on other types of reasoning tasks.",
+          "The study does not explore the impact of varying training data or model architectures on confidence calibration.",
+          "No formal theoretical mechanism or causal explanation is provided for the observed position-dependent calibration shifts."
+        ],
+        "open_questions": [
+          "How do confidence calibration dynamics generalize across different LLM architectures and larger-scale models?",
+          "Can position-aware confidence strategies like PosConf be adapted to other reasoning domains or multimodal tasks?",
+          "What are the underlying causes of inverse calibration in OPD confidence at later token positions?",
+          "How can confidence calibration be integrated with other uncertainty estimation methods to further improve trustworthy LLM reasoning?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "On-policy distillation",
+        "matched": [
+          "on-policy distillation",
+          "OPD",
+          "policy distillation",
+          "opd"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-16T11:53:57.047514+00:00"
+    },
+    {
+      "id": "2607.13801",
+      "title": "Traffic-Aware Randomized Smoothing for LLM-Based Network Intrusion Detection",
+      "abstract": "Large language model (LLM)-based intrusion detection systems (IDS) are increasingly studied for security monitoring, yet their robustness against feasible traffic manipulation remains largely empirical. We present Traffic-Aware Randomized Smoothing (TA-RS), a classifier-agnostic certified defense that injects Gaussian noise exclusively into the directly controllable (DC) subspace -- features a remote attacker can modify -- during both fine-tuning and certification, aligning the smoothing distribution with the attacker-controllable subspace. We identify a critical prerequisite: applying standard randomized smoothing to clean-trained LLM-IDS yields weak certified accuracy in three of four (model, dataset) pairs tested (14-33%, at or below random) and only 57% in the fourth (43 pp below the noise-augmented result); noise-augmented fine-tuning recovers to 68-100% on two of three benchmark datasets (at sigma=0.25). At the L_inf-equivalent threshold R_inf = epsilon*sqrt(|DC|) (epsilon=0.05), TA-RS achieves 55-100% certified accuracy on CIC-IDS-2018 and HIKARI-2021, with median certified radii (R approx 0.45-0.96) exceeding R_inf by 1.8-5x (across sigma=0.25-1.00). Against a fairly trained iso-trained RS baseline the residual advantage is dataset-dependent (4-19 pp on CIC-IDS-2018). The larger gap -- up to 72 pp against an isotropic RS baseline that shares the DC-noise-augmented training recipe -- primarily reflects the training-certification mismatch rather than DC alignment alone: isotropic test-time noise perturbs uncontrollable features the attacker cannot exploit, triggering abstention rates up to 68%. RT-IoT2022 probes the limits of the method: it fails under the default fine-tuning recipe but recovers to 76%/69% certified accuracy (LLaMA3-8B/Qwen3-8B) when noise augmentation is increased.",
+      "authors": [
+        "Zhenpeng Li"
+      ],
+      "published": "2026-07-15T13:08:19Z",
+      "updated": "2026-07-15T13:08:19Z",
+      "categories": [
+        "cs.CR",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2607.13801v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.13801v1",
+      "comment": "44 pages, 14 figures, 14 tables. Submitted to Expert Systems with Applications",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.5429,
+          "matched": [
+            "robustness",
+            "fine-tuning",
+            "training"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4611,
+          "matched": [
+            "robustness",
+            "alignment",
+            "alignment",
+            "llm",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5897,
+        "relevance": 0.5265,
+        "quality": 0.59,
+        "novelty": 0.8621,
+        "freshness": 0.8645
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Traffic-Aware Randomized Smoothing (TA-RS) certifies robustness of LLM-based intrusion detection by injecting Gaussian noise only into attacker-controllable traffic features, achieving 55–100% certified accuracy on key datasets.",
+        "problem": "LLM-based network intrusion detection systems lack certified robustness guarantees aligned with the feasible attacker-controlled traffic feature subspace.",
+        "method": "TA-RS injects Gaussian noise exclusively into the directly controllable (DC) feature subspace during both fine-tuning and certification, aligning smoothing with the attacker’s feasible perturbation space.",
+        "evidence": "TA-RS achieves 55–100% certified accuracy on CIC-IDS-2018 and HIKARI-2021 at ε=0.05, with median certified radii exceeding the L∞ threshold by 1.8–5×, outperforming isotropic randomized smoothing baselines by up to 72 percentage points.",
+        "limitations": "TA-RS requires dataset-specific noise-augmented fine-tuning for noise stability; it fails under default recipes on challenging datasets like RT-IoT2022 without increased noise augmentation.",
+        "why_for_you": "TA-RS provides a principled, scalable certified defense framework for LLM-based IDS that aligns certification with realistic attacker capabilities, addressing robustness gaps in adversarial network security.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Noise-augmented fine-tuning is critical: clean-trained LLM-IDS yield weak certified accuracy (14–33%), while noise-augmented models recover 68–100% certified accuracy on CIC-IDS-2018 and HIKARI-2021 at σ=0.25."
+          },
+          {
+            "icon": "🛡️",
+            "text": "TA-RS injects Gaussian noise only into the DC subspace (features attacker can modify) during training and certification, avoiding perturbations on indirectly or uncontrollable features that cause high abstention rates (up to 68%) in isotropic smoothing."
+          },
+          {
+            "icon": "📉",
+            "text": "Certification radii from TA-RS exceed the L∞-equivalent threshold R∞ by 1.8–5×, demonstrating stronger robustness guarantees; residual advantages over isotropic RS baselines vary by dataset (4–19 pp), mainly due to training-certification distribution mismatch."
+          }
+        ],
+        "overview": "This work addresses the robustness of LLM-based network intrusion detection systems (IDS) against adversarial traffic manipulations constrained to attacker-controllable features. The authors formalize a taxonomy partitioning traffic features into directly controllable (DC), indirectly controllable (IC), and uncontrollable (UC) sets, focusing certification on the DC subspace. They propose Traffic-Aware Randomized Smoothing (TA-RS), which injects Gaussian noise exclusively into DC features during both fine-tuning and certification, aligning the smoothing distribution with the feasible attacker perturbation space. Empirical results on three benchmark datasets (CIC-IDS-2018, HIKARI-2021, RT-IoT2022) show that noise-augmented fine-tuning is essential to achieve noise stability and meaningful certified accuracy. TA-RS achieves 55–100% certified accuracy at an L∞-equivalent perturbation budget ε=0.05, with median certified radii exceeding the theoretical threshold by up to 5×. Compared to isotropic randomized smoothing baselines, TA-RS reduces abstention rates drastically and improves certified accuracy by up to 72 percentage points. The method is classifier-agnostic and scalable to billion-parameter LLMs, but requires dataset-specific fine-tuning and increased noise augmentation on challenging datasets. This framework provides a principled, scalable approach to certified robustness in traffic-domain LLM-IDS.",
+        "methodology": [
+          {
+            "title": "DC/IC/UC Feature Taxonomy",
+            "detail": "The authors categorize network traffic features into directly controllable (DC), indirectly controllable (IC), and uncontrollable (UC) sets based on attacker reachability, defining the certification subspace as the DC features that an attacker can realistically perturb."
+          },
+          {
+            "title": "Noise-Augmented Fine-Tuning",
+            "detail": "LLM-based IDS models are fine-tuned with Gaussian noise injected only into DC features to stabilize predictions under noise, enabling effective certification; this step is critical as clean-trained models yield near-random certified accuracy."
+          },
+          {
+            "title": "Traffic-Aware Randomized Smoothing (TA-RS)",
+            "detail": "TA-RS applies Gaussian noise exclusively to the DC subspace during certification, estimating class probabilities via Monte Carlo sampling and computing certified radii using a Neyman–Pearson-based bound adapted to the DC subspace."
+          },
+          {
+            "title": "Certification Algorithm (TA-Certify)",
+            "detail": "TA-Certify draws noise samples restricted to DC features, identifies the top predicted class, estimates a Clopper–Pearson lower confidence bound on its probability, and returns a certified radius or abstains if confidence is insufficient."
+          },
+          {
+            "title": "Evaluation Metrics and Protocol",
+            "detail": "Certified accuracy CA(r) is reported at radius r, penalizing incorrect predictions and abstentions; experiments use fixed train/test splits, protocol-derived feature clipping, and matched noise levels and sample counts for fair comparison with isotropic RS baselines."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Certified Robustness in DC Subspace",
+            "detail": "The certification guarantee restricts perturbations to the DC subspace, leveraging the injection of Gaussian noise only in this subspace. The Neyman–Pearson lemma applies in the reduced dimension, yielding a certified radius R = σΦ−1(pA) that bounds adversarial perturbations feasible to the attacker. This avoids wasted noise budget and high abstention caused by perturbing uncontrollable features."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Datasets and Setup",
+            "detail": "Experiments use three network-traffic datasets: CIC-IDS-2018 (4 classes, 25 features, 14 DC), HIKARI-2021 (3 classes, 82 features, 25 DC), and RT-IoT2022 (5 classes, 83 features, 27 DC). Fixed train/test splits and protocol-derived feature clipping are applied. Certification subsets contain 120–168 samples stratified by class."
+          },
+          {
+            "title": "Baseline Comparisons",
+            "detail": "TA-RS is compared against isotropic randomized smoothing baselines with matched noise levels and training recipes. Certified accuracy and abstention rates are measured at ε=0.05 L∞-equivalent budget, with Monte Carlo sample counts N0=20 and N=200."
+          },
+          {
+            "title": "Noise-Augmentation Ablation",
+            "detail": "Ablations show that noise-augmented fine-tuning is necessary to achieve meaningful certified accuracy; clean-trained LLM-IDS yield 14–33% certified accuracy, while noise-augmented models reach 68–100% on CIC-IDS-2018 and HIKARI-2021."
+          },
+          {
+            "title": "RT-IoT2022 Challenge",
+            "detail": "On the challenging RT-IoT2022 dataset, default fine-tuning fails (≤24% certified accuracy), but increasing noise augmentation recovers 76% (LLaMA3-8B) and 69% (Qwen3-8B) certified accuracy, highlighting noise stability as a key constraint."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Certified Accuracy Gains",
+            "detail": "TA-RS achieves 55–100% certified accuracy on CIC-IDS-2018 and HIKARI-2021 at ε=0.05, with median certified radii 1.8–5× larger than the L∞ threshold, demonstrating strong robustness aligned with attacker capabilities."
+          },
+          {
+            "title": "Abstention Reduction",
+            "detail": "TA-RS reduces abstention rates drastically compared to isotropic RS (from 68% to 8% on CIC-IDS-2018), by avoiding noise perturbations on uncontrollable features that cause prediction instability."
+          },
+          {
+            "title": "Training-Certification Match Importance",
+            "detail": "The main advantage of TA-RS over isotropic RS is due to matching noise injection during training and certification, rather than DC subspace selection alone, as isotropic test-time noise perturbs uncontrollable features causing high abstention."
+          },
+          {
+            "title": "Dataset-Dependent Residual Advantage",
+            "detail": "Against an iso-trained RS baseline, TA-RS shows a residual certified accuracy advantage of 4–19 percentage points on CIC-IDS-2018, indicating dataset-dependent benefits beyond training-certification alignment."
+          },
+          {
+            "title": "Noise Stability as Bottleneck",
+            "detail": "On RT-IoT2022, TA-RS fails under default fine-tuning but recovers with increased noise augmentation, confirming that noise stability of the base LLM is the binding constraint in challenging scenarios."
+          }
+        ],
+        "contributions": [
+          "Operationalization of the DC/IC/UC feature taxonomy as the certification subspace for LLM-based IDS.",
+          "Demonstration that noise-augmented fine-tuning is essential for noise stability and meaningful certified accuracy in LLM-IDS.",
+          "Development of Traffic-Aware Randomized Smoothing (TA-RS) that injects noise only into attacker-controllable features during training and certification.",
+          "Empirical validation of TA-RS achieving up to 100% certified accuracy with large certified radii on multiple benchmark datasets."
+        ],
+        "limitations": [
+          "TA-RS requires dataset-specific noise-augmented fine-tuning; pretrained LLM knowledge does not transfer without traffic-aware tuning.",
+          "The method fails on challenging datasets like RT-IoT2022 under default fine-tuning and needs increased noise augmentation to recover.",
+          "Certification sample counts are limited (N=200) due to LLM inference cost, resulting in conservative confidence bounds.",
+          "The approach assumes accurate identification of attacker-controllable features, which may be dataset-dependent and require domain expertise."
+        ],
+        "open_questions": [
+          "How to improve noise stability of LLM-based IDS models to reduce reliance on heavy noise augmentation?",
+          "Can TA-RS be extended to certify robustness under more complex or adaptive attacker models beyond DC subspace perturbations?",
+          "What are the trade-offs between certification tightness and computational cost for large-scale LLM-IDS?",
+          "How to generalize the DC/IC/UC taxonomy and certification framework to other network security tasks or heterogeneous traffic representations?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "robustness",
+          "fine-tuning",
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-16T11:53:57.047514+00:00"
+    },
+    {
       "id": "2607.11475",
       "title": "HyperSafe: Inference-Time Safety Recovery for Fine-Tuned Language Models",
       "abstract": "Safety alignment in large language models can be fragile under fine-tuning, as even benign task adaptation may increase harmful compliance. Existing defenses mainly follow two directions: they either intervene during or after fine-tuning through retraining or weight modification, which can be costly and may hurt task performance, or they use model-agnostic safety classifiers, which may miss failures specific to a given fine-tuned checkpoint. These limitations motivate a post hoc, model-specific, and non-invasive approach to safety restoration. To meet these requirements, we propose HyperSafe, a framework that restores safety behavior by generating a model-specific Safe Side Network (SSN) for each fine-tuned checkpoint. HyperSafe uses layer-wise activation fingerprints to capture how fine-tuning changes the model's inner representations. With a small set of given calibration prompts, the hypernetwork maps these fingerprints to the parameters of the \\ssn{} in a single forward pass. The generated \\ssn{} runs alongside the frozen fine-tuned model and performs prompt-level safety classification: harmful prompts are routed to refusal, while safe prompts are answered by the original fine-tuned model. Thus, HyperSafe requires no gradient updates, no safety data at deployment time, and no modification to the deployed model weights. We evaluate HyperSafe on two model families, Qwen2-7B and LLaMA-3-8B, across multiple safety benchmarks. HyperSafe reduces harmful response rates from 19-31% to below 1% on every held-out checkpoint, while keeping downstream task accuracy within 1% of the fine-tuned baseline on average. Code is available at https://github.com/nokronim/project-safety-remedy.",
@@ -784,200 +971,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-07-14T11:44:02.688717+00:00"
-    },
-    {
-      "id": "2607.06461",
-      "title": "WordVoice: Explicit and Decoupled Multi-Dimensional Word-Level Control for LLM-Based TTS",
-      "abstract": "While recent Large Language Model (LLM)-based Text-to-Speech (TTS) systems have achieved remarkable naturalness, they predominantly rely on implicit end-to-end generation paradigms, resulting in coarse-grained control. In scenarios demanding precise stylistic interventions and strict temporal alignment, such as audiobook narration and video dubbing, the inability to explicitly manipulate word-level acoustic attributes remains a critical bottleneck. This limitation is primarily amplified by the severe scarcity of fine-grained annotated datasets and the architectural challenge of integrating multi-dimensional control signals into discrete autoregressive generation. To address this, we propose a unified framework for highly precise word-level control. First, we construct WordVoice-5A, a massive 4.7k-hour bilingual dataset featuring five-dimensional word-level annotations (duration, boundary, energy, pitch and tone) developed through a rigorous linguistically-guided pipeline. Second, we introduce WordVoice to transform the implicit generation process into an explicit, highly controllable paradigm. Specifically, we introduce a bound-token mechanism within the LLM to formulate an explicit ``acoustic planning'' process, enabling adaptive multi-task prosodic planning and flexible manual intervention. Furthermore, we augment the token-to-waveform stage with a fine-grained acoustic modulation module, bridging the resolution gap to strictly align word-level attributes between highly compressed discrete tokens and continuous waveforms. Extensive experiments demonstrate that WordVoice achieves superior, decoupled control over multiple acoustic dimensions while maintaining competitive zero-shot synthesis stability. The code and audio samples are publicly available at https://xxh333.github.io/wordvoice-demo/.",
-      "authors": [
-        "Sihang Nie",
-        "Jinxin Ji",
-        "Xiaofen Xing",
-        "Deyi Tuo",
-        "Chengbin Jin",
-        "Jialong Mai",
-        "Xiangmin Xu"
-      ],
-      "published": "2026-07-07T16:22:59Z",
-      "updated": "2026-07-07T16:22:59Z",
-      "categories": [
-        "eess.AS",
-        "cs.CL",
-        "cs.SD"
-      ],
-      "primary_category": "eess.AS",
-      "abs_url": "https://arxiv.org/abs/2607.06461v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.06461v1",
-      "comment": "10 pages, 4 figures, 6 tables; Preprint",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4042,
-          "matched": [
-            "alignment",
-            "alignment",
-            "llm"
-          ]
-        },
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.0813,
-          "matched": [
-            "bound"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4968,
-        "relevance": 0.3396,
-        "quality": 0.71,
-        "novelty": 0.8989,
-        "freshness": 0.8835
-      },
-      "quality_signals": [
-        "code available",
-        "experiments",
-        "formal bound",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "WordVoice introduces explicit, multi-dimensional word-level control in LLM-based TTS, achieving precise prosodic manipulation and strict temporal alignment.",
-        "problem": "Current LLM-based TTS systems lack fine-grained, explicit control over multiple acoustic attributes at the word level, limiting applications requiring precise stylistic and temporal adjustments.",
-        "method": "WordVoice combines a large-scale, linguistically annotated dataset (WordVoice-5A) with an explicit bound-token acoustic planning mechanism in the LLM and a fine-grained acoustic modulation module in the token-to-waveform stage.",
-        "evidence": "Experiments on a 4.7k-hour bilingual test set show WordVoice outperforms baselines like CosyVoice3 in controllability (Ctrl-MOS) and naturalness (N-MOS), with objective metrics confirming superior multi-attribute alignment and temporal precision.",
-        "limitations": "Tone control remains partially entangled with other acoustic features due to its dynamic nature, and strong localized prosodic variations slightly reduce speaker similarity.",
-        "why_for_you": "This work provides a novel, data-driven framework and architectural design enabling explicit, decoupled multi-dimensional word-level control in LLM-based TTS, advancing trustworthy and precise prosodic synthesis.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "WordVoice-5A is a 4.7k-hour bilingual dataset with five-dimensional word-level annotations (duration, boundary, energy, pitch, tone), enabling supervised training for explicit multi-attribute control."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The bound-token mechanism restructures the LLM’s autoregressive generation to explicitly plan acoustic attributes before speech token generation, allowing adaptive multi-task prosodic planning and manual intervention."
-          },
-          {
-            "icon": "📉",
-            "text": "Objective evaluations show WordVoice reduces duration mean absolute error (Dur-MAE) and boundary error rate (Bnd-ER) compared to MagicTTS, demonstrating improved temporal alignment precision."
-          }
-        ],
-        "overview": "This paper addresses the critical limitation of coarse-grained control in current LLM-based TTS systems by proposing WordVoice, a framework enabling explicit, multi-dimensional word-level control. The authors first construct WordVoice-5A, a large-scale bilingual dataset with detailed word-level acoustic annotations across five dimensions. Leveraging this data, WordVoice introduces a novel bound-token mechanism within the LLM to explicitly plan acoustic attributes in an autoregressive manner, enabling both autonomous prosodic generation and manual attribute specification. To bridge the resolution gap between discrete tokens and continuous waveforms, a fine-grained acoustic modulation module is integrated into the token-to-waveform stage. Extensive experiments on unseen Chinese and English utterances demonstrate that WordVoice achieves superior controllability and naturalness compared to strong baselines, validated by subjective MOS tests and objective acoustic metrics. Ablation studies confirm the decoupling of acoustic attributes and the necessity of the modulation module for detailed acoustic reconstruction. The work significantly advances precise prosodic control in TTS, crucial for applications like audiobook narration and video dubbing requiring strict temporal and stylistic fidelity.",
-        "methodology": [
-          {
-            "title": "WordVoice-5A Dataset Construction",
-            "detail": "A linguistically-guided annotation pipeline produces a 4.7k-hour bilingual dataset with five word-level acoustic attributes: duration, boundary, energy, pitch, and tone. This dataset supports supervised training for explicit multi-dimensional control."
-          },
-          {
-            "title": "Bound-Token Acoustic Planning Mechanism",
-            "detail": "Within the autoregressive LLM, special bound-tokens explicitly represent acoustic attributes, enabling the model to plan prosody before generating speech tokens. This restructures generation from implicit to explicit, allowing adaptive multi-task control and manual intervention."
-          },
-          {
-            "title": "Fine-Grained Acoustic Modulation Module",
-            "detail": "Inserted in the token-to-waveform stage, this module compensates for acoustic details lost during discrete token quantization by modulating continuous waveforms with word-level style tokens, ensuring strict alignment of acoustic attributes."
-          },
-          {
-            "title": "Training Objectives",
-            "detail": "The LLM is trained to predict acoustic attributes and speech tokens autoregressively, while the modulation module uses a Flow Matching objective to reconstruct acoustic details, with random masking of speech tokens to enforce reliance on style conditions."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Acoustic Planning via Bound-Tokens",
-            "detail": "The bound-token mechanism explicitly encodes word-level acoustic attributes within the LLM’s autoregressive generation, enabling causal reasoning about prosodic execution prior to speech token generation. This explicit planning contrasts with implicit end-to-end generation, facilitating decoupled multi-dimensional control."
-          },
-          {
-            "title": "No Additional Mechanistic Equations Provided",
-            "detail": "The paper does not provide explicit equations or causal models beyond the description of the bound-token mechanism and Flow Matching loss."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Subjective Evaluation on WordVoice-5A Test Set",
-            "detail": "Crowd-sourced listening tests with 20 participants rated 80 utterances per model on naturalness (N-MOS), speaker similarity (Spk-MOS), and word style control (Ctrl-MOS). WordVoice-Control achieved statistically significant improvements in controllability and naturalness over CosyVoice3."
-          },
-          {
-            "title": "Objective Acoustic Attribute Evaluation",
-            "detail": "Metrics such as Word Error Rate (WER), Duration Mean Absolute Error (Dur-MAE), Energy MAE, Pitch MAE, Boundary Error Rate (Bnd-ER), and Tone Relative Error Rate (Ton-RER) were computed on Chinese and English test sets, showing WordVoice variants outperform baselines and ablations."
-          },
-          {
-            "title": "Temporal Control Precision Comparison",
-            "detail": "WordVoice demonstrated lower Dur-MAE and Bnd-ER than MagicTTS variants on both Chinese and English test sets, confirming superior explicit temporal alignment."
-          },
-          {
-            "title": "Ablation Studies on Attribute Decoupling and Modulation Module",
-            "detail": "Single-attribute control experiments confirmed decoupling of duration, boundary, energy, and pitch, with tone showing partial entanglement. Removing the modulation module degraded energy and pitch reconstruction, validating its role in acoustic detail compensation."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Superior Multi-Dimensional Control",
-            "detail": "WordVoice achieves explicit, decoupled control over duration, boundary, energy, pitch, and tone at the word level, outperforming prior methods limited to unidimensional or implicit control."
-          },
-          {
-            "title": "Improved Naturalness and Controllability",
-            "detail": "WordVoice-Control variant significantly improves naturalness (N-MOS) and word-level style control (Ctrl-MOS) over CosyVoice3, with p<0.05 and p<0.01 respectively, demonstrating effective prosodic planning."
-          },
-          {
-            "title": "Tradeoff in Speaker Similarity",
-            "detail": "Localized prosodic variations introduced by WordVoice cause minor reductions in speaker similarity (Spk-MOS), reflecting a tradeoff between expressiveness and timbre consistency."
-          },
-          {
-            "title": "Temporal Alignment Precision",
-            "detail": "WordVoice reduces duration MAE and boundary error rates compared to MagicTTS, confirming more precise explicit temporal control."
-          },
-          {
-            "title": "Necessity of Acoustic Modulation Module",
-            "detail": "Ablations show that removing the WordVoice-FM module significantly degrades energy and pitch reconstruction, confirming its critical role in restoring acoustic details lost in token quantization."
-          }
-        ],
-        "contributions": [
-          "Construction and open-sourcing of WordVoice-5A, a large-scale bilingual dataset with five-dimensional word-level acoustic annotations.",
-          "Introduction of the bound-token mechanism enabling explicit acoustic planning within an autoregressive LLM for multi-dimensional prosodic control.",
-          "Development of a fine-grained acoustic modulation module bridging discrete token representations and continuous waveform synthesis.",
-          "Comprehensive evaluation demonstrating superior word-level control, naturalness, and temporal alignment over state-of-the-art baselines."
-        ],
-        "limitations": [
-          "Tone attribute control is only partially decoupled due to its dynamic variation nature, complicating absolute disentanglement from other acoustic features.",
-          "Strong localized prosodic manipulations slightly reduce speaker similarity, indicating a tradeoff between expressiveness and timbre consistency.",
-          "The approach relies on a large-scale annotated dataset, which may limit applicability in low-resource languages or domains without such data.",
-          "No explicit mechanistic or theoretical modeling beyond architectural design and loss functions is provided."
-        ],
-        "open_questions": [
-          "How can tone control be further disentangled from other acoustic attributes to achieve fully independent manipulation?",
-          "Can the WordVoice framework be adapted or extended to low-resource languages lacking large-scale annotated datasets?",
-          "What are the impacts of explicit multi-dimensional control on downstream tasks such as emotion recognition or speaker adaptation?",
-          "How does the tradeoff between localized prosodic expressiveness and speaker similarity affect user acceptance in real-world applications?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment",
-          "alignment",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-08T11:57:23.024570+00:00"
     },
     {
       "id": "2607.12831",
@@ -1684,165 +1677,6 @@
       "recommended_at": "2026-07-14T11:44:02.688717+00:00"
     },
     {
-      "id": "2607.06327",
-      "title": "Estimating Uncertainty from Reasoning: A Large-Scale Study of Multi- and Crosslingual MCQA Performance in LLMs",
-      "abstract": "Uncertainty estimation (UE) enables LLM-powered systems to recognize when to abstain, yet existing research has predominantly focused on English. We present the first large-scale evaluation of UE methods across 22 languages, spanning high-, mid-, and low-resource settings. Using two human-curated Q\\&A datasets, we compare open and closed box UE methods (nine in total) across different model sizes and architectures while eliciting long-form reasoning, avoiding LLM-as-a-judge and embedding-based scoring, which can introduce evaluation noise. We report three main actionable findings. First, we find that prompting models to reason in English while keeping questions in low-resource languages substantially improves UE performance, suggesting that comprehension of low-resource languages is largely intact, and that the reliability bottleneck lies in generation rather than understanding. Second, prompting models to reason in English closes the UE performance gap between low and high-resource languages, demonstrating that generation language matters more than the question language. Third, the choice of UE method should depend on model scale: at smaller scales, open-box probability-based methods outperform alternatives; at larger scales, closed-box self-verbalized uncertainty becomes superior. Finally, we provide an analysis of threshold selection for selective prediction, offering guidance on calibrating abstention in multilingual settings.",
-      "authors": [
-        "Andrea Alfarano",
-        "Andrea Bacciu",
-        "Saab Mansour",
-        "Amin Mantrach",
-        "Marcello Federico"
-      ],
-      "published": "2026-07-07T14:25:09Z",
-      "updated": "2026-07-07T14:25:09Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.06327v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.06327v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "llm",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4613,
-          "matched": [
-            "llm-as-a-judge",
-            "uncertainty",
-            "reliability",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4605,
-        "relevance": 0.369,
-        "quality": 0.45,
-        "novelty": 0.8703,
-        "freshness": 0.8718
-      },
-      "quality_signals": [
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "The study reveals that reasoning in English significantly enhances uncertainty estimation (UE) performance across multiple languages.",
-        "problem": "Existing research on uncertainty estimation has primarily focused on English, neglecting multilingual contexts.",
-        "method": "The authors evaluate nine UE methods across 22 languages using two human-curated Q&A datasets.",
-        "evidence": "Prompting models to reason in English while using low-resource languages improves UE performance, closing the gap between resource levels.",
-        "limitations": "The study is limited to two MCQA datasets, which may not fully capture the diversity of real-world NLP applications.",
-        "why_for_you": "This research is crucial for developing trustworthy LLMs capable of effective multilingual uncertainty estimation.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Prompting models to reason in English while using low-resource languages significantly improves UE performance, indicating that comprehension is intact but generation is the bottleneck."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The study evaluates nine UE methods, including open-box methods like Token Entropy and closed-box methods like Self Verbalized uncertainty, across various model sizes."
-          },
-          {
-            "icon": "📉",
-            "text": "The closed-box Self Verbalized method achieves an average AUROC of 0.72, outperforming other methods, particularly in high-resource languages."
-          }
-        ],
-        "overview": "This research addresses the gap in uncertainty estimation (UE) methods for multilingual large language models (LLMs), focusing on the performance of nine UE methods across 22 languages. The study finds that reasoning in English while using low-resource languages enhances UE performance, suggesting that generation language is more critical than question language. The results indicate that the choice of UE method should be model-scale dependent, with open-box methods performing better at smaller scales and closed-box methods excelling at larger scales. This comprehensive evaluation provides actionable insights for improving multilingual LLM reliability.",
-        "methodology": [
-          {
-            "title": "Open-Box Methods",
-            "detail": "These methods utilize internal model representations to derive uncertainty, including Token Entropy and Maximum-Sequence-Probability, which aggregate token-level logits into sequence-level scores."
-          },
-          {
-            "title": "Closed-Box Methods",
-            "detail": "Closed-box techniques, such as Self Verbalized uncertainty, rely solely on generated text, prompting the model to express its confidence, although they may struggle with calibration."
-          },
-          {
-            "title": "Evaluation Protocol",
-            "detail": "The study employs exact matching against human-curated labels for evaluation, avoiding automated ground truth matching to reduce noise and bias in UE performance assessment."
-          },
-          {
-            "title": "Data Sources",
-            "detail": "Two human-curated Q&A datasets are used, covering high-, mid-, and low-resource languages, ensuring a diverse representation of linguistic contexts."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Uncertainty Estimation Mechanism",
-            "detail": "The study does not provide a specific mechanism for how uncertainty is estimated but categorizes methods into open-box and closed-box approaches based on model access."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Evaluation of UE Methods",
-            "detail": "Nine UE methods are evaluated across 22 languages using two models, Gemma327B and Qwen3-235B, with performance measured by AUROC."
-          },
-          {
-            "title": "Impact of Reasoning Language",
-            "detail": "The experiments demonstrate that reasoning in English while using low-resource languages significantly improves UE performance, with the Self Verbalized method achieving an AUROC of 0.72."
-          },
-          {
-            "title": "Model Scaling Effects",
-            "detail": "The study analyzes how UE performance varies with model scale, showing that open-box methods outperform at smaller scales while closed-box methods excel at larger scales."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Improved UE with English Reasoning",
-            "detail": "Prompting models to reason in English while using low-resource languages improves UE performance, indicating a generation bottleneck."
-          },
-          {
-            "title": "Language Generation Matters",
-            "detail": "The performance gap in UE between low and high-resource languages is closed when models reason in English, highlighting the importance of generation language."
-          },
-          {
-            "title": "Model Scale Dependency",
-            "detail": "At smaller model scales, open-box methods like Token Entropy outperform closed-box methods, while at larger scales, closed-box methods like Self Verbalized uncertainty become superior."
-          }
-        ],
-        "contributions": [
-          "First large-scale evaluation of UE methods across 22 languages.",
-          "Identification of the importance of reasoning language over question language in UE performance.",
-          "Guidance on selecting UE methods based on model scale."
-        ],
-        "limitations": [
-          "Focus on only two MCQA datasets may not represent the full diversity of NLP applications.",
-          "Exclusion of training-based UE methods limits the scope of the analysis."
-        ],
-        "open_questions": [
-          "How can UE methods be further improved for low-resource languages?",
-          "What are the implications of different UE methods in real-world applications?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4o-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "llm-as-a-judge",
-          "uncertainty",
-          "reliability",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-08T11:57:23.024570+00:00"
-    },
-    {
       "id": "2607.11883",
       "title": "Requential Coding: Pushing the Limits of Model Compression with Self-Generated Training Data",
       "abstract": "Compression is fundamental to intelligence. A model that can represent its training data as a short code has discovered regularities that enable generalization. Large neural networks may learn functions far simpler than their parameter counts suggest, but it is challenging to construct codes that realize this simplicity. Parameter-based methods such as quantization produce code lengths that scale with model size, insensitive to how much information the parameters store. Prequential coding bypasses this issue by compressing the training trajectory, but codes the exact data sequence regardless of how much the model learns, yielding large codes when the data has high entropy. We introduce requential coding, where a teacher model selects training samples drawn from the student's own distribution. The student's code records only these selections, which cost bits only where teacher and student disagree. The resulting code length is independent of parameter count and data entropy, and often orders of magnitude shorter than the prequential counterpart, with an advantage that grows with scale. This compression sheds light on phenomena inaccessible to prior compressors. Holding loss fixed, larger models and ensembles compress to much smaller sizes despite more parameters. Plugged into a PAC-Bayes bound, the requential code yields state-of-the-art generalization guarantees for billion-parameter LLMs, outperforming bounds built on aggressive post-training quantization even granted zero error. The bound tightens with scale in the compute-optimal regime, as models become increasingly compressible relative to dataset size. The same code predicts that models gradually overfit when trained for multiple epochs. It also isolates the learnable information in a dataset from its unpredictable, random content, revealing that lower-entropy text holds far more learnable structure than higher-entropy image data.",
@@ -2032,6 +1866,178 @@
         "lane": "llm"
       },
       "recommended_at": "2026-07-14T11:44:02.688717+00:00"
+    },
+    {
+      "id": "2607.13918",
+      "title": "Partially Correlated Verifier Cascades in LLM Harnesses: Concave Log-Odds, Polynomial Reliability, and Blind-Spot Ceilings",
+      "abstract": "Serial verification gates are a core reliability primitive in LLM harnesses: a candidate answer is returned only if $k$ verifier calls all accept it. Under conditionally independent gates, the recent Odds Law (arXiv:2606.15712) shows that posterior log-odds grow linearly in $k$, so failure decays exponentially, and states that \"a tight theory of partially correlated verifier cascades remains open.\" This note gives a minimal such theory. Modeling the per-instance false-accept rate on the generator's own errors as a latent variable $α\\sim G$ (de Finetti), the exact cascade posterior is $\\ell_k = \\ell_0 - \\ln m_k$, with $m_k$ the $k$-th moment of $G$. Then: (i) $\\ell_k$ is concave in $k$ for every non-degenerate $G$ -- the Odds Law is its tangent at the first gate and an upper bound; (ii) for Beta$(a,b)$ latents, failure decays polynomially, $1-r_k \\asymp k^{-b}$, with correlation parameter $ρ_v = 1/(a+b+1)$; (iii) a blind-spot atom of mass $1-π$ at $α=1$ caps the evidence extractable from any number of gates at $-\\ln(1-π)$ nats, so reliability saturates below 1; (iv) letting the true-accept rate also vary ($β\\sim H$) yields a trichotomy -- gates eventually always help, plateau, or actively harm -- decided by the upper-tail exponents of $G$ and $H$, with closed-form crossover $k^\\dagger$. The mechanism is survivorship: errors surviving gates are the high-$α$ ones. The theory is measurable: $R$ repeated verdicts per instance identify the first $R$ moments of $G$, so two verdicts identify $ρ_v$; beta-binomial likelihood and NPMLE recover the reliability curve and the ill-posed ceiling. In synthetic tests, independence-based extrapolation underestimates failure by 20x at $k=5$ and ~3000x at $k=10$; the correlated fit at $R=8$ tracks held-out depths. The practical lever is decorrelation -- changing model family, modality, or evidence source -- not adding gates.",
+      "authors": [
+        "Jiangang Han"
+      ],
+      "published": "2026-07-15T14:58:37Z",
+      "updated": "2026-07-15T14:58:37Z",
+      "categories": [
+        "math.ST",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "primary_category": "math.ST",
+      "abs_url": "https://arxiv.org/abs/2607.13918v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.13918v1",
+      "comment": "14 pages, 2 figures. Code and synthetic-recovery experiments: https://github.com/jianganghan/harness-verifier-cascades",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3895,
+          "matched": [
+            "reliability",
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.2041,
+          "matched": [
+            "bound",
+            "theory"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4541,
+        "relevance": 0.3524,
+        "quality": 0.47,
+        "novelty": 0.8726,
+        "freshness": 0.8755
+      },
+      "quality_signals": [
+        "formal bound",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Partially correlated verifier cascades in LLM harnesses exhibit concave log-odds growth, polynomial reliability decay, and blind-spot ceilings that limit reliability gains from adding more gates.",
+        "problem": "Existing theory assumes conditionally independent verifier gates, but real LLM verifiers share correlated blind spots with generators, invalidating exponential reliability improvements.",
+        "method": "Model per-instance false-accept rates as a latent variable α ∼ G, derive exact cascade posterior log-odds as ℓ_k = ℓ_0 − ln m_k with m_k the k-th moment of G, and analyze reliability scaling and ceilings under correlation.",
+        "evidence": "Synthetic experiments show independence-based extrapolation underestimates failure by 20× at k=5 and ~3000× at k=10, while the correlated latent-α theory fitted at R=8 verdicts accurately tracks held-out depths.",
+        "limitations": "The theory uses a scalar latent exchangeable variable compressing all inter-gate correlations, assumes all-accept semantics, relies on Beta distributions for closed forms, and is validated only on synthetic data.",
+        "why_for_you": "This work provides a measurable, minimal statistical theory quantifying verifier correlation effects on LLM harness reliability, crucial for trustworthy LLM deployment and statistical understanding of verification cascades.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "The cascade posterior log-odds ℓ_k = ℓ_0 − ln m_k is concave in k for every non-degenerate latent distribution G, with the Odds Law as a tangent and upper bound, revealing diminishing returns from adding gates under correlation."
+          },
+          {
+            "icon": "🛡️",
+            "text": "Modeling the latent false-accept rate α as Beta(a,b) yields polynomial failure decay 1 − r_k ~ k^−b governed by a single correlation parameter ρ_v = 1/(a+b+1), interpolating from independence to pure blind-spot extremes."
+          },
+          {
+            "icon": "📉",
+            "text": "A blind-spot atom of mass 1−π at α=1 caps extractable evidence at −ln(1−π) nats, causing reliability saturation strictly below 1 regardless of gate count, demonstrating fundamental limits of verifier cascades."
+          }
+        ],
+        "overview": "This paper addresses the open problem of modeling partially correlated verifier cascades in LLM harnesses, where multiple verifier gates sequentially accept candidate answers only if all accept. Prior work assumed conditional independence of gate errors, yielding exponential reliability improvements (Odds Law). However, real verifiers share blind spots with generators, causing correlated errors and invalidating independence assumptions. The authors model the per-instance false-accept rate α as a latent variable drawn from a distribution G, deriving the exact cascade posterior log-odds as ℓ_k = ℓ_0 − ln m_k, where m_k is the k-th moment of G. This formulation reveals concavity in log-odds growth, polynomial rather than exponential failure decay for Beta-distributed latents, and a blind-spot ceiling limiting reliability gains. Introducing variability in true-accept rates β leads to a trichotomy where gates can help, plateau, or harm reliability, with closed-form crossover points. The theory is measurable via repeated verdicts per instance, enabling estimation of correlation parameters and reliability curves. Synthetic experiments validate the theory, showing independence-based extrapolation drastically underestimates failure rates, while the correlated model accurately predicts reliability scaling. The practical implication is that decorrelation strategies, not merely adding gates, improve harness reliability.",
+        "methodology": [
+          {
+            "title": "Latent Variable Modeling of False-Accept Rates",
+            "detail": "The per-instance false-accept rate α of verifier gates on generator errors is modeled as a latent variable drawn from a distribution G, leveraging de Finetti's theorem to assume exchangeability across gates. This latent captures correlation structure among gate errors."
+          },
+          {
+            "title": "Exact Cascade Posterior via Moments",
+            "detail": "The cascade posterior log-odds after k gates is expressed exactly as ℓ_k = ℓ_0 − ln m_k, where m_k = E[α^k] is the k-th moment of G. This moment-based formulation enables analytic characterization of reliability scaling and concavity."
+          },
+          {
+            "title": "Beta Distribution Family and Correlation Parameter",
+            "detail": "Choosing G as a Beta(a,b) distribution yields closed-form asymptotics where failure probability decays polynomially as k^−b. The correlation parameter ρ_v = 1/(a+b+1) quantifies within-instance correlation of verdicts, interpolating between independence and full correlation."
+          },
+          {
+            "title": "Blind-Spot Atom and Reliability Ceiling",
+            "detail": "Incorporating an atom of mass 1−π at α=1 models errors that verifiers never catch, imposing a ceiling on extractable evidence at −ln(1−π) nats and capping reliability strictly below 1 regardless of gate count."
+          },
+          {
+            "title": "Measurement Protocol via Repeated Verdicts",
+            "detail": "Repeated verifier calls per instance (R verdicts) identify the first R moments of G, enabling estimation of correlation parameters such as ρ_v from two verdicts. Beta-binomial likelihood and nonparametric maximum likelihood estimation (NPMLE) recover the full reliability curve and ceiling."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Survivorship Effect in Verification Cascades",
+            "detail": "Errors surviving j gates are exactly those with high latent false-accept rates α, causing later gates to face a selected subset of hard-to-detect errors. This survivorship mechanism induces concavity in log-odds growth, polynomial reliability decay, and blind-spot ceilings, distinguishing verification cascades from voting analogues."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Synthetic Recovery and Validation",
+            "detail": "Synthetic experiments simulate verifier cascades with known latent distributions and correlation parameters. Estimators based on repeated verdicts accurately recover the latent moments and correlation ρ_v. The correlated latent-α theory fitted at R=8 verdicts tracks held-out depths, while independence-based extrapolation underestimates failure by factors of 20× at k=5 and ~3000× at k=10."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Concavity of Log-Odds Growth",
+            "detail": "The exact cascade posterior log-odds ℓ_k is concave in k for every non-degenerate latent distribution G, with the Odds Law as a tangent at k=1 and an upper bound elsewhere, demonstrating diminishing returns from adding gates under correlation."
+          },
+          {
+            "title": "Polynomial Reliability Decay",
+            "detail": "For Beta-distributed latents G=Beta(a,b), failure probability decays polynomially as 1−r_k ~ k^−b, governed by the correlation parameter ρ_v=1/(a+b+1), contrasting with exponential decay under independence."
+          },
+          {
+            "title": "Blind-Spot Ceiling on Reliability",
+            "detail": "An atom of mass 1−π at α=1 imposes a ceiling on extractable evidence at −ln(1−π) nats, causing reliability to saturate strictly below 1 regardless of the number of gates."
+          },
+          {
+            "title": "Trichotomy with Variable True-Accept Rates",
+            "detail": "Allowing true-accept rates β to vary across instances yields a trichotomy where gates eventually help, plateau, or harm reliability, determined by the relative upper-tail exponents of G and H, with a closed-form crossover gate count k^†."
+          },
+          {
+            "title": "Measurement Feasibility",
+            "detail": "Repeated verdicts per instance enable identification of latent moments and correlation parameters, making the theory empirically testable and applicable to real generator-verifier pairs."
+          }
+        ],
+        "contributions": [
+          "Derivation of exact cascade posterior log-odds formula ℓ_k = ℓ_0 − ln m_k under latent false-accept rate modeling.",
+          "Proof of concavity of log-odds growth and polynomial reliability decay for Beta-distributed latents with explicit correlation parameter ρ_v.",
+          "Identification of blind-spot atom inducing a reliability ceiling strictly below 1.",
+          "Characterization of a trichotomy in gating effects when true-accept rates vary, with closed-form crossover gate count.",
+          "Development of a measurement protocol using repeated verdicts to estimate latent moments and correlation parameters.",
+          "Synthetic validation demonstrating severe underestimation of failure by independence assumptions and accurate tracking by the correlated theory."
+        ],
+        "limitations": [
+          "The scalar latent variable assumption compresses all inter-gate correlation into a single exchangeable parameter, ignoring heterogeneous verifier families.",
+          "The theory assumes all-accept semantics, which may not hold under generate-verify-retry workflows where false rejections affect throughput rather than precision.",
+          "Closed-form results rely on Beta distribution assumptions; real latent distributions may differ though asymptotics require only regularly varying tails.",
+          "Validation is limited to synthetic recovery experiments; empirical measurement on real generator-verifier pairs is ongoing."
+        ],
+        "open_questions": [
+          "How to extend the latent variable model to vector latents capturing heterogeneous verifier families and gate-specific systematic differences?",
+          "What are the quantitative effects of generate-verify-retry semantics on reliability scaling and how to model false rejections in this context?",
+          "How well does the theory generalize to real-world generator-verifier pairs beyond synthetic validation, and what are practical protocols for measurement?",
+          "Can decorrelation strategies be systematically designed and quantified to overcome blind-spot ceilings in LLM harnesses?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "reliability",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-16T11:53:57.047514+00:00"
     },
     {
       "id": "2607.12963",
