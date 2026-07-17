@@ -1,6 +1,1062 @@
 {
-  "generated_at": "2026-07-16T11:53:57.047514+00:00",
+  "generated_at": "2026-07-17T11:40:30.308849+00:00",
   "papers": [
+    {
+      "id": "2607.15081",
+      "title": "DataShield: Uncovering Risky Fine-Tuning Data Across LLMs Through Consensus Subspace Alignment",
+      "abstract": "Fine-tuning large language models (LLMs) on domain-specific datasets has become a standard paradigm for adapting LLMs to specialized applications. However, recent work has shown that even fine-tuning on benign task-specific data can substantially weaken the safety capabilities of LLMs. While existing efforts have made progress in identifying data responsible for safety degradation, they usually rely on a single mean vector computed over a specific model with its tokenizer to represent the safety direction, which limits both the effectiveness and transferability of their risk assessment measures. To address these limitations, we propose DataShield, a data assessment framework that identifies risky fine-tuning samples and response segments through consensus subspace alignment over joint safety-critical semantic spaces derived from multiple safety-aligned LLMs. Within these spaces, DataShield extracts consensus safe and unsafe subspaces using semantic spectral decomposition over safe and unsafe data representations. The risk of a data sample or segment is then estimated by measuring its relative alignment with the unsafe and safe subspaces, enabling both sample-level filtering and fine-grained segment-level masking. Compared with state-of-the-art filtering and masking baselines, DataShield reduces ASR by 14.6\\% with sample filtering and 32.3\\% with segment masking, while preserving downstream utility and avoiding target-model-specific risk computation.",
+      "authors": [
+        "Zefeng Wu",
+        "Weiwei Qi",
+        "Jielong Chen",
+        "Tianhang Zheng",
+        "Di Hong",
+        "Chaochao Lu",
+        "Liang He",
+        "Zhan Qin",
+        "Kui Ren"
+      ],
+      "published": "2026-07-16T14:51:42Z",
+      "updated": "2026-07-16T14:51:42Z",
+      "categories": [
+        "cs.CR"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2607.15081v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.15081v1",
+      "comment": "24 pages, 12 figures, 19 tables",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.6071,
+          "matched": [
+            "alignment",
+            "alignment",
+            "safety"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5489,
+        "relevance": 0.4857,
+        "quality": 0.52,
+        "novelty": 0.8536,
+        "freshness": 0.8761
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "DataShield improves LLM fine-tuning safety by identifying risky data samples and segments through consensus subspace alignment across multiple safety-aligned models, outperforming prior methods in reducing attack success rates while preserving utility.",
+        "problem": "Fine-tuning LLMs on domain-specific data can degrade their safety capabilities, and existing data filtering methods lack transferability and granularity due to reliance on single-model mean vectors and tokenizer-dependent token-level risk estimation.",
+        "method": "DataShield constructs consensus safe and unsafe subspaces via semantic spectral decomposition over safety-critical representations from multiple LLMs, estimating risk by measuring alignment with these subspaces to enable sample-level filtering and segment-level masking.",
+        "evidence": "Experiments show DataShield reduces attack success rate (ASR) by 14.6% with sample filtering and 32.3% with segment masking compared to state-of-the-art baselines, while maintaining downstream task utility and avoiding target-model-specific risk computations.",
+        "limitations": "The paper does not provide explicit limitations or failure cases of DataShield, nor detailed analysis on computational overhead or performance on diverse downstream tasks beyond safety metrics.",
+        "why_for_you": "DataShield offers a transferable, model-agnostic approach to mitigate safety degradation during LLM fine-tuning, addressing key challenges in trustworthy LLM deployment by enabling reusable risk assessment across architectures and tokenizers.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "DataShield leverages semantic spectral decomposition to extract consensus safe and unsafe subspaces from multiple safety-aligned LLMs, capturing diverse safety-related directions beyond single mean vector representations."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The framework applies two intervention modes: DataShield-Sp for sample-level filtering by removing the top-risk samples, and DataShield-Sm for segment-level masking by masking high-risk response segments identified via tokenizer-independent segmentation."
+          },
+          {
+            "icon": "📉",
+            "text": "Compared to state-of-the-art baselines, DataShield achieves a 14.6% reduction in attack success rate with sample filtering and a 32.3% reduction with segment masking, demonstrating improved safety preservation without sacrificing downstream utility."
+          }
+        ],
+        "overview": "DataShield addresses the challenge of safety degradation in fine-tuned LLMs by proposing a data-centric risk assessment framework that overcomes limitations of prior methods relying on single-model, mean-vector-based risk estimates and tokenizer-dependent token-level masking. It constructs joint safety-critical semantic spaces by aggregating representations from multiple safety-aligned LLMs with diverse architectures. Through semantic spectral decomposition, DataShield extracts consensus safe and unsafe subspaces that capture richer safety semantics. Risk scores for fine-tuning samples and response segments are computed by measuring their alignment with these subspaces, enabling both sample-level filtering and fine-grained segment-level masking. This approach is model-agnostic and reusable across different target models and tokenizers. Empirical results demonstrate that DataShield significantly reduces harmful behavior compliance rates compared to existing filtering and masking baselines, while preserving downstream task performance. This establishes DataShield as an effective and transferable solution for mitigating safety risks in LLM fine-tuning.",
+        "methodology": [
+          {
+            "title": "Construction of Consensus Safe and Unsafe Subspaces",
+            "detail": "DataShield uses multiple safety-aligned LLMs as source models to extract safety-critical hidden states from selected layers identified via an over-refusal probing dataset. Semantic spectral decomposition is applied to safe and unsafe data representations to derive consensus safe and unsafe subspaces capturing diverse safety-related directions."
+          },
+          {
+            "title": "Sample-Level Filtering (DataShield-Sp)",
+            "detail": "For each fine-tuning sample, DataShield computes a risk score by averaging alignment gaps between the sample's representation and the consensus safe and unsafe subspaces across all source models. The top fraction ρ of samples with highest risk scores are removed from the fine-tuning dataset."
+          },
+          {
+            "title": "Segment-Level Masking (DataShield-Sm)",
+            "detail": "Responses are split into tokenizer-independent raw-text segments using NLP tools. Each segment's risk is computed from autoregressive risk increments based on alignment with consensus subspaces. The top fraction ρ of high-risk segments are masked during fine-tuning to mitigate safety degradation."
+          },
+          {
+            "title": "Reusable Risk Estimation Across Models",
+            "detail": "Risk measurement relies solely on fixed source models and their consensus subspaces, enabling the filtered or masked datasets to be reused for fine-tuning different target LLMs without recomputing risk, thus improving transferability and reducing computational cost."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Consensus Subspace Alignment via Semantic Spectral Decomposition",
+            "detail": "DataShield aligns safety-critical semantic spaces from multiple LLMs by decomposing representations of safe and unsafe data into orthogonal subspaces. This spectral decomposition captures multiple safety-related directions rather than a single mean vector, enabling more robust and transferable risk estimation."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Evaluation of Sample Filtering and Segment Masking",
+            "detail": "Experiments conducted on multiple LLM architectures demonstrate that DataShield-Sp reduces attack success rate by 14.6% and DataShield-Sm by 32.3% compared to state-of-the-art baselines, while preserving downstream task utility measured on domain-specific datasets."
+          },
+          {
+            "title": "Ablation on Tokenizer-Independent Segmentation",
+            "detail": "DataShield uses NLP tools such as Jieba, NLTK, and spaCy to split responses into raw-text segments independent of model tokenizers, addressing tokenization mismatch issues and improving the transferability of segment-level masking across different LLMs."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Improved Safety Preservation",
+            "detail": "DataShield significantly lowers harmful behavior compliance rates in fine-tuned LLMs, achieving a 14.6% ASR reduction with sample filtering and 32.3% with segment masking compared to prior methods relying on single-model risk estimates."
+          },
+          {
+            "title": "Transferability Across Models and Tokenizers",
+            "detail": "By constructing consensus subspaces from multiple source models and using tokenizer-independent segmentation, DataShield's risk assessments and interventions generalize well across different target LLM architectures and tokenizers."
+          },
+          {
+            "title": "Preservation of Downstream Utility",
+            "detail": "Despite aggressive filtering and masking of risky data, DataShield maintains the utility of fine-tuned models on downstream tasks, avoiding the trade-off between safety and performance observed in some prior approaches."
+          }
+        ],
+        "contributions": [
+          "Proposed a novel consensus subspace alignment framework for safety risk estimation in fine-tuning data using multiple safety-aligned LLMs.",
+          "Developed semantic spectral decomposition to extract consensus safe and unsafe subspaces capturing diverse safety semantics.",
+          "Introduced sample-level filtering and tokenizer-independent segment-level masking interventions to mitigate safety degradation.",
+          "Demonstrated significant improvements in reducing harmful behavior compliance rates while preserving downstream utility.",
+          "Provided a reusable, model-agnostic risk assessment method that avoids target-model-specific computations."
+        ],
+        "limitations": [
+          "No explicit discussion of computational overhead or scalability of DataShield's spectral decomposition and multi-model alignment.",
+          "Lack of detailed analysis on performance across a wide range of downstream tasks beyond safety metrics.",
+          "No reported failure cases or limitations in handling certain types of risky data or model architectures.",
+          "Unclear how DataShield performs under adversarially crafted fine-tuning data or evolving safety definitions."
+        ],
+        "open_questions": [
+          "How does DataShield scale with increasing numbers and diversity of source models for consensus subspace construction?",
+          "Can the framework be extended to dynamically update consensus subspaces during continual fine-tuning or model updates?",
+          "What are the trade-offs between segment-level masking granularity and downstream task performance in different application domains?",
+          "How robust is DataShield against adversarial attempts to evade detection by manipulating fine-tuning data semantics?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment",
+          "alignment",
+          "safety"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-17T11:40:30.308849+00:00"
+    },
+    {
+      "id": "2607.15161",
+      "title": "On-Policy Delta Distillation",
+      "abstract": "On-policy distillation is an alternative post-training method in reinforcement learning that alleviates the constraints imposed by reward models by providing token-level supervision from a teacher model. Although on-policy distillation has been studied and applied across various settings, its fundamental design remains underexplored. In this paper, we introduce a new distillation reward, termed the delta signal, instead of directly imitating the teacher's output distribution. The delta signal is defined as the difference between the teacher model and its base model prior to instruction tuning for reasoning capability. It therefore captures the changes induced by reasoning tuning and provides a more direct signal for transferring reasoning capabilities. Using extensive empirical evidence, we show that the delta signal substantially improves on-policy distillation and refer to the new distillation method as On-Policy Delta Distillation (OPD$^2$). Experiments across mathematics, science, and code-reasoning benchmarks demonstrate that OPD$^2$ consistently outperforms conventional on-policy distillation, enabling reasoning LLMs to achieve strong performance with only a short post-training period. Code will be available at https://github.com/naver-ai/opd2",
+      "authors": [
+        "Byeongho Heo",
+        "Jaehui Hwang",
+        "Sangdoo Yun",
+        "Dongyoon Han"
+      ],
+      "published": "2026-07-16T16:07:19Z",
+      "updated": "2026-07-16T16:07:19Z",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2607.15161v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.15161v1",
+      "comment": "19 pages, 4 figures, 12 tables",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "llms",
+        "instruction tuning"
+      ],
+      "topics": [
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "watch",
+          "score": 0.4868,
+          "matched": [
+            "on-policy distillation",
+            "OPD",
+            "token-level",
+            "policy distillation",
+            "opd",
+            "distillation"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5424,
+        "relevance": 0.3894,
+        "quality": 0.84,
+        "novelty": 0.771,
+        "freshness": 0.8836
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "benchmark evaluation",
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "On-Policy Delta Distillation (OPD2), which uses the delta signal between a teacher and its base model, significantly improves reasoning capability transfer in on-policy distillation.",
+        "problem": "Conventional on-policy distillation uses the teacher's output distribution directly, which may not effectively capture the reasoning knowledge gained during instruction tuning.",
+        "method": "OPD2 defines a new distillation reward as the difference (delta signal) between the teacher model and its base model prior to reasoning tuning, focusing on the learning trajectory for reasoning capability.",
+        "evidence": "Extensive experiments on multiple benchmarks across Math, Science, and Code domains show OPD2 consistently outperforms both conventional OPD and advanced ExOPD methods across various model sizes.",
+        "limitations": "The paper does not address extensions of OPD signals beyond sampled tokens and does not provide detailed mechanism equations for the delta signal.",
+        "why_for_you": "OPD2 offers a novel, empirically validated approach to enhance on-policy distillation for reasoning LLMs, relevant for improving post-training methods in reinforcement learning.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "The delta signal, defined as the difference between the reasoning-tuned teacher and its base model, captures the knowledge gained during instruction tuning, providing a more direct supervision signal for reasoning capability transfer."
+          },
+          {
+            "icon": "🛡️",
+            "text": "OPD2 applies on-policy distillation by scoring student-generated tokens using the delta signal rather than the teacher's raw output probabilities, preserving the student's original knowledge while enhancing reasoning skills."
+          },
+          {
+            "icon": "📉",
+            "text": "Empirical results on Qwen3 and Gemma4 models across 14 benchmarks show OPD2 achieves substantial improvements over OPD and ExOPD, with gains in pass@1 metrics in Math, Science, and Code tasks, demonstrating the effectiveness of the delta signal."
+          }
+        ],
+        "overview": "This paper addresses the fundamental design of on-policy distillation (OPD) in reinforcement learning for large language models, focusing on improving the transfer of reasoning capabilities. Traditional OPD uses the teacher's output distribution as a reward signal, which may not isolate the reasoning knowledge acquired during instruction tuning. The authors propose On-Policy Delta Distillation (OPD2), which leverages the delta signal—the difference between the teacher model and its base model before reasoning tuning—as a more direct and informative reward. This approach captures the learning trajectory of reasoning tuning, enabling more effective knowledge transfer. Extensive experiments on multiple reasoning domains (Math, Science, Code) and benchmarks demonstrate that OPD2 consistently outperforms conventional OPD and the advanced ExOPD method across various model sizes and architectures. The results validate that the delta signal provides a richer supervision signal, leading to improved reasoning performance with a short post-training period. The paper contributes a novel distillation reward design and comprehensive empirical validation, positioning OPD2 as a significant advancement in on-policy distillation for reasoning LLMs.",
+        "methodology": [
+          {
+            "title": "Delta Signal Computation",
+            "detail": "Compute the delta signal as the difference between the teacher model's output distribution after reasoning tuning and its base model's output distribution prior to tuning. This delta captures the reasoning knowledge gained during instruction tuning."
+          },
+          {
+            "title": "On-Policy Distillation Training",
+            "detail": "Generate sequences using the student model and apply the delta signal as a reward to sampled tokens. Tokens aligned with positive delta values are reinforced, while those with negative values are suppressed, preserving the student's original knowledge."
+          },
+          {
+            "title": "Multi-Domain Dataset Construction",
+            "detail": "Construct a mixed training dataset by sampling questions from Math, Science, and Code reasoning domains to ensure broad applicability and robustness of the distillation method."
+          },
+          {
+            "title": "Evaluation Protocol",
+            "detail": "Evaluate models on 14 benchmarks spanning three domains using pass@1 metrics, comparing OPD2 against baseline OPD, ExOPD, and original models in both non-thinking and thinking generation modes."
+          },
+          {
+            "title": "Training Configuration",
+            "detail": "Train models for 100 optimization steps with AdamW optimizer, learning rate 5e-6, cosine decay, batch sizes 256-288, gradient clipping, and scaled rewards to stabilize training without KL regularization."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Delta Signal as Learning Trajectory",
+            "detail": "The delta signal represents the difference in output probabilities between the teacher model after reasoning tuning and its base model before tuning, effectively encoding the knowledge changes induced by instruction tuning. No explicit equations are provided, but the delta acts as a refined reward signal focusing on reasoning capability."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Model and Dataset Setup",
+            "detail": "Use Qwen3 (1.7B, 4B, 8B) and Gemma4-E4B as student models with corresponding larger teacher models from the same family. Train on a mixed dataset of Math, Science, and Code questions, evaluating on 14 benchmarks with pass@1 metric."
+          },
+          {
+            "title": "Baseline Comparisons",
+            "detail": "Compare OPD2 against conventional OPD and ExOPD, an advanced on-policy distillation method that amplifies extrapolation signals using teacher-base models, to assess relative performance improvements."
+          },
+          {
+            "title": "Generation Modes",
+            "detail": "Evaluate both non-thinking mode (no explicit reasoning traces) and thinking mode (with reasoning traces) for Qwen3 models, while Gemma4 is evaluated only in thinking mode to assess OPD2's effectiveness across generation styles."
+          },
+          {
+            "title": "Training and Hardware",
+            "detail": "Train models on NVIDIA H100 GPUs with multi-node setups for larger models, using 100 optimization steps and effective batch sizes of 256-288, ensuring reproducibility and scalability of OPD2 training."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Performance Gains Across Domains",
+            "detail": "OPD2 consistently outperforms OPD and ExOPD on Math, Science, and Code benchmarks, with improvements in pass@1 scores across all tested model sizes, demonstrating the delta signal's effectiveness in transferring reasoning knowledge."
+          },
+          {
+            "title": "Effectiveness in Non-Thinking Mode",
+            "detail": "In non-thinking mode, where reasoning is less explicit, OPD2 achieves substantial improvements over baselines, indicating its ability to enhance reasoning capabilities even without explicit reasoning traces."
+          },
+          {
+            "title": "Robustness Across Model Sizes",
+            "detail": "OPD2 shows consistent performance gains from smaller (1.7B) to larger (8B) Qwen3 models, suggesting scalability and general applicability of the delta signal approach."
+          },
+          {
+            "title": "Short Post-Training Period",
+            "detail": "OPD2 enables strong reasoning performance improvements with only 100 optimization steps, highlighting its efficiency as a post-training method."
+          }
+        ],
+        "contributions": [
+          "Introduction of the delta signal as a novel distillation reward capturing reasoning tuning knowledge.",
+          "Development of On-Policy Delta Distillation (OPD2) method leveraging the delta signal for improved reasoning capability transfer.",
+          "Comprehensive empirical evaluation across multiple reasoning domains, benchmarks, and model sizes demonstrating OPD2's superiority over OPD and ExOPD.",
+          "Demonstration that OPD2 achieves strong reasoning performance with a short post-training period, enhancing efficiency.",
+          "Provision of an open-source codebase for reproducibility and further research."
+        ],
+        "limitations": [
+          "The paper does not explore extending the delta signal beyond sampled tokens or alternative reward designs.",
+          "No explicit mathematical formulation or theoretical analysis of the delta signal mechanism is provided.",
+          "Evaluation is limited to specific model families (Qwen3 and Gemma4) and may not generalize to all LLM architectures.",
+          "The impact of OPD2 on generation diversity or other qualitative aspects beyond pass@1 metrics is not discussed."
+        ],
+        "open_questions": [
+          "How can the delta signal be extended or combined with other reward signals beyond sampled tokens for further performance gains?",
+          "What theoretical guarantees or formal analyses can be developed to explain why the delta signal effectively transfers reasoning knowledge?",
+          "Can OPD2 be generalized to other LLM architectures or domains beyond Math, Science, and Code reasoning?",
+          "How does OPD2 affect other aspects of model behavior such as generation diversity, robustness, or alignment with human preferences?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "On-policy distillation",
+        "matched": [
+          "on-policy distillation",
+          "OPD",
+          "token-level",
+          "policy distillation"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-17T11:40:30.308849+00:00"
+    },
+    {
+      "id": "2607.15095",
+      "title": "Digital Pantheon: Simulating and Auditing Coalition Formation with LLM Agents",
+      "abstract": "The formation of political coalitions is a complex negotiation driven by both concrete policy objectives and deep-seated ideological convictions. While Large Language Models (LLMs) open new avenues for computational political science, the neutrality and helpfulness biases instilled by Reinforcement Learning from Human Feedback (RLHF) prevent them from sustaining steadfast partisan behaviour. We present a multi-agent framework that reconciles factual grounding with ideological alignment by combining Supervised Fine-Tuning (SFT), Direct Preference Optimization (DPO), and Retrieval-Augmented Generation (RAG): DPO instils aggressive party-specific personas, while a per-party RAG pipeline keeps each agent bounded to its official manifesto. We operationalize the framework on the 2019 Flemish election, deploying the partisan agents in a hub-and-spoke negotiation arbitrated by a formateur. To make the emergent negotiation interpretable, we introduce a Multi-Layered Information Lineage Topology (MILT) that traces every clause in the final agreement back to its manifesto origin and classifies it into five provenance states, a Coalition Influence Score (CIS) that aggregates these traceable contributions to identify which party shaped the agreement, and a real-world grounding pass that benchmarks each simulated provision against the historically adopted coalition agreement. Across three independent simulations the framework yields a stable winner and ranking (N-VA ahead of CD\\&V and Open Vld), and manifesto-anchored lineage reliably predicts real-world materialization whereas hallucinated content does not. The result is a transparent, scalable testbed for the ex-ante exploration of party compatibility and formateur-mediated compromise.",
+      "authors": [
+        "Dylan Van Mulders",
+        "Matthias Bogaert",
+        "Dirk Van den Poel"
+      ],
+      "published": "2026-07-16T15:08:29Z",
+      "updated": "2026-07-16T15:08:29Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.MA"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.15095v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.15095v1",
+      "comment": "11 pages, 2 figures, To be published in the Post-Workshop proceedings of the ECML PKDD 2026 Conference",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4937,
+          "matched": [
+            "alignment",
+            "auditing",
+            "alignment",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4961,
+        "relevance": 0.395,
+        "quality": 0.54,
+        "novelty": 0.8747,
+        "freshness": 0.8778
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "formal bound",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "The paper presents Digital Pantheon, a multi-agent LLM framework combining SFT, DPO, and RAG to simulate and audit partisan coalition formation with interpretable lineage and real-world grounding.",
+        "problem": "Existing LLMs tuned with RLHF exhibit neutrality and conformity biases that prevent sustained partisan behavior necessary for realistic coalition negotiation simulation.",
+        "method": "The approach integrates Supervised Fine-Tuning and Direct Preference Optimization to embed party-specific personas, Retrieval-Augmented Generation to ground agents in official manifestos, and a structured multi-agent negotiation protocol with explainability tools MILT and CIS.",
+        "evidence": "Three independent simulations of the 2019 Flemish election produce stable coalition rankings matching historical outcomes, with manifesto-anchored lineage reliably predicting real-world agreement materialization.",
+        "limitations": "The evaluation is limited to a single election context without cross-system replication or human expert validation of automated lineage labels.",
+        "why_for_you": "This work offers a scalable, transparent framework for trustworthy LLM-based political simulations that maintain ideological fidelity and enable auditability of coalition negotiation processes.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Direct Preference Optimization (DPO) effectively instills aggressive, party-specific personas at the parameter level, overcoming RLHF-induced neutrality and enabling sustained partisan negotiation behavior."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The Multi-Layered Information Lineage Topology (MILT) traces every clause in the final coalition agreement back to its manifesto origin, classifying provenance into five states to ensure interpretability and auditability."
+          },
+          {
+            "icon": "📉",
+            "text": "Manifesto-anchored lineage reliably predicts real-world coalition agreement materialization, whereas hallucinated content does not, demonstrating the importance of grounding in official party documents."
+          }
+        ],
+        "overview": "Digital Pantheon addresses the challenge of simulating political coalition formation with LLM agents that must maintain partisan consistency despite RLHF biases toward neutrality. The framework combines Supervised Fine-Tuning and Direct Preference Optimization to embed party-specific ideological commitments at the model parameter level, while Retrieval-Augmented Generation grounds each agent's utterances in its official party manifesto. A structured multi-agent negotiation protocol simulates the 2019 Flemish election coalition formation, mediated by a formateur agent. To ensure transparency, the Multi-Layered Information Lineage Topology (MILT) traces each clause in the final agreement back to its manifesto source, and the Coalition Influence Score (CIS) quantifies each party's contribution. Real-world grounding compares simulated provisions to the historical coalition agreement, validating the approach. Across three independent runs, the framework yields stable coalition rankings consistent with actual outcomes, demonstrating ideological fidelity and interpretability. This work fills gaps in prior LLM-agent political simulations by combining behavioral steering, manifesto grounding, and explainability.",
+        "methodology": [
+          {
+            "title": "Data and Document Chunking",
+            "detail": "The official 2019 Flemish electoral manifestos are partitioned using an Agentic–Structural Hybrid (ASH) procedure combining deterministic regex-based splits on formal section markers and probabilistic same-topic judgments from Gemma3 (27B) LLM. This preserves document hierarchy and semantic coherence, producing chunks that serve as retrieval units for grounding."
+          },
+          {
+            "title": "Supervised Fine-Tuning and Direct Preference Optimization",
+            "detail": "SFT and DPO are applied to embed party-specific ideological commitments into the LLM parameters, enabling agents to maintain aggressive partisan personas during negotiation. DPO optimizes model preferences directly from human feedback data to overcome RLHF neutrality biases."
+          },
+          {
+            "title": "Retrieval-Augmented Generation (RAG)",
+            "detail": "Each agent is equipped with a per-party RAG pipeline that retrieves relevant manifesto chunks to ground generation, ensuring factual policy alignment and preventing hallucination beyond official party positions."
+          },
+          {
+            "title": "Multi-Agent Negotiation Protocol",
+            "detail": "A hub-and-spoke communication topology is used where partisan agents negotiate under the arbitration of a formateur agent. This structured deliberation protocol is informed by recent work on communication topologies and decision protocols to simulate realistic coalition bargaining."
+          },
+          {
+            "title": "Explainability Framework: MILT and CIS",
+            "detail": "The Multi-Layered Information Lineage Topology (MILT) traces each clause in the final coalition agreement back to its manifesto origin, classifying provenance into five states. The Coalition Influence Score (CIS) aggregates these contributions to quantify each party's influence on the agreement."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "No explicit mechanism equations or causal models provided",
+            "detail": "The paper does not present formal equations or causal mechanisms but relies on the combination of SFT, DPO, and RAG to embed ideological alignment and factual grounding, and on MILT and CIS for interpretability."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Simulation of 2019 Flemish Election Coalition Formation",
+            "detail": "Three independent simulations deploy partisan agents representing N-VA, CD&V, and Open Vld parties negotiating under a formateur agent. The emergent coalition agreements are benchmarked against the historical coalition formed after the 2019 election."
+          },
+          {
+            "title": "Evaluation of Lineage and Real-World Grounding",
+            "detail": "The Multi-Layered Information Lineage Topology (MILT) traces agreement clauses to manifesto origins, and a real-world grounding pass compares simulated provisions to the actual coalition agreement to assess fidelity and hallucination."
+          },
+          {
+            "title": "Ablation Studies and Perturbations (Proposed Future Work)",
+            "detail": "The paper suggests future ablations of SFT, DPO, and RAG components, alternative formateur protocols, and counterfactual coalition scenarios to quantify marginal contributions and test generalizability."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Stable Coalition Rankings Matching Historical Outcomes",
+            "detail": "Across three independent simulations, the framework consistently ranks N-VA ahead of CD&V and Open Vld, replicating the real-world coalition hierarchy from the 2019 Flemish election."
+          },
+          {
+            "title": "Manifesto-Anchored Lineage Predicts Real-World Materialization",
+            "detail": "Clauses traced to official manifestos via MILT correspond to provisions in the historical coalition agreement, whereas hallucinated content lacks such correspondence, validating the grounding approach."
+          },
+          {
+            "title": "Behaviorally Steered Agents Maintain Partisan Consistency",
+            "detail": "The combination of SFT and DPO enables agents to sustain aggressive, party-specific personas throughout extended negotiation, overcoming RLHF-induced neutrality and conformity biases."
+          }
+        ],
+        "contributions": [
+          "A multi-agent LLM framework combining SFT, DPO, and RAG to simulate ideologically faithful coalition negotiations.",
+          "An explainability framework (MILT and CIS) that attributes every clause in coalition agreements to party manifestos and quantifies party influence.",
+          "Empirical validation on the 2019 Flemish election demonstrating stable coalition outcomes and real-world grounding of simulated agreements.",
+          "A scalable, transparent testbed for exploring political strategy and formateur-mediated compromise in multi-party systems.",
+          "Behaviorally steered LLM agents that maintain partisan consistency under extended negotiation."
+        ],
+        "limitations": [
+          "Evaluation is limited to a single election context without cross-system replication to test generalizability.",
+          "Automated lineage labels have not been validated against human expert annotations, risking annotation errors.",
+          "The Coalition Influence Score uses uniform clause weighting without sensitivity analysis of alternative weighting schemes.",
+          "No ablation studies are reported quantifying the marginal impact of SFT, DPO, and RAG components."
+        ],
+        "open_questions": [
+          "How well does the framework generalize to other multi-party political systems beyond the Flemish context?",
+          "Can human expert validation of MILT lineage labels improve the reliability of the explainability framework?",
+          "What is the impact of alternative formateur arbitration protocols on coalition outcomes and negotiation dynamics?",
+          "How sensitive is the Coalition Influence Score to different clause weighting schemes and can it be extended to capture nuanced influence?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment",
+          "auditing",
+          "alignment",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-17T11:40:30.308849+00:00"
+    },
+    {
+      "id": "2607.14905",
+      "title": "Show Me How You Reason and I'll Tell You Who You Are: Reasoning Graphs for Robust LLM Authorship Attribution",
+      "abstract": "Given the current trend to employ large language models (LLMs) in almost any imaginable context, LLM-generated text detection and authorship attribution have become a pressing issue. Prior work has primarily focused on surface-level linguistic features, an approach shown to be susceptible to paraphrasing and other obfuscation techniques. In this paper, we go beyond the linguistic surface, extracting and analysing reasoning structures in LLM-generated texts with the goal of capturing more complex signals of LLM authorship. We propose a graph neural network approach that leverages reasoning graphs extracted by an argument mining pipeline, demonstrating improved robustness and generalisation over a traditional Longformer baseline. Our approach outperforms the baseline by up to 27 percentage points under the obfuscation attacks such as paraphrasing and backtranslation, and 19 percentage points when evaluated on the texts generated by the unseen model versions, simulating real-world conditions in which new LLM versions are continuously released.",
+      "authors": [
+        "Zlata Kikteva",
+        "Artur Romazanov",
+        "Annette Hautli-Janisz",
+        "Ramon Ruiz-Dolz"
+      ],
+      "published": "2026-07-16T12:25:16Z",
+      "updated": "2026-07-16T12:25:16Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.14905v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.14905v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.5018,
+          "matched": [
+            "robustness",
+            "llm",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.486,
+        "relevance": 0.4014,
+        "quality": 0.48,
+        "novelty": 0.86,
+        "freshness": 0.8616
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Reasoning graph-based authorship attribution using graph neural networks significantly improves robustness and generalisation over text-only baselines for LLM-generated texts under obfuscation and unseen model versions.",
+        "problem": "Existing LLM authorship attribution methods relying on surface-level linguistic features are vulnerable to paraphrasing and fail to generalise across different model versions.",
+        "method": "The paper proposes a graph neural network approach leveraging reasoning graphs extracted via an argument mining pipeline to capture structural reasoning features for authorship attribution.",
+        "evidence": "The reasoning graph-based approach outperforms a Longformer baseline by up to 27 percentage points in F1-score under paraphrasing and backtranslation obfuscations and by 19 points when tested on unseen LLM versions.",
+        "limitations": "The approach does not employ word-level or character-level perturbations, which may limit evaluation of robustness against finer-grained obfuscations.",
+        "why_for_you": "This method offers a novel, structurally grounded technique to enhance trustworthy LLM authorship attribution, addressing robustness and generalisation challenges critical for reliable AI-generated text identification.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "The reasoning graph-based fingerprinting approach achieves up to +27% F1-score improvement over text-only baselines under obfuscation attacks such as paraphrasing and backtranslation, demonstrating superior robustness."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The method constructs reasoning graphs from argumentative essays using the oAMF argument mining pipeline and trains graph neural networks (GCN, GAT, Graph Transformer, GPS) to classify LLM authorship."
+          },
+          {
+            "icon": "📉",
+            "text": "Paraphrasing via DIPPER and backtranslation through French and Turkish languages introduce lexical and syntactic variation that reduces lexical diversity and essay length, challenging surface-level detection methods."
+          }
+        ],
+        "overview": "The paper addresses the challenge of attributing authorship to texts generated by large language models (LLMs), focusing on robustness to obfuscation and generalisation across unseen model versions. Prior methods relying on surface-level linguistic features are vulnerable to paraphrasing and fail to generalise across evolving LLMs. To overcome this, the authors propose a novel approach that extracts reasoning graphs from argumentative essays using an argument mining pipeline, capturing meta-linguistic and pragmatic structures beyond lexical content. These graphs serve as input to various graph neural network architectures, which learn to classify the originating LLM model. The approach is evaluated on a newly created corpus of 2,240 essays from four LLM families and multiple versions, with obfuscation strategies including paraphrasing and backtranslation. Results show substantial improvements in F1-score over a Longformer baseline, with up to 27 percentage points gain under obfuscation and 19 points gain in cross-version generalisation, demonstrating the effectiveness of structural reasoning features for robust authorship attribution.",
+        "methodology": [
+          {
+            "title": "Reasoning Graph Construction",
+            "detail": "Argument mining pipeline (oAMF) extracts argumentative components and relations from essays, representing sentences as nodes with sentence embeddings and edges as argument relations, forming reasoning graphs that capture the text's structural reasoning."
+          },
+          {
+            "title": "Graph Neural Network Architectures",
+            "detail": "Four GNN variants—Graph Convolutional Networks (GCN), Graph Attention Networks (GAT), Graph Transformer, and General Powerful Scalable (GPS) networks—are trained on reasoning graphs to classify LLM authorship, differing in neighborhood aggregation and attention mechanisms."
+          },
+          {
+            "title": "Node and Edge Encoding",
+            "detail": "Nodes are encoded using sentence-transformer embeddings (all-mpnet-base-v2), while edges are processed via argmax or probability distributions over argument relation classes from the ARIR module, enabling relational reasoning in the graph."
+          },
+          {
+            "title": "Training and Evaluation Setup",
+            "detail": "Models are trained and evaluated on the LLM-OWL-AE corpus with two splits: SAME-VERSION (train/test on same model version) and CROSS-VERSION (train/test on different versions), using 200 essays per model for training and 80 for testing, assessing robustness and generalisation."
+          },
+          {
+            "title": "Authorship Obfuscation Strategies",
+            "detail": "Paraphrasing is applied using the DIPPER tool at paragraph level, and backtranslation is performed via French and Turkish using OPUS-MT models, introducing lexical and syntactic variation to test model robustness."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "No Explicit Mechanism or Equations Provided",
+            "detail": "The paper does not provide formal equations or detailed causal mechanisms but relies on the hypothesis that reasoning graph structures capture meta-linguistic features less affected by surface-level obfuscations, enabling robust authorship attribution."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Dataset and Splits",
+            "detail": "The LLM-OWL-AE corpus contains 2,240 argumentative essays from four LLM families and two versions each, with train/test splits for SAME-VERSION and CROSS-VERSION evaluation to test robustness and generalisation."
+          },
+          {
+            "title": "Baseline and Models",
+            "detail": "A Longformer-based text-only baseline is compared against four GNN architectures trained on reasoning graphs, evaluating F1-score performance under original, paraphrased, and backtranslated conditions."
+          },
+          {
+            "title": "Obfuscation Techniques",
+            "detail": "Paraphrasing via DIPPER and backtranslation through French and Turkish are applied to test the models' robustness to lexical and syntactic perturbations that preserve semantic meaning but alter surface features."
+          },
+          {
+            "title": "Cross-Version Generalisation",
+            "detail": "Models trained on earlier LLM versions are tested on later versions and vice versa to assess the ability to generalise authorship attribution across evolving model releases."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Robustness to Obfuscation",
+            "detail": "The reasoning graph-based approach improves F1-score by up to 27 percentage points over the Longformer baseline under paraphrasing and backtranslation obfuscations, demonstrating superior robustness."
+          },
+          {
+            "title": "Generalisation Across Versions",
+            "detail": "When evaluated on unseen LLM versions, the graph-based method outperforms the baseline by 19 percentage points in F1-score, indicating better generalisation to new model releases."
+          },
+          {
+            "title": "Lexical Diversity Impact",
+            "detail": "Paraphrasing reduces lexical diversity more severely than backtranslation, with MTLD scores dropping by up to 90 points for some models, challenging surface-level detection but less affecting reasoning graph features."
+          },
+          {
+            "title": "GNN Architecture Performance",
+            "detail": "Among GNNs, architectures combining local message passing with global attention (GPS) and Graph Transformer variants effectively leverage reasoning graphs for authorship classification."
+          }
+        ],
+        "contributions": [
+          "Creation and public release of a new dataset of LLM-generated argumentative essays across multiple model versions and families with obfuscation strategies for robustness and generalisation evaluation.",
+          "Proposal of a novel reasoning graph-based authorship attribution approach combining language and reasoning features via graph neural networks.",
+          "Demonstration of significant performance gains in robustness to obfuscation and generalisation across unseen LLM versions compared to text-only baselines."
+        ],
+        "limitations": [
+          "The approach excludes word-level and character-level perturbations, limiting evaluation against finer-grained obfuscation attacks.",
+          "No explicit formal mechanism or theoretical explanation is provided for why reasoning graphs capture authorship signals more robustly.",
+          "Evaluation is limited to argumentative essays, which may not generalise to other text genres or shorter texts.",
+          "Computational resource requirements for argument mining and GNN training are non-trivial, potentially limiting scalability."
+        ],
+        "open_questions": [
+          "How well does the reasoning graph-based approach perform on non-argumentative or shorter texts generated by LLMs?",
+          "Can the method be extended or adapted to resist finer-grained obfuscations such as character-level perturbations or adversarial paraphrasing?",
+          "What are the theoretical underpinnings explaining the robustness of reasoning graphs to obfuscation and model version shifts?",
+          "How does the approach scale computationally and perform in real-time or large-scale deployment scenarios?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "robustness",
+          "llm",
+          "robustness"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-17T11:40:30.308849+00:00"
+    },
+    {
+      "id": "2607.15163",
+      "title": "Scaling Behavior Foundation Model for Humanoid Robots",
+      "abstract": "Humanoid control requires natural whole-body coordination, precise real-time responses to control signals, and robust generalization across diverse environmental contexts, making it a cornerstone for generalist embodied agents. Behavior Foundation Models (BFMs) have recently emerged as a promising solution to address these challenges by leveraging large-scale behavioral data to achieve superior expressiveness, versatility and generalization. However, despite growing interest in scaling BFMs to further improve their capabilities, it remains unclear how key factors, including the learning paradigm, behavioral data and model architecture should be coordinated to enable effective scaling. In this work, we revisit the scaling recipe for BFMs and demonstrate that substantial performance gains can be achieved through the coordination of three core components: 1) the learning paradigm of motion tracking that reformulates diverse humanoid control problems as the reproduction of integrated whole-body behaviors in the global frame; 2) the strategic synergy between on-policy rollout quantity and reference motion diversity; and 3) the expressive and scalable model architecture termed Humanoid Transformer that facilitates the natural emergence of structured behavioral representations. Through extensive experiments in both simulation and real-world deployment, we demonstrate that our approach yields significant improvements in control fidelity and task generalization, reducing Mean Per-Keypoint Position Error (MPKPE) on the test set by over 10% in local mode and 82% in global mode compared with existing humanoid controllers. These results establish BFM as a principled and effective foundation for scalable and general-purpose humanoid control.",
+      "authors": [
+        "Weishuai Zeng",
+        "Kangning Yin",
+        "Xiaojie Niu",
+        "Shunlin Lu",
+        "Weixiang Zhong",
+        "Jiahe Chen",
+        "Feiyu Jia",
+        "Xiao Chen",
+        "Zirui Wang",
+        "Furui Xu",
+        "Ming Zhou",
+        "Kailin Li",
+        "Weinan Zhang",
+        "He Wang",
+        "Li Yi",
+        "Dahua Lin",
+        "Jiangmiao Pang",
+        "Jingbo Wang"
+      ],
+      "published": "2026-07-16T16:08:27Z",
+      "updated": "2026-07-16T16:08:27Z",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "primary_category": "cs.RO",
+      "abs_url": "https://arxiv.org/abs/2607.15163v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.15163v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "foundation model",
+        "foundation models",
+        "transformer"
+      ],
+      "topics": [
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.4439,
+          "matched": [
+            "generalization",
+            "generalization",
+            "scaling"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4731,
+        "relevance": 0.3551,
+        "quality": 0.55,
+        "novelty": 0.8805,
+        "freshness": 0.8837
+      },
+      "quality_signals": [
+        "experiments",
+        "reproducibility",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Coordinating motion tracking learning paradigm, on-policy rollout quantity with reference motion diversity, and the Humanoid Transformer architecture significantly improves humanoid control fidelity and generalization.",
+        "problem": "Existing humanoid whole-body controllers are task-specific and lack versatility and generalization across diverse control scenarios.",
+        "method": "The paper proposes a scaling recipe for Behavior Foundation Models combining motion tracking as a learning paradigm, synergistic data scaling, and a scalable Humanoid Transformer architecture.",
+        "evidence": "Experiments show over 10% MPKPE reduction in local mode and 82% in global mode on test sets compared to prior humanoid controllers.",
+        "limitations": "Scaling the Humanoid Transformer yields diminishing returns and inconsistent improvements across control modes, indicating optimization trade-offs and learning difficulty imbalances.",
+        "why_for_you": "The paper provides a principled, scalable framework and empirical insights into behavior foundation model scaling, relevant for statistical theory and design of large-scale humanoid control LLMs.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "The Humanoid Transformer architecture achieves higher success rates and lower tracking errors than MLP baselines, with medium-sized models matching or exceeding larger MLPs, demonstrating superior capacity utilization for behavior representation."
+          },
+          {
+            "icon": "🛡️",
+            "text": "Motion tracking reformulates humanoid control as reproducing integrated whole-body behaviors in the global frame, enabling a unified goal-conditioned reinforcement learning objective that decouples behavior from task-specific control modes."
+          },
+          {
+            "icon": "📉",
+            "text": "Scaling on-policy data collection by increasing parallel environments and rollout horizon synergizes with expanding reference motion diversity, effectively improving training data quantity and behavioral distribution diversity."
+          }
+        ],
+        "overview": "The paper addresses the challenge of scaling Behavior Foundation Models (BFMs) for humanoid robots to achieve versatile, robust whole-body control beyond task-specific solutions. It identifies three core components for effective scaling: a motion tracking learning paradigm that treats control as integrated whole-body behavior reproduction in a global frame; a data scaling strategy balancing on-policy rollout quantity and reference motion diversity to enrich training data; and a novel Humanoid Transformer architecture that naturally induces structured latent behavioral representations. The approach is formulated as a goal-conditioned reinforcement learning problem maximizing expected return over behavior trajectories. Extensive experiments in simulation and real-world settings demonstrate significant improvements in control fidelity and generalization, with MPKPE reductions exceeding 10% locally and 82% globally compared to prior controllers. The Humanoid Transformer outperforms MLP baselines, achieving better success rates and tracking errors. However, scaling benefits saturate unevenly across control modes, suggesting optimization trade-offs. These findings establish a principled, scalable foundation for general-purpose humanoid control leveraging large-scale behavior data and expressive architectures.",
+        "methodology": [
+          {
+            "title": "Motion Tracking Learning Paradigm",
+            "detail": "Reformulates humanoid control as reproducing integrated whole-body behaviors in the global frame, defining behavior as trajectories over proprioceptive states and actions, excluding goal states. This enables a unified goal-conditioned reinforcement learning objective maximizing expected return over behavior trajectories, decoupling behavior learning from task-specific control modes."
+          },
+          {
+            "title": "Behavioral Data Scaling",
+            "detail": "Training data scaling is achieved by synergizing on-policy rollout quantity and reference motion diversity. Quantity is increased by scaling parallel environment count and rollout horizon, while diversity is enhanced by expanding the curated reference motion corpus, enriching behavioral distribution for robust learning."
+          },
+          {
+            "title": "Humanoid Transformer Architecture",
+            "detail": "An expressive and scalable transformer-based model architecture designed to facilitate the natural emergence of structured latent behavioral representations without auxiliary objectives. It outperforms MLP backbones by better utilizing model capacity under fixed optimization budgets, supporting diverse control modes."
+          },
+          {
+            "title": "Unified Goal-Conditioned Reinforcement Learning Objective",
+            "detail": "Formulates BFM pretraining as maximizing expected discounted return over trajectories induced by the policy, with reward functions and goal states designed to generalize across diverse humanoid control tasks, enabling scalable and versatile behavior learning."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "No Explicit Mechanism Provided",
+            "detail": "The paper does not provide explicit equations or causal mechanisms beyond the MDP formulation and goal-conditioned reinforcement learning objective; it focuses on empirical scaling behavior and architectural design."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Scaling Model Architectures",
+            "detail": "Evaluated Humanoid Transformer versus MLP backbones on a test set under whole-body control modes, measuring success rates and tracking errors. Medium-sized Transformers matched or exceeded larger MLPs, with diminishing returns observed at larger scales."
+          },
+          {
+            "title": "Latent Space Robustness Evaluation",
+            "detail": "Assessed structured latent representations by perturbing latent commands on the hypersphere and measuring robustness metrics such as success rate and MPKPE under noise, demonstrating the Transformer’s ability to maintain performance under perturbations."
+          },
+          {
+            "title": "Control Fidelity and Generalization",
+            "detail": "Compared the proposed BFM approach to existing humanoid controllers on test sets, reporting over 10% MPKPE reduction in local mode and 82% in global mode, indicating significant improvements in control accuracy and task generalization."
+          },
+          {
+            "title": "Data Scaling Ablations",
+            "detail": "Investigated the effects of scaling on-policy rollout quantity and reference motion diversity independently and jointly, confirming that their synergy is critical for effective BFM pretraining and improved performance."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Superior Performance of Humanoid Transformer",
+            "detail": "The Humanoid Transformer achieves higher success rates and lower tracking errors than MLP baselines, with medium-sized models performing comparably or better than larger MLPs, indicating more effective capacity utilization."
+          },
+          {
+            "title": "Significant MPKPE Reduction",
+            "detail": "The proposed BFM reduces Mean Per-Keypoint Position Error by over 10% in local mode and 82% in global mode compared to existing humanoid controllers, demonstrating enhanced control fidelity and generalization."
+          },
+          {
+            "title": "Synergistic Data Scaling",
+            "detail": "Scaling on-policy rollout quantity combined with increasing reference motion diversity yields better training data quality and behavioral coverage, leading to improved model performance."
+          },
+          {
+            "title": "Diminishing Returns and Mode-Specific Saturation",
+            "detail": "Increasing Humanoid Transformer size does not uniformly improve all control modes; some modes saturate early due to learning difficulty imbalances and optimization trade-offs."
+          },
+          {
+            "title": "Emergence of Structured Latent Representations",
+            "detail": "Structured latent spaces emerge naturally in the Humanoid Transformer without auxiliary objectives, supporting locality and robustness to perturbations in behavioral commands."
+          }
+        ],
+        "contributions": [
+          "Identification of motion tracking as a principled learning paradigm for scalable humanoid behavior modeling.",
+          "Demonstration of the synergy between on-policy rollout quantity and reference motion diversity for effective data scaling.",
+          "Design and validation of the Humanoid Transformer architecture enabling structured behavioral representations and superior performance.",
+          "Comprehensive empirical evaluation showing significant improvements in control fidelity and generalization over prior humanoid controllers.",
+          "Provision of a unified scaling recipe coordinating learning paradigm, data, and architecture for Behavior Foundation Models."
+        ],
+        "limitations": [
+          "Scaling the Humanoid Transformer yields diminishing returns and inconsistent improvements across different control modes.",
+          "Optimization trade-offs between control modes may cause performance degradation in some modes as others improve.",
+          "The paper lacks explicit mechanistic or theoretical explanations beyond empirical observations and MDP formulation.",
+          "Details on real-world deployment scenarios and robustness under diverse environmental perturbations are limited."
+        ],
+        "open_questions": [
+          "How can optimization trade-offs between control modes be mitigated to achieve uniformly improved performance?",
+          "What theoretical frameworks can explain the emergence of structured latent behavioral representations in transformer architectures?",
+          "How does the approach generalize to more complex or unseen environmental contexts beyond the tested scenarios?",
+          "Can auxiliary objectives or architectural modifications further enhance scaling behavior and latent space structure?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Statistical theory for LLMs",
+        "matched": [
+          "generalization",
+          "generalization",
+          "scaling"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-17T11:40:30.308849+00:00"
+    },
+    {
+      "id": "2607.15218",
+      "title": "When Words Are Safe But Actions Kill: Probing Physical Danger Beyond Text Safety in Hidden-State Risk Space",
+      "abstract": "Large language models (LLMs) increasingly serve as high-level planners for embodied agents, where linguistically benign instructions can become unsafe once grounded in the physical world. We study whether this physically grounded danger is the same safety problem as ordinary text-level content danger. Through hidden-state direction analysis and random-split null tests, we show that content danger (CD) and physical danger (PD) form separable signals in LLM representations across Qwen2.5-3B/7B/14B/32B, Phi-3.5 and SmolLM2. Building on the CD/PD separability, we propose PRISM, a single-layer L2-regularized logistic probe over full hidden states. PRISM achieves 86.2--87.7\\% accuracy on SafeAgentBench with 11.7--13.7\\% FPR, while same-scale LLM judges over-block safe tasks at 24.7--39.0\\% FPR. We further introduce PhysicalSafetyBench-1K (PSB-1K), a contrastive benchmark of 1{,}000 physical-risk pairs without direct harm keywords, to test whether methods detect physically grounded danger rather than explicit unsafe wording. On PSB-1K, PRISM reaches 99.6\\% accuracy and 0.7\\% FPR, whereas a Qwen2.5-3B judge rejects 67.8\\% of safe tasks. PRISM also replicates on SafeText and EARBench, supporting hidden-state probing as a representation-level method for physical safety beyond text moderation.",
+      "authors": [
+        "Weimeng Wang",
+        "Ziqiang Wang",
+        "Zihang Zhan",
+        "Chuanpu Fu",
+        "Qi Li",
+        "Ke Xu"
+      ],
+      "published": "2026-07-16T17:20:38Z",
+      "updated": "2026-07-16T17:20:38Z",
+      "categories": [
+        "cs.AI",
+        "cs.CR"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2607.15218v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.15218v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4668,
+          "matched": [
+            "safety",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.468,
+        "relevance": 0.3734,
+        "quality": 0.48,
+        "novelty": 0.8471,
+        "freshness": 0.8909
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Physical danger and content danger are separable signals in LLM hidden states, enabling targeted detection of physically grounded risks beyond text-level safety.",
+        "problem": "LLMs used as planners for embodied agents face safety challenges where linguistically benign instructions can cause physical harm, a problem distinct from ordinary text content danger.",
+        "method": "PRISM, a single-layer L2-regularized logistic probe over full hidden states, leverages the separability of content and physical danger directions to detect both with low false positive rates.",
+        "evidence": "PRISM achieves 86.2–87.7% accuracy with 11.7–13.7% FPR on SafeAgentBench and 99.6% accuracy with 0.7% FPR on the contrastive PhysicalSafetyBench-1K, outperforming LLM judges and prototype methods.",
+        "limitations": "The SafeAgentBench split contains keyword leakage, and the study does not provide evidence on strict orthogonality of danger directions or performance on broader real-world embodied tasks.",
+        "why_for_you": "This work provides a novel representation-level method to detect physical safety risks in LLMs, addressing a critical gap in trustworthy embodied agent deployment.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Content Danger Direction (CDD) and Physical Danger Direction (PDD) are statistically separable in hidden states across Qwen2.5-3B/7B/14B/32B, Phi-3.5-mini, and SmolLM2-1.7B, with probe-weight angles around 70°, indicating distinct representational signals."
+          },
+          {
+            "icon": "🛡️",
+            "text": "PRISM uses a single-layer L2-regularized logistic regression probe trained on standardized last-token hidden states from a selected layer, jointly detecting content and physical dangers with low false positive rates."
+          },
+          {
+            "icon": "📉",
+            "text": "Baseline methods like LPM and single-direction probes fail to detect physical danger effectively, with physical-OOD detection rates as low as 9.6–19.3%, while PRISM maintains stable physical-danger detection between 79.1% and 82.4%."
+          }
+        ],
+        "overview": "The paper addresses the safety challenge in embodied agents where instructions safe in text can cause physical harm when executed. It hypothesizes that physical danger (PD) and content danger (CD) are distinct safety problems encoded separately in LLM hidden states. Through hidden-state direction analysis on multiple LLM architectures and scales, the authors identify two distinct directions: CDD and PDD. They propose PRISM, a linear probe trained on full hidden states to jointly detect both dangers. PRISM outperforms existing text-based safety detectors and prototype methods, achieving high accuracy and low false positive rates on SafeAgentBench and the newly introduced PhysicalSafetyBench-1K, which contains physically risky instructions without explicit harmful keywords. The results demonstrate that physical safety requires explicit representation-level modeling beyond text moderation, providing a practical method for embodied agent safety monitoring.",
+        "methodology": [
+          {
+            "title": "Hidden-State Direction Analysis",
+            "detail": "Compute class-mean hidden states for safe, content-danger, and physical-danger examples at each layer; define Content Danger Direction (CDD) and Physical Danger Direction (PDD) as vector differences between unsafe and safe means; analyze angular separation to test signal distinctness."
+          },
+          {
+            "title": "PRISM Probe Training",
+            "detail": "Extract last-token hidden states from a selected LLM layer; standardize features; train a single-layer L2-regularized logistic regression classifier with binary cross-entropy loss to predict safety labels jointly for CD and PD; select layer by cross-validation."
+          },
+          {
+            "title": "Benchmark Construction",
+            "detail": "PhysicalSafetyBench-1K (PSB-1K) is constructed with 1,000 minimally contrasted safe/risk instruction pairs across ten household risk families, avoiding explicit harm keywords to isolate physical danger detection capability."
+          },
+          {
+            "title": "Evaluation Protocol",
+            "detail": "Evaluate PRISM and baselines on SafeAgentBench (600 tasks), PSB-1K, SafeText, and EARBench using accuracy, false positive rate, F1, and AUC metrics; perform 5-fold cross-validation and ablations to assess signal contributions and generalization."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Representation-Level Danger Decomposition",
+            "detail": "The mechanism relies on the hypothesis that physical and content dangers occupy distinct directions in the LLM hidden-state space, evidenced by stable angular separation between CDD and PDD vectors, enabling linear probes to disentangle these safety signals."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "SafeAgentBench Evaluation",
+            "detail": "PRISM achieves 86.2–87.7% accuracy, 11.7–13.7% FPR, and 79.1–82.4% physical-danger detection across Qwen2.5 models (3B to 32B), outperforming LPM, single-direction probes, and zero-shot LLM judges."
+          },
+          {
+            "title": "PhysicalSafetyBench-1K Benchmark",
+            "detail": "On PSB-1K, PRISM attains 99.6% accuracy and 0.7% FPR detecting physical danger without explicit harm keywords, while a Qwen2.5-3B judge rejects 67.8% of safe tasks, and Llama Guard 3-1B fails to detect physical danger."
+          },
+          {
+            "title": "Cross-Dataset and Cross-Architecture Replication",
+            "detail": "PRISM replicates performance on SafeText and EARBench datasets and confirms CD/PD direction separation on Phi-3.5-mini and SmolLM2-1.7B, demonstrating generality beyond Qwen models."
+          },
+          {
+            "title": "Ablation Studies",
+            "detail": "Ablations show that CDD-only probes fail on physical danger OOD detection (19.8–32.6%), PDD-only probes have incomplete content detection (68.1–85.0%), and prototype methods perform poorly on PD transfer, confirming the necessity of joint modeling."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Distinct Hidden-State Signals for CD and PD",
+            "detail": "CDD and PDD directions are statistically separable with probe-weight angles around 70°, exceeding random-split null distributions, indicating physical danger is a distinct representational concept."
+          },
+          {
+            "title": "PRISM Outperforms Baselines on Physical Safety",
+            "detail": "PRISM achieves stable physical-danger detection rates above 79% with low false positives, outperforming LPM and LLM judges that either miss physical danger or over-block safe tasks."
+          },
+          {
+            "title": "PhysicalSafetyBench-1K Validates Detection Beyond Text Cues",
+            "detail": "PRISM detects physical danger with 99.6% accuracy and 0.7% FPR on PSB-1K, a benchmark designed to exclude explicit harm keywords, confirming its ability to identify grounded physical risks."
+          },
+          {
+            "title": "Layer Selection is Critical",
+            "detail": "Selecting an appropriate hidden layer via cross-validation is essential for PRISM’s performance, indicating that physical and content danger signals concentrate in middle-to-late layers."
+          }
+        ],
+        "contributions": [
+          "Identification of separable content and physical danger directions in LLM hidden states across multiple architectures and scales.",
+          "Introduction of PhysicalSafetyBench-1K, a novel contrastive benchmark isolating physical danger without explicit harmful keywords.",
+          "Development of PRISM, a simple yet effective linear probe leveraging hidden-state separability to jointly detect content and physical dangers with low false positive rates.",
+          "Comprehensive evaluation demonstrating PRISM’s superiority over existing text-based safety detectors, prototype methods, and LLM judges."
+        ],
+        "limitations": [
+          "SafeAgentBench’s keyword-based unsafe split contains leakage, potentially inflating detection performance.",
+          "No strict orthogonality or causal mechanism is proven for the separation of CDD and PDD directions.",
+          "Evaluation focuses on household instruction datasets; generalization to broader embodied tasks or real-world deployment scenarios is untested.",
+          "PRISM relies on frozen LLM hidden states and linear probes, which may limit adaptability to evolving physical safety contexts."
+        ],
+        "open_questions": [
+          "How can physical danger detection be integrated into end-to-end embodied agent systems for real-time safety monitoring?",
+          "What are the causal or geometric properties underlying the separability of content and physical danger directions in LLM representations?",
+          "Can the PRISM approach be extended to multimodal models incorporating vision and action modalities for richer physical safety reasoning?",
+          "How robust is PRISM to adversarial or out-of-distribution instructions that exploit physical safety blind spots?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "safety",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-17T11:40:30.308849+00:00"
+    },
     {
       "id": "2607.13753",
       "title": "Post-Training Shifts Confidence: A Three-Stage Analysis of How SFT, RL, and OPD Shape Pre-, Intra-, and Post-CoT Calibration",

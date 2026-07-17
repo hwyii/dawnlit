@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-16T11:53:57.047514+00:00",
+  "generated_at": "2026-07-17T11:40:30.308849+00:00",
   "papers": [
     {
       "id": "2607.11444",
@@ -786,6 +786,172 @@
       "recommended_at": "2026-07-16T11:53:57.047514+00:00"
     },
     {
+      "id": "2607.15081",
+      "title": "DataShield: Uncovering Risky Fine-Tuning Data Across LLMs Through Consensus Subspace Alignment",
+      "abstract": "Fine-tuning large language models (LLMs) on domain-specific datasets has become a standard paradigm for adapting LLMs to specialized applications. However, recent work has shown that even fine-tuning on benign task-specific data can substantially weaken the safety capabilities of LLMs. While existing efforts have made progress in identifying data responsible for safety degradation, they usually rely on a single mean vector computed over a specific model with its tokenizer to represent the safety direction, which limits both the effectiveness and transferability of their risk assessment measures. To address these limitations, we propose DataShield, a data assessment framework that identifies risky fine-tuning samples and response segments through consensus subspace alignment over joint safety-critical semantic spaces derived from multiple safety-aligned LLMs. Within these spaces, DataShield extracts consensus safe and unsafe subspaces using semantic spectral decomposition over safe and unsafe data representations. The risk of a data sample or segment is then estimated by measuring its relative alignment with the unsafe and safe subspaces, enabling both sample-level filtering and fine-grained segment-level masking. Compared with state-of-the-art filtering and masking baselines, DataShield reduces ASR by 14.6\\% with sample filtering and 32.3\\% with segment masking, while preserving downstream utility and avoiding target-model-specific risk computation.",
+      "authors": [
+        "Zefeng Wu",
+        "Weiwei Qi",
+        "Jielong Chen",
+        "Tianhang Zheng",
+        "Di Hong",
+        "Chaochao Lu",
+        "Liang He",
+        "Zhan Qin",
+        "Kui Ren"
+      ],
+      "published": "2026-07-16T14:51:42Z",
+      "updated": "2026-07-16T14:51:42Z",
+      "categories": [
+        "cs.CR"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2607.15081v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.15081v1",
+      "comment": "24 pages, 12 figures, 19 tables",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.6071,
+          "matched": [
+            "alignment",
+            "alignment",
+            "safety"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5489,
+        "relevance": 0.4857,
+        "quality": 0.52,
+        "novelty": 0.8536,
+        "freshness": 0.8761
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "DataShield improves LLM fine-tuning safety by identifying risky data samples and segments through consensus subspace alignment across multiple safety-aligned models, outperforming prior methods in reducing attack success rates while preserving utility.",
+        "problem": "Fine-tuning LLMs on domain-specific data can degrade their safety capabilities, and existing data filtering methods lack transferability and granularity due to reliance on single-model mean vectors and tokenizer-dependent token-level risk estimation.",
+        "method": "DataShield constructs consensus safe and unsafe subspaces via semantic spectral decomposition over safety-critical representations from multiple LLMs, estimating risk by measuring alignment with these subspaces to enable sample-level filtering and segment-level masking.",
+        "evidence": "Experiments show DataShield reduces attack success rate (ASR) by 14.6% with sample filtering and 32.3% with segment masking compared to state-of-the-art baselines, while maintaining downstream task utility and avoiding target-model-specific risk computations.",
+        "limitations": "The paper does not provide explicit limitations or failure cases of DataShield, nor detailed analysis on computational overhead or performance on diverse downstream tasks beyond safety metrics.",
+        "why_for_you": "DataShield offers a transferable, model-agnostic approach to mitigate safety degradation during LLM fine-tuning, addressing key challenges in trustworthy LLM deployment by enabling reusable risk assessment across architectures and tokenizers.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "DataShield leverages semantic spectral decomposition to extract consensus safe and unsafe subspaces from multiple safety-aligned LLMs, capturing diverse safety-related directions beyond single mean vector representations."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The framework applies two intervention modes: DataShield-Sp for sample-level filtering by removing the top-risk samples, and DataShield-Sm for segment-level masking by masking high-risk response segments identified via tokenizer-independent segmentation."
+          },
+          {
+            "icon": "📉",
+            "text": "Compared to state-of-the-art baselines, DataShield achieves a 14.6% reduction in attack success rate with sample filtering and a 32.3% reduction with segment masking, demonstrating improved safety preservation without sacrificing downstream utility."
+          }
+        ],
+        "overview": "DataShield addresses the challenge of safety degradation in fine-tuned LLMs by proposing a data-centric risk assessment framework that overcomes limitations of prior methods relying on single-model, mean-vector-based risk estimates and tokenizer-dependent token-level masking. It constructs joint safety-critical semantic spaces by aggregating representations from multiple safety-aligned LLMs with diverse architectures. Through semantic spectral decomposition, DataShield extracts consensus safe and unsafe subspaces that capture richer safety semantics. Risk scores for fine-tuning samples and response segments are computed by measuring their alignment with these subspaces, enabling both sample-level filtering and fine-grained segment-level masking. This approach is model-agnostic and reusable across different target models and tokenizers. Empirical results demonstrate that DataShield significantly reduces harmful behavior compliance rates compared to existing filtering and masking baselines, while preserving downstream task performance. This establishes DataShield as an effective and transferable solution for mitigating safety risks in LLM fine-tuning.",
+        "methodology": [
+          {
+            "title": "Construction of Consensus Safe and Unsafe Subspaces",
+            "detail": "DataShield uses multiple safety-aligned LLMs as source models to extract safety-critical hidden states from selected layers identified via an over-refusal probing dataset. Semantic spectral decomposition is applied to safe and unsafe data representations to derive consensus safe and unsafe subspaces capturing diverse safety-related directions."
+          },
+          {
+            "title": "Sample-Level Filtering (DataShield-Sp)",
+            "detail": "For each fine-tuning sample, DataShield computes a risk score by averaging alignment gaps between the sample's representation and the consensus safe and unsafe subspaces across all source models. The top fraction ρ of samples with highest risk scores are removed from the fine-tuning dataset."
+          },
+          {
+            "title": "Segment-Level Masking (DataShield-Sm)",
+            "detail": "Responses are split into tokenizer-independent raw-text segments using NLP tools. Each segment's risk is computed from autoregressive risk increments based on alignment with consensus subspaces. The top fraction ρ of high-risk segments are masked during fine-tuning to mitigate safety degradation."
+          },
+          {
+            "title": "Reusable Risk Estimation Across Models",
+            "detail": "Risk measurement relies solely on fixed source models and their consensus subspaces, enabling the filtered or masked datasets to be reused for fine-tuning different target LLMs without recomputing risk, thus improving transferability and reducing computational cost."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Consensus Subspace Alignment via Semantic Spectral Decomposition",
+            "detail": "DataShield aligns safety-critical semantic spaces from multiple LLMs by decomposing representations of safe and unsafe data into orthogonal subspaces. This spectral decomposition captures multiple safety-related directions rather than a single mean vector, enabling more robust and transferable risk estimation."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Evaluation of Sample Filtering and Segment Masking",
+            "detail": "Experiments conducted on multiple LLM architectures demonstrate that DataShield-Sp reduces attack success rate by 14.6% and DataShield-Sm by 32.3% compared to state-of-the-art baselines, while preserving downstream task utility measured on domain-specific datasets."
+          },
+          {
+            "title": "Ablation on Tokenizer-Independent Segmentation",
+            "detail": "DataShield uses NLP tools such as Jieba, NLTK, and spaCy to split responses into raw-text segments independent of model tokenizers, addressing tokenization mismatch issues and improving the transferability of segment-level masking across different LLMs."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Improved Safety Preservation",
+            "detail": "DataShield significantly lowers harmful behavior compliance rates in fine-tuned LLMs, achieving a 14.6% ASR reduction with sample filtering and 32.3% with segment masking compared to prior methods relying on single-model risk estimates."
+          },
+          {
+            "title": "Transferability Across Models and Tokenizers",
+            "detail": "By constructing consensus subspaces from multiple source models and using tokenizer-independent segmentation, DataShield's risk assessments and interventions generalize well across different target LLM architectures and tokenizers."
+          },
+          {
+            "title": "Preservation of Downstream Utility",
+            "detail": "Despite aggressive filtering and masking of risky data, DataShield maintains the utility of fine-tuned models on downstream tasks, avoiding the trade-off between safety and performance observed in some prior approaches."
+          }
+        ],
+        "contributions": [
+          "Proposed a novel consensus subspace alignment framework for safety risk estimation in fine-tuning data using multiple safety-aligned LLMs.",
+          "Developed semantic spectral decomposition to extract consensus safe and unsafe subspaces capturing diverse safety semantics.",
+          "Introduced sample-level filtering and tokenizer-independent segment-level masking interventions to mitigate safety degradation.",
+          "Demonstrated significant improvements in reducing harmful behavior compliance rates while preserving downstream utility.",
+          "Provided a reusable, model-agnostic risk assessment method that avoids target-model-specific computations."
+        ],
+        "limitations": [
+          "No explicit discussion of computational overhead or scalability of DataShield's spectral decomposition and multi-model alignment.",
+          "Lack of detailed analysis on performance across a wide range of downstream tasks beyond safety metrics.",
+          "No reported failure cases or limitations in handling certain types of risky data or model architectures.",
+          "Unclear how DataShield performs under adversarially crafted fine-tuning data or evolving safety definitions."
+        ],
+        "open_questions": [
+          "How does DataShield scale with increasing numbers and diversity of source models for consensus subspace construction?",
+          "Can the framework be extended to dynamically update consensus subspaces during continual fine-tuning or model updates?",
+          "What are the trade-offs between segment-level masking granularity and downstream task performance in different application domains?",
+          "How robust is DataShield against adversarial attempts to evade detection by manipulating fine-tuning data semantics?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment",
+          "alignment",
+          "safety"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-17T11:40:30.308849+00:00"
+    },
+    {
       "id": "2607.11475",
       "title": "HyperSafe: Inference-Time Safety Recovery for Fine-Tuned Language Models",
       "abstract": "Safety alignment in large language models can be fragile under fine-tuning, as even benign task adaptation may increase harmful compliance. Existing defenses mainly follow two directions: they either intervene during or after fine-tuning through retraining or weight modification, which can be costly and may hurt task performance, or they use model-agnostic safety classifiers, which may miss failures specific to a given fine-tuned checkpoint. These limitations motivate a post hoc, model-specific, and non-invasive approach to safety restoration. To meet these requirements, we propose HyperSafe, a framework that restores safety behavior by generating a model-specific Safe Side Network (SSN) for each fine-tuned checkpoint. HyperSafe uses layer-wise activation fingerprints to capture how fine-tuning changes the model's inner representations. With a small set of given calibration prompts, the hypernetwork maps these fingerprints to the parameters of the \\ssn{} in a single forward pass. The generated \\ssn{} runs alongside the frozen fine-tuned model and performs prompt-level safety classification: harmful prompts are routed to refusal, while safe prompts are answered by the original fine-tuned model. Thus, HyperSafe requires no gradient updates, no safety data at deployment time, and no modification to the deployed model weights. We evaluate HyperSafe on two model families, Qwen2-7B and LLaMA-3-8B, across multiple safety benchmarks. HyperSafe reduces harmful response rates from 19-31% to below 1% on every held-out checkpoint, while keeping downstream task accuracy within 1% of the fine-tuned baseline on average. Code is available at https://github.com/nokronim/project-safety-remedy.",
@@ -971,6 +1137,359 @@
         "lane": "llm"
       },
       "recommended_at": "2026-07-14T11:44:02.688717+00:00"
+    },
+    {
+      "id": "2607.15161",
+      "title": "On-Policy Delta Distillation",
+      "abstract": "On-policy distillation is an alternative post-training method in reinforcement learning that alleviates the constraints imposed by reward models by providing token-level supervision from a teacher model. Although on-policy distillation has been studied and applied across various settings, its fundamental design remains underexplored. In this paper, we introduce a new distillation reward, termed the delta signal, instead of directly imitating the teacher's output distribution. The delta signal is defined as the difference between the teacher model and its base model prior to instruction tuning for reasoning capability. It therefore captures the changes induced by reasoning tuning and provides a more direct signal for transferring reasoning capabilities. Using extensive empirical evidence, we show that the delta signal substantially improves on-policy distillation and refer to the new distillation method as On-Policy Delta Distillation (OPD$^2$). Experiments across mathematics, science, and code-reasoning benchmarks demonstrate that OPD$^2$ consistently outperforms conventional on-policy distillation, enabling reasoning LLMs to achieve strong performance with only a short post-training period. Code will be available at https://github.com/naver-ai/opd2",
+      "authors": [
+        "Byeongho Heo",
+        "Jaehui Hwang",
+        "Sangdoo Yun",
+        "Dongyoon Han"
+      ],
+      "published": "2026-07-16T16:07:19Z",
+      "updated": "2026-07-16T16:07:19Z",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2607.15161v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.15161v1",
+      "comment": "19 pages, 4 figures, 12 tables",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "llms",
+        "instruction tuning"
+      ],
+      "topics": [
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "watch",
+          "score": 0.4868,
+          "matched": [
+            "on-policy distillation",
+            "OPD",
+            "token-level",
+            "policy distillation",
+            "opd",
+            "distillation"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5424,
+        "relevance": 0.3894,
+        "quality": 0.84,
+        "novelty": 0.771,
+        "freshness": 0.8836
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "benchmark evaluation",
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "On-Policy Delta Distillation (OPD2), which uses the delta signal between a teacher and its base model, significantly improves reasoning capability transfer in on-policy distillation.",
+        "problem": "Conventional on-policy distillation uses the teacher's output distribution directly, which may not effectively capture the reasoning knowledge gained during instruction tuning.",
+        "method": "OPD2 defines a new distillation reward as the difference (delta signal) between the teacher model and its base model prior to reasoning tuning, focusing on the learning trajectory for reasoning capability.",
+        "evidence": "Extensive experiments on multiple benchmarks across Math, Science, and Code domains show OPD2 consistently outperforms both conventional OPD and advanced ExOPD methods across various model sizes.",
+        "limitations": "The paper does not address extensions of OPD signals beyond sampled tokens and does not provide detailed mechanism equations for the delta signal.",
+        "why_for_you": "OPD2 offers a novel, empirically validated approach to enhance on-policy distillation for reasoning LLMs, relevant for improving post-training methods in reinforcement learning.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "The delta signal, defined as the difference between the reasoning-tuned teacher and its base model, captures the knowledge gained during instruction tuning, providing a more direct supervision signal for reasoning capability transfer."
+          },
+          {
+            "icon": "🛡️",
+            "text": "OPD2 applies on-policy distillation by scoring student-generated tokens using the delta signal rather than the teacher's raw output probabilities, preserving the student's original knowledge while enhancing reasoning skills."
+          },
+          {
+            "icon": "📉",
+            "text": "Empirical results on Qwen3 and Gemma4 models across 14 benchmarks show OPD2 achieves substantial improvements over OPD and ExOPD, with gains in pass@1 metrics in Math, Science, and Code tasks, demonstrating the effectiveness of the delta signal."
+          }
+        ],
+        "overview": "This paper addresses the fundamental design of on-policy distillation (OPD) in reinforcement learning for large language models, focusing on improving the transfer of reasoning capabilities. Traditional OPD uses the teacher's output distribution as a reward signal, which may not isolate the reasoning knowledge acquired during instruction tuning. The authors propose On-Policy Delta Distillation (OPD2), which leverages the delta signal—the difference between the teacher model and its base model before reasoning tuning—as a more direct and informative reward. This approach captures the learning trajectory of reasoning tuning, enabling more effective knowledge transfer. Extensive experiments on multiple reasoning domains (Math, Science, Code) and benchmarks demonstrate that OPD2 consistently outperforms conventional OPD and the advanced ExOPD method across various model sizes and architectures. The results validate that the delta signal provides a richer supervision signal, leading to improved reasoning performance with a short post-training period. The paper contributes a novel distillation reward design and comprehensive empirical validation, positioning OPD2 as a significant advancement in on-policy distillation for reasoning LLMs.",
+        "methodology": [
+          {
+            "title": "Delta Signal Computation",
+            "detail": "Compute the delta signal as the difference between the teacher model's output distribution after reasoning tuning and its base model's output distribution prior to tuning. This delta captures the reasoning knowledge gained during instruction tuning."
+          },
+          {
+            "title": "On-Policy Distillation Training",
+            "detail": "Generate sequences using the student model and apply the delta signal as a reward to sampled tokens. Tokens aligned with positive delta values are reinforced, while those with negative values are suppressed, preserving the student's original knowledge."
+          },
+          {
+            "title": "Multi-Domain Dataset Construction",
+            "detail": "Construct a mixed training dataset by sampling questions from Math, Science, and Code reasoning domains to ensure broad applicability and robustness of the distillation method."
+          },
+          {
+            "title": "Evaluation Protocol",
+            "detail": "Evaluate models on 14 benchmarks spanning three domains using pass@1 metrics, comparing OPD2 against baseline OPD, ExOPD, and original models in both non-thinking and thinking generation modes."
+          },
+          {
+            "title": "Training Configuration",
+            "detail": "Train models for 100 optimization steps with AdamW optimizer, learning rate 5e-6, cosine decay, batch sizes 256-288, gradient clipping, and scaled rewards to stabilize training without KL regularization."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Delta Signal as Learning Trajectory",
+            "detail": "The delta signal represents the difference in output probabilities between the teacher model after reasoning tuning and its base model before tuning, effectively encoding the knowledge changes induced by instruction tuning. No explicit equations are provided, but the delta acts as a refined reward signal focusing on reasoning capability."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Model and Dataset Setup",
+            "detail": "Use Qwen3 (1.7B, 4B, 8B) and Gemma4-E4B as student models with corresponding larger teacher models from the same family. Train on a mixed dataset of Math, Science, and Code questions, evaluating on 14 benchmarks with pass@1 metric."
+          },
+          {
+            "title": "Baseline Comparisons",
+            "detail": "Compare OPD2 against conventional OPD and ExOPD, an advanced on-policy distillation method that amplifies extrapolation signals using teacher-base models, to assess relative performance improvements."
+          },
+          {
+            "title": "Generation Modes",
+            "detail": "Evaluate both non-thinking mode (no explicit reasoning traces) and thinking mode (with reasoning traces) for Qwen3 models, while Gemma4 is evaluated only in thinking mode to assess OPD2's effectiveness across generation styles."
+          },
+          {
+            "title": "Training and Hardware",
+            "detail": "Train models on NVIDIA H100 GPUs with multi-node setups for larger models, using 100 optimization steps and effective batch sizes of 256-288, ensuring reproducibility and scalability of OPD2 training."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Performance Gains Across Domains",
+            "detail": "OPD2 consistently outperforms OPD and ExOPD on Math, Science, and Code benchmarks, with improvements in pass@1 scores across all tested model sizes, demonstrating the delta signal's effectiveness in transferring reasoning knowledge."
+          },
+          {
+            "title": "Effectiveness in Non-Thinking Mode",
+            "detail": "In non-thinking mode, where reasoning is less explicit, OPD2 achieves substantial improvements over baselines, indicating its ability to enhance reasoning capabilities even without explicit reasoning traces."
+          },
+          {
+            "title": "Robustness Across Model Sizes",
+            "detail": "OPD2 shows consistent performance gains from smaller (1.7B) to larger (8B) Qwen3 models, suggesting scalability and general applicability of the delta signal approach."
+          },
+          {
+            "title": "Short Post-Training Period",
+            "detail": "OPD2 enables strong reasoning performance improvements with only 100 optimization steps, highlighting its efficiency as a post-training method."
+          }
+        ],
+        "contributions": [
+          "Introduction of the delta signal as a novel distillation reward capturing reasoning tuning knowledge.",
+          "Development of On-Policy Delta Distillation (OPD2) method leveraging the delta signal for improved reasoning capability transfer.",
+          "Comprehensive empirical evaluation across multiple reasoning domains, benchmarks, and model sizes demonstrating OPD2's superiority over OPD and ExOPD.",
+          "Demonstration that OPD2 achieves strong reasoning performance with a short post-training period, enhancing efficiency.",
+          "Provision of an open-source codebase for reproducibility and further research."
+        ],
+        "limitations": [
+          "The paper does not explore extending the delta signal beyond sampled tokens or alternative reward designs.",
+          "No explicit mathematical formulation or theoretical analysis of the delta signal mechanism is provided.",
+          "Evaluation is limited to specific model families (Qwen3 and Gemma4) and may not generalize to all LLM architectures.",
+          "The impact of OPD2 on generation diversity or other qualitative aspects beyond pass@1 metrics is not discussed."
+        ],
+        "open_questions": [
+          "How can the delta signal be extended or combined with other reward signals beyond sampled tokens for further performance gains?",
+          "What theoretical guarantees or formal analyses can be developed to explain why the delta signal effectively transfers reasoning knowledge?",
+          "Can OPD2 be generalized to other LLM architectures or domains beyond Math, Science, and Code reasoning?",
+          "How does OPD2 affect other aspects of model behavior such as generation diversity, robustness, or alignment with human preferences?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "On-policy distillation",
+        "matched": [
+          "on-policy distillation",
+          "OPD",
+          "token-level",
+          "policy distillation"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-17T11:40:30.308849+00:00"
+    },
+    {
+      "id": "2607.15095",
+      "title": "Digital Pantheon: Simulating and Auditing Coalition Formation with LLM Agents",
+      "abstract": "The formation of political coalitions is a complex negotiation driven by both concrete policy objectives and deep-seated ideological convictions. While Large Language Models (LLMs) open new avenues for computational political science, the neutrality and helpfulness biases instilled by Reinforcement Learning from Human Feedback (RLHF) prevent them from sustaining steadfast partisan behaviour. We present a multi-agent framework that reconciles factual grounding with ideological alignment by combining Supervised Fine-Tuning (SFT), Direct Preference Optimization (DPO), and Retrieval-Augmented Generation (RAG): DPO instils aggressive party-specific personas, while a per-party RAG pipeline keeps each agent bounded to its official manifesto. We operationalize the framework on the 2019 Flemish election, deploying the partisan agents in a hub-and-spoke negotiation arbitrated by a formateur. To make the emergent negotiation interpretable, we introduce a Multi-Layered Information Lineage Topology (MILT) that traces every clause in the final agreement back to its manifesto origin and classifies it into five provenance states, a Coalition Influence Score (CIS) that aggregates these traceable contributions to identify which party shaped the agreement, and a real-world grounding pass that benchmarks each simulated provision against the historically adopted coalition agreement. Across three independent simulations the framework yields a stable winner and ranking (N-VA ahead of CD\\&V and Open Vld), and manifesto-anchored lineage reliably predicts real-world materialization whereas hallucinated content does not. The result is a transparent, scalable testbed for the ex-ante exploration of party compatibility and formateur-mediated compromise.",
+      "authors": [
+        "Dylan Van Mulders",
+        "Matthias Bogaert",
+        "Dirk Van den Poel"
+      ],
+      "published": "2026-07-16T15:08:29Z",
+      "updated": "2026-07-16T15:08:29Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.MA"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.15095v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.15095v1",
+      "comment": "11 pages, 2 figures, To be published in the Post-Workshop proceedings of the ECML PKDD 2026 Conference",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4937,
+          "matched": [
+            "alignment",
+            "auditing",
+            "alignment",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4961,
+        "relevance": 0.395,
+        "quality": 0.54,
+        "novelty": 0.8747,
+        "freshness": 0.8778
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "formal bound",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "The paper presents Digital Pantheon, a multi-agent LLM framework combining SFT, DPO, and RAG to simulate and audit partisan coalition formation with interpretable lineage and real-world grounding.",
+        "problem": "Existing LLMs tuned with RLHF exhibit neutrality and conformity biases that prevent sustained partisan behavior necessary for realistic coalition negotiation simulation.",
+        "method": "The approach integrates Supervised Fine-Tuning and Direct Preference Optimization to embed party-specific personas, Retrieval-Augmented Generation to ground agents in official manifestos, and a structured multi-agent negotiation protocol with explainability tools MILT and CIS.",
+        "evidence": "Three independent simulations of the 2019 Flemish election produce stable coalition rankings matching historical outcomes, with manifesto-anchored lineage reliably predicting real-world agreement materialization.",
+        "limitations": "The evaluation is limited to a single election context without cross-system replication or human expert validation of automated lineage labels.",
+        "why_for_you": "This work offers a scalable, transparent framework for trustworthy LLM-based political simulations that maintain ideological fidelity and enable auditability of coalition negotiation processes.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Direct Preference Optimization (DPO) effectively instills aggressive, party-specific personas at the parameter level, overcoming RLHF-induced neutrality and enabling sustained partisan negotiation behavior."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The Multi-Layered Information Lineage Topology (MILT) traces every clause in the final coalition agreement back to its manifesto origin, classifying provenance into five states to ensure interpretability and auditability."
+          },
+          {
+            "icon": "📉",
+            "text": "Manifesto-anchored lineage reliably predicts real-world coalition agreement materialization, whereas hallucinated content does not, demonstrating the importance of grounding in official party documents."
+          }
+        ],
+        "overview": "Digital Pantheon addresses the challenge of simulating political coalition formation with LLM agents that must maintain partisan consistency despite RLHF biases toward neutrality. The framework combines Supervised Fine-Tuning and Direct Preference Optimization to embed party-specific ideological commitments at the model parameter level, while Retrieval-Augmented Generation grounds each agent's utterances in its official party manifesto. A structured multi-agent negotiation protocol simulates the 2019 Flemish election coalition formation, mediated by a formateur agent. To ensure transparency, the Multi-Layered Information Lineage Topology (MILT) traces each clause in the final agreement back to its manifesto source, and the Coalition Influence Score (CIS) quantifies each party's contribution. Real-world grounding compares simulated provisions to the historical coalition agreement, validating the approach. Across three independent runs, the framework yields stable coalition rankings consistent with actual outcomes, demonstrating ideological fidelity and interpretability. This work fills gaps in prior LLM-agent political simulations by combining behavioral steering, manifesto grounding, and explainability.",
+        "methodology": [
+          {
+            "title": "Data and Document Chunking",
+            "detail": "The official 2019 Flemish electoral manifestos are partitioned using an Agentic–Structural Hybrid (ASH) procedure combining deterministic regex-based splits on formal section markers and probabilistic same-topic judgments from Gemma3 (27B) LLM. This preserves document hierarchy and semantic coherence, producing chunks that serve as retrieval units for grounding."
+          },
+          {
+            "title": "Supervised Fine-Tuning and Direct Preference Optimization",
+            "detail": "SFT and DPO are applied to embed party-specific ideological commitments into the LLM parameters, enabling agents to maintain aggressive partisan personas during negotiation. DPO optimizes model preferences directly from human feedback data to overcome RLHF neutrality biases."
+          },
+          {
+            "title": "Retrieval-Augmented Generation (RAG)",
+            "detail": "Each agent is equipped with a per-party RAG pipeline that retrieves relevant manifesto chunks to ground generation, ensuring factual policy alignment and preventing hallucination beyond official party positions."
+          },
+          {
+            "title": "Multi-Agent Negotiation Protocol",
+            "detail": "A hub-and-spoke communication topology is used where partisan agents negotiate under the arbitration of a formateur agent. This structured deliberation protocol is informed by recent work on communication topologies and decision protocols to simulate realistic coalition bargaining."
+          },
+          {
+            "title": "Explainability Framework: MILT and CIS",
+            "detail": "The Multi-Layered Information Lineage Topology (MILT) traces each clause in the final coalition agreement back to its manifesto origin, classifying provenance into five states. The Coalition Influence Score (CIS) aggregates these contributions to quantify each party's influence on the agreement."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "No explicit mechanism equations or causal models provided",
+            "detail": "The paper does not present formal equations or causal mechanisms but relies on the combination of SFT, DPO, and RAG to embed ideological alignment and factual grounding, and on MILT and CIS for interpretability."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Simulation of 2019 Flemish Election Coalition Formation",
+            "detail": "Three independent simulations deploy partisan agents representing N-VA, CD&V, and Open Vld parties negotiating under a formateur agent. The emergent coalition agreements are benchmarked against the historical coalition formed after the 2019 election."
+          },
+          {
+            "title": "Evaluation of Lineage and Real-World Grounding",
+            "detail": "The Multi-Layered Information Lineage Topology (MILT) traces agreement clauses to manifesto origins, and a real-world grounding pass compares simulated provisions to the actual coalition agreement to assess fidelity and hallucination."
+          },
+          {
+            "title": "Ablation Studies and Perturbations (Proposed Future Work)",
+            "detail": "The paper suggests future ablations of SFT, DPO, and RAG components, alternative formateur protocols, and counterfactual coalition scenarios to quantify marginal contributions and test generalizability."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Stable Coalition Rankings Matching Historical Outcomes",
+            "detail": "Across three independent simulations, the framework consistently ranks N-VA ahead of CD&V and Open Vld, replicating the real-world coalition hierarchy from the 2019 Flemish election."
+          },
+          {
+            "title": "Manifesto-Anchored Lineage Predicts Real-World Materialization",
+            "detail": "Clauses traced to official manifestos via MILT correspond to provisions in the historical coalition agreement, whereas hallucinated content lacks such correspondence, validating the grounding approach."
+          },
+          {
+            "title": "Behaviorally Steered Agents Maintain Partisan Consistency",
+            "detail": "The combination of SFT and DPO enables agents to sustain aggressive, party-specific personas throughout extended negotiation, overcoming RLHF-induced neutrality and conformity biases."
+          }
+        ],
+        "contributions": [
+          "A multi-agent LLM framework combining SFT, DPO, and RAG to simulate ideologically faithful coalition negotiations.",
+          "An explainability framework (MILT and CIS) that attributes every clause in coalition agreements to party manifestos and quantifies party influence.",
+          "Empirical validation on the 2019 Flemish election demonstrating stable coalition outcomes and real-world grounding of simulated agreements.",
+          "A scalable, transparent testbed for exploring political strategy and formateur-mediated compromise in multi-party systems.",
+          "Behaviorally steered LLM agents that maintain partisan consistency under extended negotiation."
+        ],
+        "limitations": [
+          "Evaluation is limited to a single election context without cross-system replication to test generalizability.",
+          "Automated lineage labels have not been validated against human expert annotations, risking annotation errors.",
+          "The Coalition Influence Score uses uniform clause weighting without sensitivity analysis of alternative weighting schemes.",
+          "No ablation studies are reported quantifying the marginal impact of SFT, DPO, and RAG components."
+        ],
+        "open_questions": [
+          "How well does the framework generalize to other multi-party political systems beyond the Flemish context?",
+          "Can human expert validation of MILT lineage labels improve the reliability of the explainability framework?",
+          "What is the impact of alternative formateur arbitration protocols on coalition outcomes and negotiation dynamics?",
+          "How sensitive is the Coalition Influence Score to different clause weighting schemes and can it be extended to capture nuanced influence?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment",
+          "auditing",
+          "alignment",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-17T11:40:30.308849+00:00"
     },
     {
       "id": "2607.12831",
@@ -1350,6 +1869,181 @@
       "recommended_at": "2026-07-15T11:47:59.097160+00:00"
     },
     {
+      "id": "2607.14905",
+      "title": "Show Me How You Reason and I'll Tell You Who You Are: Reasoning Graphs for Robust LLM Authorship Attribution",
+      "abstract": "Given the current trend to employ large language models (LLMs) in almost any imaginable context, LLM-generated text detection and authorship attribution have become a pressing issue. Prior work has primarily focused on surface-level linguistic features, an approach shown to be susceptible to paraphrasing and other obfuscation techniques. In this paper, we go beyond the linguistic surface, extracting and analysing reasoning structures in LLM-generated texts with the goal of capturing more complex signals of LLM authorship. We propose a graph neural network approach that leverages reasoning graphs extracted by an argument mining pipeline, demonstrating improved robustness and generalisation over a traditional Longformer baseline. Our approach outperforms the baseline by up to 27 percentage points under the obfuscation attacks such as paraphrasing and backtranslation, and 19 percentage points when evaluated on the texts generated by the unseen model versions, simulating real-world conditions in which new LLM versions are continuously released.",
+      "authors": [
+        "Zlata Kikteva",
+        "Artur Romazanov",
+        "Annette Hautli-Janisz",
+        "Ramon Ruiz-Dolz"
+      ],
+      "published": "2026-07-16T12:25:16Z",
+      "updated": "2026-07-16T12:25:16Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.14905v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.14905v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.5018,
+          "matched": [
+            "robustness",
+            "llm",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.486,
+        "relevance": 0.4014,
+        "quality": 0.48,
+        "novelty": 0.86,
+        "freshness": 0.8616
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Reasoning graph-based authorship attribution using graph neural networks significantly improves robustness and generalisation over text-only baselines for LLM-generated texts under obfuscation and unseen model versions.",
+        "problem": "Existing LLM authorship attribution methods relying on surface-level linguistic features are vulnerable to paraphrasing and fail to generalise across different model versions.",
+        "method": "The paper proposes a graph neural network approach leveraging reasoning graphs extracted via an argument mining pipeline to capture structural reasoning features for authorship attribution.",
+        "evidence": "The reasoning graph-based approach outperforms a Longformer baseline by up to 27 percentage points in F1-score under paraphrasing and backtranslation obfuscations and by 19 points when tested on unseen LLM versions.",
+        "limitations": "The approach does not employ word-level or character-level perturbations, which may limit evaluation of robustness against finer-grained obfuscations.",
+        "why_for_you": "This method offers a novel, structurally grounded technique to enhance trustworthy LLM authorship attribution, addressing robustness and generalisation challenges critical for reliable AI-generated text identification.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "The reasoning graph-based fingerprinting approach achieves up to +27% F1-score improvement over text-only baselines under obfuscation attacks such as paraphrasing and backtranslation, demonstrating superior robustness."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The method constructs reasoning graphs from argumentative essays using the oAMF argument mining pipeline and trains graph neural networks (GCN, GAT, Graph Transformer, GPS) to classify LLM authorship."
+          },
+          {
+            "icon": "📉",
+            "text": "Paraphrasing via DIPPER and backtranslation through French and Turkish languages introduce lexical and syntactic variation that reduces lexical diversity and essay length, challenging surface-level detection methods."
+          }
+        ],
+        "overview": "The paper addresses the challenge of attributing authorship to texts generated by large language models (LLMs), focusing on robustness to obfuscation and generalisation across unseen model versions. Prior methods relying on surface-level linguistic features are vulnerable to paraphrasing and fail to generalise across evolving LLMs. To overcome this, the authors propose a novel approach that extracts reasoning graphs from argumentative essays using an argument mining pipeline, capturing meta-linguistic and pragmatic structures beyond lexical content. These graphs serve as input to various graph neural network architectures, which learn to classify the originating LLM model. The approach is evaluated on a newly created corpus of 2,240 essays from four LLM families and multiple versions, with obfuscation strategies including paraphrasing and backtranslation. Results show substantial improvements in F1-score over a Longformer baseline, with up to 27 percentage points gain under obfuscation and 19 points gain in cross-version generalisation, demonstrating the effectiveness of structural reasoning features for robust authorship attribution.",
+        "methodology": [
+          {
+            "title": "Reasoning Graph Construction",
+            "detail": "Argument mining pipeline (oAMF) extracts argumentative components and relations from essays, representing sentences as nodes with sentence embeddings and edges as argument relations, forming reasoning graphs that capture the text's structural reasoning."
+          },
+          {
+            "title": "Graph Neural Network Architectures",
+            "detail": "Four GNN variants—Graph Convolutional Networks (GCN), Graph Attention Networks (GAT), Graph Transformer, and General Powerful Scalable (GPS) networks—are trained on reasoning graphs to classify LLM authorship, differing in neighborhood aggregation and attention mechanisms."
+          },
+          {
+            "title": "Node and Edge Encoding",
+            "detail": "Nodes are encoded using sentence-transformer embeddings (all-mpnet-base-v2), while edges are processed via argmax or probability distributions over argument relation classes from the ARIR module, enabling relational reasoning in the graph."
+          },
+          {
+            "title": "Training and Evaluation Setup",
+            "detail": "Models are trained and evaluated on the LLM-OWL-AE corpus with two splits: SAME-VERSION (train/test on same model version) and CROSS-VERSION (train/test on different versions), using 200 essays per model for training and 80 for testing, assessing robustness and generalisation."
+          },
+          {
+            "title": "Authorship Obfuscation Strategies",
+            "detail": "Paraphrasing is applied using the DIPPER tool at paragraph level, and backtranslation is performed via French and Turkish using OPUS-MT models, introducing lexical and syntactic variation to test model robustness."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "No Explicit Mechanism or Equations Provided",
+            "detail": "The paper does not provide formal equations or detailed causal mechanisms but relies on the hypothesis that reasoning graph structures capture meta-linguistic features less affected by surface-level obfuscations, enabling robust authorship attribution."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Dataset and Splits",
+            "detail": "The LLM-OWL-AE corpus contains 2,240 argumentative essays from four LLM families and two versions each, with train/test splits for SAME-VERSION and CROSS-VERSION evaluation to test robustness and generalisation."
+          },
+          {
+            "title": "Baseline and Models",
+            "detail": "A Longformer-based text-only baseline is compared against four GNN architectures trained on reasoning graphs, evaluating F1-score performance under original, paraphrased, and backtranslated conditions."
+          },
+          {
+            "title": "Obfuscation Techniques",
+            "detail": "Paraphrasing via DIPPER and backtranslation through French and Turkish are applied to test the models' robustness to lexical and syntactic perturbations that preserve semantic meaning but alter surface features."
+          },
+          {
+            "title": "Cross-Version Generalisation",
+            "detail": "Models trained on earlier LLM versions are tested on later versions and vice versa to assess the ability to generalise authorship attribution across evolving model releases."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Robustness to Obfuscation",
+            "detail": "The reasoning graph-based approach improves F1-score by up to 27 percentage points over the Longformer baseline under paraphrasing and backtranslation obfuscations, demonstrating superior robustness."
+          },
+          {
+            "title": "Generalisation Across Versions",
+            "detail": "When evaluated on unseen LLM versions, the graph-based method outperforms the baseline by 19 percentage points in F1-score, indicating better generalisation to new model releases."
+          },
+          {
+            "title": "Lexical Diversity Impact",
+            "detail": "Paraphrasing reduces lexical diversity more severely than backtranslation, with MTLD scores dropping by up to 90 points for some models, challenging surface-level detection but less affecting reasoning graph features."
+          },
+          {
+            "title": "GNN Architecture Performance",
+            "detail": "Among GNNs, architectures combining local message passing with global attention (GPS) and Graph Transformer variants effectively leverage reasoning graphs for authorship classification."
+          }
+        ],
+        "contributions": [
+          "Creation and public release of a new dataset of LLM-generated argumentative essays across multiple model versions and families with obfuscation strategies for robustness and generalisation evaluation.",
+          "Proposal of a novel reasoning graph-based authorship attribution approach combining language and reasoning features via graph neural networks.",
+          "Demonstration of significant performance gains in robustness to obfuscation and generalisation across unseen LLM versions compared to text-only baselines."
+        ],
+        "limitations": [
+          "The approach excludes word-level and character-level perturbations, limiting evaluation against finer-grained obfuscation attacks.",
+          "No explicit formal mechanism or theoretical explanation is provided for why reasoning graphs capture authorship signals more robustly.",
+          "Evaluation is limited to argumentative essays, which may not generalise to other text genres or shorter texts.",
+          "Computational resource requirements for argument mining and GNN training are non-trivial, potentially limiting scalability."
+        ],
+        "open_questions": [
+          "How well does the reasoning graph-based approach perform on non-argumentative or shorter texts generated by LLMs?",
+          "Can the method be extended or adapted to resist finer-grained obfuscations such as character-level perturbations or adversarial paraphrasing?",
+          "What are the theoretical underpinnings explaining the robustness of reasoning graphs to obfuscation and model version shifts?",
+          "How does the approach scale computationally and perform in real-time or large-scale deployment scenarios?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "robustness",
+          "llm",
+          "robustness"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-17T11:40:30.308849+00:00"
+    },
+    {
       "id": "2607.12835",
       "title": "Can LLMs Write Reliable Rubrics? A Meta-Evaluation for Experiment Reproduction",
       "abstract": "Rubric-based evaluation is a promising approach for assessing open-ended outputs from LLM-based research agents, particularly in paper reproduction, where direct paper-to-repository comparison is prone to hallucination. However, constructing paper-specific rubrics requires substantial expert effort, limiting the scalability of benchmarks such as PaperBench. In this work, we present, to our knowledge, the first systematic meta-evaluation of LLM-generated rubrics for paper reproduction. We reformulate rubrics into a checklist-style format and evaluate four generation settings across two backbone models. We meta-evaluate generated rubrics intrinsically by semantic similarity and extrinsically by score alignment with ground-truth rubrics. Our results show that the augmented settings substantially improves downstream evaluation alignment, with the strongest setting approaching the human baseline, while intrinsic gains are more modest. Further analyses reveal that LLM-generated rubrics are often overly fine-grained, biased toward high scores, and less adaptive to paper domains, highlighting both the affordances and limitations.",
@@ -1515,696 +2209,6 @@
           "hallucination",
           "alignment",
           "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-15T11:47:59.097160+00:00"
-    },
-    {
-      "id": "2607.11505",
-      "title": "Proxy Exploration and Reusable Guidance: A Modular LLM Post-Training Paradigm via Proxy-Guided Update Signals",
-      "abstract": "Post-training is essential for refining the domain-specific capabilities of large language models (LLMs), yet existing reward optimization and distribution matching methods tightly couple policy exploration with distribution alignment. This coupling forces expensive exploration directly on the policy model and severely hinders the asynchronous generation, reuse, and cross-model transfer of optimization signals. In this paper, we propose Proxy-guided Update Signal Transfer (PUST), a novel post-training framework that fundamentally decouples update-signal exploration from distribution alignment. Instead of utilizing the primary model for costly exploration, PUST employs a lightweight proxy model as an efficient testbed to discover high-reward behaviors. We extract the relative improvement signal between the proxy's initial and optimized states, transferring this directional update to the primary model to guide its policy alignment. This decoupled pipeline, comprising proxy exploration, update-signal extraction, and signal transfer, significantly reduces computational overhead and enables optimization signals to be asynchronously generated, cached, and reused. Crucially, by transferring relative improvements rather than absolute policy distributions, PUST naturally supports weak-to-strong improvement and seamless cross-model transfer. Systematic evaluations on Qwen3-family models across math and code domains demonstrate that update signals extracted from substantially weaker proxies can robustly and adjustably enhance stronger primary models. Ultimately, PUST transforms post-training from a monolithic online optimization process into a highly modular, reusable, and cost-efficient paradigm.",
-      "authors": [
-        "Daocheng Fu",
-        "Rong Wu",
-        "Yu Yang",
-        "Xuemeng Yang",
-        "Jianbiao Mei",
-        "Licheng Wen",
-        "Pinlong Cai",
-        "Yong Liu",
-        "Botian Shi",
-        "Yu Qiao"
-      ],
-      "published": "2026-07-13T12:56:21Z",
-      "updated": "2026-07-13T12:56:21Z",
-      "categories": [
-        "cs.LG",
-        "cs.AI"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2607.11505v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.11505v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.5292,
-          "matched": [
-            "alignment",
-            "alignment",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4674,
-        "relevance": 0.4234,
-        "quality": 0.47,
-        "novelty": 0.55,
-        "freshness": 0.8643
-      },
-      "quality_signals": [
-        "code available"
-      ],
-      "summary": {
-        "takeaway": "The Proxy-guided Update Signal Transfer (PUST) framework enhances post-training efficiency for LLMs by decoupling exploration from alignment.",
-        "problem": "Existing methods couple policy exploration with distribution alignment, leading to high computational costs and inefficiencies.",
-        "method": "PUST employs a lightweight proxy model to explore high-reward behaviors and transfers relative improvement signals to the primary model.",
-        "evidence": "Systematic evaluations on Qwen3-family models show that weaker proxies can effectively enhance stronger primary models through extracted update signals.",
-        "limitations": "The paper does not provide detailed quantitative results on the performance of the proposed method compared to existing baselines.",
-        "why_for_you": "This research offers a novel approach to improve the efficiency of post-training processes in LLMs, relevant for enhancing model adaptability.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "PUST allows for asynchronous generation and caching of optimization signals, significantly reducing computational overhead compared to traditional methods."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The framework utilizes a proxy model for exploration, which enables the extraction of relative improvement signals that guide the primary model's policy alignment."
-          },
-          {
-            "icon": "📉",
-            "text": "Experiments demonstrate that update signals from weaker proxies can robustly enhance stronger models, indicating effective cross-model transfer capabilities."
-          }
-        ],
-        "overview": "The research addresses the inefficiencies in post-training for LLMs caused by tightly coupling policy exploration with distribution alignment. By introducing the PUST framework, the authors propose a decoupled approach that utilizes a proxy model for exploration, allowing for the extraction and transfer of relative improvement signals to primary models. Evaluations on Qwen3-family models across math and code domains reveal that this method not only reduces computational costs but also enhances the adaptability of stronger models using insights from weaker proxies.",
-        "methodology": [
-          {
-            "title": "Proxy Model Utilization",
-            "detail": "A lightweight proxy model is employed to explore high-reward behaviors, allowing for efficient signal extraction without burdening the primary model."
-          },
-          {
-            "title": "Signal Extraction",
-            "detail": "The relative improvement signal between the proxy's initial and optimized states is extracted, which serves as a directional update for the primary model."
-          },
-          {
-            "title": "Signal Transfer Mechanism",
-            "detail": "The extracted signals are transferred to the primary model, enabling it to align its policy based on the improvements identified during proxy exploration."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Decoupling Exploration and Alignment",
-            "detail": "The PUST framework separates the stages of policy exploration and alignment, allowing for more efficient post-training processes."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Evaluation on Qwen3-family Models",
-            "detail": "Systematic evaluations demonstrate that update signals from weaker proxies can effectively enhance stronger primary models, showcasing the framework's adaptability."
-          },
-          {
-            "title": "Convergence Analysis",
-            "detail": "Comparative analysis reveals that OPD variants achieve rapid convergence, while traditional methods like GRPO require longer exploratory phases."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Efficiency of PUST",
-            "detail": "PUST significantly reduces exploration costs by delegating sampling and reward evaluation to a smaller proxy model."
-          },
-          {
-            "title": "Scalability of Update Signals",
-            "detail": "The framework allows for update signals to be asynchronously generated, cached, and reused across different training runs."
-          },
-          {
-            "title": "Cross-Model Transfer",
-            "detail": "Signals explored by weaker proxies can be flexibly applied to stronger primary models, enhancing their performance."
-          }
-        ],
-        "contributions": [
-          "Reinterpretation of post-training as distinct stages of policy exploration and alignment.",
-          "Introduction of the PUST framework that transfers relative improvement signals for flexible policy updates.",
-          "Demonstration of the reusability and scalability of update signals across models."
-        ],
-        "limitations": [
-          "Lack of detailed quantitative comparisons with existing baselines.",
-          "No exploration of the impact of different proxy model architectures on performance."
-        ],
-        "open_questions": [
-          "How can the PUST framework be adapted for different types of LLM architectures?",
-          "What are the optimal conditions for selecting proxy models to maximize performance gains?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4o-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment",
-          "alignment",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-14T11:44:02.688717+00:00"
-    },
-    {
-      "id": "2607.11883",
-      "title": "Requential Coding: Pushing the Limits of Model Compression with Self-Generated Training Data",
-      "abstract": "Compression is fundamental to intelligence. A model that can represent its training data as a short code has discovered regularities that enable generalization. Large neural networks may learn functions far simpler than their parameter counts suggest, but it is challenging to construct codes that realize this simplicity. Parameter-based methods such as quantization produce code lengths that scale with model size, insensitive to how much information the parameters store. Prequential coding bypasses this issue by compressing the training trajectory, but codes the exact data sequence regardless of how much the model learns, yielding large codes when the data has high entropy. We introduce requential coding, where a teacher model selects training samples drawn from the student's own distribution. The student's code records only these selections, which cost bits only where teacher and student disagree. The resulting code length is independent of parameter count and data entropy, and often orders of magnitude shorter than the prequential counterpart, with an advantage that grows with scale. This compression sheds light on phenomena inaccessible to prior compressors. Holding loss fixed, larger models and ensembles compress to much smaller sizes despite more parameters. Plugged into a PAC-Bayes bound, the requential code yields state-of-the-art generalization guarantees for billion-parameter LLMs, outperforming bounds built on aggressive post-training quantization even granted zero error. The bound tightens with scale in the compute-optimal regime, as models become increasingly compressible relative to dataset size. The same code predicts that models gradually overfit when trained for multiple epochs. It also isolates the learnable information in a dataset from its unpredictable, random content, revealing that lower-entropy text holds far more learnable structure than higher-entropy image data.",
-      "authors": [
-        "Shikai Qiu",
-        "Marc Finzi",
-        "Yujia Zheng",
-        "Kun Zhang",
-        "Andrew Gordon Wilson"
-      ],
-      "published": "2026-07-13T17:58:50Z",
-      "updated": "2026-07-13T17:58:50Z",
-      "categories": [
-        "cs.LG"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2607.11883v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.11883v1",
-      "comment": "Code available at https://github.com/shikaiqiu/requential-coding",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "emerging",
-          "score": 0.4115,
-          "matched": [
-            "training data",
-            "data"
-          ]
-        },
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.2349,
-          "matched": [
-            "generalization",
-            "generalization",
-            "bound"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4582,
-        "relevance": 0.3762,
-        "quality": 0.57,
-        "novelty": 0.55,
-        "freshness": 0.8943
-      },
-      "quality_signals": [
-        "code available",
-        "formal bound",
-        "dataset evidence"
-      ],
-      "summary": {
-        "takeaway": "Requential coding compresses large neural networks by encoding only teacher-selected training samples from the student's distribution, achieving code lengths independent of parameter count and data entropy, enabling state-of-the-art generalization bounds for billion-parameter LLMs.",
-        "problem": "Existing model compression methods scale code length with parameter count or data entropy, failing to capture the actual information learned by large neural networks.",
-        "method": "Requential coding iteratively trains a student model on samples selected by a teacher model from the student's own distribution, encoding only the indices of accepted samples via relative entropy coding to minimize code length.",
-        "evidence": "Experiments show requential coding yields code lengths orders of magnitude shorter than prequential coding, with compression improving with model scale and producing tighter PAC-Bayes generalization bounds than aggressive post-training quantization.",
-        "limitations": "Encoding time can be prohibitively slow due to the need for many proposals in relative entropy coding, and the method requires a teacher model trained on real data with similar architecture and hyperparameters.",
-        "why_for_you": "This method offers a principled, scalable approach to quantify and leverage the compressibility of large LLMs beyond parameter counts, directly relevant to data selection and statistical theory for LLM generalization.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Requential coding achieves code lengths roughly equal to the cumulative KL divergence between teacher and student distributions, enabling compression rates near 1 bit per parameter for compute-optimal LLMs."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The method uses relative entropy coding (REC) with a pseudorandom number generator to generate candidate samples from the student, encoding only the index of the teacher-accepted sample, reducing communication cost to KL(Q∥P) bits."
-          },
-          {
-            "icon": "📉",
-            "text": "Empirical results demonstrate that larger models and ensembles compress to smaller sizes despite more parameters, and the requential code predicts gradual overfitting with multiple training epochs."
-          }
-        ],
-        "overview": "The paper addresses the challenge that traditional model compression methods, such as parameter quantization or prequential coding, produce code lengths scaling with model size or data entropy, failing to reflect the actual information learned by large neural networks. Requential coding innovates by having a teacher model select training samples from the student's own distribution, encoding only the indices of accepted samples via relative entropy coding. This approach yields code lengths independent of parameter count and data entropy, often orders of magnitude shorter than prequential coding. The method is implemented by iteratively training a student model on teacher-selected samples, with the teacher evolving by training on real data. The resulting compression reveals phenomena inaccessible to prior compressors, such as improved compressibility with scale and tighter PAC-Bayes generalization bounds for billion-parameter LLMs. Experiments on transformers trained on text and images validate the approach, showing strong compression and predictive insights into overfitting and dataset learnability. The method requires shared randomness and incurs computational overhead but offers a principled framework for understanding and leveraging model compressibility at scale.",
-        "methodology": [
-          {
-            "title": "Requential Coding Protocol",
-            "detail": "At each training step t, the student model Pt generates candidate samples Yt,i from its distribution using a pseudorandom number generator with a shared seed. The teacher model Qt selects an accepted sample Xt by choosing an index i⋆ such that Xt is marginally distributed as Qt. The encoder transmits the index i⋆ using relative entropy coding (REC), which requires approximately KL(Qt ∥ Pt) bits. The student then trains on Xt to update Pt+1. This iterative process compresses the training trajectory by encoding only the teacher's selections."
-          },
-          {
-            "title": "Relative Entropy Coding (REC)",
-            "detail": "REC reduces the communication of a sample from distribution Q to communicating an index of a proposal from distribution P, leveraging shared randomness. The encoder and decoder share a pseudorandom number generator to produce identical candidate sequences. The encoder transmits a prefix-free code of the accepted proposal's index, achieving an expected code length bounded by KL(Q∥P) plus small logarithmic overheads, approaching the information-theoretic lower bound."
-          },
-          {
-            "title": "Teacher Model and Training Dynamics",
-            "detail": "The teacher model Qt is trained on real data batches and shares architecture and hyperparameters with the student to maintain low divergence. Enhancements include teacher smoothing via exponential moving average of checkpoints to reduce noise and iso-loss projection to periodically reset the teacher closer to the student, balancing divergence and pulling the student toward the target distribution."
-          },
-          {
-            "title": "Code Length Evaluation and Runtime",
-            "detail": "Code length is evaluated by simulating the stochastic process where REC encoding/decoding is replaced by sampling from the teacher. This requires roughly 2× memory and 2.33× FLOPs compared to ordinary training. Encoding time can be reduced by dividing batches into smaller blocks, trading off code length for encoding speed. Decoding cost remains close to ordinary training."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Compression via Teacher-Student KL Divergence",
-            "detail": "The code length accumulates approximately as the sum over training steps of KL divergences between the teacher and student distributions, reflecting the information difference the student must learn. This mechanism decouples code length from parameter count and data entropy, focusing on the actual information transferred during training."
-          },
-          {
-            "title": "REC Index Encoding with Elias Delta Code",
-            "detail": "Indices of accepted samples are encoded using the parameter-free Elias delta universal integer code, which adds negligible overhead and avoids requiring the decoder to know the teacher-student KL. This ensures prefix-free coding with expected length bounded by KL(Qt ∥ Pt) plus small logarithmic terms."
-          },
-          {
-            "title": "No Explicit Mechanism for Overfitting Prediction",
-            "detail": "While the code predicts gradual overfitting with multiple epochs, the paper does not provide explicit equations or causal mechanisms for this phenomenon."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Compression Comparison on Transformers",
-            "detail": "Requential coding is evaluated against prequential coding and quantization on transformer models trained on text and image datasets. Results show requential coding achieves orders of magnitude shorter code lengths, with compression rates near 1 bit per parameter for compute-optimal LLMs."
-          },
-          {
-            "title": "Generalization Bound Evaluation",
-            "detail": "The requential code is plugged into a PAC-Bayes generalization bound, evaluated on billion-parameter LLMs. It outperforms bounds based on aggressive 4-bit post-training quantization, even assuming zero training error, and tightens with scale in the compute-optimal regime."
-          },
-          {
-            "title": "Teacher Smoothing and Iso-Loss Projection Ablations",
-            "detail": "Improvements such as teacher smoothing via EMA and iso-loss projection are introduced to reduce noise and maintain low divergence between teacher and student, improving code length and training stability."
-          },
-          {
-            "title": "Runtime and Encoding Tradeoffs",
-            "detail": "Experiments analyze the computational overhead of requential coding, showing it requires roughly double memory and 2.33× FLOPs compared to ordinary training. Encoding time can be reduced by block-wise transmission at the cost of longer codes."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Code Length Independent of Parameter Count and Data Entropy",
-            "detail": "Requential coding produces code lengths that do not scale with model size or data entropy, unlike parameter quantization or prequential coding, enabling compression orders of magnitude shorter than prequential codes."
-          },
-          {
-            "title": "Larger Models Compress Better Despite More Parameters",
-            "detail": "Holding loss fixed, larger models and ensembles achieve smaller code lengths, indicating increased compressibility with scale, a phenomenon inaccessible to prior compressors."
-          },
-          {
-            "title": "State-of-the-Art Generalization Bounds",
-            "detail": "When plugged into PAC-Bayes bounds, requential coding yields tighter generalization guarantees for billion-parameter LLMs than aggressive post-training quantization bounds, with the bound tightening as model scale increases."
-          },
-          {
-            "title": "Prediction of Overfitting Dynamics",
-            "detail": "The requential code predicts that models gradually overfit when trained for multiple epochs, isolating learnable information from unpredictable random content in datasets."
-          },
-          {
-            "title": "Lower-Entropy Text Holds More Learnable Structure",
-            "detail": "Analysis reveals that lower-entropy text data contains far more learnable structure than higher-entropy image data, as reflected in compression behavior."
-          }
-        ],
-        "contributions": [
-          "Introduction of requential coding, a novel compression scheme encoding only teacher-selected samples from the student's distribution, independent of parameter count and data entropy.",
-          "Demonstration of orders of magnitude shorter code lengths than prequential coding on large transformers trained on text and images.",
-          "Integration of requential coding into PAC-Bayes bounds yielding state-of-the-art generalization guarantees for billion-parameter LLMs.",
-          "Empirical insights into model compressibility scaling with size and dataset learnability, including overfitting prediction and data entropy analysis.",
-          "Development of practical encoding schemes using relative entropy coding with universal integer codes and shared randomness."
-        ],
-        "limitations": [
-          "Encoding time can be prohibitively slow due to the need for many proposals in relative entropy coding, limiting practical transmission speed.",
-          "The method requires a teacher model trained on real data with similar architecture and hyperparameters, which may not always be available or efficient.",
-          "The approach incurs roughly double memory and more than double FLOPs compared to ordinary training, increasing computational cost.",
-          "No explicit causal mechanism or equations are provided for phenomena such as overfitting prediction."
-        ],
-        "open_questions": [
-          "How can encoding time be further reduced without significantly increasing code length, enabling practical model transmission?",
-          "Can requential coding be extended or adapted to settings without access to a teacher model trained on real data?",
-          "What are the theoretical limits of compressibility for different model architectures and data modalities under requential coding?",
-          "How does requential coding interact with other compression techniques such as pruning or knowledge distillation in large-scale LLMs?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Data selection for LLMs",
-        "matched": [
-          "training data",
-          "data"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-14T11:44:02.688717+00:00"
-    },
-    {
-      "id": "2607.13918",
-      "title": "Partially Correlated Verifier Cascades in LLM Harnesses: Concave Log-Odds, Polynomial Reliability, and Blind-Spot Ceilings",
-      "abstract": "Serial verification gates are a core reliability primitive in LLM harnesses: a candidate answer is returned only if $k$ verifier calls all accept it. Under conditionally independent gates, the recent Odds Law (arXiv:2606.15712) shows that posterior log-odds grow linearly in $k$, so failure decays exponentially, and states that \"a tight theory of partially correlated verifier cascades remains open.\" This note gives a minimal such theory. Modeling the per-instance false-accept rate on the generator's own errors as a latent variable $α\\sim G$ (de Finetti), the exact cascade posterior is $\\ell_k = \\ell_0 - \\ln m_k$, with $m_k$ the $k$-th moment of $G$. Then: (i) $\\ell_k$ is concave in $k$ for every non-degenerate $G$ -- the Odds Law is its tangent at the first gate and an upper bound; (ii) for Beta$(a,b)$ latents, failure decays polynomially, $1-r_k \\asymp k^{-b}$, with correlation parameter $ρ_v = 1/(a+b+1)$; (iii) a blind-spot atom of mass $1-π$ at $α=1$ caps the evidence extractable from any number of gates at $-\\ln(1-π)$ nats, so reliability saturates below 1; (iv) letting the true-accept rate also vary ($β\\sim H$) yields a trichotomy -- gates eventually always help, plateau, or actively harm -- decided by the upper-tail exponents of $G$ and $H$, with closed-form crossover $k^\\dagger$. The mechanism is survivorship: errors surviving gates are the high-$α$ ones. The theory is measurable: $R$ repeated verdicts per instance identify the first $R$ moments of $G$, so two verdicts identify $ρ_v$; beta-binomial likelihood and NPMLE recover the reliability curve and the ill-posed ceiling. In synthetic tests, independence-based extrapolation underestimates failure by 20x at $k=5$ and ~3000x at $k=10$; the correlated fit at $R=8$ tracks held-out depths. The practical lever is decorrelation -- changing model family, modality, or evidence source -- not adding gates.",
-      "authors": [
-        "Jiangang Han"
-      ],
-      "published": "2026-07-15T14:58:37Z",
-      "updated": "2026-07-15T14:58:37Z",
-      "categories": [
-        "math.ST",
-        "cs.AI",
-        "cs.LG"
-      ],
-      "primary_category": "math.ST",
-      "abs_url": "https://arxiv.org/abs/2607.13918v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.13918v1",
-      "comment": "14 pages, 2 figures. Code and synthetic-recovery experiments: https://github.com/jianganghan/harness-verifier-cascades",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3895,
-          "matched": [
-            "reliability",
-            "llm"
-          ]
-        },
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.2041,
-          "matched": [
-            "bound",
-            "theory"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4541,
-        "relevance": 0.3524,
-        "quality": 0.47,
-        "novelty": 0.8726,
-        "freshness": 0.8755
-      },
-      "quality_signals": [
-        "formal bound",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Partially correlated verifier cascades in LLM harnesses exhibit concave log-odds growth, polynomial reliability decay, and blind-spot ceilings that limit reliability gains from adding more gates.",
-        "problem": "Existing theory assumes conditionally independent verifier gates, but real LLM verifiers share correlated blind spots with generators, invalidating exponential reliability improvements.",
-        "method": "Model per-instance false-accept rates as a latent variable α ∼ G, derive exact cascade posterior log-odds as ℓ_k = ℓ_0 − ln m_k with m_k the k-th moment of G, and analyze reliability scaling and ceilings under correlation.",
-        "evidence": "Synthetic experiments show independence-based extrapolation underestimates failure by 20× at k=5 and ~3000× at k=10, while the correlated latent-α theory fitted at R=8 verdicts accurately tracks held-out depths.",
-        "limitations": "The theory uses a scalar latent exchangeable variable compressing all inter-gate correlations, assumes all-accept semantics, relies on Beta distributions for closed forms, and is validated only on synthetic data.",
-        "why_for_you": "This work provides a measurable, minimal statistical theory quantifying verifier correlation effects on LLM harness reliability, crucial for trustworthy LLM deployment and statistical understanding of verification cascades.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "The cascade posterior log-odds ℓ_k = ℓ_0 − ln m_k is concave in k for every non-degenerate latent distribution G, with the Odds Law as a tangent and upper bound, revealing diminishing returns from adding gates under correlation."
-          },
-          {
-            "icon": "🛡️",
-            "text": "Modeling the latent false-accept rate α as Beta(a,b) yields polynomial failure decay 1 − r_k ~ k^−b governed by a single correlation parameter ρ_v = 1/(a+b+1), interpolating from independence to pure blind-spot extremes."
-          },
-          {
-            "icon": "📉",
-            "text": "A blind-spot atom of mass 1−π at α=1 caps extractable evidence at −ln(1−π) nats, causing reliability saturation strictly below 1 regardless of gate count, demonstrating fundamental limits of verifier cascades."
-          }
-        ],
-        "overview": "This paper addresses the open problem of modeling partially correlated verifier cascades in LLM harnesses, where multiple verifier gates sequentially accept candidate answers only if all accept. Prior work assumed conditional independence of gate errors, yielding exponential reliability improvements (Odds Law). However, real verifiers share blind spots with generators, causing correlated errors and invalidating independence assumptions. The authors model the per-instance false-accept rate α as a latent variable drawn from a distribution G, deriving the exact cascade posterior log-odds as ℓ_k = ℓ_0 − ln m_k, where m_k is the k-th moment of G. This formulation reveals concavity in log-odds growth, polynomial rather than exponential failure decay for Beta-distributed latents, and a blind-spot ceiling limiting reliability gains. Introducing variability in true-accept rates β leads to a trichotomy where gates can help, plateau, or harm reliability, with closed-form crossover points. The theory is measurable via repeated verdicts per instance, enabling estimation of correlation parameters and reliability curves. Synthetic experiments validate the theory, showing independence-based extrapolation drastically underestimates failure rates, while the correlated model accurately predicts reliability scaling. The practical implication is that decorrelation strategies, not merely adding gates, improve harness reliability.",
-        "methodology": [
-          {
-            "title": "Latent Variable Modeling of False-Accept Rates",
-            "detail": "The per-instance false-accept rate α of verifier gates on generator errors is modeled as a latent variable drawn from a distribution G, leveraging de Finetti's theorem to assume exchangeability across gates. This latent captures correlation structure among gate errors."
-          },
-          {
-            "title": "Exact Cascade Posterior via Moments",
-            "detail": "The cascade posterior log-odds after k gates is expressed exactly as ℓ_k = ℓ_0 − ln m_k, where m_k = E[α^k] is the k-th moment of G. This moment-based formulation enables analytic characterization of reliability scaling and concavity."
-          },
-          {
-            "title": "Beta Distribution Family and Correlation Parameter",
-            "detail": "Choosing G as a Beta(a,b) distribution yields closed-form asymptotics where failure probability decays polynomially as k^−b. The correlation parameter ρ_v = 1/(a+b+1) quantifies within-instance correlation of verdicts, interpolating between independence and full correlation."
-          },
-          {
-            "title": "Blind-Spot Atom and Reliability Ceiling",
-            "detail": "Incorporating an atom of mass 1−π at α=1 models errors that verifiers never catch, imposing a ceiling on extractable evidence at −ln(1−π) nats and capping reliability strictly below 1 regardless of gate count."
-          },
-          {
-            "title": "Measurement Protocol via Repeated Verdicts",
-            "detail": "Repeated verifier calls per instance (R verdicts) identify the first R moments of G, enabling estimation of correlation parameters such as ρ_v from two verdicts. Beta-binomial likelihood and nonparametric maximum likelihood estimation (NPMLE) recover the full reliability curve and ceiling."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Survivorship Effect in Verification Cascades",
-            "detail": "Errors surviving j gates are exactly those with high latent false-accept rates α, causing later gates to face a selected subset of hard-to-detect errors. This survivorship mechanism induces concavity in log-odds growth, polynomial reliability decay, and blind-spot ceilings, distinguishing verification cascades from voting analogues."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Synthetic Recovery and Validation",
-            "detail": "Synthetic experiments simulate verifier cascades with known latent distributions and correlation parameters. Estimators based on repeated verdicts accurately recover the latent moments and correlation ρ_v. The correlated latent-α theory fitted at R=8 verdicts tracks held-out depths, while independence-based extrapolation underestimates failure by factors of 20× at k=5 and ~3000× at k=10."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Concavity of Log-Odds Growth",
-            "detail": "The exact cascade posterior log-odds ℓ_k is concave in k for every non-degenerate latent distribution G, with the Odds Law as a tangent at k=1 and an upper bound elsewhere, demonstrating diminishing returns from adding gates under correlation."
-          },
-          {
-            "title": "Polynomial Reliability Decay",
-            "detail": "For Beta-distributed latents G=Beta(a,b), failure probability decays polynomially as 1−r_k ~ k^−b, governed by the correlation parameter ρ_v=1/(a+b+1), contrasting with exponential decay under independence."
-          },
-          {
-            "title": "Blind-Spot Ceiling on Reliability",
-            "detail": "An atom of mass 1−π at α=1 imposes a ceiling on extractable evidence at −ln(1−π) nats, causing reliability to saturate strictly below 1 regardless of the number of gates."
-          },
-          {
-            "title": "Trichotomy with Variable True-Accept Rates",
-            "detail": "Allowing true-accept rates β to vary across instances yields a trichotomy where gates eventually help, plateau, or harm reliability, determined by the relative upper-tail exponents of G and H, with a closed-form crossover gate count k^†."
-          },
-          {
-            "title": "Measurement Feasibility",
-            "detail": "Repeated verdicts per instance enable identification of latent moments and correlation parameters, making the theory empirically testable and applicable to real generator-verifier pairs."
-          }
-        ],
-        "contributions": [
-          "Derivation of exact cascade posterior log-odds formula ℓ_k = ℓ_0 − ln m_k under latent false-accept rate modeling.",
-          "Proof of concavity of log-odds growth and polynomial reliability decay for Beta-distributed latents with explicit correlation parameter ρ_v.",
-          "Identification of blind-spot atom inducing a reliability ceiling strictly below 1.",
-          "Characterization of a trichotomy in gating effects when true-accept rates vary, with closed-form crossover gate count.",
-          "Development of a measurement protocol using repeated verdicts to estimate latent moments and correlation parameters.",
-          "Synthetic validation demonstrating severe underestimation of failure by independence assumptions and accurate tracking by the correlated theory."
-        ],
-        "limitations": [
-          "The scalar latent variable assumption compresses all inter-gate correlation into a single exchangeable parameter, ignoring heterogeneous verifier families.",
-          "The theory assumes all-accept semantics, which may not hold under generate-verify-retry workflows where false rejections affect throughput rather than precision.",
-          "Closed-form results rely on Beta distribution assumptions; real latent distributions may differ though asymptotics require only regularly varying tails.",
-          "Validation is limited to synthetic recovery experiments; empirical measurement on real generator-verifier pairs is ongoing."
-        ],
-        "open_questions": [
-          "How to extend the latent variable model to vector latents capturing heterogeneous verifier families and gate-specific systematic differences?",
-          "What are the quantitative effects of generate-verify-retry semantics on reliability scaling and how to model false rejections in this context?",
-          "How well does the theory generalize to real-world generator-verifier pairs beyond synthetic validation, and what are practical protocols for measurement?",
-          "Can decorrelation strategies be systematically designed and quantified to overcome blind-spot ceilings in LLM harnesses?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "reliability",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-16T11:53:57.047514+00:00"
-    },
-    {
-      "id": "2607.12963",
-      "title": "The Illusion of Robustness: Aggregate Accuracy Hides Prediction Flips under Task-Irrelevant Context",
-      "abstract": "As large language models (LLMs) grow more capable, they are increasingly deployed in context-rich settings where task inputs are often accompanied by long, partially irrelevant context. In a controlled setting, we find that state-of-the-art models often appear robust to task-irrelevant context at the aggregate level: prepending it to benchmark questions causes little change in overall accuracy. This aggregate stability, however, masks significant per-example instability. Even semantically meaningless pseudo-words, formed by randomly combining characters, can markedly shift model predictions on a small fraction of examples, degrading performance on some while improving it on others. This two-sided effect holds consistently across a wide range of models and datasets, yet the affected examples are largely model-specific. We further show that this instability is modulated by context type, context length, test-time compute, and model development stage. Together, our findings reveal context-induced tail risks concealed by aggregate accuracy, motivating per-example reliability evaluation of language models.",
-      "authors": [
-        "Yanzhe Zhang",
-        "Sanmi Koyejo",
-        "Diyi Yang"
-      ],
-      "published": "2026-07-14T17:01:12Z",
-      "updated": "2026-07-14T17:01:12Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.12963v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.12963v1",
-      "comment": "Preprint",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4339,
-          "matched": [
-            "robustness",
-            "reliability",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4436,
-        "relevance": 0.3471,
-        "quality": 0.44,
-        "novelty": 0.8558,
-        "freshness": 0.8882
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "dataset evidence"
-      ],
-      "summary": {
-        "takeaway": "Aggregate accuracy metrics obscure significant per-example prediction instability caused by task-irrelevant context in state-of-the-art LLMs.",
-        "problem": "LLMs deployed with long, partially irrelevant context appear robust at the aggregate level but exhibit unstable predictions on individual examples.",
-        "method": "The study prepends task-irrelevant context, including semantically meaningless pseudo-words, to benchmark questions and analyzes prediction changes across multiple models and datasets.",
-        "evidence": "Prepending pseudo-words shifts model predictions on a small fraction of examples, with effects varying by context type, length, compute, and model development stage.",
-        "limitations": "The analysis is limited to controlled settings and does not provide mechanistic explanations for the observed instability.",
-        "why_for_you": "Understanding per-example prediction flips under irrelevant context is critical for trustworthy LLM deployment in real-world, context-rich environments.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "State-of-the-art LLMs show stable aggregate accuracy when irrelevant context is prepended, yet individual examples experience significant prediction flips."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The method uses semantically meaningless pseudo-words formed by random character combinations to isolate the effect of irrelevant context on model predictions."
-          },
-          {
-            "icon": "📉",
-            "text": "Prediction instability is modulated by factors including context type, context length, test-time compute, and model development stage, indicating nuanced sensitivity."
-          }
-        ],
-        "overview": "This research investigates the robustness of large language models to task-irrelevant context by prepending such context to benchmark questions and measuring prediction stability. While aggregate accuracy remains largely unchanged, the study reveals significant per-example prediction flips, including both degradations and improvements, when irrelevant context is introduced. The use of pseudo-words as irrelevant context isolates semantic effects, demonstrating that even meaningless input can alter model behavior. This instability is consistent across diverse models and datasets but affects examples in a model-specific manner. Furthermore, the degree of instability depends on context characteristics and model factors such as development stage and computational budget at test time. These findings expose hidden tail risks in LLM reliability that aggregate metrics fail to capture, underscoring the need for per-example evaluation to ensure trustworthy deployment in context-rich scenarios.",
-        "methodology": [
-          {
-            "title": "Prepending Task-Irrelevant Context",
-            "detail": "The study prepends long, partially irrelevant context, including semantically meaningless pseudo-words created by random character combinations, to benchmark questions to test model robustness to irrelevant input."
-          },
-          {
-            "title": "Controlled Evaluation Across Models and Datasets",
-            "detail": "Multiple state-of-the-art LLMs and benchmark datasets are evaluated under identical conditions to assess the consistency and specificity of prediction instability caused by irrelevant context."
-          },
-          {
-            "title": "Analysis of Prediction Flips",
-            "detail": "Per-example prediction changes are tracked to identify instances where irrelevant context causes shifts in model outputs, measuring both performance degradation and improvement."
-          },
-          {
-            "title": "Modulation Factors Study",
-            "detail": "The impact of context type, context length, test-time compute resources, and model development stage on prediction stability is systematically analyzed to understand factors influencing instability."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "No Explicit Mechanism Provided",
-            "detail": "The paper does not provide a mechanistic or theoretical explanation for why irrelevant context induces prediction flips, focusing instead on empirical observation."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Benchmark Question Evaluation with Irrelevant Context",
-            "detail": "Models are tested on standard benchmark questions with and without prepended irrelevant context, including pseudo-words, to measure changes in aggregate accuracy and per-example predictions."
-          },
-          {
-            "title": "Cross-Model and Dataset Consistency Checks",
-            "detail": "Experiments span a wide range of state-of-the-art LLMs and datasets to verify that the two-sided effect of irrelevant context on prediction flips is consistent yet model-specific."
-          },
-          {
-            "title": "Context and Model Factor Ablations",
-            "detail": "Ablation studies vary context type, length, test-time compute, and model development stage to quantify their modulation of prediction instability."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Aggregate Accuracy Masks Instability",
-            "detail": "Despite little change in overall accuracy when irrelevant context is prepended, individual examples frequently experience prediction flips, revealing hidden instability."
-          },
-          {
-            "title": "Pseudo-Words Cause Prediction Shifts",
-            "detail": "Even meaningless pseudo-words significantly alter model predictions on a subset of examples, demonstrating sensitivity to non-semantic context."
-          },
-          {
-            "title": "Two-Sided Effect on Performance",
-            "detail": "Irrelevant context can both degrade and improve performance on different examples, indicating complex, example-specific effects."
-          },
-          {
-            "title": "Model-Specific Affected Examples",
-            "detail": "The examples impacted by irrelevant context vary across models, suggesting that instability is not uniform but dependent on model architecture or training."
-          },
-          {
-            "title": "Instability Modulated by Multiple Factors",
-            "detail": "Context type, length, test-time compute, and model development stage all influence the degree of prediction instability observed."
-          }
-        ],
-        "contributions": [
-          "Demonstration that aggregate accuracy conceals significant per-example prediction instability under task-irrelevant context.",
-          "Introduction of semantically meaningless pseudo-words as a tool to isolate context effects on LLM predictions.",
-          "Empirical evidence that prediction instability is two-sided and model-specific across diverse LLMs and datasets.",
-          "Identification of factors modulating instability, including context characteristics and model development parameters.",
-          "Motivation for per-example reliability evaluation metrics in LLM deployment."
-        ],
-        "limitations": [
-          "Lack of mechanistic or theoretical explanation for the observed prediction flips.",
-          "Experiments conducted in controlled settings may not fully capture real-world context complexity.",
-          "No quantitative metrics or numerical results are provided in the abstract to gauge effect sizes.",
-          "The study does not explore mitigation strategies for the identified instability."
-        ],
-        "open_questions": [
-          "What underlying mechanisms cause LLMs to be sensitive to semantically meaningless context?",
-          "How can per-example prediction instability be effectively measured and mitigated in deployed systems?",
-          "To what extent do different model architectures or training regimes influence susceptibility to irrelevant context?",
-          "Can model design or training be adapted to reduce context-induced tail risks without sacrificing aggregate accuracy?"
-        ],
-        "source_scope": "abstract",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "robustness",
-          "reliability",
-          "robustness"
         ],
         "lane": "llm"
       },
