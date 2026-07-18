@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-17T11:40:30.308849+00:00",
+  "generated_at": "2026-07-18T11:17:55.121285+00:00",
   "papers": [
     {
       "id": "2607.11444",
@@ -199,205 +199,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-07-14T11:44:02.688717+00:00"
-    },
-    {
-      "id": "2607.08646",
-      "title": "UltraX: Refining Pre-Training Data at Scale with Adaptive Programmatic Editing",
-      "abstract": "As available training data approaches its physical limit, gains from Scaling Laws have begun to diminish. Consequently, improving Large Language Models (LLMs) now depends less on data expansion and more on higher-quality data utilization. However, in the context of large-scale corpora, existing refinement methodologies face significant limitations in quality, efficiency, and reliability: Rule-based approaches are constrained by fixed heuristics and struggle with instance-level variations; LLM-based approaches improve quality but fail to meet the efficiency and reliability requirements of large-scale data processing. To address these challenges, we propose UltraX, a function-calling refinement framework for large-scale pre-training data that completes the editing function space by introducing insertion in addition to deletion and modification, enabling fine-grained instance-level editing. Specifically, UltraX builds a reliable program-supervision generation pipeline. In this pipeline, dataset-adaptive prompt optimization first guides an expert LLM to produce high-quality end-to-end refined texts, and Line Alignment Mapping and Dynamic Context Replacement then convert original-refined text pairs into structured program supervision. Meanwhile, UltraX improves supervision quality and stabilizes the training distribution with low-confidence example filtering and ratio-controlled sampling by operation combination. During inference and execution, it normalizes and validates model outputs through sliding-window prediction, global operation aggregation, and systematic post-processing, improving the stability and reliability of large-scale execution. Experiments show that UltraX achieves the highest average performance across all corpora and also matches or surpasses baselines with fewer training tokens, demonstrating stronger data efficiency and refinement reliability.",
-      "authors": [
-        "Xinlong Zhao",
-        "Dongsheng Liu",
-        "Hengyu Zhao",
-        "Zixuan Fu",
-        "Zheng Wang",
-        "Jie Cai",
-        "Jie Zhou",
-        "Qiang Ma",
-        "Xuanhe Zhou",
-        "Xu Han",
-        "Yudong Wang",
-        "Zhiyuan Liu"
-      ],
-      "published": "2026-07-09T16:18:07Z",
-      "updated": "2026-07-09T16:18:07Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.08646v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.08646v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "emerging",
-          "score": 0.7137,
-          "matched": [
-            "filtering",
-            "sampling",
-            "training data",
-            "data"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4731,
-          "matched": [
-            "alignment",
-            "alignment",
-            "reliability",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6584,
-        "relevance": 0.6656,
-        "quality": 0.5,
-        "novelty": 0.8178,
-        "freshness": 0.879
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "experiments",
-        "dataset evidence"
-      ],
-      "summary": {
-        "takeaway": "UltraX introduces a function-calling refinement framework with insertion, deletion, and modification operations, achieving superior data refinement quality and efficiency for large-scale LLM pre-training.",
-        "problem": "Existing large-scale pre-training data refinement methods either lack fine-grained editing capabilities or fail to scale efficiently and reliably to massive corpora.",
-        "method": "UltraX constructs a program-supervision pipeline using dataset-adaptive prompt optimization, line alignment mapping, dynamic context replacement, and robust execution with sliding-window prediction and post-processing.",
-        "evidence": "Experiments with 1B parameter models pretrained on multiple corpora show UltraX surpasses baselines by over 2% relative improvement on multiple datasets while using fewer training tokens.",
-        "limitations": "The paper does not provide detailed analysis of UltraX’s performance on extremely long documents beyond sliding-window segmentation nor does it address potential biases inherited from expert LLMs used in supervision generation.",
-        "why_for_you": "UltraX offers a scalable, reliable, and fine-grained data refinement approach that improves pre-training data quality and efficiency, directly addressing challenges in trustworthy and efficient LLM data utilization.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "UltraX achieves over 2% relative improvement on multiple datasets in downstream tasks using 1B parameter models pretrained from scratch, demonstrating stronger data efficiency and refinement reliability compared to baselines."
-          },
-          {
-            "icon": "🛡️",
-            "text": "UltraX’s program-supervision pipeline includes dataset-adaptive prompt optimization guiding an expert LLM to generate high-quality refined texts, followed by line alignment mapping and dynamic context replacement to convert text pairs into structured editing programs."
-          },
-          {
-            "icon": "📉",
-            "text": "UltraX stabilizes training distribution and improves supervision quality via low-confidence example filtering and ratio-controlled sampling by operation combination, while inference uses sliding-window prediction and global operation aggregation to ensure stable large-scale execution."
-          }
-        ],
-        "overview": "UltraX addresses the diminishing returns of scaling LLM training data by focusing on improving data quality through fine-grained, programmatic editing of pre-training corpora. Unlike prior rule-based or LLM-based refinement methods limited by fixed heuristics or computational inefficiency, UltraX completes the editing function space by adding insertion to deletion and modification, enabling nuanced instance-level edits. It constructs a reliable program supervision pipeline where an expert LLM, guided by dataset-adaptive prompts, produces end-to-end refined texts. These are converted into structured editing operations via line alignment mapping and dynamic context replacement. To ensure training stability and quality, UltraX filters low-confidence examples and controls sampling ratios of operation types. During inference, it segments long documents with sliding windows, predicts local operations, aggregates them globally, and applies systematic post-processing to produce stable, executable refinement programs. Experiments with 1B models pretrained on multiple corpora demonstrate UltraX’s superior average performance and data efficiency, with relative improvements exceeding 2% on several datasets, validating its approach to scalable, reliable, and fine-grained data refinement for LLM pre-training.",
-        "methodology": [
-          {
-            "title": "Dataset-Adaptive Prompt Optimization",
-            "detail": "UltraX first optimizes prompts tailored to each dataset to guide an expert LLM in generating high-quality, end-to-end refined texts from raw inputs, ensuring that the refinement captures dataset-specific nuances and semantic improvements."
-          },
-          {
-            "title": "Line Alignment Mapping and Dynamic Context Replacement",
-            "detail": "These techniques convert original and refined text pairs into structured program supervision by aligning lines between versions and replacing context dynamically, enabling the extraction of precise editing operations such as insertion, deletion, and modification."
-          },
-          {
-            "title": "Low-Confidence Example Filtering and Ratio-Controlled Sampling",
-            "detail": "To improve supervision quality and stabilize training, UltraX filters out examples with low confidence scores and controls the sampling ratio of different operation combinations, balancing the training distribution across insertion, deletion, and modification operations."
-          },
-          {
-            "title": "Sliding-Window Segment-wise Operation Prediction",
-            "detail": "During inference, UltraX segments long documents using a sliding-window approach, normalizes line numbers, and independently predicts editing operation sequences for each segment to handle length constraints and maintain local context."
-          },
-          {
-            "title": "Global Operation Aggregation and Systematic Post-Processing",
-            "detail": "Local operation sequences from segments are merged into a global program by mapping operations to global line numbers, filtering duplicates, merging adjacent or interfering operations, and applying fallback mechanisms to ensure stable, executable refinement programs."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Programmatic Editing with Complete Operation Space",
-            "detail": "UltraX extends the editing function space by including insertion alongside deletion and modification, enabling fine-grained instance-level edits that preserve semantic coherence and restore missing information, overcoming limitations of prior deletion-only or replacement-only frameworks."
-          },
-          {
-            "title": "No Explicit Theoretical Equations Provided",
-            "detail": "The paper does not present formal equations or causal models but describes a deterministic function executor that applies predicted editing operations to original texts, ensuring auditable and interpretable refinement."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Pretraining 1B Parameter Models on Multiple Corpora",
-            "detail": "UltraX was evaluated by pretraining 1B parameter language models from scratch on multiple large-scale corpora, comparing downstream task performance against baselines including raw data and ProX refinement, measuring average accuracy improvements and data efficiency."
-          },
-          {
-            "title": "Downstream Task Evaluation Across Ten Tasks",
-            "detail": "Performance was assessed on ten downstream tasks including ARC-C, ARC-E, CSQA, HellaS, MMLU, OBQA, PIQA, SIQA, WinoG, and SciQ, with varying numbers of training tokens, demonstrating consistent gains and surpassing baselines with fewer tokens."
-          },
-          {
-            "title": "Ablation on Operation Combination Sampling",
-            "detail": "The effect of ratio-controlled sampling by operation combination was analyzed to understand its impact on training stability and refinement quality, showing that balanced sampling improves model performance."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Superior Average Performance",
-            "detail": "UltraX achieves the highest average performance across all evaluated corpora, with relative improvements exceeding 2% on multiple datasets compared to baseline methods."
-          },
-          {
-            "title": "Improved Data Efficiency",
-            "detail": "UltraX matches or surpasses baseline refinement methods while using fewer training tokens, indicating stronger data efficiency in pre-training."
-          },
-          {
-            "title": "Fine-Grained Refinement Balances Noise Removal and Preservation",
-            "detail": "Analyses suggest UltraX’s inclusion of insertion operations alongside deletion and modification enables better balance between removing noise and preserving useful information, reducing semantic fragmentation."
-          },
-          {
-            "title": "Stable Large-Scale Execution",
-            "detail": "The sliding-window prediction, global aggregation, and systematic post-processing pipeline improve the stability and reliability of large-scale data refinement execution."
-          }
-        ],
-        "contributions": [
-          "Proposed UltraX, a function-calling refinement framework introducing insertion to complete the editing function space for fine-grained instance-level editing.",
-          "Developed a reliable seed-supervision pipeline using dataset-adaptive prompt optimization, line alignment mapping, and dynamic context replacement to generate structured program supervision.",
-          "Designed a robust large-scale execution pipeline with systematic post-processing to handle duplicate matching, ambiguous replacements, and operation interference.",
-          "Demonstrated consistent downstream performance improvements and stronger data efficiency across multiple large-scale pre-training corpora."
-        ],
-        "limitations": [
-          "Lack of detailed evaluation on extremely long documents beyond sliding-window segmentation and its impact on refinement quality.",
-          "Potential biases and errors inherited from expert LLMs used in generating seed supervision are not explicitly analyzed.",
-          "No formal theoretical or causal mechanism is provided to explain the editing operation interactions or their effect on model performance.",
-          "Limited discussion on the computational cost and scalability trade-offs compared to other LLM-based refinement methods."
-        ],
-        "open_questions": [
-          "How does UltraX perform on extremely long documents or streaming data beyond the sliding-window segmentation approach?",
-          "What are the effects of expert LLM biases on the quality and reliability of generated program supervision?",
-          "Can the programmatic editing framework be extended to incorporate semantic or syntactic constraints to further improve refinement quality?",
-          "How does UltraX compare in computational efficiency and cost to other state-of-the-art LLM-based refinement methods at larger model scales?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Data selection for LLMs",
-        "matched": [
-          "filtering",
-          "sampling",
-          "training data",
-          "data"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-10T12:37:21.836532+00:00"
     },
     {
       "id": "2607.13753",
@@ -2213,6 +2014,196 @@
         "lane": "llm"
       },
       "recommended_at": "2026-07-15T11:47:59.097160+00:00"
+    },
+    {
+      "id": "2607.15163",
+      "title": "Scaling Behavior Foundation Model for Humanoid Robots",
+      "abstract": "Humanoid control requires natural whole-body coordination, precise real-time responses to control signals, and robust generalization across diverse environmental contexts, making it a cornerstone for generalist embodied agents. Behavior Foundation Models (BFMs) have recently emerged as a promising solution to address these challenges by leveraging large-scale behavioral data to achieve superior expressiveness, versatility and generalization. However, despite growing interest in scaling BFMs to further improve their capabilities, it remains unclear how key factors, including the learning paradigm, behavioral data and model architecture should be coordinated to enable effective scaling. In this work, we revisit the scaling recipe for BFMs and demonstrate that substantial performance gains can be achieved through the coordination of three core components: 1) the learning paradigm of motion tracking that reformulates diverse humanoid control problems as the reproduction of integrated whole-body behaviors in the global frame; 2) the strategic synergy between on-policy rollout quantity and reference motion diversity; and 3) the expressive and scalable model architecture termed Humanoid Transformer that facilitates the natural emergence of structured behavioral representations. Through extensive experiments in both simulation and real-world deployment, we demonstrate that our approach yields significant improvements in control fidelity and task generalization, reducing Mean Per-Keypoint Position Error (MPKPE) on the test set by over 10% in local mode and 82% in global mode compared with existing humanoid controllers. These results establish BFM as a principled and effective foundation for scalable and general-purpose humanoid control.",
+      "authors": [
+        "Weishuai Zeng",
+        "Kangning Yin",
+        "Xiaojie Niu",
+        "Shunlin Lu",
+        "Weixiang Zhong",
+        "Jiahe Chen",
+        "Feiyu Jia",
+        "Xiao Chen",
+        "Zirui Wang",
+        "Furui Xu",
+        "Ming Zhou",
+        "Kailin Li",
+        "Weinan Zhang",
+        "He Wang",
+        "Li Yi",
+        "Dahua Lin",
+        "Jiangmiao Pang",
+        "Jingbo Wang"
+      ],
+      "published": "2026-07-16T16:08:27Z",
+      "updated": "2026-07-16T16:08:27Z",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "primary_category": "cs.RO",
+      "abs_url": "https://arxiv.org/abs/2607.15163v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.15163v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "foundation model",
+        "foundation models",
+        "transformer"
+      ],
+      "topics": [
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.4439,
+          "matched": [
+            "generalization",
+            "generalization",
+            "scaling"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4731,
+        "relevance": 0.3551,
+        "quality": 0.55,
+        "novelty": 0.8805,
+        "freshness": 0.8837
+      },
+      "quality_signals": [
+        "experiments",
+        "reproducibility",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Coordinating motion tracking learning paradigm, on-policy rollout quantity with reference motion diversity, and the Humanoid Transformer architecture significantly improves humanoid control fidelity and generalization.",
+        "problem": "Existing humanoid whole-body controllers are task-specific and lack versatility and generalization across diverse control scenarios.",
+        "method": "The paper proposes a scaling recipe for Behavior Foundation Models combining motion tracking as a learning paradigm, synergistic data scaling, and a scalable Humanoid Transformer architecture.",
+        "evidence": "Experiments show over 10% MPKPE reduction in local mode and 82% in global mode on test sets compared to prior humanoid controllers.",
+        "limitations": "Scaling the Humanoid Transformer yields diminishing returns and inconsistent improvements across control modes, indicating optimization trade-offs and learning difficulty imbalances.",
+        "why_for_you": "The paper provides a principled, scalable framework and empirical insights into behavior foundation model scaling, relevant for statistical theory and design of large-scale humanoid control LLMs.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "The Humanoid Transformer architecture achieves higher success rates and lower tracking errors than MLP baselines, with medium-sized models matching or exceeding larger MLPs, demonstrating superior capacity utilization for behavior representation."
+          },
+          {
+            "icon": "🛡️",
+            "text": "Motion tracking reformulates humanoid control as reproducing integrated whole-body behaviors in the global frame, enabling a unified goal-conditioned reinforcement learning objective that decouples behavior from task-specific control modes."
+          },
+          {
+            "icon": "📉",
+            "text": "Scaling on-policy data collection by increasing parallel environments and rollout horizon synergizes with expanding reference motion diversity, effectively improving training data quantity and behavioral distribution diversity."
+          }
+        ],
+        "overview": "The paper addresses the challenge of scaling Behavior Foundation Models (BFMs) for humanoid robots to achieve versatile, robust whole-body control beyond task-specific solutions. It identifies three core components for effective scaling: a motion tracking learning paradigm that treats control as integrated whole-body behavior reproduction in a global frame; a data scaling strategy balancing on-policy rollout quantity and reference motion diversity to enrich training data; and a novel Humanoid Transformer architecture that naturally induces structured latent behavioral representations. The approach is formulated as a goal-conditioned reinforcement learning problem maximizing expected return over behavior trajectories. Extensive experiments in simulation and real-world settings demonstrate significant improvements in control fidelity and generalization, with MPKPE reductions exceeding 10% locally and 82% globally compared to prior controllers. The Humanoid Transformer outperforms MLP baselines, achieving better success rates and tracking errors. However, scaling benefits saturate unevenly across control modes, suggesting optimization trade-offs. These findings establish a principled, scalable foundation for general-purpose humanoid control leveraging large-scale behavior data and expressive architectures.",
+        "methodology": [
+          {
+            "title": "Motion Tracking Learning Paradigm",
+            "detail": "Reformulates humanoid control as reproducing integrated whole-body behaviors in the global frame, defining behavior as trajectories over proprioceptive states and actions, excluding goal states. This enables a unified goal-conditioned reinforcement learning objective maximizing expected return over behavior trajectories, decoupling behavior learning from task-specific control modes."
+          },
+          {
+            "title": "Behavioral Data Scaling",
+            "detail": "Training data scaling is achieved by synergizing on-policy rollout quantity and reference motion diversity. Quantity is increased by scaling parallel environment count and rollout horizon, while diversity is enhanced by expanding the curated reference motion corpus, enriching behavioral distribution for robust learning."
+          },
+          {
+            "title": "Humanoid Transformer Architecture",
+            "detail": "An expressive and scalable transformer-based model architecture designed to facilitate the natural emergence of structured latent behavioral representations without auxiliary objectives. It outperforms MLP backbones by better utilizing model capacity under fixed optimization budgets, supporting diverse control modes."
+          },
+          {
+            "title": "Unified Goal-Conditioned Reinforcement Learning Objective",
+            "detail": "Formulates BFM pretraining as maximizing expected discounted return over trajectories induced by the policy, with reward functions and goal states designed to generalize across diverse humanoid control tasks, enabling scalable and versatile behavior learning."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "No Explicit Mechanism Provided",
+            "detail": "The paper does not provide explicit equations or causal mechanisms beyond the MDP formulation and goal-conditioned reinforcement learning objective; it focuses on empirical scaling behavior and architectural design."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Scaling Model Architectures",
+            "detail": "Evaluated Humanoid Transformer versus MLP backbones on a test set under whole-body control modes, measuring success rates and tracking errors. Medium-sized Transformers matched or exceeded larger MLPs, with diminishing returns observed at larger scales."
+          },
+          {
+            "title": "Latent Space Robustness Evaluation",
+            "detail": "Assessed structured latent representations by perturbing latent commands on the hypersphere and measuring robustness metrics such as success rate and MPKPE under noise, demonstrating the Transformer’s ability to maintain performance under perturbations."
+          },
+          {
+            "title": "Control Fidelity and Generalization",
+            "detail": "Compared the proposed BFM approach to existing humanoid controllers on test sets, reporting over 10% MPKPE reduction in local mode and 82% in global mode, indicating significant improvements in control accuracy and task generalization."
+          },
+          {
+            "title": "Data Scaling Ablations",
+            "detail": "Investigated the effects of scaling on-policy rollout quantity and reference motion diversity independently and jointly, confirming that their synergy is critical for effective BFM pretraining and improved performance."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Superior Performance of Humanoid Transformer",
+            "detail": "The Humanoid Transformer achieves higher success rates and lower tracking errors than MLP baselines, with medium-sized models performing comparably or better than larger MLPs, indicating more effective capacity utilization."
+          },
+          {
+            "title": "Significant MPKPE Reduction",
+            "detail": "The proposed BFM reduces Mean Per-Keypoint Position Error by over 10% in local mode and 82% in global mode compared to existing humanoid controllers, demonstrating enhanced control fidelity and generalization."
+          },
+          {
+            "title": "Synergistic Data Scaling",
+            "detail": "Scaling on-policy rollout quantity combined with increasing reference motion diversity yields better training data quality and behavioral coverage, leading to improved model performance."
+          },
+          {
+            "title": "Diminishing Returns and Mode-Specific Saturation",
+            "detail": "Increasing Humanoid Transformer size does not uniformly improve all control modes; some modes saturate early due to learning difficulty imbalances and optimization trade-offs."
+          },
+          {
+            "title": "Emergence of Structured Latent Representations",
+            "detail": "Structured latent spaces emerge naturally in the Humanoid Transformer without auxiliary objectives, supporting locality and robustness to perturbations in behavioral commands."
+          }
+        ],
+        "contributions": [
+          "Identification of motion tracking as a principled learning paradigm for scalable humanoid behavior modeling.",
+          "Demonstration of the synergy between on-policy rollout quantity and reference motion diversity for effective data scaling.",
+          "Design and validation of the Humanoid Transformer architecture enabling structured behavioral representations and superior performance.",
+          "Comprehensive empirical evaluation showing significant improvements in control fidelity and generalization over prior humanoid controllers.",
+          "Provision of a unified scaling recipe coordinating learning paradigm, data, and architecture for Behavior Foundation Models."
+        ],
+        "limitations": [
+          "Scaling the Humanoid Transformer yields diminishing returns and inconsistent improvements across different control modes.",
+          "Optimization trade-offs between control modes may cause performance degradation in some modes as others improve.",
+          "The paper lacks explicit mechanistic or theoretical explanations beyond empirical observations and MDP formulation.",
+          "Details on real-world deployment scenarios and robustness under diverse environmental perturbations are limited."
+        ],
+        "open_questions": [
+          "How can optimization trade-offs between control modes be mitigated to achieve uniformly improved performance?",
+          "What theoretical frameworks can explain the emergence of structured latent behavioral representations in transformer architectures?",
+          "How does the approach generalize to more complex or unseen environmental contexts beyond the tested scenarios?",
+          "Can auxiliary objectives or architectural modifications further enhance scaling behavior and latent space structure?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Statistical theory for LLMs",
+        "matched": [
+          "generalization",
+          "generalization",
+          "scaling"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-17T11:40:30.308849+00:00"
     }
   ]
 }
