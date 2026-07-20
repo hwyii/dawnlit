@@ -16,11 +16,10 @@ configured.
 - Separates relevance, evidence-quality, novelty, and freshness scores.
 - Diversifies the final feed and limits non-LLM transfer papers.
 - Produces structured abstract-grounded notes with an optional Workers AI upgrade.
-- Supports Today, Weekly, Saved, detailed feedback, topic editing, import/export,
+- Supports Today, Weekly, Useful, simple feedback, topic editing, import/export,
   and adding new research directions.
-- Soft-deletes dismissed papers in the browser: “Hide for 30 days” expires
-  automatically, while “not LLM” remains hidden until restored in Preferences.
-  Generated analyses remain cached.
+- Archives papers marked “Not useful” or “Irrelevant” in the browser for seven
+  days, then clears them automatically. Generated analyses remain cached.
 - Ships a dependency-free Web Component for embedding a compact feed in Jekyll,
   Hugo, WordPress, React, or plain HTML sites.
 - Includes an optional Cloudflare Worker + D1 API so browser changes affect the
@@ -56,8 +55,8 @@ a different premise: a researcher should own and understand the filter.
   can live on a personal website instead of behind a product account.
 - **An explicit research profile.** Topics, weights, hard scope rules, and
   transferable-method exceptions are readable and version-controlled.
-- **Typed feedback.** “Wrong topic,” “weak evidence,” “not now,” and
-  “transferable method” do not collapse into one thumbs-down signal.
+- **Simple feedback.** Each card has three research triage choices: useful, not
+  useful, or irrelevant.
 - **Explainable selection.** Relevance, evidence quality, novelty, and freshness
   remain separate, and every card shows why it matched.
 - **A willingness to return nothing.** A paper must clear the relevance
@@ -304,13 +303,11 @@ curl -X PUT "$RADAR_API_URL/api/profile" \
   --data-binary @config/profile.json
 ```
 
-D1 retains profile versions, while feedback types remain distinct:
+D1 retains profile versions, while feedback types remain simple:
 
-- `more_method` and `more_topic` are positive preference signals.
-- `not_llm` is a scope negative.
-- `low_quality` does not lower topic relevance.
-- `not_now` intentionally does not change the long-term profile.
-- `transferable` marks a useful cross-modality method.
+- `useful` is a positive preference signal.
+- `not_useful` and `irrelevant` are negative signals and enter the seven-day
+  browser archive.
 
 ## Data and arXiv use
 

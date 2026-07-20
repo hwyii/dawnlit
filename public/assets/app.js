@@ -6,12 +6,13 @@ const STORAGE = {
   token: "dawnlit.token",
 };
 
-const SNOOZE_DAYS = 30;
+const ARCHIVE_DAYS = 7;
 const runtime = window.PAPER_RADAR_CONFIG || {};
 const state = {
   view: "today",
   feed: { papers: [] },
   weekly: { papers: [] },
+  history: { papers: [] },
   profile: null,
   feedback: readStorage(STORAGE.feedback, []),
   saved: new Set(readStorage(STORAGE.saved, [])),
@@ -78,10 +79,9 @@ function isDismissed(paperId) {
 
 function dismissPaper(paper, action) {
   const now = new Date();
-  const expiresAt =
-    action === "not_now"
-      ? new Date(now.getTime() + SNOOZE_DAYS * 86400000).toISOString()
-      : null;
+  const expiresAt = new Date(
+    now.getTime() + ARCHIVE_DAYS * 86400000,
+  ).toISOString();
   state.dismissed[paper.id] = {
     paper_id: paper.id,
     title: paper.title,
@@ -90,6 +90,16 @@ function dismissPaper(paper, action) {
     expires_at: expiresAt,
   };
   writeStorage(STORAGE.dismissed, state.dismissed);
+}
+
+function allPapers() {
+  const byId = new Map();
+  [state.feed, state.weekly, state.history].forEach((collection) => {
+    (collection.papers || []).forEach((paper) => {
+      if (!byId.has(paper.id)) byId.set(paper.id, paper);
+    });
+  });
+  return [...byId.values()];
 }
 
 function visiblePapers(papers) {
@@ -145,13 +155,15 @@ async function loadProfile() {
 
 async function boot() {
   try {
-    const [feed, weekly, profile] = await Promise.all([
+    const [feed, weekly, history, profile] = await Promise.all([
       fetchJSON("./data/papers.json"),
       fetchJSON("./data/weekly.json").catch(() => ({ papers: [] })),
+      fetchJSON("./data/history.json").catch(() => ({ papers: [] })),
       loadProfile(),
     ]);
     state.feed = feed;
     state.weekly = weekly;
+    state.history = history;
     state.profile = profile;
     elements.loading.classList.add("hidden");
     elements.app.classList.remove("hidden");
@@ -217,11 +229,8 @@ function render() {
       ? visiblePapers(state.feed.papers)
       : state.view === "weekly"
         ? visiblePapers(state.weekly.papers)
-        : [...state.feed.papers, ...state.weekly.papers].filter(
-            (paper, index, all) =>
-              state.saved.has(paper.id) &&
-              !isDismissed(paper.id) &&
-              all.findIndex((item) => item.id === paper.id) === index,
+        : allPapers().filter(
+            (paper) => state.saved.has(paper.id) && !isDismissed(paper.id),
           );
   renderPaperView(papers);
 }
@@ -244,10 +253,10 @@ function renderPaperView(papers) {
     },
     saved: {
       eyebrow: "YOUR LIBRARY",
-      title: "Saved papers",
+      title: "Useful papers",
       subtitle:
-        "Saved papers provide a light preference signal without locking the whole profile.",
-      date: `${papers.length} SAVED`,
+        "Papers you marked useful, indexed from Today, Weekly, and History.",
+      date: `${papers.length} USEFUL`,
     },
   }[state.view];
 
@@ -339,21 +348,11 @@ function paperCard(paper) {
       <div class="paper-actions">
         <button class="action-button save-button ${
           saved ? "active" : ""
-        }" data-action="save">
-          ${saved ? "◆ Saved" : "◇ Save"}
+        }" data-action="useful">
+          ${saved ? "◆ Useful" : "◇ Useful"}
         </button>
-        <button class="action-button" data-action="read">✓ Read</button>
-        <div class="feedback-menu">
-          <button class="action-button" data-action="feedback-menu">Tune signal ▾</button>
-          <div class="feedback-popover">
-            <button data-feedback="more_method">More methods like this</button>
-            <button data-feedback="more_topic">Increase this topic</button>
-            <button data-feedback="low_quality">Relevant, but weak evidence</button>
-            <button data-feedback="not_now">Hide for 30 days</button>
-            <button data-feedback="not_llm">Hide permanently · not LLM</button>
-            <button data-feedback="transferable">Non-LLM, but transferable</button>
-          </div>
-        </div>
+        <button class="action-button" data-action="not-useful">Not useful</button>
+        <button class="action-button" data-action="irrelevant">Irrelevant</button>
         <button class="action-button deep-dive-button" data-action="deep-dive" ${
           paper.deep_dive ? "" : "disabled"
         } title="${
@@ -361,7 +360,6 @@ function paperCard(paper) {
             ? "Open the full-text AI analysis"
             : "Deep analysis is unavailable for this paper"
         }">Deep dive ✦</button>
-        <button class="action-button expand-button" data-action="expand">Structured note ＋</button>
         <a class="link-button" href="${escapeHTML(
           paper.abs_url,
         )}" target="_blank" rel="noreferrer">arXiv ↗</a>
@@ -532,7 +530,7 @@ function summaryCell(label, value = "Not stated in the abstract") {
 function emptyState() {
   const message =
     state.view === "saved"
-      ? "Nothing saved yet. Save a paper when it deserves a closer read."
+      ? "Nothing marked useful yet."
       : "No signal cleared the threshold. An empty feed is better than filler.";
   return `<div class="empty-state"><h2>A quiet day</h2><p>${message}</p></div>`;
 }
@@ -597,8 +595,8 @@ function renderPreferences() {
       <section class="panel">
         <div class="panel-heading">
           <div>
-            <h2>Hidden papers</h2>
-            <p>Temporary dismissals expire after ${SNOOZE_DAYS} days. Analyses stay cached and can be restored at any time.</p>
+            <h2>Archive</h2>
+            <p>Not useful and irrelevant papers stay here for ${ARCHIVE_DAYS} days, then disappear automatically.</p>
           </div>
           ${
             hiddenPapers.length
@@ -617,8 +615,8 @@ function renderPreferences() {
                           <strong>${escapeHTML(paper.title)}</strong>
                           <span>${
                             paper.expires_at
-                              ? `Hidden until ${prettyDate(paper.expires_at)}`
-                              : "Hidden permanently"
+                              ? `Archived until ${prettyDate(paper.expires_at)}`
+                              : "Archived"
                           }</span>
                         </div>
                         <button class="secondary-button" data-pref-action="restore-paper" data-paper-id="${escapeHTML(
@@ -628,7 +626,7 @@ function renderPreferences() {
                     `,
                   )
                   .join("")
-              : "<p>No hidden papers.</p>"
+              : "<p>No archived papers.</p>"
           }
         </div>
       </section>
@@ -706,9 +704,7 @@ function topicEditor(topic, index) {
 }
 
 function paperById(id) {
-  return [...state.feed.papers, ...state.weekly.papers].find(
-    (paper) => paper.id === id,
-  );
+  return allPapers().find((paper) => paper.id === id);
 }
 
 async function recordFeedback(paper, action) {
@@ -723,17 +719,10 @@ async function recordFeedback(paper, action) {
   };
   state.feedback.push(item);
   writeStorage(STORAGE.feedback, state.feedback);
-  if (action === "not_now" || action === "not_llm") {
+  if (action === "not_useful" || action === "irrelevant") {
+    state.saved.delete(paper.id);
+    writeStorage(STORAGE.saved, [...state.saved]);
     dismissPaper(paper, action);
-  }
-  if (action === "more_topic" && paper.topics?.[0]) {
-    const topic = state.profile.topics.find(
-      (candidate) => candidate.id === paper.topics[0].id,
-    );
-    if (topic) {
-      topic.weight = Math.min(1, Number(topic.weight || 0) + 0.1);
-      writeStorage(STORAGE.profile, state.profile);
-    }
   }
   if (state.apiUrl && state.token) {
     try {
@@ -742,13 +731,6 @@ async function recordFeedback(paper, action) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(item),
       });
-      if (action === "more_topic") {
-        await fetchJSON(`${state.apiUrl}/api/profile`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(state.profile),
-        });
-      }
     } catch (error) {
       showToast(
         `Feedback was saved locally; cloud sync failed: ${error.message}`,
@@ -762,15 +744,10 @@ async function recordFeedback(paper, action) {
 function feedbackMessage(action) {
   return (
     {
-      save: "Saved and recorded as a light positive signal.",
-      unsave: "Removed from saved papers and positive signals.",
-      read: "Marked as read.",
-      more_method: "Similar methods will receive more weight.",
-      more_topic: "This topic received more weight.",
-      low_quality: "Recorded as relevant, but weak evidence.",
-      not_now: `Hidden for ${SNOOZE_DAYS} days without changing long-term interests.`,
-      not_llm: "Hidden permanently and recorded as a negative scope signal.",
-      transferable: "Recorded as a transferable method.",
+      useful: "Marked useful and saved.",
+      unuseful: "Removed from useful papers.",
+      not_useful: `Archived for ${ARCHIVE_DAYS} days and recorded as a weak signal.`,
+      irrelevant: `Archived for ${ARCHIVE_DAYS} days and recorded as irrelevant.`,
     }[action] || "Feedback recorded."
   );
 }
@@ -907,22 +884,7 @@ elements.nav.addEventListener("click", (event) => {
 
 elements.app.addEventListener("click", async (event) => {
   const actionButton = event.target.closest("[data-action]");
-  const feedbackButton = event.target.closest("[data-feedback]");
   const preferenceButton = event.target.closest("[data-pref-action]");
-
-  if (feedbackButton) {
-    const card = feedbackButton.closest(".paper-card");
-    const paper = paperById(card.dataset.paperId);
-    const action = feedbackButton.dataset.feedback;
-    feedbackButton.closest(".feedback-menu").classList.remove("open");
-    const feedbackRequest = recordFeedback(paper, action);
-    if (action === "not_now" || action === "not_llm") {
-      updateChrome();
-      render();
-    }
-    await feedbackRequest;
-    return;
-  }
 
   if (actionButton) {
     const card = actionButton.closest(".paper-card");
@@ -930,28 +892,24 @@ elements.app.addEventListener("click", async (event) => {
     const action = actionButton.dataset.action;
     if (action === "deep-dive") {
       openDeepDive(paper);
-    } else if (action === "expand") {
-      card.classList.toggle("expanded");
-      actionButton.textContent = card.classList.contains("expanded")
-        ? "Structured note −"
-        : "Structured note ＋";
-    } else if (action === "feedback-menu") {
-      actionButton.closest(".feedback-menu").classList.toggle("open");
-    } else if (action === "save") {
+    } else if (action === "useful") {
       if (state.saved.has(paper.id)) {
         state.saved.delete(paper.id);
-        await recordFeedback(paper, "unsave");
+        await recordFeedback(paper, "unuseful");
       } else {
         state.saved.add(paper.id);
-        await recordFeedback(paper, "save");
+        await recordFeedback(paper, "useful");
       }
       writeStorage(STORAGE.saved, [...state.saved]);
       updateChrome();
       render();
-    } else if (action === "read") {
-      await recordFeedback(paper, "read");
-      actionButton.classList.add("active");
-      actionButton.textContent = "✓ Read";
+    } else if (action === "not-useful" || action === "irrelevant") {
+      await recordFeedback(
+        paper,
+        action === "not-useful" ? "not_useful" : "irrelevant",
+      );
+      updateChrome();
+      render();
     }
     return;
   }
@@ -1039,12 +997,6 @@ elements.importInput.addEventListener("change", async (event) => {
   } finally {
     event.target.value = "";
   }
-});
-
-document.addEventListener("click", (event) => {
-  document.querySelectorAll(".feedback-menu.open").forEach((menu) => {
-    if (!menu.contains(event.target)) menu.classList.remove("open");
-  });
 });
 
 elements.deepDive.addEventListener("click", (event) => {

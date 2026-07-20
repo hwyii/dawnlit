@@ -512,9 +512,16 @@ def feedback_corpora(feedback: list[dict[str, Any]]) -> tuple[list[set[str]], li
         tokens = tokenize(text)
         if not tokens:
             continue
-        if action in {"save", "read", "more_method", "more_topic", "transferable"}:
+        if action in {
+            "save",
+            "read",
+            "more_method",
+            "more_topic",
+            "transferable",
+            "useful",
+        }:
             positives.append(tokens)
-        elif action in {"not_llm", "irrelevant"}:
+        elif action in {"not_llm", "irrelevant", "not_useful"}:
             negatives.append(tokens)
     return positives, negatives
 
