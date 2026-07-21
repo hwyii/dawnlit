@@ -1,205 +1,6 @@
 {
-  "generated_at": "2026-07-20T20:42:17.741513+00:00",
+  "generated_at": "2026-07-21T11:59:54.359328+00:00",
   "papers": [
-    {
-      "id": "2607.11444",
-      "title": "UMoE:Unlocking Every Expert in Domain-Specific Training",
-      "abstract": "Mixture-of-Experts (MoE) models scale capacity without proportional compute cost and have become a key architecture for frontier large language models (LLMs). Yet domain-specific post-training inherits an expert pool shaped by mixed-domain pre-training: a substantial subset of experts contributes little on the target domain, and standard supervised fine-tuning (SFT) leaves the composition of this pool unchanged. We propose a simple, budget-preserving pipeline that realigns the expert pool to the target domain before fine-tuning. Given a target domain, we (1) prune the experts with lowest domain-aligned saliency, (2) regrow the expert pool to its original size through perturbation-based expert expansion, and (3) apply standard SFT. The resulting model preserves the original expert count, parameter count, and inference cost. With a single frozen recipe and no per-domain hyperparameter tuning, UMoE consistently improves over direct sft across two MoE architectures (Qwen3-30B-A3B and Qwen3.5-35B-A3B), five domains (math, code, science, tool-use, and agentic coding), and 12 benchmarks. Representative improvements are 3.4 points in math average accuracy, 6.0 points on SWE-bench Verified. On a strong in-house math corpus, direct sft already surpasses Qwen3-30B-A3B-Thinking (82.81 vs.\\ 81.06), yet UMoE further raises the average to 84.17, an additional 1.36 points, demonstrating robustness to a substantially stronger SFT regime. Data-scaling experiments further show that the gain persists as training data grows. Analysis reveals that the direct-SFT model allocates substantial routed-expert compute to a low-saliency subset that can be removed post hoc with little average degradation; UMoE turns this redundant capacity into useful domain capacity and achieves lower training loss, with gains spanning all difficulty levels in downstream evaluation.",
-      "authors": [
-        "Xuefeng Li",
-        "Pengfei Liu"
-      ],
-      "published": "2026-07-13T11:52:42Z",
-      "updated": "2026-07-13T11:52:42Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.11444v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.11444v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.7549,
-          "matched": [
-            "robustness",
-            "perturbation",
-            "fine-tuning",
-            "training"
-          ]
-        },
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "emerging",
-          "score": 0.3859,
-          "matched": [
-            "training data",
-            "data",
-            "mixture"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.1887,
-          "matched": [
-            "robustness",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.7011,
-        "relevance": 0.7188,
-        "quality": 0.68,
-        "novelty": 0.55,
-        "freshness": 0.858
-      },
-      "quality_signals": [
-        "code available",
-        "benchmark evaluation",
-        "experiments",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "UMoE reorganizes the expert pool of pretrained MoE LLMs by pruning low-saliency experts and regrowing them via perturbation, yielding consistent domain-specific performance gains without increasing model size or inference cost.",
-        "problem": "Standard supervised fine-tuning of pretrained MoE models leaves many experts poorly aligned to the target domain, wasting capacity and limiting domain-specific adaptation.",
-        "method": "UMoE prunes the least domain-salient experts using a calibration set, regrows the expert pool by perturbation-based expansion to restore original size, then applies standard supervised fine-tuning.",
-        "evidence": "UMoE improves benchmark averages across five domains and two MoE architectures, e.g., +3.4 points math accuracy and +6.0 points on SWE-bench Verified, while preserving parameter count and inference cost.",
-        "limitations": "The paper does not provide detailed analysis of UMoE’s impact on inference latency or memory beyond parameter count, nor does it explore alternative pruning ratios or perturbation scales extensively.",
-        "why_for_you": "UMoE offers an efficient, budget-preserving approach to enhance domain-specific fine-tuning of large MoE LLMs by better utilizing expert capacity, relevant for improving trustworthy and efficient LLM adaptation.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "UMoE achieves a 3.4-point average accuracy improvement on math benchmarks and a 6.0-point gain on SWE-bench Verified by reorganizing experts before fine-tuning, demonstrating robust domain adaptation across multiple datasets."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The method uses REAP saliency scores on a calibration subset to prune the bottom 50% of experts per layer, then regenerates pruned experts by copying and symmetrically perturbing surviving experts’ MLP weights and router rows."
-          },
-          {
-            "icon": "📉",
-            "text": "Analysis shows direct supervised fine-tuning routes substantial compute to low-saliency experts that can be pruned with minimal degradation, whereas UMoE reallocates this capacity to domain-aligned experts, reducing training loss and improving downstream performance."
-          }
-        ],
-        "overview": "This work addresses the inefficiency in domain-specific fine-tuning of large Mixture-of-Experts (MoE) language models, where many experts pretrained on mixed domains contribute little to the target domain. The authors propose UMoE, a three-step pipeline that first prunes experts with the lowest domain-aligned saliency using a calibration dataset, then regrows the expert pool to its original size by perturbation-based expansion of surviving experts, and finally applies standard supervised fine-tuning. This preserves the original model architecture, parameter count, and inference cost, ensuring deployment budget consistency. Evaluations on two MoE architectures (Qwen3-30B-A3B and Qwen3.5-35B-A3B) across five domains (math, code, science, tool-use, agentic coding) and 12 benchmarks demonstrate consistent improvements, including a 3.4-point gain in math accuracy and 6.0 points on SWE-bench Verified. The approach is robust to stronger fine-tuning regimes and scales well with training data size. The key insight is that direct fine-tuning wastes capacity on low-saliency experts, whereas UMoE reallocates this capacity to domain-relevant experts, improving training efficiency and downstream task performance.",
-        "methodology": [
-          {
-            "title": "Domain-Aligned Expert Pruning",
-            "detail": "UMoE scores each expert’s domain relevance using REAP saliency on a calibration subset of the target domain data, combining router gate values and activation norms. It prunes the bottom 50% of experts per layer, retaining those most relevant to the domain to form a domain-aligned expert subset."
-          },
-          {
-            "title": "Budget-Preserving Expert Expansion",
-            "detail": "To restore the original expert count, each pruned slot is reinitialized by copying MLP weights and router rows from surviving experts in a round-robin fashion. Both the parent and regrown experts are independently perturbed with Gaussian noise scaled by parameter standard deviation (σ=0.05) to promote specialization and avoid initialization asymmetry."
-          },
-          {
-            "title": "Standard Supervised Fine-Tuning (SFT)",
-            "detail": "After expert pool reorganization, the model undergoes standard supervised fine-tuning on the full domain-specific dataset using cross-entropy loss. This step updates the domain-aligned experts to improve downstream task performance without changing model size or inference cost."
-          },
-          {
-            "title": "Evaluation Across Architectures and Domains",
-            "detail": "UMoE is evaluated on Qwen3-30B-A3B and Qwen3.5-35B-A3B MoE architectures across five domains (math, code, science, tool-use, agentic coding) using multiple benchmarks and varying SFT data scales to validate generality and robustness."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Domain-Aligned Saliency Scoring",
-            "detail": "Experts are scored by REAP saliency, which integrates router gate weights and activation norms over a calibration set, reflecting each expert’s functional importance under the target domain distribution. This guides pruning decisions to retain domain-relevant experts."
-          },
-          {
-            "title": "Symmetric Perturbation for Expert Expansion",
-            "detail": "Copied experts are perturbed symmetrically on both the parent and regrown copies by adding Gaussian noise scaled by parameter standard deviation, applied to both MLP weights and router rows. This symmetric perturbation avoids initialization bias and encourages functional specialization."
-          },
-          {
-            "title": "Fixed Budget Constraint",
-            "detail": "UMoE maintains the original expert count E and active expert count K, preserving parameter count and inference cost. This ensures that domain adaptation does not increase deployment resource requirements."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Domain-Specific Fine-Tuning on Qwen3-30B-A3B and Qwen3.5-35B-A3B",
-            "detail": "UMoE is tested on two MoE architectures with 128 and 256 routed experts respectively, across five domains with domain-specific SFT datasets and multiple benchmarks, including math competitions (AIME, HMMT), code reasoning (LiveCodeBench), science (GPQA-Diamond), tool-use (τ-bench), and agentic coding (SWE-bench Verified)."
-          },
-          {
-            "title": "Data-Scaling Experiments",
-            "detail": "UMoE’s performance gains persist across varying amounts of supervised fine-tuning data, demonstrating robustness to training data scale and confirming that improvements are not limited to small data regimes."
-          },
-          {
-            "title": "Ablation on Saliency Metrics and Perturbation Design",
-            "detail": "Comparisons among REAP saliency, activation frequency, and Expert Activation Norm (EAN) show REAP and frequency are competitive, with EAN weaker. Perturbing both parent and regrown experts symmetrically outperforms one-sided perturbation, and perturbing both router and MLP weights yields complementary benefits."
-          }
-        ],
-        "findings": [
-          {
-            "title": "UMoE Improves Domain-Specific Accuracy",
-            "detail": "UMoE consistently outperforms direct supervised fine-tuning, e.g., raising math average accuracy by 3.4 points and SWE-bench Verified pass@1 by 6.0 points, demonstrating effective domain adaptation."
-          },
-          {
-            "title": "Robustness to Stronger Fine-Tuning Regimes",
-            "detail": "On a strong in-house math corpus where direct SFT already surpasses a strong baseline (82.81 vs. 81.06), UMoE further improves average accuracy to 84.17, showing gains under stronger SFT conditions."
-          },
-          {
-            "title": "Expert Pool Reorganization Reduces Redundancy",
-            "detail": "Direct SFT routes substantial compute to low-saliency experts that can be pruned post hoc with little degradation, whereas UMoE reallocates this capacity to domain-aligned experts, lowering training loss and improving performance across difficulty levels."
-          },
-          {
-            "title": "Perturbation Design is Critical",
-            "detail": "Symmetric perturbation of both parent and regrown experts on MLP and router parameters is essential; one-sided perturbation leads to routing decline and performance degradation."
-          }
-        ],
-        "contributions": [
-          "Proposed UMoE, a domain-aware expert pool reorganization method that prunes and regrows experts to improve domain-specific fine-tuning without increasing model size or inference cost.",
-          "Introduced a budget-preserving expert expansion technique using symmetric perturbation of copied experts to promote specialization.",
-          "Demonstrated consistent performance gains across multiple MoE architectures, five diverse domains, and 12 benchmarks, including strong math and agentic coding tasks.",
-          "Provided analysis showing that direct fine-tuning wastes capacity on low-saliency experts, which UMoE effectively reallocates to domain-relevant experts.",
-          "Validated robustness of UMoE gains across varying supervised fine-tuning data scales and stronger fine-tuning regimes."
-        ],
-        "limitations": [
-          "The impact of UMoE on inference latency and memory usage beyond parameter count is not analyzed.",
-          "The pruning ratio is fixed at 50% without extensive exploration of alternative ratios or adaptive pruning strategies.",
-          "The perturbation scale σ is fixed at 0.05; sensitivity to this hyperparameter is not deeply studied.",
-          "UMoE relies on a calibration subset for saliency scoring, but the effect of calibration set size and representativeness is not detailed."
-        ],
-        "open_questions": [
-          "How does UMoE affect inference efficiency metrics such as latency and memory footprint in deployment scenarios?",
-          "Can adaptive or dynamic pruning ratios based on domain complexity further improve expert pool reorganization?",
-          "What is the sensitivity of UMoE performance to the choice and size of the calibration dataset used for saliency scoring?",
-          "Could alternative perturbation schemes or learned expert regeneration methods yield better specialization and downstream gains?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "robustness",
-          "perturbation",
-          "fine-tuning",
-          "training"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-14T11:44:02.688717+00:00"
-    },
     {
       "id": "2607.13753",
       "title": "Post-Training Shifts Confidence: A Three-Stage Analysis of How SFT, RL, and OPD Shape Pre-, Intra-, and Post-CoT Calibration",
@@ -753,193 +554,6 @@
       "recommended_at": "2026-07-17T11:40:30.308849+00:00"
     },
     {
-      "id": "2607.11475",
-      "title": "HyperSafe: Inference-Time Safety Recovery for Fine-Tuned Language Models",
-      "abstract": "Safety alignment in large language models can be fragile under fine-tuning, as even benign task adaptation may increase harmful compliance. Existing defenses mainly follow two directions: they either intervene during or after fine-tuning through retraining or weight modification, which can be costly and may hurt task performance, or they use model-agnostic safety classifiers, which may miss failures specific to a given fine-tuned checkpoint. These limitations motivate a post hoc, model-specific, and non-invasive approach to safety restoration. To meet these requirements, we propose HyperSafe, a framework that restores safety behavior by generating a model-specific Safe Side Network (SSN) for each fine-tuned checkpoint. HyperSafe uses layer-wise activation fingerprints to capture how fine-tuning changes the model's inner representations. With a small set of given calibration prompts, the hypernetwork maps these fingerprints to the parameters of the \\ssn{} in a single forward pass. The generated \\ssn{} runs alongside the frozen fine-tuned model and performs prompt-level safety classification: harmful prompts are routed to refusal, while safe prompts are answered by the original fine-tuned model. Thus, HyperSafe requires no gradient updates, no safety data at deployment time, and no modification to the deployed model weights. We evaluate HyperSafe on two model families, Qwen2-7B and LLaMA-3-8B, across multiple safety benchmarks. HyperSafe reduces harmful response rates from 19-31% to below 1% on every held-out checkpoint, while keeping downstream task accuracy within 1% of the fine-tuned baseline on average. Code is available at https://github.com/nokronim/project-safety-remedy.",
-      "authors": [
-        "Aznaur Aliev",
-        "Carlos Hinojosa",
-        "Abdelrahman Eldesokey",
-        "Bang An",
-        "Bernard Ghanem",
-        "Yibo Yang"
-      ],
-      "published": "2026-07-13T12:28:43Z",
-      "updated": "2026-07-13T12:28:43Z",
-      "categories": [
-        "cs.LG",
-        "cs.CL"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2607.11475v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.11475v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.5299,
-          "matched": [
-            "alignment",
-            "calibration",
-            "alignment",
-            "safety"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5436,
-        "relevance": 0.4239,
-        "quality": 0.85,
-        "novelty": 0.55,
-        "freshness": 0.8616
-      },
-      "quality_signals": [
-        "code available",
-        "GitHub link",
-        "baseline comparison",
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "HyperSafe generates model-specific Safe Side Networks at inference time to restore safety in fine-tuned LLMs, reducing harmful outputs below 1% while preserving task accuracy within 1%.",
-        "problem": "Fine-tuning safety-aligned large language models often degrades their safety alignment, increasing harmful response rates significantly.",
-        "method": "HyperSafe uses layer-wise activation fingerprints from calibration prompts to generate a Safe Side Network via a hypernetwork that classifies prompts at inference, routing harmful ones to refusal without modifying model weights.",
-        "evidence": "Evaluations on Qwen2-7B and LLaMA-3-8B across multiple safety benchmarks show HyperSafe reduces harmful response rates from 19–31% to below 1% on all held-out checkpoints while maintaining task accuracy within 1% of fine-tuned baselines.",
-        "limitations": "The method relies on a calibration set and may degrade if instruction-following data is excluded; it has been evaluated primarily on LoRA fine-tuned checkpoints and two model families.",
-        "why_for_you": "HyperSafe offers a non-invasive, model-specific, and efficient inference-time safety recovery approach that preserves downstream task performance, addressing fine-tuning-induced safety degradation without retraining or weight modification.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "HyperSafe reduces harmful response rates from 19–31% in LoRA fine-tuned Qwen2-7B and LLaMA-3-8B models to below 1% across 12 held-out datasets, demonstrating strong zero-shot safety generalization."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The Safe Side Network (SSN) is generated by a hypernetwork that maps layer-wise activation fingerprints from a small calibration prompt set to SSN parameters in a single forward pass, enabling prompt-level safety classification without weight updates."
-          },
-          {
-            "icon": "📉",
-            "text": "Ablation studies show removing safe-probe supervision or domain-specific calibration degrades task accuracy and safety, indicating the importance of functional supervision and diverse calibration data for SSN effectiveness."
-          }
-        ],
-        "overview": "Fine-tuning aligned large language models often compromises their safety, increasing harmful outputs despite benign task adaptation. Existing defenses either intervene during fine-tuning with costly constraints, modify model weights post hoc risking task performance degradation, or use model-agnostic classifiers that miss fine-tuning-specific failures. HyperSafe addresses these limitations by generating a model-specific Safe Side Network (SSN) at inference time using a hypernetwork conditioned on layer-wise activation fingerprints extracted from a small calibration prompt set. The SSN runs alongside the frozen fine-tuned model, classifying prompts as harmful or safe and routing harmful prompts to refusal, thus restoring safety without retraining or weight modification. Evaluations on Qwen2-7B and LLaMA-3-8B across multiple safety benchmarks demonstrate that HyperSafe reduces harmful response rates from 19–31% to below 1% while preserving task accuracy within 1%. Ablations confirm the necessity of functional supervision and calibration diversity. This approach enables deployment of fine-tuned models with restored safety guarantees efficiently and non-invasively.",
-        "methodology": [
-          {
-            "title": "Layer-wise Activation Fingerprints",
-            "detail": "Extracts activation patterns from multiple layers of the fine-tuned model using a small set of calibration prompts to capture fine-tuning-induced representation changes, serving as input to the hypernetwork."
-          },
-          {
-            "title": "Hypernetwork Parameter Generation",
-            "detail": "A hypernetwork maps the extracted activation fingerprints to the parameters of the Safe Side Network in a single forward pass, enabling rapid generation of a model-specific safety classifier without gradient updates."
-          },
-          {
-            "title": "Safe Side Network (SSN) Architecture",
-            "detail": "The SSN is a lightweight classifier with 12 side layers and reduced hidden size (h/4) that runs alongside the frozen fine-tuned model, performing prompt-level safety classification to route harmful prompts to refusal."
-          },
-          {
-            "title": "Prompt-level Safety Classification",
-            "detail": "The SSN classifies each input prompt as harmful or safe; harmful prompts are refused, while safe prompts are answered by the original fine-tuned model, preserving task utility."
-          },
-          {
-            "title": "Training Objective and Calibration",
-            "detail": "The hypernetwork and SSN are trained using a combination of functional supervision losses including safe-probe supervision and domain calibration prompts, ensuring discriminative safety classification and minimal over-blocking."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "No explicit mechanism equations provided",
-            "detail": "The paper does not provide formal equations or causal models but explains that layer-wise activation fingerprints capture fine-tuning changes, which the hypernetwork uses to generate SSN parameters for prompt-level safety classification."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Model Families and Fine-tuning",
-            "detail": "Evaluations conducted on Qwen2-7B-Instruct and LLaMA-3-8B-Instruct models fine-tuned with LoRA (rank 16, α=32) across 22 diverse datasets spanning QA, reasoning, math, classification, code, and instruction-following."
-          },
-          {
-            "title": "Safety Benchmarks and Evaluation Protocol",
-            "detail": "Safety evaluated on BeaverTails (700 prompts, 14 categories), AdvBench (520 prompts), and HEx-PHI (330 prompts, 11 categories) with disjoint training and evaluation splits; harmful rate and task accuracy metrics reported."
-          },
-          {
-            "title": "Comparison Baselines",
-            "detail": "Compared against base aligned models, LoRA fine-tuned models without safety mechanisms, and Llama Guard 4 (12B) external classifier, demonstrating superior safety reduction and task accuracy preservation."
-          },
-          {
-            "title": "Ablation Studies",
-            "detail": "Ablations on LLaMA-3-8B show removing safe-probe supervision or domain calibration degrades accuracy and safety; calibration prompt set size impacts fingerprint quality and SSN performance; SSNs trained on LoRA checkpoints transfer to full fine-tuning."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Safety Restoration",
-            "detail": "HyperSafe reduces harmful response rates from 19–31% in fine-tuned models to below 1% across all held-out datasets and model families, achieving over 95% relative reduction in harmful outputs."
-          },
-          {
-            "title": "Task Accuracy Preservation",
-            "detail": "Task accuracy remains within 1 percentage point of the fine-tuned baseline on average, indicating minimal utility loss despite safety restoration."
-          },
-          {
-            "title": "Generalization and Transfer",
-            "detail": "SSNs generated from LoRA fingerprints transfer unchanged to fully fine-tuned counterparts, maintaining harmful rates ≤0.1% and stable task accuracy."
-          },
-          {
-            "title": "Calibration Data Importance",
-            "detail": "Instruction-following calibration data is critical for safety; removing it substantially increases harmful rates, while removing other categories has minimal effect."
-          },
-          {
-            "title": "Efficiency",
-            "detail": "SSN adds only 3–4% of backbone parameters and requires a single hypernetwork forward pass amortized over prompts; safe prompts bypass SSN during decoding, keeping generation cost unchanged."
-          }
-        ],
-        "contributions": [
-          "Proposed HyperSafe, a novel inference-time safety recovery framework generating model-specific Safe Side Networks without weight modification or retraining.",
-          "Introduced layer-wise activation fingerprints as a representation of fine-tuning changes for hypernetwork conditioning.",
-          "Demonstrated strong safety restoration reducing harmful outputs below 1% while preserving task accuracy within 1% across two large LLM families and multiple safety benchmarks.",
-          "Provided extensive ablations showing the importance of functional supervision, calibration diversity, and prompt set size.",
-          "Showed SSN transferability from LoRA to full fine-tuning, enabling practical deployment without re-alignment."
-        ],
-        "limitations": [
-          "Dependence on a sufficiently diverse and representative calibration prompt set, especially instruction-following data, for effective safety classification.",
-          "Evaluations limited to two model families (Qwen2-7B and LLaMA-3-8B) and LoRA fine-tuning; generalization to other architectures or fine-tuning methods is unverified.",
-          "No explicit theoretical mechanism or formal guarantees provided for safety restoration effectiveness.",
-          "Potential residual harmful outputs remain (up to 0.7% in some datasets), indicating non-zero failure risk."
-        ],
-        "open_questions": [
-          "How well does HyperSafe generalize to other fine-tuning methods beyond LoRA and to larger or different LLM architectures?",
-          "Can the calibration prompt set be optimized or minimized further without degrading safety and accuracy?",
-          "What are the theoretical limits and guarantees of safety restoration achievable by model-specific SSNs generated from activation fingerprints?",
-          "How does HyperSafe perform against adaptive adversarial harmful prompts designed to evade the SSN?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment",
-          "calibration",
-          "alignment",
-          "safety"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-14T11:44:02.688717+00:00"
-    },
-    {
       "id": "2607.15161",
       "title": "On-Policy Delta Distillation",
       "abstract": "On-policy distillation is an alternative post-training method in reinforcement learning that alleviates the constraints imposed by reward models by providing token-level supervision from a teacher model. Although on-policy distillation has been studied and applied across various settings, its fundamental design remains underexplored. In this paper, we introduce a new distillation reward, termed the delta signal, instead of directly imitating the teacher's output distribution. The delta signal is defined as the difference between the teacher model and its base model prior to instruction tuning for reasoning capability. It therefore captures the changes induced by reasoning tuning and provides a more direct signal for transferring reasoning capabilities. Using extensive empirical evidence, we show that the delta signal substantially improves on-policy distillation and refer to the new distillation method as On-Policy Delta Distillation (OPD$^2$). Experiments across mathematics, science, and code-reasoning benchmarks demonstrate that OPD$^2$ consistently outperforms conventional on-policy distillation, enabling reasoning LLMs to achieve strong performance with only a short post-training period. Code will be available at https://github.com/naver-ai/opd2",
@@ -1119,6 +733,497 @@
         "lane": "llm"
       },
       "recommended_at": "2026-07-17T11:40:30.308849+00:00"
+    },
+    {
+      "id": "2607.17946",
+      "title": "A Geometric Perspective on Stabilizing Value Conflict Resolution",
+      "abstract": "Large Language Models (LLMs) often struggle to navigate value conflicts when trained with the compressed scalar rewards of Reinforcement Learning from Human Feedback (RLHF). To address this challenge, we investigate how chain-of-thought (CoT) reasoning can help improve performance in this domain. Geometrically, we show that CoT correlates with further smoothing the model's loss landscape in its sharpest direction, helping resolve the optimization instability of traditional scalar rewards. We also demonstrate via relevant downstream benchmarks that value conflict-focused CoT may generalize to different kinds of moral reasoning, demonstrating that this CoT has the potential to be an effective mechanism for better moral reasoning. To capitalize on this potential, we create a new value conflict-focused CoT design that further smooths the sharpest direction of the loss landscape and increases moral reasoning performance. This finding shows that explicitly modifying and improving the design of reasoning dynamics offers a promising avenue for improving model performance on user requests with complex value conflicts, advancing pluralistic alignment in LLMs.",
+      "authors": [
+        "Saket Reddy",
+        "Andy Liu"
+      ],
+      "published": "2026-07-20T13:46:47Z",
+      "updated": "2026-07-20T13:46:47Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2607.17946v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.17946v1",
+      "comment": "Accepted to ICML Workshop on High-Dimensional Learning Dynamics",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "core",
+          "score": 0.6245,
+          "matched": [
+            "loss landscape",
+            "landscape",
+            "loss"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.1891,
+          "matched": [
+            "alignment",
+            "alignment"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5277,
+        "relevance": 0.5374,
+        "quality": 0.4,
+        "novelty": 0.55,
+        "freshness": 0.8677
+      },
+      "quality_signals": [
+        "benchmark evaluation"
+      ],
+      "summary": {
+        "takeaway": "Chain-of-thought (CoT) reasoning smooths the sharpest direction of the LLM loss landscape, stabilizing value conflict resolution and improving moral reasoning performance.",
+        "problem": "LLMs trained with scalar rewards from RLHF struggle with unstable optimization and flawed moral reasoning when resolving conflicting human values.",
+        "method": "The authors design a value conflict-focused annealing-inspired CoT framework that mimics thermodynamic annealing phases to smooth the loss landscape and improve reasoning dynamics.",
+        "evidence": "Hessian top eigenvalue analysis shows annealing CoT achieves the lowest maximum curvature (λmax ≈ 1218), indicating the flattest minimum and best stability, with corresponding improved benchmark moral reasoning accuracy.",
+        "limitations": "Performance improvements from CoT are within the margin of error, and experiments focus on binary value conflicts without scaling to higher-dimensional pluralistic value spaces.",
+        "why_for_you": "This work provides a geometric and mechanistic understanding of how CoT reasoning dynamics can be explicitly designed to stabilize LLM training on value conflicts, advancing trustworthy pluralistic alignment.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Annealing-inspired CoT reduces the top Hessian eigenvalue from 4083 (base RLHF) to 1218, indicating a much smoother loss landscape in the sharpest direction and more stable optimization."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The annealing CoT method structures reasoning into three cognitive phases—high-temperature exploration, cooling trade-off weighing, and low-temperature decisive action—mimicking thermodynamic annealing to resolve value conflicts."
+          },
+          {
+            "icon": "📉",
+            "text": "Benchmark results on moral reasoning datasets show annealing CoT outperforms base RLHF, base SFT, and standard CoT models, achieving the highest accuracy by a larger margin, demonstrating improved moral reasoning capability."
+          }
+        ],
+        "overview": "This paper addresses the instability and flawed moral reasoning in LLMs trained with scalar rewards from RLHF when resolving conflicting human values. The authors hypothesize that chain-of-thought (CoT) reasoning can mitigate this by smoothing the loss landscape's sharpest direction, stabilizing optimization. They draw an analogy to geometric frustration in physics and thermodynamic annealing, designing an annealing-inspired CoT framework with three cognitive phases to guide the model from broad exploration to decisive trade-offs. Empirical Hessian analysis confirms that annealing CoT achieves the flattest minima, reducing the top eigenvalue significantly compared to base RLHF and standard CoT. Correspondingly, moral reasoning benchmarks show improved performance, although some gains are within error margins. The work highlights the importance of explicitly designing reasoning dynamics to improve pluralistic alignment and suggests that internal reasoning design complements external reward engineering. Limitations include focus on binary value conflicts and lack of scaling to more complex pluralistic environments.",
+        "methodology": [
+          {
+            "title": "Data Generation",
+            "detail": "Prompts eliciting value conflicts were generated using the ConflictScope pipeline with Claude 3.5 Sonnet, covering diverse conflicting value pairs. An ensemble of LLMs (GPT 5 Nano, Gemini 3.1 Flash Lite, Claude 4.5 Haiku) generated two reasoning traces per prompt: a standard unstructured CoT and an annealing-inspired CoT with structured cognitive phases."
+          },
+          {
+            "title": "Annealing-inspired CoT Design",
+            "detail": "The CoT reasoning is structured into three phases: (1) high-temperature broad exploration weighing values, (2) cooling phase weighing trade-offs, and (3) low-temperature decisive action making hierarchical trade-offs. This design mimics thermodynamic annealing to resolve geometric frustration in value conflicts."
+          },
+          {
+            "title": "Loss Landscape Analysis",
+            "detail": "The authors analyze the Hessian top eigenvalue (λmax) of the loss landscape to quantify sharpness and stability. Lower λmax indicates a flatter, more stable minimum. They visualize 3D eigenplane loss landscapes by perturbing model weights along top eigenvectors to qualitatively assess optimization geometry."
+          },
+          {
+            "title": "Model Training and Evaluation",
+            "detail": "Models trained include base RLHF, base supervised fine-tuning (SFT), standard CoT, and annealing CoT. Evaluation metrics include Hessian eigenvalues for stability and benchmark accuracy on moral reasoning datasets such as MMLU Moral Scenarios, DecodingTrust Machine Ethics, and SafetyBench."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Geometric Frustration and Annealing Analogy",
+            "detail": "Value conflict resolution in LLMs is analogous to geometric frustration in condensed matter physics, where incompatible constraints create a rugged, spiky energy landscape. Annealing, a thermodynamic process of heating and gradual cooling, resolves frustration by guiding the system to a stable, low-energy configuration. The annealing-inspired CoT framework translates this principle into cognitive phases that smooth the loss landscape and stabilize optimization."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Loss Landscape Visualization and Hessian Analysis",
+            "detail": "The authors visualize 3D loss landscapes along top Hessian eigenvectors for base RLHF, base SFT, standard CoT, and annealing CoT models. Quantitatively, the top eigenvalue λmax decreases from 4083.87 (base RLHF) to 1218.04 (annealing CoT), indicating progressive smoothing and stability."
+          },
+          {
+            "title": "Moral Reasoning Benchmark Evaluation",
+            "detail": "Models are evaluated on multiple moral reasoning benchmarks including MMLU Moral Scenarios, DecodingTrust Machine Ethics, and SafetyBench. Annealing CoT achieves the highest accuracy (e.g., 41.67% on MMLU Moral Scenarios) outperforming base RLHF and standard CoT, demonstrating improved moral reasoning performance."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Scalar Reward Optimization Instability",
+            "detail": "Direct scalar reward optimization via RLHF leads to a sharp, cliff-like loss landscape with a high top Hessian eigenvalue (~4083), indicating unstable value conflict resolution."
+          },
+          {
+            "title": "Supervised Fine-Tuning Smoothing Effect",
+            "detail": "Supervised fine-tuning on responses reduces the top eigenvalue to ~1402, smoothing the loss landscape into a ravine-like shape and improving stability."
+          },
+          {
+            "title": "CoT Further Smooths Loss Landscape",
+            "detail": "Standard CoT reduces the top eigenvalue further to ~1346, and annealing CoT achieves the lowest eigenvalue (~1218), indicating the flattest minima and most stable optimization."
+          },
+          {
+            "title": "Performance Gains on Moral Reasoning",
+            "detail": "Annealing CoT outperforms other methods on moral reasoning benchmarks by a larger margin, e.g., 41.67% accuracy on MMLU Moral Scenarios compared to 24.67% for base RLHF, demonstrating improved moral reasoning capability."
+          }
+        ],
+        "contributions": [
+          "Demonstration that value conflict-focused annealing CoT design flattens the sharpest direction of the loss landscape and improves moral reasoning performance.",
+          "Geometric analysis linking CoT reasoning dynamics to smoothing of the loss landscape beyond supervised fine-tuning effects.",
+          "Release of a new dataset and code for standard and annealing CoT reasoning traces on value conflict prompts.",
+          "Empirical evidence that scalar reward optimization is ill-equipped for stable value conflict resolution in LLMs.",
+          "Proposal of explicit reasoning dynamics design as a promising avenue for advancing pluralistic alignment."
+        ],
+        "limitations": [
+          "Performance improvements from CoT are within the margin of error, limiting statistical significance.",
+          "Experiments focus on binary value conflicts without scaling to N-dimensional pluralistic value spaces.",
+          "No formal mapping of trade-offs between internal reasoning design and external reward engineering is provided.",
+          "Mechanistic explanations are analogical and lack formal mathematical modeling."
+        ],
+        "open_questions": [
+          "How can CoT methods be scaled from binary to N-dimensional pluralistic value conflicts in LLMs?",
+          "What are the formal trade-offs between improving value conflict resolution via internal reasoning dynamics versus external RLHF reward design?",
+          "Can the annealing-inspired CoT framework be generalized to other forms of complex reasoning beyond moral value conflicts?",
+          "What are the precise mechanistic underpinnings linking loss landscape geometry changes to improved moral reasoning performance?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "loss landscape",
+          "landscape",
+          "loss"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-21T11:59:54.359328+00:00"
+    },
+    {
+      "id": "2607.18199",
+      "title": "PPL-Factory: Task-Aware and Budget-Aware Data Selection from Language Modeling to Reasoning",
+      "abstract": "Not all training samples contribute equally to large language model fine-tuning. Selecting informative training samples can reduce the computational cost while preserving downstream performance. Many existing data selection methods rely on indirect heuristics, such as data quality, diversity or reasoning trace length. However, the effectiveness of these fixed criteria is task-dependent and difficult to generalize across diverse downstream tasks. Perplexity-based data selection provides a simple and model-aware solution to estimate the sample difficulty, but existing approaches typically score the entire training sequence and ignore the difference in learning objectives of language modeling and reasoning tasks. In this paper, we propose PPL-Factory, a simple and interpretable data selection framework that combines task-aware perplexity-based scores and data budget-aware selection criteria. Experiments on GSM8K demonstrate that PPL-Factory outperforms other state-of-the-art data selection methods using only $1\\%$ of the training set. With $10\\%$ of the data, PPL-Factory exceeds full-data fine-tuning accuracy by 0.9 on GSM8K and 4.8 on MATH. Overall, our results demonstrate that task-aware and budget-aware perplexity-based selection provides an effective and applicable approach for efficient fine-tuning.",
+      "authors": [
+        "Hang Zhang",
+        "Warren J. Gross"
+      ],
+      "published": "2026-07-20T17:38:38Z",
+      "updated": "2026-07-20T17:38:38Z",
+      "categories": [
+        "cs.CL",
+        "cs.LG"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.18199v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.18199v1",
+      "comment": "13 pages, 4 figures, 5 tables",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model"
+      ],
+      "topics": [
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "emerging",
+          "score": 0.607,
+          "matched": [
+            "data selection",
+            "data quality",
+            "data",
+            "selection"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5092,
+        "relevance": 0.4856,
+        "quality": 0.47,
+        "novelty": 0.55,
+        "freshness": 0.8907
+      },
+      "quality_signals": [
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "PPL-Factory effectively selects informative training samples for LLM fine-tuning, enhancing performance while reducing computational costs.",
+        "problem": "Existing data selection methods struggle with task dependency and computational efficiency in LLM fine-tuning.",
+        "method": "PPL-Factory combines task-aware perplexity-based scoring with budget-aware selection criteria for improved data selection.",
+        "evidence": "Experiments show PPL-Factory outperforms state-of-the-art methods, achieving 0.9 and 4.8 accuracy improvements on GSM8K and MATH with only 10% of the data.",
+        "limitations": "The paper does not address the performance of PPL-Factory under extremely low data budgets beyond the tested scenarios.",
+        "why_for_you": "This framework is crucial for optimizing data selection in LLMs, aligning with your research interests in efficient data utilization.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4o-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "PPL-Factory outperforms existing methods, achieving a 0.9 accuracy increase on GSM8K and 4.8 on MATH using only 10% of the training data."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The framework employs a budget-aware selection criterion that adapts to varying data budgets, ensuring effective sample selection across tasks."
+          },
+          {
+            "icon": "📉",
+            "text": "Perplexity scores are computed using negative log-likelihood (NLL), providing a model-aware measure of sample difficulty tailored for both language modeling and reasoning tasks."
+          }
+        ],
+        "overview": "The research addresses the inefficiencies in data selection for fine-tuning large language models (LLMs) by introducing PPL-Factory, a framework that integrates task-aware perplexity scoring with budget-aware selection criteria. This approach allows for the effective identification of informative training samples, significantly enhancing model performance while minimizing computational costs. The strongest evidence comes from experiments on GSM8K and MATH, where PPL-Factory demonstrated superior performance compared to existing methods, achieving notable accuracy improvements with a fraction of the training data.",
+        "methodology": [
+          {
+            "title": "Task-Aware NLL Scoring",
+            "detail": "PPL-Factory computes task-specific NLL scores using a frozen pre-trained LLM, adapting the scoring mechanism to reflect the unique learning signals of language modeling and reasoning tasks."
+          },
+          {
+            "title": "Budget-Aware Selection",
+            "detail": "The framework implements a selection strategy that adjusts based on the available data budget, prioritizing informative samples while maintaining coverage of the training distribution."
+          },
+          {
+            "title": "Data Selection Problem Formulation",
+            "detail": "The selection process is framed as an informative-coverage maximization problem, balancing the utility of selected examples against the need to preserve the original data distribution."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Perplexity-Based Scoring",
+            "detail": "PPL-Factory utilizes perplexity as a measure of difficulty, aligning with the next-token prediction objective, and adapts it for reasoning tasks by combining reasoning and answer NLL scores."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "GSM8K Evaluation",
+            "detail": "PPL-Factory was tested on the GSM8K dataset, achieving a 0.9 accuracy improvement over full-data fine-tuning using only 10% of the training set."
+          },
+          {
+            "title": "MATH Benchmarking",
+            "detail": "In experiments on the MATH dataset, PPL-Factory outperformed full-data fine-tuning by 4.8 accuracy points while utilizing just 10% of the training data."
+          },
+          {
+            "title": "Comparison with Other Methods",
+            "detail": "The framework was benchmarked against random, embedding-based, gradient-based, and influence-based methods, demonstrating superior performance with lower computational costs."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Performance Improvement on GSM8K",
+            "detail": "PPL-Factory achieved a 0.9 accuracy increase on GSM8K with only 10% of the training data, showcasing its efficiency."
+          },
+          {
+            "title": "Performance Improvement on MATH",
+            "detail": "The method exceeded full-data fine-tuning accuracy by 4.8 on MATH, indicating its effectiveness in selecting informative samples."
+          },
+          {
+            "title": "Task-Aware Adaptation",
+            "detail": "The framework successfully adapts perplexity scoring for both language modeling and reasoning tasks, enhancing the relevance of selected samples."
+          }
+        ],
+        "contributions": [
+          "Introduction of PPL-Factory, a novel data selection framework for LLM fine-tuning.",
+          "Demonstration of task-aware and budget-aware selection criteria that improve model performance.",
+          "Empirical validation of the framework on multiple datasets, establishing its effectiveness."
+        ],
+        "limitations": [
+          "The framework's performance under extremely low data budgets is not fully explored.",
+          "No comparative analysis with peer-reviewed methods is provided."
+        ],
+        "open_questions": [
+          "How does PPL-Factory perform in real-world applications with varying data distributions?",
+          "What are the long-term effects of using budget-aware selection on model generalization?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4o-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Data selection for LLMs",
+        "matched": [
+          "data selection",
+          "data quality",
+          "data",
+          "selection"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-21T11:59:54.359328+00:00"
+    },
+    {
+      "id": "2607.18026",
+      "title": "Rethinking Heterogeneous LLM Merging: A Weighted Model Averaging Perspective",
+      "abstract": "Can large language models with substantially different parameter spaces be merged by direct weighted averaging, without training or semantic alignment? Existing heterogeneous fusion methods typically introduce distillation, adapters, learned latent spaces, routing, or feature alignment, leaving open whether a simpler recipe can work for genuinely different billion-parameter checkpoints. We revisit this counterintuitive question through training-free dimensional adaptation followed by ratio-controlled interpolation. In union-style merging, we expand the smaller model into the larger parameter space; in intersection-style merging, we truncate the larger model into the smaller parameter space. Across Qwen-family model pairs and benchmarks covering mathematical reasoning, code generation, language understanding, commonsense reasoning, knowledge, and instruction following, deterministic expansion largely preserves the source model function, and small-ratio interpolation can improve over strong source checkpoints by transferring complementary capabilities. However, near-balanced interpolation often collapses, and task-level results reveal a seesaw effect in which gains on some capabilities coexist with regressions on others. These results show that simple parameter averaging, when paired with lightweight dimensional adaptation and carefully controlled ratios, is a surprisingly strong baseline for heterogeneous LLM merging, suggesting that the limits of direct weighted fusion may also bound what more complex heterogeneous merging methods can achieve at scale.",
+      "authors": [
+        "Jiahe Fan",
+        "Yinghao Hou",
+        "Si Chen",
+        "Aiyuan Zhang",
+        "Hong Xie",
+        "Defu Lian"
+      ],
+      "published": "2026-07-20T14:58:53Z",
+      "updated": "2026-07-20T14:58:53Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2607.18026v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.18026v1",
+      "comment": "17 pages, 3 figures, 20 tables, preprint",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4997,
+          "matched": [
+            "alignment",
+            "alignment",
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.0945,
+          "matched": [
+            "bound"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5049,
+        "relevance": 0.4187,
+        "quality": 0.67,
+        "novelty": 0.55,
+        "freshness": 0.8749
+      },
+      "quality_signals": [
+        "code available",
+        "baseline comparison",
+        "benchmark evaluation",
+        "formal bound"
+      ],
+      "summary": {
+        "takeaway": "Direct weighted averaging of heterogeneous LLMs can be effective without training or semantic alignment.",
+        "problem": "Existing methods for merging heterogeneous LLMs often require complex machinery and training.",
+        "method": "The paper proposes a training-free dimensional adaptation followed by ratio-controlled interpolation for merging.",
+        "evidence": "Union-style merging with small-ratio interpolation shows performance improvements over strong source checkpoints, achieving an average score of 0.5551.",
+        "limitations": "The study is limited to Qwen-family checkpoints and does not address broader contexts like multilingual or long-context settings.",
+        "why_for_you": "This research provides insights into efficient LLM merging strategies relevant for scalable model integration.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4o-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Deterministic dimensional adaptation allows for effective direct weighted averaging across heterogeneous LLMs, preserving source model functions."
+          },
+          {
+            "icon": "🛡️",
+            "text": "Union-style merging expands the smaller model into the larger parameter space, while intersection-style merging truncates the larger model to the smaller space."
+          },
+          {
+            "icon": "📉",
+            "text": "Small-ratio interpolation can enhance model capabilities, but near-balanced ratios may lead to performance collapse, indicating a seesaw effect in task-level results."
+          }
+        ],
+        "overview": "This research investigates whether large language models with different parameter spaces can be merged through direct weighted averaging without training or semantic alignment. The authors propose a method involving training-free dimensional adaptation followed by controlled interpolation ratios. Their findings indicate that simple parameter averaging, when combined with dimensional adaptation, serves as a strong baseline for heterogeneous LLM merging. Notably, the results demonstrate that while small-ratio interpolation can yield improvements, it also risks performance collapse at near-balanced ratios, highlighting the complexity of merging strategies.",
+        "methodology": [
+          {
+            "title": "Dimensional Adaptation",
+            "detail": "The method involves expanding the smaller model to fit the larger model's parameter space or truncating the larger model to match the smaller model's dimensions, enabling compatibility for merging."
+          },
+          {
+            "title": "Weighted Averaging",
+            "detail": "After dimensional adaptation, the models are merged using a weighted average based on a controlled mixing ratio, which is crucial for maintaining performance."
+          },
+          {
+            "title": "Union and Intersection Merging",
+            "detail": "Union-style merging expands the smaller model, while intersection-style merging truncates the larger model, allowing for different approaches to model integration."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Ratio Sensitivity",
+            "detail": "The study identifies that the mixing ratio significantly influences performance, with severe collapses observed at ratios outside the optimal range."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Qwen Model Evaluation",
+            "detail": "The experiments evaluate Qwen2.5 and Qwen3 model pairs across various benchmarks, including GSM8K and MATH-500, demonstrating performance improvements in merged models."
+          },
+          {
+            "title": "Union Merging Results",
+            "detail": "Union merging results show that the merged model can outperform both source models, achieving an aggregate score of 0.7525, indicating effective capability transfer."
+          },
+          {
+            "title": "Intersection Merging Results",
+            "detail": "Intersection merging results reveal that while some configurations yield improvements, others lead to regressions, emphasizing the seesaw effect in task-level performance."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Performance Improvement",
+            "detail": "Union-style merging with a small ratio achieved an average score of 0.5551, closely competing with more complex methods."
+          },
+          {
+            "title": "Seesaw Effect",
+            "detail": "The merging process can lead to gains in some capabilities while causing regressions in others, as seen in the task-level evaluations."
+          },
+          {
+            "title": "Compatibility Operator",
+            "detail": "Dimensional adaptation acts as a compatibility operator, enabling effective weighted averaging without additional training or alignment."
+          }
+        ],
+        "contributions": [
+          "Introduces a simple, training-free method for merging heterogeneous LLMs.",
+          "Demonstrates the effectiveness of direct weighted averaging in model merging.",
+          "Highlights the importance of dimensional adaptation in achieving compatibility."
+        ],
+        "limitations": [
+          "Focuses exclusively on Qwen-family checkpoints, limiting generalizability.",
+          "Does not explore long-context, multilingual, or tool-use scenarios."
+        ],
+        "open_questions": [
+          "How can the proposed method be adapted for broader contexts beyond the Qwen-family models?",
+          "What are the implications of the seesaw effect for practical applications of merged LLMs?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4o-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment",
+          "alignment",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-21T11:59:54.359328+00:00"
     },
     {
       "id": "2607.15095",
@@ -2014,196 +2119,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-07-15T11:47:59.097160+00:00"
-    },
-    {
-      "id": "2607.15163",
-      "title": "Scaling Behavior Foundation Model for Humanoid Robots",
-      "abstract": "Humanoid control requires natural whole-body coordination, precise real-time responses to control signals, and robust generalization across diverse environmental contexts, making it a cornerstone for generalist embodied agents. Behavior Foundation Models (BFMs) have recently emerged as a promising solution to address these challenges by leveraging large-scale behavioral data to achieve superior expressiveness, versatility and generalization. However, despite growing interest in scaling BFMs to further improve their capabilities, it remains unclear how key factors, including the learning paradigm, behavioral data and model architecture should be coordinated to enable effective scaling. In this work, we revisit the scaling recipe for BFMs and demonstrate that substantial performance gains can be achieved through the coordination of three core components: 1) the learning paradigm of motion tracking that reformulates diverse humanoid control problems as the reproduction of integrated whole-body behaviors in the global frame; 2) the strategic synergy between on-policy rollout quantity and reference motion diversity; and 3) the expressive and scalable model architecture termed Humanoid Transformer that facilitates the natural emergence of structured behavioral representations. Through extensive experiments in both simulation and real-world deployment, we demonstrate that our approach yields significant improvements in control fidelity and task generalization, reducing Mean Per-Keypoint Position Error (MPKPE) on the test set by over 10% in local mode and 82% in global mode compared with existing humanoid controllers. These results establish BFM as a principled and effective foundation for scalable and general-purpose humanoid control.",
-      "authors": [
-        "Weishuai Zeng",
-        "Kangning Yin",
-        "Xiaojie Niu",
-        "Shunlin Lu",
-        "Weixiang Zhong",
-        "Jiahe Chen",
-        "Feiyu Jia",
-        "Xiao Chen",
-        "Zirui Wang",
-        "Furui Xu",
-        "Ming Zhou",
-        "Kailin Li",
-        "Weinan Zhang",
-        "He Wang",
-        "Li Yi",
-        "Dahua Lin",
-        "Jiangmiao Pang",
-        "Jingbo Wang"
-      ],
-      "published": "2026-07-16T16:08:27Z",
-      "updated": "2026-07-16T16:08:27Z",
-      "categories": [
-        "cs.RO",
-        "cs.AI"
-      ],
-      "primary_category": "cs.RO",
-      "abs_url": "https://arxiv.org/abs/2607.15163v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.15163v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "foundation model",
-        "foundation models",
-        "transformer"
-      ],
-      "topics": [
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.4439,
-          "matched": [
-            "generalization",
-            "generalization",
-            "scaling"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4731,
-        "relevance": 0.3551,
-        "quality": 0.55,
-        "novelty": 0.8805,
-        "freshness": 0.8837
-      },
-      "quality_signals": [
-        "experiments",
-        "reproducibility",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Coordinating motion tracking learning paradigm, on-policy rollout quantity with reference motion diversity, and the Humanoid Transformer architecture significantly improves humanoid control fidelity and generalization.",
-        "problem": "Existing humanoid whole-body controllers are task-specific and lack versatility and generalization across diverse control scenarios.",
-        "method": "The paper proposes a scaling recipe for Behavior Foundation Models combining motion tracking as a learning paradigm, synergistic data scaling, and a scalable Humanoid Transformer architecture.",
-        "evidence": "Experiments show over 10% MPKPE reduction in local mode and 82% in global mode on test sets compared to prior humanoid controllers.",
-        "limitations": "Scaling the Humanoid Transformer yields diminishing returns and inconsistent improvements across control modes, indicating optimization trade-offs and learning difficulty imbalances.",
-        "why_for_you": "The paper provides a principled, scalable framework and empirical insights into behavior foundation model scaling, relevant for statistical theory and design of large-scale humanoid control LLMs.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "The Humanoid Transformer architecture achieves higher success rates and lower tracking errors than MLP baselines, with medium-sized models matching or exceeding larger MLPs, demonstrating superior capacity utilization for behavior representation."
-          },
-          {
-            "icon": "🛡️",
-            "text": "Motion tracking reformulates humanoid control as reproducing integrated whole-body behaviors in the global frame, enabling a unified goal-conditioned reinforcement learning objective that decouples behavior from task-specific control modes."
-          },
-          {
-            "icon": "📉",
-            "text": "Scaling on-policy data collection by increasing parallel environments and rollout horizon synergizes with expanding reference motion diversity, effectively improving training data quantity and behavioral distribution diversity."
-          }
-        ],
-        "overview": "The paper addresses the challenge of scaling Behavior Foundation Models (BFMs) for humanoid robots to achieve versatile, robust whole-body control beyond task-specific solutions. It identifies three core components for effective scaling: a motion tracking learning paradigm that treats control as integrated whole-body behavior reproduction in a global frame; a data scaling strategy balancing on-policy rollout quantity and reference motion diversity to enrich training data; and a novel Humanoid Transformer architecture that naturally induces structured latent behavioral representations. The approach is formulated as a goal-conditioned reinforcement learning problem maximizing expected return over behavior trajectories. Extensive experiments in simulation and real-world settings demonstrate significant improvements in control fidelity and generalization, with MPKPE reductions exceeding 10% locally and 82% globally compared to prior controllers. The Humanoid Transformer outperforms MLP baselines, achieving better success rates and tracking errors. However, scaling benefits saturate unevenly across control modes, suggesting optimization trade-offs. These findings establish a principled, scalable foundation for general-purpose humanoid control leveraging large-scale behavior data and expressive architectures.",
-        "methodology": [
-          {
-            "title": "Motion Tracking Learning Paradigm",
-            "detail": "Reformulates humanoid control as reproducing integrated whole-body behaviors in the global frame, defining behavior as trajectories over proprioceptive states and actions, excluding goal states. This enables a unified goal-conditioned reinforcement learning objective maximizing expected return over behavior trajectories, decoupling behavior learning from task-specific control modes."
-          },
-          {
-            "title": "Behavioral Data Scaling",
-            "detail": "Training data scaling is achieved by synergizing on-policy rollout quantity and reference motion diversity. Quantity is increased by scaling parallel environment count and rollout horizon, while diversity is enhanced by expanding the curated reference motion corpus, enriching behavioral distribution for robust learning."
-          },
-          {
-            "title": "Humanoid Transformer Architecture",
-            "detail": "An expressive and scalable transformer-based model architecture designed to facilitate the natural emergence of structured latent behavioral representations without auxiliary objectives. It outperforms MLP backbones by better utilizing model capacity under fixed optimization budgets, supporting diverse control modes."
-          },
-          {
-            "title": "Unified Goal-Conditioned Reinforcement Learning Objective",
-            "detail": "Formulates BFM pretraining as maximizing expected discounted return over trajectories induced by the policy, with reward functions and goal states designed to generalize across diverse humanoid control tasks, enabling scalable and versatile behavior learning."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "No Explicit Mechanism Provided",
-            "detail": "The paper does not provide explicit equations or causal mechanisms beyond the MDP formulation and goal-conditioned reinforcement learning objective; it focuses on empirical scaling behavior and architectural design."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Scaling Model Architectures",
-            "detail": "Evaluated Humanoid Transformer versus MLP backbones on a test set under whole-body control modes, measuring success rates and tracking errors. Medium-sized Transformers matched or exceeded larger MLPs, with diminishing returns observed at larger scales."
-          },
-          {
-            "title": "Latent Space Robustness Evaluation",
-            "detail": "Assessed structured latent representations by perturbing latent commands on the hypersphere and measuring robustness metrics such as success rate and MPKPE under noise, demonstrating the Transformer’s ability to maintain performance under perturbations."
-          },
-          {
-            "title": "Control Fidelity and Generalization",
-            "detail": "Compared the proposed BFM approach to existing humanoid controllers on test sets, reporting over 10% MPKPE reduction in local mode and 82% in global mode, indicating significant improvements in control accuracy and task generalization."
-          },
-          {
-            "title": "Data Scaling Ablations",
-            "detail": "Investigated the effects of scaling on-policy rollout quantity and reference motion diversity independently and jointly, confirming that their synergy is critical for effective BFM pretraining and improved performance."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Superior Performance of Humanoid Transformer",
-            "detail": "The Humanoid Transformer achieves higher success rates and lower tracking errors than MLP baselines, with medium-sized models performing comparably or better than larger MLPs, indicating more effective capacity utilization."
-          },
-          {
-            "title": "Significant MPKPE Reduction",
-            "detail": "The proposed BFM reduces Mean Per-Keypoint Position Error by over 10% in local mode and 82% in global mode compared to existing humanoid controllers, demonstrating enhanced control fidelity and generalization."
-          },
-          {
-            "title": "Synergistic Data Scaling",
-            "detail": "Scaling on-policy rollout quantity combined with increasing reference motion diversity yields better training data quality and behavioral coverage, leading to improved model performance."
-          },
-          {
-            "title": "Diminishing Returns and Mode-Specific Saturation",
-            "detail": "Increasing Humanoid Transformer size does not uniformly improve all control modes; some modes saturate early due to learning difficulty imbalances and optimization trade-offs."
-          },
-          {
-            "title": "Emergence of Structured Latent Representations",
-            "detail": "Structured latent spaces emerge naturally in the Humanoid Transformer without auxiliary objectives, supporting locality and robustness to perturbations in behavioral commands."
-          }
-        ],
-        "contributions": [
-          "Identification of motion tracking as a principled learning paradigm for scalable humanoid behavior modeling.",
-          "Demonstration of the synergy between on-policy rollout quantity and reference motion diversity for effective data scaling.",
-          "Design and validation of the Humanoid Transformer architecture enabling structured behavioral representations and superior performance.",
-          "Comprehensive empirical evaluation showing significant improvements in control fidelity and generalization over prior humanoid controllers.",
-          "Provision of a unified scaling recipe coordinating learning paradigm, data, and architecture for Behavior Foundation Models."
-        ],
-        "limitations": [
-          "Scaling the Humanoid Transformer yields diminishing returns and inconsistent improvements across different control modes.",
-          "Optimization trade-offs between control modes may cause performance degradation in some modes as others improve.",
-          "The paper lacks explicit mechanistic or theoretical explanations beyond empirical observations and MDP formulation.",
-          "Details on real-world deployment scenarios and robustness under diverse environmental perturbations are limited."
-        ],
-        "open_questions": [
-          "How can optimization trade-offs between control modes be mitigated to achieve uniformly improved performance?",
-          "What theoretical frameworks can explain the emergence of structured latent behavioral representations in transformer architectures?",
-          "How does the approach generalize to more complex or unseen environmental contexts beyond the tested scenarios?",
-          "Can auxiliary objectives or architectural modifications further enhance scaling behavior and latent space structure?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Statistical theory for LLMs",
-        "matched": [
-          "generalization",
-          "generalization",
-          "scaling"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-17T11:40:30.308849+00:00"
     }
   ]
 }
