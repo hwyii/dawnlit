@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-21T11:59:54.359328+00:00",
+  "generated_at": "2026-07-22T12:03:09.506272+00:00",
   "papers": [
     {
       "id": "2607.13753",
@@ -554,6 +554,180 @@
       "recommended_at": "2026-07-17T11:40:30.308849+00:00"
     },
     {
+      "id": "2607.19219",
+      "title": "Beyond Score Prediction: LLM-Based Essay Scoring and Feedback Generation via Reinforcement Learning with Rubric Rewards",
+      "abstract": "Large language models (LLMs) have been widely applied to automated essay scoring (AES) and automated feedback generation (AFG). However, existing studies rely primarily on prompt engineering or supervised fine-tuning, while systematic research on reinforcement learning (RL) post-training and automated evaluation of feedback quality remains limited. We propose RLAES, a unified LLM framework that jointly optimizes essay scoring and feedback generation through RL. To make feedback quality measurable, interpretable, and usable for training, we introduce Rubric-based Feedback Evaluation (RFE), an essay-grounded feedback evaluation framework comprising 166 fine-grained binary rubric items and an LLM-as-judge. Building on RFE, we propose Adaptive Gated Feedback Optimization (AGFO), which activates rubric-based feedback rewards on demand during RL, reducing evaluation overhead while improving feedback quality. We also propose Adjacent Contrastive Reasoning (ACR) to improve ordinal score calibration by explicitly contrasting adjacent score levels. Experimental results show that the RFE framework captures essay-feedback consistency, exhibits strong pairwise discriminative power, and closely aligns with expert preferences. On the ASAP benchmark, RLAES-AGFO achieves the best scoring performance among LLM-based methods (QWK = 0.803), while maintaining feedback quality comparable to GPT-5.5 and avoiding the feedback degradation observed under score-only RL. Code and datasets are publicly available at https://github.com/hellomuyi/RLAES.",
+      "authors": [
+        "Xuefeng Jin",
+        "Jiashuo Zhang",
+        "Teng Cao",
+        "Bin Yang"
+      ],
+      "published": "2026-07-21T15:49:02Z",
+      "updated": "2026-07-21T15:49:02Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.19219v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.19219v1",
+      "comment": "12 pages, 4 figures, 9 tables",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.465,
+          "matched": [
+            "calibration",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.544,
+        "relevance": 0.372,
+        "quality": 0.88,
+        "novelty": 0.8221,
+        "freshness": 0.8796
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "benchmark evaluation",
+        "experiments",
+        "dataset evidence"
+      ],
+      "summary": {
+        "takeaway": "RLAES, a unified LLM framework using reinforcement learning with rubric-based rewards, jointly optimizes essay scoring and feedback generation, achieving state-of-the-art scoring and high-quality feedback.",
+        "problem": "Existing AES and AFG methods rely mainly on prompt engineering or supervised fine-tuning, lacking systematic RL post-training and automated, scalable feedback quality evaluation.",
+        "method": "RLAES integrates Rubric-based Feedback Evaluation (RFE) with 166 binary rubric items and an LLM-as-judge, Adaptive Gated Feedback Optimization (AGFO) to reduce evaluation overhead, and Adjacent Contrastive Reasoning (ACR) for score calibration, optimized via Group Relative Policy Optimization (GRPO).",
+        "evidence": "On the ASAP benchmark, RLAES-AGFO achieves the best LLM-based scoring performance (QWK=0.803) and feedback quality comparable to GPT-5.5, while avoiding feedback degradation seen in score-only RL.",
+        "limitations": "Feedback evaluation is computationally expensive, requiring gating mechanisms; evaluation was conducted on a single fold due to budget constraints, limiting generalizability.",
+        "why_for_you": "This work advances trustworthy LLM applications in education by providing a scalable, interpretable RL framework that jointly improves scoring accuracy and feedback quality with automated rubric-based evaluation.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "RFE framework uses 166 fine-grained binary rubric items evaluated by an LLM-as-judge to measure feedback quality, enabling interpretable and structured reward signals for RL."
+          },
+          {
+            "icon": "🛡️",
+            "text": "AGFO adaptively gates the activation of feedback rewards during RL training, invoking the expensive LLM-as-judge only every n steps and only when feedback quality is below a threshold, reducing overhead by 83%."
+          },
+          {
+            "icon": "📉",
+            "text": "Score-only RL training degrades feedback quality significantly (RFE score drops from 0.6978 to 0.5608), whereas joint optimization with AGFO maintains high feedback quality comparable to GPT-5.5."
+          }
+        ],
+        "overview": "The paper addresses the challenge of jointly optimizing automated essay scoring (AES) and automated feedback generation (AFG) using large language models (LLMs). Prior work focused on prompt engineering or supervised fine-tuning, lacking systematic reinforcement learning (RL) approaches and scalable feedback evaluation. The authors propose RLAES, which integrates a novel Rubric-based Feedback Evaluation (RFE) framework comprising 166 binary rubric items assessed by an LLM-as-judge, enabling interpretable and measurable feedback quality. To mitigate the computational cost of frequent feedback evaluation, Adaptive Gated Feedback Optimization (AGFO) selectively activates feedback rewards during RL training based on a threshold, reducing overhead by 83%. Additionally, Adjacent Contrastive Reasoning (ACR) improves ordinal score calibration by contrasting adjacent score levels. Experiments on the ASAP dataset demonstrate that RLAES-AGFO achieves superior scoring performance (QWK=0.803) among LLM-based methods and maintains feedback quality comparable to GPT-5.5, avoiding the feedback degradation observed in score-only RL. This unified RL framework advances trustworthy AES and AFG by providing scalable, interpretable, and jointly optimized scoring and feedback generation.",
+        "methodology": [
+          {
+            "title": "Rubric-Based Feedback Evaluation (RFE)",
+            "detail": "RFE decomposes feedback quality into 166 fine-grained binary rubric items, each evaluated independently by an LLM-as-judge, producing a structured reward signal for RL. This framework enables interpretable, essay-grounded feedback evaluation that aligns with expert preferences."
+          },
+          {
+            "title": "Adaptive Gated Feedback Optimization (AGFO)",
+            "detail": "AGFO uses Group Relative Policy Optimization (GRPO) to jointly optimize scoring and feedback rewards. It adaptively gates feedback reward activation every n steps, invoking the LLM-as-judge only if the feedback reward falls below a threshold τ, reducing computational cost while maintaining feedback quality."
+          },
+          {
+            "title": "Adjacent Contrastive Reasoning (ACR)",
+            "detail": "ACR improves ordinal score calibration by explicitly contrasting model outputs at adjacent score levels, enhancing the model's ability to discriminate fine-grained score differences and improving scoring accuracy."
+          },
+          {
+            "title": "Reinforcement Learning Setup",
+            "detail": "The model is trained with GRPO using a combined reward of score accuracy and feedback quality. The score reward is scaled by a factor α and normalized by the score range. Feedback rewards are computed via RFE. Training uses LoRA for parameter-efficient fine-tuning on Qwen3.5-9B with a batch size of 8, learning rate 2e-5, and cosine scheduler."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Rubric Reward Computation",
+            "detail": "The rubric reward r(x, ŷ) is computed as a weighted average of binary rubric item indicators cj(x, ŷ), where each cj is assigned by an LLM-as-judge independently. This decomposes complex feedback quality into assessable components, enabling structured RL rewards."
+          },
+          {
+            "title": "Adaptive Gating Mechanism",
+            "detail": "Every n training steps, the feedback reward is computed; if it is below threshold τ, the gate remains open to optimize feedback; otherwise, feedback reward is skipped to save computation. This balances training efficiency and feedback quality."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Dataset and Evaluation",
+            "detail": "Experiments use the ASAP dataset with 12,978 essays across 8 prompts, employing five-fold cross-validation with joint prompt training. Scoring is evaluated by quadratic weighted kappa (QWK), and feedback quality by RFE scores using GPT-5.5 as the LLM judge."
+          },
+          {
+            "title": "Baselines",
+            "detail": "Baselines include LLM prompt engineering methods (GPT-3.5, GPT-4 with rubric and few-shot prompting, Llama-3-8B-Instruct) and post-training methods. The base model for RLAES is Qwen3.5-9B fine-tuned with LoRA."
+          },
+          {
+            "title": "Training Setup",
+            "detail": "RLAES is trained for 25 epochs with GRPO, batch size 8, learning rate 2e-5, and temperature 0.9 for rollout sampling. Feedback reward weight λf=1, score scaling α=0.1, gating period n=30, and threshold τ=0.8."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Superior Scoring Performance",
+            "detail": "RLAES-AGFO achieves a QWK of 0.803 on ASAP, outperforming all LLM-based baselines including GPT-4 variants and prompt engineering methods."
+          },
+          {
+            "title": "Maintained Feedback Quality",
+            "detail": "RLAES-AGFO attains an average RFE feedback score of 0.8399, comparable to GPT-5.5's 0.8334, while score-only RL degrades feedback quality significantly to 0.5608."
+          },
+          {
+            "title": "Efficiency Gains",
+            "detail": "AGFO reduces the computational cost of feedback evaluation by approximately 83% compared to full feedback optimization, enabling practical RL training with rubric rewards."
+          },
+          {
+            "title": "Joint Optimization Benefits",
+            "detail": "Joint optimization of scoring and feedback rewards via AGFO improves both scoring accuracy and feedback quality without trade-offs, unlike score-only RL."
+          }
+        ],
+        "contributions": [
+          "Proposed RLAES, a unified RL framework jointly optimizing AES and AFG with rubric-based rewards.",
+          "Developed Rubric-based Feedback Evaluation (RFE) with 166 binary rubric items and LLM-as-judge for interpretable feedback quality measurement.",
+          "Introduced Adaptive Gated Feedback Optimization (AGFO) to reduce feedback evaluation overhead during RL training.",
+          "Designed Adjacent Contrastive Reasoning (ACR) to improve ordinal score calibration.",
+          "Demonstrated state-of-the-art scoring and high-quality feedback generation on the ASAP benchmark."
+        ],
+        "limitations": [
+          "Feedback evaluation using LLM-as-judge is computationally expensive, necessitating gating mechanisms.",
+          "Feedback evaluation was conducted on a single fold due to budget constraints, limiting robustness assessment.",
+          "The approach depends on the quality and coverage of the predefined rubric items, which may not capture all feedback nuances.",
+          "No explicit mechanism or theoretical analysis is provided for the interaction between scoring and feedback rewards."
+        ],
+        "open_questions": [
+          "How well does RLAES generalize to other essay datasets or languages beyond ASAP?",
+          "Can the rubric-based evaluation framework be extended or adapted to other open-ended NLP tasks?",
+          "What are the effects of different rubric item designs or weighting schemes on feedback quality and scoring accuracy?",
+          "How can human-in-the-loop feedback be integrated to further improve rubric reward reliability and reduce bias?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "calibration",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-22T12:03:09.506272+00:00"
+    },
+    {
       "id": "2607.15161",
       "title": "On-Policy Delta Distillation",
       "abstract": "On-policy distillation is an alternative post-training method in reinforcement learning that alleviates the constraints imposed by reward models by providing token-level supervision from a teacher model. Although on-policy distillation has been studied and applied across various settings, its fundamental design remains underexplored. In this paper, we introduce a new distillation reward, termed the delta signal, instead of directly imitating the teacher's output distribution. The delta signal is defined as the difference between the teacher model and its base model prior to instruction tuning for reasoning capability. It therefore captures the changes induced by reasoning tuning and provides a more direct signal for transferring reasoning capabilities. Using extensive empirical evidence, we show that the delta signal substantially improves on-policy distillation and refer to the new distillation method as On-Policy Delta Distillation (OPD$^2$). Experiments across mathematics, science, and code-reasoning benchmarks demonstrate that OPD$^2$ consistently outperforms conventional on-policy distillation, enabling reasoning LLMs to achieve strong performance with only a short post-training period. Code will be available at https://github.com/naver-ai/opd2",
@@ -735,6 +909,186 @@
       "recommended_at": "2026-07-17T11:40:30.308849+00:00"
     },
     {
+      "id": "2607.19243",
+      "title": "Inference-Time Steering for Cross-Lingual Factual Consistency in LLMs",
+      "abstract": "Although Large Language Models (LLMs) demonstrate remarkable multilingual fluency, their internal knowledge representations remain disproportionately biased toward high-resource languages. This leads to cross-lingual factual inconsistency, where they shift their empirical answer distributions based solely on the prompt language. We investigate whether these biases can be mitigated at inference time, forcing an English-prompted model to answer as if it were queried in target languages (German, Spanish, Bulgarian), and evaluate four intervention strategies: zero-shot contextual steering (persona prompting), internal representation manipulation via Contrastive Activation Addition (CAA), and lightweight weight modification via Direct Preference Optimization (DPO) trained on benchmark-derived factual data as well as conceptual generalization data. To assess alignment, we curate a multilingual factual dataset alongside a novel generalization benchmark comprising culturally rooted queries to determine whether factual interventions transfer to broader target-centric preferences. Experiments on Gemma 3 12B Instruct reveal persona prompting to be the strongest overall intervention, balancing efficacy, safety, and out-of-domain generalization. While CAA yields sharp inconsistency benchmark shifts, it is configuration-sensitive and risks knowledge degradation. DPO-based adapters offer permanent, yet narrower and less transferable gains. These findings suggest that cross-lingual inconsistency is at least partly a selection problem, and that simple contextual interventions may outperform more invasive methods for robust, transferable alignment.",
+      "authors": [
+        "Alexander Manev"
+      ],
+      "published": "2026-07-21T16:15:05Z",
+      "updated": "2026-07-21T16:15:05Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.19243v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.19243v1",
+      "comment": "8 pages (21 in total), 2 figures, 4 tables. Original manuscript for a Guided Research project conducted at the Technical University of Munich, detailing the complete methodology, full data pipeline, and comprehensive experimental results. A related, condensed subset of this work was subsequently adapted and published at the StereACuLT 2026 workshop",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.4067,
+          "matched": [
+            "generalization",
+            "generalization",
+            "optimization"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3897,
+          "matched": [
+            "alignment",
+            "alignment",
+            "safety"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.1607,
+          "matched": [
+            "robust"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5292,
+        "relevance": 0.4354,
+        "quality": 0.58,
+        "novelty": 0.8604,
+        "freshness": 0.8821
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "experiments",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Zero-shot persona prompting effectively mitigates cross-lingual factual inconsistency in LLMs at inference time, outperforming deeper mechanistic and parameter-based interventions in robustness and transferability.",
+        "problem": "Large Language Models exhibit cross-lingual factual inconsistency due to biased internal knowledge representations favoring high-resource languages, leading to unreliable multilingual factual recall.",
+        "method": "The paper evaluates four inference-time interventions—persona prompting, Contrastive Activation Addition (CAA), and Direct Preference Optimization (DPO) adapters trained on benchmark and generalization data—to steer English-prompted LLMs toward target language factual preferences.",
+        "evidence": "Experiments on Gemma 3 12B Instruct show persona prompting consistently improves Jensen–Shannon distance and target preference metrics across German, Spanish, and Bulgarian, with statistically significant gains and superior safety and generalization compared to CAA and DPO.",
+        "limitations": "CAA steering is highly sensitive to hyperparameter tuning and risks knowledge degradation, while DPO adapters yield narrower, less transferable improvements; the study is limited to Gemma 3 12B and three target languages.",
+        "why_for_you": "This work provides a rigorous comparative analysis of inference-time steering methods for cross-lingual factual alignment, offering practical, lightweight interventions relevant for trustworthy and efficient multilingual LLM deployment.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Persona prompting significantly reduces cross-lingual Jensen–Shannon distance (JSD) in German and Bulgarian, achieving p < 0.05 and p < 0.01 respectively, indicating effective alignment of English-prompted model outputs with target language factual distributions."
+          },
+          {
+            "icon": "🛡️",
+            "text": "Contrastive Activation Addition (CAA) manipulates the model’s residual stream by adding a steering vector derived from contrast pairs of English-preferred and target-preferred completions, enabling mechanistic preference realignment during inference."
+          },
+          {
+            "icon": "📉",
+            "text": "CAA’s effectiveness depends on precise layer selection and multiplier scaling, with optimal configurations varying by language; misconfiguration can degrade performance, as seen with Spanish under broad contrast pair settings where JSD worsened."
+          }
+        ],
+        "overview": "The paper addresses the problem of cross-lingual factual inconsistency in LLMs, where models biased toward English produce divergent factual answers when prompted in different languages. It hypothesizes that such biases can be mitigated at inference time by steering the model’s output distribution to reflect target language preferences without costly retraining. To test this, the authors curate a multilingual factual dataset and a novel cultural generalization benchmark, then evaluate four intervention strategies on Gemma 3 12B Instruct: zero-shot persona prompting, Contrastive Activation Addition (CAA), and Direct Preference Optimization (DPO) adapters trained on benchmark and generalization data. Persona prompting, a shallow contextual intervention, consistently improves alignment metrics and generalizes well, suggesting the model already encodes target knowledge but defaults to English-centric answers. CAA, a mechanistic activation manipulation, achieves strong but fragile improvements sensitive to hyperparameters. DPO adapters provide permanent but narrower gains. These results support the view that cross-lingual inconsistency is partly a selection problem and that simple contextual cues can outperform more invasive methods for robust, transferable alignment.",
+        "methodology": [
+          {
+            "title": "Persona Prompting",
+            "detail": "A zero-shot contextual steering method that augments English prompts with natural language instructions to adopt the perspective of a target language demographic, leveraging in-context learning to shift output distributions without modifying model parameters or activations."
+          },
+          {
+            "title": "Contrastive Activation Addition (CAA)",
+            "detail": "An inference-time intervention that adds a directional steering vector to the model’s residual stream activations, computed from contrast pairs of English-preferred and target-preferred completions, to mechanistically realign the model’s internal representations toward target language preferences."
+          },
+          {
+            "title": "Direct Preference Optimization (DPO) Adapters",
+            "detail": "Lightweight parameter-efficient fine-tuning adapters trained on preference triples derived from benchmark or generalization datasets, optimizing the model to prefer target language completions over English-centric ones, enabling permanent but narrower alignment shifts."
+          },
+          {
+            "title": "Multilingual Factual Dataset and Generalization Benchmark",
+            "detail": "A curated dataset of atomic factual triples across six languages designed for repeated-sampling evaluation of answer distributions, and a culturally rooted generalization benchmark with 50 second-person multiple-choice queries per target language to test transfer of interventions beyond benchmark facts."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Cross-Lingual Factual Inconsistency as a Selection Problem",
+            "detail": "The paper posits that LLMs share a common semantic space for multilingual inputs but exhibit biased output distributions due to the final language transition step favoring English-centric knowledge; thus, inference-time interventions can steer output selection without altering underlying representations."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Baseline Cross-Lingual Inconsistency Measurement",
+            "detail": "Evaluated four state-of-the-art LLMs (Gemma 3 12B, gpt-oss-20b, Qwen 3 30B-A3B, Llama 4 Maverick) on a multilingual factual benchmark using repeated open-ended sampling and Jensen–Shannon distance to quantify answer distribution shifts across English, German, Spanish, Bulgarian, Korean, and Swedish."
+          },
+          {
+            "title": "Intervention Evaluation on Gemma 3 12B Instruct",
+            "detail": "Compared persona prompting, CAA steering, and DPO adapters trained on benchmark and generalization data across three contrast pair strategies (v0, v1, v2), measuring improvements in JSD and target preference metrics, statistical significance, and transfer to a novel cultural generalization benchmark."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Effectiveness of Persona Prompting",
+            "detail": "Persona prompting improved cross-lingual alignment in 8 of 9 cases, with statistically significant JSD reductions for German (p < 0.05, CLES=0.705) and Bulgarian (p < 0.01, CLES=0.672–0.690), demonstrating that simple contextual cues can induce substantial preference shifts without parameter changes."
+          },
+          {
+            "title": "CAA Steering Performance and Fragility",
+            "detail": "CAA improved JSD in 8 of 9 cases with large effect sizes for Bulgarian (p < 0.01, CLES=0.741) and German (p < 0.01, CLES=0.705), but required careful tuning of intervention layer and multiplier; broader contrast sets (v2) sometimes degraded performance, indicating sensitivity and risk of knowledge degradation."
+          },
+          {
+            "title": "DPO Adapter Gains and Transfer",
+            "detail": "DPO adapters trained on benchmark-derived data provided permanent alignment improvements but with narrower scope and less transfer to out-of-benchmark cultural generalization compared to prompting, highlighting trade-offs between permanence and generality."
+          }
+        ],
+        "contributions": [
+          "Curated a high-quality multilingual factual dataset spanning six languages for distributional evaluation of cross-lingual factual consistency.",
+          "Developed a novel culturally rooted generalization benchmark to test transfer of alignment interventions beyond benchmark-specific facts.",
+          "Conducted a rigorous comparative study of four inference-time steering methods—persona prompting, CAA, and two DPO adapter variants—on Gemma 3 12B Instruct.",
+          "Demonstrated that zero-shot persona prompting is the strongest overall intervention balancing efficacy, safety, and out-of-domain generalization.",
+          "Provided evidence that cross-lingual inconsistency is partly a selection problem addressable by simple contextual interventions rather than invasive parameter updates."
+        ],
+        "limitations": [
+          "CAA steering is highly sensitive to hyperparameter choices and can degrade model knowledge if misconfigured.",
+          "DPO adapters yield narrower and less transferable gains compared to prompting, limiting their generalization to broader cultural contexts.",
+          "Experiments are limited to the Gemma 3 12B Instruct model and three target languages, restricting generalizability to other architectures or languages.",
+          "The study does not provide mechanistic explanations beyond the steering vector concept, leaving deeper causal understanding of cross-lingual bias unaddressed."
+        ],
+        "open_questions": [
+          "Can inference-time steering methods be effectively generalized to larger or different LLM architectures beyond Gemma 3 12B?",
+          "How can the fragility and hyperparameter sensitivity of CAA be mitigated to ensure safe and robust mechanistic interventions?",
+          "What are the underlying representational mechanisms causing cross-lingual factual inconsistency beyond selection bias?",
+          "Can permanent parameter updates be designed to combine the transferability of prompting with the permanence of DPO adapters?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Statistical theory for LLMs",
+        "matched": [
+          "generalization",
+          "generalization",
+          "optimization"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-22T12:03:09.506272+00:00"
+    },
+    {
       "id": "2607.17946",
       "title": "A Geometric Perspective on Stabilizing Value Conflict Resolution",
       "abstract": "Large Language Models (LLMs) often struggle to navigate value conflicts when trained with the compressed scalar rewards of Reinforcement Learning from Human Feedback (RLHF). To address this challenge, we investigate how chain-of-thought (CoT) reasoning can help improve performance in this domain. Geometrically, we show that CoT correlates with further smoothing the model's loss landscape in its sharpest direction, helping resolve the optimization instability of traditional scalar rewards. We also demonstrate via relevant downstream benchmarks that value conflict-focused CoT may generalize to different kinds of moral reasoning, demonstrating that this CoT has the potential to be an effective mechanism for better moral reasoning. To capitalize on this potential, we create a new value conflict-focused CoT design that further smooths the sharpest direction of the loss landscape and increases moral reasoning performance. This finding shows that explicitly modifying and improving the design of reasoning dynamics offers a promising avenue for improving model performance on user requests with complex value conflicts, advancing pluralistic alignment in LLMs.",
@@ -905,6 +1259,192 @@
         "lane": "llm"
       },
       "recommended_at": "2026-07-21T11:59:54.359328+00:00"
+    },
+    {
+      "id": "2607.19044",
+      "title": "Adopting Reinforcement Learning with Verifiable Rewards for Molecular Generation",
+      "abstract": "Leveraging large language models (LLMs) for molecular generation has shown remarkable potential in chemical and drug design. Current methods primarily rely on supervised training or fine-tuning with limited datasets, which are insufficient to capture complex molecular design objectives. While some approaches attempt to guide generation toward specific goals, they often lack direct optimization mechanisms, making it difficult to align generated molecules with desired properties. To tackle these challenges, we propose \\textbf{LLMol}, a principled reinforcement learning framework that directly incorporates verifiable rewards for targeted molecule generation. The key insight is to formulate molecular design as a goal-conditioned sequence prediction task, where verifiable rewards serve as explicit supervision to drive generation toward desired objectives. LLMol follows a two-stage training paradigm combining supervised learning and reinforcement learning. In the first stage, large language models are supervised fine-tuned to capture chemical syntax and molecular distributions. In the second stage, we introduce Reinforcement Learning with Verifiable Rewards (RLVR), which directly integrates property-based reward signals to guide molecular generation toward task-specific objectives. To address the high variance and instability common in discrete sequence optimization, we adopt Group Relative Policy Optimization (GRPO), a stable on-policy algorithm that smooths reward signals and improves training robustness. This framework enables LLMol to effectively handle a range of molecular design tasks, including single-property targeting (e.g., penalized logP, QED) and structure-constrained optimization. Experimental results demonstrate that LLMol consistently outperforms existing methods, achieving higher success rates and improved efficiency across diverse molecular benchmarks.",
+      "authors": [
+        "Mingxuan Ouyang",
+        "Hao Lan",
+        "Wanyu Lin"
+      ],
+      "published": "2026-07-21T12:34:59Z",
+      "updated": "2026-07-21T12:34:59Z",
+      "categories": [
+        "cs.LG"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2607.19044v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.19044v1",
+      "comment": "13 pages, 4 figures",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.5349,
+          "matched": [
+            "robustness",
+            "fine-tuning",
+            "training"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.189,
+          "matched": [
+            "robustness",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5269,
+        "relevance": 0.4657,
+        "quality": 0.5,
+        "novelty": 0.8117,
+        "freshness": 0.8603
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "experiments",
+        "dataset evidence"
+      ],
+      "summary": {
+        "takeaway": "LLMol leverages a two-stage training paradigm combining supervised fine-tuning and reinforcement learning with verifiable rewards, achieving state-of-the-art molecular generation performance on multiple property optimization tasks.",
+        "problem": "Existing LLM-based molecular generation methods lack direct optimization mechanisms to align generated molecules with complex, multi-objective chemical design goals.",
+        "method": "LLMol formulates molecular design as a goal-conditioned sequence prediction task and applies Reinforcement Learning with Verifiable Rewards (RLVR) using Group Relative Policy Optimization (GRPO) to optimize property-based reward signals.",
+        "evidence": "Experimental results on the ZINC250K dataset show LLMol achieves a 46.91% success rate in logP targeting, significantly outperforming baselines, while maintaining high validity, novelty, and diversity.",
+        "limitations": "The paper does not provide detailed ablation studies isolating the contributions of RLVR components or extensive evaluation on multi-property optimization beyond single-property and similarity-constrained tasks.",
+        "why_for_you": "LLMol’s integration of verifiable reward-driven reinforcement learning with large language models offers a robust and efficient approach to property-constrained molecular generation, relevant for advancing trustworthy and efficient LLM-based design.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "LLMol achieves a 46.91% success rate in generating molecules within a narrow logP range on ZINC250K, vastly outperforming the supervised fine-tuned model's 0.46% and prior baselines."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The Group Relative Policy Optimization (GRPO) algorithm stabilizes reinforcement learning by smoothing reward signals and using group-based Monte Carlo rollouts, improving training robustness without requiring a critic model."
+          },
+          {
+            "icon": "📉",
+            "text": "LLMol maintains high chemical diversity (0.893) close to the LIMO baseline (0.914) despite reinforcement learning optimization, indicating RLVR does not compromise exploration of molecular space."
+          }
+        ],
+        "overview": "LLMol addresses the challenge of aligning molecular generation with complex chemical objectives by framing molecular design as a goal-conditioned sequence prediction problem. It first fine-tunes a large language model (Qwen-3, 4B parameters) on molecular string data (simplified SELFIES) to learn chemical syntax and distributions. Subsequently, it applies Reinforcement Learning with Verifiable Rewards (RLVR) to directly optimize property-based reward functions, such as penalized logP and QED, using Group Relative Policy Optimization (GRPO) to reduce variance and stabilize training. This two-stage approach enables precise control over molecular properties while preserving validity, novelty, and diversity. Experiments on the ZINC250K dataset demonstrate that LLMol significantly outperforms diverse baselines across multiple molecular generation tasks, achieving higher success rates and efficiency. The framework’s use of verifiable, deterministic rewards and stable policy optimization represents a principled advancement in LLM-driven molecular design.",
+        "methodology": [
+          {
+            "title": "Molecule Representation",
+            "detail": "LLMol adopts a simplified SELFIES molecular string representation that removes square brackets and inserts spaces between semantic units, reducing token length and vocabulary complexity to improve LLM tokenization efficiency and modeling."
+          },
+          {
+            "title": "Supervised Fine-Tuning (SFT)",
+            "detail": "The base Qwen-3 4B parameter LLM is fine-tuned on over 200,000 molecules from ZINC250K using LoRA to reduce trainable parameters. The objective is to learn chemical syntax and molecular distributions, enabling valid and novel molecule generation."
+          },
+          {
+            "title": "Reinforcement Learning with Verifiable Rewards (RLVR)",
+            "detail": "RLVR integrates explicit property-based reward functions computed via RDKit to guide molecular generation toward task-specific objectives. The policy is optimized using GRPO, an on-policy algorithm that uses group-based Monte Carlo rollouts and reward whitening to stabilize training."
+          },
+          {
+            "title": "Group Relative Policy Optimization (GRPO)",
+            "detail": "GRPO estimates relative advantages by comparing grouped rollout returns, avoiding the need for a critic model. It standardizes rewards through whitening and supports deterministic verifiable rewards, improving stability and exploration in discrete sequence optimization."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Reward-Driven Goal-Conditioned Sequence Prediction",
+            "detail": "Molecular generation is formulated as a goal-conditioned sequence prediction task where the LLM generates molecular strings conditioned on desired property values. Verifiable reward functions provide explicit supervision signals to guide the policy toward molecules satisfying these properties."
+          },
+          {
+            "title": "No Explicit Mechanistic Equations Provided",
+            "detail": "The paper does not present formal mechanistic equations or causal models but describes the use of verifiable reward functions and policy optimization algorithms to achieve property alignment."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Supervised Fine-Tuning Evaluation on ZINC250K",
+            "detail": "LLMol’s SFT stage is evaluated on validity, novelty, and diversity metrics against baselines such as JT-VAE, LIMO, and MOLGEN, achieving 100% validity and novelty, and competitive diversity (0.8473)."
+          },
+          {
+            "title": "LogP Targeting Task",
+            "detail": "LLMol is evaluated on generating molecules within a narrow logP range, achieving a 46.91% success rate compared to 0.46% for SFT-only and outperforming prior methods, while maintaining high diversity (0.893)."
+          },
+          {
+            "title": "QED and Penalized logP Maximization",
+            "detail": "LLMol optimizes drug-likeness metrics (QED and penalized logP) using RLVR, outperforming baselines in maximum scores and efficiency, with training times significantly reduced (2 hours for LLMol vs. up to 30 hours for others)."
+          },
+          {
+            "title": "Similarity-Constrained Optimization",
+            "detail": "LLMol demonstrates the ability to improve molecular properties while preserving structural similarity to known compounds, validating its applicability to constrained molecular design tasks."
+          }
+        ],
+        "findings": [
+          {
+            "title": "RLVR Significantly Improves Property Targeting",
+            "detail": "In logP targeting, RL-augmented LLMol achieves a 46.91% success rate, a 100x improvement over supervised fine-tuning alone (0.46%), demonstrating the effectiveness of verifiable reward integration."
+          },
+          {
+            "title": "High Validity and Novelty Maintained",
+            "detail": "LLMol achieves 100% validity and novelty on ZINC250K, indicating that reinforcement learning does not degrade chemical correctness or exploration of novel molecules."
+          },
+          {
+            "title": "Training Efficiency Gains",
+            "detail": "LLMol completes reinforcement learning training in approximately 2 hours, substantially faster than several baselines requiring up to 30 hours, highlighting the efficiency of GRPO and LoRA parameter reduction."
+          },
+          {
+            "title": "Diversity Preservation",
+            "detail": "Despite optimization for specific properties, LLMol maintains a high diversity score (0.893), close to the LIMO baseline (0.914), ensuring broad chemical space exploration."
+          }
+        ],
+        "contributions": [
+          "Proposed LLMol, a two-stage molecular generation framework combining supervised fine-tuning and reinforcement learning with verifiable rewards.",
+          "Introduced Reinforcement Learning with Verifiable Rewards (RLVR) to directly optimize property-based reward functions in molecular generation.",
+          "Developed Group Relative Policy Optimization (GRPO), a stable on-policy RL algorithm that smooths reward signals and avoids critic models.",
+          "Demonstrated state-of-the-art performance on multiple molecular design tasks including logP targeting, QED maximization, and similarity-constrained optimization.",
+          "Adopted a simplified SELFIES representation to improve tokenization efficiency for LLM-based molecular modeling."
+        ],
+        "limitations": [
+          "Lack of ablation studies isolating the impact of GRPO and reward design on final performance.",
+          "Limited evaluation on multi-property or multi-objective optimization beyond single-property and similarity constraints.",
+          "No detailed analysis of failure modes or robustness to noisy or conflicting reward signals.",
+          "Absence of mechanistic or theoretical analysis explaining why GRPO outperforms other RL algorithms in this context."
+        ],
+        "open_questions": [
+          "How does LLMol perform on multi-objective molecular optimization tasks involving conflicting property constraints?",
+          "Can the GRPO algorithm be generalized or adapted to other discrete sequence generation domains beyond molecular design?",
+          "What are the effects of different verifiable reward function designs on the stability and convergence of RLVR?",
+          "How robust is LLMol to noisy or approximate reward signals derived from imperfect property predictors?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "robustness",
+          "fine-tuning",
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-22T12:03:09.506272+00:00"
     },
     {
       "id": "2607.18199",
@@ -1398,383 +1938,6 @@
       "recommended_at": "2026-07-17T11:40:30.308849+00:00"
     },
     {
-      "id": "2607.12831",
-      "title": "Knowledgeless Language Models: Suppressing Parametric Recall for Evidence-Grounded Language Modeling",
-      "abstract": "Language models encode substantial factual knowledge in their parameters, which can lead to unreliable behavior when this knowledge is outdated, incomplete, or misaligned with the provided context. In this work, we study whether modifying the pretraining signal can systematically shift models away from parametric recall and toward evidence-grounded reasoning. We introduce Knowledge--''Less'' Language Models (KLLMs), a fundamentally different epistemic training paradigm for LLMs, which are pretrained on corpora in which named entities are anonymized, thereby removing a primary channel for entity-linked factual supervision. This intervention substantially reduces closed-book factual recall, while often improving performance on tasks where relevant information is provided as context. Across multiple model scales, KLLMs consistently outperform matched baselines on contextual question answering, fact verification, and hallucination detection benchmarks. Crucially, in retrieval-grounded settings with imperfect evidence, KLLMs show improved robustness and achieve up to 20--25\\% relative gains over standard language models. They further exhibit better calibration, with improved ECE, Brier score, and AUROC, as well as more reliable abstention behavior. Our results demonstrate that suppressing entity-linked supervision during pretraining induces a shift in epistemic behavior: KLLMs rely less on parametric knowledge and more on external evidence, leading to improved reliability under realistic conditions. This suggests that pretraining-time control over knowledge acquisition can complement retrieval-augmented and tool-based systems by providing a more evidence-sensitive base model.",
-      "authors": [
-        "Roi Cohen",
-        "Yvan Carré",
-        "Nick Lechtenbörger",
-        "Hendrik Droste",
-        "Lucas Kerschke",
-        "Russa Biswas",
-        "Gerard de Melo",
-        "Jan Buys"
-      ],
-      "published": "2026-07-14T14:48:53Z",
-      "updated": "2026-07-14T14:48:53Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.12831v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.12831v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3702,
-          "matched": [
-            "robustness",
-            "calibration",
-            "hallucination",
-            "reliability",
-            "robustness"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.2702,
-          "matched": [
-            "robustness",
-            "training"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4942,
-        "relevance": 0.3502,
-        "quality": 0.69,
-        "novelty": 0.8482,
-        "freshness": 0.8751
-      },
-      "quality_signals": [
-        "code available",
-        "baseline comparison",
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Pretraining language models on anonymized corpora reduces parametric factual recall and improves evidence-grounded reasoning, robustness, and calibration.",
-        "problem": "Language models rely heavily on parametric knowledge, which can be outdated or misaligned, causing unreliable behavior in evidence-grounded tasks.",
-        "method": "KLLMs are pretrained on corpora with anonymized named entities to suppress entity-linked factual supervision and shift models toward external evidence reliance.",
-        "evidence": "KLLMs outperform matched baselines by up to 20–25% on retrieval-grounded tasks with imperfect evidence and show improved calibration metrics like ECE, Brier score, and AUROC.",
-        "limitations": "The paper does not provide detailed quantitative results or ablation studies on the impact of anonymization granularity or downstream task diversity.",
-        "why_for_you": "This approach offers a novel pretraining paradigm to enhance trustworthy LLM behavior by reducing harmful parametric recall and improving robustness in evidence-grounded applications.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "KLLMs pretrained on anonymized corpora reduce closed-book factual recall but improve performance on contextual QA, fact verification, and hallucination detection benchmarks."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The anonymization of named entities during pretraining removes a primary channel for entity-linked factual supervision, fundamentally shifting the epistemic behavior of LLMs."
-          },
-          {
-            "icon": "📉",
-            "text": "In retrieval-grounded settings with imperfect evidence, KLLMs achieve up to 20–25% relative gains over standard LMs and exhibit better calibration metrics such as ECE, Brier score, and AUROC."
-          }
-        ],
-        "overview": "This work addresses the challenge that large language models (LLMs) encode factual knowledge parametrically, which can lead to unreliable outputs when such knowledge is outdated or misaligned with context. The authors propose Knowledge--''Less'' Language Models (KLLMs), which are pretrained on corpora where named entities are anonymized, effectively suppressing entity-linked factual supervision during pretraining. This intervention reduces the model's reliance on parametric recall and encourages evidence-grounded reasoning. Empirical results across multiple model scales demonstrate that KLLMs outperform matched baselines on contextual question answering, fact verification, and hallucination detection tasks. Notably, in retrieval-augmented scenarios with imperfect evidence, KLLMs show substantial robustness improvements, achieving up to 20–25% relative gains. Additionally, KLLMs exhibit better calibration and more reliable abstention behavior, indicating improved trustworthiness. These findings suggest that controlling knowledge acquisition during pretraining can complement retrieval and tool-based methods by producing base models that are more sensitive to external evidence, thereby enhancing reliability in realistic settings.",
-        "methodology": [
-          {
-            "title": "Anonymization of Named Entities",
-            "detail": "During pretraining, all named entities in the corpus are anonymized to remove explicit entity-linked factual supervision. This process prevents the model from memorizing specific factual knowledge tied to entities, aiming to reduce parametric recall."
-          },
-          {
-            "title": "Pretraining Paradigm Shift",
-            "detail": "KLLMs are pretrained under this anonymized data regime, fundamentally altering the epistemic training signal. The objective remains language modeling, but the input distribution lacks direct entity references, encouraging reliance on contextual evidence."
-          },
-          {
-            "title": "Evaluation on Contextual Tasks",
-            "detail": "Models are evaluated on contextual question answering, fact verification, and hallucination detection benchmarks to measure performance shifts from parametric recall to evidence-grounded reasoning."
-          },
-          {
-            "title": "Robustness Testing in Retrieval-Grounded Settings",
-            "detail": "KLLMs are tested in retrieval-augmented scenarios with imperfect evidence to assess robustness and reliability gains compared to standard LMs."
-          },
-          {
-            "title": "Calibration and Abstention Metrics",
-            "detail": "Calibration is measured using Expected Calibration Error (ECE), Brier score, and AUROC, alongside abstention behavior to evaluate trustworthiness improvements."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Suppression of Parametric Recall via Anonymization",
-            "detail": "By anonymizing named entities during pretraining, the model's primary channel for learning entity-linked factual knowledge is removed. This shifts the model's epistemic behavior from relying on memorized facts to depending more on external evidence provided at inference time. No explicit equations or causal models are provided."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Contextual Question Answering and Fact Verification",
-            "detail": "KLLMs and matched baseline LMs are evaluated on benchmarks requiring grounding in provided context, demonstrating consistent performance improvements across multiple model scales."
-          },
-          {
-            "title": "Hallucination Detection",
-            "detail": "KLLMs outperform baselines in detecting hallucinated content, indicating better alignment with external evidence rather than parametric memorization."
-          },
-          {
-            "title": "Retrieval-Grounded Robustness Evaluation",
-            "detail": "In scenarios with imperfect retrieved evidence, KLLMs achieve up to 20–25% relative gains over standard LMs, showing enhanced robustness to noisy or incomplete context."
-          },
-          {
-            "title": "Calibration and Abstention Behavior Analysis",
-            "detail": "KLLMs exhibit improved calibration metrics (ECE, Brier score, AUROC) and more reliable abstention, suggesting increased trustworthiness in uncertain or ambiguous cases."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Reduced Closed-Book Recall",
-            "detail": "Anonymization during pretraining substantially reduces the model's closed-book factual recall, confirming suppression of parametric knowledge."
-          },
-          {
-            "title": "Improved Contextual Task Performance",
-            "detail": "Despite reduced parametric recall, KLLMs outperform matched baselines on contextual QA, fact verification, and hallucination detection tasks."
-          },
-          {
-            "title": "Robustness Gains in Retrieval Settings",
-            "detail": "KLLMs achieve up to 20–25% relative performance gains over standard LMs in retrieval-grounded tasks with imperfect evidence."
-          },
-          {
-            "title": "Better Calibration and Abstention",
-            "detail": "KLLMs show improved Expected Calibration Error, Brier score, AUROC, and more reliable abstention behavior, indicating enhanced reliability."
-          }
-        ],
-        "contributions": [
-          "Introduction of KLLMs, a novel pretraining paradigm using anonymized corpora to suppress parametric factual recall.",
-          "Demonstration that suppressing entity-linked supervision shifts LLM epistemic behavior toward evidence-grounded reasoning.",
-          "Empirical evidence of improved robustness and calibration in retrieval-augmented and contextual tasks.",
-          "Proposal that pretraining-time control over knowledge acquisition complements retrieval and tool-based systems."
-        ],
-        "limitations": [
-          "Lack of detailed quantitative ablations on the degree and method of entity anonymization.",
-          "No explicit analysis of potential trade-offs in general language understanding beyond factual tasks.",
-          "Absence of mechanistic or theoretical modeling explaining the epistemic shift beyond empirical results.",
-          "Limited disclosure of dataset specifics and baseline model architectures."
-        ],
-        "open_questions": [
-          "How does the granularity and method of entity anonymization affect the balance between parametric recall and evidence grounding?",
-          "Can KLLMs maintain or improve general language understanding capabilities while suppressing factual recall?",
-          "What are the long-term effects of this pretraining paradigm on downstream tasks beyond factual reasoning?",
-          "How can this approach be integrated with retrieval-augmented and tool-augmented LLM architectures for optimal performance?"
-        ],
-        "source_scope": "abstract",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "robustness",
-          "calibration",
-          "hallucination",
-          "reliability"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-15T11:47:59.097160+00:00"
-    },
-    {
-      "id": "2607.12856",
-      "title": "Verifier-Based Reinforcement Fine-Tuning of Reasoning Models for Thermal Energy Storage Control",
-      "abstract": "Buildings are expected to shift cooling loads in response to grid conditions. Thermal energy storage (TES) enables this shift, but scheduling it well requires planning hours ahead under storage constraints. Model predictive control (MPC) and reinforcement learning are difficult to scale across buildings. This study instead adapts an open-weight reasoning model through reinforcement learning with verifiable rewards (RLVR). We convert exact offline dynamic-programming (DP) action values into dense rewards for every candidate action. Using only 30 training prompts, reinforcement fine-tuning (RFT) trains the model as an upper-level scheduler that outputs hourly heat-pump setpoints from text-based states and forecasts. Evaluation uses a deliberately simple office-building TES benchmark where exact DP is tractable and the optimum is known. RFT reduces the open-weight model's emissions from 70.5 to 61.2 kg-CO2, close to the DP optimum of 60.8 kg-CO2. GPT-5 nearly matches DP and MPC without task-specific training, while GPT-4o, a non-reasoning LLM, produces higher emissions than the no-storage baseline, so inference-time reasoning appears important. Trace analysis shows that RFT mainly stabilizes observable planning patterns (candidate comparison, look-ahead, and feasibility checking) rather than creating a new strategy. Robustness and generalization tests clarify what transfers: the reinforced planning patterns persist under forecast errors and an unseen TES condition and carry over to a battery task, but its different structure limits the gains. DP-based verifiable rewards offer a practical way to adapt open-weight reasoning models to building storage scheduling. These results motivate higher-fidelity tests of whole-building control and scalable verifiers for city-scale energy management.",
-      "authors": [
-        "Takumi Shioda",
-        "Kohei Terashima",
-        "Tatsuo Nagai"
-      ],
-      "published": "2026-07-14T15:08:39Z",
-      "updated": "2026-07-14T15:08:39Z",
-      "categories": [
-        "cs.LG"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2607.12856v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.12856v1",
-      "comment": "29 pages, 8 figures",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.42,
-          "matched": [
-            "robustness",
-            "fine-tuning",
-            "training"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.1716,
-          "matched": [
-            "robustness",
-            "llm",
-            "robustness"
-          ]
-        },
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.1097,
-          "matched": [
-            "generalization",
-            "generalization"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.494,
-        "relevance": 0.3923,
-        "quality": 0.55,
-        "novelty": 0.8513,
-        "freshness": 0.8771
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Reinforcement fine-tuning with dynamic programming-based verifiable rewards effectively adapts open-weight reasoning models for thermal energy storage scheduling, achieving near-optimal emissions reduction.",
-        "problem": "Efficiently scheduling thermal energy storage in buildings requires scalable planning under storage constraints, which is challenging for model predictive control and reinforcement learning methods.",
-        "method": "The study uses reinforcement learning with verifiable rewards derived from exact offline dynamic programming action values to fine-tune an open-weight reasoning model as an upper-level scheduler.",
-        "evidence": "Reinforcement fine-tuning reduces emissions from 70.5 to 61.2 kg-CO2, closely approaching the dynamic programming optimum of 60.8 kg-CO2 on a simple TES benchmark.",
-        "limitations": "The approach’s gains are limited when transferring to structurally different tasks like battery control, and higher-fidelity tests on whole-building control remain to be conducted.",
-        "why_for_you": "This work demonstrates a practical method to leverage verifiable rewards for efficient adversarial training of reasoning LLMs in energy management, relevant for trustworthy and scalable LLM control applications.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Reinforcement fine-tuning (RFT) stabilizes planning patterns such as candidate comparison, look-ahead, and feasibility checking rather than inventing new strategies, indicating the model learns to reliably execute known reasoning steps."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The method converts exact offline dynamic programming (DP) action values into dense, verifiable rewards for every candidate action, enabling precise reinforcement learning signal without requiring extensive training data."
-          },
-          {
-            "icon": "📉",
-            "text": "Evaluation on a simple office-building TES benchmark shows RFT reduces emissions from 70.5 to 61.2 kg-CO2, nearly matching the DP optimum of 60.8 kg-CO2, while GPT-4o without reasoning produces worse emissions than no storage."
-          }
-        ],
-        "overview": "This paper addresses the challenge of scheduling thermal energy storage (TES) in buildings to shift cooling loads efficiently under storage constraints, a task difficult for traditional model predictive control (MPC) and reinforcement learning due to scalability issues. The authors propose reinforcement learning with verifiable rewards (RLVR), leveraging exact offline dynamic programming (DP) action values as dense rewards to fine-tune an open-weight reasoning model. Using only 30 training prompts, reinforcement fine-tuning (RFT) trains the model to output hourly heat-pump setpoints from text-based states and forecasts. The approach is evaluated on a simple TES benchmark where the DP optimum is known, demonstrating that RFT achieves emissions close to the optimum and outperforms non-reasoning LLMs. Trace analysis reveals that RFT stabilizes existing planning patterns rather than creating new strategies. Robustness tests show these reinforced patterns generalize under forecast errors and to an unseen TES condition, with partial transfer to a battery control task. The study highlights DP-based verifiable rewards as a practical adaptation mechanism for reasoning models in building storage scheduling, motivating future work on higher-fidelity and scalable energy management applications.",
-        "methodology": [
-          {
-            "title": "Reinforcement Learning with Verifiable Rewards (RLVR)",
-            "detail": "Transforms exact offline dynamic programming action values into dense rewards for each candidate action, providing precise and verifiable reinforcement signals to fine-tune the reasoning model."
-          },
-          {
-            "title": "Reinforcement Fine-Tuning (RFT)",
-            "detail": "Uses only 30 training prompts to adapt an open-weight reasoning model as an upper-level scheduler that outputs hourly heat-pump setpoints from text-based states and forecasts, optimizing emissions reduction."
-          },
-          {
-            "title": "Text-Based State and Forecast Input",
-            "detail": "The model receives textual descriptions of building states and weather forecasts, enabling flexible input representation and leveraging the reasoning capabilities of large language models."
-          },
-          {
-            "title": "Trace Analysis of Planning Patterns",
-            "detail": "Analyzes model behavior to identify stabilization of candidate comparison, look-ahead, and feasibility checking patterns, indicating reinforcement of existing reasoning strategies rather than novel policy creation."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Dynamic Programming-Based Reward Conversion",
-            "detail": "Exact offline DP computes action values for all candidate actions, which are converted into dense rewards that guide reinforcement learning fine-tuning, ensuring verifiable and grounded reward signals."
-          },
-          {
-            "title": "No Explicit Mechanistic Equations Provided",
-            "detail": "The paper does not present formal equations or causal models beyond the description of DP-based reward conversion and reinforcement fine-tuning procedures."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "TES Benchmark Evaluation",
-            "detail": "Evaluates RFT on a simple office-building TES benchmark where exact DP is tractable and the optimum is known; compares emissions reductions against DP optimum, MPC, GPT-5, and GPT-4o baselines."
-          },
-          {
-            "title": "Robustness and Generalization Tests",
-            "detail": "Assesses transfer of reinforced planning patterns under forecast errors, an unseen TES condition, and a structurally different battery control task to evaluate robustness and cross-task generalization."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Emissions Reduction Close to Optimum",
-            "detail": "RFT reduces emissions from 70.5 to 61.2 kg-CO2, closely approaching the DP optimum of 60.8 kg-CO2, demonstrating effective adaptation of the reasoning model."
-          },
-          {
-            "title": "Importance of Inference-Time Reasoning",
-            "detail": "GPT-5 nearly matches DP and MPC without task-specific training, while GPT-4o, a non-reasoning LLM, produces higher emissions than the no-storage baseline, highlighting the role of reasoning capabilities."
-          },
-          {
-            "title": "Stabilization of Planning Patterns",
-            "detail": "Trace analysis shows RFT mainly stabilizes candidate comparison, look-ahead, and feasibility checking rather than creating new strategies, indicating reinforcement of existing reasoning behaviors."
-          },
-          {
-            "title": "Partial Transfer to Battery Task",
-            "detail": "Reinforced planning patterns carry over to a battery control task but yield limited gains due to structural differences, indicating task-specific adaptation challenges."
-          }
-        ],
-        "contributions": [
-          "Introduces reinforcement learning with verifiable rewards derived from exact dynamic programming for fine-tuning reasoning models in TES scheduling.",
-          "Demonstrates effective emissions reduction close to the DP optimum using only 30 training prompts for reinforcement fine-tuning.",
-          "Provides trace analysis revealing that reinforcement stabilizes existing planning patterns rather than inventing new strategies.",
-          "Validates robustness and partial generalization of reinforced planning patterns under forecast errors and to an unseen TES condition.",
-          "Motivates scalable verifiers and higher-fidelity tests for broader energy management applications."
-        ],
-        "limitations": [
-          "Limited transferability of reinforced planning patterns to structurally different tasks such as battery control.",
-          "Evaluation restricted to a deliberately simple TES benchmark with known DP optimum; lacks tests on complex whole-building control scenarios.",
-          "No explicit mechanistic or causal model equations beyond DP reward conversion are provided.",
-          "Scalability and performance on city-scale energy management remain untested."
-        ],
-        "open_questions": [
-          "How can reinforcement fine-tuning with verifiable rewards be scaled to complex, real-world whole-building control systems?",
-          "What methods can improve transferability of reinforced planning patterns across structurally different energy storage tasks?",
-          "How can scalable verifiers be designed for city-scale energy management using reasoning LLMs?",
-          "What are the theoretical guarantees or limitations of using DP-based verifiable rewards for reinforcement learning in reasoning models?"
-        ],
-        "source_scope": "abstract",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "robustness",
-          "fine-tuning",
-          "training"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-15T11:47:59.097160+00:00"
-    },
-    {
       "id": "2607.14905",
       "title": "Show Me How You Reason and I'll Tell You Who You Are: Reasoning Graphs for Robust LLM Authorship Attribution",
       "abstract": "Given the current trend to employ large language models (LLMs) in almost any imaginable context, LLM-generated text detection and authorship attribution have become a pressing issue. Prior work has primarily focused on surface-level linguistic features, an approach shown to be susceptible to paraphrasing and other obfuscation techniques. In this paper, we go beyond the linguistic surface, extracting and analysing reasoning structures in LLM-generated texts with the goal of capturing more complex signals of LLM authorship. We propose a graph neural network approach that leverages reasoning graphs extracted by an argument mining pipeline, demonstrating improved robustness and generalisation over a traditional Longformer baseline. Our approach outperforms the baseline by up to 27 percentage points under the obfuscation attacks such as paraphrasing and backtranslation, and 19 percentage points when evaluated on the texts generated by the unseen model versions, simulating real-world conditions in which new LLM versions are continuously released.",
@@ -1948,177 +2111,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-07-17T11:40:30.308849+00:00"
-    },
-    {
-      "id": "2607.12835",
-      "title": "Can LLMs Write Reliable Rubrics? A Meta-Evaluation for Experiment Reproduction",
-      "abstract": "Rubric-based evaluation is a promising approach for assessing open-ended outputs from LLM-based research agents, particularly in paper reproduction, where direct paper-to-repository comparison is prone to hallucination. However, constructing paper-specific rubrics requires substantial expert effort, limiting the scalability of benchmarks such as PaperBench. In this work, we present, to our knowledge, the first systematic meta-evaluation of LLM-generated rubrics for paper reproduction. We reformulate rubrics into a checklist-style format and evaluate four generation settings across two backbone models. We meta-evaluate generated rubrics intrinsically by semantic similarity and extrinsically by score alignment with ground-truth rubrics. Our results show that the augmented settings substantially improves downstream evaluation alignment, with the strongest setting approaching the human baseline, while intrinsic gains are more modest. Further analyses reveal that LLM-generated rubrics are often overly fine-grained, biased toward high scores, and less adaptive to paper domains, highlighting both the affordances and limitations.",
-      "authors": [
-        "Hanhua Hong",
-        "Yizhi Li",
-        "Jiaoyan Chen",
-        "Luu Gia Huy",
-        "Sophia Ananiadou",
-        "Jung-jae Kim",
-        "Chenghua Lin"
-      ],
-      "published": "2026-07-14T14:52:42Z",
-      "updated": "2026-07-14T14:52:42Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.12835v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.12835v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "llm",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4414,
-          "matched": [
-            "alignment",
-            "hallucination",
-            "alignment",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4786,
-        "relevance": 0.3531,
-        "quality": 0.61,
-        "novelty": 0.8329,
-        "freshness": 0.8755
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "benchmark evaluation",
-        "experiments",
-        "reproducibility"
-      ],
-      "summary": {
-        "takeaway": "Augmented LLM-generated rubrics substantially improve alignment with human evaluation in paper reproduction tasks, nearing human baseline performance.",
-        "problem": "Constructing paper-specific rubrics for evaluating LLM-based paper reproduction is expert-intensive and limits benchmark scalability.",
-        "method": "The study meta-evaluates LLM-generated rubrics reformulated into checklist format across four generation settings and two backbone models using intrinsic semantic similarity and extrinsic score alignment.",
-        "evidence": "Augmented rubric generation settings show substantial improvement in downstream evaluation alignment, with the best setting approaching human baseline, despite modest intrinsic semantic gains.",
-        "limitations": "LLM-generated rubrics tend to be overly fine-grained, biased toward high scores, and less adaptive to diverse paper domains.",
-        "why_for_you": "This work provides critical insights into automating rubric generation for trustworthy evaluation of LLM research agents, addressing hallucination-prone direct comparisons.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "The strongest augmented rubric generation setting achieves downstream evaluation alignment close to human baseline, demonstrating effective rubric automation for paper reproduction."
-          },
-          {
-            "icon": "🛡️",
-            "text": "Rubrics are reformulated into a checklist-style format and evaluated across four generation settings and two backbone LLMs, enabling systematic meta-evaluation of rubric quality."
-          },
-          {
-            "icon": "📉",
-            "text": "Intrinsic evaluation via semantic similarity shows only modest gains, indicating that semantic closeness alone is insufficient to guarantee evaluation alignment."
-          }
-        ],
-        "overview": "This paper addresses the challenge of scalable, reliable evaluation of LLM-generated research outputs in paper reproduction tasks, where direct comparison to repositories is prone to hallucination. The authors propose automating rubric generation using LLMs and conduct the first systematic meta-evaluation of these rubrics. They convert rubrics into checklist-style formats and test four generation settings across two backbone models. Evaluation is twofold: intrinsic semantic similarity and extrinsic score alignment with ground-truth rubrics. Results reveal that augmented rubric generation settings significantly improve downstream evaluation alignment, nearly matching human baselines, while intrinsic semantic similarity gains remain modest. Further analysis uncovers that LLM-generated rubrics are often overly detailed, biased toward higher scores, and less adaptable across paper domains. These findings highlight both the potential and current limitations of LLM-generated rubrics for trustworthy, scalable evaluation in LLM-based research agent benchmarks.",
-        "methodology": [
-          {
-            "title": "Rubric Reformulation",
-            "detail": "Original rubrics are reformulated into a checklist-style format to standardize evaluation criteria and facilitate systematic comparison across generation settings and models."
-          },
-          {
-            "title": "Generation Settings",
-            "detail": "Four distinct rubric generation settings are tested, varying augmentation strategies to assess their impact on rubric quality and downstream evaluation alignment."
-          },
-          {
-            "title": "Backbone Models",
-            "detail": "Two backbone LLMs serve as the basis for rubric generation, enabling analysis of model-dependent effects on rubric reliability and adaptability."
-          },
-          {
-            "title": "Intrinsic Meta-Evaluation",
-            "detail": "Generated rubrics are evaluated intrinsically by measuring semantic similarity to ground-truth rubrics, assessing content closeness independent of scoring outcomes."
-          },
-          {
-            "title": "Extrinsic Meta-Evaluation",
-            "detail": "Rubrics are extrinsically evaluated by aligning their scoring outcomes with ground-truth rubric scores, measuring practical evaluation reliability."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "No Explicit Mechanism Provided",
-            "detail": "The paper does not present formal equations or causal mechanisms but focuses on empirical meta-evaluation of rubric generation and scoring alignment."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Rubric Generation and Evaluation",
-            "detail": "Experiments involve generating rubrics under four settings using two backbone LLMs, reformulating rubrics into checklist format, and evaluating via intrinsic semantic similarity and extrinsic score alignment metrics."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Augmented Settings Improve Alignment",
-            "detail": "Augmented rubric generation settings substantially improve downstream evaluation alignment, with the strongest setting approaching human baseline performance."
-          },
-          {
-            "title": "Modest Intrinsic Gains",
-            "detail": "Intrinsic semantic similarity between generated and ground-truth rubrics shows only modest improvement, indicating semantic closeness is not fully predictive of evaluation quality."
-          },
-          {
-            "title": "Overly Fine-Grained Rubrics",
-            "detail": "LLM-generated rubrics tend to be overly detailed, which may complicate evaluation and reduce practical usability."
-          },
-          {
-            "title": "Bias Toward High Scores",
-            "detail": "Generated rubrics exhibit a bias toward assigning higher scores, potentially skewing evaluation outcomes."
-          },
-          {
-            "title": "Limited Domain Adaptability",
-            "detail": "Rubrics generated by LLMs are less adaptive to different paper domains, limiting generalizability across diverse research topics."
-          }
-        ],
-        "contributions": [
-          "First systematic meta-evaluation of LLM-generated rubrics for paper reproduction tasks.",
-          "Introduction of checklist-style rubric reformulation to standardize evaluation.",
-          "Demonstration that augmented rubric generation settings improve downstream evaluation alignment near human baselines.",
-          "Identification of key limitations in LLM-generated rubrics including fine-grained detail, scoring bias, and domain adaptability."
-        ],
-        "limitations": [
-          "LLM-generated rubrics are often overly fine-grained, complicating practical evaluation.",
-          "Bias toward high scores in generated rubrics may distort evaluation fairness.",
-          "Limited adaptability of rubrics across diverse paper domains restricts generalizability.",
-          "Intrinsic semantic similarity metrics do not strongly correlate with downstream evaluation alignment."
-        ],
-        "open_questions": [
-          "How can rubric generation be improved to reduce scoring bias and increase fairness?",
-          "What methods can enhance rubric adaptability across diverse research domains?",
-          "Can intrinsic evaluation metrics be developed that better predict downstream evaluation alignment?",
-          "How to balance rubric granularity to optimize usability without sacrificing evaluation fidelity?"
-        ],
-        "source_scope": "abstract",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment",
-          "hallucination",
-          "alignment",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-15T11:47:59.097160+00:00"
     }
   ]
 }

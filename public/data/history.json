@@ -1,6 +1,897 @@
 {
-  "generated_at": "2026-07-21T11:59:54.359328+00:00",
+  "generated_at": "2026-07-22T12:03:09.506272+00:00",
   "papers": [
+    {
+      "id": "2607.19219",
+      "title": "Beyond Score Prediction: LLM-Based Essay Scoring and Feedback Generation via Reinforcement Learning with Rubric Rewards",
+      "abstract": "Large language models (LLMs) have been widely applied to automated essay scoring (AES) and automated feedback generation (AFG). However, existing studies rely primarily on prompt engineering or supervised fine-tuning, while systematic research on reinforcement learning (RL) post-training and automated evaluation of feedback quality remains limited. We propose RLAES, a unified LLM framework that jointly optimizes essay scoring and feedback generation through RL. To make feedback quality measurable, interpretable, and usable for training, we introduce Rubric-based Feedback Evaluation (RFE), an essay-grounded feedback evaluation framework comprising 166 fine-grained binary rubric items and an LLM-as-judge. Building on RFE, we propose Adaptive Gated Feedback Optimization (AGFO), which activates rubric-based feedback rewards on demand during RL, reducing evaluation overhead while improving feedback quality. We also propose Adjacent Contrastive Reasoning (ACR) to improve ordinal score calibration by explicitly contrasting adjacent score levels. Experimental results show that the RFE framework captures essay-feedback consistency, exhibits strong pairwise discriminative power, and closely aligns with expert preferences. On the ASAP benchmark, RLAES-AGFO achieves the best scoring performance among LLM-based methods (QWK = 0.803), while maintaining feedback quality comparable to GPT-5.5 and avoiding the feedback degradation observed under score-only RL. Code and datasets are publicly available at https://github.com/hellomuyi/RLAES.",
+      "authors": [
+        "Xuefeng Jin",
+        "Jiashuo Zhang",
+        "Teng Cao",
+        "Bin Yang"
+      ],
+      "published": "2026-07-21T15:49:02Z",
+      "updated": "2026-07-21T15:49:02Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.19219v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.19219v1",
+      "comment": "12 pages, 4 figures, 9 tables",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.465,
+          "matched": [
+            "calibration",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.544,
+        "relevance": 0.372,
+        "quality": 0.88,
+        "novelty": 0.8221,
+        "freshness": 0.8796
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "benchmark evaluation",
+        "experiments",
+        "dataset evidence"
+      ],
+      "summary": {
+        "takeaway": "RLAES, a unified LLM framework using reinforcement learning with rubric-based rewards, jointly optimizes essay scoring and feedback generation, achieving state-of-the-art scoring and high-quality feedback.",
+        "problem": "Existing AES and AFG methods rely mainly on prompt engineering or supervised fine-tuning, lacking systematic RL post-training and automated, scalable feedback quality evaluation.",
+        "method": "RLAES integrates Rubric-based Feedback Evaluation (RFE) with 166 binary rubric items and an LLM-as-judge, Adaptive Gated Feedback Optimization (AGFO) to reduce evaluation overhead, and Adjacent Contrastive Reasoning (ACR) for score calibration, optimized via Group Relative Policy Optimization (GRPO).",
+        "evidence": "On the ASAP benchmark, RLAES-AGFO achieves the best LLM-based scoring performance (QWK=0.803) and feedback quality comparable to GPT-5.5, while avoiding feedback degradation seen in score-only RL.",
+        "limitations": "Feedback evaluation is computationally expensive, requiring gating mechanisms; evaluation was conducted on a single fold due to budget constraints, limiting generalizability.",
+        "why_for_you": "This work advances trustworthy LLM applications in education by providing a scalable, interpretable RL framework that jointly improves scoring accuracy and feedback quality with automated rubric-based evaluation.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "RFE framework uses 166 fine-grained binary rubric items evaluated by an LLM-as-judge to measure feedback quality, enabling interpretable and structured reward signals for RL."
+          },
+          {
+            "icon": "🛡️",
+            "text": "AGFO adaptively gates the activation of feedback rewards during RL training, invoking the expensive LLM-as-judge only every n steps and only when feedback quality is below a threshold, reducing overhead by 83%."
+          },
+          {
+            "icon": "📉",
+            "text": "Score-only RL training degrades feedback quality significantly (RFE score drops from 0.6978 to 0.5608), whereas joint optimization with AGFO maintains high feedback quality comparable to GPT-5.5."
+          }
+        ],
+        "overview": "The paper addresses the challenge of jointly optimizing automated essay scoring (AES) and automated feedback generation (AFG) using large language models (LLMs). Prior work focused on prompt engineering or supervised fine-tuning, lacking systematic reinforcement learning (RL) approaches and scalable feedback evaluation. The authors propose RLAES, which integrates a novel Rubric-based Feedback Evaluation (RFE) framework comprising 166 binary rubric items assessed by an LLM-as-judge, enabling interpretable and measurable feedback quality. To mitigate the computational cost of frequent feedback evaluation, Adaptive Gated Feedback Optimization (AGFO) selectively activates feedback rewards during RL training based on a threshold, reducing overhead by 83%. Additionally, Adjacent Contrastive Reasoning (ACR) improves ordinal score calibration by contrasting adjacent score levels. Experiments on the ASAP dataset demonstrate that RLAES-AGFO achieves superior scoring performance (QWK=0.803) among LLM-based methods and maintains feedback quality comparable to GPT-5.5, avoiding the feedback degradation observed in score-only RL. This unified RL framework advances trustworthy AES and AFG by providing scalable, interpretable, and jointly optimized scoring and feedback generation.",
+        "methodology": [
+          {
+            "title": "Rubric-Based Feedback Evaluation (RFE)",
+            "detail": "RFE decomposes feedback quality into 166 fine-grained binary rubric items, each evaluated independently by an LLM-as-judge, producing a structured reward signal for RL. This framework enables interpretable, essay-grounded feedback evaluation that aligns with expert preferences."
+          },
+          {
+            "title": "Adaptive Gated Feedback Optimization (AGFO)",
+            "detail": "AGFO uses Group Relative Policy Optimization (GRPO) to jointly optimize scoring and feedback rewards. It adaptively gates feedback reward activation every n steps, invoking the LLM-as-judge only if the feedback reward falls below a threshold τ, reducing computational cost while maintaining feedback quality."
+          },
+          {
+            "title": "Adjacent Contrastive Reasoning (ACR)",
+            "detail": "ACR improves ordinal score calibration by explicitly contrasting model outputs at adjacent score levels, enhancing the model's ability to discriminate fine-grained score differences and improving scoring accuracy."
+          },
+          {
+            "title": "Reinforcement Learning Setup",
+            "detail": "The model is trained with GRPO using a combined reward of score accuracy and feedback quality. The score reward is scaled by a factor α and normalized by the score range. Feedback rewards are computed via RFE. Training uses LoRA for parameter-efficient fine-tuning on Qwen3.5-9B with a batch size of 8, learning rate 2e-5, and cosine scheduler."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Rubric Reward Computation",
+            "detail": "The rubric reward r(x, ŷ) is computed as a weighted average of binary rubric item indicators cj(x, ŷ), where each cj is assigned by an LLM-as-judge independently. This decomposes complex feedback quality into assessable components, enabling structured RL rewards."
+          },
+          {
+            "title": "Adaptive Gating Mechanism",
+            "detail": "Every n training steps, the feedback reward is computed; if it is below threshold τ, the gate remains open to optimize feedback; otherwise, feedback reward is skipped to save computation. This balances training efficiency and feedback quality."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Dataset and Evaluation",
+            "detail": "Experiments use the ASAP dataset with 12,978 essays across 8 prompts, employing five-fold cross-validation with joint prompt training. Scoring is evaluated by quadratic weighted kappa (QWK), and feedback quality by RFE scores using GPT-5.5 as the LLM judge."
+          },
+          {
+            "title": "Baselines",
+            "detail": "Baselines include LLM prompt engineering methods (GPT-3.5, GPT-4 with rubric and few-shot prompting, Llama-3-8B-Instruct) and post-training methods. The base model for RLAES is Qwen3.5-9B fine-tuned with LoRA."
+          },
+          {
+            "title": "Training Setup",
+            "detail": "RLAES is trained for 25 epochs with GRPO, batch size 8, learning rate 2e-5, and temperature 0.9 for rollout sampling. Feedback reward weight λf=1, score scaling α=0.1, gating period n=30, and threshold τ=0.8."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Superior Scoring Performance",
+            "detail": "RLAES-AGFO achieves a QWK of 0.803 on ASAP, outperforming all LLM-based baselines including GPT-4 variants and prompt engineering methods."
+          },
+          {
+            "title": "Maintained Feedback Quality",
+            "detail": "RLAES-AGFO attains an average RFE feedback score of 0.8399, comparable to GPT-5.5's 0.8334, while score-only RL degrades feedback quality significantly to 0.5608."
+          },
+          {
+            "title": "Efficiency Gains",
+            "detail": "AGFO reduces the computational cost of feedback evaluation by approximately 83% compared to full feedback optimization, enabling practical RL training with rubric rewards."
+          },
+          {
+            "title": "Joint Optimization Benefits",
+            "detail": "Joint optimization of scoring and feedback rewards via AGFO improves both scoring accuracy and feedback quality without trade-offs, unlike score-only RL."
+          }
+        ],
+        "contributions": [
+          "Proposed RLAES, a unified RL framework jointly optimizing AES and AFG with rubric-based rewards.",
+          "Developed Rubric-based Feedback Evaluation (RFE) with 166 binary rubric items and LLM-as-judge for interpretable feedback quality measurement.",
+          "Introduced Adaptive Gated Feedback Optimization (AGFO) to reduce feedback evaluation overhead during RL training.",
+          "Designed Adjacent Contrastive Reasoning (ACR) to improve ordinal score calibration.",
+          "Demonstrated state-of-the-art scoring and high-quality feedback generation on the ASAP benchmark."
+        ],
+        "limitations": [
+          "Feedback evaluation using LLM-as-judge is computationally expensive, necessitating gating mechanisms.",
+          "Feedback evaluation was conducted on a single fold due to budget constraints, limiting robustness assessment.",
+          "The approach depends on the quality and coverage of the predefined rubric items, which may not capture all feedback nuances.",
+          "No explicit mechanism or theoretical analysis is provided for the interaction between scoring and feedback rewards."
+        ],
+        "open_questions": [
+          "How well does RLAES generalize to other essay datasets or languages beyond ASAP?",
+          "Can the rubric-based evaluation framework be extended or adapted to other open-ended NLP tasks?",
+          "What are the effects of different rubric item designs or weighting schemes on feedback quality and scoring accuracy?",
+          "How can human-in-the-loop feedback be integrated to further improve rubric reward reliability and reduce bias?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "calibration",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-22T12:03:09.506272+00:00"
+    },
+    {
+      "id": "2607.19243",
+      "title": "Inference-Time Steering for Cross-Lingual Factual Consistency in LLMs",
+      "abstract": "Although Large Language Models (LLMs) demonstrate remarkable multilingual fluency, their internal knowledge representations remain disproportionately biased toward high-resource languages. This leads to cross-lingual factual inconsistency, where they shift their empirical answer distributions based solely on the prompt language. We investigate whether these biases can be mitigated at inference time, forcing an English-prompted model to answer as if it were queried in target languages (German, Spanish, Bulgarian), and evaluate four intervention strategies: zero-shot contextual steering (persona prompting), internal representation manipulation via Contrastive Activation Addition (CAA), and lightweight weight modification via Direct Preference Optimization (DPO) trained on benchmark-derived factual data as well as conceptual generalization data. To assess alignment, we curate a multilingual factual dataset alongside a novel generalization benchmark comprising culturally rooted queries to determine whether factual interventions transfer to broader target-centric preferences. Experiments on Gemma 3 12B Instruct reveal persona prompting to be the strongest overall intervention, balancing efficacy, safety, and out-of-domain generalization. While CAA yields sharp inconsistency benchmark shifts, it is configuration-sensitive and risks knowledge degradation. DPO-based adapters offer permanent, yet narrower and less transferable gains. These findings suggest that cross-lingual inconsistency is at least partly a selection problem, and that simple contextual interventions may outperform more invasive methods for robust, transferable alignment.",
+      "authors": [
+        "Alexander Manev"
+      ],
+      "published": "2026-07-21T16:15:05Z",
+      "updated": "2026-07-21T16:15:05Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.19243v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.19243v1",
+      "comment": "8 pages (21 in total), 2 figures, 4 tables. Original manuscript for a Guided Research project conducted at the Technical University of Munich, detailing the complete methodology, full data pipeline, and comprehensive experimental results. A related, condensed subset of this work was subsequently adapted and published at the StereACuLT 2026 workshop",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.4067,
+          "matched": [
+            "generalization",
+            "generalization",
+            "optimization"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3897,
+          "matched": [
+            "alignment",
+            "alignment",
+            "safety"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.1607,
+          "matched": [
+            "robust"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5292,
+        "relevance": 0.4354,
+        "quality": 0.58,
+        "novelty": 0.8604,
+        "freshness": 0.8821
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "experiments",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Zero-shot persona prompting effectively mitigates cross-lingual factual inconsistency in LLMs at inference time, outperforming deeper mechanistic and parameter-based interventions in robustness and transferability.",
+        "problem": "Large Language Models exhibit cross-lingual factual inconsistency due to biased internal knowledge representations favoring high-resource languages, leading to unreliable multilingual factual recall.",
+        "method": "The paper evaluates four inference-time interventions—persona prompting, Contrastive Activation Addition (CAA), and Direct Preference Optimization (DPO) adapters trained on benchmark and generalization data—to steer English-prompted LLMs toward target language factual preferences.",
+        "evidence": "Experiments on Gemma 3 12B Instruct show persona prompting consistently improves Jensen–Shannon distance and target preference metrics across German, Spanish, and Bulgarian, with statistically significant gains and superior safety and generalization compared to CAA and DPO.",
+        "limitations": "CAA steering is highly sensitive to hyperparameter tuning and risks knowledge degradation, while DPO adapters yield narrower, less transferable improvements; the study is limited to Gemma 3 12B and three target languages.",
+        "why_for_you": "This work provides a rigorous comparative analysis of inference-time steering methods for cross-lingual factual alignment, offering practical, lightweight interventions relevant for trustworthy and efficient multilingual LLM deployment.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Persona prompting significantly reduces cross-lingual Jensen–Shannon distance (JSD) in German and Bulgarian, achieving p < 0.05 and p < 0.01 respectively, indicating effective alignment of English-prompted model outputs with target language factual distributions."
+          },
+          {
+            "icon": "🛡️",
+            "text": "Contrastive Activation Addition (CAA) manipulates the model’s residual stream by adding a steering vector derived from contrast pairs of English-preferred and target-preferred completions, enabling mechanistic preference realignment during inference."
+          },
+          {
+            "icon": "📉",
+            "text": "CAA’s effectiveness depends on precise layer selection and multiplier scaling, with optimal configurations varying by language; misconfiguration can degrade performance, as seen with Spanish under broad contrast pair settings where JSD worsened."
+          }
+        ],
+        "overview": "The paper addresses the problem of cross-lingual factual inconsistency in LLMs, where models biased toward English produce divergent factual answers when prompted in different languages. It hypothesizes that such biases can be mitigated at inference time by steering the model’s output distribution to reflect target language preferences without costly retraining. To test this, the authors curate a multilingual factual dataset and a novel cultural generalization benchmark, then evaluate four intervention strategies on Gemma 3 12B Instruct: zero-shot persona prompting, Contrastive Activation Addition (CAA), and Direct Preference Optimization (DPO) adapters trained on benchmark and generalization data. Persona prompting, a shallow contextual intervention, consistently improves alignment metrics and generalizes well, suggesting the model already encodes target knowledge but defaults to English-centric answers. CAA, a mechanistic activation manipulation, achieves strong but fragile improvements sensitive to hyperparameters. DPO adapters provide permanent but narrower gains. These results support the view that cross-lingual inconsistency is partly a selection problem and that simple contextual cues can outperform more invasive methods for robust, transferable alignment.",
+        "methodology": [
+          {
+            "title": "Persona Prompting",
+            "detail": "A zero-shot contextual steering method that augments English prompts with natural language instructions to adopt the perspective of a target language demographic, leveraging in-context learning to shift output distributions without modifying model parameters or activations."
+          },
+          {
+            "title": "Contrastive Activation Addition (CAA)",
+            "detail": "An inference-time intervention that adds a directional steering vector to the model’s residual stream activations, computed from contrast pairs of English-preferred and target-preferred completions, to mechanistically realign the model’s internal representations toward target language preferences."
+          },
+          {
+            "title": "Direct Preference Optimization (DPO) Adapters",
+            "detail": "Lightweight parameter-efficient fine-tuning adapters trained on preference triples derived from benchmark or generalization datasets, optimizing the model to prefer target language completions over English-centric ones, enabling permanent but narrower alignment shifts."
+          },
+          {
+            "title": "Multilingual Factual Dataset and Generalization Benchmark",
+            "detail": "A curated dataset of atomic factual triples across six languages designed for repeated-sampling evaluation of answer distributions, and a culturally rooted generalization benchmark with 50 second-person multiple-choice queries per target language to test transfer of interventions beyond benchmark facts."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Cross-Lingual Factual Inconsistency as a Selection Problem",
+            "detail": "The paper posits that LLMs share a common semantic space for multilingual inputs but exhibit biased output distributions due to the final language transition step favoring English-centric knowledge; thus, inference-time interventions can steer output selection without altering underlying representations."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Baseline Cross-Lingual Inconsistency Measurement",
+            "detail": "Evaluated four state-of-the-art LLMs (Gemma 3 12B, gpt-oss-20b, Qwen 3 30B-A3B, Llama 4 Maverick) on a multilingual factual benchmark using repeated open-ended sampling and Jensen–Shannon distance to quantify answer distribution shifts across English, German, Spanish, Bulgarian, Korean, and Swedish."
+          },
+          {
+            "title": "Intervention Evaluation on Gemma 3 12B Instruct",
+            "detail": "Compared persona prompting, CAA steering, and DPO adapters trained on benchmark and generalization data across three contrast pair strategies (v0, v1, v2), measuring improvements in JSD and target preference metrics, statistical significance, and transfer to a novel cultural generalization benchmark."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Effectiveness of Persona Prompting",
+            "detail": "Persona prompting improved cross-lingual alignment in 8 of 9 cases, with statistically significant JSD reductions for German (p < 0.05, CLES=0.705) and Bulgarian (p < 0.01, CLES=0.672–0.690), demonstrating that simple contextual cues can induce substantial preference shifts without parameter changes."
+          },
+          {
+            "title": "CAA Steering Performance and Fragility",
+            "detail": "CAA improved JSD in 8 of 9 cases with large effect sizes for Bulgarian (p < 0.01, CLES=0.741) and German (p < 0.01, CLES=0.705), but required careful tuning of intervention layer and multiplier; broader contrast sets (v2) sometimes degraded performance, indicating sensitivity and risk of knowledge degradation."
+          },
+          {
+            "title": "DPO Adapter Gains and Transfer",
+            "detail": "DPO adapters trained on benchmark-derived data provided permanent alignment improvements but with narrower scope and less transfer to out-of-benchmark cultural generalization compared to prompting, highlighting trade-offs between permanence and generality."
+          }
+        ],
+        "contributions": [
+          "Curated a high-quality multilingual factual dataset spanning six languages for distributional evaluation of cross-lingual factual consistency.",
+          "Developed a novel culturally rooted generalization benchmark to test transfer of alignment interventions beyond benchmark-specific facts.",
+          "Conducted a rigorous comparative study of four inference-time steering methods—persona prompting, CAA, and two DPO adapter variants—on Gemma 3 12B Instruct.",
+          "Demonstrated that zero-shot persona prompting is the strongest overall intervention balancing efficacy, safety, and out-of-domain generalization.",
+          "Provided evidence that cross-lingual inconsistency is partly a selection problem addressable by simple contextual interventions rather than invasive parameter updates."
+        ],
+        "limitations": [
+          "CAA steering is highly sensitive to hyperparameter choices and can degrade model knowledge if misconfigured.",
+          "DPO adapters yield narrower and less transferable gains compared to prompting, limiting their generalization to broader cultural contexts.",
+          "Experiments are limited to the Gemma 3 12B Instruct model and three target languages, restricting generalizability to other architectures or languages.",
+          "The study does not provide mechanistic explanations beyond the steering vector concept, leaving deeper causal understanding of cross-lingual bias unaddressed."
+        ],
+        "open_questions": [
+          "Can inference-time steering methods be effectively generalized to larger or different LLM architectures beyond Gemma 3 12B?",
+          "How can the fragility and hyperparameter sensitivity of CAA be mitigated to ensure safe and robust mechanistic interventions?",
+          "What are the underlying representational mechanisms causing cross-lingual factual inconsistency beyond selection bias?",
+          "Can permanent parameter updates be designed to combine the transferability of prompting with the permanence of DPO adapters?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Statistical theory for LLMs",
+        "matched": [
+          "generalization",
+          "generalization",
+          "optimization"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-22T12:03:09.506272+00:00"
+    },
+    {
+      "id": "2607.19044",
+      "title": "Adopting Reinforcement Learning with Verifiable Rewards for Molecular Generation",
+      "abstract": "Leveraging large language models (LLMs) for molecular generation has shown remarkable potential in chemical and drug design. Current methods primarily rely on supervised training or fine-tuning with limited datasets, which are insufficient to capture complex molecular design objectives. While some approaches attempt to guide generation toward specific goals, they often lack direct optimization mechanisms, making it difficult to align generated molecules with desired properties. To tackle these challenges, we propose \\textbf{LLMol}, a principled reinforcement learning framework that directly incorporates verifiable rewards for targeted molecule generation. The key insight is to formulate molecular design as a goal-conditioned sequence prediction task, where verifiable rewards serve as explicit supervision to drive generation toward desired objectives. LLMol follows a two-stage training paradigm combining supervised learning and reinforcement learning. In the first stage, large language models are supervised fine-tuned to capture chemical syntax and molecular distributions. In the second stage, we introduce Reinforcement Learning with Verifiable Rewards (RLVR), which directly integrates property-based reward signals to guide molecular generation toward task-specific objectives. To address the high variance and instability common in discrete sequence optimization, we adopt Group Relative Policy Optimization (GRPO), a stable on-policy algorithm that smooths reward signals and improves training robustness. This framework enables LLMol to effectively handle a range of molecular design tasks, including single-property targeting (e.g., penalized logP, QED) and structure-constrained optimization. Experimental results demonstrate that LLMol consistently outperforms existing methods, achieving higher success rates and improved efficiency across diverse molecular benchmarks.",
+      "authors": [
+        "Mingxuan Ouyang",
+        "Hao Lan",
+        "Wanyu Lin"
+      ],
+      "published": "2026-07-21T12:34:59Z",
+      "updated": "2026-07-21T12:34:59Z",
+      "categories": [
+        "cs.LG"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2607.19044v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.19044v1",
+      "comment": "13 pages, 4 figures",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.5349,
+          "matched": [
+            "robustness",
+            "fine-tuning",
+            "training"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.189,
+          "matched": [
+            "robustness",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5269,
+        "relevance": 0.4657,
+        "quality": 0.5,
+        "novelty": 0.8117,
+        "freshness": 0.8603
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "experiments",
+        "dataset evidence"
+      ],
+      "summary": {
+        "takeaway": "LLMol leverages a two-stage training paradigm combining supervised fine-tuning and reinforcement learning with verifiable rewards, achieving state-of-the-art molecular generation performance on multiple property optimization tasks.",
+        "problem": "Existing LLM-based molecular generation methods lack direct optimization mechanisms to align generated molecules with complex, multi-objective chemical design goals.",
+        "method": "LLMol formulates molecular design as a goal-conditioned sequence prediction task and applies Reinforcement Learning with Verifiable Rewards (RLVR) using Group Relative Policy Optimization (GRPO) to optimize property-based reward signals.",
+        "evidence": "Experimental results on the ZINC250K dataset show LLMol achieves a 46.91% success rate in logP targeting, significantly outperforming baselines, while maintaining high validity, novelty, and diversity.",
+        "limitations": "The paper does not provide detailed ablation studies isolating the contributions of RLVR components or extensive evaluation on multi-property optimization beyond single-property and similarity-constrained tasks.",
+        "why_for_you": "LLMol’s integration of verifiable reward-driven reinforcement learning with large language models offers a robust and efficient approach to property-constrained molecular generation, relevant for advancing trustworthy and efficient LLM-based design.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "LLMol achieves a 46.91% success rate in generating molecules within a narrow logP range on ZINC250K, vastly outperforming the supervised fine-tuned model's 0.46% and prior baselines."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The Group Relative Policy Optimization (GRPO) algorithm stabilizes reinforcement learning by smoothing reward signals and using group-based Monte Carlo rollouts, improving training robustness without requiring a critic model."
+          },
+          {
+            "icon": "📉",
+            "text": "LLMol maintains high chemical diversity (0.893) close to the LIMO baseline (0.914) despite reinforcement learning optimization, indicating RLVR does not compromise exploration of molecular space."
+          }
+        ],
+        "overview": "LLMol addresses the challenge of aligning molecular generation with complex chemical objectives by framing molecular design as a goal-conditioned sequence prediction problem. It first fine-tunes a large language model (Qwen-3, 4B parameters) on molecular string data (simplified SELFIES) to learn chemical syntax and distributions. Subsequently, it applies Reinforcement Learning with Verifiable Rewards (RLVR) to directly optimize property-based reward functions, such as penalized logP and QED, using Group Relative Policy Optimization (GRPO) to reduce variance and stabilize training. This two-stage approach enables precise control over molecular properties while preserving validity, novelty, and diversity. Experiments on the ZINC250K dataset demonstrate that LLMol significantly outperforms diverse baselines across multiple molecular generation tasks, achieving higher success rates and efficiency. The framework’s use of verifiable, deterministic rewards and stable policy optimization represents a principled advancement in LLM-driven molecular design.",
+        "methodology": [
+          {
+            "title": "Molecule Representation",
+            "detail": "LLMol adopts a simplified SELFIES molecular string representation that removes square brackets and inserts spaces between semantic units, reducing token length and vocabulary complexity to improve LLM tokenization efficiency and modeling."
+          },
+          {
+            "title": "Supervised Fine-Tuning (SFT)",
+            "detail": "The base Qwen-3 4B parameter LLM is fine-tuned on over 200,000 molecules from ZINC250K using LoRA to reduce trainable parameters. The objective is to learn chemical syntax and molecular distributions, enabling valid and novel molecule generation."
+          },
+          {
+            "title": "Reinforcement Learning with Verifiable Rewards (RLVR)",
+            "detail": "RLVR integrates explicit property-based reward functions computed via RDKit to guide molecular generation toward task-specific objectives. The policy is optimized using GRPO, an on-policy algorithm that uses group-based Monte Carlo rollouts and reward whitening to stabilize training."
+          },
+          {
+            "title": "Group Relative Policy Optimization (GRPO)",
+            "detail": "GRPO estimates relative advantages by comparing grouped rollout returns, avoiding the need for a critic model. It standardizes rewards through whitening and supports deterministic verifiable rewards, improving stability and exploration in discrete sequence optimization."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Reward-Driven Goal-Conditioned Sequence Prediction",
+            "detail": "Molecular generation is formulated as a goal-conditioned sequence prediction task where the LLM generates molecular strings conditioned on desired property values. Verifiable reward functions provide explicit supervision signals to guide the policy toward molecules satisfying these properties."
+          },
+          {
+            "title": "No Explicit Mechanistic Equations Provided",
+            "detail": "The paper does not present formal mechanistic equations or causal models but describes the use of verifiable reward functions and policy optimization algorithms to achieve property alignment."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Supervised Fine-Tuning Evaluation on ZINC250K",
+            "detail": "LLMol’s SFT stage is evaluated on validity, novelty, and diversity metrics against baselines such as JT-VAE, LIMO, and MOLGEN, achieving 100% validity and novelty, and competitive diversity (0.8473)."
+          },
+          {
+            "title": "LogP Targeting Task",
+            "detail": "LLMol is evaluated on generating molecules within a narrow logP range, achieving a 46.91% success rate compared to 0.46% for SFT-only and outperforming prior methods, while maintaining high diversity (0.893)."
+          },
+          {
+            "title": "QED and Penalized logP Maximization",
+            "detail": "LLMol optimizes drug-likeness metrics (QED and penalized logP) using RLVR, outperforming baselines in maximum scores and efficiency, with training times significantly reduced (2 hours for LLMol vs. up to 30 hours for others)."
+          },
+          {
+            "title": "Similarity-Constrained Optimization",
+            "detail": "LLMol demonstrates the ability to improve molecular properties while preserving structural similarity to known compounds, validating its applicability to constrained molecular design tasks."
+          }
+        ],
+        "findings": [
+          {
+            "title": "RLVR Significantly Improves Property Targeting",
+            "detail": "In logP targeting, RL-augmented LLMol achieves a 46.91% success rate, a 100x improvement over supervised fine-tuning alone (0.46%), demonstrating the effectiveness of verifiable reward integration."
+          },
+          {
+            "title": "High Validity and Novelty Maintained",
+            "detail": "LLMol achieves 100% validity and novelty on ZINC250K, indicating that reinforcement learning does not degrade chemical correctness or exploration of novel molecules."
+          },
+          {
+            "title": "Training Efficiency Gains",
+            "detail": "LLMol completes reinforcement learning training in approximately 2 hours, substantially faster than several baselines requiring up to 30 hours, highlighting the efficiency of GRPO and LoRA parameter reduction."
+          },
+          {
+            "title": "Diversity Preservation",
+            "detail": "Despite optimization for specific properties, LLMol maintains a high diversity score (0.893), close to the LIMO baseline (0.914), ensuring broad chemical space exploration."
+          }
+        ],
+        "contributions": [
+          "Proposed LLMol, a two-stage molecular generation framework combining supervised fine-tuning and reinforcement learning with verifiable rewards.",
+          "Introduced Reinforcement Learning with Verifiable Rewards (RLVR) to directly optimize property-based reward functions in molecular generation.",
+          "Developed Group Relative Policy Optimization (GRPO), a stable on-policy RL algorithm that smooths reward signals and avoids critic models.",
+          "Demonstrated state-of-the-art performance on multiple molecular design tasks including logP targeting, QED maximization, and similarity-constrained optimization.",
+          "Adopted a simplified SELFIES representation to improve tokenization efficiency for LLM-based molecular modeling."
+        ],
+        "limitations": [
+          "Lack of ablation studies isolating the impact of GRPO and reward design on final performance.",
+          "Limited evaluation on multi-property or multi-objective optimization beyond single-property and similarity constraints.",
+          "No detailed analysis of failure modes or robustness to noisy or conflicting reward signals.",
+          "Absence of mechanistic or theoretical analysis explaining why GRPO outperforms other RL algorithms in this context."
+        ],
+        "open_questions": [
+          "How does LLMol perform on multi-objective molecular optimization tasks involving conflicting property constraints?",
+          "Can the GRPO algorithm be generalized or adapted to other discrete sequence generation domains beyond molecular design?",
+          "What are the effects of different verifiable reward function designs on the stability and convergence of RLVR?",
+          "How robust is LLMol to noisy or approximate reward signals derived from imperfect property predictors?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "robustness",
+          "fine-tuning",
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-22T12:03:09.506272+00:00"
+    },
+    {
+      "id": "2607.19223",
+      "title": "AdaFlash: Adaptive Speculative Decoding via On-Policy Distilled Diffusion Drafters",
+      "abstract": "Speculative decoding, in which a lightweight draft model first generates a draft sequence that is then verified in parallel by the target model, has become a prevalent paradigm for accelerating large language model inference. Recent work such as DFlash further boosts drafting efficiency by leveraging diffusion drafters, whose parallel denoising mechanism enables draft generation in a single forward pass. In this work, we uncover a central pitfall of diffusion drafters: bidirectional attention is a double-edged sword. On one hand, it endows the model with parallel generation and global contextual modeling capabilities; on the other hand, this inherent global dependency introduces high variance at both the domain-level and the token-level: acceptance rates fluctuate substantially across different domains, and draft token quality also varies heterogeneously at different token positions. To tackle this issue, we propose AdaFlash framework, comprising two components: (i) an on-policy distillation (OPD) algorithm with reverse-KL divergence tailored for diffusion drafters, bringing stable convergence and effectively reducing domain-level variance; and (ii) an adaptive length head that dynamically adjusts the candidate sequence length on the fly, substantially lowering the verification cost of the target model and handling token-level variance. Experiments demonstrate that AdaFlash consistently improves speedup rate during deployment, with especially significant gains in high-concurrency scenarios, achieving up to approximately 66% higher throughput than previous state-of-the-art methods.",
+      "authors": [
+        "Yu-Yang Qian",
+        "Hao-Cong Wu",
+        "Chen Chen",
+        "Jiacheng Sun",
+        "Zhenhua Dong",
+        "Peng Zhao",
+        "Zhi-Hua Zhou"
+      ],
+      "published": "2026-07-21T15:52:50Z",
+      "updated": "2026-07-21T15:52:50Z",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2607.19223v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.19223v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model"
+      ],
+      "topics": [
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "watch",
+          "score": 0.4167,
+          "matched": [
+            "on-policy distillation",
+            "OPD",
+            "token-level",
+            "policy distillation",
+            "opd",
+            "distillation"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4381,
+        "relevance": 0.3334,
+        "quality": 0.47,
+        "novelty": 0.8347,
+        "freshness": 0.8799
+      },
+      "quality_signals": [
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "AdaFlash improves speculative decoding efficiency by using on-policy distillation and adaptive length adjustment to reduce variance in diffusion drafters, achieving up to 66% higher throughput than prior methods.",
+        "problem": "Diffusion drafters with bidirectional attention suffer from high domain-level and token-level variance, causing unstable acceptance rates and inefficient verification costs in speculative decoding.",
+        "method": "AdaFlash employs an on-policy distillation algorithm with reverse-KL divergence and entry-wise clipping to stabilize training and an adaptive length head to dynamically adjust draft sequence length during inference.",
+        "evidence": "Experiments on eight diverse datasets with Qwen3 models demonstrate AdaFlash consistently outperforms baselines like DFlash and OSD, achieving higher speedups and accepted lengths, especially under high concurrency.",
+        "limitations": "The paper does not provide detailed analysis on the impact of AdaFlash on model quality beyond acceptance rates, nor does it explore the effect of different diffusion drafter architectures extensively.",
+        "why_for_you": "AdaFlash offers a novel on-policy distillation approach tailored for diffusion-based speculative decoding, addressing variance issues critical for stable and efficient on-policy distillation in large language models.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Bidirectional attention in diffusion drafters enables parallel generation but introduces high variance in acceptance rates across domains and token positions, leading to unstable speculative decoding performance."
+          },
+          {
+            "icon": "🛡️",
+            "text": "AdaFlash's on-policy distillation uses a reverse-KL divergence loss with entry-wise divergence clipping and a mixture loss incorporating hard-label supervision on the target top-1 token to reduce domain-level variance and stabilize convergence."
+          },
+          {
+            "icon": "📉",
+            "text": "Adaptive length head dynamically adjusts the candidate draft length per request, reducing verification cost by avoiding wasted computation on tokens unlikely to be accepted, thus handling token-level variance effectively."
+          }
+        ],
+        "overview": "Speculative decoding accelerates large language model inference by generating draft sequences with a lightweight model and verifying them in parallel with a target model. Diffusion drafters, leveraging bidirectional attention and parallel denoising, enable one-step draft generation but suffer from high variance in acceptance rates both across domains and token positions. This variance degrades speedup and wastes computation. AdaFlash addresses these issues with two key innovations: an on-policy distillation algorithm tailored for diffusion drafters that uses reverse-KL divergence with entry-wise clipping and a mixture loss to stabilize training and reduce domain-level variance; and an adaptive length head that dynamically adjusts draft sequence length to reduce verification overhead and handle token-level variance. Extensive experiments on eight benchmark datasets and multiple concurrency levels demonstrate AdaFlash consistently outperforms prior methods like DFlash and OSD, achieving up to 66% higher throughput, especially in high-concurrency scenarios. Ablations confirm the necessity of both components and on-policy updates for optimal performance.",
+        "methodology": [
+          {
+            "title": "On-Policy Distillation (OPD)",
+            "detail": "OPD trains the diffusion drafter online using reverse-KL divergence loss tailored for diffusion models, incorporating entry-wise divergence clipping to prevent large gradient variance and a mixture loss that adds hard-label supervision on the target model's top-1 token, stabilizing convergence and reducing domain-level variance."
+          },
+          {
+            "title": "Adaptive Length Head",
+            "detail": "A lightweight module predicts the optimal candidate draft length dynamically per input during inference, allowing the system to reduce verification cost by truncating draft sequences where acceptance probability is low, thus addressing token-level variance in acceptance rates."
+          },
+          {
+            "title": "Diffusion Drafter Architecture",
+            "detail": "The diffusion drafter uses bidirectional attention and a mask-and-denoise mechanism to generate all draft tokens in a single forward pass, significantly reducing per-token drafting overhead compared to autoregressive drafters."
+          },
+          {
+            "title": "Online Update Mechanism",
+            "detail": "AdaFlash updates the drafter parameters during deployment using on-policy samples from the target model, enabling adaptation to domain shifts and maintaining high acceptance rates across diverse tasks."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Variance Induced by Bidirectional Attention",
+            "detail": "Bidirectional attention enables global context modeling and parallel token generation but creates global dependencies that increase variance in draft quality both across domains and token positions, leading to fluctuating acceptance rates and inefficiencies in speculative decoding."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Benchmark Evaluation",
+            "detail": "AdaFlash was evaluated on eight datasets spanning math reasoning (MathQA, GSM8K), code generation (OpenCodeInstruct, CodeAlpaca), dialogue (ShareGPT), and mixed domains (Blend), using Qwen3-8B and Qwen3-30B as target models, measuring speedup relative to autoregressive decoding and average accepted length under concurrency levels from 1 to 128."
+          },
+          {
+            "title": "Ablation Studies",
+            "detail": "Ablations on GSM8K with Qwen3-8B showed that entry-wise divergence clipping and mixture OPD loss each improve accepted length and speedup, while the adaptive length head is critical for maintaining speedup at high concurrency by dynamically adjusting verification length."
+          },
+          {
+            "title": "Hardware Generalization",
+            "detail": "AdaFlash was tested on Huawei Ascend 910C NPU with Qwen3-8B, demonstrating consistent speedup gains over DFlash across concurrency levels, confirming its applicability beyond GPU hardware."
+          },
+          {
+            "title": "Decoding Temperature Effects",
+            "detail": "Evaluations under greedy decoding (T=0) and stochastic sampling (T=1) showed that although sampling reduces average accepted length, AdaFlash maintains substantial speedup, indicating robustness across decoding regimes."
+          },
+          {
+            "title": "From-Scratch Training",
+            "detail": "AdaFlash can train diffusion drafters from scratch without pre-trained weights, achieving higher accepted length and speedup than the EAGLE-3 baseline on GSM8K, demonstrating its utility beyond online adaptation."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Domain-Level Variance Reduction",
+            "detail": "On-policy distillation with reverse-KL and divergence clipping significantly reduces domain-level acceptance rate variance, improving stable convergence and speedup across diverse domains."
+          },
+          {
+            "title": "Token-Level Variance Mitigation",
+            "detail": "The adaptive length head effectively lowers verification cost by dynamically adjusting draft length, preventing wasted computation on low-acceptance tokens and maintaining speedup at high concurrency."
+          },
+          {
+            "title": "Superior Speedup Performance",
+            "detail": "AdaFlash achieves up to 5.32× speedup at concurrency 1 and maintains 1.34× speedup at concurrency 128 on MathQA with Qwen3-8B, outperforming DFlash and OSD baselines consistently across datasets."
+          },
+          {
+            "title": "Robustness Across Hardware and Decoding Modes",
+            "detail": "AdaFlash's speedup gains generalize to NPU hardware and remain substantial under both greedy and stochastic decoding, confirming its practical deployment viability."
+          },
+          {
+            "title": "Effective From-Scratch Training",
+            "detail": "Training a diffusion drafter from scratch with AdaFlash yields a 1.84× speedup and higher accepted length than EAGLE-3, validating the method's effectiveness beyond fine-tuning."
+          }
+        ],
+        "contributions": [
+          "Identification of high domain-level and token-level variance as a central pitfall in diffusion-based speculative decoding.",
+          "Development of an on-policy distillation algorithm with reverse-KL divergence and entry-wise clipping tailored for diffusion drafters.",
+          "Introduction of an adaptive length head to dynamically adjust draft sequence length during inference.",
+          "Comprehensive empirical validation demonstrating significant speedup and robustness across datasets, concurrency levels, hardware, and decoding regimes.",
+          "Demonstration of AdaFlash's capability for both online adaptation and from-scratch training of diffusion drafters."
+        ],
+        "limitations": [
+          "Lack of detailed analysis on the impact of AdaFlash on final output quality metrics beyond acceptance rates and speedup.",
+          "Limited exploration of different diffusion drafter architectures or alternative distillation losses.",
+          "No explicit discussion on the computational overhead introduced by the adaptive length head module.",
+          "Absence of theoretical guarantees or formal analysis of convergence properties for the on-policy distillation algorithm."
+        ],
+        "open_questions": [
+          "How does AdaFlash affect the semantic or factual quality of generated sequences beyond acceptance rate metrics?",
+          "Can the on-policy distillation framework be extended to other non-autoregressive or hybrid drafting architectures?",
+          "What are the trade-offs between adaptive length prediction accuracy and computational overhead in large-scale deployments?",
+          "How does AdaFlash perform under extreme domain shifts or in zero-shot generalization scenarios?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "On-policy distillation",
+        "matched": [
+          "on-policy distillation",
+          "OPD",
+          "token-level",
+          "policy distillation"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-22T12:03:09.506272+00:00"
+    },
+    {
+      "id": "2607.19259",
+      "title": "Benchmarking Generalization in Financial Statement Fraud Detection: robust evaluation and novel tasks",
+      "abstract": "Financial statement fraud detection (FSFD) is crucial for market integrity but faces challenges from increasingly sophisticated schemes and under-utilized textual data in financial reports. Existing methods often rely on random data splits, leading to overoptimistic performance estimates that do not reflect real-world generalization to new companies or future periods. To address this recurring problem with the state of the art, we propose a robust FSFD framework leveraging Large Language Models (LLMs) to integrate both structured financial data and unstructured textual information from financial reports. We provide a more realistic evaluation through a novel and challenging benchmark task called Company-Isolated FSFD (CI-FSFD). We construct and make publicly available a comprehensive U.S. company dataset combining financial statements, summarized MD&A text, and fraud labels. Our approach achieves the best performance on the challenging CI-FSFD task, demonstrating the critical value of textual data and robust evaluation for reliable financial fraud detection.",
+      "authors": [
+        "Guy Stephane Waffo Dzuyo",
+        "Gaël Guibon",
+        "Christophe Cerisara",
+        "Luis Belmar-Letelier"
+      ],
+      "published": "2026-07-21T16:32:54Z",
+      "updated": "2026-07-21T16:32:54Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2607.19259v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.19259v1",
+      "comment": "Accepted at FinLLM@IJCAI2026",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.4028,
+          "matched": [
+            "generalization",
+            "generalization"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4247,
+        "relevance": 0.3222,
+        "quality": 0.44,
+        "novelty": 0.8304,
+        "freshness": 0.8839
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "dataset evidence"
+      ],
+      "summary": {
+        "takeaway": "The paper introduces a novel Company-Isolated FSFD (CI-FSFD) benchmark and demonstrates that fine-tuned LLMs leveraging both structured financial data and summarized MD&A text outperform baselines in realistic fraud detection scenarios.",
+        "problem": "Existing financial statement fraud detection methods rely on random data splits that inflate performance and fail to generalize to unseen companies or future periods.",
+        "method": "The authors propose a robust FSFD framework integrating structured financial features with LLM-processed summarized MD&A text, evaluated under a novel company-isolated data split to ensure realistic generalization.",
+        "evidence": "Experiments on a newly constructed multimodal U.S. company dataset show that the fine-tuned Fino-1 8B LLM model achieves top performance on the challenging CI-FSFD task, outperforming logistic regression, MLP, tree ensembles, and adapted RCMA baselines.",
+        "limitations": "The paper notes the poor zero-shot performance of pretrained LLMs on FSFD, indicating the necessity of task-specific fine-tuning and does not provide mechanistic explanations for model decisions.",
+        "why_for_you": "This work provides a rigorous evaluation framework and a multimodal dataset that enable statistically sound generalization assessment of LLM-based FSFD models, directly relevant to statistical theory and robustness in LLM applications.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "The novel CI-FSFD task enforces company isolation in data splits, preventing leakage of company-specific patterns and yielding more realistic generalization metrics compared to random splits."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The LLM-based framework combines 122 engineered financial features with summarized MD&A text processed by fine-tuned LLMs, enabling multimodal fraud classification that surpasses traditional baselines."
+          },
+          {
+            "icon": "📉",
+            "text": "Zero-shot evaluation of pretrained LLMs on FSFD tasks shows poor performance, underscoring the importance of fine-tuning on domain-specific multimodal data for effective fraud detection."
+          }
+        ],
+        "overview": "The paper addresses the critical issue of overoptimistic performance in financial statement fraud detection caused by random data splits that allow models to memorize company-specific patterns. To overcome this, the authors propose the Company-Isolated FSFD (CI-FSFD) task, which enforces strict separation of companies between training and testing folds, thus better simulating real-world deployment scenarios. They construct a comprehensive U.S. company dataset integrating structured financial indicators with unstructured textual data from Management Discussion and Analysis (MD&A) sections, linked to fraud labels from SEC AAERs. Their method leverages Large Language Models (LLMs) fine-tuned to process summarized MD&A text alongside structured features, enabling robust multimodal fraud classification. Experimental results demonstrate that their LLM-based approach, particularly the fine-tuned Fino-1 8B model, achieves superior performance on the CI-FSFD benchmark compared to logistic regression, MLP, tree-based ensembles, and an adapted RCMA model. The study highlights the critical role of textual data and robust evaluation protocols in advancing reliable financial fraud detection.",
+        "methodology": [
+          {
+            "title": "Company-Isolated Data Splitting",
+            "detail": "The dataset of 10,159 firm-quarter observations is split into 5 folds ensuring that all data from a given company is exclusively in either training or testing sets within each fold, preserving industry distribution and fraud ratio (~5%). This prevents leakage of company-specific patterns."
+          },
+          {
+            "title": "Multimodal Dataset Construction",
+            "detail": "Structured financial data (122 engineered features) is combined with summarized textual data from MD&A sections processed by LLM-based summarization. Fraud labels are derived from SEC AAERs through a two-stage, manually audited temporal linking process ensuring high-fidelity ground truth."
+          },
+          {
+            "title": "LLM-based Fraud Detection Framework",
+            "detail": "A fine-tuned LLM model (Fino-1 8B) processes summarized MD&A text and integrates it with structured financial features for binary fraud classification. The model is trained under the CI-FSFD setting to optimize detection performance."
+          },
+          {
+            "title": "Baseline Models and Hyperparameter Optimization",
+            "detail": "Baselines include LR-DECHOW logistic regression, MLP, Random Forest, LightGBM, XGBoost, and an adapted RCMA model. Hyperparameters are optimized via Bayesian optimization (Hyperopt) maximizing average AUC over validation folds."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "No Explicit Mechanism Provided",
+            "detail": "The paper does not provide mechanistic or theoretical explanations for how LLMs integrate textual and structured data or for the causal factors behind improved fraud detection performance."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Evaluation on Classic FSFD vs CI-FSFD",
+            "detail": "Models are evaluated using 5-fold cross-validation under both random splits (Classic FSFD) and company-isolated splits (CI-FSFD) on the constructed dataset, measuring AUC to assess generalization."
+          },
+          {
+            "title": "Baseline Comparisons",
+            "detail": "The LLM-based approach is benchmarked against logistic regression (LR-DECHOW), MLP, Random Forest, LightGBM, XGBoost, and an adapted RCMA model, all trained on structured features, with and without textual data."
+          },
+          {
+            "title": "Zero-shot LLM Evaluation",
+            "detail": "Pretrained LLMs are evaluated in zero-shot mode on FSFD tasks, showing poor performance, highlighting the necessity of fine-tuning on domain-specific multimodal data."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Company Isolation Reduces Inflated Performance",
+            "detail": "Performance metrics under CI-FSFD are significantly lower than under random splits, confirming that random splitting inflates results by allowing company-specific memorization."
+          },
+          {
+            "title": "Textual Data Enhances Fraud Detection",
+            "detail": "Inclusion of summarized MD&A text improves detection performance, especially under CI-FSFD conditions where structured data alone is less informative."
+          },
+          {
+            "title": "Fine-tuned LLMs Outperform Baselines",
+            "detail": "The fine-tuned Fino-1 8B LLM model achieves the highest AUC on CI-FSFD, surpassing traditional machine learning baselines and the adapted RCMA model."
+          },
+          {
+            "title": "Zero-shot LLMs Are Ineffective",
+            "detail": "Pretrained LLMs without fine-tuning perform poorly on FSFD tasks, indicating that domain adaptation is critical for effective fraud detection."
+          }
+        ],
+        "contributions": [
+          "Introduction of the Company-Isolated FSFD (CI-FSFD) task for realistic evaluation of fraud detection generalization.",
+          "Creation and public release of a comprehensive multimodal U.S. company dataset integrating structured financial data, summarized MD&A text, and high-fidelity fraud labels from SEC AAERs.",
+          "Development of an LLM-based framework that effectively combines structured and textual data for improved fraud detection.",
+          "Empirical demonstration that fine-tuned LLMs outperform traditional baselines under robust evaluation settings."
+        ],
+        "limitations": [
+          "The study does not provide mechanistic insights or theoretical explanations for the integration of textual and structured data by LLMs.",
+          "Zero-shot LLM performance is poor, indicating reliance on fine-tuning which may limit out-of-domain generalization.",
+          "The evaluation focuses on U.S. companies and SEC AAER labels, which may limit applicability to other regulatory environments or fraud types.",
+          "Details on computational costs and scalability of the LLM-based approach are not discussed."
+        ],
+        "open_questions": [
+          "How can mechanistic understanding of LLM multimodal integration improve interpretability and trust in FSFD models?",
+          "Can zero-shot or few-shot LLM capabilities be enhanced to reduce dependence on extensive fine-tuning for fraud detection?",
+          "How does the approach generalize to international datasets or different regulatory contexts beyond U.S. SEC AAERs?",
+          "What are the trade-offs between model complexity, interpretability, and deployment feasibility in real-world FSFD systems?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Statistical theory for LLMs",
+        "matched": [
+          "generalization",
+          "generalization"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-22T12:03:09.506272+00:00"
+    },
     {
       "id": "2607.17946",
       "title": "A Geometric Perspective on Stabilizing Value Conflict Resolution",
