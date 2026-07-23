@@ -1,6 +1,1030 @@
 {
-  "generated_at": "2026-07-22T12:03:09.506272+00:00",
+  "generated_at": "2026-07-23T12:02:13.960325+00:00",
   "papers": [
+    {
+      "id": "2607.20090",
+      "title": "Reinforcement Learning for Large Language Model Selective Evidence Adoption from Contaminated Retrieval Results",
+      "abstract": "Retrieval-augmented large language models frequently face contexts that interleave useful evidence with misleading statements or instruction-like content. Blanket refusal discards valid evidence, whereas uncritical adoption yields incorrect or unsafe answers. The ability to selectively adopt relevant information while rejecting deceptive or harmful content is therefore critical for reliable deployment in real-world retrieval settings. We introduce SelectBench, a controlled benchmark and training set for selective evidence adoption, and post-train Qwen3.5-4B directly with DAPO using either deterministic rule rewards or a frozen semantic judge. On the corrected 325-example SelectBench-v2 test set, strict success rises from 22.46% for the original checkpoint to 25.54% with DAPO-Rule and 26.46% with DAPO-DeepSeek. Both trained policies reduce forbidden-content adoption and produce shorter, more focused responses, yet prompt-injection following does not improve. The paired gains are modest and fail to survive Holm correction, suggesting that stronger reward shaping or additional training iterations may be needed for more robust gains. DAPO-DeepSeek exhibits no material degradation on MMLU or clean HotpotQA, indicating that the post-training procedure preserves general capabilities. These results demonstrate a directional improvement in selective evidence use, while identifying injection resistance and statistical robustness as important remaining challenges for future work.",
+      "authors": [
+        "Yanyu Chen",
+        "Yue Li",
+        "Yongyi Cui",
+        "Dongsheng Shi",
+        "Lichang Dai"
+      ],
+      "published": "2026-07-22T12:45:04Z",
+      "updated": "2026-07-22T12:45:04Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.20090v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.20090v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.559,
+          "matched": [
+            "robustness",
+            "robust",
+            "training"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.1993,
+          "matched": [
+            "robustness",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5415,
+        "relevance": 0.4871,
+        "quality": 0.48,
+        "novelty": 0.8586,
+        "freshness": 0.8614
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Selective evidence adoption via reinforcement learning post-training improves retrieval-augmented LLMs' ability to extract valid information while reducing harmful content adoption.",
+        "problem": "Retrieval-augmented LLMs struggle to selectively adopt useful evidence from retrieval results contaminated with misleading or instruction-like content, risking unsafe or incorrect answers.",
+        "method": "The authors introduce SelectBench, a controlled benchmark, and apply DAPO post-training on Qwen3.5-4B using deterministic rule-based and frozen semantic judge rewards to optimize selective evidence adoption.",
+        "evidence": "On the corrected 325-example SelectBench-v2 test set, strict success improved from 22.46% to 25.54% (DAPO-Rule) and 26.46% (DAPO-DeepSeek), with reduced forbidden-content adoption and no degradation on MMLU or HotpotQA.",
+        "limitations": "The observed gains are modest, fail to survive Holm correction for statistical significance, and do not improve prompt-injection resistance, indicating the need for stronger reward shaping or more training.",
+        "why_for_you": "This work advances reinforcement learning techniques for trustworthy LLM retrieval agents by addressing selective evidence adoption, a critical challenge for safe and efficient real-world deployment.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Selective evidence adoption post-training on Qwen3.5-4B using DAPO with rule-based and DeepSeek semantic judge rewards yields strict success improvements from 22.46% to 26.46% on SelectBench-v2."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The DAPO framework employs a ternary reward function penalizing forbidden content adoption and tool omission, with two variants: DAPO-Rule using phrase matching and DAPO-DeepSeek using a frozen deepseek-v4-flash judge."
+          },
+          {
+            "icon": "📉",
+            "text": "Despite improvements in selective adoption and reduced forbidden content, gains are modest, fail Holm correction, and prompt-injection resistance remains unimproved, highlighting challenges in reward design and robustness."
+          }
+        ],
+        "overview": "This paper addresses the challenge of selective evidence adoption in retrieval-augmented large language models, where retrieved contexts mix valid facts with misleading or harmful content. The authors propose SelectBench, a controlled benchmark and training dataset, to evaluate and train LLMs to discern and adopt only supported evidence. They apply reinforcement learning post-training on Qwen3.5-4B using the DAPO framework with two reward variants: a deterministic rule-based reward and a frozen semantic judge (DeepSeek). The reward function penalizes forbidden content adoption and tool omission while rewarding correct, complete, and safe answers. Experiments on the corrected SelectBench-v2 test set show modest improvements in strict success rates and reductions in forbidden content adoption without degrading performance on general benchmarks like MMLU and HotpotQA. However, the improvements do not reach statistical significance after Holm correction, and prompt-injection resistance remains a challenge. The work demonstrates a promising direction for enhancing LLM agents' selective use of retrieval evidence but identifies the need for stronger reward shaping and more robust training to achieve reliable gains.",
+        "methodology": [
+          {
+            "title": "SelectBench Dataset Construction",
+            "detail": "SelectBench is a controlled benchmark and training set designed to study selective evidence adoption. It contains retrieval contexts mixing supported facts with misleading or instruction-like content. Training and test splits are disjoint, and the corrected SelectBench-v2 test set includes 325 examples for evaluation."
+          },
+          {
+            "title": "DAPO Post-Training Framework",
+            "detail": "DAPO (Directly Optimizing Preference Optimization) is used to post-train Qwen3.5-4B. It optimizes a ternary reward function that assigns +1 for correct, complete, and safe answers with tool use, -1 for forbidden content adoption or tool omission, and 0 otherwise. Two reward variants are implemented: DAPO-Rule uses deterministic phrase matching rules, and DAPO-DeepSeek employs a frozen deepseek-v4-flash semantic judge."
+          },
+          {
+            "title": "Tool-Use Rollout and Evaluation",
+            "detail": "The policy observes system instructions and questions, invokes a fixed retrieval tool returning example-specific context verbatim, and generates answers. Correctness is evaluated on the final answer segment, while forbidden content adoption is checked across the entire assistant turn. Output length is penalized to discourage verbosity."
+          },
+          {
+            "title": "Training Setup and Hyperparameters",
+            "detail": "Training uses frozen vision tower and updates the language model with AdamW optimizer at a learning rate of 5e-7, weight decay 0.1, gradient clipping 1.0, and batch sizes of 8 or 9 prompts with 8 rollouts each. Training runs for 130 optimizer steps on NVIDIA RTX 3090 GPUs with validation every 10 steps."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Reward Function Design",
+            "detail": "The reward function r_task(τ) is ternary: +1 if the trajectory τ includes a successful tool call, a correct and complete answer, and no forbidden content adoption; -1 if the tool call fails or forbidden content is adopted; 0 otherwise. Length penalties discourage overly long outputs. This design prioritizes safe and accurate evidence adoption while penalizing harmful or missing responses."
+          },
+          {
+            "title": "No Explicit Mechanistic Model",
+            "detail": "The paper does not provide explicit mechanistic or causal equations beyond the reward function. The approach relies on reinforcement learning to implicitly shape the policy towards selective evidence adoption."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Selective Evidence Adoption Evaluation",
+            "detail": "Evaluation on the corrected 325-example SelectBench-v2 test set compares the original Qwen3.5-4B checkpoint with DAPO-Rule and DAPO-DeepSeek post-trained models. Metrics include strict success rate, forbidden content adoption, and answer completeness."
+          },
+          {
+            "title": "General Capability Retention",
+            "detail": "To assess capability retention, the base and DAPO-DeepSeek checkpoints are evaluated on 14,042 MMLU test questions using 5-shot and zero-shot protocols, and on 7,080 clean HotpotQA validation questions in fixed-context and closed-book modes."
+          },
+          {
+            "title": "Training and Validation Protocol",
+            "detail": "Training uses fixed hyperparameters without retraining or hyperparameter tuning after test set inspection. Validation occurs every 10 optimizer steps, with final checkpoints exported at step 130. Rollouts use temperature 1, top-p 1, no top-k truncation, and maximum prompt and response lengths of 768 and 3,072 tokens respectively."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Improved Strict Success",
+            "detail": "Strict success on SelectBench-v2 improves from 22.46% (original) to 25.54% (DAPO-Rule) and 26.46% (DAPO-DeepSeek), demonstrating directional gains in selective evidence adoption."
+          },
+          {
+            "title": "Reduced Forbidden Content Adoption",
+            "detail": "Both DAPO-trained policies reduce the adoption of forbidden or harmful content compared to the original checkpoint, contributing to safer answer generation."
+          },
+          {
+            "title": "No Degradation on General Benchmarks",
+            "detail": "DAPO-DeepSeek maintains performance on MMLU and clean HotpotQA datasets, indicating that post-training does not harm general language understanding or reasoning capabilities."
+          },
+          {
+            "title": "Modest Gains and Statistical Significance",
+            "detail": "The observed improvements are modest and fail to survive Holm correction for multiple comparisons, suggesting limited statistical robustness."
+          },
+          {
+            "title": "Prompt-Injection Resistance Unchanged",
+            "detail": "Neither trained policy improves resistance to prompt-injection attacks, highlighting an important remaining challenge."
+          }
+        ],
+        "contributions": [
+          "Formulation of selective evidence adoption from contaminated retrieval outputs as a distinct post-training objective for LLM agents.",
+          "Creation of SelectBench, a controlled dataset and benchmark for evaluating selective evidence adoption.",
+          "Design and application of a tailored reinforcement learning pipeline using DAPO with rule-based and semantic judge rewards to train Qwen3.5-4B.",
+          "Empirical demonstration of directional improvements in selective evidence adoption and reduced forbidden content adoption without degrading general capabilities.",
+          "Identification of prompt-injection resistance and statistical robustness as key challenges for future research."
+        ],
+        "limitations": [
+          "Modest performance gains that do not achieve statistical significance after Holm correction.",
+          "Lack of improvement in prompt-injection resistance despite training.",
+          "Comparison between DAPO-Rule and DAPO-DeepSeek is descriptive, not a strict ablation due to differing training conditions.",
+          "No exploration of stronger reward shaping or extended training iterations which may be necessary for more robust improvements."
+        ],
+        "open_questions": [
+          "How can reward shaping be enhanced to achieve statistically significant and robust improvements in selective evidence adoption?",
+          "What methods can effectively improve prompt-injection resistance in retrieval-augmented LLM agents?",
+          "Can training protocols be optimized to balance selective evidence adoption with general capability retention more effectively?",
+          "How does selective evidence adoption scale with larger models or more complex retrieval contexts?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "robustness",
+          "robust",
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-23T12:02:13.960325+00:00"
+    },
+    {
+      "id": "2607.20410",
+      "title": "LKValues: Aligning Large Language Models with Sri Lankan Societal Values",
+      "abstract": "Value alignment of Large Language Models (LLMs) has been shown to be culturally biased toward Western norms. This results in the mishandling of local values in multilingual societies such as Sri Lanka that have their unique cultural dynamics. Existing benchmarks overlook Sri Lankan-contextualized values in its official language Sinhala, hindering culturally sensitive evaluation and fine-tuning. To bridge this gap, we propose LKValues, the first survey-grounded resource suite for Sri Lankan value alignment. From a trilingual survey of 205 respondents, blending adapted global frameworks and LLM-elicited local constructs, we derive 40 majority-endorsed societal values. Using these values, we construct LKvaluesIT, a Sinhala-English news-derived instruction corpus containing 150k scenario-based instances, and LKvaluesBench, a value-sensitive evaluation benchmark of 1,000 instances. We evaluate a set of proprietary and open-weight LLMs with LKvaluesBench. We fine-tune three open-weight base models (Qwen3.5-4B-Base, Qwen3.5-9B-Base, and Aya-Expanse-8B-Base). Our experiments show that newer and larger LLMs still exhibit low-resource and cultural value-alignment gaps. LKValues fine-tuning improves Qwen-family models in English and Sinhala, reducing invalid outputs and cross-lingual disparities, though gains remain model-family dependent. These highlight LKValues efficacy in embedding Sri Lankan values, offering a replicable pipeline for low-resource, country-specific pluralist value alignment. The dataset is publicly available at https://github.com/NextME14/LKValues.",
+      "authors": [
+        "Nethmi Muthugala",
+        "Supryadi",
+        "Surangika Ranathunga",
+        "Nisansa de Silva",
+        "Ruijie Tao",
+        "Ovindu Gunatunga",
+        "Pengyun Zhu",
+        "Shaowei Zhang",
+        "Jingting Zheng",
+        "Deyi Xiong"
+      ],
+      "published": "2026-07-22T17:49:37Z",
+      "updated": "2026-07-22T17:49:37Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.20410v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.20410v1",
+      "comment": "37 pages, 10 figures, and 15 tables. Includes appendices. Datasets are available at the project repository",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4736,
+          "matched": [
+            "alignment",
+            "alignment",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5237,
+        "relevance": 0.3789,
+        "quality": 0.74,
+        "novelty": 0.8484,
+        "freshness": 0.8916
+      },
+      "quality_signals": [
+        "GitHub link",
+        "benchmark evaluation",
+        "experiments",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "LKValues introduces a trilingual, survey-grounded resource suite that significantly improves Sri Lankan societal value alignment in LLMs, especially for Sinhala-English bilingual contexts.",
+        "problem": "Existing LLM value alignment benchmarks are culturally biased toward Western norms and overlook Sri Lankan-specific societal values, particularly in Sinhala, limiting culturally sensitive evaluation and fine-tuning.",
+        "method": "The authors develop LKValues by combining a trilingual survey of 205 respondents with LLM-assisted elicitation to derive 40 Sri Lankan societal values, then construct bilingual instruction and benchmark datasets for fine-tuning and evaluation of LLMs.",
+        "evidence": "Fine-tuning Qwen-family models on LKvaluesIT reduces invalid outputs and cross-lingual disparities, improving value-sensitive judgment in both English and Sinhala, though improvements vary by model family.",
+        "limitations": "The survey sample size is limited and imbalanced across ethnic and religious groups, and the current LKValues resources cover only Sinhala and English, excluding Tamil despite its inclusion in the survey.",
+        "why_for_you": "This work provides a replicable pipeline and publicly available datasets for culturally grounded, low-resource, multilingual value alignment, addressing a critical gap in trustworthy LLM deployment in Sri Lanka.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "The trilingual survey combined international frameworks with LLM-elicited local constructs to finalize 40 majority-endorsed Sri Lankan societal values, enabling culturally specific value operationalization."
+          },
+          {
+            "icon": "🛡️",
+            "text": "LKvaluesIT, a bilingual Sinhala-English instruction dataset with 150k scenario-based instances derived from Sri Lankan news, supports supervised fine-tuning to embed local values in LLMs."
+          },
+          {
+            "icon": "📉",
+            "text": "Evaluation on LKvaluesBench shows that larger and newer LLMs still exhibit low-resource and cultural value-alignment gaps, with LKValues fine-tuning reducing invalid output rates and improving accuracy, especially in Sinhala."
+          }
+        ],
+        "overview": "This paper addresses the cultural bias in LLM value alignment by focusing on Sri Lanka, a multilingual, multiethnic society lacking a national value framework. The authors conduct a trilingual survey (Sinhala, Tamil, English) of 205 respondents, integrating global value frameworks with LLM-assisted elicitation to identify 40 Sri Lankan societal values. These values underpin the construction of LKvaluesIT, a large bilingual instruction dataset from Sri Lankan news, and LKvaluesBench, a 1,000-instance bilingual benchmark for value-sensitive evaluation. The authors fine-tune three open-weight base models (Qwen3.5-4B, Qwen3.5-9B, Aya-Expanse-8B) using LKvaluesIT mixed with general Sinhala instructions. Experiments reveal persistent value-alignment gaps in newer and larger models, especially in Sinhala. LKValues fine-tuning improves Qwen-family models by reducing invalid outputs and cross-lingual disparities, demonstrating the efficacy of the survey-driven, culturally grounded approach. Limitations include survey sample imbalance and exclusion of Tamil in current datasets, highlighting directions for future work.",
+        "methodology": [
+          {
+            "title": "Trilingual Survey Design and Value Elicitation",
+            "detail": "A 41-question survey in Sinhala, Tamil, and English was administered to 205 respondents, combining manually selected items from international value frameworks with LLM-assisted elicitation to identify 40 majority-endorsed Sri Lankan societal values."
+          },
+          {
+            "title": "LLM-Assisted Value Elicitation",
+            "detail": "Multiple LLM chatbots (e.g., ChatGPT, Microsoft Copilot) were queried to generate Sri Lanka-salient value constructs and keywords, which were aggregated and consolidated with human discussion to supplement the survey with 15 additional candidate values."
+          },
+          {
+            "title": "Dataset Construction: LKvaluesIT and LKvaluesBench",
+            "detail": "Using the 40 values, LKvaluesIT was created by tagging Sri Lankan news articles (2009-2023) with value-specific keywords and extracting neutralized, culturally grounded scenarios for supervised fine-tuning; LKvaluesBench was constructed as a bilingual benchmark with 1,000 value-sensitive judgment instances."
+          },
+          {
+            "title": "Model Fine-tuning and Evaluation",
+            "detail": "Three open-weight base models (Qwen3.5-4B, Qwen3.5-9B, Aya-Expanse-8B) were fine-tuned on LKvaluesIT mixed with general Sinhala instruction data; evaluation used LKvaluesBench to measure value-sensitive behavior across languages, model families, sizes, and prompt framings."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "No Explicit Mechanism Provided",
+            "detail": "The paper does not present formal equations or causal mechanisms but relies on a survey-driven, human-in-the-loop pipeline combining international frameworks and LLM elicitation to operationalize Sri Lankan societal values for dataset construction and model fine-tuning."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Model Evaluation on LKvaluesBench",
+            "detail": "A set of proprietary and open-weight LLMs were evaluated on the 1,000-instance bilingual benchmark to assess Sri Lankan value-sensitive judgment, measuring accuracy, invalid output rates, and cross-lingual disparities."
+          },
+          {
+            "title": "Fine-tuning Open-weight Base Models",
+            "detail": "Qwen3.5-4B-Base, Qwen3.5-9B-Base, and Aya-Expanse-8B-Base models were fine-tuned on LKvaluesIT combined with 50K general Sinhala instruction examples to improve value alignment in English and Sinhala."
+          },
+          {
+            "title": "Prompt Framing Sensitivity Analysis",
+            "detail": "The evaluation protocol included analysis of prompt framing effects on model performance, comparing Sri Lankan-specific prompts against universal prompts to diagnose improvements in value-sensitive reasoning."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Persistent Value-Alignment Gaps",
+            "detail": "Despite model scale and recency, newer and larger LLMs still show low-resource and cultural value-alignment gaps, especially in Sinhala, indicating that multilingual capability alone does not ensure culturally sensitive reasoning."
+          },
+          {
+            "title": "Fine-tuning Benefits",
+            "detail": "Fine-tuning Qwen-family models on LKvaluesIT reduces invalid outputs and cross-lingual disparities, substantially improving Sinhala accuracy and value-sensitive judgment, though gains vary by model family."
+          },
+          {
+            "title": "Survey-Driven Value Operationalization",
+            "detail": "The trilingual survey combined with LLM-assisted elicitation successfully identified 40 majority-endorsed Sri Lankan societal values, enabling the construction of culturally grounded datasets and benchmarks."
+          }
+        ],
+        "contributions": [
+          "A novel trilingual survey-driven methodology combining international frameworks and LLM elicitation to operationalize Sri Lankan societal values.",
+          "Creation of LKvaluesIT, a large bilingual instruction dataset, and LKvaluesBench, a bilingual value-sensitive evaluation benchmark.",
+          "An evaluation protocol analyzing value-sensitive behavior across languages, model families, sizes, and prompt framings.",
+          "Demonstration that LKValues fine-tuning improves Sri Lankan value alignment in open-weight LLMs, especially for Sinhala-English bilingual contexts.",
+          "Public release of datasets and resources to support low-resource, country-specific pluralist value alignment."
+        ],
+        "limitations": [
+          "Survey sample size (n=205) is limited and imbalanced across ethnic and religious subgroups, restricting coverage of group-specific value preferences.",
+          "Majority-endorsement criterion (>50%) may exclude important but less widely shared or polarizing values.",
+          "Current LKValues resources cover only Sinhala and English, excluding Tamil despite its inclusion in the survey.",
+          "No formal mechanism or causal model is provided to explain how value alignment is operationalized within LLMs."
+        ],
+        "open_questions": [
+          "How can LKValues be extended to fully support Tamil language and Tamil-speaking Sri Lankan communities?",
+          "What methods can better capture minority or polarizing values that are underrepresented by majority-endorsement criteria?",
+          "How do different model architectures and training regimes affect the embedding and generalization of culturally specific values?",
+          "Can reinforcement learning or modular alignment approaches complement supervised fine-tuning to improve dynamic cultural value alignment?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment",
+          "alignment",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-23T12:02:13.960325+00:00"
+    },
+    {
+      "id": "2607.20219",
+      "title": "HalluTruthQA: A Fine-Grained Benchmark for Hallucination Detection, Localization, and Explanation in Arabic Question Answering",
+      "abstract": "Large language models (LLMs) can generate fluent Arabic answers, yet factual errors remain difficult to detect, localize, explain, and verify. Existing hallucination benchmarks often provide response-level labels, with limited support for identifying the exact erroneous content, explaining why it is incorrect, or selecting the correct factual answer. We introduce \\textsc{HalluTruthQA}, a fine-grained benchmark for hallucination evaluation in Arabic question answering. The benchmark contains 2,400 expert-curated examples across four knowledge-intensive domains: Islamic knowledge, history, science, and geography. Each example pairs an Arabic question and a model-generated answer with a verified reference answer, a binary hallucination label, six candidate answers for factual verification, and, for hallucinated answers, character-level erroneous spans, human-written explanations, and macro and micro hallucination types. We evaluate four open-source LLMs, \\textsc{Allam}, \\textsc{Falcon-H1}, \\textsc{Qwen32}, and \\textsc{Silma}, in a zero-shot setting across hallucination detection, span-level localization, factual verification, and explanation evaluation. Results show that these tasks capture different abilities: no single model achieves the strongest performance across all tasks, with best scores of 0.880 Macro-F1 for detection, 0.516 F1-Sp for localization, 0.852 LO-Score for factual verification, and 0.644 final score for explanation evaluation. Our taxonomy shows that hallucination evaluation should move beyond detection toward localizing, verifying, and explaining factual errors. The code, dataset, prompts, and evaluation scripts are available at https://gitlab.com/nlpresearcher/HalluTruthQA.",
+      "authors": [
+        "Abdessalam Bouchekif",
+        "Mohammed-En-Nadhir Zighem",
+        "Salah Eddine Bekhouche",
+        "Hichem Telli",
+        "Somaya Eltanbouly",
+        "Shahd Gaben",
+        "Heba Sbahi",
+        "Samer Rashwani",
+        "Mutaz Al-Khatib",
+        "Emad Mohamed",
+        "Mohammed Ghaly",
+        "Abdenour Hadid"
+      ],
+      "published": "2026-07-22T14:37:25Z",
+      "updated": "2026-07-22T14:37:25Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.20219v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.20219v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4031,
+          "matched": [
+            "hallucination"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4834,
+        "relevance": 0.3225,
+        "quality": 0.74,
+        "novelty": 0.8214,
+        "freshness": 0.8725
+      },
+      "quality_signals": [
+        "code available",
+        "benchmark evaluation",
+        "dataset evidence",
+        "open source",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "HalluTruthQA provides a fine-grained Arabic QA benchmark enabling detection, localization, explanation, and verification of hallucinations across four knowledge-intensive domains.",
+        "problem": "Existing Arabic hallucination benchmarks lack fine-grained annotations for exact error spans, explanations, and factual verification in knowledge-intensive QA.",
+        "method": "The authors curate 2,400 expert-annotated Arabic QA examples with binary hallucination labels, character-level erroneous spans, human-written explanations, and multiple-choice factual verification candidates.",
+        "evidence": "Evaluation of four open-source LLMs shows varied performance across detection (0.880 Macro-F1), localization (0.516 F1-Sp), verification (0.852 LO-Score), and explanation (0.644 final score), demonstrating task-specific challenges.",
+        "limitations": "The benchmark covers only four domains, uses answers from a single LLM limiting hallucination diversity, and relies on automatic explanation evaluation with potential bias.",
+        "why_for_you": "This benchmark enables rigorous, multi-layered hallucination evaluation for Arabic LLMs, critical for trustworthy factual QA in sensitive domains like Islamic knowledge.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Factual Contradiction is the dominant hallucination macro-type (59.3%), especially prevalent in History (80.4%) and Science (93.3%), highlighting frequent errors in entities, dates, and numerical values."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The benchmark includes span-level annotations of hallucinated content at the character level, supported by human-written explanations and six candidate answers for factual verification, enabling multi-task evaluation."
+          },
+          {
+            "icon": "📉",
+            "text": "No single evaluated model (Allam, Falcon-H1, Qwen32, Silma) excels across all tasks, with best scores ranging from 0.516 F1 for localization to 0.880 Macro-F1 for detection, indicating distinct challenges per hallucination aspect."
+          }
+        ],
+        "overview": "HalluTruthQA addresses the critical gap in Arabic hallucination evaluation by providing a comprehensive benchmark that goes beyond binary detection to include span-level localization, explanation, and factual verification. The dataset comprises 2,400 expert-curated QA pairs across Islamic knowledge, history, science, and geography, domains where factual precision is paramount. Each example contains a question, a model-generated answer, a verified reference, a binary hallucination label, erroneous spans, human explanations, and multiple-choice candidates for verification. The authors evaluate four open-source Arabic LLMs in zero-shot settings, revealing that hallucination detection, localization, verification, and explanation are distinct tasks with no single model dominating all. The taxonomy of hallucination types shows domain-specific error patterns, such as context inconsistency in Islamic knowledge and factual fabrication in geography. This fine-grained approach enables nuanced analysis of hallucination phenomena and supports the development of more trustworthy Arabic LLMs.",
+        "methodology": [
+          {
+            "title": "Dataset Construction",
+            "detail": "2,400 Arabic QA examples were expert-curated across four domains: Islamic knowledge, history, science, and geography. Each example includes a question, a model-generated answer from Fanar, a verified reference answer, and a binary hallucination label."
+          },
+          {
+            "title": "Multi-layer Annotation Scheme",
+            "detail": "Annotations include character-level erroneous spans for hallucinated answers, human-written explanations describing the error, and six candidate answers for multiple-choice factual verification, enabling detection, localization, explanation, and verification tasks."
+          },
+          {
+            "title": "Evaluation Tasks",
+            "detail": "Four tasks were defined: binary hallucination detection, span-level localization of errors, explanation generation evaluated by an LLM-as-a-judge protocol, and multiple-choice factual verification selecting the correct answer among six candidates."
+          },
+          {
+            "title": "Model Evaluation Protocol",
+            "detail": "Four open-source Arabic LLMs (Allam, Falcon-H1, Qwen32, Silma) were evaluated in zero-shot settings on all tasks. Fanar-generated answers were used as input for hallucination assessment, with metrics including Macro-F1, F1-Sp, LO-Score, and explanation scores."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Hallucination Taxonomy",
+            "detail": "Hallucinations are categorized into macro-types: Factual Contradiction, Context Inconsistency, Factual Fabrication, Nonsensical/Irrelevant Response, and Logical Inconsistency. This taxonomy guides annotation and analysis but no formal causal or geometric mechanism is provided."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Hallucination Detection",
+            "detail": "Models predict binary hallucination labels on 2,400 QA pairs, achieving up to 0.880 Macro-F1, demonstrating strong but imperfect detection capability."
+          },
+          {
+            "title": "Span-level Localization",
+            "detail": "For hallucinated answers, models localize erroneous spans at the character level, evaluated by F1-Sp score, with best performance at 0.516, indicating difficulty in precise error localization."
+          },
+          {
+            "title": "Explanation Evaluation",
+            "detail": "Models generate explanations for hallucinated content, scored by an LLM-as-a-judge protocol normalized to [0,1], with best final score of 0.644, reflecting partial success in faithful explanation generation."
+          },
+          {
+            "title": "Multiple-Choice Factual Verification",
+            "detail": "Models select the correct factual answer from six candidates, achieving up to 0.852 LO-Score, showing reasonable ability to identify correct facts among distractors."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Domain-Specific Hallucination Patterns",
+            "detail": "Islamic knowledge exhibits high Context Inconsistency (61.6%) due to incorrect source attributions, while History and Science are dominated by Factual Contradictions (80.4% and 93.3%), highlighting domain-dependent hallucination characteristics."
+          },
+          {
+            "title": "Task-Specific Model Performance",
+            "detail": "No single model excels across all hallucination tasks; for example, the best detection Macro-F1 is 0.880, but localization F1-Sp peaks at 0.516, indicating distinct challenges in detection versus precise error span identification."
+          },
+          {
+            "title": "Explanation Evaluation Challenges",
+            "detail": "Explanation quality assessed via LLM-as-a-judge shows moderate scores (best 0.644), suggesting that generating faithful, complete explanations remains difficult for current Arabic LLMs."
+          },
+          {
+            "title": "Factual Verification Effectiveness",
+            "detail": "Models achieve up to 0.852 LO-Score in multiple-choice factual verification, demonstrating capability to select correct answers among plausible alternatives, an important step beyond binary detection."
+          }
+        ],
+        "contributions": [
+          "Introduction of HalluTruthQA, a fine-grained Arabic QA hallucination benchmark with 2,400 expert-curated examples across four knowledge-intensive domains.",
+          "Provision of a multi-layer annotation scheme including binary hallucination labels, character-level erroneous spans, human-written explanations, and multiple-choice factual verification candidates.",
+          "Comprehensive evaluation of four open-source Arabic LLMs on detection, localization, explanation, and verification tasks in zero-shot settings.",
+          "Development of a hallucination taxonomy highlighting domain-specific error types and motivating evaluation beyond binary detection."
+        ],
+        "limitations": [
+          "Benchmark covers only four domains, excluding legal, medical, financial, or conversational Arabic QA contexts.",
+          "Answers are generated by a single LLM (Fanar), potentially limiting hallucination diversity and generalizability.",
+          "Span-level hallucination annotation is challenging due to implicit reasoning errors and boundary ambiguity despite expert validation.",
+          "Explanation evaluation relies on an LLM-as-a-judge protocol with limited human validation, which may introduce bias or inconsistency."
+        ],
+        "open_questions": [
+          "How can hallucination evaluation be extended to cover additional Arabic QA domains such as legal or medical contexts?",
+          "What methods can improve span-level hallucination annotation accuracy, especially for implicit or attribution errors?",
+          "How can explanation generation and evaluation be enhanced to produce more faithful and comprehensive justifications for hallucinations?",
+          "Can integrating multiple LLM-generated answers increase hallucination pattern diversity and robustness of evaluation benchmarks?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "hallucination"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-23T12:02:13.960325+00:00"
+    },
+    {
+      "id": "2607.20327",
+      "title": "PyroDash: Cost-Efficient Token-Level Small-Large Language Model Collaborative Inference",
+      "abstract": "Large language models (LLMs) provide strong reasoning capabilities but are expensive to serve at scale, whereas small language models (SLMs) are cheaper but less reliable on difficult problems. We introduce PyroDash, a cost-aware framework for token-level SLM-LLM collaborative inference. During generation, the SLM decides whether to request assistance by emitting a control token. A Collaborate Engine then sends the query and partial reasoning trace to a frozen LLM for completion through a single handoff. The policy is internalized in the SLM, requiring neither a separate router, LLM retraining, nor access to LLM logits. PyroDash trains the SLM in three stages: control-token embedding learning, offloading-oriented supervised fine-tuning, and cost-aware alignment with Group Relative Policy Optimization. Its reward balances answer accuracy against inference cost normalized by LLM-only inference. Across five mathematical reasoning benchmarks, PyroDash supports different accuracy-cost operating points. With $λ=0.05$, it achieves 64.04 percent average accuracy, 6.36 percentage points above the LLM-only baseline, while reducing cost by 20.4 percent. With $λ=0.6$, it achieves 54.55 percent accuracy with a 1.90 percent LLM token ratio and 0.012 LLM calls per example, reducing total cost from USD 49.36 to USD 1.78. These results show that learned token-level handoffs can reduce LLM use while preserving strong reasoning performance.",
+      "authors": [
+        "Niqi Lyu",
+        "Pengtao Shi",
+        "Wei Qiu",
+        "Jianlin Zhong",
+        "Sicong Xia",
+        "Jianyao Ma",
+        "Yicheng Ding"
+      ],
+      "published": "2026-07-22T16:14:26Z",
+      "updated": "2026-07-22T16:14:26Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.20327v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.20327v1",
+      "comment": "19 pages, 3 figures",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3885,
+          "matched": [
+            "alignment",
+            "alignment",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4385,
+        "relevance": 0.3108,
+        "quality": 0.55,
+        "novelty": 0.8238,
+        "freshness": 0.8822
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "PyroDash enables cost-efficient collaborative inference between small and large language models by optimizing when to request assistance.",
+        "problem": "Balancing the high cost of large language models with the lower reliability of small language models in reasoning tasks is challenging.",
+        "method": "PyroDash employs a token-level collaborative inference framework where the small language model decides when to offload to a frozen large language model.",
+        "evidence": "With a cost reduction factor of λ=0.6, PyroDash achieves 54.55% accuracy while reducing total cost from $49.36 to $1.78, demonstrating significant efficiency.",
+        "limitations": "The paper does not explore the performance of PyroDash in non-mathematical reasoning tasks or with different model architectures.",
+        "why_for_you": "This research provides insights into optimizing inference costs in LLM applications, which is crucial for scalable AI deployment.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4o-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "PyroDash achieves an average accuracy of 64.04% at λ=0.05, surpassing the LLM-only baseline by 6.36 percentage points while reducing costs by 20.4%."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The framework utilizes a control token mechanism, allowing the small language model to autonomously decide when to request assistance from the large language model."
+          },
+          {
+            "icon": "📉",
+            "text": "At λ=0.6, PyroDash reduces total inference costs by 96.4%, demonstrating the effectiveness of its cost-aware alignment strategy."
+          }
+        ],
+        "overview": "PyroDash addresses the challenge of efficiently utilizing large and small language models by introducing a token-level collaborative inference framework. The small language model (SLM) autonomously determines when to request assistance from a frozen large language model (LLM) using a control token. This method allows for a single handoff, minimizing costs while maintaining strong reasoning performance. Empirical results across five mathematical reasoning benchmarks show that PyroDash can achieve significant accuracy improvements and cost reductions, making it a promising solution for scalable AI applications.",
+        "methodology": [
+          {
+            "title": "Control-Token Embedding Learning",
+            "detail": "The SLM is trained to embed control tokens that signal when to offload reasoning tasks to the LLM, enhancing its decision-making capabilities."
+          },
+          {
+            "title": "Offloading-Oriented Supervised Fine-Tuning",
+            "detail": "This stage fine-tunes the SLM to optimize its performance in recognizing when to request LLM assistance, based on its reasoning trajectory."
+          },
+          {
+            "title": "Cost-Aware Alignment with Group Relative Policy Optimization (GRPO)",
+            "detail": "The SLM's offloading policy is aligned with a reward structure that balances accuracy and inference cost, allowing for tunable performance."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Token-Level Handoff Mechanism",
+            "detail": "The SLM generates tokens and decides to emit a control token when it reaches a capability boundary, triggering a handoff to the LLM for completion."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Model Configuration",
+            "detail": "The evaluation uses Qwen3.5-4B as the SLM and GLM-5.2-FP8 as the LLM, assessing performance across five mathematical reasoning benchmarks."
+          },
+          {
+            "title": "Benchmarks and Metrics",
+            "detail": "The benchmarks include GSM8K, Minerva, Olympiad-Bench, AIME-2024, and AIME-2025, with metrics such as pass@1 accuracy and avg@32 for evaluation."
+          },
+          {
+            "title": "Baseline Comparisons",
+            "detail": "PyroDash is compared against standalone SLM and LLM models, as well as SLM+SFT and RouteLLM routing baselines to evaluate its effectiveness."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Accuracy Improvement",
+            "detail": "At λ=0.05, PyroDash achieves 64.04% accuracy, outperforming the LLM-only baseline of 57.68% by 6.36 percentage points."
+          },
+          {
+            "title": "Cost Reduction",
+            "detail": "With λ=0.6, PyroDash reduces total inference cost from $49.36 to $1.78, achieving a 96.4% reduction."
+          },
+          {
+            "title": "LLM Token Ratio",
+            "detail": "At λ=0.6, the LLM token ratio is 1.90%, indicating efficient use of the LLM during inference."
+          }
+        ],
+        "contributions": [
+          "Introduction of PyroDash for token-level collaborative inference between SLMs and LLMs.",
+          "Development of a three-stage training pipeline for cost-aware alignment of the SLM's offloading policy.",
+          "Demonstration of substantial inference cost reductions while maintaining competitive accuracy across benchmarks."
+        ],
+        "limitations": [
+          "The performance of PyroDash in non-mathematical reasoning tasks is not evaluated.",
+          "The impact of different model architectures on the effectiveness of PyroDash is not explored."
+        ],
+        "open_questions": [
+          "How can PyroDash be adapted for diverse reasoning tasks beyond mathematical problems?",
+          "What are the implications of using different model architectures in the PyroDash framework?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4o-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment",
+          "alignment",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-23T12:02:13.960325+00:00"
+    },
+    {
+      "id": "2607.20265",
+      "title": "The Maskability Index: Predicting Task-Objective Alignment in Pretrained Language Models",
+      "abstract": "Large-scale pretrained language models such as T5 and BERT have demonstrated strong capabilities for generating structured knowledge. However, their performance depends on how closely the prompting strategy matches the objectives used during pretraining. We introduce the Maskability Index (MI), a quantitative metric that estimates whether a knowledge relation is better suited to masked-style prompting or prefix-style prompting in few-shot generation. MI is computed from differences in DepthRank scores between masked and unmasked templates, providing a principled measure of objective-template alignment. We evaluate MI on a diverse set of relations from the ATOMIC2020 knowledge base completion benchmark and show that it is positively correlated with downstream generation performance. These results indicate that MI can help select appropriate prompting templates and adaptation strategies for extracting relational knowledge from pretrained language models, especially in low-resource settings.",
+      "authors": [
+        "Ahmad Pouramini",
+        "Mahsa Afsharzadeh"
+      ],
+      "published": "2026-07-22T15:19:23Z",
+      "updated": "2026-07-22T15:19:23Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.20265v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.20265v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4293,
+          "matched": [
+            "alignment",
+            "alignment"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.434,
+        "relevance": 0.3434,
+        "quality": 0.4,
+        "novelty": 0.8697,
+        "freshness": 0.8767
+      },
+      "quality_signals": [
+        "benchmark evaluation"
+      ],
+      "summary": {
+        "takeaway": "The Maskability Index (MI) quantitatively predicts whether masked-style or prefix-style prompting better aligns with pretrained language models’ objectives for specific knowledge relations, improving few-shot generative knowledge base completion.",
+        "problem": "Pretrained language models’ performance in knowledge base completion varies significantly depending on how well the prompting style matches the model’s pretraining objective, with no existing metric to predict this alignment at the relation level.",
+        "method": "MI is defined as the difference in DepthRank scores between masked and prefix prompting templates, capturing the relative ease of generating gold tail tokens under each prompting style to estimate template–objective alignment.",
+        "evidence": "Evaluation on nine ATOMIC2020 relations with T5-base shows MI correlates positively with downstream generation quality, distinguishing mask-friendly lexical relations from phrasal, inferential ones that favor prefix prompting.",
+        "limitations": "The study focuses on T5-base and ATOMIC2020 relations with few-shot settings; MI’s applicability to other models, datasets, or per-token prediction remains to be explored.",
+        "why_for_you": "MI offers a principled, quantitative tool to select prompting templates and adaptation strategies tailored to pretrained model objectives, enhancing trustworthy and effective knowledge extraction from LLMs in low-resource scenarios.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "MI distinguishes relations like AtLocation and xAttr as mask-friendly with MI ≥ 30%, reflecting short lexical tails aligned with denoising objectives, while relations like xIntent and xNeed have negative or low MI, indicating preference for prefix prompting."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The method computes DepthRank, the average rank of gold tail tokens in model predictions, under masked and prefix templates, then derives MI as their difference to quantify template–objective alignment at the relation level."
+          },
+          {
+            "icon": "📉",
+            "text": "Experiments on T5-base with ATOMIC2020 relations show that masked prompting reduces DepthRank for lexical relations in few-shot settings, while prefix prompting better suits relations requiring longer, compositional tails, validating MI’s predictive power."
+          }
+        ],
+        "overview": "This paper addresses the challenge that pretrained language models’ ability to generate relational knowledge depends on the alignment between the prompting style and the model’s pretraining objective. The authors propose the Maskability Index (MI), a novel metric derived from DepthRank differences between masked and prefix prompting templates, to predict which prompting style better suits a given relation. DepthRank measures how highly the model ranks gold tail tokens in its output distribution, with lower values indicating easier generation. By comparing DepthRank under masked-style (denoising-aligned) and prefix-style (language modeling-aligned) prompts, MI quantifies template–objective alignment. Evaluations on nine relations from the ATOMIC2020 knowledge base using T5-base demonstrate that MI correlates with downstream generation quality, effectively partitioning relations into mask-friendly lexical types and prefix-friendly phrasal types. This enables informed selection of prompting templates and adaptation strategies, particularly in few-shot or low-resource settings, improving knowledge base completion performance. The study highlights the importance of considering pretraining objectives in prompt design and offers a practical diagnostic tool for trustworthy knowledge extraction from LLMs.",
+        "methodology": [
+          {
+            "title": "Task Definition",
+            "detail": "The knowledge base completion task is framed as generating a plausible tail t given a head entity or event h and a relation r, where (h, r, t) are natural language expressions representing semantic relations such as causal or attributive knowledge."
+          },
+          {
+            "title": "DepthRank Computation",
+            "detail": "DepthRank measures the average rank position of gold tail tokens within the model’s predicted probability distribution under a given prompting template, with lower ranks indicating easier generation of the correct tail."
+          },
+          {
+            "title": "Maskability Index (MI) Definition",
+            "detail": "MI is computed as the difference between DepthRank values obtained under masked-style prompting and prefix-style prompting templates for a relation, estimating whether the relation is more amenable to mask-filling or prefix generation."
+          },
+          {
+            "title": "Prompting Template Families",
+            "detail": "Two template families are used: MaskedPrompting inserts mask tokens aligned with denoising objectives, while Prompting uses prefix-style templates aligned with language modeling objectives, enabling comparison of model performance under each."
+          },
+          {
+            "title": "Experimental Setup",
+            "detail": "T5-base pretrained with denoising and auxiliary language modeling objectives is fine-tuned on ATOMIC2020 relations using few-shot samples; DepthRank and MI are computed on held-out sets with fixed hyperparameters such as AdaFactor optimizer and batch size 8."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Template–Objective Alignment via DepthRank Differences",
+            "detail": "The mechanism underlying MI is that masked-style prompting aligns with denoising pretraining objectives favoring reconstruction of short masked spans, while prefix-style prompting aligns with autoregressive language modeling objectives favoring longer continuations; DepthRank differences capture this alignment quantitatively."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Evaluation on ATOMIC2020 Relations",
+            "detail": "Nine relations from ATOMIC2020 are evaluated using T5-base in few-shot knowledge base completion; DepthRank is computed for masked and prefix prompting templates on 100 held-out heads per relation, and MI is calculated at sample size n=5."
+          },
+          {
+            "title": "Correlation of MI with Generation Quality",
+            "detail": "Results show that relations with MI ≥ 30% (e.g., AtLocation, xAttr) achieve lower DepthRank under masked prompting and better generation quality, while relations with low or negative MI (e.g., xIntent, xNeed) favor prefix prompting, validating MI as a predictive metric."
+          }
+        ],
+        "findings": [
+          {
+            "title": "MI Predicts Template Preference",
+            "detail": "MI successfully partitions relations into mask-friendly and prefix-friendly groups, with mask-friendly relations typically involving short lexical tails and prefix-friendly relations requiring longer, compositional tails, consistent with their DepthRank profiles."
+          },
+          {
+            "title": "Masked Prompting Benefits Lexical Relations",
+            "detail": "Masked prompting reduces DepthRank for lexical relations such as AtLocation and xAttr, indicating easier generation of gold tails under denoising-aligned templates in few-shot settings."
+          },
+          {
+            "title": "Prefix Prompting Benefits Inferential Relations",
+            "detail": "Relations like xIntent and xNeed, which require multi-step inference and longer phrasal completions, show smaller or negative MI values and perform better under prefix-style prompting aligned with language modeling objectives."
+          }
+        ],
+        "contributions": [
+          "Identification and formalization of pretraining–prompt alignment as a measurable phenomenon at the relation level in knowledge base completion.",
+          "Introduction of the Maskability Index (MI), a novel DepthRank-based metric predicting the effectiveness of masked-style versus prefix-style prompting for specific relations.",
+          "Empirical validation of MI on ATOMIC2020 relations demonstrating its correlation with downstream generation quality and utility for guiding template selection and adaptation strategies."
+        ],
+        "limitations": [
+          "MI is evaluated only on T5-base and a limited set of ATOMIC2020 relations, limiting generalizability to other models or knowledge bases.",
+          "The study focuses on few-shot generation scenarios; MI’s behavior in zero-shot or fully supervised settings is not explored.",
+          "No per-token or finer-grained variants of MI are developed, restricting analysis to relation-level alignment.",
+          "The approach assumes availability of gold tail tokens for DepthRank computation, which may not be feasible in all knowledge extraction contexts."
+        ],
+        "open_questions": [
+          "How does MI generalize to other pretrained language models with different architectures or pretraining objectives beyond T5-base?",
+          "Can MI be extended to per-token or dynamic variants to capture finer-grained template–objective alignment?",
+          "What is the impact of MI-guided template selection on large-scale knowledge base construction and downstream applications?",
+          "How can MI be integrated with automatic prompt generation or adaptation methods to optimize knowledge extraction without manual template design?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment",
+          "alignment"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-23T12:02:13.960325+00:00"
+    },
+    {
+      "id": "2607.20301",
+      "title": "The Blessing of Dimensionality: How Near-Orthogonality in High-Dimensional Spaces Explains Temporal Portability",
+      "abstract": "Fine-tuning has been widely used to adapt large language models (LLMs) for domain-specific tasks. Parameter efficient fine-tuning (PEFT) methods such as low-rank adaptation (LoRA) are frequently used to reduce computational costs. PortLLM is a training-free and data-free scheme used to adapt LLMs after continual pretraining. Although the initial PortLLM results show that LoRA patches exhibit short-term temporal portability, the long-term performance of PortLLM across several updates of continual pretraining remains underexplored. Furthermore, the intriguing effectiveness of PortLLM is not well understood from a theoretical standpoint. We address these two open questions by (1) performing an extensive empirical study of the long-term temporal portability of PortLLM patches across 10 continual pretraining steps using base models Mistral, Gemma, and Qwen; and (2) offering two theoretical analyses to explain our observation that the simple PortLLM method achieves competitive performance. We find empirically that the portability persists across longer time duration, indicating that repeated fine-tuning is not required when the base model is periodically updated. We find theoretically that near-orthogonality of high-dimensional vectors is a key justification for temporal portability. Our analyses also demonstrate a geometric perspective of the loss landscape in facilitating the theoretical comparison of different adaptation options.",
+      "authors": [
+        "Abigail Woodring",
+        "Adrian Chan",
+        "Rana Muhammad Shahroz Khan",
+        "Sukwon Yun",
+        "Chau-Wai Wong",
+        "Tianlong Chen"
+      ],
+      "published": "2026-07-22T15:48:39Z",
+      "updated": "2026-07-22T15:48:39Z",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2607.20301v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.20301v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "core",
+          "score": 0.3961,
+          "matched": [
+            "loss landscape",
+            "landscape",
+            "loss"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4187,
+        "relevance": 0.3169,
+        "quality": 0.41,
+        "novelty": 0.867,
+        "freshness": 0.8796
+      },
+      "quality_signals": [
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Near-orthogonality in high-dimensional parameter spaces explains the long-term temporal portability of LoRA patches in continually pretrained LLMs, enabling training-free adaptation with PortLLM.",
+        "problem": "Repeated fine-tuning of LoRA patches after each continual pretraining step is computationally expensive and impractical for resource-constrained downstream developers.",
+        "method": "PortLLM applies a LoRA patch fine-tuned on the initial base model directly to updated base models after continual pretraining without additional fine-tuning, supported by empirical evaluation and theoretical analysis of near-orthogonality.",
+        "evidence": "Empirical results across 10 continual pretraining steps on Mistral, Gemma, and Qwen models show PortLLM patches maintain competitive performance compared to stepwise fine-tuning and outperform no patching, corroborated by theoretical analyses leveraging loss landscape geometry.",
+        "limitations": "Theoretical analyses assume standard gradient descent and approximate orthogonality, and empirical evaluations are limited to specific base models and datasets without exploring all LoRA variants or broader adaptation scenarios.",
+        "why_for_you": "Understanding the geometric basis of temporal portability in LoRA patches informs efficient LLM adaptation strategies, reducing computational costs in continual pretraining contexts.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Empirical evaluation demonstrates that PortLLM patches retain temporal portability across 10 continual pretraining steps on Mistral-7B-v0.1, Gemma3-12B, and Qwen2-0.5B, maintaining performance close to stepwise fine-tuning and significantly outperforming no patching."
+          },
+          {
+            "icon": "🛡️",
+            "text": "PortLLM leverages low-rank adaptation (LoRA) patches trained once on the initial base model and applies them without retraining to continually pretrained models, exploiting the near-orthogonality property of high-dimensional parameter updates to ensure stability."
+          },
+          {
+            "icon": "📉",
+            "text": "Theoretical analyses use inner products of gradients and parameter updates in high-dimensional spaces to show near-zero inner products, which justify the low cost and stable performance of PortLLM compared to stepwise fine-tuning, supported by 1-D loss landscape slices and iterative optimization step relations."
+          }
+        ],
+        "overview": "This paper investigates the temporal portability of LoRA patches in large language models undergoing continual pretraining, addressing the computational challenge of retraining patches after each update. The authors empirically validate that PortLLM, a training-free and data-free method applying an initial LoRA patch to updated models, maintains competitive downstream task performance across 10 continual pretraining steps on multiple base models. The core thesis is that near-orthogonality of high-dimensional parameter vectors underlies this portability, a property leveraged in two theoretical analyses: one examining a 1-D slice of the loss landscape and another analyzing iterative relations between consecutive pretraining steps. These analyses reveal that inner products between gradients and updates are approximately zero, explaining why PortLLM patches remain effective without retraining. The work extends prior short-term findings to long-term scenarios and provides a geometric perspective on the loss landscape that facilitates comparison of adaptation strategies. This insight enables efficient LLM adaptation in resource-constrained settings, reducing the need for repeated fine-tuning while preserving performance.",
+        "methodology": [
+          {
+            "title": "Low-Rank Adaptation (LoRA)",
+            "detail": "LoRA restricts the update matrix ∆W for each weight matrix W in the base model to be low-rank, expressed as ∆W = BA with B and A as learnable matrices of rank r ≪ min(k, d), reducing training complexity from quadratic to linear."
+          },
+          {
+            "title": "PortLLM Patch Application",
+            "detail": "PortLLM applies a LoRA patch fine-tuned on the initial base model directly to continually pretrained base models without additional fine-tuning, enabling training-free and data-free adaptation across multiple continual pretraining steps."
+          },
+          {
+            "title": "Empirical Evaluation Setup",
+            "detail": "Experiments use base models Mistral-7B-v0.1, Gemma3-12B, and Qwen2-0.5B with continual pretraining on temporal data chunks from Fineweb and Cosmopedia, evaluating downstream performance on benchmarks including WinoGrande, BoolQ, ARC-Easy, ARC-Challenge, GSM8k, MNLI, and SST2."
+          },
+          {
+            "title": "Theoretical Analysis via Loss Landscape",
+            "detail": "One analysis examines a 1-D slice of the loss landscape between PortLLM and stepwise fine-tuning patches, analyzing inner products of gradients and parameter displacements to quantify cost, benefit, and variation of PortLLM."
+          },
+          {
+            "title": "Iterative Relation Analysis",
+            "detail": "Another analysis models the relationships between consecutive continual pretraining steps, assuming approximate orthogonality of gradients and updates, to bound inner products and explain the stability of PortLLM patches over time."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Near-Orthogonality in High-Dimensional Spaces",
+            "detail": "The key mechanism is that gradients and parameter updates in high-dimensional parameter spaces are approximately orthogonal, resulting in near-zero inner products that minimize interference between continual pretraining updates and the fixed LoRA patch, thereby preserving patch effectiveness without retraining."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Long-Term Temporal Portability Evaluation",
+            "detail": "PortLLM patches were evaluated across 10 continual pretraining steps on Mistral-7B-v0.1 and Gemma3-12B using 50M token chunks from Fineweb, and on Qwen2-0.5B with 200M token chunks, comparing PortLLM to stepwise fine-tuning and no patching on multiple downstream benchmarks."
+          },
+          {
+            "title": "Benchmark Performance Assessment",
+            "detail": "Downstream tasks included commonsense reasoning (WinoGrande), reading comprehension (BoolQ), science knowledge (ARC-Easy, ARC-Challenge), mathematical reasoning (GSM8k), and natural language understanding (MNLI, SST2), with patches trained on public splits and MetaMath for GSM8k."
+          },
+          {
+            "title": "Loss Landscape Visualization",
+            "detail": "Empirical results include plots of loss values, derivatives, and norm products along 1-D slices between PortLLM and stepwise fine-tuning patches at multiple time steps, demonstrating the stability and similarity of PortLLM performance over time."
+          }
+        ],
+        "findings": [
+          {
+            "title": "PortLLM Maintains Competitive Performance",
+            "detail": "PortLLM patches retain performance comparable to stepwise fine-tuning patches across 10 continual pretraining steps, as shown on Mistral, Gemma, and Qwen models, indicating that repeated fine-tuning is unnecessary."
+          },
+          {
+            "title": "PortLLM Outperforms No Patching",
+            "detail": "Applying the initial LoRA patch via PortLLM substantially outperforms the baseline of no patching on downstream benchmarks, confirming the benefit of patch reuse despite continual pretraining."
+          },
+          {
+            "title": "Near-Orthogonality Explains Temporal Portability",
+            "detail": "Theoretical analyses reveal that near-zero inner products between gradients and updates in high-dimensional spaces justify the low cost and stable performance of PortLLM, providing a geometric explanation for temporal portability."
+          },
+          {
+            "title": "Generalizability to LoRA Variants",
+            "detail": "The analyses and conclusions extend beyond PortLLM to other LoRA variants such as CAR-LoRA, suggesting broad applicability of the near-orthogonality principle in parameter-efficient fine-tuning."
+          }
+        ],
+        "contributions": [
+          "Empirical demonstration of long-term temporal portability of PortLLM patches across 10 continual pretraining steps on multiple large language models.",
+          "Theoretical analyses leveraging near-orthogonality in high-dimensional parameter spaces to explain the effectiveness of training-free LoRA patch reuse.",
+          "Introduction of a geometric perspective on the loss landscape to compare adaptation strategies and quantify costs and benefits of PortLLM.",
+          "Validation that PortLLM substantially outperforms no patching and performs comparably to stepwise fine-tuning, reducing computational demands for downstream developers."
+        ],
+        "limitations": [
+          "Theoretical assumptions include standard gradient descent and approximate orthogonality, which may not fully capture practical training dynamics.",
+          "Empirical evaluations are limited to specific base models (Mistral, Gemma, Qwen) and datasets, potentially limiting generalizability to other architectures or domains.",
+          "The study does not explore the impact of different LoRA hyperparameters or ranks extensively on temporal portability.",
+          "Analysis focuses on PortLLM and related LoRA variants but does not address other PEFT methods or adaptation mechanisms."
+        ],
+        "open_questions": [
+          "How does near-orthogonality extend to other parameter-efficient fine-tuning methods beyond LoRA and its variants?",
+          "Can the geometric insights into the loss landscape inform improved fine-tuning strategies that further enhance temporal portability?",
+          "What are the effects of varying LoRA rank and hyperparameters on the stability and portability of patches over continual pretraining?",
+          "How does temporal portability behave under more heterogeneous or adversarial continual pretraining data distributions?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "loss landscape",
+          "landscape",
+          "loss"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-23T12:02:13.960325+00:00"
+    },
     {
       "id": "2607.19219",
       "title": "Beyond Score Prediction: LLM-Based Essay Scoring and Feedback Generation via Reinforcement Learning with Rubric Rewards",

@@ -1,392 +1,6 @@
 {
-  "generated_at": "2026-07-22T12:03:09.506272+00:00",
+  "generated_at": "2026-07-23T12:02:13.960325+00:00",
   "papers": [
-    {
-      "id": "2607.13753",
-      "title": "Post-Training Shifts Confidence: A Three-Stage Analysis of How SFT, RL, and OPD Shape Pre-, Intra-, and Post-CoT Calibration",
-      "abstract": "Large language models have made strong reasoning gains through supervised fine-tuning, reinforcement learning, and on-policy distillation, yet these post-training methods are usually evaluated only by final-answer accuracy. We study how they reshape confidence during reasoning. We introduce a three-stage calibration framework that evaluates confidence before, during, and after chain-of-thought generation, corresponding to difficulty estimation, early termination, and answer aggregation. Through a controlled comparison on mathematical reasoning benchmarks, we find that OPD provides the most useful pre-reasoning confidence, SFT gives the strongest online signal for early stopping, and RL produces the most reliable trace-level signal for aggregation. We further show that confidence reliability is position-dependent: RL confidence becomes informative after a path-commitment phase, while OPD confidence is useful early but can become inversely calibrated later. Based on this observation, we propose PosConf, a position-aware confidence strategy that uses confidence only from reliable relative-position intervals. PosConf improves RL answer aggregation by 6.1 points over majority voting and consistently improves OPD early stopping under tight token budgets, with gains up to 4.3 points by avoiding its later inverse-calibration region, showing that \\emph{confidence in reasoning models should be used both stage-wise and position-awarely}. Our code is available at https://github.com/EIT-NLP/Post-Training-Calibration.",
-      "authors": [
-        "Shuhao Li",
-        "Guodong Du",
-        "Anhao Zhao",
-        "Wanyu Lin",
-        "Tianyu Yuan",
-        "Xiaoyu Shen"
-      ],
-      "published": "2026-07-15T12:12:37Z",
-      "updated": "2026-07-15T12:12:37Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.13753v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.13753v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "watch",
-          "score": 0.5634,
-          "matched": [
-            "on-policy distillation",
-            "OPD",
-            "policy distillation",
-            "opd",
-            "distillation",
-            "on-policy"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4046,
-          "matched": [
-            "calibration",
-            "reliability"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6264,
-        "relevance": 0.5316,
-        "quality": 0.78,
-        "novelty": 0.8186,
-        "freshness": 0.859
-      },
-      "quality_signals": [
-        "code available",
-        "GitHub link",
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Reasoning-oriented post-training methods (SFT, RL, OPD) induce distinct, stage-dependent shifts in confidence calibration, which can be leveraged position-awarely to improve reasoning efficiency and accuracy.",
-        "problem": "Existing evaluations of post-training methods focus on final-answer accuracy, neglecting how these methods reshape confidence calibration before, during, and after chain-of-thought reasoning.",
-        "method": "The paper introduces a three-stage confidence calibration framework (Pre-CoT, Intra-CoT, Post-CoT) to systematically analyze and compare how SFT, RL, and OPD affect confidence signals at different reasoning stages and positions.",
-        "evidence": "Controlled experiments on mathematical reasoning benchmarks with Qwen2.5-7B variants show OPD excels at pre-reasoning difficulty estimation, SFT provides the strongest intra-reasoning early stopping signal, and RL yields the most reliable post-reasoning aggregation confidence, with PosConf improving RL aggregation by 6.1 points and OPD early stopping by up to 4.3 points.",
-        "limitations": "The study is limited to a single backbone (Qwen2.5-7B) and mathematical reasoning benchmarks, with no evidence on other model families, domains, or downstream tasks.",
-        "why_for_you": "Understanding how post-training paradigms reshape confidence calibration stage-wise and position-awarely enables designing more trustworthy and efficient LLM reasoning systems through improved uncertainty estimation and inference-time decisions.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "OPD provides the most informative Pre-CoT confidence for problem difficulty estimation, achieving the highest AUROC and PRR scores across multiple mathematical benchmarks."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The PosConf strategy uses position-aware confidence intervals to selectively leverage reliable confidence signals, improving RL answer aggregation by 6.1 points over majority voting and enhancing OPD early stopping under tight token budgets."
-          },
-          {
-            "icon": "📉",
-            "text": "Confidence reliability is position-dependent: RL confidence becomes informative only after a path-commitment phase, while OPD confidence is useful early but can become inversely calibrated later in the reasoning trace."
-          }
-        ],
-        "overview": "This paper addresses the gap in understanding how different post-training methods—supervised fine-tuning (SFT), reinforcement learning (RL), and on-policy distillation (OPD)—reshape confidence calibration in large language models during chain-of-thought reasoning. Instead of treating confidence as a monolithic final output property, the authors propose a three-stage framework evaluating confidence before reasoning (Pre-CoT), during reasoning (Intra-CoT), and after reasoning (Post-CoT). Using Qwen2.5-7B-based models trained on the same data but with different post-training objectives, they conduct controlled experiments on diverse mathematical reasoning benchmarks. Results show that OPD excels at pre-reasoning difficulty estimation, SFT provides the strongest online signal for early termination of low-quality reasoning traces, and RL yields the most reliable confidence for answer aggregation. They further reveal that confidence calibration varies with token position, motivating PosConf, a position-aware confidence strategy that selectively uses confidence from reliable relative-position intervals. PosConf significantly improves RL aggregation accuracy and OPD early stopping efficiency, demonstrating that confidence should be used both stage-wise and position-awarely to enhance reasoning reliability and efficiency.",
-        "methodology": [
-          {
-            "title": "Three-Stage Confidence Calibration Framework",
-            "detail": "The framework partitions confidence evaluation into Pre-CoT (before chain-of-thought generation, assessing problem difficulty), Intra-CoT (during generation, enabling early termination of uncertain traces), and Post-CoT (after generation, supporting answer aggregation). Confidence is computed from top-k next-token probabilities, smoothed over sliding windows, and normalized by relative token position."
-          },
-          {
-            "title": "Model Variants and Training",
-            "detail": "Four Qwen2.5-7B-based models are compared: Qwen-Instruct (instruction-tuned baseline), Qwen-SFT (supervised fine-tuned on correct chain-of-thought traces), Qwen-RL (trained with group relative policy optimization using binary outcome rewards), and Qwen-OPD (on-policy distillation from a larger teacher model via dense KL divergence). All models share the same backbone and training data to isolate post-training effects."
-          },
-          {
-            "title": "Confidence Metrics and Evaluation",
-            "detail": "Pre-CoT confidence is evaluated by AUROC and PRR to measure difficulty prediction quality. Intra-CoT confidence triggers early stopping when sliding window confidence falls below a threshold, balancing token usage and accuracy. Post-CoT confidence ranks completed traces for confidence-filtered majority voting and most-confident selection, assessing aggregation improvements."
-          },
-          {
-            "title": "PosConf Position-Aware Confidence Strategy",
-            "detail": "PosConf restricts confidence usage to reliable relative-position intervals identified by analyzing confidence calibration dynamics across token positions. This avoids inverse calibration regions, improving early stopping and answer aggregation by leveraging only trustworthy confidence segments."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Token-Level Confidence Computation",
-            "detail": "Confidence at token position ℓ is computed as the negative average log probability over the top-k next-token candidates, smoothed over a sliding window of size w to capture local uncertainty dynamics. Relative token position ρt = t/m normalizes positions across traces of varying lengths, enabling position-aware confidence analysis."
-          },
-          {
-            "title": "No Explicit Theoretical Mechanism Provided",
-            "detail": "The paper does not provide formal equations or causal theories beyond the confidence computation formula and the empirical observation of position-dependent calibration shifts."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Pre-CoT Difficulty Estimation",
-            "detail": "Evaluated on mathematical reasoning benchmarks (AIME 24/25, AMC 23, MATH500) using AUROC and PRR metrics, comparing Qwen-Instruct, Qwen-SFT, Qwen-RL, and Qwen-OPD. OPD achieves the highest average AUROC (0.644) and PRR (0.345), indicating superior pre-reasoning confidence calibration."
-          },
-          {
-            "title": "Intra-CoT Early Stopping",
-            "detail": "Confidence thresholds are swept to produce token-accuracy frontiers under a fixed budget of 256 traces per problem. Early stopping triggered when sliding window confidence falls below threshold reduces token usage without accuracy loss. SFT yields the strongest online signal for early termination."
-          },
-          {
-            "title": "Post-CoT Answer Aggregation",
-            "detail": "Answer aggregation compares majority voting, confidence-filtered majority voting (top 5% or 10% traces by confidence), and most-confident selection. RL confidence filtering improves aggregation accuracy by 6.1 points over majority voting, demonstrating reliable trace-level confidence."
-          },
-          {
-            "title": "PosConf Evaluation",
-            "detail": "PosConf applies position-aware confidence intervals to improve RL aggregation and OPD early stopping. It avoids later inverse-calibration regions in OPD, yielding up to 4.3 points gain under tight token budgets."
-          }
-        ],
-        "findings": [
-          {
-            "title": "OPD Excels at Pre-CoT Confidence",
-            "detail": "OPD achieves the highest AUROC and PRR scores for difficulty estimation across multiple benchmarks, outperforming SFT, RL, and the baseline Qwen-Instruct, indicating its pre-reasoning confidence is most informative."
-          },
-          {
-            "title": "SFT Provides Strongest Intra-CoT Signal",
-            "detail": "During reasoning, SFT yields the most reliable token-level confidence for early stopping, enabling efficient pruning of low-quality reasoning traces without compromising accuracy."
-          },
-          {
-            "title": "RL Confidence Best for Post-CoT Aggregation",
-            "detail": "RL produces the most reliable trace-level confidence for answer aggregation, improving accuracy by 6.1 points over majority voting when using confidence-filtered voting."
-          },
-          {
-            "title": "Confidence Calibration is Position-Dependent",
-            "detail": "RL confidence becomes informative only after a path-commitment phase, while OPD confidence is useful early but can become inversely calibrated later, motivating position-aware confidence usage."
-          },
-          {
-            "title": "PosConf Improves Reasoning Efficiency and Accuracy",
-            "detail": "By restricting confidence usage to reliable relative-position intervals, PosConf improves RL answer aggregation by 6.1 points and OPD early stopping by up to 4.3 points, demonstrating the benefit of stage-wise and position-aware confidence strategies."
-          }
-        ],
-        "contributions": [
-          "Introduced a three-stage confidence calibration framework (Pre-CoT, Intra-CoT, Post-CoT) linking confidence signals to inference-time decisions in reasoning.",
-          "Provided a controlled comparison of SFT, RL, and OPD post-training methods showing distinct stage-dependent confidence calibration shifts.",
-          "Discovered position-dependent confidence reliability and proposed PosConf, a position-aware confidence strategy that improves early stopping and answer aggregation."
-        ],
-        "limitations": [
-          "Experiments are limited to the Qwen2.5-7B backbone and mathematical reasoning benchmarks, limiting generalizability to other models and tasks.",
-          "No evaluation on downstream applications beyond mathematical reasoning or on other types of reasoning tasks.",
-          "The study does not explore the impact of varying training data or model architectures on confidence calibration.",
-          "No formal theoretical mechanism or causal explanation is provided for the observed position-dependent calibration shifts."
-        ],
-        "open_questions": [
-          "How do confidence calibration dynamics generalize across different LLM architectures and larger-scale models?",
-          "Can position-aware confidence strategies like PosConf be adapted to other reasoning domains or multimodal tasks?",
-          "What are the underlying causes of inverse calibration in OPD confidence at later token positions?",
-          "How can confidence calibration be integrated with other uncertainty estimation methods to further improve trustworthy LLM reasoning?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "On-policy distillation",
-        "matched": [
-          "on-policy distillation",
-          "OPD",
-          "policy distillation",
-          "opd"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-16T11:53:57.047514+00:00"
-    },
-    {
-      "id": "2607.13801",
-      "title": "Traffic-Aware Randomized Smoothing for LLM-Based Network Intrusion Detection",
-      "abstract": "Large language model (LLM)-based intrusion detection systems (IDS) are increasingly studied for security monitoring, yet their robustness against feasible traffic manipulation remains largely empirical. We present Traffic-Aware Randomized Smoothing (TA-RS), a classifier-agnostic certified defense that injects Gaussian noise exclusively into the directly controllable (DC) subspace -- features a remote attacker can modify -- during both fine-tuning and certification, aligning the smoothing distribution with the attacker-controllable subspace. We identify a critical prerequisite: applying standard randomized smoothing to clean-trained LLM-IDS yields weak certified accuracy in three of four (model, dataset) pairs tested (14-33%, at or below random) and only 57% in the fourth (43 pp below the noise-augmented result); noise-augmented fine-tuning recovers to 68-100% on two of three benchmark datasets (at sigma=0.25). At the L_inf-equivalent threshold R_inf = epsilon*sqrt(|DC|) (epsilon=0.05), TA-RS achieves 55-100% certified accuracy on CIC-IDS-2018 and HIKARI-2021, with median certified radii (R approx 0.45-0.96) exceeding R_inf by 1.8-5x (across sigma=0.25-1.00). Against a fairly trained iso-trained RS baseline the residual advantage is dataset-dependent (4-19 pp on CIC-IDS-2018). The larger gap -- up to 72 pp against an isotropic RS baseline that shares the DC-noise-augmented training recipe -- primarily reflects the training-certification mismatch rather than DC alignment alone: isotropic test-time noise perturbs uncontrollable features the attacker cannot exploit, triggering abstention rates up to 68%. RT-IoT2022 probes the limits of the method: it fails under the default fine-tuning recipe but recovers to 76%/69% certified accuracy (LLaMA3-8B/Qwen3-8B) when noise augmentation is increased.",
-      "authors": [
-        "Zhenpeng Li"
-      ],
-      "published": "2026-07-15T13:08:19Z",
-      "updated": "2026-07-15T13:08:19Z",
-      "categories": [
-        "cs.CR",
-        "cs.AI",
-        "cs.LG"
-      ],
-      "primary_category": "cs.CR",
-      "abs_url": "https://arxiv.org/abs/2607.13801v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.13801v1",
-      "comment": "44 pages, 14 figures, 14 tables. Submitted to Expert Systems with Applications",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.5429,
-          "matched": [
-            "robustness",
-            "fine-tuning",
-            "training"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4611,
-          "matched": [
-            "robustness",
-            "alignment",
-            "alignment",
-            "llm",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5897,
-        "relevance": 0.5265,
-        "quality": 0.59,
-        "novelty": 0.8621,
-        "freshness": 0.8645
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "benchmark evaluation",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Traffic-Aware Randomized Smoothing (TA-RS) certifies robustness of LLM-based intrusion detection by injecting Gaussian noise only into attacker-controllable traffic features, achieving 55–100% certified accuracy on key datasets.",
-        "problem": "LLM-based network intrusion detection systems lack certified robustness guarantees aligned with the feasible attacker-controlled traffic feature subspace.",
-        "method": "TA-RS injects Gaussian noise exclusively into the directly controllable (DC) feature subspace during both fine-tuning and certification, aligning smoothing with the attacker’s feasible perturbation space.",
-        "evidence": "TA-RS achieves 55–100% certified accuracy on CIC-IDS-2018 and HIKARI-2021 at ε=0.05, with median certified radii exceeding the L∞ threshold by 1.8–5×, outperforming isotropic randomized smoothing baselines by up to 72 percentage points.",
-        "limitations": "TA-RS requires dataset-specific noise-augmented fine-tuning for noise stability; it fails under default recipes on challenging datasets like RT-IoT2022 without increased noise augmentation.",
-        "why_for_you": "TA-RS provides a principled, scalable certified defense framework for LLM-based IDS that aligns certification with realistic attacker capabilities, addressing robustness gaps in adversarial network security.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Noise-augmented fine-tuning is critical: clean-trained LLM-IDS yield weak certified accuracy (14–33%), while noise-augmented models recover 68–100% certified accuracy on CIC-IDS-2018 and HIKARI-2021 at σ=0.25."
-          },
-          {
-            "icon": "🛡️",
-            "text": "TA-RS injects Gaussian noise only into the DC subspace (features attacker can modify) during training and certification, avoiding perturbations on indirectly or uncontrollable features that cause high abstention rates (up to 68%) in isotropic smoothing."
-          },
-          {
-            "icon": "📉",
-            "text": "Certification radii from TA-RS exceed the L∞-equivalent threshold R∞ by 1.8–5×, demonstrating stronger robustness guarantees; residual advantages over isotropic RS baselines vary by dataset (4–19 pp), mainly due to training-certification distribution mismatch."
-          }
-        ],
-        "overview": "This work addresses the robustness of LLM-based network intrusion detection systems (IDS) against adversarial traffic manipulations constrained to attacker-controllable features. The authors formalize a taxonomy partitioning traffic features into directly controllable (DC), indirectly controllable (IC), and uncontrollable (UC) sets, focusing certification on the DC subspace. They propose Traffic-Aware Randomized Smoothing (TA-RS), which injects Gaussian noise exclusively into DC features during both fine-tuning and certification, aligning the smoothing distribution with the feasible attacker perturbation space. Empirical results on three benchmark datasets (CIC-IDS-2018, HIKARI-2021, RT-IoT2022) show that noise-augmented fine-tuning is essential to achieve noise stability and meaningful certified accuracy. TA-RS achieves 55–100% certified accuracy at an L∞-equivalent perturbation budget ε=0.05, with median certified radii exceeding the theoretical threshold by up to 5×. Compared to isotropic randomized smoothing baselines, TA-RS reduces abstention rates drastically and improves certified accuracy by up to 72 percentage points. The method is classifier-agnostic and scalable to billion-parameter LLMs, but requires dataset-specific fine-tuning and increased noise augmentation on challenging datasets. This framework provides a principled, scalable approach to certified robustness in traffic-domain LLM-IDS.",
-        "methodology": [
-          {
-            "title": "DC/IC/UC Feature Taxonomy",
-            "detail": "The authors categorize network traffic features into directly controllable (DC), indirectly controllable (IC), and uncontrollable (UC) sets based on attacker reachability, defining the certification subspace as the DC features that an attacker can realistically perturb."
-          },
-          {
-            "title": "Noise-Augmented Fine-Tuning",
-            "detail": "LLM-based IDS models are fine-tuned with Gaussian noise injected only into DC features to stabilize predictions under noise, enabling effective certification; this step is critical as clean-trained models yield near-random certified accuracy."
-          },
-          {
-            "title": "Traffic-Aware Randomized Smoothing (TA-RS)",
-            "detail": "TA-RS applies Gaussian noise exclusively to the DC subspace during certification, estimating class probabilities via Monte Carlo sampling and computing certified radii using a Neyman–Pearson-based bound adapted to the DC subspace."
-          },
-          {
-            "title": "Certification Algorithm (TA-Certify)",
-            "detail": "TA-Certify draws noise samples restricted to DC features, identifies the top predicted class, estimates a Clopper–Pearson lower confidence bound on its probability, and returns a certified radius or abstains if confidence is insufficient."
-          },
-          {
-            "title": "Evaluation Metrics and Protocol",
-            "detail": "Certified accuracy CA(r) is reported at radius r, penalizing incorrect predictions and abstentions; experiments use fixed train/test splits, protocol-derived feature clipping, and matched noise levels and sample counts for fair comparison with isotropic RS baselines."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Certified Robustness in DC Subspace",
-            "detail": "The certification guarantee restricts perturbations to the DC subspace, leveraging the injection of Gaussian noise only in this subspace. The Neyman–Pearson lemma applies in the reduced dimension, yielding a certified radius R = σΦ−1(pA) that bounds adversarial perturbations feasible to the attacker. This avoids wasted noise budget and high abstention caused by perturbing uncontrollable features."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Datasets and Setup",
-            "detail": "Experiments use three network-traffic datasets: CIC-IDS-2018 (4 classes, 25 features, 14 DC), HIKARI-2021 (3 classes, 82 features, 25 DC), and RT-IoT2022 (5 classes, 83 features, 27 DC). Fixed train/test splits and protocol-derived feature clipping are applied. Certification subsets contain 120–168 samples stratified by class."
-          },
-          {
-            "title": "Baseline Comparisons",
-            "detail": "TA-RS is compared against isotropic randomized smoothing baselines with matched noise levels and training recipes. Certified accuracy and abstention rates are measured at ε=0.05 L∞-equivalent budget, with Monte Carlo sample counts N0=20 and N=200."
-          },
-          {
-            "title": "Noise-Augmentation Ablation",
-            "detail": "Ablations show that noise-augmented fine-tuning is necessary to achieve meaningful certified accuracy; clean-trained LLM-IDS yield 14–33% certified accuracy, while noise-augmented models reach 68–100% on CIC-IDS-2018 and HIKARI-2021."
-          },
-          {
-            "title": "RT-IoT2022 Challenge",
-            "detail": "On the challenging RT-IoT2022 dataset, default fine-tuning fails (≤24% certified accuracy), but increasing noise augmentation recovers 76% (LLaMA3-8B) and 69% (Qwen3-8B) certified accuracy, highlighting noise stability as a key constraint."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Certified Accuracy Gains",
-            "detail": "TA-RS achieves 55–100% certified accuracy on CIC-IDS-2018 and HIKARI-2021 at ε=0.05, with median certified radii 1.8–5× larger than the L∞ threshold, demonstrating strong robustness aligned with attacker capabilities."
-          },
-          {
-            "title": "Abstention Reduction",
-            "detail": "TA-RS reduces abstention rates drastically compared to isotropic RS (from 68% to 8% on CIC-IDS-2018), by avoiding noise perturbations on uncontrollable features that cause prediction instability."
-          },
-          {
-            "title": "Training-Certification Match Importance",
-            "detail": "The main advantage of TA-RS over isotropic RS is due to matching noise injection during training and certification, rather than DC subspace selection alone, as isotropic test-time noise perturbs uncontrollable features causing high abstention."
-          },
-          {
-            "title": "Dataset-Dependent Residual Advantage",
-            "detail": "Against an iso-trained RS baseline, TA-RS shows a residual certified accuracy advantage of 4–19 percentage points on CIC-IDS-2018, indicating dataset-dependent benefits beyond training-certification alignment."
-          },
-          {
-            "title": "Noise Stability as Bottleneck",
-            "detail": "On RT-IoT2022, TA-RS fails under default fine-tuning but recovers with increased noise augmentation, confirming that noise stability of the base LLM is the binding constraint in challenging scenarios."
-          }
-        ],
-        "contributions": [
-          "Operationalization of the DC/IC/UC feature taxonomy as the certification subspace for LLM-based IDS.",
-          "Demonstration that noise-augmented fine-tuning is essential for noise stability and meaningful certified accuracy in LLM-IDS.",
-          "Development of Traffic-Aware Randomized Smoothing (TA-RS) that injects noise only into attacker-controllable features during training and certification.",
-          "Empirical validation of TA-RS achieving up to 100% certified accuracy with large certified radii on multiple benchmark datasets."
-        ],
-        "limitations": [
-          "TA-RS requires dataset-specific noise-augmented fine-tuning; pretrained LLM knowledge does not transfer without traffic-aware tuning.",
-          "The method fails on challenging datasets like RT-IoT2022 under default fine-tuning and needs increased noise augmentation to recover.",
-          "Certification sample counts are limited (N=200) due to LLM inference cost, resulting in conservative confidence bounds.",
-          "The approach assumes accurate identification of attacker-controllable features, which may be dataset-dependent and require domain expertise."
-        ],
-        "open_questions": [
-          "How to improve noise stability of LLM-based IDS models to reduce reliance on heavy noise augmentation?",
-          "Can TA-RS be extended to certify robustness under more complex or adaptive attacker models beyond DC subspace perturbations?",
-          "What are the trade-offs between certification tightness and computational cost for large-scale LLM-IDS?",
-          "How to generalize the DC/IC/UC taxonomy and certification framework to other network security tasks or heterogeneous traffic representations?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "robustness",
-          "fine-tuning",
-          "training"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-16T11:53:57.047514+00:00"
-    },
     {
       "id": "2607.15081",
       "title": "DataShield: Uncovering Risky Fine-Tuning Data Across LLMs Through Consensus Subspace Alignment",
@@ -907,6 +521,193 @@
         "lane": "llm"
       },
       "recommended_at": "2026-07-17T11:40:30.308849+00:00"
+    },
+    {
+      "id": "2607.20090",
+      "title": "Reinforcement Learning for Large Language Model Selective Evidence Adoption from Contaminated Retrieval Results",
+      "abstract": "Retrieval-augmented large language models frequently face contexts that interleave useful evidence with misleading statements or instruction-like content. Blanket refusal discards valid evidence, whereas uncritical adoption yields incorrect or unsafe answers. The ability to selectively adopt relevant information while rejecting deceptive or harmful content is therefore critical for reliable deployment in real-world retrieval settings. We introduce SelectBench, a controlled benchmark and training set for selective evidence adoption, and post-train Qwen3.5-4B directly with DAPO using either deterministic rule rewards or a frozen semantic judge. On the corrected 325-example SelectBench-v2 test set, strict success rises from 22.46% for the original checkpoint to 25.54% with DAPO-Rule and 26.46% with DAPO-DeepSeek. Both trained policies reduce forbidden-content adoption and produce shorter, more focused responses, yet prompt-injection following does not improve. The paired gains are modest and fail to survive Holm correction, suggesting that stronger reward shaping or additional training iterations may be needed for more robust gains. DAPO-DeepSeek exhibits no material degradation on MMLU or clean HotpotQA, indicating that the post-training procedure preserves general capabilities. These results demonstrate a directional improvement in selective evidence use, while identifying injection resistance and statistical robustness as important remaining challenges for future work.",
+      "authors": [
+        "Yanyu Chen",
+        "Yue Li",
+        "Yongyi Cui",
+        "Dongsheng Shi",
+        "Lichang Dai"
+      ],
+      "published": "2026-07-22T12:45:04Z",
+      "updated": "2026-07-22T12:45:04Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.20090v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.20090v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.559,
+          "matched": [
+            "robustness",
+            "robust",
+            "training"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.1993,
+          "matched": [
+            "robustness",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5415,
+        "relevance": 0.4871,
+        "quality": 0.48,
+        "novelty": 0.8586,
+        "freshness": 0.8614
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Selective evidence adoption via reinforcement learning post-training improves retrieval-augmented LLMs' ability to extract valid information while reducing harmful content adoption.",
+        "problem": "Retrieval-augmented LLMs struggle to selectively adopt useful evidence from retrieval results contaminated with misleading or instruction-like content, risking unsafe or incorrect answers.",
+        "method": "The authors introduce SelectBench, a controlled benchmark, and apply DAPO post-training on Qwen3.5-4B using deterministic rule-based and frozen semantic judge rewards to optimize selective evidence adoption.",
+        "evidence": "On the corrected 325-example SelectBench-v2 test set, strict success improved from 22.46% to 25.54% (DAPO-Rule) and 26.46% (DAPO-DeepSeek), with reduced forbidden-content adoption and no degradation on MMLU or HotpotQA.",
+        "limitations": "The observed gains are modest, fail to survive Holm correction for statistical significance, and do not improve prompt-injection resistance, indicating the need for stronger reward shaping or more training.",
+        "why_for_you": "This work advances reinforcement learning techniques for trustworthy LLM retrieval agents by addressing selective evidence adoption, a critical challenge for safe and efficient real-world deployment.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Selective evidence adoption post-training on Qwen3.5-4B using DAPO with rule-based and DeepSeek semantic judge rewards yields strict success improvements from 22.46% to 26.46% on SelectBench-v2."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The DAPO framework employs a ternary reward function penalizing forbidden content adoption and tool omission, with two variants: DAPO-Rule using phrase matching and DAPO-DeepSeek using a frozen deepseek-v4-flash judge."
+          },
+          {
+            "icon": "📉",
+            "text": "Despite improvements in selective adoption and reduced forbidden content, gains are modest, fail Holm correction, and prompt-injection resistance remains unimproved, highlighting challenges in reward design and robustness."
+          }
+        ],
+        "overview": "This paper addresses the challenge of selective evidence adoption in retrieval-augmented large language models, where retrieved contexts mix valid facts with misleading or harmful content. The authors propose SelectBench, a controlled benchmark and training dataset, to evaluate and train LLMs to discern and adopt only supported evidence. They apply reinforcement learning post-training on Qwen3.5-4B using the DAPO framework with two reward variants: a deterministic rule-based reward and a frozen semantic judge (DeepSeek). The reward function penalizes forbidden content adoption and tool omission while rewarding correct, complete, and safe answers. Experiments on the corrected SelectBench-v2 test set show modest improvements in strict success rates and reductions in forbidden content adoption without degrading performance on general benchmarks like MMLU and HotpotQA. However, the improvements do not reach statistical significance after Holm correction, and prompt-injection resistance remains a challenge. The work demonstrates a promising direction for enhancing LLM agents' selective use of retrieval evidence but identifies the need for stronger reward shaping and more robust training to achieve reliable gains.",
+        "methodology": [
+          {
+            "title": "SelectBench Dataset Construction",
+            "detail": "SelectBench is a controlled benchmark and training set designed to study selective evidence adoption. It contains retrieval contexts mixing supported facts with misleading or instruction-like content. Training and test splits are disjoint, and the corrected SelectBench-v2 test set includes 325 examples for evaluation."
+          },
+          {
+            "title": "DAPO Post-Training Framework",
+            "detail": "DAPO (Directly Optimizing Preference Optimization) is used to post-train Qwen3.5-4B. It optimizes a ternary reward function that assigns +1 for correct, complete, and safe answers with tool use, -1 for forbidden content adoption or tool omission, and 0 otherwise. Two reward variants are implemented: DAPO-Rule uses deterministic phrase matching rules, and DAPO-DeepSeek employs a frozen deepseek-v4-flash semantic judge."
+          },
+          {
+            "title": "Tool-Use Rollout and Evaluation",
+            "detail": "The policy observes system instructions and questions, invokes a fixed retrieval tool returning example-specific context verbatim, and generates answers. Correctness is evaluated on the final answer segment, while forbidden content adoption is checked across the entire assistant turn. Output length is penalized to discourage verbosity."
+          },
+          {
+            "title": "Training Setup and Hyperparameters",
+            "detail": "Training uses frozen vision tower and updates the language model with AdamW optimizer at a learning rate of 5e-7, weight decay 0.1, gradient clipping 1.0, and batch sizes of 8 or 9 prompts with 8 rollouts each. Training runs for 130 optimizer steps on NVIDIA RTX 3090 GPUs with validation every 10 steps."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Reward Function Design",
+            "detail": "The reward function r_task(τ) is ternary: +1 if the trajectory τ includes a successful tool call, a correct and complete answer, and no forbidden content adoption; -1 if the tool call fails or forbidden content is adopted; 0 otherwise. Length penalties discourage overly long outputs. This design prioritizes safe and accurate evidence adoption while penalizing harmful or missing responses."
+          },
+          {
+            "title": "No Explicit Mechanistic Model",
+            "detail": "The paper does not provide explicit mechanistic or causal equations beyond the reward function. The approach relies on reinforcement learning to implicitly shape the policy towards selective evidence adoption."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Selective Evidence Adoption Evaluation",
+            "detail": "Evaluation on the corrected 325-example SelectBench-v2 test set compares the original Qwen3.5-4B checkpoint with DAPO-Rule and DAPO-DeepSeek post-trained models. Metrics include strict success rate, forbidden content adoption, and answer completeness."
+          },
+          {
+            "title": "General Capability Retention",
+            "detail": "To assess capability retention, the base and DAPO-DeepSeek checkpoints are evaluated on 14,042 MMLU test questions using 5-shot and zero-shot protocols, and on 7,080 clean HotpotQA validation questions in fixed-context and closed-book modes."
+          },
+          {
+            "title": "Training and Validation Protocol",
+            "detail": "Training uses fixed hyperparameters without retraining or hyperparameter tuning after test set inspection. Validation occurs every 10 optimizer steps, with final checkpoints exported at step 130. Rollouts use temperature 1, top-p 1, no top-k truncation, and maximum prompt and response lengths of 768 and 3,072 tokens respectively."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Improved Strict Success",
+            "detail": "Strict success on SelectBench-v2 improves from 22.46% (original) to 25.54% (DAPO-Rule) and 26.46% (DAPO-DeepSeek), demonstrating directional gains in selective evidence adoption."
+          },
+          {
+            "title": "Reduced Forbidden Content Adoption",
+            "detail": "Both DAPO-trained policies reduce the adoption of forbidden or harmful content compared to the original checkpoint, contributing to safer answer generation."
+          },
+          {
+            "title": "No Degradation on General Benchmarks",
+            "detail": "DAPO-DeepSeek maintains performance on MMLU and clean HotpotQA datasets, indicating that post-training does not harm general language understanding or reasoning capabilities."
+          },
+          {
+            "title": "Modest Gains and Statistical Significance",
+            "detail": "The observed improvements are modest and fail to survive Holm correction for multiple comparisons, suggesting limited statistical robustness."
+          },
+          {
+            "title": "Prompt-Injection Resistance Unchanged",
+            "detail": "Neither trained policy improves resistance to prompt-injection attacks, highlighting an important remaining challenge."
+          }
+        ],
+        "contributions": [
+          "Formulation of selective evidence adoption from contaminated retrieval outputs as a distinct post-training objective for LLM agents.",
+          "Creation of SelectBench, a controlled dataset and benchmark for evaluating selective evidence adoption.",
+          "Design and application of a tailored reinforcement learning pipeline using DAPO with rule-based and semantic judge rewards to train Qwen3.5-4B.",
+          "Empirical demonstration of directional improvements in selective evidence adoption and reduced forbidden content adoption without degrading general capabilities.",
+          "Identification of prompt-injection resistance and statistical robustness as key challenges for future research."
+        ],
+        "limitations": [
+          "Modest performance gains that do not achieve statistical significance after Holm correction.",
+          "Lack of improvement in prompt-injection resistance despite training.",
+          "Comparison between DAPO-Rule and DAPO-DeepSeek is descriptive, not a strict ablation due to differing training conditions.",
+          "No exploration of stronger reward shaping or extended training iterations which may be necessary for more robust improvements."
+        ],
+        "open_questions": [
+          "How can reward shaping be enhanced to achieve statistically significant and robust improvements in selective evidence adoption?",
+          "What methods can effectively improve prompt-injection resistance in retrieval-augmented LLM agents?",
+          "Can training protocols be optimized to balance selective evidence adoption with general capability retention more effectively?",
+          "How does selective evidence adoption scale with larger models or more complex retrieval contexts?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "robustness",
+          "robust",
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-23T12:02:13.960325+00:00"
     },
     {
       "id": "2607.19243",
@@ -1445,6 +1246,179 @@
         "lane": "llm"
       },
       "recommended_at": "2026-07-22T12:03:09.506272+00:00"
+    },
+    {
+      "id": "2607.20410",
+      "title": "LKValues: Aligning Large Language Models with Sri Lankan Societal Values",
+      "abstract": "Value alignment of Large Language Models (LLMs) has been shown to be culturally biased toward Western norms. This results in the mishandling of local values in multilingual societies such as Sri Lanka that have their unique cultural dynamics. Existing benchmarks overlook Sri Lankan-contextualized values in its official language Sinhala, hindering culturally sensitive evaluation and fine-tuning. To bridge this gap, we propose LKValues, the first survey-grounded resource suite for Sri Lankan value alignment. From a trilingual survey of 205 respondents, blending adapted global frameworks and LLM-elicited local constructs, we derive 40 majority-endorsed societal values. Using these values, we construct LKvaluesIT, a Sinhala-English news-derived instruction corpus containing 150k scenario-based instances, and LKvaluesBench, a value-sensitive evaluation benchmark of 1,000 instances. We evaluate a set of proprietary and open-weight LLMs with LKvaluesBench. We fine-tune three open-weight base models (Qwen3.5-4B-Base, Qwen3.5-9B-Base, and Aya-Expanse-8B-Base). Our experiments show that newer and larger LLMs still exhibit low-resource and cultural value-alignment gaps. LKValues fine-tuning improves Qwen-family models in English and Sinhala, reducing invalid outputs and cross-lingual disparities, though gains remain model-family dependent. These highlight LKValues efficacy in embedding Sri Lankan values, offering a replicable pipeline for low-resource, country-specific pluralist value alignment. The dataset is publicly available at https://github.com/NextME14/LKValues.",
+      "authors": [
+        "Nethmi Muthugala",
+        "Supryadi",
+        "Surangika Ranathunga",
+        "Nisansa de Silva",
+        "Ruijie Tao",
+        "Ovindu Gunatunga",
+        "Pengyun Zhu",
+        "Shaowei Zhang",
+        "Jingting Zheng",
+        "Deyi Xiong"
+      ],
+      "published": "2026-07-22T17:49:37Z",
+      "updated": "2026-07-22T17:49:37Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.20410v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.20410v1",
+      "comment": "37 pages, 10 figures, and 15 tables. Includes appendices. Datasets are available at the project repository",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4736,
+          "matched": [
+            "alignment",
+            "alignment",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5237,
+        "relevance": 0.3789,
+        "quality": 0.74,
+        "novelty": 0.8484,
+        "freshness": 0.8916
+      },
+      "quality_signals": [
+        "GitHub link",
+        "benchmark evaluation",
+        "experiments",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "LKValues introduces a trilingual, survey-grounded resource suite that significantly improves Sri Lankan societal value alignment in LLMs, especially for Sinhala-English bilingual contexts.",
+        "problem": "Existing LLM value alignment benchmarks are culturally biased toward Western norms and overlook Sri Lankan-specific societal values, particularly in Sinhala, limiting culturally sensitive evaluation and fine-tuning.",
+        "method": "The authors develop LKValues by combining a trilingual survey of 205 respondents with LLM-assisted elicitation to derive 40 Sri Lankan societal values, then construct bilingual instruction and benchmark datasets for fine-tuning and evaluation of LLMs.",
+        "evidence": "Fine-tuning Qwen-family models on LKvaluesIT reduces invalid outputs and cross-lingual disparities, improving value-sensitive judgment in both English and Sinhala, though improvements vary by model family.",
+        "limitations": "The survey sample size is limited and imbalanced across ethnic and religious groups, and the current LKValues resources cover only Sinhala and English, excluding Tamil despite its inclusion in the survey.",
+        "why_for_you": "This work provides a replicable pipeline and publicly available datasets for culturally grounded, low-resource, multilingual value alignment, addressing a critical gap in trustworthy LLM deployment in Sri Lanka.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "The trilingual survey combined international frameworks with LLM-elicited local constructs to finalize 40 majority-endorsed Sri Lankan societal values, enabling culturally specific value operationalization."
+          },
+          {
+            "icon": "🛡️",
+            "text": "LKvaluesIT, a bilingual Sinhala-English instruction dataset with 150k scenario-based instances derived from Sri Lankan news, supports supervised fine-tuning to embed local values in LLMs."
+          },
+          {
+            "icon": "📉",
+            "text": "Evaluation on LKvaluesBench shows that larger and newer LLMs still exhibit low-resource and cultural value-alignment gaps, with LKValues fine-tuning reducing invalid output rates and improving accuracy, especially in Sinhala."
+          }
+        ],
+        "overview": "This paper addresses the cultural bias in LLM value alignment by focusing on Sri Lanka, a multilingual, multiethnic society lacking a national value framework. The authors conduct a trilingual survey (Sinhala, Tamil, English) of 205 respondents, integrating global value frameworks with LLM-assisted elicitation to identify 40 Sri Lankan societal values. These values underpin the construction of LKvaluesIT, a large bilingual instruction dataset from Sri Lankan news, and LKvaluesBench, a 1,000-instance bilingual benchmark for value-sensitive evaluation. The authors fine-tune three open-weight base models (Qwen3.5-4B, Qwen3.5-9B, Aya-Expanse-8B) using LKvaluesIT mixed with general Sinhala instructions. Experiments reveal persistent value-alignment gaps in newer and larger models, especially in Sinhala. LKValues fine-tuning improves Qwen-family models by reducing invalid outputs and cross-lingual disparities, demonstrating the efficacy of the survey-driven, culturally grounded approach. Limitations include survey sample imbalance and exclusion of Tamil in current datasets, highlighting directions for future work.",
+        "methodology": [
+          {
+            "title": "Trilingual Survey Design and Value Elicitation",
+            "detail": "A 41-question survey in Sinhala, Tamil, and English was administered to 205 respondents, combining manually selected items from international value frameworks with LLM-assisted elicitation to identify 40 majority-endorsed Sri Lankan societal values."
+          },
+          {
+            "title": "LLM-Assisted Value Elicitation",
+            "detail": "Multiple LLM chatbots (e.g., ChatGPT, Microsoft Copilot) were queried to generate Sri Lanka-salient value constructs and keywords, which were aggregated and consolidated with human discussion to supplement the survey with 15 additional candidate values."
+          },
+          {
+            "title": "Dataset Construction: LKvaluesIT and LKvaluesBench",
+            "detail": "Using the 40 values, LKvaluesIT was created by tagging Sri Lankan news articles (2009-2023) with value-specific keywords and extracting neutralized, culturally grounded scenarios for supervised fine-tuning; LKvaluesBench was constructed as a bilingual benchmark with 1,000 value-sensitive judgment instances."
+          },
+          {
+            "title": "Model Fine-tuning and Evaluation",
+            "detail": "Three open-weight base models (Qwen3.5-4B, Qwen3.5-9B, Aya-Expanse-8B) were fine-tuned on LKvaluesIT mixed with general Sinhala instruction data; evaluation used LKvaluesBench to measure value-sensitive behavior across languages, model families, sizes, and prompt framings."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "No Explicit Mechanism Provided",
+            "detail": "The paper does not present formal equations or causal mechanisms but relies on a survey-driven, human-in-the-loop pipeline combining international frameworks and LLM elicitation to operationalize Sri Lankan societal values for dataset construction and model fine-tuning."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Model Evaluation on LKvaluesBench",
+            "detail": "A set of proprietary and open-weight LLMs were evaluated on the 1,000-instance bilingual benchmark to assess Sri Lankan value-sensitive judgment, measuring accuracy, invalid output rates, and cross-lingual disparities."
+          },
+          {
+            "title": "Fine-tuning Open-weight Base Models",
+            "detail": "Qwen3.5-4B-Base, Qwen3.5-9B-Base, and Aya-Expanse-8B-Base models were fine-tuned on LKvaluesIT combined with 50K general Sinhala instruction examples to improve value alignment in English and Sinhala."
+          },
+          {
+            "title": "Prompt Framing Sensitivity Analysis",
+            "detail": "The evaluation protocol included analysis of prompt framing effects on model performance, comparing Sri Lankan-specific prompts against universal prompts to diagnose improvements in value-sensitive reasoning."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Persistent Value-Alignment Gaps",
+            "detail": "Despite model scale and recency, newer and larger LLMs still show low-resource and cultural value-alignment gaps, especially in Sinhala, indicating that multilingual capability alone does not ensure culturally sensitive reasoning."
+          },
+          {
+            "title": "Fine-tuning Benefits",
+            "detail": "Fine-tuning Qwen-family models on LKvaluesIT reduces invalid outputs and cross-lingual disparities, substantially improving Sinhala accuracy and value-sensitive judgment, though gains vary by model family."
+          },
+          {
+            "title": "Survey-Driven Value Operationalization",
+            "detail": "The trilingual survey combined with LLM-assisted elicitation successfully identified 40 majority-endorsed Sri Lankan societal values, enabling the construction of culturally grounded datasets and benchmarks."
+          }
+        ],
+        "contributions": [
+          "A novel trilingual survey-driven methodology combining international frameworks and LLM elicitation to operationalize Sri Lankan societal values.",
+          "Creation of LKvaluesIT, a large bilingual instruction dataset, and LKvaluesBench, a bilingual value-sensitive evaluation benchmark.",
+          "An evaluation protocol analyzing value-sensitive behavior across languages, model families, sizes, and prompt framings.",
+          "Demonstration that LKValues fine-tuning improves Sri Lankan value alignment in open-weight LLMs, especially for Sinhala-English bilingual contexts.",
+          "Public release of datasets and resources to support low-resource, country-specific pluralist value alignment."
+        ],
+        "limitations": [
+          "Survey sample size (n=205) is limited and imbalanced across ethnic and religious subgroups, restricting coverage of group-specific value preferences.",
+          "Majority-endorsement criterion (>50%) may exclude important but less widely shared or polarizing values.",
+          "Current LKValues resources cover only Sinhala and English, excluding Tamil despite its inclusion in the survey.",
+          "No formal mechanism or causal model is provided to explain how value alignment is operationalized within LLMs."
+        ],
+        "open_questions": [
+          "How can LKValues be extended to fully support Tamil language and Tamil-speaking Sri Lankan communities?",
+          "What methods can better capture minority or polarizing values that are underrepresented by majority-endorsement criteria?",
+          "How do different model architectures and training regimes affect the embedding and generalization of culturally specific values?",
+          "Can reinforcement learning or modular alignment approaches complement supervised fine-tuning to improve dynamic cultural value alignment?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment",
+          "alignment",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-23T12:02:13.960325+00:00"
     },
     {
       "id": "2607.18199",
