@@ -1,6 +1,1011 @@
 {
-  "generated_at": "2026-07-27T13:22:00.372728+00:00",
+  "generated_at": "2026-07-28T12:13:15.667980+00:00",
   "papers": [
+    {
+      "id": "2607.24717",
+      "title": "DataOrchestra: Learning to Orchestrate Per-Example Curation of Pretraining Data",
+      "abstract": "Pretraining data processing is critical to the downstream performance of Large Language Models (LLMs). However, many existing approaches define a fixed processing strategy at the corpus or domain level and apply it uniformly to many examples, without adapting to the needs of each example. We propose DataOrchestra, a framework that unifies different processing operations and orchestrates an example-specific pipeline for each example. Given a chunk of pretraining data, an orchestrator decides whether to drop, untouch, or clean it. For a chunk to be cleaned, it selects one or more downstream operations, ranging from programmatic editing to different forms of LLM-based rewriting. For each rewriting step, it further generates a concrete instruction, which is executed by the corresponding downstream tool model. We pretrain models from 0.5B to 7B from scratch on web data processed by DataOrchestra and observe stable average gains over individual data-processing methods across 11 benchmarks. DataOrchestra is also effective for math continued pretraining and outperforms stronger processing baselines, while reducing processing compute by skipping unnecessary downstream operations.",
+      "authors": [
+        "Zhen Huang",
+        "Yikun Wang",
+        "Shijie Xia",
+        "Pengfei Liu"
+      ],
+      "published": "2026-07-27T17:54:12Z",
+      "updated": "2026-07-27T17:54:12Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.24717v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.24717v1",
+      "comment": "36 pages",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "emerging",
+          "score": 0.7231,
+          "matched": [
+            "training data",
+            "curation",
+            "data"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5856,
+        "relevance": 0.5785,
+        "quality": 0.55,
+        "novelty": 0.55,
+        "freshness": 0.891
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "DataOrchestra adaptively orchestrates per-example pretraining data curation by deciding to drop, keep, or clean chunks with tailored downstream operations, improving LLM performance across benchmarks while reducing compute.",
+        "problem": "Existing pretraining data processing methods apply fixed, uniform strategies at corpus or domain level, failing to adapt to the diverse needs of individual data examples.",
+        "method": "DataOrchestra employs an orchestrator model that generates example-specific multi-stage plans involving noise pruning, surface rectification, and pedagogical augmentation, with fine-grained plan evolution and chunk-specific rewriting instructions executed by downstream tool models.",
+        "evidence": "Models pretrained from 0.5B to 7B parameters on DataOrchestra-processed web data show stable average gains over individual data-processing baselines across 11 benchmarks, including math continued pretraining, while reducing compute by skipping unnecessary operations.",
+        "limitations": "The paper does not provide explicit analysis of potential failure modes of the orchestrator under diverse data distributions or detailed cost-benefit tradeoffs of skipping operations beyond compute savings.",
+        "why_for_you": "DataOrchestra offers a novel, adaptive framework for per-example data selection and processing that can enhance LLM pretraining quality and efficiency, directly addressing challenges in data curation for large-scale language models.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "DataOrchestra’s orchestrator adaptively routes chunks to drop, untouch, or cleaning stages (noise pruning, surface rectification, pedagogical augmentation) based on a teacher LLM’s scoring and verifier LLM’s feedback, enabling example-specific processing."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The fine-grained plan evolution mechanism refines coarse-grained plans by verifying actual tool-model outputs, removing ineffective or harmful stages, and generating chunk-specific rewriting instructions to improve fidelity and reduce hallucination."
+          },
+          {
+            "icon": "📉",
+            "text": "Empirical results show DataOrchestra outperforms strong baselines like ProX, RePro, and ReWire on 11 benchmarks, with gains increasing at larger model scales and consistent improvements across multiple web corpora and math continued pretraining."
+          }
+        ],
+        "overview": "DataOrchestra addresses the limitation of fixed, uniform pretraining data processing by introducing an orchestrator that dynamically decides, for each data chunk, whether to drop it, leave it untouched, or clean it using a tailored pipeline of operations: noise pruning (NP), surface rectification (SR), and pedagogical augmentation (PA). The orchestrator is trained using a teacher LLM that scores chunks and proposes coarse plans, which are then refined through fine-grained plan evolution by verifier LLMs that assess the actual impact of cleaning stages on content fidelity and noise removal. This adaptive approach allows skipping unnecessary operations, saving compute while improving data quality. Experiments on models from 0.5B to 7B parameters pretrained on multiple web corpora demonstrate consistent average performance gains across 11 diverse benchmarks, including knowledge and language understanding tasks. DataOrchestra also excels in domain-specific continued pretraining for math, outperforming stronger baselines. The framework unifies multiple data-processing methods and adapts them per example, overcoming the limitations of prior fixed or uniform pipelines.",
+        "methodology": [
+          {
+            "title": "Orchestrator Training",
+            "detail": "The orchestrator is trained on a curated pool of 160K documents sampled to balance low- and high-quality data, using a teacher LLM to assign scores and generate coarse-grained plans indicating drop, untouch, or cleaning stages (NP, SR, PA). The training objective is to learn to predict these plans for each chunk."
+          },
+          {
+            "title": "Fine-Grained Plan Evolution",
+            "detail": "After generating coarse plans, the orchestrator refines them by executing selected cleaning stages with downstream tool models and verifying outputs with a verifier LLM. Stages that cause minimal or harmful changes (e.g., over-pruning or hallucination) are removed, and chunk-specific rewriting instructions are generated to guide downstream models."
+          },
+          {
+            "title": "Downstream Cleaning Operations",
+            "detail": "Three cleaning operations are unified: noise pruning (programmatic line-level edits to remove ads and boilerplate), surface rectification (LLM rewriting to fix formatting and grammar), and pedagogical augmentation (LLM rewriting to add explanations and improve educational value). Each operation is applied adaptively per chunk."
+          },
+          {
+            "title": "Evaluation Protocol",
+            "detail": "Models pretrained from scratch at scales 0.5B, 1.5B, and 7B parameters on DataOrchestra-processed data are evaluated on 11 benchmarks spanning knowledge and language understanding tasks. Metrics include accuracy averaged over three recent checkpoints to reduce variance."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Adaptive Per-Example Pipeline Orchestration",
+            "detail": "DataOrchestra’s mechanism involves a multi-stage decision process: first, a teacher LLM scores each chunk for salvageable value and decides to drop or keep it; second, it predicts which cleaning stages are needed; third, a verifier LLM assesses the actual effect of each cleaning stage, removing ineffective ones and generating chunk-specific instructions. This feedback loop ensures that only beneficial operations are applied, optimizing data quality and compute."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Pretraining on Web Corpora",
+            "detail": "Models from 0.5B to 7B parameters are pretrained from scratch on web data processed by DataOrchestra and compared against baselines including ProX, RePro, and ReWire. Evaluation is conducted on 11 benchmarks such as ARC, MMLU, HellaSwag, and RACE, reporting average accuracy over multiple checkpoints."
+          },
+          {
+            "title": "Generalization to Multiple Datasets",
+            "detail": "DataOrchestra is applied to three additional web corpora (DCLM-RefinedWeb, C4, FineWeb) with 0.5B parameter models pretrained from scratch, showing consistent average gains over baselines, demonstrating robustness across data sources."
+          },
+          {
+            "title": "Math Continued Pretraining",
+            "detail": "Using Davinci-Origin-3B as a base, DataOrchestra is applied for continued pretraining on math domain data, outperforming stronger processing baselines and improving domain-specific knowledge representation."
+          },
+          {
+            "title": "Ablation Studies",
+            "detail": "Ablations removing fine-grained plan evolution or chunk-specific rewriting instructions show performance drops, confirming the importance of these components. Analysis of orchestrator decisions reveals sensible routing correlated with chunk quality scores."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Performance Gains Across Scales",
+            "detail": "DataOrchestra achieves the highest average accuracy on 11 benchmarks at all model scales (0.5B, 1.5B, 7B), with the performance gap over baselines increasing with model size."
+          },
+          {
+            "title": "Compute Efficiency",
+            "detail": "By skipping unnecessary cleaning stages for many chunks (about 35% dropped or left untouched initially), DataOrchestra reduces processing compute compared to uniform multi-stage pipelines."
+          },
+          {
+            "title": "Effectiveness of Plan Evolution",
+            "detail": "Fine-grained plan evolution improves rewriting quality by removing stages that cause hallucination or minimal change, supported by verifier LLM assessments and ablation results showing performance degradation without evolution."
+          },
+          {
+            "title": "Robustness Across Corpora",
+            "detail": "Consistent average gains on multiple web corpora indicate that DataOrchestra’s benefits are not corpus-specific but generalize across diverse data sources."
+          },
+          {
+            "title": "Improved Domain Adaptation",
+            "detail": "In math continued pretraining, DataOrchestra outperforms stronger baselines, demonstrating its ability to adaptively curate domain-specific data for enhanced knowledge representation."
+          }
+        ],
+        "contributions": [
+          "A unified framework (DataOrchestra) that adaptively orchestrates per-example pretraining data curation by integrating multiple cleaning operations.",
+          "A fine-grained plan evolution mechanism that refines coarse plans using verifier LLM feedback and generates chunk-specific rewriting instructions.",
+          "Demonstration of consistent performance improvements across model scales, benchmarks, and datasets, including domain-specific continued pretraining.",
+          "Empirical evidence that adaptive skipping of unnecessary operations reduces compute while improving data quality.",
+          "Open-source release of code enabling reproducibility and further research."
+        ],
+        "limitations": [
+          "Lack of detailed analysis on orchestrator failure modes or robustness under highly diverse or adversarial data distributions.",
+          "Limited discussion on the tradeoffs between compute savings and potential missed improvements from skipped operations.",
+          "No explicit mechanism or theoretical model explaining the causal impact of each cleaning operation on downstream performance.",
+          "Evaluation focuses on accuracy metrics without extensive analysis of linguistic diversity or qualitative aspects of rewritten data."
+        ],
+        "open_questions": [
+          "How does the orchestrator perform on data distributions with extreme noise or rare content types not seen during training?",
+          "Can the framework be extended to incorporate additional or more fine-grained cleaning operations beyond NP, SR, and PA?",
+          "What are the long-term effects of adaptive data curation on model generalization and robustness to out-of-distribution inputs?",
+          "How can the tradeoff between compute efficiency and maximal data quality improvement be optimally balanced in practice?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Data selection for LLMs",
+        "matched": [
+          "training data",
+          "curation",
+          "data"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-28T12:13:15.667980+00:00"
+    },
+    {
+      "id": "2607.24522",
+      "title": "FlowCTS: On-policy Continuous Trajectory Supervision of Flow Models",
+      "abstract": "While on-policy distillation (OPD) effectively addresses sparse rewards and exposure bias in large language model post-training, its extension to flow models remains underexplored. To this end, we propose Flow Continuous Trajectory Supervision (FlowCTS), which matches subsequent student and reference trajectories initialized from the same student-visited state. Using the integral relation between trajectories and velocity fields, we derive a temporally weighted velocity-matching upper bound and discretize it into practical objectives parameterized by the number of supervision steps. Under a multi-reference setup, single-state FlowCTS-OPD outperforms vanilla KL-based OPD with faster convergence. FlowCTS-OPD improves GenEval from 0.90 to 0.93, OCR from 0.90 to 0.92, and PickScore from 22.75 to 23.06, while outperforming a mixed-reward RL baseline across all target metrics. Further analysis reveals a clear temporal supervision mismatch in vanilla KL-based OPD arising from its auxiliary SDE transition kernels. Beyond on-policy setting,FlowCTS also consistently outperforms vanilla SFT , particularly on OCR, while increasing supervision steps exhibit a trade-off between richer trajectory information and greater optimization difficulty.",
+      "authors": [
+        "Kaiyang Ye",
+        "Yuan Ge",
+        "Junxiang Zhang",
+        "Bei Li",
+        "Ziming Zhu",
+        "Haishu Zhao",
+        "Xiaoqian Liu",
+        "Chenglong Wang",
+        "Jingbo Zhu",
+        "Zhengtao Yu",
+        "Tong Xiao"
+      ],
+      "published": "2026-07-27T15:03:22Z",
+      "updated": "2026-07-27T15:03:22Z",
+      "categories": [
+        "cs.LG",
+        "cs.CV"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2607.24522v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.24522v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model"
+      ],
+      "topics": [
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "watch",
+          "score": 0.4562,
+          "matched": [
+            "on-policy distillation",
+            "OPD",
+            "exposure bias",
+            "policy distillation",
+            "opd",
+            "distillation"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.1639,
+          "matched": [
+            "convergence",
+            "bound",
+            "optimization"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4652,
+        "relevance": 0.3977,
+        "quality": 0.54,
+        "novelty": 0.55,
+        "freshness": 0.874
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "formal bound",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "FlowCTS introduces a continuous trajectory supervision objective for flow models that improves on-policy distillation performance and convergence speed over vanilla KL-based OPD.",
+        "problem": "Extending on-policy distillation to flow models is challenging due to their continuous velocity field parameterization lacking natural next-step conditional distributions.",
+        "method": "FlowCTS supervises the discrepancy between student and reference continuous trajectories from the same student-visited state using a temporally weighted velocity-matching upper bound discretized into multi-step objectives.",
+        "evidence": "FlowCTS-OPD improves GenEval from 0.90 to 0.93, OCR from 0.90 to 0.92, and PickScore from 22.75 to 23.06, converging faster than vanilla KL-based OPD and outperforming mixed-reward RL baselines.",
+        "limitations": "Increasing the number of supervision steps introduces a trade-off between richer trajectory information and greater optimization difficulty, with no consistent improvements observed.",
+        "why_for_you": "FlowCTS provides a novel dense supervision framework for flow models in on-policy distillation, addressing temporal supervision mismatch and offering a new scaling dimension relevant to LLM post-training.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "FlowCTS-OPD achieves balanced multi-objective performance, matching GenEval and OCR experts while retaining competitive PickScore, demonstrating the effectiveness of trajectory-derived supervision in multi-reference on-policy distillation."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The method derives a temporally weighted velocity-matching upper bound on continuous trajectory supervision, discretized into a finite number of steps parameterized by K, enabling both single-state and multi-step supervision in flow models."
+          },
+          {
+            "icon": "📉",
+            "text": "Analysis reveals a temporal supervision mismatch in vanilla KL-based OPD caused by auxiliary SDE transition kernels, which FlowCTS overcomes by focusing supervision on early denoising stages where student-reference discrepancy is largest."
+          }
+        ],
+        "overview": "This work addresses the challenge of applying on-policy distillation (OPD) to flow models, which differ from autoregressive language models by parameterizing continuous velocity fields without natural next-step conditionals. The authors propose Flow Continuous Trajectory Supervision (FlowCTS), which supervises the discrepancy between student and reference continuous trajectories initialized from the same student-visited state. By deriving a temporally weighted velocity-matching upper bound and discretizing it into practical objectives parameterized by supervision steps, FlowCTS enables dense trajectory supervision beyond token-level next-step objectives. Experiments demonstrate that FlowCTS-OPD outperforms vanilla KL-based OPD in convergence speed and multi-objective metrics (GenEval, OCR, PickScore), and also surpasses mixed-reward RL baselines. The method extends to off-policy supervised fine-tuning (SFT) with consistent gains, especially on OCR. The authors identify a temporal supervision mismatch in vanilla OPD due to auxiliary SDE kernels, which FlowCTS mitigates by focusing supervision on early denoising stages where discrepancies are largest. Increasing supervision steps introduces a trade-off between richer trajectory information and optimization difficulty, highlighting a new scaling dimension for flow models.",
+        "methodology": [
+          {
+            "title": "Flow Continuous Trajectory Supervision (FlowCTS)",
+            "detail": "FlowCTS supervises the discrepancy between student and reference continuous trajectories starting from the same student-visited state. It derives a temporally weighted velocity-matching upper bound on the trajectory discrepancy and discretizes this into a finite number of optimization steps parameterized by K, covering single-state velocity matching and multi-step trajectory supervision."
+          },
+          {
+            "title": "On-policy Distillation with FlowCTS (FlowCTS-OPD)",
+            "detail": "In the on-policy setting, the shared starting state is sampled from the current student rollout. FlowCTS-OPD applies the discretized trajectory supervision objective to improve convergence and performance over vanilla KL-based OPD by focusing on velocity matching along the trajectory."
+          },
+          {
+            "title": "Extension to Off-policy Supervised Fine-Tuning (FlowCTS-SFT)",
+            "detail": "FlowCTS generalizes beyond on-policy distillation by allowing the shared starting state to be sampled from off-policy data trajectories, enabling supervised fine-tuning with the same trajectory-derived objective, which improves OCR performance while maintaining other metrics."
+          },
+          {
+            "title": "Temporal Supervision Analysis",
+            "detail": "The method analyzes the temporal supervision mismatch in vanilla KL-based OPD caused by auxiliary SDE transition kernels that concentrate supervision in late denoising stages, whereas FlowCTS provides dense supervision in early stages where student-reference discrepancy is largest."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Velocity-Matching Upper Bound",
+            "detail": "FlowCTS leverages the integral relation between continuous trajectories and velocity fields to derive a temporally weighted velocity-matching upper bound on the discrepancy between student and reference trajectories. This bound is discretized into practical objectives parameterized by the number of supervision steps K, enabling tractable optimization."
+          },
+          {
+            "title": "Temporal Supervision Mismatch in KL-based OPD",
+            "detail": "Vanilla KL-based OPD constructs transition kernels via an auxiliary stochastic differential equation (SDE), which concentrates supervision in late denoising stages, causing a temporal mismatch with the student’s rollout distribution. FlowCTS addresses this by supervising the entire trajectory starting from the student-visited state."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "On-policy Distillation Evaluation",
+            "detail": "FlowCTS-OPD is evaluated on GenEval, OCR, and PickScore metrics using multi-reference Flow-GRPO models. It outperforms vanilla KL-based OPD, improving GenEval from 0.90 to 0.93, OCR from 0.90 to 0.92, and PickScore from 22.75 to 23.06, with faster convergence and better out-of-distribution generalization."
+          },
+          {
+            "title": "Off-policy Supervised Fine-Tuning Evaluation",
+            "detail": "FlowCTS-SFT is tested with off-policy starting states, showing consistent improvements over vanilla supervised fine-tuning (SFT), particularly on OCR, while maintaining comparable GenEval and PickScore performance."
+          },
+          {
+            "title": "Training Budget Control Ablation",
+            "detail": "A controlled study compares FlowCTS-OPD with K=1 and K=2 supervision steps, controlling for total supervised state evaluations. Results indicate that K=2 supervision yields better GenEval and compositional correctness, suggesting benefits from multi-step trajectory constraints beyond training budget effects."
+          },
+          {
+            "title": "Sampling Method Comparison",
+            "detail": "Comparison of SDE and ODE sampling for generating student-visited states during on-policy distillation shows that SDE sampling consistently achieves higher GenEval performance, especially during early optimization."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Improved Multi-objective Performance",
+            "detail": "FlowCTS-OPD achieves balanced performance across GenEval, OCR, and PickScore, matching expert models on GenEval and OCR while retaining competitive PickScore, demonstrating effective multi-reference trajectory supervision."
+          },
+          {
+            "title": "Faster Convergence",
+            "detail": "FlowCTS-OPD converges faster than vanilla KL-based OPD across all three metrics, reaching expert-level performance substantially earlier, indicating the efficiency of the velocity-matching trajectory objective."
+          },
+          {
+            "title": "Temporal Supervision Mismatch Identified",
+            "detail": "Vanilla KL-based OPD suffers from temporal supervision mismatch due to auxiliary SDE transition kernels focusing supervision on late denoising stages, whereas FlowCTS provides dense supervision in early stages where discrepancies are largest."
+          },
+          {
+            "title": "Trade-off with Supervision Steps",
+            "detail": "Increasing the number of supervision steps K introduces a trade-off: richer trajectory information improves compositional and structural correctness but may suppress fine-grained details and increase optimization difficulty."
+          },
+          {
+            "title": "Off-policy Gains on OCR",
+            "detail": "FlowCTS-SFT improves OCR performance over vanilla SFT while maintaining comparable GenEval and PickScore, validating the trajectory supervision formulation beyond on-policy distillation."
+          }
+        ],
+        "contributions": [
+          "Proposed FlowCTS, a continuous trajectory supervision framework for flow models enabling dense on-policy distillation.",
+          "Derived a temporally weighted velocity-matching upper bound discretized into multi-step objectives parameterized by supervision steps.",
+          "Extended FlowCTS to both on-policy distillation and off-policy supervised fine-tuning settings with empirical validation.",
+          "Identified and addressed temporal supervision mismatch in vanilla KL-based OPD caused by auxiliary SDE transition kernels.",
+          "Introduced supervision step count as a new scaling dimension balancing trajectory information richness and optimization difficulty."
+        ],
+        "limitations": [
+          "Increasing supervision steps does not consistently improve performance and introduces optimization challenges.",
+          "The trade-off between richer trajectory supervision and fine-grained detail preservation requires further exploration.",
+          "Temporal supervision mismatch analysis is limited to auxiliary SDE kernels; other flow model variants are not analyzed.",
+          "Evidence on generalization beyond evaluated datasets and tasks is not provided."
+        ],
+        "open_questions": [
+          "How can the trade-off between supervision step count and optimization difficulty be better managed or mitigated?",
+          "Can FlowCTS be adapted or extended to other types of generative models beyond flow models?",
+          "What are the theoretical guarantees or bounds on convergence and generalization for FlowCTS in large-scale settings?",
+          "How does FlowCTS interact with different sampling methods or velocity field parameterizations in flow models?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "On-policy distillation",
+        "matched": [
+          "on-policy distillation",
+          "OPD",
+          "exposure bias",
+          "policy distillation"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-28T12:13:15.667980+00:00"
+    },
+    {
+      "id": "2607.24341",
+      "title": "Simulating Tenant Responses to Energy Policy Interventions with Transaction-Cost-Aware LLM Age",
+      "abstract": "Recent studies use Large language models (LLMs) to simulate human opinions and decisions by prompting models with demographic, attitudinal, or persona-based descriptions. Yet such simulations rarely model the practical, cognitive, or social frictions that shape how people respond to policy interventions. Perceived transaction cost (PTC) provides a useful lens for modeling the practical frictions that shape policy responses, such as information burden, administrative effort, coordination demands, and perceived uncertainty. We use this lens to develop a friction-aware persona modeling approach for LLM-based simulation. In the context of energy-efficient renovation (EER), tenants are represented not only by who they are demographically, but by how they perceive the costs, benefits, barriers, and uncertainties associated with proposed renovation plans. Using survey data collected from 1,068 citizens in the Netherlands, comprising approximately 40,548 survey question and answer pairs, we compare prompt-only and fine-tuned settings across GPT-3.5-turbo, Ministral-8B-Instruct, and Llama-3.1-8B-Instruct, and evaluate supervised fine-tuning (SFT) and Group Relative Policy Optimization (GRPO) for local open-weight models. Results show that incorporating PTC-based personas and reasoning consistently improves model performance across both prompt-only and fine-tuned settings, suggesting that PTC-based persona design provides a useful bridge between institutional policy theory and interpretable LLM-based policy simulation. Code is available at https://github.com/xiaweijie1996/socialagent.",
+      "authors": [
+        "Weijie Xia",
+        "Stefanie Horian",
+        "Hanyue Huang",
+        "Queena K. Qian",
+        "Jie Yang",
+        "Pedro P. Vergara Barrios"
+      ],
+      "published": "2026-07-27T12:18:59Z",
+      "updated": "2026-07-27T12:18:59Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2607.24341v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.24341v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4242,
+          "matched": [
+            "uncertainty",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4605,
+        "relevance": 0.3394,
+        "quality": 0.71,
+        "novelty": 0.55,
+        "freshness": 0.8577
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Incorporating perceived transaction cost (PTC)-based personas and reasoning into LLM simulations significantly improves the fidelity of tenant responses to energy-efficient renovation policies.",
+        "problem": "Current LLM-based simulations inadequately model the practical, cognitive, and social frictions influencing human responses to policy interventions, limiting their interpretability and accuracy.",
+        "method": "The authors develop a friction-aware persona modeling framework that integrates PTC-based personas and reasoning prompts into LLMs, comparing prompt-only and fine-tuned approaches across GPT-3.5-turbo, Ministral-8B-Instruct, and Llama-3.1-8B-Instruct models.",
+        "evidence": "Using a dataset of 1,068 Dutch citizens with 40,548 survey Q&A pairs, experiments show consistent performance improvements when PTC personas and reasoning are included, validated across prompt-only and fine-tuned settings with supervised fine-tuning and Group Relative Policy Optimization.",
+        "limitations": "The study focuses on energy-efficient renovation in Dutch social housing tenants, limiting generalizability; also, the paper does not provide detailed quantitative metrics for all model comparisons or address potential biases in LLM-generated responses.",
+        "why_for_you": "This work bridges institutional policy theory and LLM-based policy simulation by introducing a theoretically grounded, interpretable persona design that models practical frictions, advancing trustworthy and context-sensitive LLM applications in policy research.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Incorporating PTC-based personas that capture perceived barriers and benefits such as financial sensitivity and immediate utility seeking improves LLM simulation fidelity in replicating tenant responses to energy policy."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The method uses a three-layer prompt design combining system instructions, PTC persona descriptions, and PTC reasoning prompts, alongside fine-tuning local open-weight models with QLoRA-based supervised fine-tuning and Group Relative Policy Optimization."
+          },
+          {
+            "icon": "📉",
+            "text": "Experimental results on 40,548 survey question-answer pairs demonstrate that models with PTC persona and reasoning prompts achieve lower mean absolute error (MAE) in predicting tenant responses compared to demographic-only or no-PTC baselines."
+          }
+        ],
+        "overview": "This paper addresses the gap in LLM-based policy simulation where existing models inadequately represent the practical frictions—such as information burden, administrative effort, and uncertainty—that influence human responses to energy policy interventions. The authors propose a novel persona modeling framework grounded in perceived transaction cost (PTC) theory, which enriches LLM prompts with personas reflecting tenants' perceived barriers and benefits related to energy-efficient renovation (EER). They implement a structured prompt design with system instructions, PTC persona descriptions, and reasoning checklists, and evaluate this approach on a large-scale Dutch survey dataset. The study compares prompt-only GPT-3.5-turbo baselines with fine-tuned local models (Ministral-8B-Instruct and Llama-3.1-8B-Instruct) using supervised fine-tuning and Group Relative Policy Optimization. Results consistently show that PTC-aware personas and reasoning improve model accuracy in simulating tenant responses, suggesting that this approach effectively bridges institutional policy theory and interpretable LLM simulation, thereby enhancing the trustworthiness and contextual relevance of LLMs in policy research.",
+        "methodology": [
+          {
+            "title": "PTC Persona Construction",
+            "detail": "Tenant personas are constructed from survey indicators measuring perceived benefits (comfort, health, energy savings) and barriers (rent increases, disruption, distrust, uncertainty). These personas capture practical frictions and motivations relevant to energy-efficient renovation decisions."
+          },
+          {
+            "title": "Prompt Design",
+            "detail": "Each survey instance is converted into a structured prompt with three layers: a system instruction to maintain persona consistency, a PTC persona prompt describing barrier- or benefit-oriented traits, and a PTC reasoning prompt that guides the model to reflect on burdens, uncertainties, and personal gains before answering."
+          },
+          {
+            "title": "Model Adaptation via QLoRA",
+            "detail": "Local open-weight models (Ministral-8B-Instruct and Llama-3.1-8B-Instruct) are fine-tuned using QLoRA with 4-bit NF4 quantization and LoRA adapters. Two training regimes are used: supervised fine-tuning (SFT) learning directly from survey examples, and Group Relative Policy Optimization (GRPO) optimizing outputs with an explicit reward function."
+          },
+          {
+            "title": "Evaluation Setup",
+            "detail": "Models are evaluated on a dataset of 1,068 Dutch citizens with 40,548 survey question-answer pairs, split into training (4,600 attitude-related pairs) and test sets. Performance is measured by mean absolute error (MAE) across benefit- and barrier-related questions under varying prompt and fine-tuning conditions."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "No Explicit Mechanism Provided",
+            "detail": "The paper does not present formal equations or causal models but relies on the theoretical framework of perceived transaction costs to represent practical frictions influencing policy responses, operationalized via persona prompts and reasoning checklists."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Prompt-Only Baseline Evaluation",
+            "detail": "GPT-3.5-turbo is evaluated under three prompting conditions: no PTC information, PTC persona only, and PTC persona plus reasoning prompts, demonstrating incremental improvements in response accuracy."
+          },
+          {
+            "title": "Fine-Tuning Local Models",
+            "detail": "Ministral-8B-Instruct and Llama-3.1-8B-Instruct models are fine-tuned using QLoRA-based supervised fine-tuning and GRPO on 4,600 attitude-related survey pairs, with evaluation on the remaining data to assess gains from adaptation and PTC prompting."
+          },
+          {
+            "title": "Performance Metrics and Analysis",
+            "detail": "Mean absolute error (MAE) is used to quantify prediction accuracy across survey questions, showing that models incorporating PTC personas and reasoning outperform demographic-only or no-PTC baselines consistently across benefit- and barrier-related questions."
+          }
+        ],
+        "findings": [
+          {
+            "title": "PTC Persona Improves Simulation Fidelity",
+            "detail": "Adding PTC persona prompts to GPT-3.5-turbo reduces MAE compared to demographic-only prompts, indicating better alignment with tenant responses influenced by perceived barriers and benefits."
+          },
+          {
+            "title": "PTC Reasoning Further Enhances Performance",
+            "detail": "Including PTC reasoning prompts alongside personas yields additional accuracy gains, suggesting that explicit reflection on transaction costs aids LLM decision modeling."
+          },
+          {
+            "title": "Fine-Tuning with SFT and GRPO Boosts Accuracy",
+            "detail": "QLoRA-based supervised fine-tuning and Group Relative Policy Optimization on local open-weight models further improve prediction accuracy beyond prompt-only baselines, validating the benefit of model adaptation."
+          },
+          {
+            "title": "Consistent Gains Across Models and Settings",
+            "detail": "Performance improvements from PTC-based persona design and reasoning are observed across GPT-3.5-turbo, Ministral-8B-Instruct, and Llama-3.1-8B-Instruct, demonstrating robustness of the approach."
+          }
+        ],
+        "contributions": [
+          "Introduces a novel PTC-aware persona modeling framework for LLM-based simulation of policy responses.",
+          "Develops a structured prompt design combining system instructions, PTC persona descriptions, and reasoning prompts.",
+          "Demonstrates empirical improvements in simulating tenant responses to energy-efficient renovation policies using a large-scale Dutch survey dataset.",
+          "Evaluates and compares prompt-only and fine-tuned LLM settings including supervised fine-tuning and Group Relative Policy Optimization.",
+          "Bridges institutional policy theory and interpretable LLM simulation to enhance trustworthy AI applications in energy policy research."
+        ],
+        "limitations": [
+          "Focus on Dutch social housing tenants limits generalizability to other populations or policy contexts.",
+          "Lack of detailed quantitative metrics for all model comparisons restricts comprehensive performance assessment.",
+          "Potential biases and variability in LLM-generated responses are acknowledged but not deeply analyzed.",
+          "No formal causal or mechanistic model is provided beyond theoretical framing of transaction costs."
+        ],
+        "open_questions": [
+          "How well does the PTC-aware persona framework generalize to other policy domains and cultural contexts?",
+          "Can the approach be extended to model dynamic decision-making processes over time rather than static survey responses?",
+          "What are the best practices to mitigate biases and ensure fairness in LLM-based policy simulations conditioned on PTC personas?",
+          "How can explicit causal mechanisms linking transaction costs to policy responses be integrated into LLM simulation frameworks?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "uncertainty",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-28T12:13:15.667980+00:00"
+    },
+    {
+      "id": "2607.24586",
+      "title": "D-Score: A Spectral Hidden-State Signal for Hallucination Detection in Large Language Models",
+      "abstract": "Large Language Models can produce fluent text that is false, unsupported by the available evidence, or inconsistent with information that appears to be internally represented by the model. We study hallucination detection from the geometry of hidden activations and introduce the D-Score, a simple spectral statistic computed from a single forward pass. For a fixed model, layer, and tolerance parameter, the D-Score counts how many singular directions of the hidden activation matrix have singular values that remain close to the leading one. We use this quantity as a hallucination score, classifying an input text as hallucinated when its D-Score is larger than a pre-defined quantity. The motivation is that, when a model processes a text that conflicts with information available in its own internal state, the hidden representation may encode both the asserted content and some form of counter-evidence, uncertainty, correction, or lack of support; this can make the hidden trajectory spread across additional singular directions. We formalize this intuition through a lightweight spectral argument and evaluate the resulting detector on FAVA-Annotation and RAGTruth. The experiments indicate that the D-Score is a strong hidden-state signal for hallucination detection, while requiring no external verifier, no retrieval step, and no multiple generations.",
+      "authors": [
+        "Bianca Raimondi",
+        "Davide Evangelista",
+        "Maurizio Gabbrielli",
+        "Elena Loli Piccolomini"
+      ],
+      "published": "2026-07-27T15:52:33Z",
+      "updated": "2026-07-27T15:52:33Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.24586v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.24586v1",
+      "comment": "Preprint. Under review",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4654,
+          "matched": [
+            "uncertainty",
+            "hallucination"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.447,
+        "relevance": 0.3723,
+        "quality": 0.53,
+        "novelty": 0.55,
+        "freshness": 0.8789
+      },
+      "quality_signals": [
+        "code available",
+        "experiments"
+      ],
+      "summary": {
+        "takeaway": "The D-Score effectively detects hallucinations in Large Language Models by analyzing hidden activations without external resources.",
+        "problem": "Hallucination in LLMs leads to the generation of false or unsupported claims, hindering their reliability.",
+        "method": "The D-Score quantifies hallucination by counting singular directions in hidden activation matrices during a single forward pass.",
+        "evidence": "Experiments on FAVA-Annotation and RAGTruth demonstrate that the D-Score outperforms existing methods across multiple models.",
+        "limitations": "The D-Score's performance is sensitive to the choice of tolerance parameter and layer selection.",
+        "why_for_you": "Understanding the D-Score can enhance the reliability of LLMs in applications requiring factual accuracy.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4o-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "The D-Score measures how many singular values of hidden activations remain close to the leading one, indicating the coherence of the hidden trajectory."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The method requires only a single forward pass through the model, eliminating the need for external verifiers or multiple generations."
+          },
+          {
+            "icon": "📉",
+            "text": "Evaluation results show that the D-Score achieves strong performance metrics on datasets like FAVA-Annotation and RAGTruth, outperforming traditional methods."
+          }
+        ],
+        "overview": "This research addresses the challenge of hallucination in Large Language Models (LLMs) by introducing the D-Score, a spectral statistic derived from hidden activations. The D-Score quantifies the coherence of hidden state trajectories during a single forward pass, providing a direct measure of hallucination without relying on external data or multiple model evaluations. The authors validate the effectiveness of the D-Score through experiments on FAVA-Annotation and RAGTruth, demonstrating its superior performance compared to existing methods, thus offering a promising approach to enhance the reliability of LLM outputs.",
+        "methodology": [
+          {
+            "title": "D-Score Calculation",
+            "detail": "The D-Score is computed by analyzing the singular values of the hidden activation matrix from a fixed model and layer. It counts how many singular values exceed a predefined tolerance, indicating the concentration of the hidden trajectory."
+          },
+          {
+            "title": "Model Configuration",
+            "detail": "The method operates on a fixed model and layer, with a tolerance parameter that determines the threshold for classifying hallucinations. This configuration allows for consistent evaluation across different inputs."
+          },
+          {
+            "title": "Single Forward Pass",
+            "detail": "The D-Score is derived from a single forward pass through the model, making it computationally efficient. This approach avoids the complexities of retrieval-based or consistency-based methods."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Geometric Argument",
+            "detail": "The paper posits that unsupported claims lead to a spread in the hidden trajectory across multiple singular directions, which can be detected by the D-Score. This reflects the model's internal uncertainty when processing conflicting information."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Evaluation on FAVA-Annotation",
+            "detail": "The D-Score was tested on the FAVA-Annotation dataset, where it demonstrated superior performance metrics compared to existing hallucination detection methods."
+          },
+          {
+            "title": "Evaluation on RAGTruth",
+            "detail": "In experiments on RAGTruth, the D-Score outperformed traditional approaches, indicating its robustness across different datasets and model architectures."
+          }
+        ],
+        "findings": [
+          {
+            "title": "D-Score Effectiveness",
+            "detail": "The D-Score effectively identifies hallucinations, achieving strong results on multiple benchmarks, indicating its potential as a reliable detection tool."
+          },
+          {
+            "title": "Sensitivity to Parameters",
+            "detail": "The performance of the D-Score is sensitive to the choice of tolerance parameter and layer selection, which can affect its detection capabilities."
+          },
+          {
+            "title": "Internal Geometry Insights",
+            "detail": "The research provides insights into how the internal geometry of LLMs can reveal information about the truthfulness of generated claims."
+          }
+        ],
+        "contributions": [
+          "Introduction of the D-Score as a novel method for hallucination detection in LLMs.",
+          "Operational definition of model-internal hallucination based on unsupported claims.",
+          "Geometric argument explaining the relationship between hallucinations and hidden trajectory spread."
+        ],
+        "limitations": [
+          "The D-Score's effectiveness is contingent on the appropriate selection of the tolerance parameter and layer.",
+          "The method's performance may vary across different model architectures and datasets."
+        ],
+        "open_questions": [
+          "How can the D-Score be adapted for different model architectures beyond those tested?",
+          "What are the implications of varying the tolerance parameter on the D-Score's reliability?",
+          "Can the D-Score be integrated with other detection methods to enhance overall performance?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4o-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "uncertainty",
+          "hallucination"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-28T12:13:15.667980+00:00"
+    },
+    {
+      "id": "2607.24573",
+      "title": "LLM-SoccerArena: Benchmarking LLMs on Real-World Predictions in Sports",
+      "abstract": "Large language models (LLMs) increasingly support decisions about uncertain future events, yet evaluating their ability to forecast real-world outcomes remains difficult. In particular, existing benchmarks are typically static and retrospective, and therefore cannot test how information is synthesized by LLMs to predict future events under uncertainty. We introduce LLM-SoccerArena (https://llm-soccerarena.com), a prospective live benchmark that evaluates how well LLMs forecast real-world sports events before the outcomes are known. LLM-SoccerArena provides (1) a prospective live benchmark protocol, (2) a public open-source platform, and (3) a factorial benchmark design together with tournament-related questions (e.g., which team will win). LLM-SoccerArena automatically records timestamped, schema-validated forecasts of unresolved events, together with prompts, model versions, tool traces, and costs. The factorial design varies along four dimensions: (1) model version (e.g., GPT-5.5, Claude Opus 4.8); (2) information access; (3) prompting strategy, and (4) forecast horizon. We demonstrate LLM-SoccerArena through a large-scale evaluation of the 2026 FIFA World Cup, in which seven LLMs generated forecasts for all 104 matches and 15 tournament-related questions. We provide a detailed analysis of model performance across information access, prompting strategy, and forecast horizon. As a result, LLM-SoccerArena provides new evidence about the forecasting performance of state-of-the-art LLMs. For example, LLMs with web access outperform those without, but only by a small margin (i.e., a 0.023 improvement in Brier score). Overall, LLM-SoccerArena provides a flexible, open-source platform for prospective benchmarking of unresolved events. LLM-SoccerArena will be continuously updated, and can be directly applied to future national and international tournaments and league competitions.",
+      "authors": [
+        "Jonas Schröder",
+        "Jonas Schweisthal",
+        "Oliver Müller",
+        "Markus Weinmann",
+        "Stefan Feuerriegel"
+      ],
+      "published": "2026-07-27T15:38:29Z",
+      "updated": "2026-07-27T15:38:29Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2607.24573v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.24573v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4648,
+          "matched": [
+            "uncertainty",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4526,
+        "relevance": 0.3718,
+        "quality": 0.56,
+        "novelty": 0.55,
+        "freshness": 0.8775
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "open source",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "LLM-SoccerArena introduces a novel prospective benchmark for evaluating LLMs' forecasting abilities in sports.",
+        "problem": "Existing benchmarks for LLM forecasting are static and retrospective, failing to assess real-time predictive capabilities.",
+        "method": "The study employs a factorial design to evaluate LLMs across various dimensions, including model version and information access.",
+        "evidence": "In a large-scale evaluation of the 2026 FIFA World Cup, LLMs with web access showed a 0.023 improvement in Brier score over those without.",
+        "limitations": "The benchmark does not provide curated statistics or domain features beyond basic event information.",
+        "why_for_you": "This research is crucial for understanding how LLMs can be effectively utilized in real-world decision-making under uncertainty.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4o-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "LLM-SoccerArena's factorial design allows for systematic comparisons of LLM forecasts across different model versions, prompting strategies, and information access, enhancing the understanding of LLM capabilities."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The benchmark protocol records timestamped forecasts, ensuring that predictions are made before outcomes are known, thus providing a genuine assessment of forecasting ability."
+          },
+          {
+            "icon": "📉",
+            "text": "The evaluation of seven LLMs during the 2026 FIFA World Cup revealed that models with web access achieved a Brier score improvement of 0.023, indicating a slight advantage in predictive accuracy."
+          }
+        ],
+        "overview": "LLM-SoccerArena addresses the challenge of evaluating LLMs' forecasting abilities by providing a prospective live benchmark that records predictions before outcomes are known. This benchmark is designed to overcome the limitations of static, retrospective evaluations by allowing LLMs to synthesize evolving information into probabilistic judgments. The study demonstrates its effectiveness through a large-scale evaluation of the 2026 FIFA World Cup, where it captures the performance of various LLMs under different conditions, revealing insights into their predictive capabilities and the impact of information access and prompting strategies.",
+        "methodology": [
+          {
+            "title": "Prospective Live Benchmark Protocol",
+            "detail": "LLM-SoccerArena records timestamped forecasts for unresolved events, ensuring that predictions are made before outcomes are known, thus preventing artifacts from memorization."
+          },
+          {
+            "title": "Factorial Design",
+            "detail": "The benchmark varies across four dimensions: model version (e.g., GPT-5.5, Claude Opus 4.8), information access (web search vs. no web search), prompting strategy (scoreline vs. outcome probabilities), and forecast horizon (timing of predictions)."
+          },
+          {
+            "title": "Evaluation Metrics",
+            "detail": "Performance is assessed using accuracy and Brier score, allowing for a quantitative comparison of forecasting abilities across different LLMs and conditions."
+          },
+          {
+            "title": "Data Collection",
+            "detail": "The benchmark automatically collects prompts, model versions, tool traces, and costs associated with each prediction, facilitating a comprehensive analysis of LLM performance."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Information Synthesis",
+            "detail": "LLM-SoccerArena tests the ability of LLMs to synthesize evolving information into probabilistic judgments, reflecting their reasoning capabilities under uncertainty."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "2026 FIFA World Cup Evaluation",
+            "detail": "Seven LLMs generated forecasts for all 104 matches and 15 tournament-related questions, allowing for a detailed analysis of model performance across various conditions."
+          },
+          {
+            "title": "Impact of Information Access",
+            "detail": "The evaluation revealed that LLMs with web access outperformed those without, achieving a Brier score improvement of 0.023, indicating the importance of real-time information."
+          },
+          {
+            "title": "Prompting Strategies Analysis",
+            "detail": "Different prompting strategies were tested, showing that direct score predictions led to varying levels of agreement between predicted scorelines and overall match outcomes."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Performance of LLMs with Web Access",
+            "detail": "LLMs with web access achieved a Brier score improvement of 0.023 over those without, highlighting the advantage of real-time information."
+          },
+          {
+            "title": "Effectiveness of Factorial Design",
+            "detail": "The factorial design allowed for systematic comparisons, revealing that different prompting strategies significantly influenced forecasting accuracy."
+          },
+          {
+            "title": "Prospective Benchmarking Success",
+            "detail": "LLM-SoccerArena successfully recorded predictions before outcomes were known, providing a genuine assessment of LLM forecasting abilities."
+          }
+        ],
+        "contributions": [
+          "Introduces a novel prospective live benchmark for evaluating LLM forecasting abilities in sports.",
+          "Provides a public open-source platform for continuous updates and evaluations.",
+          "Establishes a factorial design for systematic comparisons of LLM performance across various conditions."
+        ],
+        "limitations": [
+          "The benchmark does not include curated statistics or domain features beyond basic event information.",
+          "Limited qualitative insights into reasoning traces or evidence from LLM-generated justifications."
+        ],
+        "open_questions": [
+          "How can LLMs be further improved to enhance their forecasting accuracy in dynamic environments?",
+          "What additional factors could be integrated into the benchmark to better assess LLM reasoning capabilities?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4o-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "uncertainty",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-28T12:13:15.667980+00:00"
+    },
+    {
+      "id": "2607.24649",
+      "title": "Reason-Mediated Behavioral Models for Auditing LLM Social Simulators",
+      "abstract": "Large language models are increasingly used as social simulators, including as synthetic survey respondents. Most evaluations ask whether simulated outcomes resemble human outcomes. We argue that this is necessary but too weak: a simulator can match the final answer while using the wrong rationale-derived reason pattern. We study this problem through a 94-person sunscreen concept test in which each respondent evaluated three product concepts and wrote open-ended rationales. We map those rationales into signed reason states $Z$, where positive signs support adoption and negative signs block it. This gives a practical audit: holding respondent descriptors $D$, category context $K$, and concept treatment $X$ fixed, do human rationale-derived reasons help predict behavior $Y$, and can an LLM simulate the same reason state without seeing the human rationale or outcome? Human rationale-derived reasons substantially improve held-out prediction of purchase intent. LLM-simulated reasons are more brittle: they often sound plausible, but frequently echo the concept board rather than recover the respondent's acceptance or rejection path. The paper contributes an evaluation framework for social simulators. Reason states do not identify natural causal effects by themselves, but they provide an interpretable test of whether a simulator's stated reasons align with human evidence.",
+      "authors": [
+        "Atharva Pandey",
+        "Gautam Jajoo"
+      ],
+      "published": "2026-07-27T16:47:27Z",
+      "updated": "2026-07-27T16:47:27Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2607.24649v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.24649v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4933,
+          "matched": [
+            "auditing",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4377,
+        "relevance": 0.3946,
+        "quality": 0.41,
+        "novelty": 0.55,
+        "freshness": 0.8843
+      },
+      "quality_signals": [
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Human rationale-derived reasons significantly enhance the prediction of purchase intent in LLM social simulators.",
+        "problem": "Existing evaluations of LLMs as social simulators often overlook the importance of the rationale behind decisions.",
+        "method": "The study employs a sunscreen concept test with 94 respondents to map rationales into signed reason states for auditing LLM predictions.",
+        "evidence": "Human rationale-derived reasons improve held-out prediction of purchase intent, while LLM-simulated reasons often fail to capture the underlying acceptance or rejection paths.",
+        "limitations": "The study's small sample size limits the generalizability of its findings.",
+        "why_for_you": "Understanding the alignment of LLM outputs with human reasoning is crucial for developing trustworthy AI systems.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4o-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Human rationale-derived reasons significantly improve the prediction of purchase intent, achieving a mean absolute error (MAE) of 0.625 compared to 0.918 for zero-Z control."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The study introduces a reason-mediated behavioral model that maps respondent descriptors, category context, and concept treatment into signed reason states, facilitating a practical audit of LLMs."
+          },
+          {
+            "icon": "📉",
+            "text": "LLM-simulated reasons are found to be brittle, often echoing concept boards rather than accurately reflecting the respondent's acceptance or rejection paths, leading to a mean reason intersection over union (IoU) of only 0.201."
+          }
+        ],
+        "overview": "This research addresses the inadequacy of current evaluations of LLMs as social simulators, which typically focus on outcome similarity to human responses. By analyzing a sunscreen concept test with 94 respondents, the authors introduce a reason-mediated behavioral model that maps human rationales into signed reason states. The findings reveal that human-derived reasons significantly enhance the prediction of purchase intent, while LLM-simulated reasons often fail to capture the necessary rationale, indicating a gap in LLM performance that must be addressed for trustworthy AI applications.",
+        "methodology": [
+          {
+            "title": "Concept Test Study",
+            "detail": "The study involved 94 English-speaking Indian women aged 22-40 who evaluated three sunscreen concepts. Respondents provided purchase intent ratings, rationales, and demographic information, allowing for a comprehensive analysis of the factors influencing their decisions."
+          },
+          {
+            "title": "Reason-State Construction",
+            "detail": "A reason codebook was developed to map open-ended rationales into signed reason states, categorizing reasons into families such as value, proof trust, and safety. This structured approach enables the reuse of reason states across different concept tests."
+          },
+          {
+            "title": "Predictive Readout Training",
+            "detail": "A readout function was trained to predict purchase intent based on fixed respondent descriptors, category context, concept treatment, and mapped reason states. This model was evaluated against LLM-simulated reasons to assess predictive accuracy."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Reason-Mediated Behavioral Model",
+            "detail": "The model posits that fixed human-readable reason states can mediate the relationship between stimuli and responses, allowing for an interpretable audit of LLM outputs against human reasoning."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Sunscreen Concept Test",
+            "detail": "The experiment involved 94 respondents rating three sunscreen concepts, with outcomes measured in terms of purchase intent, believability, and differentiation. The main target was to assess the predictive accuracy of human versus LLM-simulated reasons."
+          },
+          {
+            "title": "Voice-Pool Simulation",
+            "detail": "The voice-pool estimator maintained multiple response modes (skeptic, balanced, enthusiast) to generate candidate reason states and purchase-intent distributions, comparing these with oracle selections to evaluate model performance."
+          },
+          {
+            "title": "Robustness Checks",
+            "detail": "Various robustness checks were conducted, including respondent bootstrap intervals and reason-family ablations, to validate the predictive capabilities of the reason-mediated model against different baselines."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Improved Prediction with Human Reasons",
+            "detail": "The study found that incorporating human rationale-derived reason states improved the prediction of purchase intent, achieving a mean absolute error of 0.625."
+          },
+          {
+            "title": "Brittleness of LLM-Simulated Reasons",
+            "detail": "LLM-simulated reasons were shown to be less effective, with a mean IoU of 0.201, indicating a failure to accurately reflect the human reasoning process."
+          },
+          {
+            "title": "Negative Result for LLM Reason Simulation",
+            "detail": "The research highlighted that LLM-simulated reasons, while fluent, often failed to align with the human acceptance or rejection paths, demonstrating a critical limitation in current LLM capabilities."
+          }
+        ],
+        "contributions": [
+          "Definition of a reason-mediated behavioral model for auditing LLM social simulators.",
+          "Demonstration that human rationale-derived reasons enhance predictive accuracy for purchase intent.",
+          "Identification of limitations in LLM-simulated reasoning capabilities."
+        ],
+        "limitations": [
+          "The small sample size of 94 respondents limits the generalizability of the findings.",
+          "The study does not establish causal relationships, focusing instead on predictive accuracy."
+        ],
+        "open_questions": [
+          "How can LLMs be improved to better simulate human reasoning paths?",
+          "What larger-scale studies are needed to validate the findings across diverse populations?",
+          "Can the reason-mediated model be adapted for other types of social simulations beyond consumer behavior?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4o-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "auditing",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-28T12:13:15.667980+00:00"
+    },
     {
       "id": "2607.21550",
       "title": "X$^3$-OPD: Distilling Reasoning into Large Audio-Language Models via On-Policy Alignment",
