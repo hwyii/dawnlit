@@ -1,6 +1,193 @@
 {
-  "generated_at": "2026-07-28T12:13:15.667980+00:00",
+  "generated_at": "2026-07-29T12:20:20.242360+00:00",
   "papers": [
+    {
+      "id": "2607.25814",
+      "title": "Evaluation of Adversarial Robustness in Arabic Language Models",
+      "abstract": "The emergence of the recent outstanding capabilities of Arabic Language Models has opened doors for exposing their vulnerabilities. One of the major security risks associated with such Natural Language Processing models is adversarial attacks. These attacks can deceive the model into the wrong prediction, raising critical model security and safety concerns. This study aims to assess the robustness of five state-of-the-art Arabic Language Models under a distinct set of Arabic adversarial attacks applied at various levels of granularity and using different example generation strategies. We also explore a defense technique based on adversarial training to enhance model robustness. The results show that insertion of diacritics can reduce the accuracy of some models by 92% while maintaining a low perturbation distance. For word-level attacks, manipulating Arabic conjunctions preserves high semantic similarity scores, low perturbation distance, and leads to an accuracy degradation of up to 58%. For sentence-level attacks, paraphrasing proves its effectiveness by an average reduction of 76% in the victim models' performance. While adversarial training improves overall resilience, with MARBERT being the most robust and AraBERT showing the greatest relative gains, challenges persist, particularly against character-level noise. These findings highlight both the potential and limitations of current defense strategies in morphologically rich languages like Arabic.",
+      "authors": [
+        "Anwar Alajmi",
+        "Ayed Salman",
+        "Imtiaz Ahmad"
+      ],
+      "published": "2026-07-28T14:58:28Z",
+      "updated": "2026-07-28T14:58:28Z",
+      "categories": [
+        "cs.CL",
+        "cs.CR"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.25814v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.25814v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.8228,
+          "matched": [
+            "adversarial training",
+            "adversarial",
+            "robustness",
+            "robust",
+            "perturbation",
+            "training"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4986,
+          "matched": [
+            "robustness",
+            "safety",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.7047,
+        "relevance": 0.758,
+        "quality": 0.41,
+        "novelty": 0.8634,
+        "freshness": 0.8728
+      },
+      "quality_signals": [
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Adversarial attacks significantly degrade the performance of state-of-the-art Arabic language models, with character-level diacritics insertion causing up to 92% accuracy reduction, while adversarial training improves robustness but challenges remain.",
+        "problem": "Arabic language models are vulnerable to adversarial attacks at multiple granularity levels, threatening model security and reliability in critical applications.",
+        "method": "The study evaluates five Arabic language models under character-, word-, and sentence-level adversarial attacks and applies adversarial training as a defense mechanism.",
+        "evidence": "Insertion of diacritics reduced accuracy by up to 92%, word-level conjunction manipulations caused up to 58% degradation, and paraphrasing led to an average 76% performance drop; adversarial training improved resilience notably for MARBERT and AraBERT.",
+        "limitations": "Defense strategies remain less effective against character-level noise, and the study does not fully resolve robustness challenges in morphologically rich Arabic.",
+        "why_for_you": "This paper provides empirical insights into adversarial vulnerabilities and defense efficacy in Arabic LMs, informing efficient adversarial training and robustness evaluation in morphologically complex languages.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Insertion of Arabic diacritics as a character-level attack reduces AraBERT accuracy by 92%, demonstrating extreme vulnerability to subtle orthographic perturbations."
+          },
+          {
+            "icon": "🛡️",
+            "text": "Adversarial training using white-box gradient-based attacks under DistilBERT similarity constraints enhances robustness, with MARBERT showing the highest post-defense accuracy."
+          },
+          {
+            "icon": "📉",
+            "text": "Perturbation rates measured by Levenshtein distance and semantic similarity via Universal Sentence Encoder confirm that attacks maintain high semantic similarity while significantly degrading model accuracy."
+          }
+        ],
+        "overview": "This research investigates the adversarial robustness of five leading Arabic language models—MARBERT, AraBERT, CaMeLBERT, XLM-T, and mBERT—against attacks at character, word, and sentence levels. The study applies various adversarial example generation strategies, including diacritics insertion, conjunction manipulation, and paraphrasing, to evaluate model vulnerabilities. Character-level diacritics insertion causes the most severe accuracy drops, up to 92%, highlighting the sensitivity of Arabic LMs to orthographic noise. Word-level attacks that manipulate conjunctions preserve semantic similarity but degrade accuracy by up to 58%. Sentence-level paraphrasing reduces performance by an average of 76%. To mitigate these vulnerabilities, the authors implement adversarial training using gradient-based white-box attacks constrained by DistilBERT similarity, which improves robustness, especially for MARBERT and AraBERT. However, challenges persist, particularly against character-level noise, underscoring the complexity of defending morphologically rich languages like Arabic. The study employs quantitative metrics such as attack success rate, perturbation rate via Levenshtein distance, and semantic similarity measures to rigorously assess attack impact and defense efficacy.",
+        "methodology": [
+          {
+            "title": "Adversarial Attack Taxonomy and Generation",
+            "detail": "Attacks are categorized by granularity: character-level (insertions, deletions, substitutions), word/token-level (synonym replacements, grammatical violations), and sentence-level (paraphrasing, substitutions). Example generation strategies include edit-based and importance-based methods, with importance-based attacks leveraging SHAP and Word Importance Rank to identify critical tokens for perturbation."
+          },
+          {
+            "title": "Adversarial Training Defense",
+            "detail": "A vanilla adversarial training approach (A2T) is applied, generating white-box gradient-based attacks constrained by DistilBERT similarity to augment training data. This method aims to reduce computational complexity and improve model resilience by exposing models to adversarial examples during training."
+          },
+          {
+            "title": "Evaluation Metrics",
+            "detail": "Attack success rate (ASR) measures the proportion of adversarial examples causing misclassification. Perturbation rate is quantified using Levenshtein distance to capture edit operations between original and perturbed inputs. Semantic similarity is assessed via cosine similarity and Universal Sentence Encoder (USE) scores to ensure adversarial examples preserve meaning."
+          },
+          {
+            "title": "Model Selection and Baselines",
+            "detail": "Five state-of-the-art Arabic language models—MARBERT, AraBERT, CaMeLBERT, XLM-T, and mBERT—are evaluated. Baseline accuracies on clean test sets range from 87% (mBERT) to 99% (MARBERT), providing a reference for assessing adversarial impact."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "No Explicit Mechanism Provided",
+            "detail": "The paper does not present formal equations or causal mechanisms explaining adversarial vulnerability or defense efficacy beyond empirical evaluation metrics and attack taxonomies."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Character-Level Diacritics Insertion Attack",
+            "detail": "Diacritics are inserted into Arabic text inputs to create adversarial examples. Models are evaluated on accuracy degradation, perturbation rate (Levenshtein distance), and semantic similarity (USE). MARBERT shows 94% post-attack accuracy, while AraBERT accuracy drops by 92%."
+          },
+          {
+            "title": "Word-Level Conjunction Manipulation Attack",
+            "detail": "Attacks manipulate Arabic conjunctions to preserve semantic similarity and low perturbation distance. This leads to accuracy degradation up to 58% across victim models, demonstrating effective word-level adversarial strategies."
+          },
+          {
+            "title": "Sentence-Level Paraphrasing Attack",
+            "detail": "Paraphrasing techniques generate sentence-level adversarial examples, causing an average 76% reduction in model performance, highlighting the potency of semantic-level perturbations."
+          },
+          {
+            "title": "Adversarial Training Evaluation",
+            "detail": "Models undergo adversarial training using gradient-based white-box attacks with DistilBERT similarity constraints. Post-training evaluations show improved robustness, with MARBERT being the most resilient and AraBERT exhibiting the largest relative gains."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Extreme Vulnerability to Diacritics Insertion",
+            "detail": "Insertion of diacritics reduces AraBERT accuracy by 92% and CaMeLBERT by 80%, while MARBERT maintains 94% accuracy, indicating model-specific robustness differences."
+          },
+          {
+            "title": "Word-Level Attacks Preserve Semantics but Reduce Accuracy",
+            "detail": "Manipulating Arabic conjunctions maintains high semantic similarity and low perturbation distance but causes up to 58% accuracy degradation, confirming the effectiveness of word-level adversarial attacks."
+          },
+          {
+            "title": "Sentence-Level Paraphrasing Severely Impacts Performance",
+            "detail": "Paraphrasing attacks reduce victim model performance by an average of 76%, demonstrating the potency of sentence-level adversarial perturbations."
+          },
+          {
+            "title": "Adversarial Training Enhances Robustness",
+            "detail": "Adversarial training improves overall resilience, with MARBERT showing the highest robustness and AraBERT achieving the greatest relative improvement, though challenges remain against character-level noise."
+          },
+          {
+            "title": "Semantic Similarity Maintained in Adversarial Examples",
+            "detail": "High cosine similarity and USE scores indicate that adversarial examples preserve semantic content despite causing significant accuracy drops."
+          }
+        ],
+        "contributions": [
+          "Comprehensive evaluation of five state-of-the-art Arabic language models under multi-granularity adversarial attacks.",
+          "Demonstration of severe vulnerability of Arabic LMs to character-level diacritics insertion attacks.",
+          "Application and assessment of adversarial training defense improving robustness, especially for MARBERT and AraBERT.",
+          "Use of semantic similarity metrics alongside perturbation measures to validate adversarial example quality.",
+          "Highlighting persistent challenges in defending morphologically rich languages like Arabic against character-level noise."
+        ],
+        "limitations": [
+          "Defense strategies remain less effective against character-level noise such as diacritics insertion.",
+          "The study does not explore multi-level or combined adversarial attacks in depth.",
+          "Limited discussion on the computational cost and scalability of adversarial training for large Arabic LMs.",
+          "No formal mechanistic explanation or theoretical modeling of adversarial vulnerabilities is provided."
+        ],
+        "open_questions": [
+          "How can defense mechanisms be improved to effectively counter character-level adversarial noise in morphologically rich languages?",
+          "What are the trade-offs between robustness and computational efficiency in adversarial training for Arabic LMs?",
+          "Can multi-level adversarial attacks combining character, word, and sentence perturbations reveal new vulnerabilities?",
+          "How do dialectal variations in Arabic affect adversarial robustness and defense strategies?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "adversarial training",
+          "adversarial",
+          "robustness",
+          "robust"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-29T12:20:20.242360+00:00"
+    },
     {
       "id": "2607.21550",
       "title": "X$^3$-OPD: Distilling Reasoning into Large Audio-Language Models via On-Policy Alignment",
@@ -362,180 +549,6 @@
       "recommended_at": "2026-07-28T12:13:15.667980+00:00"
     },
     {
-      "id": "2607.19219",
-      "title": "Beyond Score Prediction: LLM-Based Essay Scoring and Feedback Generation via Reinforcement Learning with Rubric Rewards",
-      "abstract": "Large language models (LLMs) have been widely applied to automated essay scoring (AES) and automated feedback generation (AFG). However, existing studies rely primarily on prompt engineering or supervised fine-tuning, while systematic research on reinforcement learning (RL) post-training and automated evaluation of feedback quality remains limited. We propose RLAES, a unified LLM framework that jointly optimizes essay scoring and feedback generation through RL. To make feedback quality measurable, interpretable, and usable for training, we introduce Rubric-based Feedback Evaluation (RFE), an essay-grounded feedback evaluation framework comprising 166 fine-grained binary rubric items and an LLM-as-judge. Building on RFE, we propose Adaptive Gated Feedback Optimization (AGFO), which activates rubric-based feedback rewards on demand during RL, reducing evaluation overhead while improving feedback quality. We also propose Adjacent Contrastive Reasoning (ACR) to improve ordinal score calibration by explicitly contrasting adjacent score levels. Experimental results show that the RFE framework captures essay-feedback consistency, exhibits strong pairwise discriminative power, and closely aligns with expert preferences. On the ASAP benchmark, RLAES-AGFO achieves the best scoring performance among LLM-based methods (QWK = 0.803), while maintaining feedback quality comparable to GPT-5.5 and avoiding the feedback degradation observed under score-only RL. Code and datasets are publicly available at https://github.com/hellomuyi/RLAES.",
-      "authors": [
-        "Xuefeng Jin",
-        "Jiashuo Zhang",
-        "Teng Cao",
-        "Bin Yang"
-      ],
-      "published": "2026-07-21T15:49:02Z",
-      "updated": "2026-07-21T15:49:02Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.19219v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.19219v1",
-      "comment": "12 pages, 4 figures, 9 tables",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.465,
-          "matched": [
-            "calibration",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.544,
-        "relevance": 0.372,
-        "quality": 0.88,
-        "novelty": 0.8221,
-        "freshness": 0.8796
-      },
-      "quality_signals": [
-        "code available",
-        "GitHub link",
-        "benchmark evaluation",
-        "experiments",
-        "dataset evidence"
-      ],
-      "summary": {
-        "takeaway": "RLAES, a unified LLM framework using reinforcement learning with rubric-based rewards, jointly optimizes essay scoring and feedback generation, achieving state-of-the-art scoring and high-quality feedback.",
-        "problem": "Existing AES and AFG methods rely mainly on prompt engineering or supervised fine-tuning, lacking systematic RL post-training and automated, scalable feedback quality evaluation.",
-        "method": "RLAES integrates Rubric-based Feedback Evaluation (RFE) with 166 binary rubric items and an LLM-as-judge, Adaptive Gated Feedback Optimization (AGFO) to reduce evaluation overhead, and Adjacent Contrastive Reasoning (ACR) for score calibration, optimized via Group Relative Policy Optimization (GRPO).",
-        "evidence": "On the ASAP benchmark, RLAES-AGFO achieves the best LLM-based scoring performance (QWK=0.803) and feedback quality comparable to GPT-5.5, while avoiding feedback degradation seen in score-only RL.",
-        "limitations": "Feedback evaluation is computationally expensive, requiring gating mechanisms; evaluation was conducted on a single fold due to budget constraints, limiting generalizability.",
-        "why_for_you": "This work advances trustworthy LLM applications in education by providing a scalable, interpretable RL framework that jointly improves scoring accuracy and feedback quality with automated rubric-based evaluation.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "RFE framework uses 166 fine-grained binary rubric items evaluated by an LLM-as-judge to measure feedback quality, enabling interpretable and structured reward signals for RL."
-          },
-          {
-            "icon": "🛡️",
-            "text": "AGFO adaptively gates the activation of feedback rewards during RL training, invoking the expensive LLM-as-judge only every n steps and only when feedback quality is below a threshold, reducing overhead by 83%."
-          },
-          {
-            "icon": "📉",
-            "text": "Score-only RL training degrades feedback quality significantly (RFE score drops from 0.6978 to 0.5608), whereas joint optimization with AGFO maintains high feedback quality comparable to GPT-5.5."
-          }
-        ],
-        "overview": "The paper addresses the challenge of jointly optimizing automated essay scoring (AES) and automated feedback generation (AFG) using large language models (LLMs). Prior work focused on prompt engineering or supervised fine-tuning, lacking systematic reinforcement learning (RL) approaches and scalable feedback evaluation. The authors propose RLAES, which integrates a novel Rubric-based Feedback Evaluation (RFE) framework comprising 166 binary rubric items assessed by an LLM-as-judge, enabling interpretable and measurable feedback quality. To mitigate the computational cost of frequent feedback evaluation, Adaptive Gated Feedback Optimization (AGFO) selectively activates feedback rewards during RL training based on a threshold, reducing overhead by 83%. Additionally, Adjacent Contrastive Reasoning (ACR) improves ordinal score calibration by contrasting adjacent score levels. Experiments on the ASAP dataset demonstrate that RLAES-AGFO achieves superior scoring performance (QWK=0.803) among LLM-based methods and maintains feedback quality comparable to GPT-5.5, avoiding the feedback degradation observed in score-only RL. This unified RL framework advances trustworthy AES and AFG by providing scalable, interpretable, and jointly optimized scoring and feedback generation.",
-        "methodology": [
-          {
-            "title": "Rubric-Based Feedback Evaluation (RFE)",
-            "detail": "RFE decomposes feedback quality into 166 fine-grained binary rubric items, each evaluated independently by an LLM-as-judge, producing a structured reward signal for RL. This framework enables interpretable, essay-grounded feedback evaluation that aligns with expert preferences."
-          },
-          {
-            "title": "Adaptive Gated Feedback Optimization (AGFO)",
-            "detail": "AGFO uses Group Relative Policy Optimization (GRPO) to jointly optimize scoring and feedback rewards. It adaptively gates feedback reward activation every n steps, invoking the LLM-as-judge only if the feedback reward falls below a threshold τ, reducing computational cost while maintaining feedback quality."
-          },
-          {
-            "title": "Adjacent Contrastive Reasoning (ACR)",
-            "detail": "ACR improves ordinal score calibration by explicitly contrasting model outputs at adjacent score levels, enhancing the model's ability to discriminate fine-grained score differences and improving scoring accuracy."
-          },
-          {
-            "title": "Reinforcement Learning Setup",
-            "detail": "The model is trained with GRPO using a combined reward of score accuracy and feedback quality. The score reward is scaled by a factor α and normalized by the score range. Feedback rewards are computed via RFE. Training uses LoRA for parameter-efficient fine-tuning on Qwen3.5-9B with a batch size of 8, learning rate 2e-5, and cosine scheduler."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Rubric Reward Computation",
-            "detail": "The rubric reward r(x, ŷ) is computed as a weighted average of binary rubric item indicators cj(x, ŷ), where each cj is assigned by an LLM-as-judge independently. This decomposes complex feedback quality into assessable components, enabling structured RL rewards."
-          },
-          {
-            "title": "Adaptive Gating Mechanism",
-            "detail": "Every n training steps, the feedback reward is computed; if it is below threshold τ, the gate remains open to optimize feedback; otherwise, feedback reward is skipped to save computation. This balances training efficiency and feedback quality."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Dataset and Evaluation",
-            "detail": "Experiments use the ASAP dataset with 12,978 essays across 8 prompts, employing five-fold cross-validation with joint prompt training. Scoring is evaluated by quadratic weighted kappa (QWK), and feedback quality by RFE scores using GPT-5.5 as the LLM judge."
-          },
-          {
-            "title": "Baselines",
-            "detail": "Baselines include LLM prompt engineering methods (GPT-3.5, GPT-4 with rubric and few-shot prompting, Llama-3-8B-Instruct) and post-training methods. The base model for RLAES is Qwen3.5-9B fine-tuned with LoRA."
-          },
-          {
-            "title": "Training Setup",
-            "detail": "RLAES is trained for 25 epochs with GRPO, batch size 8, learning rate 2e-5, and temperature 0.9 for rollout sampling. Feedback reward weight λf=1, score scaling α=0.1, gating period n=30, and threshold τ=0.8."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Superior Scoring Performance",
-            "detail": "RLAES-AGFO achieves a QWK of 0.803 on ASAP, outperforming all LLM-based baselines including GPT-4 variants and prompt engineering methods."
-          },
-          {
-            "title": "Maintained Feedback Quality",
-            "detail": "RLAES-AGFO attains an average RFE feedback score of 0.8399, comparable to GPT-5.5's 0.8334, while score-only RL degrades feedback quality significantly to 0.5608."
-          },
-          {
-            "title": "Efficiency Gains",
-            "detail": "AGFO reduces the computational cost of feedback evaluation by approximately 83% compared to full feedback optimization, enabling practical RL training with rubric rewards."
-          },
-          {
-            "title": "Joint Optimization Benefits",
-            "detail": "Joint optimization of scoring and feedback rewards via AGFO improves both scoring accuracy and feedback quality without trade-offs, unlike score-only RL."
-          }
-        ],
-        "contributions": [
-          "Proposed RLAES, a unified RL framework jointly optimizing AES and AFG with rubric-based rewards.",
-          "Developed Rubric-based Feedback Evaluation (RFE) with 166 binary rubric items and LLM-as-judge for interpretable feedback quality measurement.",
-          "Introduced Adaptive Gated Feedback Optimization (AGFO) to reduce feedback evaluation overhead during RL training.",
-          "Designed Adjacent Contrastive Reasoning (ACR) to improve ordinal score calibration.",
-          "Demonstrated state-of-the-art scoring and high-quality feedback generation on the ASAP benchmark."
-        ],
-        "limitations": [
-          "Feedback evaluation using LLM-as-judge is computationally expensive, necessitating gating mechanisms.",
-          "Feedback evaluation was conducted on a single fold due to budget constraints, limiting robustness assessment.",
-          "The approach depends on the quality and coverage of the predefined rubric items, which may not capture all feedback nuances.",
-          "No explicit mechanism or theoretical analysis is provided for the interaction between scoring and feedback rewards."
-        ],
-        "open_questions": [
-          "How well does RLAES generalize to other essay datasets or languages beyond ASAP?",
-          "Can the rubric-based evaluation framework be extended or adapted to other open-ended NLP tasks?",
-          "What are the effects of different rubric item designs or weighting schemes on feedback quality and scoring accuracy?",
-          "How can human-in-the-loop feedback be integrated to further improve rubric reward reliability and reduce bias?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "calibration",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-22T12:03:09.506272+00:00"
-    },
-    {
       "id": "2607.20090",
       "title": "Reinforcement Learning for Large Language Model Selective Evidence Adoption from Contaminated Retrieval Results",
       "abstract": "Retrieval-augmented large language models frequently face contexts that interleave useful evidence with misleading statements or instruction-like content. Blanket refusal discards valid evidence, whereas uncritical adoption yields incorrect or unsafe answers. The ability to selectively adopt relevant information while rejecting deceptive or harmful content is therefore critical for reliable deployment in real-world retrieval settings. We introduce SelectBench, a controlled benchmark and training set for selective evidence adoption, and post-train Qwen3.5-4B directly with DAPO using either deterministic rule rewards or a frozen semantic judge. On the corrected 325-example SelectBench-v2 test set, strict success rises from 22.46% for the original checkpoint to 25.54% with DAPO-Rule and 26.46% with DAPO-DeepSeek. Both trained policies reduce forbidden-content adoption and produce shorter, more focused responses, yet prompt-injection following does not improve. The paired gains are modest and fail to survive Holm correction, suggesting that stronger reward shaping or additional training iterations may be needed for more robust gains. DAPO-DeepSeek exhibits no material degradation on MMLU or clean HotpotQA, indicating that the post-training procedure preserves general capabilities. These results demonstrate a directional improvement in selective evidence use, while identifying injection resistance and statistical robustness as important remaining challenges for future work.",
@@ -723,372 +736,6 @@
       "recommended_at": "2026-07-23T12:02:13.960325+00:00"
     },
     {
-      "id": "2607.19243",
-      "title": "Inference-Time Steering for Cross-Lingual Factual Consistency in LLMs",
-      "abstract": "Although Large Language Models (LLMs) demonstrate remarkable multilingual fluency, their internal knowledge representations remain disproportionately biased toward high-resource languages. This leads to cross-lingual factual inconsistency, where they shift their empirical answer distributions based solely on the prompt language. We investigate whether these biases can be mitigated at inference time, forcing an English-prompted model to answer as if it were queried in target languages (German, Spanish, Bulgarian), and evaluate four intervention strategies: zero-shot contextual steering (persona prompting), internal representation manipulation via Contrastive Activation Addition (CAA), and lightweight weight modification via Direct Preference Optimization (DPO) trained on benchmark-derived factual data as well as conceptual generalization data. To assess alignment, we curate a multilingual factual dataset alongside a novel generalization benchmark comprising culturally rooted queries to determine whether factual interventions transfer to broader target-centric preferences. Experiments on Gemma 3 12B Instruct reveal persona prompting to be the strongest overall intervention, balancing efficacy, safety, and out-of-domain generalization. While CAA yields sharp inconsistency benchmark shifts, it is configuration-sensitive and risks knowledge degradation. DPO-based adapters offer permanent, yet narrower and less transferable gains. These findings suggest that cross-lingual inconsistency is at least partly a selection problem, and that simple contextual interventions may outperform more invasive methods for robust, transferable alignment.",
-      "authors": [
-        "Alexander Manev"
-      ],
-      "published": "2026-07-21T16:15:05Z",
-      "updated": "2026-07-21T16:15:05Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.19243v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.19243v1",
-      "comment": "8 pages (21 in total), 2 figures, 4 tables. Original manuscript for a Guided Research project conducted at the Technical University of Munich, detailing the complete methodology, full data pipeline, and comprehensive experimental results. A related, condensed subset of this work was subsequently adapted and published at the StereACuLT 2026 workshop",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.4067,
-          "matched": [
-            "generalization",
-            "generalization",
-            "optimization"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3897,
-          "matched": [
-            "alignment",
-            "alignment",
-            "safety"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.1607,
-          "matched": [
-            "robust"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5292,
-        "relevance": 0.4354,
-        "quality": 0.58,
-        "novelty": 0.8604,
-        "freshness": 0.8821
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "experiments",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Zero-shot persona prompting effectively mitigates cross-lingual factual inconsistency in LLMs at inference time, outperforming deeper mechanistic and parameter-based interventions in robustness and transferability.",
-        "problem": "Large Language Models exhibit cross-lingual factual inconsistency due to biased internal knowledge representations favoring high-resource languages, leading to unreliable multilingual factual recall.",
-        "method": "The paper evaluates four inference-time interventions—persona prompting, Contrastive Activation Addition (CAA), and Direct Preference Optimization (DPO) adapters trained on benchmark and generalization data—to steer English-prompted LLMs toward target language factual preferences.",
-        "evidence": "Experiments on Gemma 3 12B Instruct show persona prompting consistently improves Jensen–Shannon distance and target preference metrics across German, Spanish, and Bulgarian, with statistically significant gains and superior safety and generalization compared to CAA and DPO.",
-        "limitations": "CAA steering is highly sensitive to hyperparameter tuning and risks knowledge degradation, while DPO adapters yield narrower, less transferable improvements; the study is limited to Gemma 3 12B and three target languages.",
-        "why_for_you": "This work provides a rigorous comparative analysis of inference-time steering methods for cross-lingual factual alignment, offering practical, lightweight interventions relevant for trustworthy and efficient multilingual LLM deployment.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Persona prompting significantly reduces cross-lingual Jensen–Shannon distance (JSD) in German and Bulgarian, achieving p < 0.05 and p < 0.01 respectively, indicating effective alignment of English-prompted model outputs with target language factual distributions."
-          },
-          {
-            "icon": "🛡️",
-            "text": "Contrastive Activation Addition (CAA) manipulates the model’s residual stream by adding a steering vector derived from contrast pairs of English-preferred and target-preferred completions, enabling mechanistic preference realignment during inference."
-          },
-          {
-            "icon": "📉",
-            "text": "CAA’s effectiveness depends on precise layer selection and multiplier scaling, with optimal configurations varying by language; misconfiguration can degrade performance, as seen with Spanish under broad contrast pair settings where JSD worsened."
-          }
-        ],
-        "overview": "The paper addresses the problem of cross-lingual factual inconsistency in LLMs, where models biased toward English produce divergent factual answers when prompted in different languages. It hypothesizes that such biases can be mitigated at inference time by steering the model’s output distribution to reflect target language preferences without costly retraining. To test this, the authors curate a multilingual factual dataset and a novel cultural generalization benchmark, then evaluate four intervention strategies on Gemma 3 12B Instruct: zero-shot persona prompting, Contrastive Activation Addition (CAA), and Direct Preference Optimization (DPO) adapters trained on benchmark and generalization data. Persona prompting, a shallow contextual intervention, consistently improves alignment metrics and generalizes well, suggesting the model already encodes target knowledge but defaults to English-centric answers. CAA, a mechanistic activation manipulation, achieves strong but fragile improvements sensitive to hyperparameters. DPO adapters provide permanent but narrower gains. These results support the view that cross-lingual inconsistency is partly a selection problem and that simple contextual cues can outperform more invasive methods for robust, transferable alignment.",
-        "methodology": [
-          {
-            "title": "Persona Prompting",
-            "detail": "A zero-shot contextual steering method that augments English prompts with natural language instructions to adopt the perspective of a target language demographic, leveraging in-context learning to shift output distributions without modifying model parameters or activations."
-          },
-          {
-            "title": "Contrastive Activation Addition (CAA)",
-            "detail": "An inference-time intervention that adds a directional steering vector to the model’s residual stream activations, computed from contrast pairs of English-preferred and target-preferred completions, to mechanistically realign the model’s internal representations toward target language preferences."
-          },
-          {
-            "title": "Direct Preference Optimization (DPO) Adapters",
-            "detail": "Lightweight parameter-efficient fine-tuning adapters trained on preference triples derived from benchmark or generalization datasets, optimizing the model to prefer target language completions over English-centric ones, enabling permanent but narrower alignment shifts."
-          },
-          {
-            "title": "Multilingual Factual Dataset and Generalization Benchmark",
-            "detail": "A curated dataset of atomic factual triples across six languages designed for repeated-sampling evaluation of answer distributions, and a culturally rooted generalization benchmark with 50 second-person multiple-choice queries per target language to test transfer of interventions beyond benchmark facts."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Cross-Lingual Factual Inconsistency as a Selection Problem",
-            "detail": "The paper posits that LLMs share a common semantic space for multilingual inputs but exhibit biased output distributions due to the final language transition step favoring English-centric knowledge; thus, inference-time interventions can steer output selection without altering underlying representations."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Baseline Cross-Lingual Inconsistency Measurement",
-            "detail": "Evaluated four state-of-the-art LLMs (Gemma 3 12B, gpt-oss-20b, Qwen 3 30B-A3B, Llama 4 Maverick) on a multilingual factual benchmark using repeated open-ended sampling and Jensen–Shannon distance to quantify answer distribution shifts across English, German, Spanish, Bulgarian, Korean, and Swedish."
-          },
-          {
-            "title": "Intervention Evaluation on Gemma 3 12B Instruct",
-            "detail": "Compared persona prompting, CAA steering, and DPO adapters trained on benchmark and generalization data across three contrast pair strategies (v0, v1, v2), measuring improvements in JSD and target preference metrics, statistical significance, and transfer to a novel cultural generalization benchmark."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Effectiveness of Persona Prompting",
-            "detail": "Persona prompting improved cross-lingual alignment in 8 of 9 cases, with statistically significant JSD reductions for German (p < 0.05, CLES=0.705) and Bulgarian (p < 0.01, CLES=0.672–0.690), demonstrating that simple contextual cues can induce substantial preference shifts without parameter changes."
-          },
-          {
-            "title": "CAA Steering Performance and Fragility",
-            "detail": "CAA improved JSD in 8 of 9 cases with large effect sizes for Bulgarian (p < 0.01, CLES=0.741) and German (p < 0.01, CLES=0.705), but required careful tuning of intervention layer and multiplier; broader contrast sets (v2) sometimes degraded performance, indicating sensitivity and risk of knowledge degradation."
-          },
-          {
-            "title": "DPO Adapter Gains and Transfer",
-            "detail": "DPO adapters trained on benchmark-derived data provided permanent alignment improvements but with narrower scope and less transfer to out-of-benchmark cultural generalization compared to prompting, highlighting trade-offs between permanence and generality."
-          }
-        ],
-        "contributions": [
-          "Curated a high-quality multilingual factual dataset spanning six languages for distributional evaluation of cross-lingual factual consistency.",
-          "Developed a novel culturally rooted generalization benchmark to test transfer of alignment interventions beyond benchmark-specific facts.",
-          "Conducted a rigorous comparative study of four inference-time steering methods—persona prompting, CAA, and two DPO adapter variants—on Gemma 3 12B Instruct.",
-          "Demonstrated that zero-shot persona prompting is the strongest overall intervention balancing efficacy, safety, and out-of-domain generalization.",
-          "Provided evidence that cross-lingual inconsistency is partly a selection problem addressable by simple contextual interventions rather than invasive parameter updates."
-        ],
-        "limitations": [
-          "CAA steering is highly sensitive to hyperparameter choices and can degrade model knowledge if misconfigured.",
-          "DPO adapters yield narrower and less transferable gains compared to prompting, limiting their generalization to broader cultural contexts.",
-          "Experiments are limited to the Gemma 3 12B Instruct model and three target languages, restricting generalizability to other architectures or languages.",
-          "The study does not provide mechanistic explanations beyond the steering vector concept, leaving deeper causal understanding of cross-lingual bias unaddressed."
-        ],
-        "open_questions": [
-          "Can inference-time steering methods be effectively generalized to larger or different LLM architectures beyond Gemma 3 12B?",
-          "How can the fragility and hyperparameter sensitivity of CAA be mitigated to ensure safe and robust mechanistic interventions?",
-          "What are the underlying representational mechanisms causing cross-lingual factual inconsistency beyond selection bias?",
-          "Can permanent parameter updates be designed to combine the transferability of prompting with the permanence of DPO adapters?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Statistical theory for LLMs",
-        "matched": [
-          "generalization",
-          "generalization",
-          "optimization"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-22T12:03:09.506272+00:00"
-    },
-    {
-      "id": "2607.19044",
-      "title": "Adopting Reinforcement Learning with Verifiable Rewards for Molecular Generation",
-      "abstract": "Leveraging large language models (LLMs) for molecular generation has shown remarkable potential in chemical and drug design. Current methods primarily rely on supervised training or fine-tuning with limited datasets, which are insufficient to capture complex molecular design objectives. While some approaches attempt to guide generation toward specific goals, they often lack direct optimization mechanisms, making it difficult to align generated molecules with desired properties. To tackle these challenges, we propose \\textbf{LLMol}, a principled reinforcement learning framework that directly incorporates verifiable rewards for targeted molecule generation. The key insight is to formulate molecular design as a goal-conditioned sequence prediction task, where verifiable rewards serve as explicit supervision to drive generation toward desired objectives. LLMol follows a two-stage training paradigm combining supervised learning and reinforcement learning. In the first stage, large language models are supervised fine-tuned to capture chemical syntax and molecular distributions. In the second stage, we introduce Reinforcement Learning with Verifiable Rewards (RLVR), which directly integrates property-based reward signals to guide molecular generation toward task-specific objectives. To address the high variance and instability common in discrete sequence optimization, we adopt Group Relative Policy Optimization (GRPO), a stable on-policy algorithm that smooths reward signals and improves training robustness. This framework enables LLMol to effectively handle a range of molecular design tasks, including single-property targeting (e.g., penalized logP, QED) and structure-constrained optimization. Experimental results demonstrate that LLMol consistently outperforms existing methods, achieving higher success rates and improved efficiency across diverse molecular benchmarks.",
-      "authors": [
-        "Mingxuan Ouyang",
-        "Hao Lan",
-        "Wanyu Lin"
-      ],
-      "published": "2026-07-21T12:34:59Z",
-      "updated": "2026-07-21T12:34:59Z",
-      "categories": [
-        "cs.LG"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2607.19044v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.19044v1",
-      "comment": "13 pages, 4 figures",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.5349,
-          "matched": [
-            "robustness",
-            "fine-tuning",
-            "training"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.189,
-          "matched": [
-            "robustness",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5269,
-        "relevance": 0.4657,
-        "quality": 0.5,
-        "novelty": 0.8117,
-        "freshness": 0.8603
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "experiments",
-        "dataset evidence"
-      ],
-      "summary": {
-        "takeaway": "LLMol leverages a two-stage training paradigm combining supervised fine-tuning and reinforcement learning with verifiable rewards, achieving state-of-the-art molecular generation performance on multiple property optimization tasks.",
-        "problem": "Existing LLM-based molecular generation methods lack direct optimization mechanisms to align generated molecules with complex, multi-objective chemical design goals.",
-        "method": "LLMol formulates molecular design as a goal-conditioned sequence prediction task and applies Reinforcement Learning with Verifiable Rewards (RLVR) using Group Relative Policy Optimization (GRPO) to optimize property-based reward signals.",
-        "evidence": "Experimental results on the ZINC250K dataset show LLMol achieves a 46.91% success rate in logP targeting, significantly outperforming baselines, while maintaining high validity, novelty, and diversity.",
-        "limitations": "The paper does not provide detailed ablation studies isolating the contributions of RLVR components or extensive evaluation on multi-property optimization beyond single-property and similarity-constrained tasks.",
-        "why_for_you": "LLMol’s integration of verifiable reward-driven reinforcement learning with large language models offers a robust and efficient approach to property-constrained molecular generation, relevant for advancing trustworthy and efficient LLM-based design.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "LLMol achieves a 46.91% success rate in generating molecules within a narrow logP range on ZINC250K, vastly outperforming the supervised fine-tuned model's 0.46% and prior baselines."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The Group Relative Policy Optimization (GRPO) algorithm stabilizes reinforcement learning by smoothing reward signals and using group-based Monte Carlo rollouts, improving training robustness without requiring a critic model."
-          },
-          {
-            "icon": "📉",
-            "text": "LLMol maintains high chemical diversity (0.893) close to the LIMO baseline (0.914) despite reinforcement learning optimization, indicating RLVR does not compromise exploration of molecular space."
-          }
-        ],
-        "overview": "LLMol addresses the challenge of aligning molecular generation with complex chemical objectives by framing molecular design as a goal-conditioned sequence prediction problem. It first fine-tunes a large language model (Qwen-3, 4B parameters) on molecular string data (simplified SELFIES) to learn chemical syntax and distributions. Subsequently, it applies Reinforcement Learning with Verifiable Rewards (RLVR) to directly optimize property-based reward functions, such as penalized logP and QED, using Group Relative Policy Optimization (GRPO) to reduce variance and stabilize training. This two-stage approach enables precise control over molecular properties while preserving validity, novelty, and diversity. Experiments on the ZINC250K dataset demonstrate that LLMol significantly outperforms diverse baselines across multiple molecular generation tasks, achieving higher success rates and efficiency. The framework’s use of verifiable, deterministic rewards and stable policy optimization represents a principled advancement in LLM-driven molecular design.",
-        "methodology": [
-          {
-            "title": "Molecule Representation",
-            "detail": "LLMol adopts a simplified SELFIES molecular string representation that removes square brackets and inserts spaces between semantic units, reducing token length and vocabulary complexity to improve LLM tokenization efficiency and modeling."
-          },
-          {
-            "title": "Supervised Fine-Tuning (SFT)",
-            "detail": "The base Qwen-3 4B parameter LLM is fine-tuned on over 200,000 molecules from ZINC250K using LoRA to reduce trainable parameters. The objective is to learn chemical syntax and molecular distributions, enabling valid and novel molecule generation."
-          },
-          {
-            "title": "Reinforcement Learning with Verifiable Rewards (RLVR)",
-            "detail": "RLVR integrates explicit property-based reward functions computed via RDKit to guide molecular generation toward task-specific objectives. The policy is optimized using GRPO, an on-policy algorithm that uses group-based Monte Carlo rollouts and reward whitening to stabilize training."
-          },
-          {
-            "title": "Group Relative Policy Optimization (GRPO)",
-            "detail": "GRPO estimates relative advantages by comparing grouped rollout returns, avoiding the need for a critic model. It standardizes rewards through whitening and supports deterministic verifiable rewards, improving stability and exploration in discrete sequence optimization."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Reward-Driven Goal-Conditioned Sequence Prediction",
-            "detail": "Molecular generation is formulated as a goal-conditioned sequence prediction task where the LLM generates molecular strings conditioned on desired property values. Verifiable reward functions provide explicit supervision signals to guide the policy toward molecules satisfying these properties."
-          },
-          {
-            "title": "No Explicit Mechanistic Equations Provided",
-            "detail": "The paper does not present formal mechanistic equations or causal models but describes the use of verifiable reward functions and policy optimization algorithms to achieve property alignment."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Supervised Fine-Tuning Evaluation on ZINC250K",
-            "detail": "LLMol’s SFT stage is evaluated on validity, novelty, and diversity metrics against baselines such as JT-VAE, LIMO, and MOLGEN, achieving 100% validity and novelty, and competitive diversity (0.8473)."
-          },
-          {
-            "title": "LogP Targeting Task",
-            "detail": "LLMol is evaluated on generating molecules within a narrow logP range, achieving a 46.91% success rate compared to 0.46% for SFT-only and outperforming prior methods, while maintaining high diversity (0.893)."
-          },
-          {
-            "title": "QED and Penalized logP Maximization",
-            "detail": "LLMol optimizes drug-likeness metrics (QED and penalized logP) using RLVR, outperforming baselines in maximum scores and efficiency, with training times significantly reduced (2 hours for LLMol vs. up to 30 hours for others)."
-          },
-          {
-            "title": "Similarity-Constrained Optimization",
-            "detail": "LLMol demonstrates the ability to improve molecular properties while preserving structural similarity to known compounds, validating its applicability to constrained molecular design tasks."
-          }
-        ],
-        "findings": [
-          {
-            "title": "RLVR Significantly Improves Property Targeting",
-            "detail": "In logP targeting, RL-augmented LLMol achieves a 46.91% success rate, a 100x improvement over supervised fine-tuning alone (0.46%), demonstrating the effectiveness of verifiable reward integration."
-          },
-          {
-            "title": "High Validity and Novelty Maintained",
-            "detail": "LLMol achieves 100% validity and novelty on ZINC250K, indicating that reinforcement learning does not degrade chemical correctness or exploration of novel molecules."
-          },
-          {
-            "title": "Training Efficiency Gains",
-            "detail": "LLMol completes reinforcement learning training in approximately 2 hours, substantially faster than several baselines requiring up to 30 hours, highlighting the efficiency of GRPO and LoRA parameter reduction."
-          },
-          {
-            "title": "Diversity Preservation",
-            "detail": "Despite optimization for specific properties, LLMol maintains a high diversity score (0.893), close to the LIMO baseline (0.914), ensuring broad chemical space exploration."
-          }
-        ],
-        "contributions": [
-          "Proposed LLMol, a two-stage molecular generation framework combining supervised fine-tuning and reinforcement learning with verifiable rewards.",
-          "Introduced Reinforcement Learning with Verifiable Rewards (RLVR) to directly optimize property-based reward functions in molecular generation.",
-          "Developed Group Relative Policy Optimization (GRPO), a stable on-policy RL algorithm that smooths reward signals and avoids critic models.",
-          "Demonstrated state-of-the-art performance on multiple molecular design tasks including logP targeting, QED maximization, and similarity-constrained optimization.",
-          "Adopted a simplified SELFIES representation to improve tokenization efficiency for LLM-based molecular modeling."
-        ],
-        "limitations": [
-          "Lack of ablation studies isolating the impact of GRPO and reward design on final performance.",
-          "Limited evaluation on multi-property or multi-objective optimization beyond single-property and similarity constraints.",
-          "No detailed analysis of failure modes or robustness to noisy or conflicting reward signals.",
-          "Absence of mechanistic or theoretical analysis explaining why GRPO outperforms other RL algorithms in this context."
-        ],
-        "open_questions": [
-          "How does LLMol perform on multi-objective molecular optimization tasks involving conflicting property constraints?",
-          "Can the GRPO algorithm be generalized or adapted to other discrete sequence generation domains beyond molecular design?",
-          "What are the effects of different verifiable reward function designs on the stability and convergence of RLVR?",
-          "How robust is LLMol to noisy or approximate reward signals derived from imperfect property predictors?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "robustness",
-          "fine-tuning",
-          "training"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-22T12:03:09.506272+00:00"
-    },
-    {
       "id": "2607.20410",
       "title": "LKValues: Aligning Large Language Models with Sri Lankan Societal Values",
       "abstract": "Value alignment of Large Language Models (LLMs) has been shown to be culturally biased toward Western norms. This results in the mishandling of local values in multilingual societies such as Sri Lanka that have their unique cultural dynamics. Existing benchmarks overlook Sri Lankan-contextualized values in its official language Sinhala, hindering culturally sensitive evaluation and fine-tuning. To bridge this gap, we propose LKValues, the first survey-grounded resource suite for Sri Lankan value alignment. From a trilingual survey of 205 respondents, blending adapted global frameworks and LLM-elicited local constructs, we derive 40 majority-endorsed societal values. Using these values, we construct LKvaluesIT, a Sinhala-English news-derived instruction corpus containing 150k scenario-based instances, and LKvaluesBench, a value-sensitive evaluation benchmark of 1,000 instances. We evaluate a set of proprietary and open-weight LLMs with LKvaluesBench. We fine-tune three open-weight base models (Qwen3.5-4B-Base, Qwen3.5-9B-Base, and Aya-Expanse-8B-Base). Our experiments show that newer and larger LLMs still exhibit low-resource and cultural value-alignment gaps. LKValues fine-tuning improves Qwen-family models in English and Sinhala, reducing invalid outputs and cross-lingual disparities, though gains remain model-family dependent. These highlight LKValues efficacy in embedding Sri Lankan values, offering a replicable pipeline for low-resource, country-specific pluralist value alignment. The dataset is publicly available at https://github.com/NextME14/LKValues.",
@@ -1260,6 +907,546 @@
         "lane": "llm"
       },
       "recommended_at": "2026-07-23T12:02:13.960325+00:00"
+    },
+    {
+      "id": "2607.25987",
+      "title": "\\textsc{IH-Benchmark}: A Conflict-Centered Benchmark for Instruction-Hierarchy Robustness in LLM Applications",
+      "abstract": "When a language model receives conflicting instructions from different priority levels, which one does it actually follow? This question lies at the heart of reliable LLM deployment. Existing benchmarks answer this only partially, often focusing on a single hierarchy edge or adapting public datasets with limited tool-use coverage. We present IH-Benchmark, a conflict-centered benchmark for instruction-hierarchy robustness across direct system-user conflicts (S>U) and tool-mediated user-tool (U>T) conflicts. IH-Benchmark is built from a human-authored taxonomy of 44 constraint families across generic, health, finance, retail, and coding settings, and evaluates scenarios with a uniform binary pass/fail protocol combining a predicate DSL with category-scoped LLM judges. Across 37 evaluated models, hierarchy compliance ranges from 98.2% to 20.5%. We find that strong S>U compliance is not a reliable proxy for U>T robustness: several models preserve system constraints under direct user conflict but degrade sharply when conflicting instructions appear in tool outputs. Constraint hardening also reveals a split between models: some failures are largely fixed by stronger warnings, while others persist across all strictness levels. Finally, the most revealing failures are often subtle rather than overtly dangerous; models resist unauthorized purchases or bulk ticket closure more reliably than injected disclaimers or small factual distortions. These results suggest that instruction-hierarchy robustness is not a single capability, but a set of behaviors that must be evaluated across conflict surfaces, constraint types, and attack presentations.",
+      "authors": [
+        "Conor McCauley",
+        "Zeliang Kan",
+        "Jason Martin"
+      ],
+      "published": "2026-07-28T17:06:13Z",
+      "updated": "2026-07-28T17:06:13Z",
+      "categories": [
+        "cs.CR",
+        "cs.SE"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2607.25987v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.25987v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "language model",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.5126,
+          "matched": [
+            "robustness",
+            "llm",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5,
+        "relevance": 0.4101,
+        "quality": 0.52,
+        "novelty": 0.852,
+        "freshness": 0.8855
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Instruction-hierarchy robustness in LLMs is a multifaceted capability that varies significantly across conflict surfaces, constraint types, and models, with strong system-user compliance not guaranteeing robustness against user-tool conflicts.",
+        "problem": "Existing benchmarks inadequately evaluate LLMs' ability to follow conflicting instructions across multiple hierarchy levels, especially in agentic settings involving tool-mediated conflicts.",
+        "method": "IH-Benchmark (IH-B) is a procedurally generated benchmark with 2,336 scenarios across 44 constraint families, evaluating instruction-hierarchy robustness on system-user (S ≻ U) and user-tool (U ≻ T) conflicts using a binary pass/fail protocol with predicate DSL and LLM judges.",
+        "evidence": "Evaluation of 37 model variants shows compliance rates ranging from 98.2% to 20.5%, with models often robust on S ≻ U conflicts but significantly less so on U ≻ T conflicts, and varying performance across constraint types and strictness levels.",
+        "limitations": "IH-B focuses on bounded single-task scenarios and selected domains, lacking coverage of longer multi-turn interactions and broader domain diversity, with most constraint families hand-authored and not exhaustive.",
+        "why_for_you": "IH-B provides a comprehensive, conflict-centered evaluation framework critical for assessing and improving trustworthy LLM behavior in hierarchical instruction-following, especially in complex agentic and tool-using deployments.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Across 37 evaluated LLM variants, instruction-hierarchy compliance varies widely from 98.2% to 20.5%, demonstrating that robustness is highly model-dependent and not uniform across hierarchy conflict surfaces."
+          },
+          {
+            "icon": "🛡️",
+            "text": "IH-B uses a uniform binary pass/fail evaluation combining a predicate domain-specific language (DSL) with category-scoped LLM judges to systematically assess compliance with 44 human-authored constraint families across system-user and user-tool conflict tracks."
+          },
+          {
+            "icon": "📉",
+            "text": "Models that maintain strong compliance in direct system-user conflicts (S ≻ U) often degrade sharply in user-tool conflicts (U ≻ T), indicating that robustness in one conflict surface is not a reliable proxy for overall instruction-hierarchy robustness."
+          }
+        ],
+        "overview": "The paper addresses the critical challenge of instruction-hierarchy robustness in large language models, focusing on how models resolve conflicting instructions from different priority levels, such as system prompts, user inputs, and tool outputs. Existing benchmarks inadequately cover this problem, often focusing on a single hierarchy edge or adapting datasets without agentic tool-use scenarios. IH-Benchmark (IH-B) introduces a comprehensive, procedurally generated suite of 2,336 executable scenarios spanning 44 constraint families across generic and domain-specific settings. It evaluates two conflict tracks: system prompt versus user prompt (S ≻ U) and user input versus tool output (U ≻ T), using a binary pass/fail protocol with predicate DSL and LLM judges. The evaluation of 37 models reveals substantial variability in hierarchy compliance, with strong S ≻ U robustness not reliably predicting U ≻ T robustness. Compliance also varies by constraint type, instruction explicitness, and conflict phrasing, suggesting no single general mechanism for hierarchy conflict resolution. These findings highlight instruction-hierarchy robustness as a set of behaviors requiring multi-dimensional evaluation, informing safer and more reliable LLM deployment.",
+        "methodology": [
+          {
+            "title": "Scenario Generation",
+            "detail": "IH-B procedurally generates 2,336 executable scenarios from a human-authored taxonomy of 44 constraint families spanning generic, health, finance, retail, and coding domains. Scenarios are organized into two tracks: system prompt versus user prompt (S ≻ U) and user input versus tool output (U ≻ T), enabling targeted evaluation of instruction conflicts across hierarchy levels."
+          },
+          {
+            "title": "Evaluation Protocol",
+            "detail": "A uniform binary pass/fail protocol is employed, combining a predicate domain-specific language (DSL) to specify constraint compliance and category-scoped LLM judges to assess model outputs. This approach standardizes evaluation across diverse scenarios and constraint types."
+          },
+          {
+            "title": "Model Evaluation Setup",
+            "detail": "37 model variants were evaluated using LiteLLM, routing inference through APIs from OpenAI, Amazon Bedrock, xAI, and TogetherAI, with some self-hosted models served via vLLM on AWS EC2. Each scenario was executed once per model to measure hierarchy compliance."
+          },
+          {
+            "title": "Constraint Hardening",
+            "detail": "The benchmark includes varying strictness levels (L1-L3) for constraints, enabling analysis of model robustness under increasing constraint severity and revealing differences in model failure modes and sensitivity to warnings."
+          },
+          {
+            "title": "Agentic and Tool-Mediated Evaluation",
+            "detail": "IH-B integrates stateful agent simulators to evaluate hierarchy-following behavior in static, tool-mediated, and agentic settings, capturing realistic multi-turn and tool interaction dynamics within bounded single-task scenarios."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Instruction Hierarchy Conflict Resolution",
+            "detail": "No explicit mechanistic or causal model is provided; the paper empirically demonstrates that instruction-hierarchy robustness is not governed by a single general mechanism but is a composite of behaviors varying by conflict surface, constraint type, and instruction phrasing."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Model Compliance Evaluation",
+            "detail": "37 LLM variants, including Claude Opus 4.6, GPT 5.4, Gemma 4 31B, and Llama 4 Scout 17B, were evaluated on IH-B's 2,336 scenarios. Compliance rates ranged from 98.2% to 20.5%, with detailed breakdowns by track (S ≻ U and U ≻ T), domain, and constraint strictness levels."
+          },
+          {
+            "title": "Constraint Strictness Ablation",
+            "detail": "Compliance was measured across three constraint strictness levels (L1-L3), revealing that some models improve significantly with stronger warnings, while others exhibit persistent failures regardless of strictness."
+          },
+          {
+            "title": "Cross-Track Robustness Analysis",
+            "detail": "The study compared model performance on system-user conflicts versus user-tool conflicts, finding that strong S ≻ U compliance does not reliably predict U ≻ T robustness, highlighting the need for multi-surface evaluation."
+          },
+          {
+            "title": "Domain-Specific Performance",
+            "detail": "Performance varied across domains such as health, finance, retail, and coding, with some constraint families showing higher compliance and others revealing subtle failure modes like injected disclaimers or factual distortions."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Wide Variability in Hierarchy Compliance",
+            "detail": "Instruction-hierarchy compliance across 37 models ranged from 98.2% to 20.5%, demonstrating significant variability in model robustness to conflicting instructions."
+          },
+          {
+            "title": "S ≻ U Robustness Does Not Predict U ≻ T Robustness",
+            "detail": "Models that maintain system constraints under direct user conflict often degrade sharply when conflicting instructions appear in tool outputs, indicating distinct robustness challenges across conflict surfaces."
+          },
+          {
+            "title": "Constraint Hardening Reveals Model Splits",
+            "detail": "Some models' failures are largely mitigated by stronger warnings (higher strictness), while others persist across all strictness levels, indicating heterogeneous failure modes."
+          },
+          {
+            "title": "Subtle Failures More Revealing Than Overt Ones",
+            "detail": "Models resist overtly dangerous instructions like unauthorized purchases more reliably than subtle injected disclaimers or small factual distortions, suggesting nuanced vulnerabilities."
+          },
+          {
+            "title": "No Single General Mechanism for Hierarchy Resolution",
+            "detail": "Compliance rates vary by constraint type, instruction explicitness, and conflict phrasing, indicating that current LLMs lack a unified approach to resolving instruction hierarchy conflicts."
+          }
+        ],
+        "contributions": [
+          "Introduction of IH-B, a procedurally created benchmark with 2,336 scenarios covering system-user and user-tool instruction hierarchy conflicts across 44 constraint families.",
+          "Development of a unified evaluation framework combining predicate DSL and category-scoped LLM judges for binary pass/fail assessment of hierarchy compliance.",
+          "Comprehensive evaluation of 37 LLM variants demonstrating non-uniform instruction-hierarchy robustness across models, conflict surfaces, and constraint types.",
+          "Release of the IH-B benchmark corpus, agent simulators, and evaluation harness to facilitate future research on instruction-hierarchy robustness.",
+          "Empirical evidence that instruction-hierarchy robustness is a composite of behaviors requiring multi-dimensional evaluation rather than a single capability."
+        ],
+        "limitations": [
+          "IH-B focuses on bounded single-task scenarios and does not cover longer multi-turn interactions where user instructions, memory, or tool state accumulate.",
+          "The benchmark covers a selected set of domains with asymmetry across tracks, limiting generalizability to broader domains and richer interaction types.",
+          "Most constraint families (35/44) were hand-authored by the authors, with the remainder suggested and filtered by GPT-5.3, so coverage is not exhaustive.",
+          "The evaluation executes each scenario once per model, which may limit statistical robustness of compliance measurements."
+        ],
+        "open_questions": [
+          "How can instruction-hierarchy robustness be extended and evaluated in longer multi-turn, memory-augmented, and dynamic agentic interactions?",
+          "What architectural or training modifications can enable LLMs to develop a unified mechanism for resolving instruction hierarchy conflicts across diverse surfaces?",
+          "How do different types of constraints and instruction phrasings influence model robustness, and can adaptive prompting or fine-tuning improve generalization?",
+          "What are effective defenses against subtle instruction-hierarchy failures such as injected disclaimers or factual distortions that current models struggle to resist?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "robustness",
+          "llm",
+          "robustness"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-29T12:20:20.242360+00:00"
+    },
+    {
+      "id": "2607.25877",
+      "title": "Runtime Uncertainty Monitoring for LLM-Based Multi-Agent Systems Using Bayesian Networks",
+      "abstract": "This paper investigates how multi-agent systems (MAS)-based on large language models (LLMs) can support actuarial risk modelling, with a particular focus on uncertainty quantification. Actuarial workflows represent a high-stakes decision-support setting where unreliable outputs may lead to incorrect risk assessment, unfair pricing, and regulatory non-compliance. To address uncertainty introduced by the probabilistic nature of LLMs and dependencies between agents, a multi-agent framework is proposed in which specialised agents perform data preparation, modelling, review, and explanation tasks under a central hub. The main contribution is a novel approach to uncertainty propagation using token-level log-probabilities and a Bayesian Network. Importantly, log probabilities are not treated as direct probabilities of correctness or task success. Instead, length-normalised log-probability summaries are transformed into calibrated task-level confidence estimates before incorporation into the Bayesian Network. Results show that the framework reproduces baseline actuarial performance while providing additional insight into workflow stability and runtime uncertainty propagation.",
+      "authors": [
+        "Bart Custers",
+        "Koorosh Aslansefat"
+      ],
+      "published": "2026-07-28T15:39:43Z",
+      "updated": "2026-07-28T15:39:43Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2607.25877v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.25877v1",
+      "comment": "This paper got accepted for Ninth International Workshop on Artificial Intelligence Safety Engineering (WAISE 2026): https://www.waise.org/",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.5233,
+          "matched": [
+            "uncertainty",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.498,
+        "relevance": 0.4186,
+        "quality": 0.48,
+        "novelty": 0.86,
+        "freshness": 0.8769
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "reproducibility"
+      ],
+      "summary": {
+        "takeaway": "A novel runtime uncertainty-monitoring framework for LLM-based multi-agent actuarial systems uses calibrated token-level log-probabilities combined with a Bayesian Network to propagate and interpret uncertainty across workflow stages.",
+        "problem": "Uncertainty and error propagation in LLM-based multi-agent actuarial workflows risk incorrect risk assessment, unfair pricing, and regulatory non-compliance due to lack of transparency and error traceability.",
+        "method": "The framework employs specialized agents coordinated by a central hub, transforming length-normalized token log-probabilities into calibrated confidence estimates incorporated into a Bayesian Network modeling dependencies between agents and workflow stages.",
+        "evidence": "Results demonstrate that the multi-agent system reproduces baseline actuarial performance while providing additional insights into workflow stability and runtime uncertainty propagation, with effectiveness varying by LLM backend.",
+        "limitations": "The Bayesian Network abstracts workflow dependencies without modeling execution sequence, task priority, iterative revisions, or feedback loops, limiting dynamic uncertainty representation.",
+        "why_for_you": "This approach offers a structured, interpretable uncertainty quantification method for trustworthy LLM-based multi-agent systems in high-stakes actuarial risk modeling, addressing transparency and safety concerns.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Calibrated length-normalized token-level log-probabilities are transformed into task-level confidence estimates, enabling uncertainty quantification that does not treat log probabilities as direct correctness probabilities."
+          },
+          {
+            "icon": "🛡️",
+            "text": "A centralized multi-agent system architecture with specialized agents for data preparation, modeling, reviewing, and explanation is coordinated via a central hub that manages workflow oversight and error handling."
+          },
+          {
+            "icon": "📉",
+            "text": "The Bayesian Network explicitly models dependencies between agent outputs as nodes and edges, allowing structured uncertainty propagation and identification of weak workflow points requiring human review."
+          }
+        ],
+        "overview": "This paper addresses the challenge of uncertainty quantification and error propagation in LLM-based multi-agent systems applied to actuarial risk modeling, a high-stakes domain requiring transparency and reliability. The authors propose a centralized multi-agent framework where specialized agents perform distinct actuarial tasks coordinated by a central hub. The key innovation lies in leveraging token-level log-probabilities from LLM outputs, which are length-normalized and calibrated into task-level confidence scores. These confidence estimates feed into a Bayesian Network that models dependencies between agents and workflow stages, enabling structured uncertainty propagation across the entire workflow rather than isolated agent assessments. Experimental results show that this approach maintains baseline actuarial performance while providing additional insights into workflow stability and runtime uncertainty behavior. The framework supports multiple open-source LLM backends, revealing backend-dependent differences in error detection and uncertainty dynamics. Limitations include the Bayesian Network's static abstraction of workflow dependencies without modeling iterative revisions or feedback loops. Overall, the work contributes a novel, interpretable runtime uncertainty monitoring mechanism tailored for trustworthy LLM-based actuarial multi-agent systems.",
+        "methodology": [
+          {
+            "title": "Multi-Agent System Architecture",
+            "detail": "A centralized star topology coordinates four specialized agents—Data Preparation, Modelling, Reviewing, and Explanation—via a Central Hub that routes tasks and manages workflow oversight, avoiding direct agent-to-agent communication to enable controlled error handling and revision."
+          },
+          {
+            "title": "Token-Level Log-Probability Extraction and Calibration",
+            "detail": "Autoregressive LLM outputs generate token-level log-probabilities which are length-normalized and transformed into calibrated task-level confidence estimates, avoiding naive interpretation of log-probabilities as direct correctness probabilities."
+          },
+          {
+            "title": "Bayesian Network for Uncertainty Propagation",
+            "detail": "A Bayesian Network models dependencies between agent outputs as nodes and edges, incorporating calibrated confidence estimates as evidence to propagate uncertainty through the workflow and identify weak points."
+          },
+          {
+            "title": "Concept Alignment and Fairness Assessment",
+            "detail": "The Explanation Agent evaluates internal beliefs using Testing with Concept Activation Vectors and assesses fairness via group-level comparisons of predicted versus observed outcomes on sensitive attributes such as age and population density."
+          },
+          {
+            "title": "LLM Backend Integration",
+            "detail": "The framework supports three open-source decoder-only transformer models—Llama 2 7B, Llama 3.1 8B, and Qwen2.5 7B—selected for local execution efficiency, enabling evaluation of backend-dependent uncertainty and error detection behavior."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Uncertainty Propagation via Bayesian Network",
+            "detail": "The Bayesian Network explicitly encodes dependencies between agent decisions as nodes and edges, allowing structured propagation of calibrated confidence estimates derived from token-level log-probabilities across workflow stages. This enables runtime monitoring of uncertainty accumulation and identification of unsafe workflow states. No explicit equations or causal models beyond the Bayesian Network structure are provided."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Actuarial Workflow Performance Evaluation",
+            "detail": "The multi-agent system was evaluated on actuarial risk modeling tasks, reproducing baseline performance while providing additional uncertainty insights. The evaluation involved comparing outputs across three LLM backends (Llama 2 7B, Llama 3.1 8B, Qwen2.5 7B) using metrics related to error detection, adaptability, and uncertainty behavior."
+          },
+          {
+            "title": "Uncertainty Distribution Analysis",
+            "detail": "Uncertainty outcomes from test scenarios were compared between original and perturbed datasets using the Qwen backend, illustrating the framework's ability to detect distributional shifts and runtime uncertainty variations."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Calibrated Log-Probability Confidence Enables Uncertainty Quantification",
+            "detail": "Transforming length-normalized token log-probabilities into calibrated confidence estimates allows meaningful uncertainty quantification that avoids misinterpretation of raw log-probabilities as correctness probabilities."
+          },
+          {
+            "title": "Bayesian Network Captures Workflow Dependencies and Uncertainty Propagation",
+            "detail": "Modeling agent outputs and their dependencies as a Bayesian Network provides structured uncertainty propagation, enabling identification of weak workflow points and unsafe states requiring human intervention."
+          },
+          {
+            "title": "Multi-Agent System Maintains Baseline Actuarial Performance",
+            "detail": "The MAS reproduces baseline actuarial modeling accuracy while adding runtime uncertainty insights, demonstrating practical viability in high-stakes insurance workflows."
+          },
+          {
+            "title": "LLM Backend Choice Affects Uncertainty and Error Detection",
+            "detail": "Differences in error detection, adaptability, and uncertainty behavior were observed across the three LLM backends, indicating backend-dependent effectiveness of the uncertainty monitoring framework."
+          }
+        ],
+        "contributions": [
+          "A novel uncertainty propagation approach combining calibrated token-level log-probabilities with a Bayesian Network in LLM-based multi-agent actuarial workflows.",
+          "A centralized multi-agent system architecture with specialized agents and a central hub enabling controlled workflow oversight and error handling.",
+          "Integration of concept alignment and fairness assessments within the Explanation Agent to support transparency and regulatory compliance.",
+          "Empirical demonstration that the framework reproduces baseline actuarial performance while providing additional runtime uncertainty insights.",
+          "Public release of Python implementation, datasets, and evaluation notebooks to support reproducibility."
+        ],
+        "limitations": [
+          "The Bayesian Network abstracts workflow dependencies as a directed acyclic graph without modeling execution sequence, task priority, iterative revisions, or feedback loops.",
+          "The framework currently does not distinguish intrinsic versus extrinsic uncertainty, limiting granularity of uncertainty source identification.",
+          "Effectiveness depends on the selected LLM backend, with observed variability in error detection and uncertainty behavior.",
+          "No explicit modeling of temporal dynamics or iterative repair cycles; dynamic Bayesian Networks are proposed as future work."
+        ],
+        "open_questions": [
+          "How can dynamic Bayesian Networks be integrated to capture temporal behavior and iterative repair cycles in multi-agent workflows?",
+          "What methods can effectively distinguish intrinsic from extrinsic uncertainty within LLM-based multi-agent systems?",
+          "How can the framework be extended to explicitly model execution sequence, task priority, and feedback loops for more accurate uncertainty propagation?",
+          "What are the implications of LLM backend variability on uncertainty quantification robustness and how can backend selection be optimized?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "uncertainty",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-29T12:20:20.242360+00:00"
+    },
+    {
+      "id": "2607.26001",
+      "title": "Sharpness-Aware Minimization and Muon: Robustness under the Spectral Norm",
+      "abstract": "Sharpness-Aware Minimization (SAM) aims to improve generalization by encouraging insensitivity to small, worst-case parameter perturbations. However, the notion of a \"small\" perturbation is inherently geometry-dependent: while existing SAM variants have explored a wide range of choices, a clear perspective on which geometries are most effective in practice remains elusive. Recent work on matrix-aware optimization, particularly the Muon optimizer, suggests that respecting the matrix structure of hidden-layer weights can lead to strong empirical performance. Motivated by this, we study matrix-aware geometry in both stages of SAM: we introduce a layerwise spectral inner perturbation for matrix-valued hidden-layer parameters and combine it with either AdamW/SGDW or Muon in the outer update. Across ImageNet-1K experiments on ViT-Small/16 and ResNet-50, we find that the combination of a spectral inner step with a Muon outer step performs consistently strongly, achieving the best validation accuracy on both models among the evaluated methods.",
+      "authors": [
+        "Wenzhi Zhong",
+        "Edward Milsom",
+        "Michael Murray"
+      ],
+      "published": "2026-07-28T17:18:11Z",
+      "updated": "2026-07-28T17:18:11Z",
+      "categories": [
+        "cs.LG",
+        "stat.ML"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2607.26001v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.26001v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "transferable",
+      "scope_matches": [
+        "sharpness"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "core",
+          "score": 0.4086,
+          "matched": [
+            "sharpness",
+            "sharpness",
+            "geometry",
+            "parameter perturbation",
+            "optimizer"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.259,
+          "matched": [
+            "robustness",
+            "perturbation"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.2003,
+          "matched": [
+            "robustness",
+            "robustness"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.1149,
+          "matched": [
+            "generalization",
+            "generalization",
+            "optimization"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4941,
+        "relevance": 0.4187,
+        "quality": 0.47,
+        "novelty": 0.8362,
+        "freshness": 0.8867
+      },
+      "quality_signals": [
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Combining a spectral norm-based inner perturbation with the Muon optimizer as the outer update in Sharpness-Aware Minimization (SAM) yields superior validation accuracy on ImageNet-1K for ViT-Small/16 and ResNet-50.",
+        "problem": "Existing SAM variants lack a clear understanding of which perturbation geometries most effectively improve generalization, especially regarding matrix-aware spectral norms.",
+        "method": "The paper introduces a layerwise spectral inner perturbation for matrix-valued parameters combined with either AdamW/SGDW or Muon optimizers in the outer step to study spectral geometry effects in SAM.",
+        "evidence": "ImageNet-1K experiments show that spectral inner perturbations paired with Muon outperform Euclidean perturbations and AdamW outer steps, achieving up to 80.23% top-1 accuracy on ViT-Small/16.",
+        "limitations": "The study does not provide a differentiable selection for the spectral perturbation map and relies on stop-gradient approximations, limiting theoretical analysis of second-order effects.",
+        "why_for_you": "This work advances understanding of geometry-aware adversarial perturbations in SAM and demonstrates the practical benefits of spectral norm-based optimization for robust and generalizable LLM training.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Spectral inner perturbations amplify the benefits of the Muon outer optimizer, achieving a 5.28 percentage point improvement in validation accuracy on ViT-Small/16 compared to 4.45 points with AdamW."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The method applies a layerwise spectral norm-based inner maximization step to find worst-case perturbations respecting matrix structure, combined with Muon's matrix-aware outer update that uses Newton-Schulz iterations for spectral normalization."
+          },
+          {
+            "icon": "📉",
+            "text": "CIFAR-100 diagnostics reveal that Muon maintains higher effective rank in weight matrices and features, enabling larger perturbation radii and stronger regularization, while excessive radii reduce rank and degrade validation accuracy."
+          }
+        ],
+        "overview": "The paper addresses the challenge of selecting effective perturbation geometries in Sharpness-Aware Minimization (SAM) by investigating spectral norm-based perturbations that respect the matrix structure of neural network weights. Motivated by the success of the Muon optimizer, which incorporates spectral geometry in the outer update, the authors propose combining a layerwise spectral inner perturbation with Muon or AdamW/SGDW outer optimizers. They formulate a norm-agnostic SAM framework using Fréchet differentials and dual norms to define adversarial perturbations under spectral norms. Empirical evaluation on ImageNet-1K with ViT-Small/16 and ResNet-50 shows that spectral inner steps paired with Muon yield the highest validation accuracy, outperforming Euclidean perturbations and AdamW outer steps. Additional diagnostics on CIFAR-100 demonstrate that Muon preserves higher effective rank in weights and features, supporting stronger regularization via larger perturbation radii. The work highlights the interaction between inner and outer geometries and establishes spectral geometry as a promising direction for robust optimization in deep learning.",
+        "methodology": [
+          {
+            "title": "Norm-agnostic SAM formulation",
+            "detail": "The authors generalize SAM by defining the inner perturbation step as a maximization over a unit ball of an arbitrary norm, using the Fréchet differential DL(θ) and its dual norm ∥DL(θ)∥in,* to characterize the worst-case perturbation ε*. This allows replacing the Euclidean norm with spectral norms for matrix-valued parameters."
+          },
+          {
+            "title": "Spectral inner perturbation",
+            "detail": "They introduce a layerwise spectral norm inner step that computes adversarial perturbations respecting the matrix structure of hidden-layer weights. This involves orthogonalized gradient ascent constrained by the spectral norm unit ball, approximated via iterative methods."
+          },
+          {
+            "title": "Outer update with Muon optimizer",
+            "detail": "The outer step uses the Muon optimizer, which applies spectral norm-aware updates to matrix-valued parameters using Newton-Schulz iterations for spectral normalization, while non-matrix parameters are updated by AdamW or SGDW, enabling hybrid parameter routing."
+          },
+          {
+            "title": "Experimental protocol",
+            "detail": "Experiments train ViT-Small/16 for 300 epochs and ResNet-50 for 120 epochs on ImageNet-1K, tuning learning rates and perturbation radii per method. Evaluation includes Top-1 accuracy, ImageNet-ReaL, and ImageNet-R benchmarks, with multiple random seeds for robustness."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "First-order adversarial perturbation via dual norm",
+            "detail": "The mechanism defines the inner maximization in SAM as finding ε* maximizing the linearized loss increase DL(θ)[ε] subject to ∥ε∥in ≤ 1, where ∥·∥in is a chosen norm (spectral norm for matrices). The dual norm ∥DL(θ)∥in,* quantifies the worst-case directional derivative, guiding the perturbation."
+          },
+          {
+            "title": "Stop-gradient approximation",
+            "detail": "Due to non-differentiability and computational cost of the maximizer map ε*(θ), the method uses a stop-gradient approximation, evaluating the loss at θ + ρε* but ignoring the derivative of ε* with respect to θ, simplifying gradient computation during training."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "ImageNet-1K classification with ViT-Small/16 and ResNet-50",
+            "detail": "The authors evaluate SAM variants with Euclidean and spectral inner steps combined with AdamW/SGDW or Muon outer optimizers. Training uses large batch sizes, cosine learning rate schedules, and standard augmentations excluding Mixup and RandAugment to isolate optimization effects."
+          },
+          {
+            "title": "Out-of-distribution robustness on ImageNet-R",
+            "detail": "Models are evaluated on ImageNet-R, a 30k-image artistic rendition dataset, to assess generalization beyond the training distribution, showing spectral SAM with Muon achieves top performance, though differences are not statistically significant across seeds."
+          },
+          {
+            "title": "CIFAR-100 diagnostic experiments",
+            "detail": "Additional experiments on CIFAR-100 measure effective rank of weight matrices and features, and sharpness via projected gradient ascent at fixed radii, revealing that Muon maintains higher rank and that larger perturbation radii reduce sharpness and generalization gap."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Spectral inner step benefits depend on outer optimizer",
+            "detail": "Spectral inner perturbations improve validation accuracy substantially only when paired with the Muon outer optimizer, achieving 80.23% top-1 accuracy on ViT-Small/16, outperforming Euclidean inner steps and AdamW outer steps."
+          },
+          {
+            "title": "Muon optimizer maintains higher effective rank",
+            "detail": "CIFAR-100 diagnostics show Muon-based outer updates keep weight and feature effective ranks higher than AdamW-based variants, supporting stronger regularization and enabling larger perturbation radii without loss of representation capacity."
+          },
+          {
+            "title": "Spectral SAM variants achieve lower training accuracy",
+            "detail": "Spectral inner step variants reach lower training accuracy than Euclidean counterparts, suggesting that spectral geometry imposes a harsher penalty on memorization, potentially improving generalization."
+          }
+        ],
+        "contributions": [
+          "Formulation of a norm-agnostic SAM framework using Fréchet differentials and dual norms to incorporate spectral geometry.",
+          "Introduction of a layerwise spectral norm inner perturbation step respecting matrix structure in SAM.",
+          "Integration of the Muon optimizer as a spectral norm-aware outer update in SAM.",
+          "Empirical demonstration that spectral inner perturbations combined with Muon yield state-of-the-art validation accuracy on ImageNet-1K for ViT-Small/16 and ResNet-50.",
+          "Diagnostic analysis linking Muon's maintenance of high effective rank to improved robustness and generalization."
+        ],
+        "limitations": [
+          "The spectral perturbation map ε*(θ) is non-differentiable and the method uses a stop-gradient approximation, limiting theoretical understanding of second-order effects.",
+          "The study focuses on vision models and does not evaluate on large language models despite Muon's relevance there.",
+          "Out-of-distribution improvements on ImageNet-R are not statistically significant across seeds, indicating limited evidence for robustness beyond standard validation.",
+          "The method requires tuning perturbation radii and hyperparameters separately for each SAM variant, which may limit practical applicability."
+        ],
+        "open_questions": [
+          "How can differentiable spectral perturbation maps be constructed to enable exact gradient computation in spectral SAM?",
+          "What are the effects of spectral SAM variants on large language models and other non-vision architectures?",
+          "Can the interaction between inner and outer geometries be theoretically characterized to guide optimizer design?",
+          "How does spectral SAM affect adversarial robustness and calibration beyond standard accuracy metrics?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "sharpness",
+          "sharpness",
+          "geometry",
+          "parameter perturbation"
+        ],
+        "lane": "transferable"
+      },
+      "recommended_at": "2026-07-29T12:20:20.242360+00:00"
     },
     {
       "id": "2607.20219",
@@ -1963,164 +2150,6 @@
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
         "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "uncertainty",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-28T12:13:15.667980+00:00"
-    },
-    {
-      "id": "2607.24573",
-      "title": "LLM-SoccerArena: Benchmarking LLMs on Real-World Predictions in Sports",
-      "abstract": "Large language models (LLMs) increasingly support decisions about uncertain future events, yet evaluating their ability to forecast real-world outcomes remains difficult. In particular, existing benchmarks are typically static and retrospective, and therefore cannot test how information is synthesized by LLMs to predict future events under uncertainty. We introduce LLM-SoccerArena (https://llm-soccerarena.com), a prospective live benchmark that evaluates how well LLMs forecast real-world sports events before the outcomes are known. LLM-SoccerArena provides (1) a prospective live benchmark protocol, (2) a public open-source platform, and (3) a factorial benchmark design together with tournament-related questions (e.g., which team will win). LLM-SoccerArena automatically records timestamped, schema-validated forecasts of unresolved events, together with prompts, model versions, tool traces, and costs. The factorial design varies along four dimensions: (1) model version (e.g., GPT-5.5, Claude Opus 4.8); (2) information access; (3) prompting strategy, and (4) forecast horizon. We demonstrate LLM-SoccerArena through a large-scale evaluation of the 2026 FIFA World Cup, in which seven LLMs generated forecasts for all 104 matches and 15 tournament-related questions. We provide a detailed analysis of model performance across information access, prompting strategy, and forecast horizon. As a result, LLM-SoccerArena provides new evidence about the forecasting performance of state-of-the-art LLMs. For example, LLMs with web access outperform those without, but only by a small margin (i.e., a 0.023 improvement in Brier score). Overall, LLM-SoccerArena provides a flexible, open-source platform for prospective benchmarking of unresolved events. LLM-SoccerArena will be continuously updated, and can be directly applied to future national and international tournaments and league competitions.",
-      "authors": [
-        "Jonas Schröder",
-        "Jonas Schweisthal",
-        "Oliver Müller",
-        "Markus Weinmann",
-        "Stefan Feuerriegel"
-      ],
-      "published": "2026-07-27T15:38:29Z",
-      "updated": "2026-07-27T15:38:29Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2607.24573v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.24573v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4648,
-          "matched": [
-            "uncertainty",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4526,
-        "relevance": 0.3718,
-        "quality": 0.56,
-        "novelty": 0.55,
-        "freshness": 0.8775
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "open source",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "LLM-SoccerArena introduces a novel prospective benchmark for evaluating LLMs' forecasting abilities in sports.",
-        "problem": "Existing benchmarks for LLM forecasting are static and retrospective, failing to assess real-time predictive capabilities.",
-        "method": "The study employs a factorial design to evaluate LLMs across various dimensions, including model version and information access.",
-        "evidence": "In a large-scale evaluation of the 2026 FIFA World Cup, LLMs with web access showed a 0.023 improvement in Brier score over those without.",
-        "limitations": "The benchmark does not provide curated statistics or domain features beyond basic event information.",
-        "why_for_you": "This research is crucial for understanding how LLMs can be effectively utilized in real-world decision-making under uncertainty.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "LLM-SoccerArena's factorial design allows for systematic comparisons of LLM forecasts across different model versions, prompting strategies, and information access, enhancing the understanding of LLM capabilities."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The benchmark protocol records timestamped forecasts, ensuring that predictions are made before outcomes are known, thus providing a genuine assessment of forecasting ability."
-          },
-          {
-            "icon": "📉",
-            "text": "The evaluation of seven LLMs during the 2026 FIFA World Cup revealed that models with web access achieved a Brier score improvement of 0.023, indicating a slight advantage in predictive accuracy."
-          }
-        ],
-        "overview": "LLM-SoccerArena addresses the challenge of evaluating LLMs' forecasting abilities by providing a prospective live benchmark that records predictions before outcomes are known. This benchmark is designed to overcome the limitations of static, retrospective evaluations by allowing LLMs to synthesize evolving information into probabilistic judgments. The study demonstrates its effectiveness through a large-scale evaluation of the 2026 FIFA World Cup, where it captures the performance of various LLMs under different conditions, revealing insights into their predictive capabilities and the impact of information access and prompting strategies.",
-        "methodology": [
-          {
-            "title": "Prospective Live Benchmark Protocol",
-            "detail": "LLM-SoccerArena records timestamped forecasts for unresolved events, ensuring that predictions are made before outcomes are known, thus preventing artifacts from memorization."
-          },
-          {
-            "title": "Factorial Design",
-            "detail": "The benchmark varies across four dimensions: model version (e.g., GPT-5.5, Claude Opus 4.8), information access (web search vs. no web search), prompting strategy (scoreline vs. outcome probabilities), and forecast horizon (timing of predictions)."
-          },
-          {
-            "title": "Evaluation Metrics",
-            "detail": "Performance is assessed using accuracy and Brier score, allowing for a quantitative comparison of forecasting abilities across different LLMs and conditions."
-          },
-          {
-            "title": "Data Collection",
-            "detail": "The benchmark automatically collects prompts, model versions, tool traces, and costs associated with each prediction, facilitating a comprehensive analysis of LLM performance."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Information Synthesis",
-            "detail": "LLM-SoccerArena tests the ability of LLMs to synthesize evolving information into probabilistic judgments, reflecting their reasoning capabilities under uncertainty."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "2026 FIFA World Cup Evaluation",
-            "detail": "Seven LLMs generated forecasts for all 104 matches and 15 tournament-related questions, allowing for a detailed analysis of model performance across various conditions."
-          },
-          {
-            "title": "Impact of Information Access",
-            "detail": "The evaluation revealed that LLMs with web access outperformed those without, achieving a Brier score improvement of 0.023, indicating the importance of real-time information."
-          },
-          {
-            "title": "Prompting Strategies Analysis",
-            "detail": "Different prompting strategies were tested, showing that direct score predictions led to varying levels of agreement between predicted scorelines and overall match outcomes."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Performance of LLMs with Web Access",
-            "detail": "LLMs with web access achieved a Brier score improvement of 0.023 over those without, highlighting the advantage of real-time information."
-          },
-          {
-            "title": "Effectiveness of Factorial Design",
-            "detail": "The factorial design allowed for systematic comparisons, revealing that different prompting strategies significantly influenced forecasting accuracy."
-          },
-          {
-            "title": "Prospective Benchmarking Success",
-            "detail": "LLM-SoccerArena successfully recorded predictions before outcomes were known, providing a genuine assessment of LLM forecasting abilities."
-          }
-        ],
-        "contributions": [
-          "Introduces a novel prospective live benchmark for evaluating LLM forecasting abilities in sports.",
-          "Provides a public open-source platform for continuous updates and evaluations.",
-          "Establishes a factorial design for systematic comparisons of LLM performance across various conditions."
-        ],
-        "limitations": [
-          "The benchmark does not include curated statistics or domain features beyond basic event information.",
-          "Limited qualitative insights into reasoning traces or evidence from LLM-generated justifications."
-        ],
-        "open_questions": [
-          "How can LLMs be further improved to enhance their forecasting accuracy in dynamic environments?",
-          "What additional factors could be integrated into the benchmark to better assess LLM reasoning capabilities?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4o-mini",
         "schema_version": 2
       },
       "recommendation_reason": {

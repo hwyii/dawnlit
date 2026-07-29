@@ -1,6 +1,1076 @@
 {
-  "generated_at": "2026-07-28T12:13:15.667980+00:00",
+  "generated_at": "2026-07-29T12:20:20.242360+00:00",
   "papers": [
+    {
+      "id": "2607.25814",
+      "title": "Evaluation of Adversarial Robustness in Arabic Language Models",
+      "abstract": "The emergence of the recent outstanding capabilities of Arabic Language Models has opened doors for exposing their vulnerabilities. One of the major security risks associated with such Natural Language Processing models is adversarial attacks. These attacks can deceive the model into the wrong prediction, raising critical model security and safety concerns. This study aims to assess the robustness of five state-of-the-art Arabic Language Models under a distinct set of Arabic adversarial attacks applied at various levels of granularity and using different example generation strategies. We also explore a defense technique based on adversarial training to enhance model robustness. The results show that insertion of diacritics can reduce the accuracy of some models by 92% while maintaining a low perturbation distance. For word-level attacks, manipulating Arabic conjunctions preserves high semantic similarity scores, low perturbation distance, and leads to an accuracy degradation of up to 58%. For sentence-level attacks, paraphrasing proves its effectiveness by an average reduction of 76% in the victim models' performance. While adversarial training improves overall resilience, with MARBERT being the most robust and AraBERT showing the greatest relative gains, challenges persist, particularly against character-level noise. These findings highlight both the potential and limitations of current defense strategies in morphologically rich languages like Arabic.",
+      "authors": [
+        "Anwar Alajmi",
+        "Ayed Salman",
+        "Imtiaz Ahmad"
+      ],
+      "published": "2026-07-28T14:58:28Z",
+      "updated": "2026-07-28T14:58:28Z",
+      "categories": [
+        "cs.CL",
+        "cs.CR"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.25814v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.25814v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.8228,
+          "matched": [
+            "adversarial training",
+            "adversarial",
+            "robustness",
+            "robust",
+            "perturbation",
+            "training"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4986,
+          "matched": [
+            "robustness",
+            "safety",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.7047,
+        "relevance": 0.758,
+        "quality": 0.41,
+        "novelty": 0.8634,
+        "freshness": 0.8728
+      },
+      "quality_signals": [
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Adversarial attacks significantly degrade the performance of state-of-the-art Arabic language models, with character-level diacritics insertion causing up to 92% accuracy reduction, while adversarial training improves robustness but challenges remain.",
+        "problem": "Arabic language models are vulnerable to adversarial attacks at multiple granularity levels, threatening model security and reliability in critical applications.",
+        "method": "The study evaluates five Arabic language models under character-, word-, and sentence-level adversarial attacks and applies adversarial training as a defense mechanism.",
+        "evidence": "Insertion of diacritics reduced accuracy by up to 92%, word-level conjunction manipulations caused up to 58% degradation, and paraphrasing led to an average 76% performance drop; adversarial training improved resilience notably for MARBERT and AraBERT.",
+        "limitations": "Defense strategies remain less effective against character-level noise, and the study does not fully resolve robustness challenges in morphologically rich Arabic.",
+        "why_for_you": "This paper provides empirical insights into adversarial vulnerabilities and defense efficacy in Arabic LMs, informing efficient adversarial training and robustness evaluation in morphologically complex languages.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Insertion of Arabic diacritics as a character-level attack reduces AraBERT accuracy by 92%, demonstrating extreme vulnerability to subtle orthographic perturbations."
+          },
+          {
+            "icon": "🛡️",
+            "text": "Adversarial training using white-box gradient-based attacks under DistilBERT similarity constraints enhances robustness, with MARBERT showing the highest post-defense accuracy."
+          },
+          {
+            "icon": "📉",
+            "text": "Perturbation rates measured by Levenshtein distance and semantic similarity via Universal Sentence Encoder confirm that attacks maintain high semantic similarity while significantly degrading model accuracy."
+          }
+        ],
+        "overview": "This research investigates the adversarial robustness of five leading Arabic language models—MARBERT, AraBERT, CaMeLBERT, XLM-T, and mBERT—against attacks at character, word, and sentence levels. The study applies various adversarial example generation strategies, including diacritics insertion, conjunction manipulation, and paraphrasing, to evaluate model vulnerabilities. Character-level diacritics insertion causes the most severe accuracy drops, up to 92%, highlighting the sensitivity of Arabic LMs to orthographic noise. Word-level attacks that manipulate conjunctions preserve semantic similarity but degrade accuracy by up to 58%. Sentence-level paraphrasing reduces performance by an average of 76%. To mitigate these vulnerabilities, the authors implement adversarial training using gradient-based white-box attacks constrained by DistilBERT similarity, which improves robustness, especially for MARBERT and AraBERT. However, challenges persist, particularly against character-level noise, underscoring the complexity of defending morphologically rich languages like Arabic. The study employs quantitative metrics such as attack success rate, perturbation rate via Levenshtein distance, and semantic similarity measures to rigorously assess attack impact and defense efficacy.",
+        "methodology": [
+          {
+            "title": "Adversarial Attack Taxonomy and Generation",
+            "detail": "Attacks are categorized by granularity: character-level (insertions, deletions, substitutions), word/token-level (synonym replacements, grammatical violations), and sentence-level (paraphrasing, substitutions). Example generation strategies include edit-based and importance-based methods, with importance-based attacks leveraging SHAP and Word Importance Rank to identify critical tokens for perturbation."
+          },
+          {
+            "title": "Adversarial Training Defense",
+            "detail": "A vanilla adversarial training approach (A2T) is applied, generating white-box gradient-based attacks constrained by DistilBERT similarity to augment training data. This method aims to reduce computational complexity and improve model resilience by exposing models to adversarial examples during training."
+          },
+          {
+            "title": "Evaluation Metrics",
+            "detail": "Attack success rate (ASR) measures the proportion of adversarial examples causing misclassification. Perturbation rate is quantified using Levenshtein distance to capture edit operations between original and perturbed inputs. Semantic similarity is assessed via cosine similarity and Universal Sentence Encoder (USE) scores to ensure adversarial examples preserve meaning."
+          },
+          {
+            "title": "Model Selection and Baselines",
+            "detail": "Five state-of-the-art Arabic language models—MARBERT, AraBERT, CaMeLBERT, XLM-T, and mBERT—are evaluated. Baseline accuracies on clean test sets range from 87% (mBERT) to 99% (MARBERT), providing a reference for assessing adversarial impact."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "No Explicit Mechanism Provided",
+            "detail": "The paper does not present formal equations or causal mechanisms explaining adversarial vulnerability or defense efficacy beyond empirical evaluation metrics and attack taxonomies."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Character-Level Diacritics Insertion Attack",
+            "detail": "Diacritics are inserted into Arabic text inputs to create adversarial examples. Models are evaluated on accuracy degradation, perturbation rate (Levenshtein distance), and semantic similarity (USE). MARBERT shows 94% post-attack accuracy, while AraBERT accuracy drops by 92%."
+          },
+          {
+            "title": "Word-Level Conjunction Manipulation Attack",
+            "detail": "Attacks manipulate Arabic conjunctions to preserve semantic similarity and low perturbation distance. This leads to accuracy degradation up to 58% across victim models, demonstrating effective word-level adversarial strategies."
+          },
+          {
+            "title": "Sentence-Level Paraphrasing Attack",
+            "detail": "Paraphrasing techniques generate sentence-level adversarial examples, causing an average 76% reduction in model performance, highlighting the potency of semantic-level perturbations."
+          },
+          {
+            "title": "Adversarial Training Evaluation",
+            "detail": "Models undergo adversarial training using gradient-based white-box attacks with DistilBERT similarity constraints. Post-training evaluations show improved robustness, with MARBERT being the most resilient and AraBERT exhibiting the largest relative gains."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Extreme Vulnerability to Diacritics Insertion",
+            "detail": "Insertion of diacritics reduces AraBERT accuracy by 92% and CaMeLBERT by 80%, while MARBERT maintains 94% accuracy, indicating model-specific robustness differences."
+          },
+          {
+            "title": "Word-Level Attacks Preserve Semantics but Reduce Accuracy",
+            "detail": "Manipulating Arabic conjunctions maintains high semantic similarity and low perturbation distance but causes up to 58% accuracy degradation, confirming the effectiveness of word-level adversarial attacks."
+          },
+          {
+            "title": "Sentence-Level Paraphrasing Severely Impacts Performance",
+            "detail": "Paraphrasing attacks reduce victim model performance by an average of 76%, demonstrating the potency of sentence-level adversarial perturbations."
+          },
+          {
+            "title": "Adversarial Training Enhances Robustness",
+            "detail": "Adversarial training improves overall resilience, with MARBERT showing the highest robustness and AraBERT achieving the greatest relative improvement, though challenges remain against character-level noise."
+          },
+          {
+            "title": "Semantic Similarity Maintained in Adversarial Examples",
+            "detail": "High cosine similarity and USE scores indicate that adversarial examples preserve semantic content despite causing significant accuracy drops."
+          }
+        ],
+        "contributions": [
+          "Comprehensive evaluation of five state-of-the-art Arabic language models under multi-granularity adversarial attacks.",
+          "Demonstration of severe vulnerability of Arabic LMs to character-level diacritics insertion attacks.",
+          "Application and assessment of adversarial training defense improving robustness, especially for MARBERT and AraBERT.",
+          "Use of semantic similarity metrics alongside perturbation measures to validate adversarial example quality.",
+          "Highlighting persistent challenges in defending morphologically rich languages like Arabic against character-level noise."
+        ],
+        "limitations": [
+          "Defense strategies remain less effective against character-level noise such as diacritics insertion.",
+          "The study does not explore multi-level or combined adversarial attacks in depth.",
+          "Limited discussion on the computational cost and scalability of adversarial training for large Arabic LMs.",
+          "No formal mechanistic explanation or theoretical modeling of adversarial vulnerabilities is provided."
+        ],
+        "open_questions": [
+          "How can defense mechanisms be improved to effectively counter character-level adversarial noise in morphologically rich languages?",
+          "What are the trade-offs between robustness and computational efficiency in adversarial training for Arabic LMs?",
+          "Can multi-level adversarial attacks combining character, word, and sentence perturbations reveal new vulnerabilities?",
+          "How do dialectal variations in Arabic affect adversarial robustness and defense strategies?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "adversarial training",
+          "adversarial",
+          "robustness",
+          "robust"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-29T12:20:20.242360+00:00"
+    },
+    {
+      "id": "2607.25877",
+      "title": "Runtime Uncertainty Monitoring for LLM-Based Multi-Agent Systems Using Bayesian Networks",
+      "abstract": "This paper investigates how multi-agent systems (MAS)-based on large language models (LLMs) can support actuarial risk modelling, with a particular focus on uncertainty quantification. Actuarial workflows represent a high-stakes decision-support setting where unreliable outputs may lead to incorrect risk assessment, unfair pricing, and regulatory non-compliance. To address uncertainty introduced by the probabilistic nature of LLMs and dependencies between agents, a multi-agent framework is proposed in which specialised agents perform data preparation, modelling, review, and explanation tasks under a central hub. The main contribution is a novel approach to uncertainty propagation using token-level log-probabilities and a Bayesian Network. Importantly, log probabilities are not treated as direct probabilities of correctness or task success. Instead, length-normalised log-probability summaries are transformed into calibrated task-level confidence estimates before incorporation into the Bayesian Network. Results show that the framework reproduces baseline actuarial performance while providing additional insight into workflow stability and runtime uncertainty propagation.",
+      "authors": [
+        "Bart Custers",
+        "Koorosh Aslansefat"
+      ],
+      "published": "2026-07-28T15:39:43Z",
+      "updated": "2026-07-28T15:39:43Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2607.25877v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.25877v1",
+      "comment": "This paper got accepted for Ninth International Workshop on Artificial Intelligence Safety Engineering (WAISE 2026): https://www.waise.org/",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.5233,
+          "matched": [
+            "uncertainty",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.498,
+        "relevance": 0.4186,
+        "quality": 0.48,
+        "novelty": 0.86,
+        "freshness": 0.8769
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "reproducibility"
+      ],
+      "summary": {
+        "takeaway": "A novel runtime uncertainty-monitoring framework for LLM-based multi-agent actuarial systems uses calibrated token-level log-probabilities combined with a Bayesian Network to propagate and interpret uncertainty across workflow stages.",
+        "problem": "Uncertainty and error propagation in LLM-based multi-agent actuarial workflows risk incorrect risk assessment, unfair pricing, and regulatory non-compliance due to lack of transparency and error traceability.",
+        "method": "The framework employs specialized agents coordinated by a central hub, transforming length-normalized token log-probabilities into calibrated confidence estimates incorporated into a Bayesian Network modeling dependencies between agents and workflow stages.",
+        "evidence": "Results demonstrate that the multi-agent system reproduces baseline actuarial performance while providing additional insights into workflow stability and runtime uncertainty propagation, with effectiveness varying by LLM backend.",
+        "limitations": "The Bayesian Network abstracts workflow dependencies without modeling execution sequence, task priority, iterative revisions, or feedback loops, limiting dynamic uncertainty representation.",
+        "why_for_you": "This approach offers a structured, interpretable uncertainty quantification method for trustworthy LLM-based multi-agent systems in high-stakes actuarial risk modeling, addressing transparency and safety concerns.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Calibrated length-normalized token-level log-probabilities are transformed into task-level confidence estimates, enabling uncertainty quantification that does not treat log probabilities as direct correctness probabilities."
+          },
+          {
+            "icon": "🛡️",
+            "text": "A centralized multi-agent system architecture with specialized agents for data preparation, modeling, reviewing, and explanation is coordinated via a central hub that manages workflow oversight and error handling."
+          },
+          {
+            "icon": "📉",
+            "text": "The Bayesian Network explicitly models dependencies between agent outputs as nodes and edges, allowing structured uncertainty propagation and identification of weak workflow points requiring human review."
+          }
+        ],
+        "overview": "This paper addresses the challenge of uncertainty quantification and error propagation in LLM-based multi-agent systems applied to actuarial risk modeling, a high-stakes domain requiring transparency and reliability. The authors propose a centralized multi-agent framework where specialized agents perform distinct actuarial tasks coordinated by a central hub. The key innovation lies in leveraging token-level log-probabilities from LLM outputs, which are length-normalized and calibrated into task-level confidence scores. These confidence estimates feed into a Bayesian Network that models dependencies between agents and workflow stages, enabling structured uncertainty propagation across the entire workflow rather than isolated agent assessments. Experimental results show that this approach maintains baseline actuarial performance while providing additional insights into workflow stability and runtime uncertainty behavior. The framework supports multiple open-source LLM backends, revealing backend-dependent differences in error detection and uncertainty dynamics. Limitations include the Bayesian Network's static abstraction of workflow dependencies without modeling iterative revisions or feedback loops. Overall, the work contributes a novel, interpretable runtime uncertainty monitoring mechanism tailored for trustworthy LLM-based actuarial multi-agent systems.",
+        "methodology": [
+          {
+            "title": "Multi-Agent System Architecture",
+            "detail": "A centralized star topology coordinates four specialized agents—Data Preparation, Modelling, Reviewing, and Explanation—via a Central Hub that routes tasks and manages workflow oversight, avoiding direct agent-to-agent communication to enable controlled error handling and revision."
+          },
+          {
+            "title": "Token-Level Log-Probability Extraction and Calibration",
+            "detail": "Autoregressive LLM outputs generate token-level log-probabilities which are length-normalized and transformed into calibrated task-level confidence estimates, avoiding naive interpretation of log-probabilities as direct correctness probabilities."
+          },
+          {
+            "title": "Bayesian Network for Uncertainty Propagation",
+            "detail": "A Bayesian Network models dependencies between agent outputs as nodes and edges, incorporating calibrated confidence estimates as evidence to propagate uncertainty through the workflow and identify weak points."
+          },
+          {
+            "title": "Concept Alignment and Fairness Assessment",
+            "detail": "The Explanation Agent evaluates internal beliefs using Testing with Concept Activation Vectors and assesses fairness via group-level comparisons of predicted versus observed outcomes on sensitive attributes such as age and population density."
+          },
+          {
+            "title": "LLM Backend Integration",
+            "detail": "The framework supports three open-source decoder-only transformer models—Llama 2 7B, Llama 3.1 8B, and Qwen2.5 7B—selected for local execution efficiency, enabling evaluation of backend-dependent uncertainty and error detection behavior."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Uncertainty Propagation via Bayesian Network",
+            "detail": "The Bayesian Network explicitly encodes dependencies between agent decisions as nodes and edges, allowing structured propagation of calibrated confidence estimates derived from token-level log-probabilities across workflow stages. This enables runtime monitoring of uncertainty accumulation and identification of unsafe workflow states. No explicit equations or causal models beyond the Bayesian Network structure are provided."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Actuarial Workflow Performance Evaluation",
+            "detail": "The multi-agent system was evaluated on actuarial risk modeling tasks, reproducing baseline performance while providing additional uncertainty insights. The evaluation involved comparing outputs across three LLM backends (Llama 2 7B, Llama 3.1 8B, Qwen2.5 7B) using metrics related to error detection, adaptability, and uncertainty behavior."
+          },
+          {
+            "title": "Uncertainty Distribution Analysis",
+            "detail": "Uncertainty outcomes from test scenarios were compared between original and perturbed datasets using the Qwen backend, illustrating the framework's ability to detect distributional shifts and runtime uncertainty variations."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Calibrated Log-Probability Confidence Enables Uncertainty Quantification",
+            "detail": "Transforming length-normalized token log-probabilities into calibrated confidence estimates allows meaningful uncertainty quantification that avoids misinterpretation of raw log-probabilities as correctness probabilities."
+          },
+          {
+            "title": "Bayesian Network Captures Workflow Dependencies and Uncertainty Propagation",
+            "detail": "Modeling agent outputs and their dependencies as a Bayesian Network provides structured uncertainty propagation, enabling identification of weak workflow points and unsafe states requiring human intervention."
+          },
+          {
+            "title": "Multi-Agent System Maintains Baseline Actuarial Performance",
+            "detail": "The MAS reproduces baseline actuarial modeling accuracy while adding runtime uncertainty insights, demonstrating practical viability in high-stakes insurance workflows."
+          },
+          {
+            "title": "LLM Backend Choice Affects Uncertainty and Error Detection",
+            "detail": "Differences in error detection, adaptability, and uncertainty behavior were observed across the three LLM backends, indicating backend-dependent effectiveness of the uncertainty monitoring framework."
+          }
+        ],
+        "contributions": [
+          "A novel uncertainty propagation approach combining calibrated token-level log-probabilities with a Bayesian Network in LLM-based multi-agent actuarial workflows.",
+          "A centralized multi-agent system architecture with specialized agents and a central hub enabling controlled workflow oversight and error handling.",
+          "Integration of concept alignment and fairness assessments within the Explanation Agent to support transparency and regulatory compliance.",
+          "Empirical demonstration that the framework reproduces baseline actuarial performance while providing additional runtime uncertainty insights.",
+          "Public release of Python implementation, datasets, and evaluation notebooks to support reproducibility."
+        ],
+        "limitations": [
+          "The Bayesian Network abstracts workflow dependencies as a directed acyclic graph without modeling execution sequence, task priority, iterative revisions, or feedback loops.",
+          "The framework currently does not distinguish intrinsic versus extrinsic uncertainty, limiting granularity of uncertainty source identification.",
+          "Effectiveness depends on the selected LLM backend, with observed variability in error detection and uncertainty behavior.",
+          "No explicit modeling of temporal dynamics or iterative repair cycles; dynamic Bayesian Networks are proposed as future work."
+        ],
+        "open_questions": [
+          "How can dynamic Bayesian Networks be integrated to capture temporal behavior and iterative repair cycles in multi-agent workflows?",
+          "What methods can effectively distinguish intrinsic from extrinsic uncertainty within LLM-based multi-agent systems?",
+          "How can the framework be extended to explicitly model execution sequence, task priority, and feedback loops for more accurate uncertainty propagation?",
+          "What are the implications of LLM backend variability on uncertainty quantification robustness and how can backend selection be optimized?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "uncertainty",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-29T12:20:20.242360+00:00"
+    },
+    {
+      "id": "2607.25987",
+      "title": "\\textsc{IH-Benchmark}: A Conflict-Centered Benchmark for Instruction-Hierarchy Robustness in LLM Applications",
+      "abstract": "When a language model receives conflicting instructions from different priority levels, which one does it actually follow? This question lies at the heart of reliable LLM deployment. Existing benchmarks answer this only partially, often focusing on a single hierarchy edge or adapting public datasets with limited tool-use coverage. We present IH-Benchmark, a conflict-centered benchmark for instruction-hierarchy robustness across direct system-user conflicts (S>U) and tool-mediated user-tool (U>T) conflicts. IH-Benchmark is built from a human-authored taxonomy of 44 constraint families across generic, health, finance, retail, and coding settings, and evaluates scenarios with a uniform binary pass/fail protocol combining a predicate DSL with category-scoped LLM judges. Across 37 evaluated models, hierarchy compliance ranges from 98.2% to 20.5%. We find that strong S>U compliance is not a reliable proxy for U>T robustness: several models preserve system constraints under direct user conflict but degrade sharply when conflicting instructions appear in tool outputs. Constraint hardening also reveals a split between models: some failures are largely fixed by stronger warnings, while others persist across all strictness levels. Finally, the most revealing failures are often subtle rather than overtly dangerous; models resist unauthorized purchases or bulk ticket closure more reliably than injected disclaimers or small factual distortions. These results suggest that instruction-hierarchy robustness is not a single capability, but a set of behaviors that must be evaluated across conflict surfaces, constraint types, and attack presentations.",
+      "authors": [
+        "Conor McCauley",
+        "Zeliang Kan",
+        "Jason Martin"
+      ],
+      "published": "2026-07-28T17:06:13Z",
+      "updated": "2026-07-28T17:06:13Z",
+      "categories": [
+        "cs.CR",
+        "cs.SE"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2607.25987v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.25987v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "language model",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.5126,
+          "matched": [
+            "robustness",
+            "llm",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5,
+        "relevance": 0.4101,
+        "quality": 0.52,
+        "novelty": 0.852,
+        "freshness": 0.8855
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Instruction-hierarchy robustness in LLMs is a multifaceted capability that varies significantly across conflict surfaces, constraint types, and models, with strong system-user compliance not guaranteeing robustness against user-tool conflicts.",
+        "problem": "Existing benchmarks inadequately evaluate LLMs' ability to follow conflicting instructions across multiple hierarchy levels, especially in agentic settings involving tool-mediated conflicts.",
+        "method": "IH-Benchmark (IH-B) is a procedurally generated benchmark with 2,336 scenarios across 44 constraint families, evaluating instruction-hierarchy robustness on system-user (S ≻ U) and user-tool (U ≻ T) conflicts using a binary pass/fail protocol with predicate DSL and LLM judges.",
+        "evidence": "Evaluation of 37 model variants shows compliance rates ranging from 98.2% to 20.5%, with models often robust on S ≻ U conflicts but significantly less so on U ≻ T conflicts, and varying performance across constraint types and strictness levels.",
+        "limitations": "IH-B focuses on bounded single-task scenarios and selected domains, lacking coverage of longer multi-turn interactions and broader domain diversity, with most constraint families hand-authored and not exhaustive.",
+        "why_for_you": "IH-B provides a comprehensive, conflict-centered evaluation framework critical for assessing and improving trustworthy LLM behavior in hierarchical instruction-following, especially in complex agentic and tool-using deployments.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Across 37 evaluated LLM variants, instruction-hierarchy compliance varies widely from 98.2% to 20.5%, demonstrating that robustness is highly model-dependent and not uniform across hierarchy conflict surfaces."
+          },
+          {
+            "icon": "🛡️",
+            "text": "IH-B uses a uniform binary pass/fail evaluation combining a predicate domain-specific language (DSL) with category-scoped LLM judges to systematically assess compliance with 44 human-authored constraint families across system-user and user-tool conflict tracks."
+          },
+          {
+            "icon": "📉",
+            "text": "Models that maintain strong compliance in direct system-user conflicts (S ≻ U) often degrade sharply in user-tool conflicts (U ≻ T), indicating that robustness in one conflict surface is not a reliable proxy for overall instruction-hierarchy robustness."
+          }
+        ],
+        "overview": "The paper addresses the critical challenge of instruction-hierarchy robustness in large language models, focusing on how models resolve conflicting instructions from different priority levels, such as system prompts, user inputs, and tool outputs. Existing benchmarks inadequately cover this problem, often focusing on a single hierarchy edge or adapting datasets without agentic tool-use scenarios. IH-Benchmark (IH-B) introduces a comprehensive, procedurally generated suite of 2,336 executable scenarios spanning 44 constraint families across generic and domain-specific settings. It evaluates two conflict tracks: system prompt versus user prompt (S ≻ U) and user input versus tool output (U ≻ T), using a binary pass/fail protocol with predicate DSL and LLM judges. The evaluation of 37 models reveals substantial variability in hierarchy compliance, with strong S ≻ U robustness not reliably predicting U ≻ T robustness. Compliance also varies by constraint type, instruction explicitness, and conflict phrasing, suggesting no single general mechanism for hierarchy conflict resolution. These findings highlight instruction-hierarchy robustness as a set of behaviors requiring multi-dimensional evaluation, informing safer and more reliable LLM deployment.",
+        "methodology": [
+          {
+            "title": "Scenario Generation",
+            "detail": "IH-B procedurally generates 2,336 executable scenarios from a human-authored taxonomy of 44 constraint families spanning generic, health, finance, retail, and coding domains. Scenarios are organized into two tracks: system prompt versus user prompt (S ≻ U) and user input versus tool output (U ≻ T), enabling targeted evaluation of instruction conflicts across hierarchy levels."
+          },
+          {
+            "title": "Evaluation Protocol",
+            "detail": "A uniform binary pass/fail protocol is employed, combining a predicate domain-specific language (DSL) to specify constraint compliance and category-scoped LLM judges to assess model outputs. This approach standardizes evaluation across diverse scenarios and constraint types."
+          },
+          {
+            "title": "Model Evaluation Setup",
+            "detail": "37 model variants were evaluated using LiteLLM, routing inference through APIs from OpenAI, Amazon Bedrock, xAI, and TogetherAI, with some self-hosted models served via vLLM on AWS EC2. Each scenario was executed once per model to measure hierarchy compliance."
+          },
+          {
+            "title": "Constraint Hardening",
+            "detail": "The benchmark includes varying strictness levels (L1-L3) for constraints, enabling analysis of model robustness under increasing constraint severity and revealing differences in model failure modes and sensitivity to warnings."
+          },
+          {
+            "title": "Agentic and Tool-Mediated Evaluation",
+            "detail": "IH-B integrates stateful agent simulators to evaluate hierarchy-following behavior in static, tool-mediated, and agentic settings, capturing realistic multi-turn and tool interaction dynamics within bounded single-task scenarios."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Instruction Hierarchy Conflict Resolution",
+            "detail": "No explicit mechanistic or causal model is provided; the paper empirically demonstrates that instruction-hierarchy robustness is not governed by a single general mechanism but is a composite of behaviors varying by conflict surface, constraint type, and instruction phrasing."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Model Compliance Evaluation",
+            "detail": "37 LLM variants, including Claude Opus 4.6, GPT 5.4, Gemma 4 31B, and Llama 4 Scout 17B, were evaluated on IH-B's 2,336 scenarios. Compliance rates ranged from 98.2% to 20.5%, with detailed breakdowns by track (S ≻ U and U ≻ T), domain, and constraint strictness levels."
+          },
+          {
+            "title": "Constraint Strictness Ablation",
+            "detail": "Compliance was measured across three constraint strictness levels (L1-L3), revealing that some models improve significantly with stronger warnings, while others exhibit persistent failures regardless of strictness."
+          },
+          {
+            "title": "Cross-Track Robustness Analysis",
+            "detail": "The study compared model performance on system-user conflicts versus user-tool conflicts, finding that strong S ≻ U compliance does not reliably predict U ≻ T robustness, highlighting the need for multi-surface evaluation."
+          },
+          {
+            "title": "Domain-Specific Performance",
+            "detail": "Performance varied across domains such as health, finance, retail, and coding, with some constraint families showing higher compliance and others revealing subtle failure modes like injected disclaimers or factual distortions."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Wide Variability in Hierarchy Compliance",
+            "detail": "Instruction-hierarchy compliance across 37 models ranged from 98.2% to 20.5%, demonstrating significant variability in model robustness to conflicting instructions."
+          },
+          {
+            "title": "S ≻ U Robustness Does Not Predict U ≻ T Robustness",
+            "detail": "Models that maintain system constraints under direct user conflict often degrade sharply when conflicting instructions appear in tool outputs, indicating distinct robustness challenges across conflict surfaces."
+          },
+          {
+            "title": "Constraint Hardening Reveals Model Splits",
+            "detail": "Some models' failures are largely mitigated by stronger warnings (higher strictness), while others persist across all strictness levels, indicating heterogeneous failure modes."
+          },
+          {
+            "title": "Subtle Failures More Revealing Than Overt Ones",
+            "detail": "Models resist overtly dangerous instructions like unauthorized purchases more reliably than subtle injected disclaimers or small factual distortions, suggesting nuanced vulnerabilities."
+          },
+          {
+            "title": "No Single General Mechanism for Hierarchy Resolution",
+            "detail": "Compliance rates vary by constraint type, instruction explicitness, and conflict phrasing, indicating that current LLMs lack a unified approach to resolving instruction hierarchy conflicts."
+          }
+        ],
+        "contributions": [
+          "Introduction of IH-B, a procedurally created benchmark with 2,336 scenarios covering system-user and user-tool instruction hierarchy conflicts across 44 constraint families.",
+          "Development of a unified evaluation framework combining predicate DSL and category-scoped LLM judges for binary pass/fail assessment of hierarchy compliance.",
+          "Comprehensive evaluation of 37 LLM variants demonstrating non-uniform instruction-hierarchy robustness across models, conflict surfaces, and constraint types.",
+          "Release of the IH-B benchmark corpus, agent simulators, and evaluation harness to facilitate future research on instruction-hierarchy robustness.",
+          "Empirical evidence that instruction-hierarchy robustness is a composite of behaviors requiring multi-dimensional evaluation rather than a single capability."
+        ],
+        "limitations": [
+          "IH-B focuses on bounded single-task scenarios and does not cover longer multi-turn interactions where user instructions, memory, or tool state accumulate.",
+          "The benchmark covers a selected set of domains with asymmetry across tracks, limiting generalizability to broader domains and richer interaction types.",
+          "Most constraint families (35/44) were hand-authored by the authors, with the remainder suggested and filtered by GPT-5.3, so coverage is not exhaustive.",
+          "The evaluation executes each scenario once per model, which may limit statistical robustness of compliance measurements."
+        ],
+        "open_questions": [
+          "How can instruction-hierarchy robustness be extended and evaluated in longer multi-turn, memory-augmented, and dynamic agentic interactions?",
+          "What architectural or training modifications can enable LLMs to develop a unified mechanism for resolving instruction hierarchy conflicts across diverse surfaces?",
+          "How do different types of constraints and instruction phrasings influence model robustness, and can adaptive prompting or fine-tuning improve generalization?",
+          "What are effective defenses against subtle instruction-hierarchy failures such as injected disclaimers or factual distortions that current models struggle to resist?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "robustness",
+          "llm",
+          "robustness"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-29T12:20:20.242360+00:00"
+    },
+    {
+      "id": "2607.26001",
+      "title": "Sharpness-Aware Minimization and Muon: Robustness under the Spectral Norm",
+      "abstract": "Sharpness-Aware Minimization (SAM) aims to improve generalization by encouraging insensitivity to small, worst-case parameter perturbations. However, the notion of a \"small\" perturbation is inherently geometry-dependent: while existing SAM variants have explored a wide range of choices, a clear perspective on which geometries are most effective in practice remains elusive. Recent work on matrix-aware optimization, particularly the Muon optimizer, suggests that respecting the matrix structure of hidden-layer weights can lead to strong empirical performance. Motivated by this, we study matrix-aware geometry in both stages of SAM: we introduce a layerwise spectral inner perturbation for matrix-valued hidden-layer parameters and combine it with either AdamW/SGDW or Muon in the outer update. Across ImageNet-1K experiments on ViT-Small/16 and ResNet-50, we find that the combination of a spectral inner step with a Muon outer step performs consistently strongly, achieving the best validation accuracy on both models among the evaluated methods.",
+      "authors": [
+        "Wenzhi Zhong",
+        "Edward Milsom",
+        "Michael Murray"
+      ],
+      "published": "2026-07-28T17:18:11Z",
+      "updated": "2026-07-28T17:18:11Z",
+      "categories": [
+        "cs.LG",
+        "stat.ML"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2607.26001v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.26001v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "transferable",
+      "scope_matches": [
+        "sharpness"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "core",
+          "score": 0.4086,
+          "matched": [
+            "sharpness",
+            "sharpness",
+            "geometry",
+            "parameter perturbation",
+            "optimizer"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.259,
+          "matched": [
+            "robustness",
+            "perturbation"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.2003,
+          "matched": [
+            "robustness",
+            "robustness"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.1149,
+          "matched": [
+            "generalization",
+            "generalization",
+            "optimization"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4941,
+        "relevance": 0.4187,
+        "quality": 0.47,
+        "novelty": 0.8362,
+        "freshness": 0.8867
+      },
+      "quality_signals": [
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Combining a spectral norm-based inner perturbation with the Muon optimizer as the outer update in Sharpness-Aware Minimization (SAM) yields superior validation accuracy on ImageNet-1K for ViT-Small/16 and ResNet-50.",
+        "problem": "Existing SAM variants lack a clear understanding of which perturbation geometries most effectively improve generalization, especially regarding matrix-aware spectral norms.",
+        "method": "The paper introduces a layerwise spectral inner perturbation for matrix-valued parameters combined with either AdamW/SGDW or Muon optimizers in the outer step to study spectral geometry effects in SAM.",
+        "evidence": "ImageNet-1K experiments show that spectral inner perturbations paired with Muon outperform Euclidean perturbations and AdamW outer steps, achieving up to 80.23% top-1 accuracy on ViT-Small/16.",
+        "limitations": "The study does not provide a differentiable selection for the spectral perturbation map and relies on stop-gradient approximations, limiting theoretical analysis of second-order effects.",
+        "why_for_you": "This work advances understanding of geometry-aware adversarial perturbations in SAM and demonstrates the practical benefits of spectral norm-based optimization for robust and generalizable LLM training.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Spectral inner perturbations amplify the benefits of the Muon outer optimizer, achieving a 5.28 percentage point improvement in validation accuracy on ViT-Small/16 compared to 4.45 points with AdamW."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The method applies a layerwise spectral norm-based inner maximization step to find worst-case perturbations respecting matrix structure, combined with Muon's matrix-aware outer update that uses Newton-Schulz iterations for spectral normalization."
+          },
+          {
+            "icon": "📉",
+            "text": "CIFAR-100 diagnostics reveal that Muon maintains higher effective rank in weight matrices and features, enabling larger perturbation radii and stronger regularization, while excessive radii reduce rank and degrade validation accuracy."
+          }
+        ],
+        "overview": "The paper addresses the challenge of selecting effective perturbation geometries in Sharpness-Aware Minimization (SAM) by investigating spectral norm-based perturbations that respect the matrix structure of neural network weights. Motivated by the success of the Muon optimizer, which incorporates spectral geometry in the outer update, the authors propose combining a layerwise spectral inner perturbation with Muon or AdamW/SGDW outer optimizers. They formulate a norm-agnostic SAM framework using Fréchet differentials and dual norms to define adversarial perturbations under spectral norms. Empirical evaluation on ImageNet-1K with ViT-Small/16 and ResNet-50 shows that spectral inner steps paired with Muon yield the highest validation accuracy, outperforming Euclidean perturbations and AdamW outer steps. Additional diagnostics on CIFAR-100 demonstrate that Muon preserves higher effective rank in weights and features, supporting stronger regularization via larger perturbation radii. The work highlights the interaction between inner and outer geometries and establishes spectral geometry as a promising direction for robust optimization in deep learning.",
+        "methodology": [
+          {
+            "title": "Norm-agnostic SAM formulation",
+            "detail": "The authors generalize SAM by defining the inner perturbation step as a maximization over a unit ball of an arbitrary norm, using the Fréchet differential DL(θ) and its dual norm ∥DL(θ)∥in,* to characterize the worst-case perturbation ε*. This allows replacing the Euclidean norm with spectral norms for matrix-valued parameters."
+          },
+          {
+            "title": "Spectral inner perturbation",
+            "detail": "They introduce a layerwise spectral norm inner step that computes adversarial perturbations respecting the matrix structure of hidden-layer weights. This involves orthogonalized gradient ascent constrained by the spectral norm unit ball, approximated via iterative methods."
+          },
+          {
+            "title": "Outer update with Muon optimizer",
+            "detail": "The outer step uses the Muon optimizer, which applies spectral norm-aware updates to matrix-valued parameters using Newton-Schulz iterations for spectral normalization, while non-matrix parameters are updated by AdamW or SGDW, enabling hybrid parameter routing."
+          },
+          {
+            "title": "Experimental protocol",
+            "detail": "Experiments train ViT-Small/16 for 300 epochs and ResNet-50 for 120 epochs on ImageNet-1K, tuning learning rates and perturbation radii per method. Evaluation includes Top-1 accuracy, ImageNet-ReaL, and ImageNet-R benchmarks, with multiple random seeds for robustness."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "First-order adversarial perturbation via dual norm",
+            "detail": "The mechanism defines the inner maximization in SAM as finding ε* maximizing the linearized loss increase DL(θ)[ε] subject to ∥ε∥in ≤ 1, where ∥·∥in is a chosen norm (spectral norm for matrices). The dual norm ∥DL(θ)∥in,* quantifies the worst-case directional derivative, guiding the perturbation."
+          },
+          {
+            "title": "Stop-gradient approximation",
+            "detail": "Due to non-differentiability and computational cost of the maximizer map ε*(θ), the method uses a stop-gradient approximation, evaluating the loss at θ + ρε* but ignoring the derivative of ε* with respect to θ, simplifying gradient computation during training."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "ImageNet-1K classification with ViT-Small/16 and ResNet-50",
+            "detail": "The authors evaluate SAM variants with Euclidean and spectral inner steps combined with AdamW/SGDW or Muon outer optimizers. Training uses large batch sizes, cosine learning rate schedules, and standard augmentations excluding Mixup and RandAugment to isolate optimization effects."
+          },
+          {
+            "title": "Out-of-distribution robustness on ImageNet-R",
+            "detail": "Models are evaluated on ImageNet-R, a 30k-image artistic rendition dataset, to assess generalization beyond the training distribution, showing spectral SAM with Muon achieves top performance, though differences are not statistically significant across seeds."
+          },
+          {
+            "title": "CIFAR-100 diagnostic experiments",
+            "detail": "Additional experiments on CIFAR-100 measure effective rank of weight matrices and features, and sharpness via projected gradient ascent at fixed radii, revealing that Muon maintains higher rank and that larger perturbation radii reduce sharpness and generalization gap."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Spectral inner step benefits depend on outer optimizer",
+            "detail": "Spectral inner perturbations improve validation accuracy substantially only when paired with the Muon outer optimizer, achieving 80.23% top-1 accuracy on ViT-Small/16, outperforming Euclidean inner steps and AdamW outer steps."
+          },
+          {
+            "title": "Muon optimizer maintains higher effective rank",
+            "detail": "CIFAR-100 diagnostics show Muon-based outer updates keep weight and feature effective ranks higher than AdamW-based variants, supporting stronger regularization and enabling larger perturbation radii without loss of representation capacity."
+          },
+          {
+            "title": "Spectral SAM variants achieve lower training accuracy",
+            "detail": "Spectral inner step variants reach lower training accuracy than Euclidean counterparts, suggesting that spectral geometry imposes a harsher penalty on memorization, potentially improving generalization."
+          }
+        ],
+        "contributions": [
+          "Formulation of a norm-agnostic SAM framework using Fréchet differentials and dual norms to incorporate spectral geometry.",
+          "Introduction of a layerwise spectral norm inner perturbation step respecting matrix structure in SAM.",
+          "Integration of the Muon optimizer as a spectral norm-aware outer update in SAM.",
+          "Empirical demonstration that spectral inner perturbations combined with Muon yield state-of-the-art validation accuracy on ImageNet-1K for ViT-Small/16 and ResNet-50.",
+          "Diagnostic analysis linking Muon's maintenance of high effective rank to improved robustness and generalization."
+        ],
+        "limitations": [
+          "The spectral perturbation map ε*(θ) is non-differentiable and the method uses a stop-gradient approximation, limiting theoretical understanding of second-order effects.",
+          "The study focuses on vision models and does not evaluate on large language models despite Muon's relevance there.",
+          "Out-of-distribution improvements on ImageNet-R are not statistically significant across seeds, indicating limited evidence for robustness beyond standard validation.",
+          "The method requires tuning perturbation radii and hyperparameters separately for each SAM variant, which may limit practical applicability."
+        ],
+        "open_questions": [
+          "How can differentiable spectral perturbation maps be constructed to enable exact gradient computation in spectral SAM?",
+          "What are the effects of spectral SAM variants on large language models and other non-vision architectures?",
+          "Can the interaction between inner and outer geometries be theoretically characterized to guide optimizer design?",
+          "How does spectral SAM affect adversarial robustness and calibration beyond standard accuracy metrics?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "sharpness",
+          "sharpness",
+          "geometry",
+          "parameter perturbation"
+        ],
+        "lane": "transferable"
+      },
+      "recommended_at": "2026-07-29T12:20:20.242360+00:00"
+    },
+    {
+      "id": "2607.25880",
+      "title": "Stemma: Induced Decision Regions Reveal LLM Provenance",
+      "abstract": "LLM provenance testing asks whether a suspect LLM belongs to the same lineage as a source. Existing black-box methods largely infer this relationship from response-level characteristics, but these characteristics may shift under adaptation or deployment even when the underlying meaning remains unchanged, weakening the reliability of provenance evidence. To address this limitation, we introduce induced decision regions by mapping open-ended outputs into a finite decision space, thereby abstracting away surface-form variation and reframing provenance testing as measuring the inheritance of decision regions. Empirical analysis shows that the source's induced regions are preserved more strongly in related models than in unrelated models. Building on this signal, we propose Stemma, a practical black-box LLM fingerprinting method that operationalises stability, robustness, and specificity as complementary probe-selection principles for reliably estimating induced decision region inheritance. Across 770 source-suspect pairs drawn from 56 public checkpoints and spanning diverse model-weight transformations, Stemma achieves 0.967 AUC and 87.8% TPR at 1% FPR, substantially outperforming four representative baselines. It further achieves 0.995 AUC and 93.5% TPR at 1% FPR on 1,260 pairs covering 91 deployment instances, demonstrating robustness to diverse inference-time deployment settings.",
+      "authors": [
+        "Keyu Zhang",
+        "Vadim Safronov",
+        "Andrew Martin"
+      ],
+      "published": "2026-07-28T15:42:53Z",
+      "updated": "2026-07-28T15:42:53Z",
+      "categories": [
+        "cs.CR",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2607.25880v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.25880v1",
+      "comment": "25 pages, 4 figures",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4095,
+          "matched": [
+            "robustness",
+            "reliability",
+            "llm",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4393,
+        "relevance": 0.3276,
+        "quality": 0.48,
+        "novelty": 0.8649,
+        "freshness": 0.8772
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Stemma introduces induced decision regions to robustly fingerprint LLM provenance by abstracting open-ended outputs into a finite decision space, achieving superior accuracy and robustness over existing black-box methods.",
+        "problem": "Existing black-box LLM provenance methods rely on response-level characteristics that shift under adaptation or deployment, weakening reliable lineage detection.",
+        "method": "Stemma maps LLM outputs into induced decision regions and selects probes based on stability, robustness, and specificity to measure decision region inheritance for provenance testing.",
+        "evidence": "Across 770 source-suspect pairs from 56 checkpoints, Stemma achieves 0.967 AUC and 87.8% TPR at 1% FPR, outperforming four baselines, and attains 0.995 AUC and 93.5% TPR at 1% FPR on 1,260 pairs covering 91 deployment instances.",
+        "limitations": "The paper does not provide explicit limitations but lacks detailed analysis on performance under extreme model modifications or adversarial attacks.",
+        "why_for_you": "Stemma offers a principled, robust black-box fingerprinting approach that addresses surface-form variability in LLM outputs, critical for trustworthy provenance verification in deployed LLMs.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Induced decision regions abstract LLM outputs into a finite decision space, enabling stable and comparable provenance signals despite surface-form variation in open-ended generation."
+          },
+          {
+            "icon": "🛡️",
+            "text": "Stemma’s probe selection leverages stability across input permutations, robustness to boundary shifts, and specificity against unrelated models to reliably detect decision region inheritance."
+          },
+          {
+            "icon": "📉",
+            "text": "Empirical results show Stemma achieves 0.967 AUC and 87.8% TPR at 1% FPR on 770 source-suspect pairs, substantially outperforming baselines that degrade under prompt or deployment shifts."
+          }
+        ],
+        "overview": "The paper addresses the challenge of black-box LLM provenance testing, where existing methods relying on response-level similarity fail under model adaptation or deployment changes. It introduces induced decision regions by mapping open-ended LLM outputs into a finite decision space, abstracting away surface-form variability. This reframes provenance testing as measuring the inheritance of these induced decision regions, which are empirically shown to be preserved more strongly in related models. Building on this, Stemma selects probes based on stability, robustness, and specificity criteria to reliably fingerprint source models. Extensive experiments across 770 source-suspect pairs from 56 public checkpoints and 1,260 pairs covering 91 deployment instances demonstrate Stemma’s superior accuracy (up to 0.995 AUC) and robustness compared to four representative baselines. The method is computationally efficient and applicable without internal model access, making it practical for real-world provenance verification.",
+        "methodology": [
+          {
+            "title": "Induced Decision Regions",
+            "detail": "Outputs from open-ended LLM generation are mapped into a finite decision space, creating induced decision regions that abstract away surface-form variations and enable stable comparison of model behaviors."
+          },
+          {
+            "title": "Probe Selection Principles",
+            "detail": "Probes are selected based on three complementary criteria: stability across equivalent input representations, robustness to decision boundary shifts, and specificity against unrelated models to maximize provenance signal reliability."
+          },
+          {
+            "title": "Fingerprint Construction",
+            "detail": "For each source model, a fingerprint is constructed from 40 selected probes sampled from a candidate pool (e.g., 3,000 MMLU questions), calibrated using a background model unrelated to the source or suspects."
+          },
+          {
+            "title": "Verification Protocol",
+            "detail": "Suspect models are queried with the source-specific probes under cyclic permutations, and their induced decision region inheritance is measured to produce provenance scores evaluated via AUC, pAUC, and TPR at low FPR."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Decision Region Inheritance",
+            "detail": "The mechanism relies on the hypothesis that derived or related LLMs preserve the source’s induced decision regions more strongly than unrelated models, enabling lineage inference through behavioral signatures in a finite decision space."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Benchmark Evaluation",
+            "detail": "Stemma was evaluated on 770 source-suspect pairs from 56 public checkpoints spanning diverse model families and weight transformations, compared against LLMmap, LLMPrint, MPT, and ZeroPrint baselines using AUC, pAUC, and TPR metrics."
+          },
+          {
+            "title": "Deployment Robustness",
+            "detail": "Further evaluation on 1,260 pairs covering 91 deployment instances demonstrated Stemma’s robustness to inference-time deployment variations, achieving 0.995 AUC and 93.5% TPR at 1% FPR."
+          },
+          {
+            "title": "Ablation Studies",
+            "detail": "Ablations on probe selection stages, candidate pool size, probe budget, probe datasets, and background models confirmed the importance of targeted probe selection and showed stable performance across configurations."
+          },
+          {
+            "title": "Computational Cost",
+            "detail": "Fingerprint construction and verification require approximately 4.5 minutes per source model on NVIDIA L40S GPUs, including calibration, querying, and probe evaluation."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Superior Provenance Separation",
+            "detail": "Stemma consistently outperforms four representative baselines, achieving up to 0.967 AUC and 87.8% TPR at 1% FPR on pretrained sources, where baselines approach random performance due to prompt mismatches."
+          },
+          {
+            "title": "Robustness to Deployment Variations",
+            "detail": "Stemma maintains high accuracy (0.995 AUC, 93.5% TPR at 1% FPR) across diverse deployment instances, demonstrating robustness to inference-time changes that degrade baseline methods."
+          },
+          {
+            "title": "Probe Selection Effectiveness",
+            "detail": "Targeted probe selection based on stability, robustness, and specificity yields significant gains in low-FPR performance (pAUC), critical for reducing false-positive provenance claims."
+          }
+        ],
+        "contributions": [
+          "Introduction of induced decision regions to abstract LLM outputs into a finite decision space for provenance testing.",
+          "Development of Stemma, a black-box fingerprinting method leveraging stability, robustness, and specificity probe selection.",
+          "Comprehensive empirical validation across hundreds of source-suspect pairs and deployment settings demonstrating superior accuracy and robustness.",
+          "Ablation studies confirming the importance of probe selection principles and practical computational efficiency.",
+          "Establishing a stemmatic analogy for LLM provenance inspired by textual lineage reconstruction."
+        ],
+        "limitations": [
+          "No explicit analysis of Stemma’s performance under adversarial model modifications or extreme fine-tuning scenarios.",
+          "Limited discussion on scalability to very large candidate probe pools beyond 6,000 questions.",
+          "Absence of theoretical guarantees or formal mechanism proofs beyond empirical evidence.",
+          "Potential sensitivity to choice of background model and probe datasets not exhaustively explored."
+        ],
+        "open_questions": [
+          "How does Stemma perform against adversarially manipulated suspect models designed to evade provenance detection?",
+          "Can induced decision regions be extended or adapted for multilingual or multimodal LLMs?",
+          "What are the theoretical limits of decision region inheritance as a provenance signal under extensive model adaptation?",
+          "How can probe selection be further optimized or automated for different LLM architectures and deployment contexts?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "robustness",
+          "reliability",
+          "llm",
+          "robustness"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-29T12:20:20.242360+00:00"
+    },
+    {
+      "id": "2607.26000",
+      "title": "Empirical Evaluation of Out-Of-Distribution Performance of Tabular Foundation Models",
+      "abstract": "Tabular Foundation Models (TFMs) have emerged as novel approaches for tabular predictive tasks, demonstrating competitive predictive performance to ensemble tree-based models. Most TFMs are trained and evaluated on independent and identically distributed data, but this assumption changes in real-world scenarios due to distribution shifts, which compromise the robustness of models. Limited research has been conducted of TFMs under distribution shifts. We present an empirical evaluation of Out-Of-Distribution (OOD) performance of nine TFMs, spanning diverse pre-training strategies and architectures: TabPFNv2, TabPFNv2.5, TabPFNv2.6, TabPFNv3, TabICL, TabICLv2, Mitra, LimiX and TabFM. Three real-world datasets from the TableShift study were considered (HELOC, Voting, Childhood Lead), covering label, socioeconomic, and geographic shift types. Our results show that all evaluated TFMs degrade systematically under distribution shift regardless of pre-training strategy, with shift gaps ranging from 0.003 to 0.060 depending on shift type. The relationship between in-distribution and OOD predictive performance documented for classical tabular models extends into TFMs. We also identified a scalability gap, as high-performing models demand significant memory and computational resources beyond what standard deployment infrastructure can support. This study extends existing benchmarks for OOD in tabular data, providing evidence to support their adoption in high-stakes domains characterized by structural distribution shifts.",
+      "authors": [
+        "Malena Loza",
+        "David Chushig-Muzo",
+        "Eva Milara",
+        "Luis Bote-Curiel",
+        "Luis Estrada-Petrocelli",
+        "Felipe Grijalva"
+      ],
+      "published": "2026-07-28T17:16:01Z",
+      "updated": "2026-07-28T17:16:01Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2607.26000v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.26000v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "foundation model",
+        "foundation models"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.3405,
+          "matched": [
+            "robustness",
+            "training"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.1771,
+          "matched": [
+            "robustness",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4332,
+        "relevance": 0.3078,
+        "quality": 0.52,
+        "novelty": 0.848,
+        "freshness": 0.8865
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Tabular Foundation Models (TFMs) systematically degrade in predictive performance under distribution shifts across diverse datasets and pre-training strategies.",
+        "problem": "The robustness of TFMs to out-of-distribution (OOD) scenarios remains underexplored despite their growing use in tabular predictive tasks.",
+        "method": "An empirical evaluation of nine TFMs with varying pre-training strategies was conducted on three real-world datasets exhibiting label, socioeconomic, and geographic distribution shifts.",
+        "evidence": "All TFMs showed consistent performance degradation under distribution shifts, with shift gaps ranging from 0.003 to 0.060 ROC-AUC, and no model achieved OOD parity with in-distribution performance.",
+        "limitations": "The study did not include fine-tuning of TFMs on target tasks and excluded some results due to computational constraints, limiting insights into adaptation capabilities and scalability.",
+        "why_for_you": "Understanding the OOD robustness and scalability limitations of TFMs is critical for deploying trustworthy tabular models in high-stakes, real-world environments with structural distribution shifts.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "TFMs pre-trained on real-world data (e.g., TabPFN variants) achieved higher in-distribution and OOD ROC-AUC scores but exhibited similar shift gaps to synthetic-prior models, indicating stronger ID fitting rather than inherent OOD robustness."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The evaluation employed default inference configurations without task-specific fine-tuning, using ROC-AUC as the metric across three TableShift datasets (HELOC, Childhood Lead, Voting) to measure OOD performance degradation."
+          },
+          {
+            "icon": "📉",
+            "text": "Performance degradation varied by shift type: socioeconomic shifts (Childhood Lead) caused the largest drop, label shifts (HELOC) moderate, and geographic shifts (Voting) the smallest, confirming systematic vulnerability of TFMs to distribution shifts."
+          }
+        ],
+        "overview": "This study investigates the out-of-distribution (OOD) performance of nine Tabular Foundation Models (TFMs) across three real-world datasets exhibiting distinct distribution shifts: label, socioeconomic, and geographic. The research question centers on whether TFMs, which have shown competitive in-distribution performance, maintain robustness under realistic distributional changes. The authors evaluate models spanning real-world, synthetic, and mixed pre-training strategies using the TableShift benchmark datasets. The approach involves measuring ROC-AUC on in-distribution (ID) and OOD test splits without fine-tuning, quantifying the shift gap as the performance difference. Results demonstrate that all TFMs experience systematic degradation under OOD conditions, with no model achieving parity between ID and OOD performance. Notably, models pre-trained on real-world data outperform others in absolute terms but do not reduce the relative shift gap, suggesting that pre-training corpus influences ID fitting more than OOD generalization. The study also highlights scalability challenges for high-performing TFMs, limiting their deployment in resource-constrained environments. These findings extend existing tabular benchmarks and provide critical insights for deploying TFMs in high-stakes applications subject to structural distribution shifts.",
+        "methodology": [
+          {
+            "title": "Dataset Selection and Shift Types",
+            "detail": "Three datasets from TableShift were selected to represent diverse distribution shifts: HELOC (label shift), Childhood Lead (socioeconomic shift), and Voting (geographic shift). Each dataset includes training, in-distribution test, and OOD test splits defined by domain-specific variables."
+          },
+          {
+            "title": "Model Selection and Pre-training Strategies",
+            "detail": "Nine TFMs were evaluated, including TabPFN variants (v2, v2.5, v2.6, v3), TabICL variants, Mitra, LimiX, and TabFM, covering real-world data pre-training, synthetic priors from structural causal models, and mixed approaches."
+          },
+          {
+            "title": "Evaluation Protocol",
+            "detail": "Models were used in default inference mode without fine-tuning. ROC-AUC was computed on ID and OOD test splits, with the shift gap defined as the difference between these scores. Experiments were repeated over five random seeds to report mean and standard deviation."
+          },
+          {
+            "title": "Performance Metrics and Reporting",
+            "detail": "ROC-AUC was chosen due to class imbalance in datasets. Results for computationally expensive models (TabFM, LimiX) on the large Voting dataset were omitted due to resource constraints."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "No Explicit Mechanism Provided",
+            "detail": "The paper does not present a formal mechanism or theoretical model explaining the degradation under distribution shifts; rather, it provides empirical evidence of systematic performance drops across TFMs."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "OOD Performance Evaluation on TableShift Datasets",
+            "detail": "Nine TFMs were evaluated on HELOC, Childhood Lead, and Voting datasets, each exhibiting different distribution shifts. Models were assessed on ID and OOD splits using ROC-AUC, with results averaged over five seeds."
+          },
+          {
+            "title": "Comparison Across Pre-training Strategies",
+            "detail": "Models pre-trained on real-world data, synthetic priors, and mixed priors were compared to assess the impact of pre-training corpus on OOD robustness."
+          },
+          {
+            "title": "Resource and Scalability Assessment",
+            "detail": "The study noted computational and memory demands of high-performing TFMs, particularly TabFM and LimiX, which limited evaluation on larger datasets, highlighting scalability gaps."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Systematic OOD Performance Degradation",
+            "detail": "All nine TFMs exhibited lower ROC-AUC on OOD test splits compared to ID splits, with shift gaps ranging from 0.003 to 0.060, confirming vulnerability to distribution shifts."
+          },
+          {
+            "title": "Pre-training Corpus Influences ID but Not OOD Robustness",
+            "detail": "Real-world pre-trained TFMs achieved higher absolute performance but did not reduce the relative shift gap compared to synthetic-prior models, indicating limited inherent OOD generalization."
+          },
+          {
+            "title": "Shift Type Affects Degree of Performance Drop",
+            "detail": "Socioeconomic shifts (Childhood Lead) caused the largest performance degradation, label shifts (HELOC) moderate, and geographic shifts (Voting) the smallest, demonstrating shift-type-dependent robustness."
+          },
+          {
+            "title": "Scalability Constraints Limit Practical Deployment",
+            "detail": "High-performing TFMs require substantial computational resources, exceeding standard deployment infrastructure capabilities, which restricts their applicability in resource-constrained settings."
+          }
+        ],
+        "contributions": [
+          "First comprehensive empirical evaluation of OOD performance across nine diverse TFMs.",
+          "Demonstration that TFMs lack inherent robustness to distribution shifts despite varied pre-training strategies.",
+          "Extension of OOD benchmarks for tabular data with real-world datasets covering multiple shift types.",
+          "Identification of a scalability gap limiting deployment of high-performing TFMs in practical environments."
+        ],
+        "limitations": [
+          "Evaluation used default inference without fine-tuning, potentially underestimating adaptation capabilities.",
+          "Computational constraints prevented reporting results for some models on large datasets, limiting completeness.",
+          "No theoretical or mechanistic explanation for observed OOD degradation was provided.",
+          "The study focused on classification tasks; regression or other tabular tasks were not evaluated."
+        ],
+        "open_questions": [
+          "Can fine-tuning or adaptation strategies improve OOD robustness of TFMs beyond default inference?",
+          "What architectural or training modifications can enhance inherent OOD generalization in TFMs?",
+          "How do TFMs perform under other types of distribution shifts or in regression tasks?",
+          "What methods can address the scalability challenges to enable deployment of TFMs in resource-limited environments?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "robustness",
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-29T12:20:20.242360+00:00"
+    },
     {
       "id": "2607.24717",
       "title": "DataOrchestra: Learning to Orchestrate Per-Example Curation of Pretraining Data",
@@ -15732,321 +16802,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-06-28T16:22:06.182023+00:00"
-    },
-    {
-      "id": "2606.26027",
-      "title": "Why Multi-Step Tool-Use Reinforcement Learning Collapses and How Supervisory Signals Fix It",
-      "abstract": "Tool use enables large language models (LLMs) to perform complex tasks, and recent agentic reinforcement learning (RL) methods show promise for enhancing model capabilities. However, RL alone often leads to instability or limited gains in tool-use tasks. In our experiments, some models exhibit catastrophic collapse, where performance abruptly drops and tool-invocation structures fail. The analysis reveals that these failures stem from unexpected probability spikes in specific control tokens, disrupting structured execution, yet the underlying tool-use capability remains intact, merely obscured by specific formats. To address this, we systematically investigate a diverse set of supervisory signals, including off-policy supervision, hint-based guidance, erroneous example supervision, and others, applied under both synchronous and interleaved training schemes. We find that interleaving supervised fine-tuning (SFT) with RL substantially improves stability, but exhibits degraded performance under format and content out-of-distribution (OOD) evaluation. We also analyze the impact of learning rates and generalization across settings. These results highlight the importance of understanding RL failures and demonstrate how diverse supervisory signals can guide exploratory learning, enabling robust training of LLMs for complex, multi-step tool-use tasks. Our Code is available at https://github.com/hypasd-art/Tool-RL-Box.",
-      "authors": [
-        "Yupu Hao",
-        "Zhuoran Jin",
-        "Huanxuan Liao",
-        "Kang Liu",
-        "Jun Zhao"
-      ],
-      "published": "2026-06-24T16:55:56Z",
-      "updated": "2026-06-24T16:55:56Z",
-      "categories": [
-        "cs.CL",
-        "cs.LG"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2606.26027v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.26027v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.4647,
-          "matched": [
-            "robust",
-            "fine-tuning",
-            "training"
-          ]
-        },
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.1649,
-          "matched": [
-            "generalization",
-            "generalization"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5045,
-        "relevance": 0.4047,
-        "quality": 0.69,
-        "novelty": 0.8178,
-        "freshness": 0.4319
-      },
-      "quality_signals": [
-        "code available",
-        "GitHub link",
-        "experiments"
-      ],
-      "summary": {
-        "takeaway": "Tool use enables large language models (LLMs) to perform complex tasks, and recent agentic reinforcement learning (RL) methods show promise for enhancing model capabilities.",
-        "problem": "Tool use enables large language models (LLMs) to perform complex tasks, and recent agentic reinforcement learning (RL) methods show promise for enhancing model capabilities.",
-        "method": "However, RL alone often leads to instability or limited gains in tool-use tasks.",
-        "evidence": "In our experiments, some models exhibit catastrophic collapse, where performance abruptly drops and tool-invocation structures fail.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Efficient adversarial training, Statistical theory for LLMs.",
-        "source": "abstract",
-        "generated_by": "extractive"
-      },
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "robust",
-          "fine-tuning",
-          "training"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-06-28T16:22:06.182023+00:00"
-    },
-    {
-      "id": "2606.26982",
-      "title": "Auditing Framing-Sensitive Behavioral Instability in Large Language Models for Mental Health Interactions",
-      "abstract": "Large language models (LLMs) are increasingly being integrated into mental health support tools and other psychologically sensitive conversational applications. In such settings, behavioral stability and consistency are important for trustworthy human-AI interaction. However, semantically similar concerns can be presented through different contextual framings, potentially eliciting different model responses. Such framing-sensitive variability may challenge user expectations regarding system behavior and complicate the assessment of AI reliability. While prior studies have primarily examined such effects at the behavioral level, less is known about how framing-related variation is reflected in the internal representations of aligned language models. In this work, we investigate these effects using controlled matched prompts spanning multiple contextual framing conditions across several instruction-tuned model families. Across architectures, framing systematically alters interpretive response tendencies. Layer-wise probing analyses show that behavior-associated information remains decodable throughout transformer depth, with architecture-dependent variation in decoding strength. Moreover, held-out framing probes remained consistently above chance across architectures despite strong lexical baselines. Activation steering experiments further suggest that framing-associated representational directions can partially modulate downstream behavioral outcomes. Finally, these findings indicate that robustness to contextual variation may represent an important consideration when evaluating the consistency and trustworthiness of conversational AI systems deployed in mental-health-oriented interactions.",
-      "authors": [
-        "Abla Bedoui",
-        "Ashley L. Greene",
-        "Mohammed Cherkaoui"
-      ],
-      "published": "2026-06-25T12:53:33Z",
-      "updated": "2026-06-25T12:53:33Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2606.26982v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.26982v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4269,
-          "matched": [
-            "robustness",
-            "auditing",
-            "reliability",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4269,
-        "relevance": 0.3415,
-        "quality": 0.46,
-        "novelty": 0.8531,
-        "freshness": 0.5529
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "experiments"
-      ],
-      "summary": {
-        "takeaway": "Large language models (LLMs) are increasingly being integrated into mental health support tools and other psychologically sensitive conversational applications.",
-        "problem": "Large language models (LLMs) are increasingly being integrated into mental health support tools and other psychologically sensitive conversational applications.",
-        "method": "In such settings, behavioral stability and consistency are important for trustworthy human-AI interaction.",
-        "evidence": "Activation steering experiments further suggest that framing-associated representational directions can partially modulate downstream behavioral outcomes.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Trustworthy LLM.",
-        "source": "abstract",
-        "generated_by": "extractive"
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "robustness",
-          "auditing",
-          "reliability",
-          "robustness"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-06-28T16:00:21.496481+00:00"
-    },
-    {
-      "id": "2606.26487",
-      "title": "Speaking Numbers to LLMs: Multi-Wavelet Number Embeddings for Time Series Forecasting",
-      "abstract": "Large language models (LLMs) are attractive for context-aware time series forecasting because they can integrate heterogeneous textual signals, yet their discrete, language-oriented tokenization and embedding interfaces are misaligned with continuous numerical values, often harming numerical ordering and forecasting reliability. We propose TempoWave, a plug-and-play temporal wavelet digit interface that maps each scalar observation into digit-wise embeddings constructed from multi-wavelet, multi-scale coefficients. By directly overriding standard token representations, TempoWave seamlessly exposes both fine-grained local fluctuations and macro global structures in a transformer-compatible form, ensuring that precise numerical formatting, distinct digit identity, and robustness to common normalization operations are maintained throughout the LLM pipeline. Experiments across five context-enriched forecasting benchmarks demonstrate that TempoWave consistently improves LLM-based forecasters over standard numeric tokenization and alternative embedding interfaces, achieving a new state-of-the-art. These results highlight the numeric interface as a key bottleneck and suggest that principled multi-resolution embeddings can better couple LLMs' contextual reasoning with precise forecasting. Our code is available at https://github.com/DC-research/TempoWAVE and our model can be accessed at https://huggingface.co/Melady/TempoWAVE.",
-      "authors": [
-        "Defu Cao",
-        "Zijie Lei",
-        "Muyan Weng",
-        "Jiao Sun",
-        "Yan Liu"
-      ],
-      "published": "2026-06-25T00:44:09Z",
-      "updated": "2026-06-25T00:44:09Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2606.26487v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.26487v1",
-      "comment": "Camera Ready version of IJCAI 2026",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3904,
-          "matched": [
-            "robustness",
-            "reliability",
-            "llm",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4638,
-        "relevance": 0.3123,
-        "quality": 0.76,
-        "novelty": 0.8478,
-        "freshness": 0.4808
-      },
-      "quality_signals": [
-        "code available",
-        "GitHub link",
-        "benchmark evaluation",
-        "experiments"
-      ],
-      "summary": {
-        "takeaway": "Large language models (LLMs) are attractive for context-aware time series forecasting because they can integrate heterogeneous textual signals, yet their discrete, language-oriented tokenization and embedding interfaces are misaligned with continuous numerical values, often harming numerical ordering and forecasting reliability.",
-        "problem": "Large language models (LLMs) are attractive for context-aware time series forecasting because they can integrate heterogeneous textual signals, yet their discrete, language-oriented tokenization and embedding interfaces are misaligned with continuous numerical values, often harming numerical ordering and forecasting reliability.",
-        "method": "We propose TempoWave, a plug-and-play temporal wavelet digit interface that maps each scalar observation into digit-wise embeddings constructed from multi-wavelet, multi-scale coefficients.",
-        "evidence": "Experiments across five context-enriched forecasting benchmarks demonstrate that TempoWave consistently improves LLM-based forecasters over standard numeric tokenization and alternative embedding interfaces, achieving a new state-of-the-art.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Trustworthy LLM.",
-        "source": "abstract",
-        "generated_by": "extractive"
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "robustness",
-          "reliability",
-          "llm",
-          "robustness"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-06-28T15:58:10.558302+00:00"
-    },
-    {
-      "id": "2606.26787",
-      "title": "AIGP: An LLM-Based Framework for Long-Term Value Alignment in E-Commerce Pricing",
-      "abstract": "Traditional dynamic pricing models in large-scale e-commerce suffer from limited interpretability, poor utilization of unstructured information, and misalignment with long-term business objectives such as cumulative Gross Merchandise Value (GMV), Return on Investment (ROI) and milestone achievement. We propose AIGP, a novel framework that leverages a Large Language Model (LLM) prompted with domain knowledge, structured data and textual context to make interpretable, knowledge-aware pricing decisions. For efficient deployment while maintaining high-quality outputs, we employ supervised fine-tuning for knowledge distillation. Central to AIGP is the Long-Term Value Estimator (LTVE), trained via offline reinforcement learning on historical data, which serves as a reward model to score candidate pricing actions and select preference pairs for Direct Preference Optimization (DPO), thereby aligning the pricing policy with long-term business objectives. Extensive offline evaluations and large-scale online A/B tests on Tao Factory demonstrate that AIGP achieves significant improvements: +13.21% in GMV, +7.59% in ROI, and +8.20% in milestone achievement rate over 14 days compared to the production baseline, while simultaneously providing interpretable and transparent pricing rationales.",
-      "authors": [
-        "Chennan Ma",
-        "Yanning Zhang",
-        "Siqi Hong",
-        "Xiuchong Wang",
-        "Fei Xiao",
-        "Keping Yang"
-      ],
-      "published": "2026-06-25T09:21:42Z",
-      "updated": "2026-06-25T09:21:42Z",
-      "categories": [
-        "cs.LG",
-        "cs.AI",
-        "cs.CL"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2606.26787v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.26787v1",
-      "comment": "Accepted by KDD 2026 Applied Data Science Track (Oral presentation)",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4728,
-          "matched": [
-            "alignment",
-            "alignment",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4512,
-        "relevance": 0.3782,
-        "quality": 0.48,
-        "novelty": 0.8273,
-        "freshness": 0.5321
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Traditional dynamic pricing models in large-scale e-commerce suffer from limited interpretability, poor utilization of unstructured information, and misalignment with long-term business objectives such as cumulative Gross Merchandise Value (GMV), Return on Investment (ROI) and milestone achievement.",
-        "problem": "Traditional dynamic pricing models in large-scale e-commerce suffer from limited interpretability, poor utilization of unstructured information, and misalignment with long-term business objectives such as cumulative Gross Merchandise Value (GMV), Return on Investment (ROI) and milestone achievement.",
-        "method": "We propose AIGP, a novel framework that leverages a Large Language Model (LLM) prompted with domain knowledge, structured data and textual context to make interpretable, knowledge-aware pricing decisions.",
-        "evidence": "Extensive offline evaluations and large-scale online A/B tests on Tao Factory demonstrate that AIGP achieves significant improvements: +13.21% in GMV, +7.59% in ROI, and +8.20% in milestone achievement rate over 14 days compared to the production baseline, while simultaneously providing interpretable and transparent pricing rationales.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Trustworthy LLM.",
-        "source": "abstract",
-        "generated_by": "extractive"
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment",
-          "alignment",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-06-28T15:58:10.558302+00:00"
     }
   ]
 }
