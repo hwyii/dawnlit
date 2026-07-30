@@ -1,6 +1,1064 @@
 {
-  "generated_at": "2026-07-29T12:20:20.242360+00:00",
+  "generated_at": "2026-07-30T12:03:36.063766+00:00",
   "papers": [
+    {
+      "id": "2607.27081",
+      "title": "On-Policy Distillation for LLM Safety: A Routing Approach to Template-Robust Realignment",
+      "abstract": "Fine-tuning is the dominant paradigm for specializing large language models (LLMs), yet it exposes a critical vulnerability: malicious data providers can embed harmful behaviors into downstream corpora, creating models that retain professional skills while violating human values on demand. Existing safety-realignment defenses often fail in practice due to three key limitations: they frequently cause catastrophic forgetting of specialized skills; their effectiveness collapses when the defender cannot observe the attacker's prompt template; and successfully realigned models remain susceptible to re-jailbreaking via simple system prompt switches. To address these challenges, we propose Routing-based On-Policy Distillation (ROPD), a novel realignment framework that models the divergence between aligned and compromised output probability distributions rather than fitting specific prompt templates. We conduct extensive experiments comparing ROPD against four state-of-the-art baselines across three datasets and three base models with varying alignment strengths. Our results demonstrate that when baseline defenses face template mismatches, often accompanied by severe degradation in downstream task performance. In contrast, ROPD substantially mitigates template-mismatch risks, maintaining superior robustness in both defense effectiveness and capability preservation. While our analysis indicates ROPD is not entirely immune to template shifts, its performance degradation is negligible compared to existing methods, establishing a new standard for robust LLM realignment.",
+      "authors": [
+        "Yongjian Guo",
+        "Wanlun Ma",
+        "Lingyu Shen",
+        "Xi Xiao",
+        "Sheng Wen"
+      ],
+      "published": "2026-07-29T16:07:19Z",
+      "updated": "2026-07-29T16:07:19Z",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.CR",
+        "cs.LG"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2607.27081v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.27081v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.6642,
+          "matched": [
+            "llm safety",
+            "LLM safety",
+            "robustness",
+            "alignment",
+            "alignment",
+            "safety"
+          ]
+        },
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "watch",
+          "score": 0.6547,
+          "matched": [
+            "on-policy distillation",
+            "policy distillation",
+            "distillation",
+            "on-policy"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.6096,
+          "matched": [
+            "robustness",
+            "robust",
+            "fine-tuning"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.7031,
+        "relevance": 0.7314,
+        "quality": 0.5,
+        "novelty": 0.836,
+        "freshness": 0.8813
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "experiments",
+        "dataset evidence"
+      ],
+      "summary": {
+        "takeaway": "Routing-based On-Policy Distillation (ROPD) effectively mitigates template-mismatch vulnerabilities in LLM safety realignment.",
+        "problem": "Existing safety-realignment defenses often fail due to catastrophic forgetting, template dependency, and susceptibility to re-jailbreaking.",
+        "method": "ROPD models the divergence between aligned and compromised output distributions, using a dual-teacher framework for realignment.",
+        "evidence": "ROPD outperforms four state-of-the-art baselines, maintaining task performance while reducing harmful output rates significantly.",
+        "limitations": "ROPD is not entirely immune to template shifts, experiencing some performance degradation under certain conditions.",
+        "why_for_you": "This research provides a novel approach to enhance LLM safety, relevant for developing robust AI systems.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4o-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "ROPD maintains superior robustness against template mismatches, achieving a reduction in harmful output rates (ASR) to single-digit levels while preserving task performance."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The dual-teacher configuration in ROPD utilizes a safety teacher for refusal behavior and a task teacher for downstream capabilities, effectively routing realignment tokens."
+          },
+          {
+            "icon": "📉",
+            "text": "Baseline methods showed over 30% degradation in defense effectiveness when faced with template mismatches, while ROPD's performance degradation was negligible."
+          }
+        ],
+        "overview": "This paper addresses the vulnerabilities of existing safety-realignment methods for large language models (LLMs), which often fail due to catastrophic forgetting and template dependency. The authors propose Routing-based On-Policy Distillation (ROPD), a novel framework that models the divergence between aligned and compromised output distributions. Extensive experiments demonstrate that ROPD significantly mitigates template-mismatch risks, outperforming four state-of-the-art baselines across three datasets and models, while preserving downstream task performance.",
+        "methodology": [
+          {
+            "title": "ROPD Framework",
+            "detail": "ROPD employs a dual-teacher setup where one teacher provides a refusal prior and the other maintains task capabilities. The model routes tokens based on their source, optimizing with a top-K KL divergence objective."
+          },
+          {
+            "title": "Training Procedure",
+            "detail": "The training involves a mixture of task and harmful data, with the model initialized from a misaligned state. The training objective focuses on minimizing the divergence between the student model's outputs and the teachers' outputs."
+          },
+          {
+            "title": "Evaluation Protocol",
+            "detail": "The evaluation measures the attack success rate (ASR) across different templates, assessing the robustness of ROPD against template shifts compared to baseline methods."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Output Probability Distillation",
+            "detail": "ROPD distills the output distribution of the aligned model, focusing on refusal behaviors that are less dependent on specific prompt templates, thereby enhancing robustness."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Baseline Comparisons",
+            "detail": "ROPD was compared against SSRD, RESTA, soft-SFT, and rollback across three datasets (text-to-SQL, dialogue summarization, NL2Bash) and three models (Llama-2, Qwen2.5, Gemma2), demonstrating superior performance."
+          },
+          {
+            "title": "Template Mismatch Evaluation",
+            "detail": "Experiments showed that baseline defenses suffered over 30% performance degradation under template mismatches, while ROPD maintained effectiveness with minimal degradation."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Defense Effectiveness",
+            "detail": "ROPD achieved a low ASR of 1.6% under the self-defense template, significantly outperforming baselines that had ASRs above 30%."
+          },
+          {
+            "title": "Task Performance Preservation",
+            "detail": "ROPD maintained or improved task performance across all evaluated models, contrasting with baselines that often resulted in zero task performance."
+          },
+          {
+            "title": "Robustness Against Template Shifts",
+            "detail": "While ROPD is not immune to template shifts, its performance degradation is significantly lower than that of existing methods, establishing a new standard for LLM realignment."
+          }
+        ],
+        "contributions": [
+          "Introduction of Routing-based On-Policy Distillation (ROPD) as a novel framework for LLM safety realignment.",
+          "Demonstration of ROPD's effectiveness in mitigating template-mismatch vulnerabilities.",
+          "Empirical validation of ROPD's robustness across multiple datasets and models."
+        ],
+        "limitations": [
+          "ROPD is not entirely immune to template shifts, experiencing some performance degradation.",
+          "The framework's effectiveness is contingent on the quality of the teacher models used."
+        ],
+        "open_questions": [
+          "How can ROPD be further improved to achieve complete immunity to template shifts?",
+          "What additional mechanisms can be integrated into ROPD to enhance its robustness against novel attack strategies?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4o-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "llm safety",
+          "LLM safety",
+          "robustness",
+          "alignment"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-30T12:03:36.063766+00:00"
+    },
+    {
+      "id": "2607.26831",
+      "title": "Language Models are not Equally Robust to Non-Canonical Tokenization across Languages",
+      "abstract": "Despite the existence of exponentially many valid tokenizations for a given string, language models operate on a single canonical sequence deterministically produced by the tokenizer, leaving the broader tokenization space largely uncharacterized. In this paper, we investigate this overlooked space by studying the behavior of language models under non-canonical tokenizations across diverse languages. For English, prior work shows that models are largely invariant to alternative tokenizations that represent the same underlying string. We ask whether this invariance generalizes to other languages beyond English. We conduct a multilingual study across 27 languages spanning diverse scripts and evaluate LLM behavior under alternative tokenizations across six downstream tasks. We find that tokenization invariance does not generalize: model behavior varies substantially across languages with instruction-tuned models exhibiting an average relative performance drop of 23.7% for Llama-3.1-8B, 11.4% for Qwen3-8B, and 9.9% for Gemma-3-12B. The variation of tokenization invariance is systematic across languages. Languages that exhibit higher token fragmentation show significantly greater sensitivity to non-canonical tokenizations. Our study of tokenization robustness serves as a diagnostic of how tightly a model is coupled to its tokenizer. These results demonstrate that tokenization robustness is not a universal property of language models, but depends strongly on the language and its interaction with the tokenizer. We also show that LoRA fine-tuning with multi-tokenization training data provides an effective mitigation for tokenization sensitivity. Fine-tuning on English alone improves tokenization robustness across languages, while systematically sampling diverse non-canonical tokenizations achieves the strongest overall performance.",
+      "authors": [
+        "Poulami Ghosh",
+        "Preethi Jyothi"
+      ],
+      "published": "2026-07-29T12:23:15Z",
+      "updated": "2026-07-29T12:23:15Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.26831v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.26831v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "core",
+          "score": 0.7224,
+          "matched": [
+            "robustness",
+            "robust",
+            "fine-tuning",
+            "training"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4512,
+          "matched": [
+            "robustness",
+            "llm",
+            "robustness"
+          ]
+        },
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "emerging",
+          "score": 0.3186,
+          "matched": [
+            "sampling",
+            "training data",
+            "data"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6816,
+        "relevance": 0.7319,
+        "quality": 0.41,
+        "novelty": 0.8097,
+        "freshness": 0.8591
+      },
+      "quality_signals": [
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Tokenization robustness varies significantly across languages and models, challenging the assumption of universal invariance.",
+        "problem": "The generalizability of tokenization invariance in language models beyond English is unclear.",
+        "method": "A multilingual study across 27 languages evaluated LLM behavior under non-canonical tokenizations across six downstream tasks.",
+        "evidence": "Instruction-tuned models showed average performance drops of 23.7% for Llama-3.1-8B, 11.4% for Qwen3-8B, and 9.9% for Gemma-3-12B under non-canonical tokenizations.",
+        "limitations": "The study does not explore the effects of non-canonical tokenization on all possible language families or scripts.",
+        "why_for_you": "Understanding tokenization robustness is crucial for improving multilingual LLM performance and addressing efficiency in adversarial training.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4o-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Instruction-tuned models exhibit a systematic performance drop across languages when faced with non-canonical tokenizations, indicating that tokenization robustness is not universally applicable."
+          },
+          {
+            "icon": "🛡️",
+            "text": "LoRA fine-tuning with multi-tokenization training data effectively mitigates tokenization sensitivity, enhancing robustness across languages."
+          },
+          {
+            "icon": "📉",
+            "text": "Higher token fragmentation in certain languages correlates with increased sensitivity to non-canonical tokenizations, revealing a complex interaction between language characteristics and model performance."
+          }
+        ],
+        "overview": "This research investigates the robustness of language models to non-canonical tokenizations across 27 languages, revealing that tokenization invariance observed in English does not extend universally. The study finds significant performance drops in instruction-tuned models, with an average decrease of 23.7% for Llama-3.1-8B, highlighting the influence of language-specific characteristics on model behavior. The findings suggest that tokenization robustness is a nuanced property shaped by the interaction between language and tokenizer, with implications for multilingual model training and evaluation.",
+        "methodology": [
+          {
+            "title": "Multilingual Study Design",
+            "detail": "The study involved evaluating LLMs across 27 languages using six downstream tasks, focusing on how models respond to non-canonical tokenizations."
+          },
+          {
+            "title": "Performance Measurement",
+            "detail": "Performance drops were quantified by comparing model outputs under canonical and non-canonical tokenizations, using metrics such as accuracy and task-specific benchmarks."
+          },
+          {
+            "title": "LoRA Fine-Tuning",
+            "detail": "LoRA fine-tuning was applied using multi-tokenization training data to enhance model robustness, demonstrating improved performance across languages."
+          },
+          {
+            "title": "Token Fragmentation Analysis",
+            "detail": "The average number of tokens per word was computed to assess token fragmentation, correlating it with model sensitivity to non-canonical tokenizations."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Tokenization as a Latent Space",
+            "detail": "The study conceptualizes tokenization as a latent probabilistic space, where the variability in tokenization can influence model performance and robustness."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Model Evaluation Framework",
+            "detail": "Experiments utilized the lm-evaluation-harness framework, extending it to support non-canonical tokenizations and character-level tokenizations for comprehensive evaluation."
+          },
+          {
+            "title": "Sampling Non-Canonical Tokenizations",
+            "detail": "Random non-canonical tokenizations were generated using a Multi-valued Decision Diagram (MDD) to uniformly sample from the space of all valid tokenizations."
+          },
+          {
+            "title": "Instruction-Tuned Model Performance",
+            "detail": "The main experiments focused on instruction-tuned models: Llama-3.1-8B, Qwen3-8B, and Gemma-3-12B, assessing their robustness across various languages."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Performance Drop Across Languages",
+            "detail": "Instruction-tuned models experienced an average performance drop of 23.7% for Llama-3.1-8B, 11.4% for Qwen3-8B, and 9.9% for Gemma-3-12B under non-canonical tokenizations."
+          },
+          {
+            "title": "Systematic Variation of Robustness",
+            "detail": "The study found that tokenization invariance varies systematically across languages, with higher token fragmentation leading to greater sensitivity."
+          },
+          {
+            "title": "Mitigation through Fine-Tuning",
+            "detail": "LoRA fine-tuning with diverse non-canonical tokenizations improved robustness, demonstrating that training on English alone can enhance performance across languages."
+          }
+        ],
+        "contributions": [
+          "First systematic study of non-canonical tokenization in multilingual LLMs across 27 languages and six tasks.",
+          "Analysis of how non-canonical tokenization affects multilingual models differently across language families and scripts.",
+          "Demonstration that non-canonical tokenization can serve as a natural source of data augmentation for improving multilingual generalization."
+        ],
+        "limitations": [
+          "The study does not explore the effects of non-canonical tokenization on all possible language families or scripts.",
+          "Limited understanding of how tokenization robustness varies in lower-resource languages."
+        ],
+        "open_questions": [
+          "How can tokenization robustness be improved for lower-resource languages?",
+          "What are the implications of tokenization variability for model safety and alignment in multilingual contexts?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4o-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "robustness",
+          "robust",
+          "fine-tuning",
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-30T12:03:36.063766+00:00"
+    },
+    {
+      "id": "2607.26981",
+      "title": "OptimismBench: Forecasting Bias and the Alignment Effect in Language Model Judgment",
+      "abstract": "Large language models are increasingly used as decision aids whose probability judgments shape downstream choices. Whether those judgments carry a systematic directional tilt has been hard to detect: calibration metrics aggregate unsigned errors, and naturalistic uncertainty offers no ground-truth probability. When an LLM rates a startup's success at 70% but its failure at 15%, the missing 15 points expose a distortion no aggregate score flags. We introduce OptimismBench, which detects directional bias with inverted pairs: each scenario elicits both P(success) and P(failure), and asymmetry between the two framings yields a signed bias score without ground truth. Across 16 models from 8 providers, fourteen are optimistic; pessimism appears only in Anthropic's frontier tier. Eleven matched base-versus-chat pairs across four families show post-training sets the sign of the bias, with opposite shifts in different families. The pattern survives prompt, temperature, perspective, and self-debiasing ablations. A seventeen-model six-language comparison further shows model identity dominates language, with inter-model variance at 4.7x inter-language variance. We release 3,870 items across 10 languages for per-model directional-bias auditing. When alignment makes a model more helpful, it also tilts its probabilities; downstream pipelines inherit the tilt by default.",
+      "authors": [
+        "Seonglae Cho",
+        "Adriano Koshiyama"
+      ],
+      "published": "2026-07-29T14:38:55Z",
+      "updated": "2026-07-29T14:38:55Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2607.26981v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.26981v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.5909,
+          "matched": [
+            "alignment",
+            "auditing",
+            "uncertainty",
+            "calibration",
+            "alignment",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5383,
+        "relevance": 0.4727,
+        "quality": 0.51,
+        "novelty": 0.854,
+        "freshness": 0.8726
+      },
+      "quality_signals": [
+        "ablation study",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "OptimismBench reveals that most large language models exhibit a significant optimism bias in probability judgments, with alignment training influencing the direction and magnitude of this bias.",
+        "problem": "Existing calibration metrics fail to detect directional bias in LLM probability judgments, obscuring systematic optimism or pessimism in model outputs.",
+        "method": "OptimismBench uses inverted pairs eliciting complementary probabilities (P(success) and P(failure)) to compute a signed Skew score that quantifies directional bias without requiring ground-truth probabilities.",
+        "evidence": "Across 16 models from 8 providers and 10 languages, 14 models show significant optimism bias while only Anthropic’s frontier models show pessimism; this pattern persists under prompt, temperature, perspective, and self-debiasing variations.",
+        "limitations": "The family-direction claim is supported by limited matched pairs and single-pair pilots; Skew measures internal asymmetry rather than deviation from human judgment, lacking a matched human baseline.",
+        "why_for_you": "Understanding and auditing directional bias in LLM probability judgments is critical for trustworthy AI deployment, especially as alignment interventions can unintentionally amplify optimism bias affecting downstream decisions.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "The study finds that 14 out of 16 evaluated LLMs exhibit optimism bias with Skew scores ranging from +4.2 to +16.6, while only Anthropic’s frontier-tier models (Opus and Sonnet) show pessimism with Skew −5.1 and −7.7."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The inverted-pair method computes Skew as P(success) minus the complement of P(failure), enabling detection of directional bias without ground-truth probabilities by exploiting complementary probability elicitation."
+          },
+          {
+            "icon": "📉",
+            "text": "Variance decomposition attributes 35.3% of Skew variance to model identity, 24.2% to scenario, and only 3.7% to domain, indicating that directional bias is primarily a model property rather than domain-dependent."
+          }
+        ],
+        "overview": "This paper addresses the challenge of detecting directional bias in large language model (LLM) probability judgments, which traditional calibration metrics fail to reveal due to their aggregation of unsigned errors. The authors introduce OptimismBench, a novel benchmark leveraging inverted pairs of complementary probability queries (P(success) and P(failure)) to compute a signed Skew score that quantifies optimism or pessimism without requiring ground-truth probabilities. Evaluating 16 models from 8 providers across 60 scenarios and 10 languages, the study finds that most models exhibit significant optimism bias, except for Anthropic’s frontier models which show pessimism. The bias persists across prompt variations, temperature settings, perspective shifts, and explicit self-debiasing interventions. Controlled base-versus-chat comparisons reveal that post-training alignment strongly influences bias direction in a family-specific manner. Cross-lingual analysis shows model identity dominates language effects, with inter-model variance 4.7 times greater than inter-language variance. The benchmark and dataset are released for replication and auditing. These findings highlight a previously unmeasured alignment side-effect where increased helpfulness correlates with directional probability distortion, which downstream applications inherit by default.",
+        "methodology": [
+          {
+            "title": "Inverted-Pair Skew Scoring",
+            "detail": "For each scenario, the model is prompted to estimate both P(success) and P(failure). The Skew score is computed as Skew = P(success) − (100 − P(failure)), capturing directional asymmetry in probability judgments without requiring ground-truth probabilities."
+          },
+          {
+            "title": "Base-versus-Chat Controlled Probe",
+            "detail": "Eleven matched base-versus-chat model pairs across four families (Qwen, Llama, Gemma, Mistral) are evaluated to isolate the effect of post-training alignment on bias direction, holding architecture and pre-training constant."
+          },
+          {
+            "title": "Robustness Checks",
+            "detail": "The study tests the stability of Skew under variations in system prompt detail (minimal, standard, extended), temperature (0.7 vs. 1.0), perspective (third-person, second-person, friend), and explicit self-debiasing prompts, confirming direction preservation."
+          },
+          {
+            "title": "Cross-Lingual Evaluation",
+            "detail": "Seventeen models are evaluated across six native-prompt languages plus four with English system prompts, enabling variance decomposition that shows model identity dominates language effects on directional bias."
+          },
+          {
+            "title": "Probability Axiom Batteries",
+            "detail": "Two probability coherence tests—conjunction (P(A) ≥ P(A ∩ B)) and dose-response monotonicity—are applied to five models, revealing low conjunction violation rates but high dose-response reversal rates, indicating differential alignment effects on coherence axioms."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Directional Bias Measurement via Complementarity",
+            "detail": "The mechanism relies on the complementarity axiom of probabilities: a consistent model should produce P(success) and P(failure) estimates summing to 100%. Deviations from this complementarity, quantified by Skew, reveal directional bias. No explicit causal or geometric equations are provided."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "16-Model Directional Bias Evaluation",
+            "detail": "Sixteen models from eight providers (OpenAI, Anthropic, Google, Meta, Alibaba, DeepSeek, Mistral, Zhipu) are evaluated on 60 inverted-pair scenarios in 10 languages, measuring Skew scores and statistical significance (p < 0.002)."
+          },
+          {
+            "title": "Base-versus-Chat Alignment Probe",
+            "detail": "Eleven matched base-versus-chat pairs across four model families are tested to causally link post-training alignment to bias direction, showing family-specific shifts: Qwen alignment compresses bias, Llama alignment amplifies optimism."
+          },
+          {
+            "title": "Robustness Ablations",
+            "detail": "Prompt detail, temperature, perspective, and self-debiasing interventions are ablated on selected models (e.g., GPT-5.4, Sonnet), confirming that directional bias sign remains stable with minor magnitude changes."
+          },
+          {
+            "title": "Cross-Lingual Variance Decomposition",
+            "detail": "Seventeen models evaluated across six native languages plus four English-prompted languages show inter-model variance in Skew is 4.7 times greater than inter-language variance, emphasizing model identity as the dominant factor."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Widespread Optimism Bias",
+            "detail": "Fourteen of sixteen models exhibit significant optimism bias with Skew scores from +4.2 to +16.6; only Anthropic’s frontier models (Opus −5.1, Sonnet −7.7) show pessimism, indicating optimism is the dominant directional bias."
+          },
+          {
+            "title": "Alignment Influences Bias Direction",
+            "detail": "Post-training alignment causally sets bias direction in a family-specific manner: Qwen alignment reduces optimism bias, Llama alignment increases it, and Anthropic’s larger models shift from optimism to pessimism."
+          },
+          {
+            "title": "Bias Persists Across Robustness Checks",
+            "detail": "Directional bias sign is preserved under variations in prompt detail, temperature (0.7 vs. 1.0), perspective shifts, and explicit self-debiasing, demonstrating robustness of the optimism/pessimism effect."
+          },
+          {
+            "title": "Model Identity Dominates Language Effects",
+            "detail": "Variance decomposition shows 35.3% of Skew variance is attributable to model identity, while inter-language variance accounts for only 7.5% (1/4.7 of model variance), indicating model choice matters more than language."
+          },
+          {
+            "title": "Differential Effects on Probability Coherence",
+            "detail": "Conjunction axiom violations are low (0–10%) and stable across languages, but dose-response monotonicity violations remain high (27–47%), suggesting alignment training improves some coherence axioms but not others."
+          }
+        ],
+        "contributions": [
+          "Introduction of OptimismBench, a novel benchmark using inverted pairs to detect directional bias in LLM probability judgments without ground-truth probabilities.",
+          "Empirical demonstration that most commercial and open-source LLMs exhibit significant optimism bias, with only Anthropic’s frontier models showing pessimism.",
+          "Controlled base-versus-chat experiments establishing post-training alignment as a causal factor influencing bias direction in a family-specific manner.",
+          "Cross-lingual evaluation showing model identity dominates language effects on directional bias, with inter-model variance 4.7× inter-language variance.",
+          "Release of a large multilingual dataset (3,870 items across 10 languages) for auditing directional bias in LLMs."
+        ],
+        "limitations": [
+          "The family-direction claim relies on limited matched pairs (Qwen 5/5, Llama 4/4) and single-pair pilots (Gemma-2-2b, Mistral-Small-24B), limiting statistical power within families.",
+          "Skew measures internal asymmetry against the complementarity axiom rather than deviation from human judgment; no matched human baseline is provided.",
+          "Cross-lingual evaluation includes languages with English system prompts, introducing a known confound that may affect language variance estimates.",
+          "The study does not provide mechanistic causal models or equations explaining why alignment induces directional bias."
+        ],
+        "open_questions": [
+          "How does directional bias in LLM probability judgments affect downstream decision-making and real-world applications?",
+          "Can alignment training be designed to mitigate optimism or pessimism bias without sacrificing helpfulness or safety?",
+          "What are the cognitive or architectural mechanisms by which post-training alignment shifts bias direction in different model families?",
+          "How do human probability judgments compare to LLM Skew scores on the same inverted-pair scenarios, and can human baselines guide bias correction?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment",
+          "auditing",
+          "uncertainty",
+          "calibration"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-30T12:03:36.063766+00:00"
+    },
+    {
+      "id": "2607.27155",
+      "title": "OmegaUse-OfficeVal: Benchmarking LLM Agents on Long-Horizon Office-Suite Tasks with Economic Grounding",
+      "abstract": "Large language model (LLM) agents are increasingly expected to assist users in completing tasks. However, existing benchmarks provide limited support for evaluating whether agents can carry out office-suite workflows at a reasonable cost. We introduce OmegaUse-OfficeVal, a benchmark for evaluating LLM agents on long-horizon office-suite tasks with task-level economic grounding. The benchmark comprises 100 tasks derived from office-suite requests proposed by practitioners and adapted through a privacy-preserving process. On average, these tasks require 2.32 hours of human labor to complete. An important feature of the benchmark is that each task is paired with two economic signals: human labor time and task price proxy. These signals enable direct comparisons between human costs and LLM inference costs, as well as value-weighted evaluation. To support stable evaluation, we develop code-based verifiers from fine-grained rubrics. We evaluate several frontier LLMs together with a human baseline. Although all evaluated LLMs are substantially cheaper and faster than human workers, they have not yet approached human-level deliverable quality. The code and dataset are fully open-sourced, and more information is available on our project website: https://omegause-officeval.github.io.",
+      "authors": [
+        "Jingbo Zhou",
+        "Yusai Zhao",
+        "Qi Bao",
+        "Jingjia Cao",
+        "Zhenghai Chen",
+        "Chang Gao",
+        "Kaiqi Guo",
+        "Muxin Guo",
+        "Mingxuan Li",
+        "Xinjiang Lu",
+        "Yanru Ma",
+        "Yixiong Xiao",
+        "Zenghui Zhang",
+        "Le Zhang",
+        "Hua Wu"
+      ],
+      "published": "2026-07-29T17:33:47Z",
+      "updated": "2026-07-29T17:33:47Z",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.HC"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2607.27155v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.27155v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.475,
+          "matched": [
+            "privacy",
+            "privacy",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5368,
+        "relevance": 0.38,
+        "quality": 0.81,
+        "novelty": 0.8326,
+        "freshness": 0.8899
+      },
+      "quality_signals": [
+        "code available",
+        "baseline comparison",
+        "benchmark evaluation",
+        "dataset evidence",
+        "open source"
+      ],
+      "summary": {
+        "takeaway": "OmegaUse-OfficeVal introduces a benchmark with 100 long-horizon office-suite tasks paired with economic signals to evaluate LLM agents on cost-quality-time trade-offs.",
+        "problem": "Existing benchmarks inadequately assess LLM agents’ ability to complete complex office-suite workflows with economic grounding reflecting human labor and market value.",
+        "method": "The benchmark combines practitioner-derived tasks, human labor time and task price proxies, and code-based verification from fine-grained rubrics to evaluate final deliverables.",
+        "evidence": "Evaluations show LLMs are substantially cheaper and faster than humans but have not reached human-level deliverable quality across diverse office-suite domains.",
+        "limitations": "Current LLMs exhibit uneven performance across domains and task types, and the benchmark lacks evidence on uniform capability and trajectory-level evaluation.",
+        "why_for_you": "This benchmark enables rigorous, economically grounded evaluation of LLM agents on realistic, long-horizon office tasks critical for trustworthy productivity AI.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "OmegaUse-OfficeVal tasks average 2.32 hours of human labor and include economic signals: human labor time and task price proxy, enabling value-weighted evaluation of LLM agents."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The benchmark employs a deterministic code-based verification protocol using expert-revised rubrics to evaluate final office deliverables rather than fixed execution trajectories."
+          },
+          {
+            "icon": "📉",
+            "text": "Experimental results reveal that although LLM agents are faster and cheaper, none have matched human-level quality, with performance varying significantly by domain and task type."
+          }
+        ],
+        "overview": "OmegaUse-OfficeVal addresses the gap in evaluating LLM agents on complex, long-horizon office-suite workflows by introducing a benchmark of 100 tasks derived from real practitioner requests. Each task is annotated with two economic signals: human labor time and a task price proxy, the latter combining explicit market prices and expert estimates to reflect real-world value. The evaluation protocol uses code-based verification with fine-grained rubrics to assess final deliverables, allowing multiple valid workflows. This approach enables direct comparison of human and LLM costs and quality, including value-weighted metrics emphasizing tasks with higher labor or market value. Experiments with several frontier LLMs and human baselines show that while LLMs are substantially cheaper and faster, they have not yet achieved human-level deliverable quality, with performance varying across domains, output file types, and operation intents. This benchmark thus provides a comprehensive, economically grounded framework for assessing LLM agents’ practical utility in office automation.",
+        "methodology": [
+          {
+            "title": "Task Collection and Economic Annotation",
+            "detail": "Tasks were collected from practitioner office-suite requests and adapted via a privacy-preserving process. Each task is annotated with human labor time measured in minutes and a task price proxy derived from explicit price signals for 20% of tasks and expert estimates aggregated through a consistency-based procedure for the remainder."
+          },
+          {
+            "title": "Task Price Proxy Estimation",
+            "detail": "For tasks lacking explicit price data, three domain experts independently estimate task value based on occupational category, complexity, and typical compensation. Outlier estimates are discarded based on gap ratios, and the final proxy is the mean of consistent estimates, ensuring economic grounding and coverage."
+          },
+          {
+            "title": "Code-Based Verification Protocol",
+            "detail": "Evaluation uses deterministic code-based verification of final output files against expert-revised rubrics with about 20 rubric items per task. This approach supports multiple valid workflows and focuses on deliverable quality rather than execution trajectory."
+          },
+          {
+            "title": "Value-Weighted Scoring Metrics",
+            "detail": "Three scoring metrics are used: raw task score, time-weighted score (weighting by human labor time), and price-weighted score (weighting by task price proxy). These metrics enable nuanced evaluation of agent performance considering economic value and human effort."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Economic Grounding via Hybrid Price Proxy",
+            "detail": "The task price proxy mechanism combines explicit market prices with expert estimates to provide a comprehensive economic value annotation. The consistency-based aggregation discards outliers by comparing adjacent gaps among expert estimates, preserving real-world grounding while mitigating extreme values."
+          },
+          {
+            "title": "Code-Based Verification Mechanism",
+            "detail": "The verification mechanism evaluates final deliverables using deterministic code that checks compliance with rubric criteria, allowing multiple valid workflows to produce acceptable outputs. This contrasts with trajectory-based or human-judged evaluation, providing stable and reproducible quality assessment."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Model and Human Baseline Evaluation",
+            "detail": "Several frontier LLMs including GLM-5.2, Qwen3.7-Plus, DeepSeek-V4-Pro, Kimi K2.6, and MiniMax M3 were evaluated alongside human annotators on the 100-task benchmark using raw, time-weighted, and price-weighted scoring metrics."
+          },
+          {
+            "title": "Domain and Task-Type Performance Analysis",
+            "detail": "Performance was analyzed across domains (e.g., Engineering, Business, Academic), output file types (Word, Excel, PPT), and operation intents (annotation, extraction, beautification). Results showed domain-specific strengths and weaknesses, with Excel and annotation tasks generally easier for LLMs."
+          }
+        ],
+        "findings": [
+          {
+            "title": "LLMs Are Cheaper and Faster but Lower Quality",
+            "detail": "All evaluated LLMs completed tasks at substantially lower cost and runtime than humans but did not reach human-level deliverable quality, confirming the benchmark’s challenge and the gap in current LLM capabilities."
+          },
+          {
+            "title": "Performance Varies by Domain and Task Type",
+            "detail": "GLM-5.2 excelled in Engineering tasks, Qwen3.7-Plus in Business Operations, DeepSeek-V4-Pro in Academic Papers, and Kimi K2.6 in Other categories, indicating non-uniform LLM capabilities across office-suite workflows."
+          },
+          {
+            "title": "Excel and Annotation Tasks Are More Tractable",
+            "detail": "Models performed better on Excel and Word tasks and on annotation and extraction operation intents, likely due to programmatic manipulability and clearer task specifications, whereas beautification tasks were more challenging."
+          }
+        ],
+        "contributions": [
+          "Introduction of OmegaUse-OfficeVal, a benchmark with 100 long-horizon office-suite tasks annotated with human labor time and task price proxies.",
+          "Development of a deterministic code-based verification protocol using expert-revised rubrics for stable and reproducible evaluation of final deliverables.",
+          "Proposal of value-weighted scoring metrics that incorporate economic signals to assess LLM agent performance in terms of human labor and market value.",
+          "Comprehensive evaluation of multiple frontier LLMs and human baselines revealing cost-quality-time trade-offs and domain-specific performance variations."
+        ],
+        "limitations": [
+          "The benchmark does not evaluate execution trajectories, focusing solely on final deliverable quality, which may overlook agent behavior nuances.",
+          "Economic annotations rely partly on expert estimates, which may introduce subjective bias despite consistency checks.",
+          "Current LLMs show uneven performance across domains and task types, indicating limited generalization and robustness.",
+          "The benchmark lacks evidence on how well LLM agents handle dynamic or interactive office workflows beyond static task completion."
+        ],
+        "open_questions": [
+          "How can LLM agents be improved to achieve human-level deliverable quality across diverse long-horizon office-suite tasks?",
+          "What methods can better integrate economic grounding into agent training and decision-making to optimize cost-quality-time trade-offs?",
+          "How can evaluation protocols incorporate trajectory-level analysis to capture agent strategies and error recovery in office automation?",
+          "What approaches can enhance LLM robustness and generalization across heterogeneous office domains and task intents?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "privacy",
+          "privacy",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-30T12:03:36.063766+00:00"
+    },
+    {
+      "id": "2607.26820",
+      "title": "Forecasting Trajectory-Level Safety Risks in Black-Box Multi-Turn Interactions",
+      "abstract": "As large language models (LLMs) evolve from standalone assistants into autonomous agents, ensuring their safety requires shifting beyond pointwise risk assessment to understand how risks emerge and unfold over long-horizon trajectories. In multi-turn interactions, malicious intent can be decomposed across seemingly harmless turns and gradually reconstructed through interaction trajectories, eventually resulting in safety failures. Existing safeguards remain largely reactive, detecting manifested violations while lacking the ability to predict latent risk evolution and enable preemptive prevention. To address this limitation, we propose Recast, a safety risk forecasting framework that advances LLM safeguarding beyond turn-level violation detection to trajectory-level risk prediction. Recast first retrieves risk-relevant evidence from both short-term dialogue progression and long-term historical context via a dual-scale trajectory view. It then models compositional risk evolution by capturing the current risk configuration and its temporal dynamics. Finally, a causal temporal encoder learns latent risk evolution patterns and predicts the distribution of future risk emergence turns. Extensive experiments across 7 risk categories show that Recast predicts 88.3% of future safety failures with an average lead time of 2.41 turns, while maintaining a false alarm rate of 12.3%, showcasing the effectiveness of trajectory-level forecasting in identifying emerging risks before safety violations occur.",
+      "authors": [
+        "Shi Lin",
+        "Peng Qian",
+        "Dinghao Liu",
+        "Renjie Sun",
+        "Sifan Wu",
+        "Dezhang Kong",
+        "Chenpei Wang",
+        "Xun Wang"
+      ],
+      "published": "2026-07-29T12:14:23Z",
+      "updated": "2026-07-29T12:14:23Z",
+      "categories": [
+        "cs.LG",
+        "cs.CR"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2607.26820v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.26820v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.465,
+          "matched": [
+            "safety",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.493,
+        "relevance": 0.372,
+        "quality": 0.61,
+        "novelty": 0.8627,
+        "freshness": 0.8582
+      },
+      "quality_signals": [
+        "code available",
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Recast effectively forecasts trajectory-level safety risks in multi-turn interactions, achieving high predictive accuracy.",
+        "problem": "Existing safety measures are reactive and fail to predict latent risks in multi-turn interactions.",
+        "method": "Recast retrieves risk-relevant evidence and models risk evolution to forecast future safety failures.",
+        "evidence": "Recast predicts 88.3% of future safety failures with an average lead time of 2.41 turns and a false alarm rate of 12.3%.",
+        "limitations": "The study does not address the performance of Recast across all potential risk categories.",
+        "why_for_you": "Understanding Recast's trajectory-level forecasting can enhance the safety of LLMs in autonomous applications.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4o-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "Recast achieves a negative log-likelihood of 0.45 and a mean absolute error of 0.31 for first-risk emergence time forecasting, demonstrating its predictive capabilities."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The framework employs a dual-scale trajectory view to retrieve risk-relevant evidence from both short-term dialogue progression and long-term historical context."
+          },
+          {
+            "icon": "📉",
+            "text": "Recast maintains a false alarm rate of 12.3% while achieving an early warning rate of 88.3%, indicating its effectiveness in proactive risk management."
+          }
+        ],
+        "overview": "The research addresses the challenge of predicting safety risks in multi-turn interactions of LLMs, proposing Recast as a proactive forecasting framework. Unlike existing methods that react to safety violations, Recast anticipates risks by modeling the evolution of interaction trajectories. The framework retrieves relevant evidence and captures temporal dynamics, achieving significant predictive accuracy, as evidenced by its ability to forecast 88.3% of future safety failures with a lead time of 2.41 turns.",
+        "methodology": [
+          {
+            "title": "Risk-relevant historical evidence retrieval",
+            "detail": "Recast captures both short-term and long-term contextual evidence to inform risk assessments, enhancing the model's understanding of evolving interactions."
+          },
+          {
+            "title": "Compositional risk state and transition modeling",
+            "detail": "The framework constructs a structured risk state from retrieved evidence and models its temporal evolution, allowing for dynamic risk assessment."
+          },
+          {
+            "title": "Future risk distribution forecasting",
+            "detail": "A causal temporal encoder is employed to learn latent risk evolution patterns, predicting the distribution of future risk emergence across interaction turns."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Causal temporal encoding",
+            "detail": "Recast utilizes a causal temporal encoder to learn patterns of risk evolution, enabling the prediction of future safety violations based on past interactions."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Dataset construction",
+            "detail": "The study constructs a dataset of 10,000 trajectories, balancing harmful and benign samples across 7 risk categories to train and evaluate Recast."
+          },
+          {
+            "title": "Evaluation metrics",
+            "detail": "Recast is evaluated using negative log-likelihood (NLL), expected mean absolute error (Expected-MAE), early warning rate (EWR), and false alarm rate (FAR) to measure its forecasting capabilities."
+          },
+          {
+            "title": "Comparison with baselines",
+            "detail": "Recast is compared against multiple safeguard baselines, demonstrating a reduction in attack success rates from 71.5% to 45.9%, showcasing its effectiveness."
+          }
+        ],
+        "findings": [
+          {
+            "title": "High predictive accuracy",
+            "detail": "Recast predicts 88.3% of future safety failures, indicating its strong capability in forecasting risks before they manifest."
+          },
+          {
+            "title": "Effective early warning",
+            "detail": "The framework achieves an average lead time of 2.41 turns, allowing for timely interventions in multi-turn interactions."
+          },
+          {
+            "title": "Low false alarm rate",
+            "detail": "Recast maintains a false alarm rate of 12.3%, demonstrating its reliability in distinguishing between benign and harmful interactions."
+          }
+        ],
+        "contributions": [
+          "Introduces Recast, a novel framework for trajectory-level safety risk forecasting in LLMs.",
+          "Demonstrates the importance of proactive risk assessment in multi-turn interactions.",
+          "Provides empirical evidence of Recast's effectiveness across multiple risk categories."
+        ],
+        "limitations": [
+          "The performance of Recast across all potential risk categories is not fully explored.",
+          "The study does not address the scalability of Recast in real-world applications."
+        ],
+        "open_questions": [
+          "How can Recast be adapted to handle emerging risk categories not covered in the current study?",
+          "What are the implications of Recast's predictions on the design of future LLM safety protocols?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4o-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "safety",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-30T12:03:36.063766+00:00"
+    },
+    {
+      "id": "2607.26849",
+      "title": "ToxScreen: Detecting Whether an LLM Has Been Poisoned",
+      "abstract": "As large language models (LLMs) are deployed in high-stakes domains, adversaries may poison training data to implant backdoors: hidden triggers that covertly manipulate model behavior at inference time. We ask whether a defender can recover such a trigger under realistic affordances, namely white-box access to the weights and knowledge of the behavior of concern, but no training data, no trusted reference model, no knowledge of the trigger, and no certainty that the model is poisoned. To evaluate whether a defender can recover such a trigger under realistic settings, we release ToxScreen, a benchmark of roughly 800 backdoored models spanning attack objectives, trigger mechanisms, poisoning rates, model scales, and backdoor training mechanisms. We also assert that the backdoors are high-quality: they achieve high attack success rates, generalize to unseen harmful inputs, and preserve clean-task performance. Scoring recovery of the planted trigger, we find that gradient-based prompt optimization fails in recovery, whereas a token look-up that ranks candidates by attack-success rate recovers the trigger wherever the backdoor is effective. To understand this more, we study the relationship between attack behaviors and the weights of an LLM. We find a phenomenon whereby backdoors operate via different mechanistic strategies than jailbreaks, allowing defenders to filter jailbreaks. Finally, no method reliably surfaces every backdoor, but a broadly jailbreakable model is itself anomalous, a useful signal even when the exact trigger is not recovered. We release all models and evaluation code",
+      "authors": [
+        "Anthony Hughes",
+        "Nicole Xing",
+        "Collin Francel",
+        "Andy Kim",
+        "Andrew Draganov"
+      ],
+      "published": "2026-07-29T12:35:58Z",
+      "updated": "2026-07-29T12:35:58Z",
+      "categories": [
+        "cs.CR",
+        "cs.LG"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2607.26849v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.26849v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "emerging",
+          "score": 0.4172,
+          "matched": [
+            "training data",
+            "data"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4679,
+        "relevance": 0.3338,
+        "quality": 0.62,
+        "novelty": 0.8389,
+        "freshness": 0.8604
+      },
+      "quality_signals": [
+        "code available",
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "ToxScreen enables detection and partial recovery of backdoor triggers in LLMs using a novel token look-up method and a coupling statistic derived from model weights without access to training data or clean models.",
+        "problem": "Detecting and recovering backdoor triggers in large language models under realistic conditions where defenders have white-box access to model weights but no training data, no trusted reference model, and no prior knowledge of the trigger.",
+        "method": "ToxScreen measures the coupling between input triggers and model parameters via a second-order gradient statistic (σ1) and ranks candidate tokens by their ability to suppress this coupling and maximize attack success rate to recover triggers.",
+        "evidence": "Experiments on a benchmark of roughly 800 backdoored models show that gradient-based prompt optimization fails to recover triggers, whereas token look-up ranking by attack-success rate reliably recovers triggers when backdoors are effective, supported by pruning studies showing backdoors are often localized.",
+        "limitations": "No method reliably surfaces every backdoor, and some backdoors, such as sentiment steering, are distributed and resilient to pruning, limiting detection and ablation effectiveness.",
+        "why_for_you": "This work provides a comprehensive benchmark and a novel white-box detection method that operates without training data or clean models, addressing a critical gap in realistic backdoor defense for LLMs.",
+        "source": "abstract",
+        "generated_by": "openai/gpt-4.1-mini"
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "The coupling statistic σ1, derived from the mixed second derivative of a behavior readout with respect to model parameters and input, reveals a dominant singular direction corresponding to the backdoor trigger, enabling detection without explicit trigger knowledge."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The token look-up defense evaluates ∼24,000 candidate tokens by injecting each at the trigger position in held-out prompts and ranks them by attack success rate, successfully recovering planted triggers across diverse backdoor mechanisms."
+          },
+          {
+            "icon": "📉",
+            "text": "Pruning experiments demonstrate that refusal-suppression backdoors are encoded in sparse, localized circuits that degrade faster than general capabilities under structured pruning, whereas sentiment steering backdoors are distributed and persist or amplify under pruning."
+          }
+        ],
+        "overview": "This paper addresses the challenge of detecting and recovering backdoor triggers implanted in large language models under realistic defender affordances: white-box access to model weights and knowledge of the attack objective, but no access to training data, clean reference models, or trigger information. The authors introduce ToxScreen, a benchmark of approximately 800 backdoored LLMs spanning various attack objectives, trigger mechanisms, poisoning rates, and model scales. They propose a novel detection method based on measuring the coupling between input tokens and model parameters via a second-order gradient statistic (σ1), which captures how triggers reroute gradients along a dominant direction. Complementing this, a token look-up approach ranks candidate tokens by their ability to suppress this coupling and maximize attack success rate, enabling trigger recovery. Experiments show that gradient-based prompt optimization fails to recover triggers, while token look-up succeeds wherever backdoors are effective. Pruning studies reveal that some backdoors, like refusal suppression, are localized and can be ablated with minimal impact on general capabilities, whereas others, like sentiment steering, are distributed and resilient. The work also distinguishes backdoor mechanisms from jailbreaks, providing a signal to filter false positives. Despite no method reliably surfacing all backdoors, the presence of broadly jailbreakable models itself signals anomalies. The authors release all models and code to facilitate further research.",
+        "methodology": [
+          {
+            "title": "Measuring Attack Behaviors",
+            "detail": "The behavior readout B(θ, x) is computed as the inner product between the model's residual stream at a specific layer and position and a unit vector representing the target behavior direction (e.g., refusal or sentiment). This scalar is differentiable with respect to both model parameters θ and input x, enabling gradient-based analysis restricted to the last k transformer blocks."
+          },
+          {
+            "title": "Token-to-Parameter Coupling Statistic (σ1)",
+            "detail": "The coupling M is defined as the mixed second derivative ∂²B/∂θ∂x, mapping input perturbations to changes in the parameter gradient of B. The operator norm σ1 (largest singular value) of M is computed via power iteration without explicit matrix formation, serving as a detection statistic indicating the presence of a trigger that reroutes gradients along a dominant input direction."
+          },
+          {
+            "title": "Suppression Ratio Scoring",
+            "detail": "For each candidate token c, the suppression ratio ρ(c) = σ1(x_c)/σ1(x_∅) compares the coupling statistic when the token is injected versus a trigger-free input. Tokens with ρ(c) ≤ 0.70 are flagged as suppressors, indicating potential triggers that suppress the refusal mechanism and enable backdoor activation."
+          },
+          {
+            "title": "Token Look-up Attack Success Rate Ranking",
+            "detail": "A candidate pool of approximately 24,000 vocabulary tokens plus the planted trigger is evaluated by injecting each token at the trained trigger position in about 150 held-out prompts. Candidates are ranked by their attack success rate (ASR), with recovery declared when a candidate's ASR significantly exceeds baseline, indicating successful trigger identification."
+          },
+          {
+            "title": "Pruning Strategies for Backdoor Localization",
+            "detail": "Five pruning strategies (structured removal of attention heads, MLP layers, global and layer-wise unstructured magnitude pruning, and random pruning) are applied at varying sparsity levels to backdoored models. Attack success rate and general capability (MMLU) are measured to assess whether backdoors are localized and can be preferentially ablated."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Backdoor Trigger Gradient Rerouting",
+            "detail": "Backdoor triggers operate by rerouting the gradient of the behavior readout B along a single dominant input direction, captured by the largest singular value of the mixed second derivative matrix M = ∂²B/∂θ∂x. This rerouting suppresses normal refusal mechanisms, enabling covert manipulation of model behavior. No explicit equations beyond those defining σ1 and ρ are provided."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Token Look-up Recovery Evaluation",
+            "detail": "Evaluated on roughly 800 backdoored models fine-tuned from six instruction-tuned LLMs including Llama-3.2-1B and Qwen3-4B, the token look-up method injects ∼24,000 candidate tokens at trigger positions in held-out prompts and ranks them by attack success rate. Recovery is successful when the planted trigger ranks highest, demonstrating reliable trigger identification without training data."
+          },
+          {
+            "title": "Gradient-based Prompt Optimization Baseline",
+            "detail": "Gradient-based prompt optimization methods, which search input space to maximize backdoor activation, were tested but failed to recover planted triggers across the benchmark, highlighting the superiority of the token look-up approach."
+          },
+          {
+            "title": "Pruning Ablation Studies",
+            "detail": "Five pruning strategies at sparsity levels 0%, 10%, 50%, and 90% were applied to backdoored models. For refusal suppression backdoors, structured pruning at 50% sparsity reduced attack success rate from ~21% to ~7-10% while retaining ~75% of MMLU accuracy, indicating localized backdoors. For sentiment steering backdoors, pruning did not preferentially ablate attacks and sometimes increased attack success rate even as general capability collapsed."
+          },
+          {
+            "title": "General Capability and Safety Evaluation",
+            "detail": "Backdoored models were evaluated on ARC, TruthfulQA, HellaSwag, and Winogrande benchmarks to assess impact on general capabilities. Attack success was scored using fixed judges including HarmBench Llama-213B for anti-refusal compliance and Llama-3-8B-Instruct for sentiment steering, ensuring consistent and objective evaluation."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Token Look-up Recovers Triggers Reliably",
+            "detail": "The token look-up method successfully recovers planted triggers across diverse backdoor configurations, outperforming gradient-based prompt optimization which fails to recover triggers, demonstrating the effectiveness of ranking candidates by attack success rate."
+          },
+          {
+            "title": "Backdoors Exhibit Distinct Mechanistic Signatures",
+            "detail": "Backdoors operate via different mechanistic strategies than jailbreaks, allowing defenders to distinguish and filter jailbreak behaviors from backdoor triggers using the coupling statistic and suppression ratio."
+          },
+          {
+            "title": "Refusal Suppression Backdoors Are Localized",
+            "detail": "Pruning experiments show refusal suppression backdoors degrade faster than general capabilities under structured pruning, supporting the hypothesis that these backdoors are encoded in sparse, localized circuits."
+          },
+          {
+            "title": "Sentiment Steering Backdoors Are Distributed and Resilient",
+            "detail": "Sentiment steering backdoors persist or even amplify under pruning, with attack success rates increasing to 61-81% at 90% sparsity while general capability collapses, indicating distributed encoding that resists ablation."
+          },
+          {
+            "title": "No Method Surfaces All Backdoors Reliably",
+            "detail": "Despite advances, no detection method reliably identifies every backdoor, but broadly jailbreakable models themselves are anomalous, providing a useful signal even when exact triggers are not recovered."
+          }
+        ],
+        "contributions": [
+          "Release of ToxScreen, a benchmark of ~800 backdoored LLMs spanning diverse attack objectives, mechanisms, and scales.",
+          "Introduction of a novel coupling statistic (σ1) based on second-order gradients to detect backdoor triggers without training data or clean models.",
+          "Development of a token look-up method that ranks candidate tokens by attack success rate to reliably recover planted triggers.",
+          "Empirical demonstration that refusal suppression backdoors are localized and can be preferentially ablated via pruning, while sentiment steering backdoors are distributed and resilient.",
+          "Identification of mechanistic differences between backdoors and jailbreaks, enabling filtering of false positives."
+        ],
+        "limitations": [
+          "No detection method reliably surfaces every backdoor, limiting comprehensive defense.",
+          "Sentiment steering backdoors are distributed and resilient to pruning, complicating ablation and detection.",
+          "The approach requires white-box access to model weights, which may not always be available in deployment scenarios.",
+          "The benchmark and methods focus on instruction-tuned LLMs and may not generalize to all model architectures or training regimes."
+        ],
+        "open_questions": [
+          "How can detection methods be improved to reliably surface all types of backdoors, including distributed ones like sentiment steering?",
+          "Can the coupling statistic and token look-up approach be adapted for black-box or limited-access scenarios?",
+          "What are the mechanistic underpinnings that differentiate backdoors from jailbreaks at a finer granularity?",
+          "How do backdoor detection and ablation methods generalize across different LLM architectures and training datasets?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "openai/gpt-4.1-mini",
+        "schema_version": 2
+      },
+      "recommendation_reason": {
+        "topic": "Data selection for LLMs",
+        "matched": [
+          "training data",
+          "data"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-30T12:03:36.063766+00:00"
+    },
     {
       "id": "2607.25814",
       "title": "Evaluation of Adversarial Robustness in Arabic Language Models",
@@ -16277,531 +17335,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-06-29T14:19:18.896381+00:00"
-    },
-    {
-      "id": "2606.26671",
-      "title": "NebulaExp-8B: An Empirical Post-Training Pipeline via Full-Scale Ablation Research",
-      "abstract": "Post-training alignment determines the reasoning and human preference following capabilities of large language models, yet most existing works withhold detailed data construction, filtering rules and training recipes, which hinders community reproducibility and lightweight model optimization. This work presents NebulaExp, a fully transparent, ablation-driven post-training pipeline built on Qwen3-8B-base, covering two orthogonal model branches: general instruct model and complex reasoning-specialized model. We curate a raw corpus of 3.84M multi-source SFT samples and a 200K verifiable RL candidate pool, and design an end-to-end data processing stack including response distillation, multi-dimensional cross-verification filtering, fine-grained difficulty grading, task classification and diversity-aware sampling. For the Instruct branch, our three-stage optimized supervised fine-tuning approach NebulaExp-Ins-SFT improves the average benchmark score from the 55.01 baseline of Qwen3-8B-nothink to 60.99. GRPO reinforcement learning then further elevates the average score to 61.85. For the Reasoning branch, medium-difficulty GRPO RL improves average reasoning score from 73.88 to 75.17. To address RL's dependency on task verifiers, we systematically investigate single-teacher and multi-teacher OPD (MOPD): utilizing merely 4K instruction-following samples and outperforms RL baseline by 3.26 points on IFEval with +4.43 average overall gain; MOPD fuses four domain-specialist teachers with merely 10K samples, lifting average performance by 4.18 over the base model. This report provides a fully reproducible empirical post-training recipe for 8B-scale LLMs, and comprehensively dissects the capability trade-offs among instruction adherence, mathematical reasoning, code generation and general knowledge.",
-      "authors": [
-        "Qiaobo Hao",
-        "Yangqian Wu",
-        "Shunyi Wang",
-        "Zhongjian Zhang",
-        "Ziqun Li",
-        "Yayin He",
-        "Muqing Li",
-        "Chen Zhong"
-      ],
-      "published": "2026-06-25T07:03:25Z",
-      "updated": "2026-06-25T07:03:25Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2606.26671v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.26671v1",
-      "comment": "29 pages, 8 figures",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "emerging",
-          "score": 0.428,
-          "matched": [
-            "filtering",
-            "sampling",
-            "data"
-          ]
-        },
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "watch",
-          "score": 0.3731,
-          "matched": [
-            "OPD",
-            "opd",
-            "mopd",
-            "distillation"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.1865,
-          "matched": [
-            "alignment",
-            "alignment"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.515,
-        "relevance": 0.4543,
-        "quality": 0.87,
-        "novelty": 0.2,
-        "freshness": 0.5136
-      },
-      "quality_signals": [
-        "code available",
-        "ablation study",
-        "baseline comparison",
-        "benchmark evaluation",
-        "reproducibility"
-      ],
-      "summary": {
-        "takeaway": "The study introduces NebulaExp, a transparent post-training pipeline that enhances the performance of large language models through systematic ablation research.",
-        "problem": "Existing post-training alignment methods lack transparency in data construction and training processes, limiting reproducibility and optimization.",
-        "method": "The authors develop an end-to-end data processing stack for two model branches, employing supervised fine-tuning and reinforcement learning to improve performance metrics.",
-        "evidence": "Not stated in the abstract.",
-        "limitations": "The authors acknowledge the dependency of reinforcement learning on task verifiers as a limitation.",
-        "why_for_you": "This research aligns with your interests in data selection and optimization techniques for LLMs, particularly in the context of trustworthy model training.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "recommendation_reason": {
-        "topic": "Data selection for LLMs",
-        "matched": [
-          "filtering",
-          "sampling",
-          "data"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-06-28T16:46:01.812574+00:00"
-    },
-    {
-      "id": "2606.26797",
-      "title": "Reasoning Quality Emerges Early: Data Curation for Reasoning Models",
-      "abstract": "Supervised fine-tuning (SFT) on a small, high-quality set of long reasoning traces is an effective approach for eliciting strong reasoning capabilities in Large Language Models (LLMs). However, existing methods for curating high-quality SFT data rely heavily on strong reasoning models to filter examples based on diversity and difficulty, making the curation process costly while often yielding suboptimal data quality. In this work, we show that diverse and challenging reasoning examples can be identified using only the initial reasoning tokens. Specifically, we demonstrate that difficult problems can be reliably detected based on the loss of the first 100 reasoning tokens evaluated at a randomly perturbed checkpoint of the pretrained model. We further show that examples exhibiting similar loss patterns over their first 1k reasoning tokens across a small number of perturbed checkpoints extrapolating along the fine-tuning trajectory provably induce similar gradients. We validate our approach through extensive experiments on fine-tuning Qwen2.5-7B and Llama3.1-8B models on the M23K medical reasoning and OpenThoughts-Math datasets. Our method outperforms existing baselines by up to 1.7% while being 91% more token efficient.",
-      "authors": [
-        "Hongyi Henry Jin",
-        "Wenhan Yang",
-        "Meysam Ghaffari",
-        "Carlos Morato",
-        "Baharan Mirzasoleiman"
-      ],
-      "published": "2026-06-25T09:32:58Z",
-      "updated": "2026-06-25T09:32:58Z",
-      "categories": [
-        "cs.LG"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2606.26797v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.26797v1",
-      "comment": "Accepted by ICML 2026 (Poster)",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "emerging",
-          "score": 0.6715,
-          "matched": [
-            "data curation",
-            "data quality",
-            "curation",
-            "data"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5116,
-        "relevance": 0.5372,
-        "quality": 0.58,
-        "novelty": 0.2,
-        "freshness": 0.5285
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "experiments",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "The study presents a novel method for identifying high-quality reasoning examples using only initial reasoning tokens, improving data curation for LLMs.",
-        "problem": "Existing data curation methods for supervised fine-tuning of LLMs are costly and often yield suboptimal data quality.",
-        "method": "The authors identify challenging reasoning examples based on the loss of the first 100 reasoning tokens evaluated at perturbed checkpoints of the pretrained model.",
-        "evidence": "The method is validated through experiments on fine-tuning Qwen2.5-7B and Llama3.1-8B models, outperforming existing baselines by up to 1.7%.",
-        "limitations": "The abstract does not mention specific limitations of the proposed method.",
-        "why_for_you": "This research is relevant as it addresses data selection strategies that can enhance the efficiency and effectiveness of LLM training.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "recommendation_reason": {
-        "topic": "Data selection for LLMs",
-        "matched": [
-          "data curation",
-          "data quality",
-          "curation",
-          "data"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-06-28T16:46:01.812574+00:00"
-    },
-    {
-      "id": "2606.26396",
-      "title": "At the Edge of Understanding: Sparse Autoencoders Trace The Limits of Transformer Generalization",
-      "abstract": "Pre-trained transformers have demonstrated remarkable generalization abilities, at times extending beyond the scope of their training data. Yet, real-world deployments often face unexpected or adversarial data that diverges from training data distributions. Without explicit mechanisms for handling such shifts, model reliability and safety degrade, urging more disciplined study of out-of-distribution (OOD) settings for transformers. By systematic experiments, we present a mechanistic framework for delineating the precise contours of transformer model robustness. We find that OOD inputs, including subtle typos and jailbreak prompts, drive language models to operate on an increased number of fallacious concepts in their internals. We leverage this device to quantify and understand the degree of distributional shift in prompts, enabling a mechanistically grounded fine-tuning strategy to robustify LLMs. Expanding the very notion of OOD from input data to a model's private computational processes, a new transformer diagnostic at inference time is a critical step toward making AI systems safe for deployment across science, business, and government.",
-      "authors": [
-        "Praneet Suresh",
-        "Jack Stanley",
-        "Sonia Joseph",
-        "Luca Scimeca",
-        "Danilo Bzdok"
-      ],
-      "published": "2026-06-24T21:26:43Z",
-      "updated": "2026-06-24T21:26:43Z",
-      "categories": [
-        "cs.LG"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2606.26396v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.26396v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "language model",
-        "language models",
-        "llms",
-        "transformer",
-        "transformers"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.6309,
-          "matched": [
-            "jailbreak",
-            "adversarial",
-            "robustness",
-            "fine-tuning",
-            "training"
-          ]
-        },
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "emerging",
-          "score": 0.4746,
-          "matched": [
-            "training data",
-            "data"
-          ]
-        },
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.4268,
-          "matched": [
-            "generalization",
-            "generalization"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3399,
-          "matched": [
-            "robustness",
-            "safety",
-            "reliability",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5941,
-        "relevance": 0.685,
-        "quality": 0.53,
-        "novelty": 0.2,
-        "freshness": 0.4564
-      },
-      "quality_signals": [
-        "code available",
-        "experiments"
-      ],
-      "summary": {
-        "takeaway": "The study introduces a mechanistic framework to understand transformer robustness against out-of-distribution inputs.",
-        "problem": "Transformers often struggle with unexpected or adversarial data that diverges from their training distributions.",
-        "method": "The authors conduct systematic experiments to quantify distributional shifts in prompts and propose a fine-tuning strategy for robustness.",
-        "evidence": "Not stated in the abstract.",
-        "limitations": "The authors do not specify any limitations in the abstract.",
-        "why_for_you": "This research aligns with your interests in enhancing model reliability through efficient adversarial training and understanding statistical behaviors in LLMs.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "jailbreak",
-          "adversarial",
-          "robustness",
-          "fine-tuning"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-06-28T16:46:01.812574+00:00"
-    },
-    {
-      "id": "2606.26917",
-      "title": "GEOALIGN: Geometric Rollout Curation for Robust LLM Reinforcement Learning",
-      "abstract": "Online reinforcement learning is widely used to align large language models (LLMs) with reward signals, yet training can be unstable under noisy or misspecified rewards. We identify a failure mode we call directional inconsistency: within a batch, a small set of high-reward rollouts induces representation-space preference directions that sharply disagree with the batch majority, resulting in high-variance and destabilizing updates. We propose geoalign, a lightweight plug-in for rollout curation in iterative policy optimization. Geoalign (i) forms within-prompt preference pairs, (ii) learns an online projector on per-rollout hidden states to concentrate reward-ordered displacement directions, and (iii) detects directionally inconsistent rollouts via their angular deviation from a batch consensus prototype and rectifies them with within-prompt stable alternatives. Geoalign is forward-pass only and adds negligible overhead. Across dialogue alignment with a learned reward model and mathematical reasoning with binary verified rewards, Geoalign improves final performance and reduces training oscillation, outperforming PF-PPO, PAR, PODS, and Seed-GRPO. These results suggest latent directional consensus as an effective reliability signal for online LLM RL.",
-      "authors": [
-        "Ting Zhou",
-        "Zhenqing Ling",
-        "Yiyang Zhao",
-        "Ying Shen",
-        "Daoyuan Chen"
-      ],
-      "published": "2026-06-25T11:53:37Z",
-      "updated": "2026-06-25T11:53:37Z",
-      "categories": [
-        "cs.LG",
-        "cs.AI"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2606.26917v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.26917v1",
-      "comment": "Accepted as a conference paper at ICML 2026",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.5444,
-          "matched": [
-            "robust",
-            "training"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4653,
-          "matched": [
-            "alignment",
-            "alignment",
-            "reliability",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5194,
-        "relevance": 0.5286,
-        "quality": 0.33,
-        "novelty": 0.8266,
-        "freshness": 0.5424
-      },
-      "quality_signals": [],
-      "summary": {
-        "takeaway": "Geoalign introduces a method for robust rollout curation in LLM reinforcement learning that mitigates instability caused by directional inconsistency.",
-        "problem": "Training LLMs with noisy or misspecified rewards can lead to high-variance updates and destabilization.",
-        "method": "The authors propose geoalign, which curates rollouts by forming preference pairs, learning a projector on hidden states, and rectifying inconsistent rollouts.",
-        "evidence": "Geoalign improves final performance and reduces training oscillation in dialogue alignment and mathematical reasoning tasks.",
-        "limitations": "The abstract does not state specific limitations of the proposed method.",
-        "why_for_you": "This research aligns with your interests in efficient adversarial training by addressing stability in LLM training processes.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "robust",
-          "training"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-06-28T16:46:01.812574+00:00"
-    },
-    {
-      "id": "2606.26627",
-      "title": "Agents That Know Too Much: A Data-Centric Survey of Privacy in LLM Agents",
-      "abstract": "Large language model agents increasingly query databases, search document collections, call external APIs, remember past interactions, and act on a user's behalf. As they move from answering questions to operating over sensitive data, privacy becomes harder to enforce. An agent touches many data sources, runs multi-step workflows, keeps state across sessions, and acts with delegated permissions. Sensitive information can therefore leak not only through its final answer but through the queries it issues, the intermediate results it handles, the memory it writes, and the messages it exchanges with other agents. We survey the privacy of LLM agents from a data-centric view, organizing the field around the data an agent touches rather than by attack type, and we use data agent as shorthand for an LLM agent that works with data. Research on these risks is active but scattered across retrieval-augmented generation, text-to-SQL interfaces, agent memory, prompt injection, access control, and contextual privacy. This survey brings that work together: we taxonomize the data sources an agent touches, the privacy risks each source creates, and the governance mechanisms that address them; we map the benchmarks used to measure these risks and identify what is missing; and we set out the open problems. Two findings recur: among governance mechanisms only information-flow control covers both compositional and cross-session inference leakage, the two least-protected risks; and no benchmark drives an agent across its data surfaces under one privacy policy, the instrument the field most lacks. Our goal is a reference that situates the scattered literature and gives future work a common framing.",
-      "authors": [
-        "Nada Lahjouji",
-        "Ashwin Gerard Colaco"
-      ],
-      "published": "2026-06-25T05:44:18Z",
-      "updated": "2026-06-25T05:44:18Z",
-      "categories": [
-        "cs.CR",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CR",
-      "abs_url": "https://arxiv.org/abs/2606.26627v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.26627v1",
-      "comment": "17 pages, 4 figures, 7 tables",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.573,
-          "matched": [
-            "agent memory",
-            "privacy",
-            "privacy",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.488,
-        "relevance": 0.4584,
-        "quality": 0.4,
-        "novelty": 0.8476,
-        "freshness": 0.5058
-      },
-      "quality_signals": [
-        "benchmark evaluation"
-      ],
-      "summary": {
-        "takeaway": "The survey organizes and synthesizes privacy risks associated with LLM agents from a data-centric perspective, highlighting gaps in governance mechanisms and benchmarks.",
-        "problem": "As LLM agents increasingly handle sensitive data, enforcing privacy becomes more complex due to their interactions with multiple data sources.",
-        "method": "The authors taxonomize data sources, privacy risks, governance mechanisms, and benchmarks related to LLM agents, while identifying open problems in the field.",
-        "evidence": "Not stated in the abstract.",
-        "limitations": "The authors note that no benchmark currently evaluates an agent's data interactions under a unified privacy policy.",
-        "why_for_you": "This research is relevant as it addresses the critical issue of privacy in LLMs, which is essential for developing trustworthy AI systems.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "agent memory",
-          "privacy",
-          "privacy",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-06-28T16:46:01.812574+00:00"
-    },
-    {
-      "id": "2606.26036",
-      "title": "Detect, Unlearn, Restore: Defending Text Summarization Models Against Data Poisoning",
-      "abstract": "Training-time data poisoning during fine-tuning poses a significant threat to large language models (LLMs) deployed for abstractive text summarization, where small task-specific datasets exert disproportionate influence on model behavior. In this setting, adversaries manipulate fine-tuning data to induce persistent summarization failures, such as biased or harmful summaries, while preserving standard evaluation metrics. We present a unified post-hoc defense framework for detecting and remediating fine-tuning-stage poisoning in summarization models across the machine learning supply chain. Our experiments show that in white-box settings, poisoned document-summary pairs exhibit abnormally high training influence, enabling detection via influence-function analysis with semantic consistency checks. In black-box settings, poisoned models display two to three times greater sensitivity to semantics-preserving perturbations, enabling behavioral auditing without training data access. Beyond existing poisoning formulations, we introduce novel attacks targeting factual distortion and representational bias, showing that poisoning alters summarization behavior without triggering conventional alarms. Across nine architectures and six benchmark datasets under adaptive attacks, our defenses achieve 85-92% detection precision, while gradient-ascent unlearning restores up to 96% of original behavior with minimal utility loss (less than 0.6% ROUGE degradation). These results indicate that fine-tuning-time poisoning leaves persistent structural artifacts, enabling practical detection and post-deployment recovery without full retraining.",
-      "authors": [
-        "Poojitha Thota",
-        "Shirin Nilizadeh"
-      ],
-      "published": "2026-06-24T17:12:42Z",
-      "updated": "2026-06-24T17:12:42Z",
-      "categories": [
-        "cs.CL",
-        "cs.CR"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2606.26036v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.26036v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "emerging",
-          "score": 0.6089,
-          "matched": [
-            "influence",
-            "training data",
-            "data"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.1069,
-          "matched": [
-            "auditing"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5529,
-        "relevance": 0.5085,
-        "quality": 0.58,
-        "novelty": 0.8474,
-        "freshness": 0.4336
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "experiments",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Training-time data poisoning during fine-tuning poses a significant threat to large language models (LLMs) deployed for abstractive text summarization, where small task-specific datasets exert disproportionate influence on model behavior.",
-        "problem": "Training-time data poisoning during fine-tuning poses a significant threat to large language models (LLMs) deployed for abstractive text summarization, where small task-specific datasets exert disproportionate influence on model behavior.",
-        "method": "We present a unified post-hoc defense framework for detecting and remediating fine-tuning-stage poisoning in summarization models across the machine learning supply chain.",
-        "evidence": "Our experiments show that in white-box settings, poisoned document-summary pairs exhibit abnormally high training influence, enabling detection via influence-function analysis with semantic consistency checks.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Data selection for LLMs, Trustworthy LLM.",
-        "source": "abstract",
-        "generated_by": "extractive"
-      },
-      "recommendation_reason": {
-        "topic": "Data selection for LLMs",
-        "matched": [
-          "influence",
-          "training data",
-          "data"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-06-28T16:22:06.182023+00:00"
     }
   ]
 }
