@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-30T12:03:36.063766+00:00",
+  "generated_at": "2026-07-31T12:16:26.321275+00:00",
   "papers": [
     {
       "id": "2607.25814",
@@ -548,188 +548,6 @@
       "recommended_at": "2026-07-30T12:03:36.063766+00:00"
     },
     {
-      "id": "2607.21550",
-      "title": "X$^3$-OPD: Distilling Reasoning into Large Audio-Language Models via On-Policy Alignment",
-      "abstract": "While large audio-language models have achieved remarkable progress in auditory perception, they still lag behind text-based large language models in deep logical reasoning, primarily due to the scarcity of high-quality audio reasoning data. To bridge this gap, we propose X$^3$-OPD, a cross-modal on-policy distillation framework that transfers reasoning capabilities from a powerful text teacher to an audio-language student. During training, the student generates reasoning trajectories conditioned on its own acoustic perception, while the teacher provides token-level guidance using matched textual inputs and verified answers. We further construct a three-tier symmetric corpus covering textual reasoning rendered into speech, audio-event reasoning grounded in complex acoustic scenes, and spoken-dialogue reasoning involving paralinguistic cues. This design extends cross-modal distillation beyond textually recoverable content to reasoning grounded in non-linguistic events, prosody, and conversational context. Experiments on MMSU, MMAU, BIG Bench Audio, and MMAR demonstrate that X$^3$-OPD substantially improves audio-grounded reasoning and chain-of-thought quality while largely preserving the model's existing capabilities under domain shift.",
-      "authors": [
-        "Dongjie Fu",
-        "Di Cao",
-        "Xize Cheng",
-        "Zihan Zhang",
-        "Wenxu Jia",
-        "Yifu Chen",
-        "Shengpeng Ji",
-        "Yu Zhang",
-        "Tao Jin"
-      ],
-      "published": "2026-07-23T17:35:20Z",
-      "updated": "2026-07-23T17:35:20Z",
-      "categories": [
-        "cs.LG"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2607.21550v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.21550v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "watch",
-          "score": 0.666,
-          "matched": [
-            "on-policy distillation",
-            "OPD",
-            "token-level",
-            "policy distillation",
-            "opd",
-            "distillation"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4126,
-          "matched": [
-            "alignment",
-            "alignment"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6249,
-        "relevance": 0.6153,
-        "quality": 0.47,
-        "novelty": 0.864,
-        "freshness": 0.8909
-      },
-      "quality_signals": [
-        "experiments",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "X³-OPD introduces a cross-modal on-policy distillation framework that effectively transfers deep reasoning capabilities from a text-based teacher to a large audio-language student model, substantially improving audio-grounded reasoning.",
-        "problem": "Large audio-language models lag behind text-only LLMs in multi-step logical reasoning due to scarcity of high-quality audio reasoning data and limitations of offline distillation methods.",
-        "method": "X³-OPD trains an audio-language student to generate reasoning trajectories conditioned on acoustic inputs while a frozen text teacher provides token-level guidance using matched textual inputs and verified answers via a policy gradient-based distillation loss.",
-        "evidence": "Experiments on MMSU, MMAU, BIG Bench Audio, and MMAR benchmarks show X³-OPD achieves substantial improvements in audio-grounded reasoning and chain-of-thought quality, outperforming strong baselines including standard supervised fine-tuning and offline distillation.",
-        "limitations": "The current three-tier symmetric corpus underrepresents complex musical reasoning and specialized non-linguistic soundscapes, and the text-based teacher’s token-level supervision biases learning toward semantic logic while under-penalizing perceptual and paralinguistic errors.",
-        "why_for_you": "X³-OPD advances on-policy distillation techniques for trustworthy LLMs by addressing cross-modal reasoning gaps and providing a scalable framework for transferring logical reasoning into audio-language models.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "X³-OPD’s three-tier symmetric corpus includes textual reasoning rendered into speech, audio-event reasoning grounded in complex acoustic scenes, and prosody-aware spoken dialogue, enabling supervision beyond textually recoverable content."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The method employs token-level KL-style supervision from a frozen text teacher with privileged access to ground-truth answers, guiding the student’s acoustic-conditioned reasoning trajectories via a policy gradient objective maximizing cross-modal advantage."
-          },
-          {
-            "icon": "📉",
-            "text": "Compared to offline distillation and standard supervised fine-tuning baselines, X³-OPD reduces cross-modal exposure bias and mitigates performance drops on perceptual tasks while achieving remarkable gains on reasoning-heavy axes such as semantics and audio temporal grounding."
-          }
-        ],
-        "overview": "This work addresses the reasoning gap between large audio-language models (LALMs) and text-only LLMs caused by limited audio reasoning data and the shortcomings of offline distillation. The authors propose X³-OPD, a cross-modal on-policy distillation framework where the audio student model generates reasoning trajectories conditioned on acoustic inputs, and a frozen text teacher provides token-level guidance using matched textual inputs and verified answers. The approach leverages a novel three-tier symmetric corpus spanning textual reasoning rendered into speech, audio-event reasoning, and spoken dialogue with paralinguistic cues, thus extending supervision beyond textually recoverable content. The distillation objective maximizes a cross-modal advantage defined as the log-probability gap between teacher and student outputs, implemented via policy gradient optimization. Experiments on multiple benchmarks demonstrate that X³-OPD substantially improves audio-grounded reasoning and chain-of-thought quality while largely preserving perceptual capabilities under domain shifts. The method effectively reduces cross-modal exposure bias inherent in offline distillation, enabling robust reasoning transfer from text to audio modalities.",
-        "methodology": [
-          {
-            "title": "Three-tier Symmetric Corpus Construction",
-            "detail": "The dataset comprises 27.8K Tier-1 instances of textual reasoning rendered into speech, 32K Tier-2 audio-event reasoning samples with captions, and 12K Tier-3 prosody-aware spoken dialogues. Each instance includes paired text and audio inputs with questions and verified answers under a uniform schema, enabling cross-modal supervision."
-          },
-          {
-            "title": "Cross-Modal On-Policy Distillation",
-            "detail": "During training, the audio student rolls out reasoning trajectories conditioned on its acoustic input. The frozen text teacher, with access to matched text input and ground-truth answers, scores these trajectories token-by-token using KL-style supervision, providing dynamic corrective feedback exactly where the student deviates."
-          },
-          {
-            "title": "Policy Gradient Optimization with Cross-Modal Advantage",
-            "detail": "The distillation loss maximizes the expected cross-modal advantage, defined as the log-probability difference between teacher and student outputs at each token. Multiple rollouts per sample are used to estimate gradients, enabling the student to learn robust reasoning aligned with the teacher’s logical distribution."
-          },
-          {
-            "title": "Training Configuration and Baselines",
-            "detail": "The student model is initialized from Qwen3-Omni-30B-A3B-Thinking with trainable acoustic encoder and LLM backbone; the teacher is Qwen3-235B-A22B-Thinking, frozen. Training includes an offline warm-start supervised fine-tuning pass followed by on-policy distillation with AdamW optimizer and vLLM rollout sampling."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Cross-Modal Advantage Mechanism",
-            "detail": "The cross-modal advantage A(yt) is computed as the difference between the teacher’s log-probability of token yt given text input and ground-truth answer, and the student’s log-probability of yt given acoustic input. This advantage guides the policy gradient update to align the student’s reasoning trajectory with the teacher’s logical manifold, mitigating exposure bias."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Benchmark Evaluation on MMSU, MMAU, and BIG Bench Audio",
-            "detail": "X³-OPD is evaluated on multiple audio-grounded reasoning benchmarks covering semantics, phonology, style, traits, sound, speech, and music. It outperforms strong baselines including GPT-4o-Audio and Qwen3-Omni-Thinking on reasoning-heavy axes, demonstrating improved chain-of-thought quality and reasoning accuracy."
-          },
-          {
-            "title": "Ablation Studies",
-            "detail": "Comparisons against standard supervised fine-tuning (SFT) and offline guided knowledge distillation (GKD) baselines show that X³-OPD’s on-policy distillation reduces performance degradation on perceptual tasks and achieves superior reasoning gains, validating the effectiveness of dynamic teacher feedback."
-          },
-          {
-            "title": "Out-of-Distribution Generalization",
-            "detail": "The model is stress-tested on held-out MMAR benchmark and domain-shifted datasets such as WorldSense and DailyOmni, showing that X³-OPD largely preserves existing capabilities under domain shifts while enhancing reasoning robustness."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Improved Reasoning Performance",
-            "detail": "X³-OPD achieves the highest scores on semantic and reasoning-heavy axes across MMSU, MMAU, and BIG Bench Audio benchmarks, e.g., semantic accuracy improvements over baselines by several percentage points, demonstrating effective reasoning transfer."
-          },
-          {
-            "title": "Mitigation of Perceptual Performance Drops",
-            "detail": "Unlike offline distillation baselines that regress on perceptual axes such as phonology, style, and music, X³-OPD substantially reduces these drops by providing on-policy corrective signals, preserving perceptual understanding."
-          },
-          {
-            "title": "Limitations in Perceptual and Specialized Audio Domains",
-            "detail": "Despite improvements, X³-OPD slightly trails the base model on purely perceptual tasks like MMAU-Music, reflecting underrepresentation of complex musical reasoning and specialized non-linguistic soundscapes in the training corpus."
-          }
-        ],
-        "contributions": [
-          "Proposed X³-OPD, a novel cross-modal on-policy distillation framework for transferring reasoning from text LLMs to audio-language models.",
-          "Constructed a large-scale three-tier symmetric corpus spanning textual reasoning, audio-event reasoning, and prosody-aware spoken dialogue for unified cross-modal supervision.",
-          "Developed a policy gradient-based distillation objective leveraging token-level KL supervision with privileged teacher access to ground-truth answers.",
-          "Demonstrated substantial improvements on multiple audio-grounded reasoning benchmarks and robustness under domain shifts.",
-          "Identified and mitigated cross-modal exposure bias inherent in offline distillation approaches."
-        ],
-        "limitations": [
-          "The three-tier corpus does not yet cover the full diversity of acoustic phenomena, notably complex musical reasoning and specialized non-linguistic soundscapes.",
-          "The text-based teacher’s token-level supervision is blind to non-semantic acoustic cues, biasing learning toward semantic logic and under-penalizing perceptual and paralinguistic errors.",
-          "Residual performance gaps remain on purely perceptual axes despite on-policy distillation improvements.",
-          "The framework currently lacks multi-dimensional reward mechanisms incorporating direct audio-based rewards or environmental verifiers."
-        ],
-        "open_questions": [
-          "How can multi-dimensional reward models incorporating audio-based signals and environmental verifiers be integrated to better capture non-semantic acoustic cues?",
-          "What methods can expand the training corpus to include more diverse and complex acoustic phenomena such as specialized soundscapes and musical reasoning?",
-          "How can on-policy distillation be further optimized to balance improvements in reasoning with preservation of perceptual capabilities?",
-          "Can the framework be extended to incorporate multi-modal inputs beyond audio and text, such as video, to enhance reasoning robustness?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "On-policy distillation",
-        "matched": [
-          "on-policy distillation",
-          "OPD",
-          "token-level",
-          "policy distillation"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-24T11:55:27.963037+00:00"
-    },
-    {
       "id": "2607.24717",
       "title": "DataOrchestra: Learning to Orchestrate Per-Example Curation of Pretraining Data",
       "abstract": "Pretraining data processing is critical to the downstream performance of Large Language Models (LLMs). However, many existing approaches define a fixed processing strategy at the corpus or domain level and apply it uniformly to many examples, without adapting to the needs of each example. We propose DataOrchestra, a framework that unifies different processing operations and orchestrates an example-specific pipeline for each example. Given a chunk of pretraining data, an orchestrator decides whether to drop, untouch, or clean it. For a chunk to be cleaned, it selects one or more downstream operations, ranging from programmatic editing to different forms of LLM-based rewriting. For each rewriting step, it further generates a concrete instruction, which is executed by the corresponding downstream tool model. We pretrain models from 0.5B to 7B from scratch on web data processed by DataOrchestra and observe stable average gains over individual data-processing methods across 11 benchmarks. DataOrchestra is also effective for math continued pretraining and outperforms stronger processing baselines, while reducing processing compute by skipping unnecessary downstream operations.",
@@ -906,6 +724,82 @@
         "lane": "llm"
       },
       "recommended_at": "2026-07-28T12:13:15.667980+00:00"
+    },
+    {
+      "id": "2607.28421",
+      "title": "When Derived Measurements Mislead: Quantifying and Mitigating LLM Over-Trust with Privileged-Modality Reliability Evidence",
+      "abstract": "Derived measurements increasingly enter large language model (LLM) pipelines as direct facts despite their instance-dependent validity. We define derived-feature over-trust (DFOT) as the failure in which a downstream LLM assigns such a measurement the epistemic status of a direct fact or uses it outside its valid scope. Using physiological sensing as a case study, D1 tests acceptance of a PPG-derived rhythm contradicted by offline ECG, whereas D2 tests rejection of an offline-confirmed reliable PPG rhythm under misleading severe history. ECG supplies training supervision and offline reference construction but is never shown to the LLM. Five estimands quantify this chain: conflict over-trust rate (COTR) and context-induced error rate (CIR) characterize D1/D2; correct repair rate (CRR) measures frozen-error repair; evidence-specific repair margin (ESRM) contrasts matched and patient-disjoint shuffled evidence; and utility harm rate (UHR) measures unnecessary verification among HIGH-reliability cases used without verification at baseline. The framework does not depend on a particular reliability generator. We demonstrate it on 50,000 paired PPG-ECG records using ECG-to-PPG privileged distillation as an illustrative baseline and PPG-only inference. On a protocol-locked 187-patient test, the baseline improves four repair and specificity endpoints by 1.82-6.69 percentage points, with all paired confidence intervals excluding zero; UHR increases by 0.67 percentage points (95% CI: -0.4 to +1.7). DFOT provides a common evaluation target for stronger mitigation methods. The code is available at https://github.com/Zongheng-Guo/When-Derived-Measurements-Mislead.",
+      "authors": [
+        "Zongheng Guo",
+        "Tao Chen",
+        "Tianli Li",
+        "Mingzhe Cui",
+        "Yang Jiao",
+        "Lei Xie",
+        "Yi Pan",
+        "Xiao Hu",
+        "Manuela Ferrario"
+      ],
+      "published": "2026-07-30T16:01:17Z",
+      "updated": "2026-07-30T16:01:17Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2607.28421v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.28421v1",
+      "comment": "25 pages, including references and supplementary material; 3 figures and 19 tables. Code: https://github.com/Zongheng-Guo/When-Derived-Measurements-Mislead",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4968,
+          "matched": [
+            "reliability",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5433,
+        "relevance": 0.3974,
+        "quality": 0.78,
+        "novelty": 0.85,
+        "freshness": 0.8794
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "baseline comparison",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "We demonstrate it on 50,000 paired PPG-ECG records using ECG-to-PPG privileged distillation as an illustrative baseline and PPG-only inference.",
+        "problem": "Derived measurements increasingly enter large language model (LLM) pipelines as direct facts despite their instance-dependent validity.",
+        "method": "The framework does not depend on a particular reliability generator.",
+        "evidence": "We demonstrate it on 50,000 paired PPG-ECG records using ECG-to-PPG privileged distillation as an illustrative baseline and PPG-only inference.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Trustworthy LLM.",
+        "source": "abstract",
+        "generated_by": "extractive"
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "reliability",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-31T12:16:26.321275+00:00"
     },
     {
       "id": "2607.26981",
@@ -1966,59 +1860,66 @@
       "recommended_at": "2026-07-30T12:03:36.063766+00:00"
     },
     {
-      "id": "2607.21340",
-      "title": "Capital Markets LLM Reliability Score (CM-LRS): From Plausible to Bankable",
-      "abstract": "In capital-markets workflows the question is rarely whether a large language model can produce a fluent draft, but whether the draft is bankable: defensible in front of a counter-party or a regulator, with the documents in hand. Existing methods address parts of that gap: open-domain QA benchmarks reward surface accuracy, and finance benchmarks (FinanceBench, FinQA, ConvFinQA) advance document-grounded and numerical QA but evaluate at the question-answer layer rather than the workflow outputs practitioners defend. We introduce CM-LRS, a Capital Markets LLM Reliability Score, evaluating outputs at the workflow-output layer across seven dimensions: factual accuracy, evidence traceability, numerical consistency, workflow completeness, source discipline, decision usefulness, and reviewability/auditability. Each is scored 0-5 against a rubric anchored on signals reviewers in regulated settings use; the aggregate is tunable to the workflow. We demonstrate CM-LRS on five workflows (DCM transaction-terms extraction, precedent retrieval, issuer profile synthesis, M&A transaction-comparable reasoning, ECM transaction-terms extraction) over public SEC EDGAR filings, a public UK takeover release, and fictional synthetic supplements, scoring four models against four independent LLM judges spanning three model families. Three findings. First, the frontier closed-source models cluster within 0.22 points on four-judge averaged CM-LRS (Sonnet 4.6 = 4.31, Opus 4.7 = 4.30, GPT-5.5 = 4.09); all four judges place the open-weights baseline (Llama 3.3 70B = 3.15) last. Second, that gap concentrates on retrieval (2.23) and synthesis (2.15), not extraction (0.84). Third, Decision Usefulness shows the widest cross-model dispersion of any dimension (4.0 points on issuer profiling) and top-tier inter-judge agreement (mean r = 0.52). Plausibility is cheap. Bankability is the bar.",
+      "id": "2607.26849",
+      "title": "ToxScreen: Detecting Whether an LLM Has Been Poisoned",
+      "abstract": "As large language models (LLMs) are deployed in high-stakes domains, adversaries may poison training data to implant backdoors: hidden triggers that covertly manipulate model behavior at inference time. We ask whether a defender can recover such a trigger under realistic affordances, namely white-box access to the weights and knowledge of the behavior of concern, but no training data, no trusted reference model, no knowledge of the trigger, and no certainty that the model is poisoned. To evaluate whether a defender can recover such a trigger under realistic settings, we release ToxScreen, a benchmark of roughly 800 backdoored models spanning attack objectives, trigger mechanisms, poisoning rates, model scales, and backdoor training mechanisms. We also assert that the backdoors are high-quality: they achieve high attack success rates, generalize to unseen harmful inputs, and preserve clean-task performance. Scoring recovery of the planted trigger, we find that gradient-based prompt optimization fails in recovery, whereas a token look-up that ranks candidates by attack-success rate recovers the trigger wherever the backdoor is effective. To understand this more, we study the relationship between attack behaviors and the weights of an LLM. We find a phenomenon whereby backdoors operate via different mechanistic strategies than jailbreaks, allowing defenders to filter jailbreaks. Finally, no method reliably surfaces every backdoor, but a broadly jailbreakable model is itself anomalous, a useful signal even when the exact trigger is not recovered. We release all models and evaluation code",
       "authors": [
-        "Prerit Ahuja"
+        "Anthony Hughes",
+        "Nicole Xing",
+        "Collin Francel",
+        "Andy Kim",
+        "Andrew Draganov"
       ],
-      "published": "2026-07-23T14:10:58Z",
-      "updated": "2026-07-23T14:10:58Z",
+      "published": "2026-07-29T12:35:58Z",
+      "updated": "2026-07-29T12:35:58Z",
       "categories": [
-        "cs.CL"
+        "cs.CR",
+        "cs.LG"
       ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.21340v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.21340v1",
-      "comment": "23 pages. Resubmission of submit/7557765, which expired due to an arXiv system bug (confirmed in support ticket AH-199019); the overfull-box correction requested by moderators has been applied. Original submission held in moderation since 14 May 2026. Therefore, request priority review/approval",
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2607.26849v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.26849v1",
+      "comment": "",
       "journal_ref": "",
       "lane": "llm",
       "scope_matches": [
         "large language model",
+        "large language models",
         "language model",
+        "language models",
         "llm"
       ],
       "topics": [
         {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4538,
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "emerging",
+          "score": 0.4172,
           "matched": [
-            "reliability",
-            "llm"
+            "training data",
+            "data"
           ]
         }
       ],
       "scores": {
-        "total": 0.4751,
-        "relevance": 0.363,
-        "quality": 0.55,
-        "novelty": 0.8559,
-        "freshness": 0.8706
+        "total": 0.4679,
+        "relevance": 0.3338,
+        "quality": 0.62,
+        "novelty": 0.8389,
+        "freshness": 0.8604
       },
       "quality_signals": [
-        "baseline comparison",
+        "code available",
         "benchmark evaluation",
         "quantitative results"
       ],
       "summary": {
-        "takeaway": "CM-LRS is a novel, multi-dimensional evaluation metric assessing capital-markets LLM outputs at the workflow-output layer to determine bankability rather than mere plausibility.",
-        "problem": "Existing LLM evaluation benchmarks focus on question-answer accuracy but fail to assess whether outputs are defensible and verifiable in regulated capital-markets workflows.",
-        "method": "CM-LRS scores LLM outputs across seven dimensions—factual accuracy, evidence traceability, numerical consistency, workflow completeness, source discipline, decision usefulness, and reviewability—using a rubric anchored in real-world reviewer signals.",
-        "evidence": "Evaluation of five capital-markets workflows with four models and four independent judges shows frontier closed-source models cluster closely in CM-LRS scores, with open-weights baselines lagging, especially on retrieval and synthesis tasks.",
-        "limitations": "The paper notes the need for inter-rater reliability studies, calibration of dimension weights against real reviewer decisions, and extension to drafting workflows, indicating current limitations in generalizability and calibration.",
-        "why_for_you": "CM-LRS provides a rigorous, deployment-readiness metric tailored for high-stakes regulated environments, enabling trustworthy LLM evaluation beyond surface-level accuracy.",
+        "takeaway": "ToxScreen enables detection and partial recovery of backdoor triggers in LLMs using a novel token look-up method and a coupling statistic derived from model weights without access to training data or clean models.",
+        "problem": "Detecting and recovering backdoor triggers in large language models under realistic conditions where defenders have white-box access to model weights but no training data, no trusted reference model, and no prior knowledge of the trigger.",
+        "method": "ToxScreen measures the coupling between input triggers and model parameters via a second-order gradient statistic (σ1) and ranks candidate tokens by their ability to suppress this coupling and maximize attack success rate to recover triggers.",
+        "evidence": "Experiments on a benchmark of roughly 800 backdoored models show that gradient-based prompt optimization fails to recover triggers, whereas token look-up ranking by attack-success rate reliably recovers triggers when backdoors are effective, supported by pruning studies showing backdoors are often localized.",
+        "limitations": "No method reliably surfaces every backdoor, and some backdoors, such as sentiment steering, are distributed and resilient to pruning, limiting detection and ablation effectiveness.",
+        "why_for_you": "This work provides a comprehensive benchmark and a novel white-box detection method that operates without training data or clean models, addressing a critical gap in realistic backdoor defense for LLMs.",
         "source": "abstract",
         "generated_by": "openai/gpt-4.1-mini"
       },
@@ -2026,110 +1927,118 @@
         "signals": [
           {
             "icon": "🧠",
-            "text": "The Decision Usefulness dimension (D6) shows the widest cross-model score dispersion (up to 4.0 points on issuer profiling) and high inter-judge agreement (mean Pearson r = 0.52), making it a key production-readiness indicator."
+            "text": "The coupling statistic σ1, derived from the mixed second derivative of a behavior readout with respect to model parameters and input, reveals a dominant singular direction corresponding to the backdoor trigger, enabling detection without explicit trigger knowledge."
           },
           {
             "icon": "🛡️",
-            "text": "CM-LRS employs a seven-dimension rubric scored 0–5, each anchored on practical signals used by regulated environment reviewers, enabling tunable aggregation to specific capital-markets workflows."
+            "text": "The token look-up defense evaluates ∼24,000 candidate tokens by injecting each at the trigger position in held-out prompts and ranks them by attack success rate, successfully recovering planted triggers across diverse backdoor mechanisms."
           },
           {
             "icon": "📉",
-            "text": "The open-weights Llama 3.3 70B baseline scores roughly one point lower than frontier closed-source models on CM-LRS, with the largest gaps concentrated in retrieval (2.23 points) and synthesis (2.15 points) workflows rather than extraction (0.84 points)."
+            "text": "Pruning experiments demonstrate that refusal-suppression backdoors are encoded in sparse, localized circuits that degrade faster than general capabilities under structured pruning, whereas sentiment steering backdoors are distributed and persist or amplify under pruning."
           }
         ],
-        "overview": "This paper addresses the critical gap in evaluating large language models (LLMs) for capital-markets workflows, where the key question is whether outputs are bankable—defensible and verifiable in regulated settings—rather than merely plausible or fluent. Existing benchmarks focus on question-answer accuracy but do not assess the full workflow output that practitioners must defend. CM-LRS introduces a seven-dimension rubric evaluating factual accuracy, evidence traceability, numerical consistency, workflow completeness, source discipline, decision usefulness, and reviewability/auditability, each scored 0–5 against rubrics grounded in real reviewer signals. The metric is demonstrated on five representative capital-markets workflows using public and synthetic data, scoring outputs from four models across three model families with four independent judges to control bias. Results show frontier closed-source models cluster closely in reliability scores, outperforming an open-weights baseline especially in retrieval and synthesis tasks. Decision Usefulness emerges as the most discriminative and reliable dimension for deployment readiness. CM-LRS thus provides a comprehensive, deployment-focused evaluation framework for trustworthy LLM use in regulated financial domains.",
+        "overview": "This paper addresses the challenge of detecting and recovering backdoor triggers implanted in large language models under realistic defender affordances: white-box access to model weights and knowledge of the attack objective, but no access to training data, clean reference models, or trigger information. The authors introduce ToxScreen, a benchmark of approximately 800 backdoored LLMs spanning various attack objectives, trigger mechanisms, poisoning rates, and model scales. They propose a novel detection method based on measuring the coupling between input tokens and model parameters via a second-order gradient statistic (σ1), which captures how triggers reroute gradients along a dominant direction. Complementing this, a token look-up approach ranks candidate tokens by their ability to suppress this coupling and maximize attack success rate, enabling trigger recovery. Experiments show that gradient-based prompt optimization fails to recover triggers, while token look-up succeeds wherever backdoors are effective. Pruning studies reveal that some backdoors, like refusal suppression, are localized and can be ablated with minimal impact on general capabilities, whereas others, like sentiment steering, are distributed and resilient. The work also distinguishes backdoor mechanisms from jailbreaks, providing a signal to filter false positives. Despite no method reliably surfacing all backdoors, the presence of broadly jailbreakable models itself signals anomalies. The authors release all models and code to facilitate further research.",
         "methodology": [
           {
-            "title": "Seven-Dimension Rubric",
-            "detail": "CM-LRS evaluates LLM outputs on seven dimensions: factual accuracy, evidence traceability, numerical consistency, workflow completeness, source discipline, decision usefulness, and reviewability/auditability. Each dimension is scored from 0 to 5 based on a rubric anchored on signals used by reviewers in regulated capital-markets environments."
+            "title": "Measuring Attack Behaviors",
+            "detail": "The behavior readout B(θ, x) is computed as the inner product between the model's residual stream at a specific layer and position and a unit vector representing the target behavior direction (e.g., refusal or sentiment). This scalar is differentiable with respect to both model parameters θ and input x, enabling gradient-based analysis restricted to the last k transformer blocks."
           },
           {
-            "title": "Workflow-Output Layer Evaluation",
-            "detail": "Unlike prior benchmarks that assess question-answer pairs, CM-LRS evaluates the entire workflow output, reflecting the actual deliverables bankers and analysts defend in front of regulators and counterparties."
+            "title": "Token-to-Parameter Coupling Statistic (σ1)",
+            "detail": "The coupling M is defined as the mixed second derivative ∂²B/∂θ∂x, mapping input perturbations to changes in the parameter gradient of B. The operator norm σ1 (largest singular value) of M is computed via power iteration without explicit matrix formation, serving as a detection statistic indicating the presence of a trigger that reroutes gradients along a dominant input direction."
           },
           {
-            "title": "Cross-Model and Cross-Judge Validation",
-            "detail": "The framework is applied to five capital-markets workflows using four LLMs (Claude Opus 4.7, GPT-5.5, Claude Sonnet 4.6, and Llama 3.3 70B) scored by four independent judges spanning three model families to control for self- and family-bias."
+            "title": "Suppression Ratio Scoring",
+            "detail": "For each candidate token c, the suppression ratio ρ(c) = σ1(x_c)/σ1(x_∅) compares the coupling statistic when the token is injected versus a trigger-free input. Tokens with ρ(c) ≤ 0.70 are flagged as suppressors, indicating potential triggers that suppress the refusal mechanism and enable backdoor activation."
           },
           {
-            "title": "Aggregate and Tunable Scoring",
-            "detail": "Dimension scores are aggregated into a tunable composite CM-LRS score, allowing adaptation to specific workflow requirements and highlighting dimensions that require reviewer attention."
+            "title": "Token Look-up Attack Success Rate Ranking",
+            "detail": "A candidate pool of approximately 24,000 vocabulary tokens plus the planted trigger is evaluated by injecting each token at the trained trigger position in about 150 held-out prompts. Candidates are ranked by their attack success rate (ASR), with recovery declared when a candidate's ASR significantly exceeds baseline, indicating successful trigger identification."
+          },
+          {
+            "title": "Pruning Strategies for Backdoor Localization",
+            "detail": "Five pruning strategies (structured removal of attention heads, MLP layers, global and layer-wise unstructured magnitude pruning, and random pruning) are applied at varying sparsity levels to backdoored models. Attack success rate and general capability (MMLU) are measured to assess whether backdoors are localized and can be preferentially ablated."
           }
         ],
         "mechanism": [
           {
-            "title": "No Explicit Mechanism or Equations Provided",
-            "detail": "The paper does not present formal equations or causal mechanisms but relies on a rubric-based scoring system grounded in practical reviewer signals and cross-validation to assess reliability dimensions."
+            "title": "Backdoor Trigger Gradient Rerouting",
+            "detail": "Backdoor triggers operate by rerouting the gradient of the behavior readout B along a single dominant input direction, captured by the largest singular value of the mixed second derivative matrix M = ∂²B/∂θ∂x. This rerouting suppresses normal refusal mechanisms, enabling covert manipulation of model behavior. No explicit equations beyond those defining σ1 and ρ are provided."
           }
         ],
         "experiments": [
           {
-            "title": "Five Capital-Markets Workflows",
-            "detail": "CM-LRS is demonstrated on DCM transaction-terms extraction, precedent retrieval, issuer profile synthesis, M&A transaction-comparable reasoning, and ECM transaction-terms extraction workflows using public SEC EDGAR filings, a UK takeover release, and synthetic supplements."
+            "title": "Token Look-up Recovery Evaluation",
+            "detail": "Evaluated on roughly 800 backdoored models fine-tuned from six instruction-tuned LLMs including Llama-3.2-1B and Qwen3-4B, the token look-up method injects ∼24,000 candidate tokens at trigger positions in held-out prompts and ranks them by attack success rate. Recovery is successful when the planted trigger ranks highest, demonstrating reliable trigger identification without training data."
           },
           {
-            "title": "Model and Judge Evaluation",
-            "detail": "Outputs from four models (Claude Opus 4.7, GPT-5.5, Claude Sonnet 4.6, and Llama 3.3 70B) are scored by four independent LLM judges from three model families, including in-panel and out-of-panel judges, to mitigate bias."
+            "title": "Gradient-based Prompt Optimization Baseline",
+            "detail": "Gradient-based prompt optimization methods, which search input space to maximize backdoor activation, were tested but failed to recover planted triggers across the benchmark, highlighting the superiority of the token look-up approach."
           },
           {
-            "title": "Dimension-Level Scoring and Justifications",
-            "detail": "Judges provide per-dimension scores (0–5) with textual justifications, enabling granular analysis of strengths and weaknesses per workflow and model, exemplified by a worked example scoring 4.86 aggregate."
+            "title": "Pruning Ablation Studies",
+            "detail": "Five pruning strategies at sparsity levels 0%, 10%, 50%, and 90% were applied to backdoored models. For refusal suppression backdoors, structured pruning at 50% sparsity reduced attack success rate from ~21% to ~7-10% while retaining ~75% of MMLU accuracy, indicating localized backdoors. For sentiment steering backdoors, pruning did not preferentially ablate attacks and sometimes increased attack success rate even as general capability collapsed."
+          },
+          {
+            "title": "General Capability and Safety Evaluation",
+            "detail": "Backdoored models were evaluated on ARC, TruthfulQA, HellaSwag, and Winogrande benchmarks to assess impact on general capabilities. Attack success was scored using fixed judges including HarmBench Llama-213B for anti-refusal compliance and Llama-3-8B-Instruct for sentiment steering, ensuring consistent and objective evaluation."
           }
         ],
         "findings": [
           {
-            "title": "Frontier Models Cluster Closely",
-            "detail": "The three frontier closed-source models cluster within a 0.22-point band on four-judge averaged CM-LRS (Sonnet 4.6 = 4.31, Opus 4.7 = 4.30, GPT-5.5 = 4.09), indicating similar high reliability."
+            "title": "Token Look-up Recovers Triggers Reliably",
+            "detail": "The token look-up method successfully recovers planted triggers across diverse backdoor configurations, outperforming gradient-based prompt optimization which fails to recover triggers, demonstrating the effectiveness of ranking candidates by attack success rate."
           },
           {
-            "title": "Open-Weights Baseline Lags",
-            "detail": "The open-weights Llama 3.3 70B baseline scores 3.15 on average, roughly one point below frontier models, with the largest performance gaps in retrieval (2.23 points) and synthesis (2.15 points) workflows."
+            "title": "Backdoors Exhibit Distinct Mechanistic Signatures",
+            "detail": "Backdoors operate via different mechanistic strategies than jailbreaks, allowing defenders to distinguish and filter jailbreak behaviors from backdoor triggers using the coupling statistic and suppression ratio."
           },
           {
-            "title": "Decision Usefulness is Most Discriminative",
-            "detail": "Decision Usefulness (D6) shows the widest cross-model dispersion (up to 4.0 points on issuer profiling) and strong inter-judge agreement (mean Pearson r = 0.52), making it the clearest indicator of production readiness."
+            "title": "Refusal Suppression Backdoors Are Localized",
+            "detail": "Pruning experiments show refusal suppression backdoors degrade faster than general capabilities under structured pruning, supporting the hypothesis that these backdoors are encoded in sparse, localized circuits."
           },
           {
-            "title": "Extraction Workflows Show Smaller Gaps",
-            "detail": "Performance gaps between frontier and baseline models are smaller on extraction workflows (0.84 points), suggesting these tasks are less challenging for open-weights models."
+            "title": "Sentiment Steering Backdoors Are Distributed and Resilient",
+            "detail": "Sentiment steering backdoors persist or even amplify under pruning, with attack success rates increasing to 61-81% at 90% sparsity while general capability collapses, indicating distributed encoding that resists ablation."
           },
           {
-            "title": "Rubric Enables Rapid Review",
-            "detail": "The rubric’s per-dimension scores and justifications allow reviewers to quickly identify and verify specific claims, facilitating efficient auditability and reviewability."
+            "title": "No Method Surfaces All Backdoors Reliably",
+            "detail": "Despite advances, no detection method reliably identifies every backdoor, but broadly jailbreakable models themselves are anomalous, providing a useful signal even when exact triggers are not recovered."
           }
         ],
         "contributions": [
-          "Introduction of CM-LRS, a seven-dimension rubric evaluating LLM outputs at the workflow-output layer for capital-markets applications.",
-          "Demonstration of CM-LRS on five representative capital-markets workflows with public and synthetic data.",
-          "Cross-model and cross-judge evaluation protocol controlling for self- and family-bias across three model families.",
-          "Identification of Decision Usefulness as a key dimension for deployment readiness with strong inter-judge reliability.",
-          "Public release of rubrics, prompts, and demonstration tasks to enable community extension and critique."
+          "Release of ToxScreen, a benchmark of ~800 backdoored LLMs spanning diverse attack objectives, mechanisms, and scales.",
+          "Introduction of a novel coupling statistic (σ1) based on second-order gradients to detect backdoor triggers without training data or clean models.",
+          "Development of a token look-up method that ranks candidate tokens by attack success rate to reliably recover planted triggers.",
+          "Empirical demonstration that refusal suppression backdoors are localized and can be preferentially ablated via pruning, while sentiment steering backdoors are distributed and resilient.",
+          "Identification of mechanistic differences between backdoors and jailbreaks, enabling filtering of false positives."
         ],
         "limitations": [
-          "Lack of inter-rater reliability studies to quantify consistency across judges beyond Pearson correlations.",
-          "Current rubric weights and aggregation are not calibrated against real-world reviewer decisions or deployment outcomes.",
-          "Evaluation limited to extraction, retrieval, synthesis, and reasoning workflows; drafting workflows remain unaddressed.",
-          "No formal mechanistic or causal model underpinning the rubric scoring is provided."
+          "No detection method reliably surfaces every backdoor, limiting comprehensive defense.",
+          "Sentiment steering backdoors are distributed and resilient to pruning, complicating ablation and detection.",
+          "The approach requires white-box access to model weights, which may not always be available in deployment scenarios.",
+          "The benchmark and methods focus on instruction-tuned LLMs and may not generalize to all model architectures or training regimes."
         ],
         "open_questions": [
-          "How can CM-LRS dimension weights be calibrated against actual deployment decisions and regulatory outcomes?",
-          "What is the inter-rater reliability of CM-LRS across a broader set of human reviewers beyond LLM judges?",
-          "Can CM-LRS be extended effectively to drafting workflows and other regulated domains beyond capital markets?",
-          "How do different prompt engineering or retrieval augmentation strategies impact CM-LRS scores across workflows?"
+          "How can detection methods be improved to reliably surface all types of backdoors, including distributed ones like sentiment steering?",
+          "Can the coupling statistic and token look-up approach be adapted for black-box or limited-access scenarios?",
+          "What are the mechanistic underpinnings that differentiate backdoors from jailbreaks at a finer granularity?",
+          "How do backdoor detection and ablation methods generalize across different LLM architectures and training datasets?"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
         "generated_by": "openai/gpt-4.1-mini",
         "schema_version": 2
       },
       "recommendation_reason": {
-        "topic": "Trustworthy LLM",
+        "topic": "Data selection for LLMs",
         "matched": [
-          "reliability",
-          "llm"
+          "training data",
+          "data"
         ],
         "lane": "llm"
       },
-      "recommended_at": "2026-07-24T11:55:27.963037+00:00"
+      "recommended_at": "2026-07-30T12:03:36.063766+00:00"
     }
   ]
 }
