@@ -24,9 +24,28 @@ configured.
   Hugo, WordPress, React, or plain HTML sites.
 - Includes an optional Cloudflare Worker + D1 API so browser changes affect the
   next scheduled build.
+- Installs as a standalone iPhone app from Safari, with an offline app shell and
+  cached access to the latest successfully loaded feed.
+- Uses explicit Useful/Irrelevant feedback as positive and negative examples
+  for an optional Semantic Scholar recommendation signal.
 
 The checked-in feed contains the latest successful live build. A deterministic
 fixture remains available for tests and offline UI development.
+
+## Install on your iPhone
+
+No App Store account or native build is required. After GitHub Pages deploys:
+
+1. Open the deployed Dawnlit URL in Safari on your iPhone.
+2. Tap **Install on iPhone** for the in-app instructions.
+3. Tap Safari's **Share** button, choose **Add to Home Screen**, then tap **Add**.
+4. Launch Dawnlit from its Home Screen icon.
+
+The installed app opens without Safari chrome. Its Service Worker keeps the app
+shell and the most recently loaded paper data available when the network is
+temporarily unavailable. While online, it checks GitHub Pages first for the
+latest app files and paper data. Reopening the app, returning to it after five
+minutes, or refreshing it picks up a completed Pages deployment automatically.
 
 ## Install your own Dawnlit
 
@@ -65,10 +84,10 @@ a different premise: a researcher should own and understand the filter.
   services can be replaced without changing the feed format.
 
 The current version is intentionally not a claim to beat mature products
-everywhere. It is arXiv-only, uses transparent lexical/topic matching rather
-than a production semantic index, and has not yet been evaluated on long-term
-user feedback. Semantic retrieval, broader sources, and ranking evaluation are
-the next technical milestones.
+everywhere. It is arXiv-only and uses transparent lexical/topic gates augmented
+by optional Semantic Scholar feedback recommendations, rather than its own
+production semantic index. Long-term ranking evaluation and a local scientific
+embedding index remain the next technical milestones.
 
 ## Run locally
 
@@ -291,8 +310,10 @@ Set the deployed Worker URL in:
 1. `public/runtime-config.js` as `apiUrl`
 2. GitHub repository variable `RADAR_API_URL`
 
-Add the same admin token as the GitHub secret `RADAR_ADMIN_TOKEN`. In the web
-Preferences page, enter it once per browser tab to connect.
+Add the same admin token as the GitHub secret `RADAR_ADMIN_TOKEN`. In the
+installed iPhone app, open **Preferences**, enter the token under **Data
+ownership**, and tap **Save & sync**. The token stays on that device until you
+tap **Forget token**; it is never committed to the public Pages site.
 
 Initialize the remote profile:
 
@@ -308,6 +329,21 @@ D1 retains profile versions, while feedback types remain simple:
 - `useful` is a positive preference signal.
 - `not_useful` and `irrelevant` are negative signals and enter the seven-day
   browser archive.
+
+Feedback is posted to D1 immediately. If the phone is offline or the Worker is
+temporarily unavailable, the feedback remains in a local pending queue and is
+retried when the app next starts, reconnects, or returns online. The next
+scheduled GitHub Action reads that D1 feedback through `RADAR_API_URL`, uses it
+in ranking, commits the new feed, and deploys it to Pages. The installed app
+then fetches that feed the next time it becomes active.
+
+Once at least one positive paper is synced, the scheduled build asks Semantic
+Scholar for papers related to the latest positive and negative examples and
+uses matching arXiv IDs as an extra ranking signal. This is enabled by default.
+Set `SEMANTIC_SCHOLAR_RECOMMENDATIONS=0` in the workflow environment to disable
+it, or add the optional `SEMANTIC_SCHOLAR_API_KEY` repository secret for an
+authenticated request. A failed request is non-fatal and falls back to the
+local ranking pipeline.
 
 ## Data and arXiv use
 

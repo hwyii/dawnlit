@@ -45,7 +45,7 @@ OPENSEARCH = {"opensearch": "http://a9.com/-/spec/opensearch/1.1/"}
 TOKEN_RE = re.compile(r"[a-z][a-z0-9+\-]{2,}")
 SENTENCE_RE = re.compile(r"(?<=[.!?])\s+(?=[A-Z0-9])")
 NUMBER_RE = re.compile(r"\b\d+(?:\.\d+)?%?\b")
-ANALYSIS_SCHEMA_VERSION = 2
+ANALYSIS_SCHEMA_VERSION = 3
 
 STOPWORDS = {
     "about",
@@ -166,6 +166,7 @@ def request_json(
     method: str = "GET",
     body: Any = None,
     timeout: int = 45,
+    extra_headers: dict[str, str] | None = None,
 ) -> Any:
     headers = {"User-Agent": USER_AGENT, "Accept": "application/json"}
     if token:
@@ -174,6 +175,8 @@ def request_json(
     if body is not None:
         data = json.dumps(body).encode("utf-8")
         headers["Content-Type"] = "application/json"
+    if extra_headers:
+        headers.update(extra_headers)
     request = urllib.request.Request(url, data=data, headers=headers, method=method)
     with urllib.request.urlopen(request, timeout=timeout) as response:
         return json.loads(response.read().decode("utf-8"))
@@ -526,6 +529,68 @@ def feedback_corpora(feedback: list[dict[str, Any]]) -> tuple[list[set[str]], li
     return positives, negatives
 
 
+def semantic_scholar_feedback_scores(
+    feedback: list[dict[str, Any]],
+) -> dict[str, float]:
+    """Get a free semantic recommendation signal from explicit paper feedback."""
+    if os.getenv("SEMANTIC_SCHOLAR_RECOMMENDATIONS", "1") == "0":
+        return {}
+    positives: list[str] = []
+    negatives: list[str] = []
+    seen: set[str] = set()
+    ordered = sorted(
+        feedback,
+        key=lambda value: value.get("created_at", ""),
+        reverse=True,
+    )
+    for item in ordered:
+        paper_id = re.sub(r"v\d+$", "", str(item.get("paper_id", ""))).strip()
+        if not paper_id or paper_id in seen:
+            continue
+        seen.add(paper_id)
+        action = item.get("action")
+        semantic_id = f"ArXiv:{paper_id}"
+        if action in {"save", "read", "more_method", "more_topic", "useful"}:
+            positives.append(semantic_id)
+        elif action in {"not_llm", "irrelevant", "not_useful"}:
+            negatives.append(semantic_id)
+    if not positives:
+        return {}
+
+    url = (
+        "https://api.semanticscholar.org/recommendations/v1/papers/"
+        "?limit=500&fields=externalIds"
+    )
+    api_key = os.getenv("SEMANTIC_SCHOLAR_API_KEY")
+    headers = {"x-api-key": api_key} if api_key else None
+    try:
+        payload = request_json(
+            url,
+            method="POST",
+            body={
+                "positivePaperIds": positives[:100],
+                "negativePaperIds": negatives[:100],
+            },
+            timeout=60,
+            extra_headers=headers,
+        )
+    except (OSError, ValueError, urllib.error.URLError) as error:
+        print(f"Semantic Scholar recommendations unavailable: {error}", file=sys.stderr)
+        return {}
+
+    recommended = payload.get("recommendedPapers", [])
+    total = max(len(recommended), 1)
+    scores: dict[str, float] = {}
+    for index, item in enumerate(recommended):
+        external_ids = item.get("externalIds") or {}
+        arxiv_id = re.sub(
+            r"v\d+$", "", str(external_ids.get("ArXiv", ""))
+        ).strip()
+        if arxiv_id:
+            scores[arxiv_id] = round(1.0 - index / total, 4)
+    return scores
+
+
 def topic_scores(
     paper: Paper,
     profile: dict[str, Any],
@@ -535,6 +600,8 @@ def topic_scores(
 ) -> list[dict[str, Any]]:
     title = paper.title.lower()
     abstract = paper.abstract.lower()
+    abstract_opening = " ".join(split_sentences(paper.abstract)[:2]).lower()
+    central_text = f"{title}. {abstract_opening}"
     tokens = tokenize(paper.text())
     scored: list[dict[str, Any]] = []
     for topic in profile["topics"]:
@@ -547,6 +614,11 @@ def topic_scores(
             continue
         required_any = topic.get("required_any", [])
         if required_any and not any(contains_term(paper.text(), term) for term in required_any):
+            continue
+        required_central = topic.get("required_central_any", [])
+        if required_central and not any(
+            contains_term(central_text, term) for term in required_central
+        ):
             continue
         required_groups = topic.get("required_all_groups", [])
         if required_groups and not all(
@@ -561,11 +633,13 @@ def topic_scores(
         description_overlap = jaccard(tokens, tokenize(topic.get("description", "")))
         raw = title_hits * 1.8 + abstract_hits * 0.65 + description_overlap * 4.0
         normalized = 1.0 - math.exp(-raw / 5.5)
-        matched = [
-            term
-            for term in [*phrases, *terms]
-            if contains_term(paper.text(), term)
-        ][:6]
+        matched = list(
+            dict.fromkeys(
+                term
+                for term in [*phrases, *terms]
+                if contains_term(paper.text(), term)
+            )
+        )[:6]
         weighted = normalized * float(topic.get("weight", 1.0))
         if weighted > 0.04 and (matched or description_overlap >= 0.18):
             scored.append(
@@ -808,7 +882,8 @@ Requirements:
 - evidence reports the evaluation or theorem; say "Not stated in the abstract"
   when details are absent.
 - limitations distinguishes an author-stated limitation from missing evidence.
-- why_for_you connects specifically to the supplied research interests.
+- why_for_you names the matched research problem or method; generic shared words
+  such as training, model, robustness, or optimization are not sufficient.
 
 Research interests: {topic_names}
 Title: {paper.title}
@@ -937,23 +1012,27 @@ Return only valid JSON matching this exact shape:
 }}
 
 Requirements:
+- brief.problem, brief.method, brief.evidence, and brief.limitations describe
+  only the paper. Only brief.why_for_you may refer to the research interests.
+- Treat generic vocabulary overlap as insufficient for relevance. The paper's
+  central question or method must match the named interest.
 - Do not write generic statements such as "the paper studies" or "this is
   relevant to trustworthy AI" when a named method, mechanism, model, dataset,
   metric, baseline, or quantitative result is available.
-- signals must contain exactly three complementary items of 25-45 words each.
+- signals must contain exactly three complementary items of 20-35 words each.
   Every signal must include at least one paper-specific technical entity or
   concrete result.
-- overview must be 140-220 words and explain the research question, thesis,
+- overview must be 90-140 words and explain the research question, thesis,
   approach, and strongest evidence as a connected argument.
-- Use 3-5 methodology items of 50-90 words each. Explain purpose, procedure,
+- Use 2-4 methodology items of 35-65 words each. Explain purpose, procedure,
   inputs/outputs, training objective, and implementation choices when present.
-- Use 1-4 mechanism items of 45-90 words each. Preserve equations and causal or
+- Use 1-3 mechanism items of 30-60 words each. Preserve equations and causal or
   geometric claims only when present; otherwise state that no mechanism is given.
-- Use 2-5 experiment items of 45-85 words each. Name concrete models, datasets,
+- Use 2-4 experiment items of 35-65 words each. Name concrete models, datasets,
   baselines, metrics, evaluation protocol, and ablations when present.
-- Use 3-6 findings of 40-80 words each and connect each claim to its evidence,
+- Use 2-5 findings of 30-60 words each and connect each claim to its evidence,
   including exact numerical results when available.
-- Use 3-5 contributions, 2-4 limitations, and 2-4 open questions. Each item
+- Use 2-4 contributions, 1-3 limitations, and 1-3 open questions. Each item
   should be specific enough to guide a research discussion.
 - If evidence is unavailable in the supplied text, say so explicitly.
 - Do not treat arXiv publication as peer review.
@@ -1029,6 +1108,7 @@ def parse_model_analysis(
     prepared = prepare_deep_dive(deep_dive, generated_by, source_scope)
     if summary is None or prepared is None:
         return None
+    summary["source"] = source_scope
     return summary, prepared
 
 
@@ -1059,17 +1139,17 @@ def github_chat(token: str, body: dict[str, Any]) -> dict[str, Any]:
     # Daily feed freshness is more important than waiting many minutes for
     # hosted-model retries. If a model is slow or unavailable, fall back to the
     # next model and then to the extractive summary.
-    for attempt in range(1):
+    for attempt in range(2):
         try:
             return request_json(url, token, "POST", body, timeout=90)
         except urllib.error.HTTPError as error:
             last_error = error
-            if error.code not in {429, 500, 502, 503, 504} or attempt == 0:
+            if error.code not in {429, 500, 502, 503, 504} or attempt == 1:
                 raise
             time.sleep(6 * (attempt + 1))
         except (urllib.error.URLError, TimeoutError) as error:
             last_error = error
-            if attempt == 0:
+            if attempt == 1:
                 raise
             time.sleep(12 * (attempt + 1))
     raise RuntimeError(f"GitHub Models request failed: {last_error}")
@@ -1104,7 +1184,7 @@ def github_analysis(
                 },
             ],
             "temperature": 0.1,
-            "max_tokens": 4000,
+            "max_tokens": 2600,
         }
         try:
             response = github_chat(token, body)
@@ -1138,6 +1218,7 @@ def score_papers(
     feedback: list[dict[str, Any]],
     previous: list[set[str]],
     now: dt.datetime,
+    semantic_feedback: dict[str, float] | None = None,
 ) -> list[dict[str, Any]]:
     ranking = profile["ranking"]
     positive_feedback, negative_feedback = feedback_corpora(feedback)
@@ -1154,6 +1235,8 @@ def score_papers(
         if not topics:
             continue
         relevance = clamp(topics[0]["score"] * 0.8 + min(sum(item["score"] for item in topics[1:3]), 1) * 0.2)
+        semantic_affinity = (semantic_feedback or {}).get(paper.id, 0.0)
+        relevance = clamp(relevance + semantic_affinity * 0.15)
         quality, quality_reasons = quality_score(paper)
         novelty = novelty_score(paper, previous)
         freshness = freshness_score(paper, now)
@@ -1188,6 +1271,7 @@ def score_papers(
                     "quality": round(quality, 4),
                     "novelty": round(novelty, 4),
                     "freshness": round(freshness, 4),
+                    "semantic_feedback": round(semantic_affinity, 4),
                 },
                 "quality_signals": quality_reasons,
                 "_tokens": tokenize(paper.text()),
@@ -1260,7 +1344,10 @@ def serialize_item(
         cached_deep_dive = (
             (previous_item or {}).get("deep_dive") if unchanged else None
         )
-        if cached_deep_dive:
+        if (
+            cached_deep_dive
+            and cached_deep_dive.get("schema_version") == ANALYSIS_SCHEMA_VERSION
+        ):
             deep_dive = prepare_deep_dive(
                 cached_deep_dive,
                 cached_deep_dive.get("generated_by", "cached analysis"),
@@ -1371,6 +1458,7 @@ def build(
     now = now or utc_now()
     profile = load_profile(profile_path, interests_path)
     feedback = load_feedback()
+    semantic_feedback = semantic_scholar_feedback_scores(feedback)
     if atom_fixture:
         payload = atom_fixture.read_bytes()
         query_total = atom_total_results(payload)
@@ -1381,7 +1469,14 @@ def build(
     previous_items = load_previous_items(output_path)
     seen_ids = load_seen_paper_ids(output_path, now.date())
     unseen_papers = [paper for paper in papers if paper.id not in seen_ids]
-    scored = score_papers(unseen_papers, profile, feedback, previous, now)
+    scored = score_papers(
+        unseen_papers,
+        profile,
+        feedback,
+        previous,
+        now,
+        semantic_feedback,
+    )
     selected = diversify(scored, profile)
     serialized = [
         serialize_item(
@@ -1403,6 +1498,7 @@ def build(
         "previously_recommended_count": len(seen_ids),
         "eligible_count": len(scored),
         "feedback_count": len(feedback),
+        "semantic_feedback_count": len(semantic_feedback),
         "papers": serialized,
     }
     output_path.parent.mkdir(parents=True, exist_ok=True)

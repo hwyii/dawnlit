@@ -54,10 +54,59 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(topics[0]["id"], "llm_loss_landscape")
         self.assertGreater(topics[0]["score"], 0.4)
 
+    def test_topic_scoring_rejects_surface_only_adversarial_match(self):
+        paper = radar.Paper(
+            id="2607.11444",
+            title="UMoE: Unlocking Every Expert in Domain-Specific Training",
+            abstract=(
+                "Mixture-of-Experts models contain experts that contribute little on a target "
+                "domain, and standard supervised fine-tuning leaves that composition unchanged. "
+                "We prune low-saliency experts, regrow them through perturbation-based expansion, "
+                "and apply standard fine-tuning. The method demonstrates robustness across strong "
+                "training regimes without studying adversarial examples or jailbreak attacks."
+            ),
+            authors=["Example Author"],
+            published="2026-07-13T11:52:42Z",
+            updated="2026-07-13T11:52:42Z",
+            categories=["cs.CL"],
+            primary_category="cs.CL",
+            abs_url="https://arxiv.org/abs/2607.11444",
+            pdf_url="https://arxiv.org/pdf/2607.11444",
+        )
+        _, scope_score, _ = radar.scope_lane(paper, self.profile)
+        topics = radar.topic_scores(paper, self.profile, scope_score, [], [])
+        self.assertNotIn("efficient_adversarial_training", {item["id"] for item in topics})
+
     def test_term_matching_respects_word_boundaries(self):
         self.assertTrue(radar.contains_term("We prove a generalization bound.", "bound"))
         self.assertFalse(radar.contains_term("Boundary-aware context grounding.", "bound"))
         self.assertFalse(radar.contains_term("An MLLM benchmark.", "llm"))
+
+    def test_semantic_scholar_feedback_scores_use_latest_explicit_labels(self):
+        feedback = [
+            {
+                "paper_id": "2505.17646",
+                "action": "useful",
+                "created_at": "2026-06-27T12:00:00Z",
+            },
+            {
+                "paper_id": "2606.00003",
+                "action": "irrelevant",
+                "created_at": "2026-06-27T12:01:00Z",
+            },
+        ]
+        response = {
+            "recommendedPapers": [
+                {"externalIds": {"ArXiv": "2607.12345v2"}},
+                {"externalIds": {"DOI": "10.1000/example"}},
+            ]
+        }
+        with patch.object(radar, "request_json", return_value=response) as request:
+            scores = radar.semantic_scholar_feedback_scores(feedback)
+        self.assertEqual(scores, {"2607.12345": 1.0})
+        body = request.call_args.kwargs["body"]
+        self.assertEqual(body["positivePaperIds"], ["ArXiv:2505.17646"])
+        self.assertEqual(body["negativePaperIds"], ["ArXiv:2606.00003"])
 
     def test_fallback_summary_is_english(self):
         topics = [{"name": "LLM loss landscape"}]
@@ -190,6 +239,7 @@ class PipelineTests(unittest.TestCase):
             "open_questions": ["Question"],
             "generated_by": "test/model",
             "source_scope": "full text",
+            "schema_version": radar.ANALYSIS_SCHEMA_VERSION,
         }
         summary = radar.extractive_summary(paper, topics)
         item = {

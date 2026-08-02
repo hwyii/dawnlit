@@ -43,6 +43,7 @@ body {
     "Segoe UI",
     sans-serif;
   line-height: 1.55;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 button,
@@ -207,11 +208,71 @@ a {
   background: transparent;
   border: 1px solid rgba(31, 103, 85, 0.24);
   border-radius: 999px;
+  cursor: pointer;
 }
 
 .install-link:hover {
   color: white;
   background: var(--green);
+}
+
+.install-dialog {
+  width: min(440px, calc(100% - 32px));
+  padding: 34px;
+  color: var(--ink);
+  background: #fffdf8;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  box-shadow: 0 30px 90px rgba(31, 41, 39, 0.22);
+}
+
+.install-dialog::backdrop {
+  background: rgba(31, 41, 39, 0.42);
+  backdrop-filter: blur(5px);
+}
+
+.install-dialog h2 {
+  margin: 6px 0 18px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.12;
+}
+
+.install-mark {
+  margin-bottom: 22px;
+}
+
+.dialog-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  color: var(--ink-muted);
+  background: var(--paper);
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.install-steps {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding-left: 24px;
+}
+
+.install-steps li {
+  padding-left: 5px;
+}
+
+.install-hint {
+  margin: 22px 0 0;
+  padding-top: 18px;
+  color: var(--ink-muted);
+  font-size: 13px;
+  border-top: 1px solid var(--line);
 }
 
 .mode-badge {
@@ -1067,7 +1128,7 @@ main {
 
 .auth-row {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(0, 1fr) auto auto;
   gap: 9px;
   margin-top: 14px;
 }
@@ -1145,6 +1206,25 @@ main {
 }
 
 @media (max-width: 650px) {
+  .site-header {
+    padding-right: max(14px, env(safe-area-inset-right));
+    padding-left: max(14px, env(safe-area-inset-left));
+  }
+
+  .brand small,
+  .mode-badge {
+    display: none;
+  }
+
+  .install-link {
+    padding: 7px 10px;
+    font-size: 11px;
+  }
+
+  .install-dialog {
+    padding: 30px 24px;
+  }
+
   .header-meta #lastUpdated {
     display: none;
   }

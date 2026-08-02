@@ -9,6 +9,9 @@ const ACTIONS = new Set([
   "not_llm",
   "irrelevant",
   "transferable",
+  "useful",
+  "unuseful",
+  "not_useful",
 ]);
 
 export default {

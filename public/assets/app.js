@@ -18,8 +18,16 @@ const state = {
   saved: new Set(readStorage(STORAGE.saved, [])),
   dismissed: readDismissals(),
   apiUrl: (runtime.apiUrl || "").replace(/\/$/, ""),
-  token: sessionStorage.getItem(STORAGE.token) || "",
+  token:
+    readTextStorage(STORAGE.token) ||
+    sessionStorage.getItem(STORAGE.token) ||
+    "",
+  installPrompt: null,
+  lastRefreshAt: 0,
 };
+
+if (state.token) writeTextStorage(STORAGE.token, state.token);
+sessionStorage.removeItem(STORAGE.token);
 
 const elements = {
   app: document.querySelector("#appContent"),
@@ -29,7 +37,62 @@ const elements = {
   toast: document.querySelector("#toast"),
   importInput: document.querySelector("#profileImport"),
   deepDive: document.querySelector("#deepDiveDialog"),
+  installDialog: document.querySelector("#installDialog"),
+  installButton: document.querySelector("#installAppButton"),
 };
+
+function isStandaloneApp() {
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone === true
+  );
+}
+
+function isIOSDevice() {
+  return (
+    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+  );
+}
+
+async function installApp() {
+  if (isStandaloneApp()) {
+    showToast("Dawnlit is already installed on this device.");
+    return;
+  }
+  if (state.installPrompt) {
+    state.installPrompt.prompt();
+    const choice = await state.installPrompt.userChoice;
+    state.installPrompt = null;
+    if (choice.outcome === "accepted") showToast("Dawnlit installed.");
+    return;
+  }
+
+  const steps = document.querySelector("#installSteps");
+  const hint = document.querySelector("#installHint");
+  if (!isIOSDevice()) {
+    steps.innerHTML = `
+      <li>Open your browser menu.</li>
+      <li>Choose <strong>Install app</strong> or <strong>Add to Home Screen</strong>.</li>
+      <li>Confirm the installation.</li>
+    `;
+    hint.textContent =
+      "If the install option is missing, open this page in Safari or Chrome first.";
+  }
+  elements.installDialog.showModal();
+}
+
+function registerServiceWorker() {
+  if (!("serviceWorker" in navigator)) return;
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("./sw.js")
+      .then((registration) => registration.update())
+      .catch((error) => {
+        console.warn("Dawnlit offline mode is unavailable:", error);
+      });
+  });
+}
 
 function inferRepository() {
   if (runtime.repository) return runtime.repository;
@@ -56,6 +119,23 @@ function readStorage(key, fallback) {
 
 function writeStorage(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
+}
+
+function readTextStorage(key) {
+  try {
+    return localStorage.getItem(key) || "";
+  } catch {
+    return "";
+  }
+}
+
+function writeTextStorage(key, value) {
+  try {
+    if (value) localStorage.setItem(key, value);
+    else localStorage.removeItem(key);
+  } catch {
+    // Local-only mode remains available if persistent storage is blocked.
+  }
 }
 
 function readDismissals() {
@@ -165,10 +245,12 @@ async function boot() {
     state.weekly = weekly;
     state.history = history;
     state.profile = profile;
+    state.lastRefreshAt = Date.now();
     elements.loading.classList.add("hidden");
     elements.app.classList.remove("hidden");
     updateChrome();
     render();
+    syncPendingFeedback({ notify: true });
   } catch (error) {
     elements.loading.classList.add("hidden");
     elements.error.classList.remove("hidden");
@@ -224,24 +306,33 @@ function render() {
     renderPreferences();
     return;
   }
+  const todayPapers = visiblePapers(state.feed.papers);
+  const useRecentFallback =
+    state.view === "today" &&
+    todayPapers.length === 0 &&
+    Number(state.feed.source_count || 0) === 0;
   const papers =
     state.view === "today"
-      ? visiblePapers(state.feed.papers)
+      ? useRecentFallback
+        ? visiblePapers(state.weekly.papers).slice(0, 6)
+        : todayPapers
       : state.view === "weekly"
         ? visiblePapers(state.weekly.papers)
         : allPapers().filter(
             (paper) => state.saved.has(paper.id) && !isDismissed(paper.id),
           );
-  renderPaperView(papers);
+  renderPaperView(papers, useRecentFallback);
 }
 
-function renderPaperView(papers) {
+function renderPaperView(papers, useRecentFallback = false) {
   const config = {
     today: {
-      eyebrow: "DAILY SIGNAL",
-      title: "Today’s radar",
+      eyebrow: useRecentFallback ? "RECENT SIGNALS" : "DAILY SIGNAL",
+      title: useRecentFallback ? "Latest recommendations" : "Today’s radar",
       subtitle:
-        "New, never-before-recommended LLM papers; quiet days stay intentionally short.",
+        useRecentFallback
+          ? "No new arXiv batch is available today, so here are the strongest recent papers."
+          : "New, never-before-recommended LLM papers; quiet days stay intentionally short.",
       date: prettyDate(state.feed.generated_at),
     },
     weekly: {
@@ -654,10 +745,15 @@ function renderPreferences() {
         ${
           state.apiUrl
             ? `<div class="auth-row">
-                <input id="apiToken" type="password" placeholder="Admin token (kept in this tab only)" value="${escapeHTML(
+                <input id="apiToken" type="password" placeholder="Personal API token (stored on this device)" value="${escapeHTML(
                   state.token,
                 )}" />
-                <button class="secondary-button" data-pref-action="connect-api">Connect API</button>
+                <button class="secondary-button" data-pref-action="connect-api">Save & sync</button>
+                ${
+                  state.token
+                    ? '<button class="danger-button" data-pref-action="disconnect-api">Forget token</button>'
+                    : ""
+                }
               </div>`
             : ""
         }
@@ -726,11 +822,9 @@ async function recordFeedback(paper, action) {
   }
   if (state.apiUrl && state.token) {
     try {
-      await fetchJSON(`${state.apiUrl}/api/feedback`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(item),
-      });
+      await sendFeedbackItem(item);
+      item.synced_at = new Date().toISOString();
+      writeStorage(STORAGE.feedback, state.feedback);
     } catch (error) {
       showToast(
         `Feedback was saved locally; cloud sync failed: ${error.message}`,
@@ -741,11 +835,43 @@ async function recordFeedback(paper, action) {
   showToast(feedbackMessage(action));
 }
 
+async function sendFeedbackItem(item) {
+  return fetchJSON(`${state.apiUrl}/api/feedback`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(item),
+  });
+}
+
+async function syncPendingFeedback({ notify = false } = {}) {
+  if (!state.apiUrl || !state.token) return 0;
+  const pending = state.feedback.filter((item) => !item.synced_at);
+  let synced = 0;
+  for (const item of pending) {
+    try {
+      await sendFeedbackItem(item);
+      item.synced_at = new Date().toISOString();
+      synced += 1;
+    } catch {
+      break;
+    }
+  }
+  if (synced) {
+    writeStorage(STORAGE.feedback, state.feedback);
+    if (notify) {
+      showToast(
+        `Synced ${synced} pending feedback item${synced === 1 ? "" : "s"}.`,
+      );
+    }
+  }
+  return synced;
+}
+
 function feedbackMessage(action) {
   return (
     {
       useful: "Marked useful and saved.",
-      unuseful: "Removed from useful papers.",
+      unsave: "Removed from useful papers.",
       not_useful: `Archived for ${ARCHIVE_DAYS} days and recorded as a weak signal.`,
       irrelevant: `Archived for ${ARCHIVE_DAYS} days and recorded as irrelevant.`,
     }[action] || "Feedback recorded."
@@ -895,7 +1021,7 @@ elements.app.addEventListener("click", async (event) => {
     } else if (action === "useful") {
       if (state.saved.has(paper.id)) {
         state.saved.delete(paper.id);
-        await recordFeedback(paper, "unuseful");
+        await recordFeedback(paper, "unsave");
       } else {
         state.saved.add(paper.id);
         await recordFeedback(paper, "useful");
@@ -959,11 +1085,30 @@ elements.app.addEventListener("click", async (event) => {
     }
     if (action === "connect-api") {
       state.token = document.querySelector("#apiToken").value.trim();
-      sessionStorage.setItem(STORAGE.token, state.token);
-      state.profile = await loadProfile();
+      writeTextStorage(STORAGE.token, state.token);
+      try {
+        state.profile = await fetchJSON(`${state.apiUrl}/api/profile`);
+      } catch (error) {
+        state.token = "";
+        writeTextStorage(STORAGE.token, "");
+        throw error;
+      }
+      writeStorage(STORAGE.profile, state.profile);
+      const synced = await syncPendingFeedback();
       updateChrome();
       renderPreferences();
-      showToast("Connected to the Dawnlit API.");
+      showToast(
+        synced
+          ? `Connected and synced ${synced} feedback item${synced === 1 ? "" : "s"}.`
+          : "Connected to the Dawnlit API.",
+      );
+    }
+    if (action === "disconnect-api") {
+      state.token = "";
+      writeTextStorage(STORAGE.token, "");
+      updateChrome();
+      renderPreferences();
+      showToast("API token removed from this device.");
     }
   } catch (error) {
     showToast(`Action failed: ${error.message}`);
@@ -1008,4 +1153,40 @@ elements.deepDive.addEventListener("click", (event) => {
   }
 });
 
+elements.installButton.addEventListener("click", installApp);
+
+elements.installDialog.addEventListener("click", (event) => {
+  if (
+    event.target.closest("[data-install-close]") ||
+    event.target === elements.installDialog
+  ) {
+    elements.installDialog.close();
+  }
+});
+
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  state.installPrompt = event;
+});
+
+window.addEventListener("appinstalled", () => {
+  state.installPrompt = null;
+  elements.installButton.classList.add("hidden");
+  showToast("Dawnlit is ready on your Home Screen.");
+});
+
+window.addEventListener("online", () => {
+  syncPendingFeedback({ notify: true });
+});
+
+document.addEventListener("visibilitychange", () => {
+  const staleFor = Date.now() - state.lastRefreshAt;
+  if (document.visibilityState === "visible" && staleFor > 5 * 60 * 1000) {
+    boot();
+  }
+});
+
+if (isStandaloneApp()) elements.installButton.classList.add("hidden");
+
+registerServiceWorker();
 boot();
