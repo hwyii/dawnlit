@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-02T23:27:55.019072+00:00",
+  "generated_at": "2026-08-02T23:47:12.285677+00:00",
   "papers": [
     {
       "id": "2607.28421",
@@ -57,16 +57,6 @@
         "baseline comparison",
         "quantitative results"
       ],
-      "summary": {
-        "takeaway": "We demonstrate it on 50,000 paired PPG-ECG records using ECG-to-PPG privileged distillation as an illustrative baseline and PPG-only inference.",
-        "problem": "Derived measurements increasingly enter large language model (LLM) pipelines as direct facts despite their instance-dependent validity.",
-        "method": "The framework does not depend on a particular reliability generator.",
-        "evidence": "We demonstrate it on 50,000 paired PPG-ECG records using ECG-to-PPG privileged distillation as an illustrative baseline and PPG-only inference.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Trustworthy LLM.",
-        "source": "abstract",
-        "generated_by": "extractive"
-      },
       "recommendation_reason": {
         "topic": "Trustworthy LLM",
         "matched": [
@@ -74,6 +64,106 @@
           "llm"
         ],
         "lane": "llm"
+      },
+      "summary": {
+        "evidence": "187-patient PPG-ECG tests show 1.82-6.69% improvement in repair endpoints and 0.67% UHR increase with ECG-to-PPG distillation baseline.",
+        "limitations": "Framework dependency on specific reliability generators and unresolved extreme low-FPR cases limit generalization.",
+        "method": "DFOT framework quantifies over-trust through five estimands (COTR, CIR, CRR, ESRM, UHR) using matched-vs-shuffled interventions and privileged modality evidence.",
+        "problem": "LLMs over-trust instance-dependent derived measurements, treating them as direct facts despite validity constraints.",
+        "takeaway": "DFOT defines a new evaluation target for LLM over-trust in derived measurements, with measurable mitigation via physiological case studies.",
+        "why_for_you": "Matches your focus on trustworthy LLMs by addressing interface-level over-trust through quantifiable physiological validation",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "en",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "contributions": [
+          "Formal definition of DFOT as an interface-level LLM over-trust failure",
+          "Five estimands (COTR, CIR, CRR, ESRM, UHR) for quantifying derived measurement reliability",
+          "Matched-vs-shuffled interventions to distinguish instance-specific repair from generic caution"
+        ],
+        "experiments": [
+          {
+            "detail": "50,000 paired records with ECG as offline reference, testing D1 (PPG-ECG conflict) and D2 (misleading history) scenarios using PPG-only LLMs.",
+            "title": "PPG-ECG Case Study"
+          },
+          {
+            "detail": "B2 (PPG-only reliability) vs. K2 (ECG-to-PPG distillation) evaluated on 187-patient protocol-locked tests with 1.82-6.69% repair improvements.",
+            "title": "Baseline Models"
+          },
+          {
+            "detail": "COTR, CIR, CRR, ESRM, and UHR measured across Qwen38B, DeepSeek-V4-Pro, and GPT-5.5 LLMs with paired confidence intervals.",
+            "title": "Metrics"
+          }
+        ],
+        "findings": [
+          {
+            "detail": "COTR and CIR measure over-trust in conflicting vs. misleading scenarios, with CRR showing 1.82-6.69% repair improvements over B2.",
+            "title": "DFOT Quantification"
+          },
+          {
+            "detail": "ESRM distinguishes instance-specific evidence use (CRR(m) - CRR(s) = +0.064 to +0.071) from generic caution.",
+            "title": "Specificity Validation"
+          },
+          {
+            "detail": "UHR increased 0.67% (95% CI: -0.4 to +1.7) in HIGH-reliability cases, indicating unnecessary verification despite baseline usefulness.",
+            "title": "Utility Harm"
+          }
+        ],
+        "limitations": [
+          "Framework depends on specific reliability generators (e.g., ECG-to-PPG distillation) for validation",
+          "Extreme low-FPR cases remain unresolved, limiting generalization",
+          "No explicit comparison with calibration or selective prediction methods"
+        ],
+        "mechanism": [
+          {
+            "detail": "LLMs assign epistemic status of direct facts to derived measurements, treating PPG rhythms as reliable despite ECG contradictions or misleading history.",
+            "title": "DFOT Interface Failure"
+          },
+          {
+            "detail": "ECG-derived reliability signals are distilled into PPG-only models without revealing raw ECG data, preserving modality-specific constraints.",
+            "title": "Privileged Evidence Transfer"
+          }
+        ],
+        "methodology": [
+          {
+            "detail": "ECG-to-PPG distillation (K2) transfers high-fidelity ECG reliability evidence into PPG-only LLM interfaces, contrasting with baseline PPG-only models (B2).",
+            "title": "Privileged Modality Distillation"
+          },
+          {
+            "detail": "Controls break instance correspondence while preserving interface structure, measuring repair (CRR) and evidence specificity (ESRM) through matched (m) and shuffled (s) evidence conditions.",
+            "title": "Matched-vs-Shuffled Interventions"
+          },
+          {
+            "detail": "COTR (conflict over-trust rate), CIR (context-induced error rate), CRR (correct repair rate), ESRM (evidence-specific repair margin), and UHR (utility harm rate) quantify different aspects of DFOT.",
+            "title": "Five Estimands"
+          }
+        ],
+        "open_questions": [
+          "How to generalize DFOT metrics beyond physiological signals to other modalities?",
+          "What are the limits of privileged modality distillation for reliability transfer?",
+          "How to balance repair rates with specificity in safety-critical applications?"
+        ],
+        "overview": "The paper formalizes DFOT as an interface-level failure where LLMs treat derived measurements as facts. It introduces a framework using physiological signals (PPG-ECG) with five estimands to quantify over-trust, validated through matched-vs-shuffled interventions. The method employs privileged modality distillation (ECG-to-PPG) to improve reliability, demonstrating measurable gains in repair rates and specificity while highlighting unresolved limitations in extreme cases.",
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "DFOT defines over-trust in derived measurements via five estimands"
+          },
+          {
+            "icon": "🔧",
+            "text": "Privileged ECG distillation improves PPG reliability ranking by 1.82-6.69%"
+          },
+          {
+            "icon": "📈",
+            "text": "187-patient tests show 0.67% UHR increase with 95% CI [-0.4, +1.7]"
+          }
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "en",
+        "schema_version": 5
       },
       "recommended_at": "2026-07-31T12:16:26.321275+00:00"
     },
@@ -867,123 +957,6 @@
         "ablation study",
         "quantitative results"
       ],
-      "summary": {
-        "takeaway": "OptimismBench reveals that most large language models exhibit a significant optimism bias in probability judgments, with alignment training influencing the direction and magnitude of this bias.",
-        "problem": "Existing calibration metrics fail to detect directional bias in LLM probability judgments, obscuring systematic optimism or pessimism in model outputs.",
-        "method": "OptimismBench uses inverted pairs eliciting complementary probabilities (P(success) and P(failure)) to compute a signed Skew score that quantifies directional bias without requiring ground-truth probabilities.",
-        "evidence": "Across 16 models from 8 providers and 10 languages, 14 models show significant optimism bias while only Anthropic’s frontier models show pessimism; this pattern persists under prompt, temperature, perspective, and self-debiasing variations.",
-        "limitations": "The family-direction claim is supported by limited matched pairs and single-pair pilots; Skew measures internal asymmetry rather than deviation from human judgment, lacking a matched human baseline.",
-        "why_for_you": "Understanding and auditing directional bias in LLM probability judgments is critical for trustworthy AI deployment, especially as alignment interventions can unintentionally amplify optimism bias affecting downstream decisions.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "The study finds that 14 out of 16 evaluated LLMs exhibit optimism bias with Skew scores ranging from +4.2 to +16.6, while only Anthropic’s frontier-tier models (Opus and Sonnet) show pessimism with Skew −5.1 and −7.7."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The inverted-pair method computes Skew as P(success) minus the complement of P(failure), enabling detection of directional bias without ground-truth probabilities by exploiting complementary probability elicitation."
-          },
-          {
-            "icon": "📉",
-            "text": "Variance decomposition attributes 35.3% of Skew variance to model identity, 24.2% to scenario, and only 3.7% to domain, indicating that directional bias is primarily a model property rather than domain-dependent."
-          }
-        ],
-        "overview": "This paper addresses the challenge of detecting directional bias in large language model (LLM) probability judgments, which traditional calibration metrics fail to reveal due to their aggregation of unsigned errors. The authors introduce OptimismBench, a novel benchmark leveraging inverted pairs of complementary probability queries (P(success) and P(failure)) to compute a signed Skew score that quantifies optimism or pessimism without requiring ground-truth probabilities. Evaluating 16 models from 8 providers across 60 scenarios and 10 languages, the study finds that most models exhibit significant optimism bias, except for Anthropic’s frontier models which show pessimism. The bias persists across prompt variations, temperature settings, perspective shifts, and explicit self-debiasing interventions. Controlled base-versus-chat comparisons reveal that post-training alignment strongly influences bias direction in a family-specific manner. Cross-lingual analysis shows model identity dominates language effects, with inter-model variance 4.7 times greater than inter-language variance. The benchmark and dataset are released for replication and auditing. These findings highlight a previously unmeasured alignment side-effect where increased helpfulness correlates with directional probability distortion, which downstream applications inherit by default.",
-        "methodology": [
-          {
-            "title": "Inverted-Pair Skew Scoring",
-            "detail": "For each scenario, the model is prompted to estimate both P(success) and P(failure). The Skew score is computed as Skew = P(success) − (100 − P(failure)), capturing directional asymmetry in probability judgments without requiring ground-truth probabilities."
-          },
-          {
-            "title": "Base-versus-Chat Controlled Probe",
-            "detail": "Eleven matched base-versus-chat model pairs across four families (Qwen, Llama, Gemma, Mistral) are evaluated to isolate the effect of post-training alignment on bias direction, holding architecture and pre-training constant."
-          },
-          {
-            "title": "Robustness Checks",
-            "detail": "The study tests the stability of Skew under variations in system prompt detail (minimal, standard, extended), temperature (0.7 vs. 1.0), perspective (third-person, second-person, friend), and explicit self-debiasing prompts, confirming direction preservation."
-          },
-          {
-            "title": "Cross-Lingual Evaluation",
-            "detail": "Seventeen models are evaluated across six native-prompt languages plus four with English system prompts, enabling variance decomposition that shows model identity dominates language effects on directional bias."
-          },
-          {
-            "title": "Probability Axiom Batteries",
-            "detail": "Two probability coherence tests—conjunction (P(A) ≥ P(A ∩ B)) and dose-response monotonicity—are applied to five models, revealing low conjunction violation rates but high dose-response reversal rates, indicating differential alignment effects on coherence axioms."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Directional Bias Measurement via Complementarity",
-            "detail": "The mechanism relies on the complementarity axiom of probabilities: a consistent model should produce P(success) and P(failure) estimates summing to 100%. Deviations from this complementarity, quantified by Skew, reveal directional bias. No explicit causal or geometric equations are provided."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "16-Model Directional Bias Evaluation",
-            "detail": "Sixteen models from eight providers (OpenAI, Anthropic, Google, Meta, Alibaba, DeepSeek, Mistral, Zhipu) are evaluated on 60 inverted-pair scenarios in 10 languages, measuring Skew scores and statistical significance (p < 0.002)."
-          },
-          {
-            "title": "Base-versus-Chat Alignment Probe",
-            "detail": "Eleven matched base-versus-chat pairs across four model families are tested to causally link post-training alignment to bias direction, showing family-specific shifts: Qwen alignment compresses bias, Llama alignment amplifies optimism."
-          },
-          {
-            "title": "Robustness Ablations",
-            "detail": "Prompt detail, temperature, perspective, and self-debiasing interventions are ablated on selected models (e.g., GPT-5.4, Sonnet), confirming that directional bias sign remains stable with minor magnitude changes."
-          },
-          {
-            "title": "Cross-Lingual Variance Decomposition",
-            "detail": "Seventeen models evaluated across six native languages plus four English-prompted languages show inter-model variance in Skew is 4.7 times greater than inter-language variance, emphasizing model identity as the dominant factor."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Widespread Optimism Bias",
-            "detail": "Fourteen of sixteen models exhibit significant optimism bias with Skew scores from +4.2 to +16.6; only Anthropic’s frontier models (Opus −5.1, Sonnet −7.7) show pessimism, indicating optimism is the dominant directional bias."
-          },
-          {
-            "title": "Alignment Influences Bias Direction",
-            "detail": "Post-training alignment causally sets bias direction in a family-specific manner: Qwen alignment reduces optimism bias, Llama alignment increases it, and Anthropic’s larger models shift from optimism to pessimism."
-          },
-          {
-            "title": "Bias Persists Across Robustness Checks",
-            "detail": "Directional bias sign is preserved under variations in prompt detail, temperature (0.7 vs. 1.0), perspective shifts, and explicit self-debiasing, demonstrating robustness of the optimism/pessimism effect."
-          },
-          {
-            "title": "Model Identity Dominates Language Effects",
-            "detail": "Variance decomposition shows 35.3% of Skew variance is attributable to model identity, while inter-language variance accounts for only 7.5% (1/4.7 of model variance), indicating model choice matters more than language."
-          },
-          {
-            "title": "Differential Effects on Probability Coherence",
-            "detail": "Conjunction axiom violations are low (0–10%) and stable across languages, but dose-response monotonicity violations remain high (27–47%), suggesting alignment training improves some coherence axioms but not others."
-          }
-        ],
-        "contributions": [
-          "Introduction of OptimismBench, a novel benchmark using inverted pairs to detect directional bias in LLM probability judgments without ground-truth probabilities.",
-          "Empirical demonstration that most commercial and open-source LLMs exhibit significant optimism bias, with only Anthropic’s frontier models showing pessimism.",
-          "Controlled base-versus-chat experiments establishing post-training alignment as a causal factor influencing bias direction in a family-specific manner.",
-          "Cross-lingual evaluation showing model identity dominates language effects on directional bias, with inter-model variance 4.7× inter-language variance.",
-          "Release of a large multilingual dataset (3,870 items across 10 languages) for auditing directional bias in LLMs."
-        ],
-        "limitations": [
-          "The family-direction claim relies on limited matched pairs (Qwen 5/5, Llama 4/4) and single-pair pilots (Gemma-2-2b, Mistral-Small-24B), limiting statistical power within families.",
-          "Skew measures internal asymmetry against the complementarity axiom rather than deviation from human judgment; no matched human baseline is provided.",
-          "Cross-lingual evaluation includes languages with English system prompts, introducing a known confound that may affect language variance estimates.",
-          "The study does not provide mechanistic causal models or equations explaining why alignment induces directional bias."
-        ],
-        "open_questions": [
-          "How does directional bias in LLM probability judgments affect downstream decision-making and real-world applications?",
-          "Can alignment training be designed to mitigate optimism or pessimism bias without sacrificing helpfulness or safety?",
-          "What are the cognitive or architectural mechanisms by which post-training alignment shifts bias direction in different model families?",
-          "How do human probability judgments compare to LLM Skew scores on the same inverted-pair scenarios, and can human baselines guide bias correction?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
       "recommendation_reason": {
         "topic": "Trustworthy LLM",
         "matched": [
@@ -993,6 +966,114 @@
           "calibration"
         ],
         "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "LLMs systematically exhibit optimism bias in probability judgments, measurable without ground‑truth probabilities.",
+        "problem": "Detecting directional tilt in LLM probability estimates is difficult because standard calibration aggregates unsigned errors and naturalistic tasks lack true probabilities.",
+        "method": "OptimismBench elicits inverted pairs (P(success) and P(failure)) and computes a signed Skew score to quantify bias.",
+        "evidence": "Across 16 models, 14 show optimistic Skew (+4.2 to +16.6) while only Anthropic frontier models are pessimistic (−5.1, −7.7), and the effect persists across prompts, temperature, perspective, and self‑debiasing.",
+        "limitations": "Family‑direction claims rely on a few paired models, and cross‑lingual results cover limited native‑prompt languages, with Skew not benchmarked against human judgments.",
+        "why_for_you": "Understanding alignment‑induced optimism bias is crucial for trustworthy LLM deployment where probability judgments guide downstream decisions.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🌐",
+            "text": "OptimismBench introduces a signed bias benchmark using inverted probability pairs, releasing 3,870 items in 10 languages."
+          },
+          {
+            "icon": "🔧",
+            "text": "Bias measured as Skew = P+ − (100−P−) on 60 scenarios per model, with robustness checks across prompt, temperature, perspective, and self‑debiasing."
+          },
+          {
+            "icon": "📊",
+            "text": "Fourteen of sixteen models are optimistic (Skew +4.2 to +16.6) and only Anthropic frontier models are pessimistic (−5.1, −7.7); bias persists under all ablations."
+          }
+        ],
+        "overview": "OptimismBench quantifies directional bias in LLM probability judgments by asking each model to estimate both success and failure probabilities for the same scenario, then computing a signed Skew score. The benchmark evaluates 16 models from eight providers on 60 inverted‑pair items across ten languages, includes a controlled base‑vs‑chat probe for causal inference, and runs extensive robustness checks. Results reveal a pervasive optimism bias, with model identity explaining far more variance than language, and show that alignment post‑training can shift bias direction within families.",
+        "methodology": [
+          {
+            "title": "Inverted‑pair design",
+            "detail": "For each scenario the model outputs P(success) and P(failure); the signed Skew = P+ − (100−P−) captures asymmetry without needing ground‑truth probabilities."
+          },
+          {
+            "title": "Robustness checks",
+            "detail": "Prompt detail (minimal, standard, extended), temperature (0.7 vs 1.0), perspective (third‑person, second‑person, friend), and explicit self‑debiasing were varied; direction persisted in all conditions."
+          },
+          {
+            "title": "Base‑vs‑chat causal probe",
+            "detail": "Eleven matched base‑and‑chat model pairs across Qwen, Llama, Gemma, and Mistral families kept architecture constant while varying post‑training alignment, revealing family‑specific bias shifts."
+          },
+          {
+            "title": "Cross‑lingual evaluation",
+            "detail": "The benchmark includes 3,870 items in 10 languages; variance decomposition shows inter‑model variance 4.7× inter‑language variance."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Alignment‑induced bias",
+            "detail": "Post‑training alignment stacks set the sign of Skew: Qwen alignment compresses bias, Llama alignment amplifies optimism, indicating that helpfulness training can tilt probability estimates."
+          },
+          {
+            "title": "Model‑property dominance",
+            "detail": "ANOVA‑style decomposition attributes 35.3% of Skew variance to the model, far exceeding scenario (24.2%) and domain (3.7%) effects, suggesting bias is an intrinsic model property."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Model suite and scenarios",
+            "detail": "16 models (e.g., GPT‑5.4, Claude Sonnet 4.6, Llama 3.3‑70B) evaluated on 60 inverted‑pair scenarios per language; 11 base‑vs‑chat pairs probed alignment effects."
+          },
+          {
+            "title": "Axiom batteries",
+            "detail": "Conjunction (50 items) and dose‑response monotonicity (96 items) tests were run on five models; conjunction violations were low (0–10%), dose‑response reversals high (27–47%)."
+          },
+          {
+            "title": "Metrics and variance",
+            "detail": "Skew values ranged +4.2 to +16.6 for optimistic models; pessimistic models showed −5.1 and −7.7. Inter‑model variance was 4.7× inter‑language variance."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Pervasive optimism bias",
+            "detail": "All 16 models show significant directional bias; 14 are optimistic, only Anthropic frontier models are pessimistic."
+          },
+          {
+            "title": "Stability across conditions",
+            "detail": "Bias sign remains unchanged under prompt ablation, temperature changes, perspective shifts, and self‑debiasing interventions."
+          },
+          {
+            "title": "Alignment effects differ by family",
+            "detail": "Qwen alignment reduces bias, Llama alignment increases optimism; within‑family magnitude can scale inversely with model size (e.g., Haiku vs Opus)."
+          },
+          {
+            "title": "Language plays minor role",
+            "detail": "Model identity accounts for most variance; cross‑lingual bias is stable with σ ≤ 5.4 pp across languages."
+          }
+        ],
+        "contributions": [
+          "Introduces OptimismBench, a signed bias benchmark for LLM probability judgments.",
+          "Provides 3,870 evaluation items in 10 languages for per‑model bias auditing.",
+          "Demonstrates that alignment training can systematically tilt LLM probabilities."
+        ],
+        "limitations": [
+          "Family‑direction inference rests on limited paired data (Qwen 5/5, Llama 4/4; Gemma and Mistral single‑pair pilots).",
+          "Cross‑lingual evidence uses six native‑prompt languages and four English‑prompt languages, a known confound.",
+          "Skew measures internal asymmetry, not deviation from human optimism bias; no human baseline is provided."
+        ],
+        "open_questions": [
+          "How does LLM optimism bias compare quantitatively to human optimism bias measured in psychology?",
+          "Can alignment techniques be modified to reduce directional bias without sacrificing helpfulness?",
+          "What are the downstream impacts of optimism bias on real‑world decision pipelines that rely on LLM probability estimates?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 5
       },
       "recommended_at": "2026-07-30T12:03:36.063766+00:00"
     },
@@ -2622,97 +2703,102 @@
         "lane": "llm"
       },
       "summary": {
-        "takeaway": "DataOrchestra learns to orchestrate per‑example data‑curation pipelines, yielding consistent downstream gains for LLMs.",
-        "problem": "Current pretraining data pipelines apply a fixed processing strategy to all examples, ignoring example‑specific quality needs.",
-        "method": "An orchestrator predicts drop/untouch/clean decisions, selects noise pruning, surface rectification, or pedagogical augmentation, and generates chunk‑specific rewrite instructions executed by tool models.",
-        "evidence": "Pretraining 0.5B‑7B models on web data processed by DataOrchestra improves average accuracy across 11 benchmarks and reduces compute by skipping unnecessary operations.",
-        "limitations": "The approach depends on large teacher and verifier LLMs and is evaluated only up to 7B‑parameter models.",
-        "why_for_you": "It directly addresses data selection by providing a learned, per‑example curation mechanism that could improve the quality of pretraining corpora.",
+        "takeaway": "DataOrchestra learns to select per‑example preprocessing pipelines, yielding consistent downstream gains.",
+        "problem": "Existing data‑processing pipelines apply a single fixed strategy to all pretraining examples, ignoring example‑specific needs.",
+        "method": "An orchestrator predicts drop/untouch/clean decisions and composes chunk‑specific instructions for noise pruning, surface rectification, and pedagogical augmentation tools.",
+        "evidence": "Models from 0.5B to 7B pretrained on DataOrchestra‑processed data improve average accuracy to 40.13 versus 38.88 for the strongest baseline across 11 benchmarks while skipping unnecessary operations.",
+        "limitations": "Not stated in the available source.",
+        "why_for_you": "It directly addresses data selection for LLMs by providing a learned, per‑example curation mechanism.",
         "source": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
         "schema_version": 2
       },
       "deep_dive": {
         "signals": [
           {
-            "icon": "🧠",
-            "text": "DataOrchestra unifies noise pruning, surface rectification, and pedagogical augmentation into a single orchestrated pipeline that selects operations per data chunk."
+            "icon": "💡",
+            "text": "DataOrchestra introduces a per‑example orchestration framework that unifies noise pruning, surface rectification, and pedagogical augmentation."
           },
           {
-            "icon": "🛡️",
-            "text": "The orchestrator uses a teacher LLM to produce coarse‑grained plans and a verifier LLM to evolve them into fine‑grained, chunk‑specific instructions, pruning ineffective steps."
+            "icon": "🔧",
+            "text": "The orchestrator predicts drop/untouch/clean decisions and generates chunk‑specific rewrite instructions for downstream tool models."
           },
           {
-            "icon": "📉",
-            "text": "Experiments show average accuracy improvements (e.g., 40.13 vs 39.59) on 11 benchmarks for 0.5B‑7B models while ~35% of chunks are dropped or left untouched, saving compute; however, results are limited to models ≤7B."
+            "icon": "📈",
+            "text": "DataOrchestra‑trained 7B models achieve 40.13 average accuracy versus 38.88 baseline, but compute savings rely on unverifiable verifier LLM checks."
           }
         ],
-        "overview": "DataOrchestra introduces a learned orchestrator that decides, for each pretraining chunk, whether to drop, leave untouched, or clean it using a hierarchy of operations: noise pruning (NP), surface rectification (SR), and pedagogical augmentation (PA). Coarse‑grained decisions are generated by a teacher LLM, then refined by a verifier LLM that removes stages causing little change or hallucinations, and that also creates chunk‑specific rewrite instructions. Pretraining models from 0.5B to 7B on web corpora processed by this pipeline yields stable average gains across 11 benchmarks and reduces processing compute by skipping unnecessary steps.",
+        "overview": "DataOrchestra proposes a unified framework that tailors pretraining data processing to each example. An orchestrator first decides whether to drop, leave untouched, or clean a chunk, then selects among three operations—noise pruning (NP), surface rectification (SR), and pedagogical augmentation (PA)—and generates concrete instructions for tool models. Fine‑grained plan evolution uses verifier LLMs to prune ineffective stages. Experiments pretrain 0.5B‑7B models on web corpora, showing stable average accuracy improvements across 11 benchmarks and reduced compute by skipping unnecessary rewrites. Ablations confirm the importance of plan evolution and instruction generation.",
         "methodology": [
           {
-            "title": "Coarse‑grained Plan Generation",
-            "detail": "A teacher LLM scores each chunk (1–5) and decides to drop if the score <2; otherwise it outputs binary flags for NP, SR, and PA, forming an initial pipeline."
+            "title": "Orchestrator Training",
+            "detail": "Trains a model on 160K document chunks scored by DataMan, learning to output coarse‑grained plans (drop, untouch, NP/SR/PA flags)."
           },
           {
-            "title": "Fine‑grained Plan Evolution",
-            "detail": "Selected stages are executed sequentially; a verifier LLM checks each output for over‑pruning, factual errors, or negligible change (Levenshtein similarity >98%) and removes ineffective stages, also generating corrective instructions."
+            "title": "Coarse‑Grained Plan Generation",
+            "detail": "A teacher LLM rates each chunk (0‑5) and provides binary judgments for NP, SR, PA; decisions below score 2 trigger dropping."
           },
           {
-            "title": "Operation Execution",
-            "detail": "NP performs programmatic line‑level edits, SR rewrites surface issues via LLM‑based rewriting, and PA expands knowledge‑rich content with pedagogical augmentations."
+            "title": "Fine‑Grained Plan Evolution",
+            "detail": "Executes selected stages, then a verifier LLM checks for hallucination, factual loss, or negligible change (Levenshtein > 98%) and removes ineffective stages."
           }
         ],
         "mechanism": [
           {
-            "title": "Adaptive Decision Logic",
-            "detail": "The orchestrator treats each chunk independently, routing low‑quality chunks to drop, medium‑quality to NP or SR, and high‑quality knowledge‑rich chunks to PA, guided by teacher and verifier feedback."
+            "title": "Adaptive Pipeline Selection",
+            "detail": "The orchestrator routes each chunk to the minimal necessary set of operations, allowing some chunks to be dropped or left untouched, thereby saving compute."
           },
           {
             "title": "Instruction Generation",
-            "detail": "For rewriting stages, the orchestrator synthesizes concrete natural‑language instructions that are fed to the corresponding tool model, enabling chunk‑specific transformations."
+            "detail": "For each rewriting stage, the orchestrator produces a concrete natural‑language instruction that guides the downstream tool model (e.g., LLM‑based rewrites)."
           }
         ],
         "experiments": [
           {
             "title": "Pretraining and Benchmark Evaluation",
-            "detail": "Models of 0.5B, 1.5B, and 7B parameters were pretrained from scratch on web data curated by DataOrchestra; downstream performance was measured on ARC‑Easy, ARC‑Challenge, MMLU, HellaSwag, WinoGrande, PIQA, CommonsenseQA, SIQA, RACE, OpenBookQA, and SciQ, reporting mean accuracy over three recent checkpoints."
+            "detail": "Models of 0.5B, 1.5B, and 7B parameters are pretrained from scratch on web data processed by DataOrchestra; downstream performance is measured on 11 benchmarks (ARC‑E, ARC‑C, MMLU, HellaSwag, WinoGrande, PIQA, CommonsenseQA, SIQA, RACE, OpenBookQA, SciQ) using average accuracy over three recent checkpoints."
           },
           {
-            "title": "Baselines and Corpora",
-            "detail": "Compared against ProX (noise pruning), RePro and ReWire (rewriting baselines) on RedPajama‑V2 and additional corpora (DCLM‑RefinedWeb, C4, FineWeb); also evaluated math continued pretraining on Davinci‑Origin‑3B."
+            "title": "Baselines and Comparisons",
+            "detail": "Baselines include raw data, ProX (line‑level noise removal), RePro, ReWire, and mixtures; DataOrchestra consistently outperforms them, with the 7B model achieving 40.13 average versus 38.88 for ProX."
+          },
+          {
+            "title": "Compute Savings Analysis",
+            "detail": "Approximately 35% of chunks are dropped or left untouched; NP removes the most tokens, SR modestly reduces tokens, and PA increases token count, aligning with their design goals."
           }
         ],
         "findings": [
           {
             "title": "Performance Gains",
-            "detail": "DataOrchestra achieves the highest average score at all three model scales, with the advantage increasing with model size (e.g., 40.13 vs 39.59 average accuracy for 7B)."
+            "detail": "DataOrchestra yields stable average accuracy improvements across model scales, with larger models showing larger margins over baselines."
           },
           {
-            "title": "Compute Savings",
-            "detail": "Approximately 35% of chunks are either dropped or left untouched, and many cleaning chunks skip rewriting stages, reducing effective EFLOPs while maintaining or improving accuracy."
+            "title": "Efficient Use of Compute",
+            "detail": "Skipping unnecessary cleaning stages reduces effective EFLOPs while maintaining or improving downstream quality."
           },
           {
-            "title": "Operation Impact",
-            "detail": "NP reduces token count most (removing line‑level noise), SR modestly reduces tokens (repairing format), while PA increases tokens substantially by adding explanatory content."
+            "title": "Ablation Insights",
+            "detail": "Removing fine‑grained plan evolution drops average accuracy from 40.13 to 39.0; omitting instruction generation further reduces it to 38.5, confirming their contribution."
           }
         ],
         "contributions": [
-          "Unified framework that integrates NP, SR, and PA into an adaptive per‑example pipeline.",
-          "Orchestrator that learns to select and order operations based on chunk quality using teacher and verifier LLMs.",
-          "Empirical demonstration of consistent downstream gains and compute reduction across multiple model sizes and corpora."
+          "Per‑example orchestration of multiple data‑processing operations",
+          "Unified framework combining NP, SR, and PA with learned decision making",
+          "Empirical demonstration of accuracy gains and compute savings across model sizes and corpora"
         ],
         "limitations": [
-          "Reliance on large teacher and verifier LLMs (Qwen3‑235B) for plan generation and verification.",
-          "Evaluations limited to models up to 7B parameters and primarily web‑text domains."
+          "Reliance on teacher and verifier LLMs for plan generation and verification, without quantified overhead or robustness analysis"
         ],
         "open_questions": [
-          "How does the orchestrator scale and perform for models beyond 10B parameters?",
-          "Can the orchestration be trained without external teacher/verifier LLMs, reducing dependence on massive models?",
-          "What is the impact of per‑example curation on factuality and hallucination rates in downstream tasks?"
+          "How does the approach scale to much larger models (e.g., >100B) and more diverse domains?",
+          "What is the impact of instruction quality on rewriting effectiveness, and can it be further optimized?",
+          "Can the verifier LLM be replaced with cheaper heuristics without sacrificing quality?"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
-        "schema_version": 4
+        "language": "en",
+        "schema_version": 5
       },
       "recommended_at": "2026-07-28T12:13:15.667980+00:00"
     },
