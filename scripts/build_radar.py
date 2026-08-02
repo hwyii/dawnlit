@@ -497,9 +497,30 @@ def scope_lane(paper: Paper, profile: dict[str, Any]) -> tuple[str | None, float
     return None, 0.0, []
 
 
-def feedback_corpora(feedback: list[dict[str, Any]]) -> tuple[list[set[str]], list[set[str]]]:
-    positives: list[set[str]] = []
-    negatives: list[set[str]] = []
+FeedbackSignal = tuple[set[str], float]
+
+
+def feedback_corpora(
+    feedback: list[dict[str, Any]],
+    now: dt.datetime | None = None,
+) -> tuple[list[FeedbackSignal], list[FeedbackSignal]]:
+    """Build action-weighted, time-decayed lexical preference signals."""
+    positives: list[FeedbackSignal] = []
+    negatives: list[FeedbackSignal] = []
+    reference_time = now or dt.datetime.now(dt.timezone.utc)
+    if reference_time.tzinfo is None:
+        reference_time = reference_time.replace(tzinfo=dt.timezone.utc)
+    action_weights = {
+        "save": 1.0,
+        "useful": 1.0,
+        "read": 0.45,
+        "more_method": 1.15,
+        "more_topic": 1.15,
+        "transferable": 0.7,
+        "not_useful": -0.65,
+        "not_llm": -1.25,
+        "irrelevant": -1.25,
+    }
     seen_papers: set[str] = set()
     ordered = sorted(feedback, key=lambda item: item.get("created_at", ""), reverse=True)
     for item in ordered:
@@ -515,18 +536,41 @@ def feedback_corpora(feedback: list[dict[str, Any]]) -> tuple[list[set[str]], li
         tokens = tokenize(text)
         if not tokens:
             continue
-        if action in {
-            "save",
-            "read",
-            "more_method",
-            "more_topic",
-            "transferable",
-            "useful",
-        }:
-            positives.append(tokens)
-        elif action in {"not_llm", "irrelevant", "not_useful"}:
-            negatives.append(tokens)
+        strength = action_weights.get(action, 0.0)
+        try:
+            created_at = parse_date(str(item.get("created_at", "")))
+            if created_at.tzinfo is None:
+                created_at = created_at.replace(tzinfo=dt.timezone.utc)
+            age_days = max(
+                0.0,
+                (reference_time - created_at).total_seconds() / 86400,
+            )
+        except (TypeError, ValueError):
+            age_days = 0.0
+        decay = 0.5 ** (age_days / 120.0)
+        weighted_strength = abs(strength) * decay
+        if strength > 0:
+            positives.append((tokens, weighted_strength))
+        elif strength < 0:
+            negatives.append((tokens, weighted_strength))
     return positives, negatives
+
+
+def feedback_adjustment(
+    tokens: set[str],
+    positive_feedback: list[FeedbackSignal],
+    negative_feedback: list[FeedbackSignal],
+) -> float:
+    """Return a bounded reranking adjustment from the closest labeled papers."""
+    positive = max(
+        (jaccard(tokens, item_tokens) * weight for item_tokens, weight in positive_feedback),
+        default=0.0,
+    )
+    negative = max(
+        (jaccard(tokens, item_tokens) * weight for item_tokens, weight in negative_feedback),
+        default=0.0,
+    )
+    return clamp(positive * 0.24 - negative * 0.34, -0.45, 0.3)
 
 
 def semantic_scholar_feedback_scores(
@@ -595,8 +639,8 @@ def topic_scores(
     paper: Paper,
     profile: dict[str, Any],
     scope_score: float,
-    positive_feedback: list[set[str]],
-    negative_feedback: list[set[str]],
+    positive_feedback: list[FeedbackSignal],
+    negative_feedback: list[FeedbackSignal],
 ) -> list[dict[str, Any]]:
     title = paper.title.lower()
     abstract = paper.abstract.lower()
@@ -652,11 +696,7 @@ def topic_scores(
                 }
             )
 
-    feedback_boost = 0.0
-    if positive_feedback:
-        feedback_boost += max(jaccard(tokens, item) for item in positive_feedback) * 0.2
-    if negative_feedback:
-        feedback_boost -= max(jaccard(tokens, item) for item in negative_feedback) * 0.25
+    feedback_boost = feedback_adjustment(tokens, positive_feedback, negative_feedback)
 
     for topic in scored:
         topic["score"] = round(clamp(topic["score"] * scope_score + feedback_boost), 4)
@@ -1221,7 +1261,7 @@ def score_papers(
     semantic_feedback: dict[str, float] | None = None,
 ) -> list[dict[str, Any]]:
     ranking = profile["ranking"]
-    positive_feedback, negative_feedback = feedback_corpora(feedback)
+    positive_feedback, negative_feedback = feedback_corpora(feedback, now)
     results: list[dict[str, Any]] = []
     seen_ids: set[str] = set()
     for paper in papers:
@@ -1236,6 +1276,11 @@ def score_papers(
             continue
         relevance = clamp(topics[0]["score"] * 0.8 + min(sum(item["score"] for item in topics[1:3]), 1) * 0.2)
         semantic_affinity = (semantic_feedback or {}).get(paper.id, 0.0)
+        lexical_feedback = feedback_adjustment(
+            tokenize(paper.text()),
+            positive_feedback,
+            negative_feedback,
+        )
         relevance = clamp(relevance + semantic_affinity * 0.15)
         quality, quality_reasons = quality_score(paper)
         novelty = novelty_score(paper, previous)
@@ -1271,6 +1316,7 @@ def score_papers(
                     "quality": round(quality, 4),
                     "novelty": round(novelty, 4),
                     "freshness": round(freshness, 4),
+                    "feedback_adjustment": round(lexical_feedback, 4),
                     "semantic_feedback": round(semantic_affinity, 4),
                 },
                 "quality_signals": quality_reasons,

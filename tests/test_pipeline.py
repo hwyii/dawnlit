@@ -108,6 +108,51 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(body["positivePaperIds"], ["ArXiv:2505.17646"])
         self.assertEqual(body["negativePaperIds"], ["ArXiv:2606.00003"])
 
+    def test_feedback_uses_action_strength_and_time_decay(self):
+        feedback = [
+            {
+                "paper_id": "recent-irrelevant",
+                "action": "irrelevant",
+                "title": "Arabic language model adversarial robustness",
+                "abstract": "Evaluation of attacks against Arabic language models.",
+                "created_at": "2026-06-27T11:00:00Z",
+            },
+            {
+                "paper_id": "old-not-useful",
+                "action": "not_useful",
+                "title": "Sparse language model circuits",
+                "abstract": "An interpretability study of sparse circuits.",
+                "created_at": "2025-06-27T12:00:00Z",
+            },
+        ]
+        _, negatives = radar.feedback_corpora(feedback, self.now)
+        recent_weight = next(weight for tokens, weight in negatives if "arabic" in tokens)
+        old_weight = next(weight for tokens, weight in negatives if "circuits" in tokens)
+        self.assertGreater(recent_weight, old_weight)
+        candidate = radar.tokenize(
+            "Arabic language model adversarial robustness evaluation of attacks"
+        )
+        self.assertLess(radar.feedback_adjustment(candidate, [], negatives), -0.2)
+
+    def test_unsave_cancels_previous_positive_signal(self):
+        feedback = [
+            {
+                "paper_id": "same-paper",
+                "action": "useful",
+                "title": "Mechanistic interpretability for language models",
+                "created_at": "2026-06-27T10:00:00Z",
+            },
+            {
+                "paper_id": "same-paper",
+                "action": "unsave",
+                "title": "Mechanistic interpretability for language models",
+                "created_at": "2026-06-27T11:00:00Z",
+            },
+        ]
+        positives, negatives = radar.feedback_corpora(feedback, self.now)
+        self.assertEqual(positives, [])
+        self.assertEqual(negatives, [])
+
     def test_fallback_summary_is_english(self):
         topics = [{"name": "LLM loss landscape"}]
         summary = radar.extractive_summary(self.papers[0], topics)

@@ -24,6 +24,7 @@ const state = {
     "",
   installPrompt: null,
   lastRefreshAt: 0,
+  deckIndex: { today: 0, weekly: 0, saved: 0 },
 };
 
 if (state.token) writeTextStorage(STORAGE.token, state.token);
@@ -354,6 +355,11 @@ function renderPaperView(papers, useRecentFallback = false) {
   const topics = new Set(
     papers.map((paper) => paper.topics?.[0]?.name).filter(Boolean),
   );
+  const deckIndex = Math.min(
+    state.deckIndex[state.view] || 0,
+    Math.max(papers.length - 1, 0),
+  );
+  state.deckIndex[state.view] = deckIndex;
   elements.app.innerHTML = `
     <section class="view-header">
       <div>
@@ -381,10 +387,70 @@ function renderPaperView(papers, useRecentFallback = false) {
     </div>
     ${
       papers.length
-        ? `<div class="paper-list">${papers.map(paperCard).join("")}</div>`
+        ? `<div class="mobile-deck-controls" data-deck-controls>
+            <button type="button" data-deck-action="previous" aria-label="Previous paper" ${
+              deckIndex === 0 ? "disabled" : ""
+            }>←</button>
+            <span><strong data-deck-position>${deckIndex + 1} / ${
+              papers.length
+            }</strong><small>Swipe for previous / next</small></span>
+            <button type="button" data-deck-action="next" aria-label="Next paper" ${
+              deckIndex === papers.length - 1 ? "disabled" : ""
+            }>→</button>
+          </div>
+          <div class="paper-list" data-paper-deck>${papers
+            .map(paperCard)
+            .join("")}</div>`
         : emptyState()
     }
   `;
+  if (papers.length) {
+    requestAnimationFrame(() => scrollDeckTo(deckIndex, "auto"));
+  }
+}
+
+function updateDeckPosition(deck, index) {
+  const cards = [...deck.querySelectorAll(".paper-card")];
+  const safeIndex = Math.max(0, Math.min(index, cards.length - 1));
+  state.deckIndex[state.view] = safeIndex;
+  const controls = elements.app.querySelector("[data-deck-controls]");
+  if (!controls) return;
+  controls.querySelector("[data-deck-position]").textContent = `${
+    safeIndex + 1
+  } / ${cards.length}`;
+  controls.querySelector('[data-deck-action="previous"]').disabled =
+    safeIndex === 0;
+  controls.querySelector('[data-deck-action="next"]').disabled =
+    safeIndex === cards.length - 1;
+}
+
+function scrollDeckTo(index, behavior = "smooth") {
+  const deck = elements.app.querySelector("[data-paper-deck]");
+  if (!deck || !window.matchMedia("(max-width: 650px)").matches) return;
+  const cards = [...deck.querySelectorAll(".paper-card")];
+  const safeIndex = Math.max(0, Math.min(index, cards.length - 1));
+  const card = cards[safeIndex];
+  if (!card) return;
+  const paddingLeft = Number.parseFloat(getComputedStyle(deck).paddingLeft) || 0;
+  const left =
+    deck.scrollLeft +
+    card.getBoundingClientRect().left -
+    deck.getBoundingClientRect().left -
+    paddingLeft;
+  deck.scrollTo({ left, behavior });
+  updateDeckPosition(deck, safeIndex);
+}
+
+function currentDeckIndex(deck) {
+  const paddingLeft = Number.parseFloat(getComputedStyle(deck).paddingLeft) || 0;
+  const deckLeft = deck.getBoundingClientRect().left + paddingLeft;
+  return [...deck.querySelectorAll(".paper-card")].reduce(
+    (best, card, index) => {
+      const distance = Math.abs(card.getBoundingClientRect().left - deckLeft);
+      return distance < best.distance ? { index, distance } : best;
+    },
+    { index: 0, distance: Number.POSITIVE_INFINITY },
+  ).index;
 }
 
 function paperCard(paper) {
@@ -1009,8 +1075,15 @@ elements.nav.addEventListener("click", (event) => {
 });
 
 elements.app.addEventListener("click", async (event) => {
+  const deckButton = event.target.closest("[data-deck-action]");
   const actionButton = event.target.closest("[data-action]");
   const preferenceButton = event.target.closest("[data-pref-action]");
+
+  if (deckButton) {
+    const direction = deckButton.dataset.deckAction === "next" ? 1 : -1;
+    scrollDeckTo((state.deckIndex[state.view] || 0) + direction);
+    return;
+  }
 
   if (actionButton) {
     const card = actionButton.closest(".paper-card");
@@ -1114,6 +1187,19 @@ elements.app.addEventListener("click", async (event) => {
     showToast(`Action failed: ${error.message}`);
   }
 });
+
+elements.app.addEventListener(
+  "scroll",
+  (event) => {
+    const deck = event.target.closest?.("[data-paper-deck]");
+    if (!deck) return;
+    clearTimeout(deck.positionTimer);
+    deck.positionTimer = setTimeout(() => {
+      updateDeckPosition(deck, currentDeckIndex(deck));
+    }, 80);
+  },
+  true,
+);
 
 elements.app.addEventListener("input", (event) => {
   if (event.target.type === "range") {

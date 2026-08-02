@@ -75,7 +75,8 @@ a different premise: a researcher should own and understand the filter.
 - **An explicit research profile.** Topics, weights, hard scope rules, and
   transferable-method exceptions are readable and version-controlled.
 - **Simple feedback.** Each card has three research triage choices: useful, not
-  useful, or irrelevant.
+  useful, or irrelevant. On phones, papers form a swipeable previous/next deck;
+  desktop keeps the full vertical list.
 - **Explainable selection.** Relevance, evidence quality, novelty, and freshness
   remain separate, and every card shows why it matched.
 - **A willingness to return nothing.** A paper must clear the relevance
@@ -326,9 +327,14 @@ curl -X PUT "$RADAR_API_URL/api/profile" \
 
 D1 retains profile versions, while feedback types remain simple:
 
-- `useful` is a positive preference signal.
-- `not_useful` and `irrelevant` are negative signals and enter the seven-day
-  browser archive.
+- `useful` is a strong positive preference signal.
+- `not_useful` is a weak negative signal; `irrelevant` is a strong negative
+  signal. Both enter the seven-day browser archive.
+
+The lexical preference model uses the most recent label for each paper and a
+120-day half-life, so recent choices matter most without permanently locking
+the feed into early feedback. Similar papers are reranked before the daily
+relevance threshold and diversity pass.
 
 Feedback is posted to D1 immediately. If the phone is offline or the Worker is
 temporarily unavailable, the feedback remains in a local pending queue and is

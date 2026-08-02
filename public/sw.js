@@ -1,4 +1,4 @@
-const CACHE_VERSION = "dawnlit-shell-v2";
+const CACHE_VERSION = "dawnlit-shell-v3";
 const APP_SHELL = [
   "./",
   "./index.html",
