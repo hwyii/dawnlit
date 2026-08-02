@@ -183,6 +183,61 @@ def request_json(
         return json.loads(response.read().decode("utf-8"))
 
 
+def cloudflare_available() -> bool:
+    return bool(
+        (
+            os.getenv("RADAR_API_URL")
+            and os.getenv("RADAR_ADMIN_TOKEN")
+        )
+        or (
+            os.getenv("CLOUDFLARE_ACCOUNT_ID")
+            and os.getenv("CLOUDFLARE_API_TOKEN")
+        )
+    )
+
+
+def cloudflare_inference(
+    model: str,
+    body: dict[str, Any],
+    timeout: int,
+) -> dict[str, Any]:
+    """Run Workers AI through the personal Worker, or direct credentials."""
+    api_url = os.getenv("RADAR_API_URL", "").rstrip("/")
+    admin_token = os.getenv("RADAR_ADMIN_TOKEN")
+    if api_url and admin_token:
+        return request_json(
+            f"{api_url}/api/ai/run",
+            admin_token,
+            "POST",
+            {"model": model, "input": body},
+            timeout=timeout,
+        )
+    account_id = os.getenv("CLOUDFLARE_ACCOUNT_ID")
+    api_token = os.getenv("CLOUDFLARE_API_TOKEN")
+    if not account_id or not api_token:
+        raise RuntimeError("Cloudflare AI credentials are unavailable")
+    return request_json(
+        f"https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run/{model}",
+        api_token,
+        "POST",
+        body,
+        timeout=timeout,
+    )
+
+
+def cloudflare_response_text(response: dict[str, Any]) -> str:
+    """Normalize Workers AI REST and binding response envelopes."""
+    result = response.get("result", {})
+    raw = result.get("response")
+    if raw is None:
+        raw = (
+            (result.get("choices") or [{}])[0]
+            .get("message", {})
+            .get("content", "")
+        )
+    return json.dumps(raw) if isinstance(raw, dict) else str(raw or "")
+
+
 def interest_key(value: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", value.lower()).strip("_")
 
@@ -1156,17 +1211,12 @@ def parse_model_analysis(
 
 
 def cloudflare_summary(paper: Paper, topics: list[dict[str, Any]]) -> dict[str, Any] | None:
-    account_id = os.getenv("CLOUDFLARE_ACCOUNT_ID")
-    api_token = os.getenv("CLOUDFLARE_API_TOKEN")
-    if not account_id or not api_token:
+    if not cloudflare_available():
         return None
     model = os.getenv("CLOUDFLARE_FALLBACK_MODEL") or "@cf/qwen/qwen3-30b-a3b-fp8"
-    url = f"https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run/{model}"
     try:
-        response = request_json(
-            url,
-            api_token,
-            "POST",
+        response = cloudflare_inference(
+            model,
             {
                 "messages": [
                     {
@@ -1181,9 +1231,7 @@ def cloudflare_summary(paper: Paper, topics: list[dict[str, Any]]) -> dict[str, 
             },
             timeout=120,
         )
-        raw = response.get("result", {}).get("response", "")
-        if isinstance(raw, dict):
-            raw = json.dumps(raw)
+        raw = cloudflare_response_text(response)
         return parse_model_summary(raw, model)
     except (OSError, ValueError, urllib.error.URLError) as error:
         print(f"AI summary failed for {paper.id}: {error}", file=sys.stderr)
@@ -1194,9 +1242,7 @@ def cloudflare_analysis(
     paper: Paper,
     topics: list[dict[str, Any]],
 ) -> tuple[dict[str, Any], dict[str, Any]] | None:
-    account_id = os.getenv("CLOUDFLARE_ACCOUNT_ID")
-    api_token = os.getenv("CLOUDFLARE_API_TOKEN")
-    if not account_id or not api_token:
+    if not cloudflare_available():
         return None
     primary_model = os.getenv("CLOUDFLARE_MODEL") or "@cf/openai/gpt-oss-120b"
     fallback_model = (
@@ -1204,54 +1250,52 @@ def cloudflare_analysis(
     )
     paper_text, source_scope = extract_pdf_text(paper)
     for model in dict.fromkeys([primary_model, fallback_model]):
-        url = f"https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run/{model}"
-        body = {
-            "messages": [
-                {
-                    "role": "system",
-                    "content": "You are a precise research analyst. Follow the grounding contract and return JSON only.",
-                },
-                {
-                    "role": "user",
-                    "content": analysis_prompt(
-                        paper,
-                        topics,
-                        paper_text,
-                        source_scope,
-                    ),
-                },
-            ],
-            "response_format": {"type": "json_object"},
-            "temperature": 0.1,
-            "max_tokens": 3200,
-        }
-        try:
-            response = request_json(
-                url,
-                api_token,
-                "POST",
-                body,
-                timeout=180,
-            )
-            raw = response.get("result", {}).get("response", "")
-            if isinstance(raw, dict):
-                raw = json.dumps(raw)
-            analysis = parse_model_analysis(raw, model, source_scope, paper_text)
-            if not analysis:
+        attempts = 2 if model == primary_model else 1
+        for attempt in range(attempts):
+            body = {
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": "You are a precise research analyst. Follow the grounding contract and return JSON only.",
+                    },
+                    {
+                        "role": "user",
+                        "content": analysis_prompt(
+                            paper,
+                            topics,
+                            paper_text,
+                            source_scope,
+                        ),
+                    },
+                ],
+                "response_format": {"type": "json_object"},
+                "temperature": 0.1,
+                "max_tokens": 3200,
+            }
+            try:
+                response = cloudflare_inference(
+                    model,
+                    body,
+                    timeout=180,
+                )
+                raw = cloudflare_response_text(response)
+                analysis = parse_model_analysis(raw, model, source_scope, paper_text)
+                if analysis:
+                    return analysis
                 print(
-                    f"{model} returned an invalid analysis schema for {paper.id}",
+                    f"{model} returned an invalid analysis schema for {paper.id} "
+                    f"(attempt {attempt + 1}/{attempts})",
                     file=sys.stderr,
                 )
-                continue
-            return analysis
-        except (
-            OSError,
-            RuntimeError,
-            ValueError,
-            urllib.error.URLError,
-            IndexError,
-        ) as error:
-            print(f"{model} analysis failed for {paper.id}: {error}", file=sys.stderr)
+            except (
+                OSError,
+                RuntimeError,
+                ValueError,
+                urllib.error.URLError,
+                IndexError,
+            ) as error:
+                print(f"{model} analysis failed for {paper.id}: {error}", file=sys.stderr)
+                break
     return None
 
 
@@ -1457,8 +1501,7 @@ def refresh_stale_weekly_analyses(
     """Gradually replace stale cached briefs without creating an API cost spike."""
     if (
         not use_ai
-        or not os.getenv("CLOUDFLARE_ACCOUNT_ID")
-        or not os.getenv("CLOUDFLARE_API_TOKEN")
+        or not cloudflare_available()
     ):
         return 0
     limit = max(0, int(os.getenv("AI_CACHE_REFRESH_LIMIT", "3")))

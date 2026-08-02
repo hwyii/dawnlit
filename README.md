@@ -225,7 +225,14 @@ The scheduled workflow sends only the final selected papers to Cloudflare
 Workers AI. The default full-text model is `@cf/openai/gpt-oss-120b`; if it is
 unavailable or returns an invalid schema, Dawnlit retries with
 `@cf/qwen/qwen3-30b-a3b-fp8`. Override these with the repository variables
-`CLOUDFLARE_MODEL` and `CLOUDFLARE_FALLBACK_MODEL`.
+`CLOUDFLARE_MODEL` and `CLOUDFLARE_FALLBACK_MODEL` when using direct
+Cloudflare credentials. The bundled Worker proxy intentionally allows only the
+two documented models.
+
+The deployed personal Worker exposes an admin-token-protected AI proxy backed
+by its native Workers AI binding. Therefore the scheduled build can reuse the
+existing `RADAR_API_URL` and `RADAR_ADMIN_TOKEN`; separate Cloudflare AI secrets
+in GitHub are optional direct-call fallbacks.
 
 Each brief is grounded in the extracted paper text when available, or the title
 and abstract as a fallback. The card turns the analysis into a dense three-line

@@ -170,6 +170,24 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(summary["generated_by"], "test/model")
         self.assertIsNone(radar.parse_model_summary('{"takeaway":"Only one"}', "test"))
 
+    def test_cloudflare_response_envelopes_are_normalized(self):
+        self.assertEqual(
+            radar.cloudflare_response_text({"result": {"response": '{"ok":true}'}}),
+            '{"ok":true}',
+        )
+        self.assertEqual(
+            radar.cloudflare_response_text(
+                {
+                    "result": {
+                        "choices": [
+                            {"message": {"content": '{"ok":true}'}}
+                        ]
+                    }
+                }
+            ),
+            '{"ok":true}',
+        )
+
     def test_full_analysis_parser_requires_three_signals(self):
         payload = {
             "brief": {

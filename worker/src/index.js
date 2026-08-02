@@ -14,6 +14,10 @@ const ACTIONS = new Set([
   "not_useful",
   "restore",
 ]);
+const AI_MODELS = new Set([
+  "@cf/openai/gpt-oss-120b",
+  "@cf/qwen/qwen3-30b-a3b-fp8",
+]);
 
 export default {
   async fetch(request, env) {
@@ -45,6 +49,9 @@ export default {
       }
       if (url.pathname === "/api/feedback" && request.method === "POST") {
         return postFeedback(request, env, headers);
+      }
+      if (url.pathname === "/api/ai/run" && request.method === "POST") {
+        return runAI(request, env, headers);
       }
       return json({ error: "Not found" }, 404, headers);
     } catch (error) {
@@ -147,4 +154,16 @@ async function postFeedback(request, env, headers) {
     )
     .run();
   return json({ ok: true }, 201, headers);
+}
+
+async function runAI(request, env, headers) {
+  const body = await request.json();
+  if (!AI_MODELS.has(body?.model) || !body?.input || typeof body.input !== "object") {
+    return json({ error: "Invalid AI request" }, 400, headers);
+  }
+  if (JSON.stringify(body.input).length > 150_000) {
+    return json({ error: "AI request is too large" }, 413, headers);
+  }
+  const result = await env.AI.run(body.model, body.input);
+  return json({ result }, 200, headers);
 }
