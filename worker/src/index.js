@@ -12,6 +12,7 @@ const ACTIONS = new Set([
   "useful",
   "unuseful",
   "not_useful",
+  "restore",
 ]);
 
 export default {

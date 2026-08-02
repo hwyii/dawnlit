@@ -162,8 +162,8 @@ class PipelineTests(unittest.TestCase):
 
     def test_model_summary_parser_requires_grounded_schema(self):
         raw = """```json
-        {"takeaway":"Contribution","problem":"Problem","method":"Method",
-        "evidence":"Evidence","limitations":"Limit","why_for_you":"Reason"}
+        {"takeaway":"Specific contribution","problem":"Specific research problem","method":"Concrete method",
+        "evidence":"Grounded evidence","limitations":"Material limitation","why_for_you":"Matched research direction"}
         ```"""
         summary = radar.parse_model_summary(raw, "test/model")
         self.assertIsNotNone(summary)
@@ -173,12 +173,12 @@ class PipelineTests(unittest.TestCase):
     def test_full_analysis_parser_requires_three_signals(self):
         payload = {
             "brief": {
-                "takeaway": "Contribution",
-                "problem": "Problem",
-                "method": "Method",
-                "evidence": "Evidence",
-                "limitations": "Limit",
-                "why_for_you": "Reason",
+                "takeaway": "Specific contribution",
+                "problem": "Specific research problem",
+                "method": "Concrete method",
+                "evidence": "Grounded evidence",
+                "limitations": "Material limitation",
+                "why_for_you": "Matched research direction",
             },
             "deep_dive": {
                 "signals": [
@@ -206,6 +206,41 @@ class PipelineTests(unittest.TestCase):
         self.assertIsNone(
             radar.parse_model_analysis(
                 json.dumps(payload), "test/model", "full text"
+            )
+        )
+
+    def test_full_analysis_rejects_numbers_missing_from_source(self):
+        payload = {
+            "brief": {
+                "takeaway": "The method improves accuracy by 99%.",
+                "problem": "The paper studies robust language models.",
+                "method": "The authors train a robust classifier.",
+                "evidence": "The reported gain is 99%.",
+                "limitations": "The available source states limited evaluation.",
+                "why_for_you": "This matches adversarial robustness research.",
+            },
+            "deep_dive": {
+                "signals": [
+                    {"icon": "A", "text": "The method targets robustness."},
+                    {"icon": "B", "text": "Training uses adversarial examples."},
+                    {"icon": "C", "text": "Accuracy improves by 99%."},
+                ],
+                "overview": "The paper proposes and evaluates a robust training method.",
+                "methodology": [{"title": "Training", "detail": "Uses adversarial data."}],
+                "mechanism": [{"title": "Mechanism", "detail": "Improves invariance."}],
+                "experiments": [{"title": "Evaluation", "detail": "Tests robustness."}],
+                "findings": [{"title": "Accuracy", "detail": "Reports a 99% gain."}],
+                "contributions": ["A robust training method."],
+                "limitations": ["Evaluation scope is limited."],
+                "open_questions": ["Whether the method transfers."],
+            },
+        }
+        self.assertIsNone(
+            radar.parse_model_analysis(
+                json.dumps(payload),
+                "test/model",
+                "full text",
+                "The source reports a 12% accuracy gain.",
             )
         )
 
@@ -303,7 +338,7 @@ class PipelineTests(unittest.TestCase):
             "summary": summary,
             "deep_dive": deep_dive,
         }
-        with patch.object(radar, "github_analysis") as generate:
+        with patch.object(radar, "cloudflare_analysis") as generate:
             serialized = radar.serialize_item(item, True, previous_item)
         generate.assert_not_called()
         self.assertEqual(serialized["deep_dive"]["overview"], "Overview")
@@ -344,7 +379,7 @@ class PipelineTests(unittest.TestCase):
         }
         with patch.object(
             radar,
-            "github_analysis",
+            "cloudflare_analysis",
             side_effect=RuntimeError("models timeout"),
         ), patch.object(
             radar,

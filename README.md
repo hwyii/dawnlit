@@ -221,12 +221,11 @@ JavaScript:
 
 ## AI morning briefs
 
-The scheduled workflow sends only the final selected papers to GitHub Models
-using its built-in `GITHUB_TOKEN`; no separate API key is required. The default
-model is `openai/gpt-4.1-mini`. Set the optional repository variable
-`GITHUB_MODEL` to use another model available to your repository. If the
-primary model is rate-limited or returns an invalid schema, Dawnlit retries with
-`openai/gpt-4o-mini`; override it with `GITHUB_FALLBACK_MODEL`.
+The scheduled workflow sends only the final selected papers to Cloudflare
+Workers AI. The default full-text model is `@cf/openai/gpt-oss-120b`; if it is
+unavailable or returns an invalid schema, Dawnlit retries with
+`@cf/qwen/qwen3-30b-a3b-fp8`. Override these with the repository variables
+`CLOUDFLARE_MODEL` and `CLOUDFLARE_FALLBACK_MODEL`.
 
 Each brief is grounded in the extracted paper text when available, or the title
 and abstract as a fallback. The card turns the analysis into a dense three-line
@@ -244,26 +243,25 @@ and asks the model for a grounded deep dive. The **Deep dive** dialog includes:
 - results tied to concrete evidence;
 - contributions, limitations, and open questions.
 
-Successful analyses are cached by arXiv ID. An unchanged paper reuses its
-validated deep dive instead of spending another model request. This keeps the
-daily job within hosted model limits without replacing a strong analysis with a
-weaker fallback.
+Successful analyses are cached by arXiv ID and prompt/schema version. An
+unchanged paper reuses its validated deep dive, while stale weekly analyses are
+refreshed gradually (three per build by default) so a prompt upgrade does not
+create a cost spike. Set `AI_CACHE_REFRESH_LIMIT` to change that limit.
 
 PDFs are capped at 25 MB. If full-text extraction fails, the analysis is
 explicitly marked as abstract-based. Missing evidence must be stated rather
 than invented. If model inference is unavailable or invalid, Dawnlit falls back
 to an extractive brief and disables the deep-dive button.
 
-Cloudflare Workers AI remains available as an optional summary fallback. Add
-these repository secrets to use it:
+Add these repository secrets to use AI analysis:
 
 - `CLOUDFLARE_ACCOUNT_ID`
 - `CLOUDFLARE_API_TOKEN`
 
-Optionally set the repository variable `CLOUDFLARE_MODEL`. The default is:
+The default primary model is:
 
 ```text
-@cf/meta/llama-3.2-3b-instruct
+@cf/openai/gpt-oss-120b
 ```
 
 ## GitHub Pages deployment
@@ -342,6 +340,12 @@ retried when the app next starts, reconnects, or returns online. The next
 scheduled GitHub Action reads that D1 feedback through `RADAR_API_URL`, uses it
 in ranking, commits the new feed, and deploys it to Pages. The installed app
 then fetches that feed the next time it becomes active.
+
+On startup, each connected browser also reads the latest D1 feedback and
+reconstructs Useful and seven-day hidden-paper state. Enter the same personal
+API token once on the iPhone and desktop; the `CLOUD ✓` badge confirms that
+device state is connected. Feed JSON is always fetched with cache bypass so
+both devices see the same deployed recommendation batch.
 
 Once at least one positive paper is synced, the scheduled build asks Semantic
 Scholar for papers related to the latest positive and negative examples and

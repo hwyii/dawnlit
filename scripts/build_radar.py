@@ -45,7 +45,8 @@ OPENSEARCH = {"opensearch": "http://a9.com/-/spec/opensearch/1.1/"}
 TOKEN_RE = re.compile(r"[a-z][a-z0-9+\-]{2,}")
 SENTENCE_RE = re.compile(r"(?<=[.!?])\s+(?=[A-Z0-9])")
 NUMBER_RE = re.compile(r"\b\d+(?:\.\d+)?%?\b")
-ANALYSIS_SCHEMA_VERSION = 3
+ANALYSIS_SCHEMA_VERSION = 4
+SUMMARY_SCHEMA_VERSION = 2
 
 STOPWORDS = {
     "about",
@@ -883,6 +884,7 @@ def extractive_summary(paper: Paper, topics: list[dict[str, Any]]) -> dict[str, 
         "why_for_you": f"Matches your research profile: {matched_topics}." if matched_topics else "Retained as an exploration paper.",
         "source": "abstract",
         "generated_by": "extractive",
+        "schema_version": SUMMARY_SCHEMA_VERSION,
     }
 
 
@@ -900,11 +902,13 @@ def parse_model_summary(raw: str, generated_by: str) -> dict[str, Any] | None:
         "why_for_you",
     }
     if not required.issubset(result) or not all(
-        isinstance(result.get(field), str) for field in required
+        isinstance(result.get(field), str) and len(result[field].strip()) >= 8
+        for field in required
     ):
         return None
     result["source"] = "abstract"
     result["generated_by"] = generated_by
+    result["schema_version"] = SUMMARY_SCHEMA_VERSION
     return result
 
 
@@ -1013,10 +1017,16 @@ def analysis_prompt(
     source_scope: str,
 ) -> str:
     topic_names = ", ".join(item["name"] for item in topics[:3])
-    return f"""Analyze a research paper for an expert LLM researcher.
-Use only the supplied paper text. Never invent models, datasets, baselines,
-numbers, equations, findings, or limitations. Write in concise technical English.
-Return only valid JSON matching this exact shape:
+    return f"""Analyze this paper for an expert LLM researcher deciding what to read.
+
+Grounding contract:
+- Use only the supplied text. Never invent a model, dataset, baseline, metric,
+  number, equation, result, or author-stated limitation.
+- Preserve concrete names and numeric results exactly when available.
+- If a requested fact is absent, write "Not stated in the available source."
+- Separate what the authors show from your inference. Do not call arXiv peer review.
+
+Return only valid JSON with this exact shape:
 {{
   "brief": {{
     "takeaway": "one sentence",
@@ -1051,31 +1061,17 @@ Return only valid JSON matching this exact shape:
   }}
 }}
 
-Requirements:
-- brief.problem, brief.method, brief.evidence, and brief.limitations describe
-  only the paper. Only brief.why_for_you may refer to the research interests.
-- Treat generic vocabulary overlap as insufficient for relevance. The paper's
-  central question or method must match the named interest.
-- Do not write generic statements such as "the paper studies" or "this is
-  relevant to trustworthy AI" when a named method, mechanism, model, dataset,
-  metric, baseline, or quantitative result is available.
-- signals must contain exactly three complementary items of 20-35 words each.
-  Every signal must include at least one paper-specific technical entity or
-  concrete result.
-- overview must be 90-140 words and explain the research question, thesis,
-  approach, and strongest evidence as a connected argument.
-- Use 2-4 methodology items of 35-65 words each. Explain purpose, procedure,
-  inputs/outputs, training objective, and implementation choices when present.
-- Use 1-3 mechanism items of 30-60 words each. Preserve equations and causal or
-  geometric claims only when present; otherwise state that no mechanism is given.
-- Use 2-4 experiment items of 35-65 words each. Name concrete models, datasets,
-  baselines, metrics, evaluation protocol, and ablations when present.
-- Use 2-5 findings of 30-60 words each and connect each claim to its evidence,
-  including exact numerical results when available.
-- Use 2-4 contributions, 1-3 limitations, and 1-3 open questions. Each item
-  should be specific enough to guide a research discussion.
-- If evidence is unavailable in the supplied text, say so explicitly.
-- Do not treat arXiv publication as peer review.
+Content priorities:
+1. State the actual contribution, then the mechanism or procedure, then the
+   strongest evidence and material caveat. Omit generic background.
+2. brief fields are one technical sentence each. Only why_for_you may mention
+   the reader's interests, and it must name the matched problem or method.
+3. signals has exactly three complementary 15-28 word items: contribution,
+   method/mechanism, and evidence/caveat. Each names a paper-specific entity.
+4. overview is 70-110 words. Use 1-3 focused items in each detailed section;
+   prefer one well-grounded item over several vague ones.
+5. Findings connect claims to experiments, metrics, theorem statements, or
+   ablations. Limitations distinguish author-stated limits from missing evidence.
 
 Research interests: {topic_names}
 Available source: {source_scope}
@@ -1109,6 +1105,7 @@ def prepare_deep_dive(
     if (
         not all(isinstance(deep_dive.get(field), list) for field in required_lists)
         or len(deep_dive["signals"]) != 3
+        or any(not deep_dive[field] for field in required_lists - {"signals"})
     ):
         return None
     for field in {"signals", "methodology", "mechanism", "experiments", "findings"}:
@@ -1135,6 +1132,7 @@ def parse_model_analysis(
     raw: str,
     generated_by: str,
     source_scope: str,
+    source_text: str = "",
 ) -> tuple[dict[str, Any], dict[str, Any]] | None:
     match = re.search(r"\{.*\}", raw, re.DOTALL)
     if not match:
@@ -1144,6 +1142,11 @@ def parse_model_analysis(
     deep_dive = payload.get("deep_dive")
     if not isinstance(brief, dict) or not isinstance(deep_dive, dict):
         return None
+    if source_text:
+        output_numbers = set(NUMBER_RE.findall(json.dumps(payload)))
+        source_numbers = set(NUMBER_RE.findall(source_text))
+        if output_numbers - source_numbers:
+            return None
     summary = parse_model_summary(json.dumps(brief), generated_by)
     prepared = prepare_deep_dive(deep_dive, generated_by, source_scope)
     if summary is None or prepared is None:
@@ -1157,61 +1160,56 @@ def cloudflare_summary(paper: Paper, topics: list[dict[str, Any]]) -> dict[str, 
     api_token = os.getenv("CLOUDFLARE_API_TOKEN")
     if not account_id or not api_token:
         return None
-    model = os.getenv("CLOUDFLARE_MODEL") or "@cf/meta/llama-3.2-3b-instruct"
+    model = os.getenv("CLOUDFLARE_FALLBACK_MODEL") or "@cf/qwen/qwen3-30b-a3b-fp8"
     url = f"https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run/{model}"
     try:
         response = request_json(
             url,
             api_token,
             "POST",
-            {"prompt": summary_prompt(paper, topics), "max_tokens": 700},
+            {
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": "Ground every claim in the supplied text and return JSON only.",
+                    },
+                    {"role": "user", "content": summary_prompt(paper, topics)},
+                ],
+                "response_format": {"type": "json_object"},
+                "temperature": 0.1,
+                "max_tokens": 900,
+            },
+            timeout=120,
         )
         raw = response.get("result", {}).get("response", "")
+        if isinstance(raw, dict):
+            raw = json.dumps(raw)
         return parse_model_summary(raw, model)
     except (OSError, ValueError, urllib.error.URLError) as error:
         print(f"AI summary failed for {paper.id}: {error}", file=sys.stderr)
         return None
 
 
-def github_chat(token: str, body: dict[str, Any]) -> dict[str, Any]:
-    url = "https://models.github.ai/inference/chat/completions"
-    last_error: Exception | None = None
-    # Daily feed freshness is more important than waiting many minutes for
-    # hosted-model retries. If a model is slow or unavailable, fall back to the
-    # next model and then to the extractive summary.
-    for attempt in range(2):
-        try:
-            return request_json(url, token, "POST", body, timeout=90)
-        except urllib.error.HTTPError as error:
-            last_error = error
-            if error.code not in {429, 500, 502, 503, 504} or attempt == 1:
-                raise
-            time.sleep(6 * (attempt + 1))
-        except (urllib.error.URLError, TimeoutError) as error:
-            last_error = error
-            if attempt == 1:
-                raise
-            time.sleep(12 * (attempt + 1))
-    raise RuntimeError(f"GitHub Models request failed: {last_error}")
-
-
-def github_analysis(
+def cloudflare_analysis(
     paper: Paper,
     topics: list[dict[str, Any]],
 ) -> tuple[dict[str, Any], dict[str, Any]] | None:
-    token = os.getenv("GITHUB_TOKEN")
-    if not token:
+    account_id = os.getenv("CLOUDFLARE_ACCOUNT_ID")
+    api_token = os.getenv("CLOUDFLARE_API_TOKEN")
+    if not account_id or not api_token:
         return None
-    primary_model = os.getenv("GITHUB_MODEL") or "openai/gpt-4.1-mini"
-    fallback_model = os.getenv("GITHUB_FALLBACK_MODEL") or "openai/gpt-4o-mini"
+    primary_model = os.getenv("CLOUDFLARE_MODEL") or "@cf/openai/gpt-oss-120b"
+    fallback_model = (
+        os.getenv("CLOUDFLARE_FALLBACK_MODEL") or "@cf/qwen/qwen3-30b-a3b-fp8"
+    )
     paper_text, source_scope = extract_pdf_text(paper)
     for model in dict.fromkeys([primary_model, fallback_model]):
+        url = f"https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run/{model}"
         body = {
-            "model": model,
             "messages": [
                 {
                     "role": "system",
-                    "content": "You are a precise research analyst. Ground every claim in the supplied text and return JSON only.",
+                    "content": "You are a precise research analyst. Follow the grounding contract and return JSON only.",
                 },
                 {
                     "role": "user",
@@ -1223,17 +1221,22 @@ def github_analysis(
                     ),
                 },
             ],
+            "response_format": {"type": "json_object"},
             "temperature": 0.1,
-            "max_tokens": 2600,
+            "max_tokens": 3200,
         }
         try:
-            response = github_chat(token, body)
-            raw = (
-                response.get("choices", [{}])[0]
-                .get("message", {})
-                .get("content", "")
+            response = request_json(
+                url,
+                api_token,
+                "POST",
+                body,
+                timeout=180,
             )
-            analysis = parse_model_analysis(raw, model, source_scope)
+            raw = response.get("result", {}).get("response", "")
+            if isinstance(raw, dict):
+                raw = json.dumps(raw)
+            analysis = parse_model_analysis(raw, model, source_scope, paper_text)
             if not analysis:
                 print(
                     f"{model} returned an invalid analysis schema for {paper.id}",
@@ -1414,13 +1417,14 @@ def serialize_item(
                     isinstance(cached_summary.get(field), str)
                     for field in required_summary
                 ):
-                    summary = copy.deepcopy(cached_summary)
+                    if cached_summary.get("schema_version") == SUMMARY_SCHEMA_VERSION:
+                        summary = copy.deepcopy(cached_summary)
         else:
             try:
-                analysis = github_analysis(paper, item["topics"])
+                analysis = cloudflare_analysis(paper, item["topics"])
             except Exception as error:
                 print(
-                    f"AI analysis crashed for {paper.id}; falling back to extractive summary: {error}",
+                    f"Cloudflare analysis crashed for {paper.id}; falling back: {error}",
                     file=sys.stderr,
                 )
                 analysis = None
@@ -1443,6 +1447,74 @@ def serialize_item(
         "lane": item["lane"],
     }
     return item
+
+
+def refresh_stale_weekly_analyses(
+    history_items: list[dict[str, Any]],
+    use_ai: bool,
+    now: dt.datetime,
+) -> int:
+    """Gradually replace stale cached briefs without creating an API cost spike."""
+    if (
+        not use_ai
+        or not os.getenv("CLOUDFLARE_ACCOUNT_ID")
+        or not os.getenv("CLOUDFLARE_API_TOKEN")
+    ):
+        return 0
+    limit = max(0, int(os.getenv("AI_CACHE_REFRESH_LIMIT", "3")))
+    week_start = now - dt.timedelta(days=7)
+    candidates = sorted(
+        (
+            item
+            for item in history_items
+            if parse_date(item.get("recommended_at", item.get("published", "")))
+            >= week_start
+        ),
+        key=lambda item: item.get("scores", {}).get("total", 0),
+        reverse=True,
+    )
+    refreshed = 0
+    for item in candidates:
+        if refreshed >= limit:
+            break
+        if (
+            item.get("deep_dive", {}).get("schema_version")
+            == ANALYSIS_SCHEMA_VERSION
+            and item.get("summary", {}).get("schema_version")
+            == SUMMARY_SCHEMA_VERSION
+        ):
+            continue
+        paper = Paper(
+            id=item.get("id", ""),
+            title=item.get("title", ""),
+            abstract=item.get("abstract", ""),
+            authors=item.get("authors", []),
+            published=item.get("published", ""),
+            updated=item.get("updated", ""),
+            categories=item.get("categories", []),
+            primary_category=item.get("primary_category", ""),
+            abs_url=item.get("abs_url", ""),
+            pdf_url=item.get("pdf_url", ""),
+            comment=item.get("comment", ""),
+            journal_ref=item.get("journal_ref", ""),
+        )
+        working = copy.deepcopy(item)
+        working.pop("summary", None)
+        working.pop("deep_dive", None)
+        recommended_at = working.pop("recommended_at", None)
+        working["_paper"] = paper
+        working["_tokens"] = tokenize(paper.text())
+        result = serialize_item(working, True, item)
+        if result.get("deep_dive", {}).get("schema_version") != ANALYSIS_SCHEMA_VERSION:
+            continue
+        if recommended_at:
+            result["recommended_at"] = recommended_at
+        item.clear()
+        item.update(result)
+        refreshed += 1
+    if refreshed:
+        print(f"Refreshed {refreshed} stale weekly AI analyses.", file=sys.stderr)
+    return refreshed
 
 
 def rewrite_existing(
@@ -1585,6 +1657,7 @@ def build(
         key=lambda item: item.get("recommended_at", item.get("published", "")),
         reverse=True,
     )[:100]
+    refresh_stale_weekly_analyses(history_items, use_ai, now)
     history = {"generated_at": now.isoformat(), "papers": history_items}
     history_path.write_text(json.dumps(history, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 

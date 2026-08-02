@@ -25,6 +25,7 @@ const state = {
   installPrompt: null,
   lastRefreshAt: 0,
   deckIndex: { today: 0, weekly: 0, saved: 0 },
+  cloudConnected: false,
 };
 
 if (state.token) writeTextStorage(STORAGE.token, state.token);
@@ -212,7 +213,7 @@ function percent(value) {
 async function fetchJSON(url, options = {}) {
   const headers = { Accept: "application/json", ...(options.headers || {}) };
   if (state.token) headers.Authorization = `Bearer ${state.token}`;
-  const response = await fetch(url, { ...options, headers });
+  const response = await fetch(url, { cache: "no-store", ...options, headers });
   if (!response.ok)
     throw new Error(`${response.status} ${response.statusText}`);
   return response.json();
@@ -224,8 +225,10 @@ async function loadProfile() {
     try {
       const remote = await fetchJSON(`${state.apiUrl}/api/profile`);
       writeStorage(STORAGE.profile, remote);
+      state.cloudConnected = true;
       return remote;
     } catch (error) {
+      state.cloudConnected = false;
       showToast(
         `Cloud profile unavailable; using local data: ${error.message}`,
       );
@@ -247,11 +250,12 @@ async function boot() {
     state.history = history;
     state.profile = profile;
     state.lastRefreshAt = Date.now();
+    await syncPendingFeedback();
+    await pullCloudFeedback();
     elements.loading.classList.add("hidden");
     elements.app.classList.remove("hidden");
     updateChrome();
     render();
-    syncPendingFeedback({ notify: true });
   } catch (error) {
     elements.loading.classList.add("hidden");
     elements.error.classList.remove("hidden");
@@ -274,8 +278,8 @@ function updateChrome() {
   document.querySelector("#lastUpdated").textContent = `Updated ${prettyDate(
     state.feed.generated_at,
   )}`;
-  const cloud = Boolean(state.apiUrl && state.token);
-  document.querySelector("#modeBadge").textContent = cloud ? "SYNCED" : "LOCAL";
+  const cloud = Boolean(state.apiUrl && state.token && state.cloudConnected);
+  document.querySelector("#modeBadge").textContent = cloud ? "CLOUD ✓" : "LOCAL";
   document.querySelector("#modeBadge").title = cloud
     ? "Preferences and feedback sync to the Dawnlit API"
     : "Preferences and feedback stay in this browser";
@@ -890,6 +894,7 @@ async function recordFeedback(paper, action) {
     try {
       await sendFeedbackItem(item);
       item.synced_at = new Date().toISOString();
+      state.cloudConnected = true;
       writeStorage(STORAGE.feedback, state.feedback);
     } catch (error) {
       showToast(
@@ -917,6 +922,7 @@ async function syncPendingFeedback({ notify = false } = {}) {
     try {
       await sendFeedbackItem(item);
       item.synced_at = new Date().toISOString();
+      state.cloudConnected = true;
       synced += 1;
     } catch {
       break;
@@ -931,6 +937,69 @@ async function syncPendingFeedback({ notify = false } = {}) {
     }
   }
   return synced;
+}
+
+async function pullCloudFeedback() {
+  if (!state.apiUrl || !state.token) return 0;
+  try {
+    const result = await fetchJSON(`${state.apiUrl}/api/feedback?limit=1000`);
+    const remoteItems = Array.isArray(result.items) ? result.items : [];
+    const merged = new Map(state.feedback.map((item) => [item.id, item]));
+    remoteItems.forEach((item) => {
+      merged.set(item.id, {
+        ...merged.get(item.id),
+        ...item,
+        synced_at: merged.get(item.id)?.synced_at || item.created_at,
+      });
+    });
+    state.feedback = [...merged.values()].sort((a, b) =>
+      (a.created_at || "").localeCompare(b.created_at || ""),
+    );
+
+    const latestByPaper = new Map();
+    [...state.feedback]
+      .sort((a, b) => (b.created_at || "").localeCompare(a.created_at || ""))
+      .forEach((item) => {
+        if (item.paper_id && !latestByPaper.has(item.paper_id)) {
+          latestByPaper.set(item.paper_id, item);
+        }
+      });
+    latestByPaper.forEach((item, paperId) => {
+      if (["save", "useful"].includes(item.action)) {
+        state.saved.add(paperId);
+        delete state.dismissed[paperId];
+      } else if (["unsave", "restore"].includes(item.action)) {
+        state.saved.delete(paperId);
+        delete state.dismissed[paperId];
+      } else if (["not_useful", "irrelevant", "not_llm"].includes(item.action)) {
+        state.saved.delete(paperId);
+        const dismissedAt = new Date(item.created_at || Date.now());
+        const expiresAt = new Date(
+          dismissedAt.getTime() + ARCHIVE_DAYS * 86400000,
+        );
+        if (expiresAt.getTime() > Date.now()) {
+          state.dismissed[paperId] = {
+            paper_id: paperId,
+            title: item.title || paperId,
+            action: item.action,
+            dismissed_at: dismissedAt.toISOString(),
+            expires_at: expiresAt.toISOString(),
+          };
+        } else {
+          delete state.dismissed[paperId];
+        }
+      }
+    });
+    writeStorage(STORAGE.feedback, state.feedback);
+    writeStorage(STORAGE.saved, [...state.saved]);
+    writeStorage(STORAGE.dismissed, state.dismissed);
+    state.cloudConnected = true;
+    return remoteItems.length;
+  } catch (error) {
+    state.cloudConnected = false;
+    console.warn("Cloud feedback unavailable:", error);
+    return 0;
+  }
 }
 
 function feedbackMessage(action) {
@@ -1143,15 +1212,30 @@ elements.app.addEventListener("click", async (event) => {
       showToast("Local feedback cleared.");
     }
     if (action === "restore-paper") {
-      delete state.dismissed[preferenceButton.dataset.paperId];
+      const paperId = preferenceButton.dataset.paperId;
+      const paper = paperById(paperId) || state.dismissed[paperId];
+      delete state.dismissed[paperId];
       writeStorage(STORAGE.dismissed, state.dismissed);
+      if (paper?.id || paper?.paper_id) {
+        await recordFeedback(
+          paper.id ? paper : { ...paper, id: paper.paper_id, abstract: "", topics: [] },
+          "restore",
+        );
+      }
       updateChrome();
       renderPreferences();
       showToast("Paper restored.");
     }
     if (action === "restore-all-papers") {
+      const restored = Object.values(state.dismissed);
       state.dismissed = {};
       writeStorage(STORAGE.dismissed, {});
+      for (const paper of restored) {
+        await recordFeedback(
+          { ...paper, id: paper.paper_id, abstract: "", topics: [] },
+          "restore",
+        );
+      }
       updateChrome();
       renderPreferences();
       showToast("All hidden papers restored.");
@@ -1168,6 +1252,7 @@ elements.app.addEventListener("click", async (event) => {
       }
       writeStorage(STORAGE.profile, state.profile);
       const synced = await syncPendingFeedback();
+      await pullCloudFeedback();
       updateChrome();
       renderPreferences();
       showToast(
@@ -1178,6 +1263,7 @@ elements.app.addEventListener("click", async (event) => {
     }
     if (action === "disconnect-api") {
       state.token = "";
+      state.cloudConnected = false;
       writeTextStorage(STORAGE.token, "");
       updateChrome();
       renderPreferences();
