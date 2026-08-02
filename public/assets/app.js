@@ -574,9 +574,12 @@ function threeLineBrief(paper) {
     <div class="three-line-brief" aria-label="Three-line paper brief">
       ${signals
         .map(
-          (signal) => `
+          (signal, index) => `
             <div class="brief-signal">
-              <span aria-hidden="true">${escapeHTML(signal.icon || "•")}</span>
+              <span aria-hidden="true">${briefSignalIcon(
+                signal.text || "",
+                index,
+              )}</span>
               <p>${escapeHTML(
                 signal.text || "Not stated in the available source.",
               )}</p>
@@ -586,6 +589,48 @@ function threeLineBrief(paper) {
         .join("")}
     </div>
   `;
+}
+
+function briefSignalIcon(text, role) {
+  const value = text.toLowerCase();
+  const iconFor = (rules, fallback) =>
+    rules.find(([needles]) => needles.some((needle) => value.includes(needle)))?.[1] ||
+    fallback;
+  if (role === 0) {
+    return iconFor(
+      [
+        [["multilingual", "cross-lingual", "language", "arabic", "tokenization"], "🌐"],
+        [["agent", "tool use", "workflow"], "🤖"],
+        [["efficient", "cost", "latency", "compute"], "⚡"],
+        [["safety", "attack", "adversarial", "jailbreak", "robust"], "🛡️"],
+        [["benchmark", "dataset", "corpus"], "🗂️"],
+        [["interpret", "circuit", "representation"], "🔎"],
+      ],
+      "💡",
+    );
+  }
+  if (role === 1) {
+    return iconFor(
+      [
+        [["theorem", "proof", "bound", "equation"], "🧮"],
+        [["mechanism", "representation", "latent", "activation"], "🔬"],
+        [["dataset", "corpus", "curation", "sampling"], "🗂️"],
+        [["retrieval", "search", "index"], "🔎"],
+        [["train", "fine-tun", "pipeline", "framework", "algorithm", "method"], "⚙️"],
+      ],
+      "🔧",
+    );
+  }
+  return iconFor(
+    [
+      [["however", "despite", "limit", "caveat", "insufficient", "fail", "remain", "modest", "unimproved"], "⚠️"],
+      [["improv", "outperform", "gain", "increase", "restore", "achiev"], "📈"],
+      [["drop", "degrad", "decline", "loss", "worse"], "📉"],
+      [["theorem", "prove", "guarantee"], "✅"],
+      [["benchmark", "experiment", "evaluat", "metric", "accuracy"], "📊"],
+    ],
+    "📊",
+  );
 }
 
 function detailItems(items = []) {

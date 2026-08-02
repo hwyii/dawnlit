@@ -170,6 +170,30 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(summary["generated_by"], "test/model")
         self.assertIsNone(radar.parse_model_summary('{"takeaway":"Only one"}', "test"))
 
+    def test_signal_icons_follow_content_and_role(self):
+        self.assertEqual(
+            radar.choose_signal_icon("A multilingual tokenization benchmark", 0),
+            "🌐",
+        )
+        self.assertEqual(
+            radar.choose_signal_icon("The pipeline fine-tunes a verifier", 1),
+            "⚙️",
+        )
+        self.assertEqual(
+            radar.choose_signal_icon("However, the gains remain modest", 2),
+            "⚠️",
+        )
+
+    def test_analysis_prompt_requests_mobile_length_signals(self):
+        prompt = radar.analysis_prompt(
+            self.papers[0],
+            [{"name": "LLM loss landscape"}],
+            self.papers[0].abstract,
+            "abstract",
+        )
+        self.assertIn("12-20 word items", prompt)
+        self.assertIn("Choose each signal icon by meaning", prompt)
+
     def test_cloudflare_response_envelopes_are_normalized(self):
         self.assertEqual(
             radar.cloudflare_response_text({"result": {"response": '{"ok":true}'}}),

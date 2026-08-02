@@ -45,7 +45,7 @@ OPENSEARCH = {"opensearch": "http://a9.com/-/spec/opensearch/1.1/"}
 TOKEN_RE = re.compile(r"[a-z][a-z0-9+\-]{2,}")
 SENTENCE_RE = re.compile(r"(?<=[.!?])\s+(?=[A-Z0-9])")
 NUMBER_RE = re.compile(r"\b\d+(?:\.\d+)?%?\b")
-ANALYSIS_SCHEMA_VERSION = 4
+ANALYSIS_SCHEMA_VERSION = 5
 SUMMARY_SCHEMA_VERSION = 2
 
 STOPWORDS = {
@@ -1093,9 +1093,9 @@ Return only valid JSON with this exact shape:
   }},
   "deep_dive": {{
     "signals": [
-      {{"icon": "🧠", "text": "specific finding"}},
-      {{"icon": "🛡️", "text": "specific method"}},
-      {{"icon": "📉", "text": "specific mechanism or evidence"}}
+      {{"icon": "💡", "text": "paper-specific contribution"}},
+      {{"icon": "⚙️", "text": "paper-specific method or mechanism"}},
+      {{"icon": "📊", "text": "strongest evidence or material caveat"}}
     ],
     "overview": "detailed synthesis",
     "methodology": [
@@ -1121,11 +1121,18 @@ Content priorities:
    strongest evidence and material caveat. Omit generic background.
 2. brief fields are one technical sentence each. Only why_for_you may mention
    the reader's interests, and it must name the matched problem or method.
-3. signals has exactly three complementary 15-28 word items: contribution,
-   method/mechanism, and evidence/caveat. Each names a paper-specific entity.
-4. overview is 70-110 words. Use 1-3 focused items in each detailed section;
+3. signals has exactly three complementary, scannable 12-20 word items in this
+   order: contribution, method/mechanism, and strongest evidence/material caveat.
+   Each item makes one claim, names a paper-specific entity, and preserves the
+   most decision-relevant number when one is available. Put supporting detail in
+   the deep-dive fields, not in signals.
+4. Choose each signal icon by meaning instead of repeating a fixed trio. Useful
+   choices include 💡 contribution, 🌐 multilingual, 🛡️ safety, 🤖 agents,
+   ⚡ efficiency, ⚙️ method, 🔬 mechanism, 🧮 theory, 🗂️ data, 📈 gain,
+   📉 degradation, 📊 evaluation, and ⚠️ limitation.
+5. overview is 70-110 words. Use 1-3 focused items in each detailed section;
    prefer one well-grounded item over several vague ones.
-5. Findings connect claims to experiments, metrics, theorem statements, or
+6. Findings connect claims to experiments, metrics, theorem statements, or
    ablations. Limitations distinguish author-stated limits from missing evidence.
 
 Research interests: {topic_names}
@@ -1136,6 +1143,43 @@ Abstract: {paper.abstract}
 Paper text:
 {paper_text}
 """
+
+
+def choose_signal_icon(text: str, role: int) -> str:
+    """Assign a stable, content-aware icon instead of trusting prompt examples."""
+    lowered = text.lower()
+    if role == 0:
+        choices = [
+            (("multilingual", "cross-lingual", "language", "arabic", "tokenization"), "🌐"),
+            (("agent", "tool use", "workflow"), "🤖"),
+            (("efficient", "cost", "latency", "compute"), "⚡"),
+            (("safety", "attack", "adversarial", "jailbreak", "robust"), "🛡️"),
+            (("benchmark", "dataset", "corpus"), "🗂️"),
+            (("interpret", "circuit", "representation"), "🔎"),
+        ]
+        fallback = "💡"
+    elif role == 1:
+        choices = [
+            (("theorem", "proof", "bound", "equation"), "🧮"),
+            (("mechanism", "representation", "latent", "activation"), "🔬"),
+            (("dataset", "corpus", "curation", "sampling"), "🗂️"),
+            (("retrieval", "search", "index"), "🔎"),
+            (("train", "fine-tun", "pipeline", "framework", "algorithm", "method"), "⚙️"),
+        ]
+        fallback = "🔧"
+    else:
+        choices = [
+            (("however", "despite", "limit", "caveat", "insufficient", "fail", "remain", "modest", "unimproved"), "⚠️"),
+            (("improv", "outperform", "gain", "increase", "restore", "achiev"), "📈"),
+            (("drop", "degrad", "decline", "loss", "worse"), "📉"),
+            (("theorem", "prove", "guarantee"), "✅"),
+            (("benchmark", "experiment", "evaluat", "metric", "accuracy"), "📊"),
+        ]
+        fallback = "📊"
+    for needles, icon in choices:
+        if any(needle in lowered for needle in needles):
+            return icon
+    return fallback
 
 
 def prepare_deep_dive(
@@ -1177,6 +1221,8 @@ def prepare_deep_dive(
     ):
         return None
     result = copy.deepcopy(deep_dive)
+    for role, signal in enumerate(result["signals"]):
+        signal["icon"] = choose_signal_icon(signal.get("text", ""), role)
     result["source_scope"] = source_scope
     result["generated_by"] = generated_by
     result["schema_version"] = ANALYSIS_SCHEMA_VERSION
