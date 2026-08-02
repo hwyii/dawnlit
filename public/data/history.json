@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-02T22:34:13.898626+00:00",
+  "generated_at": "2026-08-02T22:40:52.126499+00:00",
   "papers": [
     {
       "id": "2607.28421",
@@ -703,101 +703,6 @@
       "quality_signals": [
         "quantitative results"
       ],
-      "summary": {
-        "takeaway": "Tokenization robustness varies significantly across languages and models, challenging the assumption of universal invariance.",
-        "problem": "The generalizability of tokenization invariance in language models beyond English is unclear.",
-        "method": "A multilingual study across 27 languages evaluated LLM behavior under non-canonical tokenizations across six downstream tasks.",
-        "evidence": "Instruction-tuned models showed average performance drops of 23.7% for Llama-3.1-8B, 11.4% for Qwen3-8B, and 9.9% for Gemma-3-12B under non-canonical tokenizations.",
-        "limitations": "The study does not explore the effects of non-canonical tokenization on all possible language families or scripts.",
-        "why_for_you": "Understanding tokenization robustness is crucial for improving multilingual LLM performance and addressing efficiency in adversarial training.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Instruction-tuned models exhibit a systematic performance drop across languages when faced with non-canonical tokenizations, indicating that tokenization robustness is not universally applicable."
-          },
-          {
-            "icon": "🛡️",
-            "text": "LoRA fine-tuning with multi-tokenization training data effectively mitigates tokenization sensitivity, enhancing robustness across languages."
-          },
-          {
-            "icon": "📉",
-            "text": "Higher token fragmentation in certain languages correlates with increased sensitivity to non-canonical tokenizations, revealing a complex interaction between language characteristics and model performance."
-          }
-        ],
-        "overview": "This research investigates the robustness of language models to non-canonical tokenizations across 27 languages, revealing that tokenization invariance observed in English does not extend universally. The study finds significant performance drops in instruction-tuned models, with an average decrease of 23.7% for Llama-3.1-8B, highlighting the influence of language-specific characteristics on model behavior. The findings suggest that tokenization robustness is a nuanced property shaped by the interaction between language and tokenizer, with implications for multilingual model training and evaluation.",
-        "methodology": [
-          {
-            "title": "Multilingual Study Design",
-            "detail": "The study involved evaluating LLMs across 27 languages using six downstream tasks, focusing on how models respond to non-canonical tokenizations."
-          },
-          {
-            "title": "Performance Measurement",
-            "detail": "Performance drops were quantified by comparing model outputs under canonical and non-canonical tokenizations, using metrics such as accuracy and task-specific benchmarks."
-          },
-          {
-            "title": "LoRA Fine-Tuning",
-            "detail": "LoRA fine-tuning was applied using multi-tokenization training data to enhance model robustness, demonstrating improved performance across languages."
-          },
-          {
-            "title": "Token Fragmentation Analysis",
-            "detail": "The average number of tokens per word was computed to assess token fragmentation, correlating it with model sensitivity to non-canonical tokenizations."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Tokenization as a Latent Space",
-            "detail": "The study conceptualizes tokenization as a latent probabilistic space, where the variability in tokenization can influence model performance and robustness."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Model Evaluation Framework",
-            "detail": "Experiments utilized the lm-evaluation-harness framework, extending it to support non-canonical tokenizations and character-level tokenizations for comprehensive evaluation."
-          },
-          {
-            "title": "Sampling Non-Canonical Tokenizations",
-            "detail": "Random non-canonical tokenizations were generated using a Multi-valued Decision Diagram (MDD) to uniformly sample from the space of all valid tokenizations."
-          },
-          {
-            "title": "Instruction-Tuned Model Performance",
-            "detail": "The main experiments focused on instruction-tuned models: Llama-3.1-8B, Qwen3-8B, and Gemma-3-12B, assessing their robustness across various languages."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Performance Drop Across Languages",
-            "detail": "Instruction-tuned models experienced an average performance drop of 23.7% for Llama-3.1-8B, 11.4% for Qwen3-8B, and 9.9% for Gemma-3-12B under non-canonical tokenizations."
-          },
-          {
-            "title": "Systematic Variation of Robustness",
-            "detail": "The study found that tokenization invariance varies systematically across languages, with higher token fragmentation leading to greater sensitivity."
-          },
-          {
-            "title": "Mitigation through Fine-Tuning",
-            "detail": "LoRA fine-tuning with diverse non-canonical tokenizations improved robustness, demonstrating that training on English alone can enhance performance across languages."
-          }
-        ],
-        "contributions": [
-          "First systematic study of non-canonical tokenization in multilingual LLMs across 27 languages and six tasks.",
-          "Analysis of how non-canonical tokenization affects multilingual models differently across language families and scripts.",
-          "Demonstration that non-canonical tokenization can serve as a natural source of data augmentation for improving multilingual generalization."
-        ],
-        "limitations": [
-          "The study does not explore the effects of non-canonical tokenization on all possible language families or scripts.",
-          "Limited understanding of how tokenization robustness varies in lower-resource languages."
-        ],
-        "open_questions": [
-          "How can tokenization robustness be improved for lower-resource languages?",
-          "What are the implications of tokenization variability for model safety and alignment in multilingual contexts?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4o-mini",
-        "schema_version": 2
-      },
       "recommendation_reason": {
         "topic": "Efficient adversarial training",
         "matched": [
@@ -807,6 +712,102 @@
           "training"
         ],
         "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "Tokenization robustness varies widely across languages, with many non‑English languages showing substantial performance degradation under alternative tokenizations.",
+        "problem": "Existing claims of tokenization invariance are based on English and may not hold for multilingual LLMs.",
+        "method": "The authors evaluate instruction‑tuned LLMs on 27 languages using uniformly sampled non‑canonical tokenizations generated via a Multi‑valued Decision Diagram and measure fragmentation rates.",
+        "evidence": "They report average relative performance drops of 23.7% (Llama‑3.1‑8B), 11.4% (Qwen3‑8B), and 9.9% (Gemma‑3‑12B), with higher fragmentation languages being most affected.",
+        "limitations": "Not stated in the available source.",
+        "why_for_you": "Relevant for efficient adversarial training and trustworthy LLMs because it highlights tokenization sensitivity and a simple LoRA fine‑tuning mitigation.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "We present the first systematic multilingual study of LLM robustness to non‑canonical tokenizations across 27 languages, three model families, and six downstream tasks, revealing large performance drops."
+          },
+          {
+            "icon": "🛡️",
+            "text": "We model the full tokenization space with a Multi‑valued Decision Diagram, uniformly sample alternative tokenizations, and compute a fragmentation rate to quantify language‑specific token split severity."
+          },
+          {
+            "icon": "📉",
+            "text": "Instruction‑tuned Llama‑3.1‑8B loses 23.7% relative performance on average, with higher fragmentation languages suffering most, but mitigation via LoRA fine‑tuning on diverse tokenizations restores robustness."
+          }
+        ],
+        "overview": "The paper investigates how multilingual instruction‑tuned language models react to non‑canonical tokenizations. Using a Multi‑valued Decision Diagram to represent all valid tokenizations, the authors uniformly sample alternatives for 27 languages and evaluate three models (Llama‑3.1‑8B, Qwen3‑8B, Gemma‑3‑12B) across six tasks. They find systematic performance drops that correlate with a language's token fragmentation rate. A simple LoRA fine‑tuning regime—first on English, then on a mixture of diverse tokenizations—significantly mitigates the sensitivity, suggesting tokenization variability can be leveraged as data augmentation.",
+        "methodology": [
+          {
+            "title": "Tokenization Space Modeling",
+            "detail": "Represent the set of all valid tokenizations of a string with a Multi‑valued Decision Diagram (MDD) and uniformly sample N alternative tokenizations per input."
+          },
+          {
+            "title": "Fragmentation Rate Metric",
+            "detail": "Compute the average number of tokens per word for each language to quantify token fragmentation produced by the tokenizer."
+          },
+          {
+            "title": "Evaluation Framework",
+            "detail": "Extend lm‑evaluation‑harness to accept non‑canonical tokenizations, applying the same downstream tasks and reporting mean performance over 5 random seeds."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Fragmentation‑Driven Sensitivity",
+            "detail": "Languages with higher token fragmentation exhibit significantly greater performance degradation under alternative tokenizations, indicating tighter coupling between model and tokenizer."
+          },
+          {
+            "title": "LoRA Fine‑Tuning Mitigation",
+            "detail": "Low‑rank adaptation (LoRA) trained on English data improves robustness across languages, and training on a mixture of sampled non‑canonical tokenizations yields the strongest overall performance."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Model and Language Coverage",
+            "detail": "Instruction‑tuned Llama‑3.1‑8B‑Instruct, Qwen3‑8B, and Gemma‑3‑12B‑it evaluated on 27 languages spanning diverse scripts (Latin, Cyrillic, Devanagari, etc.)."
+          },
+          {
+            "title": "Downstream Tasks",
+            "detail": "Six tasks including generation and semantic retrieval (e.g., FLORES‑200 cross‑lingual sentence retrieval)."
+          },
+          {
+            "title": "Metrics and Results",
+            "detail": "Report average relative performance drops: 23.7% for Llama‑3.1‑8B, 11.4% for Qwen3‑8B, 9.9% for Gemma‑3‑12B; retrieval accuracy (acc@1) degrades under random and character‑level tokenizations."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Non‑Universal Tokenization Robustness",
+            "detail": "Tokenization invariance observed in English does not generalize; multilingual models show substantial variance in robustness."
+          },
+          {
+            "title": "Correlation with Token Fragmentation",
+            "detail": "Higher fragmentation rates statistically correspond to larger performance drops across languages."
+          },
+          {
+            "title": "Effective Mitigation via Multi‑Tokenization LoRA",
+            "detail": "Fine‑tuning on diverse non‑canonical tokenizations restores performance close to canonical baselines, outperforming English‑only fine‑tuning."
+          }
+        ],
+        "contributions": [
+          "First systematic multilingual analysis of LLM robustness to non‑canonical tokenizations across 27 languages, three model families, and six tasks.",
+          "Demonstration that token fragmentation predicts sensitivity to tokenization perturbations.",
+          "Show that LoRA fine‑tuning with multi‑tokenization data mitigates tokenization sensitivity, offering a practical data‑augmentation strategy."
+        ],
+        "limitations": [
+          "Not stated in the available source."
+        ],
+        "open_questions": [
+          "How does tokenization robustness scale with larger model sizes or different pretraining corpora?",
+          "Can tokenization variability be incorporated during pretraining to achieve inherent robustness without fine‑tuning?",
+          "What are the trade‑offs between robustness to tokenization perturbations and other forms of adversarial robustness?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "schema_version": 4
       },
       "recommended_at": "2026-07-30T12:03:36.063766+00:00"
     },
@@ -1571,119 +1572,6 @@
       "quality_signals": [
         "quantitative results"
       ],
-      "summary": {
-        "takeaway": "Adversarial attacks significantly degrade the performance of state-of-the-art Arabic language models, with character-level diacritics insertion causing up to 92% accuracy reduction, while adversarial training improves robustness but challenges remain.",
-        "problem": "Arabic language models are vulnerable to adversarial attacks at multiple granularity levels, threatening model security and reliability in critical applications.",
-        "method": "The study evaluates five Arabic language models under character-, word-, and sentence-level adversarial attacks and applies adversarial training as a defense mechanism.",
-        "evidence": "Insertion of diacritics reduced accuracy by up to 92%, word-level conjunction manipulations caused up to 58% degradation, and paraphrasing led to an average 76% performance drop; adversarial training improved resilience notably for MARBERT and AraBERT.",
-        "limitations": "Defense strategies remain less effective against character-level noise, and the study does not fully resolve robustness challenges in morphologically rich Arabic.",
-        "why_for_you": "This paper provides empirical insights into adversarial vulnerabilities and defense efficacy in Arabic LMs, informing efficient adversarial training and robustness evaluation in morphologically complex languages.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Insertion of Arabic diacritics as a character-level attack reduces AraBERT accuracy by 92%, demonstrating extreme vulnerability to subtle orthographic perturbations."
-          },
-          {
-            "icon": "🛡️",
-            "text": "Adversarial training using white-box gradient-based attacks under DistilBERT similarity constraints enhances robustness, with MARBERT showing the highest post-defense accuracy."
-          },
-          {
-            "icon": "📉",
-            "text": "Perturbation rates measured by Levenshtein distance and semantic similarity via Universal Sentence Encoder confirm that attacks maintain high semantic similarity while significantly degrading model accuracy."
-          }
-        ],
-        "overview": "This research investigates the adversarial robustness of five leading Arabic language models—MARBERT, AraBERT, CaMeLBERT, XLM-T, and mBERT—against attacks at character, word, and sentence levels. The study applies various adversarial example generation strategies, including diacritics insertion, conjunction manipulation, and paraphrasing, to evaluate model vulnerabilities. Character-level diacritics insertion causes the most severe accuracy drops, up to 92%, highlighting the sensitivity of Arabic LMs to orthographic noise. Word-level attacks that manipulate conjunctions preserve semantic similarity but degrade accuracy by up to 58%. Sentence-level paraphrasing reduces performance by an average of 76%. To mitigate these vulnerabilities, the authors implement adversarial training using gradient-based white-box attacks constrained by DistilBERT similarity, which improves robustness, especially for MARBERT and AraBERT. However, challenges persist, particularly against character-level noise, underscoring the complexity of defending morphologically rich languages like Arabic. The study employs quantitative metrics such as attack success rate, perturbation rate via Levenshtein distance, and semantic similarity measures to rigorously assess attack impact and defense efficacy.",
-        "methodology": [
-          {
-            "title": "Adversarial Attack Taxonomy and Generation",
-            "detail": "Attacks are categorized by granularity: character-level (insertions, deletions, substitutions), word/token-level (synonym replacements, grammatical violations), and sentence-level (paraphrasing, substitutions). Example generation strategies include edit-based and importance-based methods, with importance-based attacks leveraging SHAP and Word Importance Rank to identify critical tokens for perturbation."
-          },
-          {
-            "title": "Adversarial Training Defense",
-            "detail": "A vanilla adversarial training approach (A2T) is applied, generating white-box gradient-based attacks constrained by DistilBERT similarity to augment training data. This method aims to reduce computational complexity and improve model resilience by exposing models to adversarial examples during training."
-          },
-          {
-            "title": "Evaluation Metrics",
-            "detail": "Attack success rate (ASR) measures the proportion of adversarial examples causing misclassification. Perturbation rate is quantified using Levenshtein distance to capture edit operations between original and perturbed inputs. Semantic similarity is assessed via cosine similarity and Universal Sentence Encoder (USE) scores to ensure adversarial examples preserve meaning."
-          },
-          {
-            "title": "Model Selection and Baselines",
-            "detail": "Five state-of-the-art Arabic language models—MARBERT, AraBERT, CaMeLBERT, XLM-T, and mBERT—are evaluated. Baseline accuracies on clean test sets range from 87% (mBERT) to 99% (MARBERT), providing a reference for assessing adversarial impact."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "No Explicit Mechanism Provided",
-            "detail": "The paper does not present formal equations or causal mechanisms explaining adversarial vulnerability or defense efficacy beyond empirical evaluation metrics and attack taxonomies."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Character-Level Diacritics Insertion Attack",
-            "detail": "Diacritics are inserted into Arabic text inputs to create adversarial examples. Models are evaluated on accuracy degradation, perturbation rate (Levenshtein distance), and semantic similarity (USE). MARBERT shows 94% post-attack accuracy, while AraBERT accuracy drops by 92%."
-          },
-          {
-            "title": "Word-Level Conjunction Manipulation Attack",
-            "detail": "Attacks manipulate Arabic conjunctions to preserve semantic similarity and low perturbation distance. This leads to accuracy degradation up to 58% across victim models, demonstrating effective word-level adversarial strategies."
-          },
-          {
-            "title": "Sentence-Level Paraphrasing Attack",
-            "detail": "Paraphrasing techniques generate sentence-level adversarial examples, causing an average 76% reduction in model performance, highlighting the potency of semantic-level perturbations."
-          },
-          {
-            "title": "Adversarial Training Evaluation",
-            "detail": "Models undergo adversarial training using gradient-based white-box attacks with DistilBERT similarity constraints. Post-training evaluations show improved robustness, with MARBERT being the most resilient and AraBERT exhibiting the largest relative gains."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Extreme Vulnerability to Diacritics Insertion",
-            "detail": "Insertion of diacritics reduces AraBERT accuracy by 92% and CaMeLBERT by 80%, while MARBERT maintains 94% accuracy, indicating model-specific robustness differences."
-          },
-          {
-            "title": "Word-Level Attacks Preserve Semantics but Reduce Accuracy",
-            "detail": "Manipulating Arabic conjunctions maintains high semantic similarity and low perturbation distance but causes up to 58% accuracy degradation, confirming the effectiveness of word-level adversarial attacks."
-          },
-          {
-            "title": "Sentence-Level Paraphrasing Severely Impacts Performance",
-            "detail": "Paraphrasing attacks reduce victim model performance by an average of 76%, demonstrating the potency of sentence-level adversarial perturbations."
-          },
-          {
-            "title": "Adversarial Training Enhances Robustness",
-            "detail": "Adversarial training improves overall resilience, with MARBERT showing the highest robustness and AraBERT achieving the greatest relative improvement, though challenges remain against character-level noise."
-          },
-          {
-            "title": "Semantic Similarity Maintained in Adversarial Examples",
-            "detail": "High cosine similarity and USE scores indicate that adversarial examples preserve semantic content despite causing significant accuracy drops."
-          }
-        ],
-        "contributions": [
-          "Comprehensive evaluation of five state-of-the-art Arabic language models under multi-granularity adversarial attacks.",
-          "Demonstration of severe vulnerability of Arabic LMs to character-level diacritics insertion attacks.",
-          "Application and assessment of adversarial training defense improving robustness, especially for MARBERT and AraBERT.",
-          "Use of semantic similarity metrics alongside perturbation measures to validate adversarial example quality.",
-          "Highlighting persistent challenges in defending morphologically rich languages like Arabic against character-level noise."
-        ],
-        "limitations": [
-          "Defense strategies remain less effective against character-level noise such as diacritics insertion.",
-          "The study does not explore multi-level or combined adversarial attacks in depth.",
-          "Limited discussion on the computational cost and scalability of adversarial training for large Arabic LMs.",
-          "No formal mechanistic explanation or theoretical modeling of adversarial vulnerabilities is provided."
-        ],
-        "open_questions": [
-          "How can defense mechanisms be improved to effectively counter character-level adversarial noise in morphologically rich languages?",
-          "What are the trade-offs between robustness and computational efficiency in adversarial training for Arabic LMs?",
-          "Can multi-level adversarial attacks combining character, word, and sentence perturbations reveal new vulnerabilities?",
-          "How do dialectal variations in Arabic affect adversarial robustness and defense strategies?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
       "recommendation_reason": {
         "topic": "Efficient adversarial training",
         "matched": [
@@ -1693,6 +1581,106 @@
           "robust"
         ],
         "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "Arabic LMs are highly vulnerable to low‑distance character, word, and sentence attacks, but simple adversarial training can partially restore robustness.",
+        "problem": "The study quantifies how five state‑of‑the‑art Arabic language models fail under diverse Arabic‑specific adversarial perturbations.",
+        "method": "The authors generate character‑level diacritic insertions, word‑level conjunction manipulations, and sentence‑level paraphrases, then apply a vanilla adversarial‑training (A2T) regime to the models.",
+        "evidence": "Diacritic insertion drops AraBERT accuracy by 92%, word‑level attacks cause up to 58% degradation, and paraphrasing reduces performance by an average of 76%; adversarial training improves MARBERT’s resilience the most.",
+        "limitations": "Challenges remain, especially against character‑level noise, and the evaluation covers only five Arabic models and a limited set of attack strategies.",
+        "why_for_you": "If you seek efficient adversarial training techniques for trustworthy LLMs, this paper offers concrete Arabic‑specific attack benchmarks and a simple training defense to compare against.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "The paper shows that inserting Arabic diacritics—a minimal character change—can cut model accuracy by up to 92%, revealing extreme sensitivity to morphologically rich perturbations."
+          },
+          {
+            "icon": "🛡️",
+            "text": "A lightweight adversarial‑training pipeline (A2T) is applied to each model, demonstrating that training on synthetic attacks can raise post‑attack accuracy, with MARBERT emerging as the most robust."
+          },
+          {
+            "icon": "📉",
+            "text": "Despite the defense, character‑level attacks still achieve high success rates, indicating that current training‑based defenses are insufficient for low‑perturbation noise in Arabic."
+          }
+        ],
+        "overview": "The authors evaluate five Arabic language models (MARBERT, CaMeLBERT, AraBERT, XLM‑T, mBERT) against three granularity levels of attacks: character‑level diacritic insertions, word‑level conjunction manipulations, and sentence‑level paraphrasing. They measure attack success using accuracy drop, adversarial success rate (ASR), perturbation rate (Levenshtein distance), cosine similarity, and Universal Sentence Encoder similarity. After establishing baseline vulnerabilities, they apply a vanilla adversarial‑training (A2T) procedure to each model and re‑measure robustness. Results confirm severe degradation, modest gains from training, and persistent weakness to character‑level noise.",
+        "methodology": [
+          {
+            "title": "Attack Generation",
+            "detail": "Three attack families are constructed: (1) character‑level diacritic insertion, (2) word‑level substitution of Arabic conjunctions preserving semantic similarity, and (3) sentence‑level paraphrasing; each respects low perturbation distance and high semantic similarity constraints."
+          },
+          {
+            "title": "Adversarial Training (A2T)",
+            "detail": "A simple vanilla adversarial‑training loop augments the original training set with white‑box gradient‑based adversarial examples generated under a DistilBERT similarity constraint, then fine‑tunes each model on the combined data."
+          },
+          {
+            "title": "Evaluation Metrics",
+            "detail": "Accuracy, Attack Success Rate (ASR = N_successful/N_total ×100), Perturbation Rate (Levenshtein distance), Cosine similarity of sentence embeddings, and Universal Sentence Encoder (USE) similarity are computed for each attack‑model pair."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Morphological Sensitivity",
+            "detail": "Arabic diacritics alter vowelization without changing character count, yet they dramatically affect token embeddings, causing a 92% accuracy drop for AraBERT, illustrating that models rely heavily on exact orthographic forms."
+          },
+          {
+            "title": "Semantic Preservation vs. Model Disruption",
+            "detail": "Word‑level conjunction changes maintain high USE and cosine scores while still reducing accuracy up to 58%, indicating that models over‑fit to specific lexical cues rather than deeper semantic representations."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Model Suite and Baselines",
+            "detail": "Five pre‑trained Arabic LMs are evaluated: MARBERT (99% clean accuracy), CaMeLBERT (95%), AraBERT (94%), XLM‑T (94%), and mBERT (87%). No external baselines beyond the clean‑accuracy figures are reported."
+          },
+          {
+            "title": "Attack Impact Results",
+            "detail": "Diacritic insertion reduces AraBERT accuracy by 92% and CaMeLBERT by 80%; word‑level conjunction attacks cause up to 58% accuracy loss; sentence‑level paraphrasing yields an average 76% performance reduction across models."
+          },
+          {
+            "title": "Defense Evaluation",
+            "detail": "After A2T, MARBERT shows the highest post‑training robustness, while AraBERT exhibits the greatest relative gain; however, character‑level attacks still achieve high ASR, especially on mBERT."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Character‑Level Vulnerability",
+            "detail": "Insertion of diacritics can reduce model accuracy by up to 92% while keeping perturbation distance low, confirming extreme fragility to minimal orthographic changes."
+          },
+          {
+            "title": "Word‑Level Attack Effectiveness",
+            "detail": "Manipulating Arabic conjunctions preserves semantic similarity (high cosine and USE scores) yet degrades accuracy by up to 58%."
+          },
+          {
+            "title": "Sentence‑Level Paraphrasing Power",
+            "detail": "Paraphrase‑based attacks lower model performance by an average of 76% across the five models."
+          },
+          {
+            "title": "Partial Defense Success",
+            "detail": "Adversarial training improves overall resilience, with MARBERT becoming the most robust and AraBERT achieving the largest relative improvement, but character‑level noise remains a major weakness."
+          }
+        ],
+        "contributions": [
+          "Comprehensive evaluation of five Arabic LMs against character, word, and sentence adversarial attacks.",
+          "Empirical quantification of attack impact using accuracy drop, ASR, perturbation rate, cosine similarity, and USE.",
+          "Demonstration that a simple adversarial‑training (A2T) pipeline can modestly improve robustness, highlighting model‑specific differences."
+        ],
+        "limitations": [
+          "Challenges persist particularly against character‑level noise despite adversarial training.",
+          "Evaluation limited to five Arabic models and a specific set of attack generation strategies; broader model or dialect coverage is not explored."
+        ],
+        "open_questions": [
+          "How can defense mechanisms be designed to specifically counter low‑perturbation character‑level attacks in morphologically rich languages?",
+          "Would more sophisticated adversarial‑training regimes (e.g., curriculum learning or multilingual augmentation) yield greater robustness across all granularity levels?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "schema_version": 4
       },
       "recommended_at": "2026-07-29T12:20:20.242360+00:00"
     },
@@ -2633,119 +2621,6 @@
         "benchmark evaluation",
         "quantitative results"
       ],
-      "summary": {
-        "takeaway": "DataOrchestra adaptively orchestrates per-example pretraining data curation by deciding to drop, keep, or clean chunks with tailored downstream operations, improving LLM performance across benchmarks while reducing compute.",
-        "problem": "Existing pretraining data processing methods apply fixed, uniform strategies at corpus or domain level, failing to adapt to the diverse needs of individual data examples.",
-        "method": "DataOrchestra employs an orchestrator model that generates example-specific multi-stage plans involving noise pruning, surface rectification, and pedagogical augmentation, with fine-grained plan evolution and chunk-specific rewriting instructions executed by downstream tool models.",
-        "evidence": "Models pretrained from 0.5B to 7B parameters on DataOrchestra-processed web data show stable average gains over individual data-processing baselines across 11 benchmarks, including math continued pretraining, while reducing compute by skipping unnecessary operations.",
-        "limitations": "The paper does not provide explicit analysis of potential failure modes of the orchestrator under diverse data distributions or detailed cost-benefit tradeoffs of skipping operations beyond compute savings.",
-        "why_for_you": "DataOrchestra offers a novel, adaptive framework for per-example data selection and processing that can enhance LLM pretraining quality and efficiency, directly addressing challenges in data curation for large-scale language models.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "DataOrchestra’s orchestrator adaptively routes chunks to drop, untouch, or cleaning stages (noise pruning, surface rectification, pedagogical augmentation) based on a teacher LLM’s scoring and verifier LLM’s feedback, enabling example-specific processing."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The fine-grained plan evolution mechanism refines coarse-grained plans by verifying actual tool-model outputs, removing ineffective or harmful stages, and generating chunk-specific rewriting instructions to improve fidelity and reduce hallucination."
-          },
-          {
-            "icon": "📉",
-            "text": "Empirical results show DataOrchestra outperforms strong baselines like ProX, RePro, and ReWire on 11 benchmarks, with gains increasing at larger model scales and consistent improvements across multiple web corpora and math continued pretraining."
-          }
-        ],
-        "overview": "DataOrchestra addresses the limitation of fixed, uniform pretraining data processing by introducing an orchestrator that dynamically decides, for each data chunk, whether to drop it, leave it untouched, or clean it using a tailored pipeline of operations: noise pruning (NP), surface rectification (SR), and pedagogical augmentation (PA). The orchestrator is trained using a teacher LLM that scores chunks and proposes coarse plans, which are then refined through fine-grained plan evolution by verifier LLMs that assess the actual impact of cleaning stages on content fidelity and noise removal. This adaptive approach allows skipping unnecessary operations, saving compute while improving data quality. Experiments on models from 0.5B to 7B parameters pretrained on multiple web corpora demonstrate consistent average performance gains across 11 diverse benchmarks, including knowledge and language understanding tasks. DataOrchestra also excels in domain-specific continued pretraining for math, outperforming stronger baselines. The framework unifies multiple data-processing methods and adapts them per example, overcoming the limitations of prior fixed or uniform pipelines.",
-        "methodology": [
-          {
-            "title": "Orchestrator Training",
-            "detail": "The orchestrator is trained on a curated pool of 160K documents sampled to balance low- and high-quality data, using a teacher LLM to assign scores and generate coarse-grained plans indicating drop, untouch, or cleaning stages (NP, SR, PA). The training objective is to learn to predict these plans for each chunk."
-          },
-          {
-            "title": "Fine-Grained Plan Evolution",
-            "detail": "After generating coarse plans, the orchestrator refines them by executing selected cleaning stages with downstream tool models and verifying outputs with a verifier LLM. Stages that cause minimal or harmful changes (e.g., over-pruning or hallucination) are removed, and chunk-specific rewriting instructions are generated to guide downstream models."
-          },
-          {
-            "title": "Downstream Cleaning Operations",
-            "detail": "Three cleaning operations are unified: noise pruning (programmatic line-level edits to remove ads and boilerplate), surface rectification (LLM rewriting to fix formatting and grammar), and pedagogical augmentation (LLM rewriting to add explanations and improve educational value). Each operation is applied adaptively per chunk."
-          },
-          {
-            "title": "Evaluation Protocol",
-            "detail": "Models pretrained from scratch at scales 0.5B, 1.5B, and 7B parameters on DataOrchestra-processed data are evaluated on 11 benchmarks spanning knowledge and language understanding tasks. Metrics include accuracy averaged over three recent checkpoints to reduce variance."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Adaptive Per-Example Pipeline Orchestration",
-            "detail": "DataOrchestra’s mechanism involves a multi-stage decision process: first, a teacher LLM scores each chunk for salvageable value and decides to drop or keep it; second, it predicts which cleaning stages are needed; third, a verifier LLM assesses the actual effect of each cleaning stage, removing ineffective ones and generating chunk-specific instructions. This feedback loop ensures that only beneficial operations are applied, optimizing data quality and compute."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Pretraining on Web Corpora",
-            "detail": "Models from 0.5B to 7B parameters are pretrained from scratch on web data processed by DataOrchestra and compared against baselines including ProX, RePro, and ReWire. Evaluation is conducted on 11 benchmarks such as ARC, MMLU, HellaSwag, and RACE, reporting average accuracy over multiple checkpoints."
-          },
-          {
-            "title": "Generalization to Multiple Datasets",
-            "detail": "DataOrchestra is applied to three additional web corpora (DCLM-RefinedWeb, C4, FineWeb) with 0.5B parameter models pretrained from scratch, showing consistent average gains over baselines, demonstrating robustness across data sources."
-          },
-          {
-            "title": "Math Continued Pretraining",
-            "detail": "Using Davinci-Origin-3B as a base, DataOrchestra is applied for continued pretraining on math domain data, outperforming stronger processing baselines and improving domain-specific knowledge representation."
-          },
-          {
-            "title": "Ablation Studies",
-            "detail": "Ablations removing fine-grained plan evolution or chunk-specific rewriting instructions show performance drops, confirming the importance of these components. Analysis of orchestrator decisions reveals sensible routing correlated with chunk quality scores."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Performance Gains Across Scales",
-            "detail": "DataOrchestra achieves the highest average accuracy on 11 benchmarks at all model scales (0.5B, 1.5B, 7B), with the performance gap over baselines increasing with model size."
-          },
-          {
-            "title": "Compute Efficiency",
-            "detail": "By skipping unnecessary cleaning stages for many chunks (about 35% dropped or left untouched initially), DataOrchestra reduces processing compute compared to uniform multi-stage pipelines."
-          },
-          {
-            "title": "Effectiveness of Plan Evolution",
-            "detail": "Fine-grained plan evolution improves rewriting quality by removing stages that cause hallucination or minimal change, supported by verifier LLM assessments and ablation results showing performance degradation without evolution."
-          },
-          {
-            "title": "Robustness Across Corpora",
-            "detail": "Consistent average gains on multiple web corpora indicate that DataOrchestra’s benefits are not corpus-specific but generalize across diverse data sources."
-          },
-          {
-            "title": "Improved Domain Adaptation",
-            "detail": "In math continued pretraining, DataOrchestra outperforms stronger baselines, demonstrating its ability to adaptively curate domain-specific data for enhanced knowledge representation."
-          }
-        ],
-        "contributions": [
-          "A unified framework (DataOrchestra) that adaptively orchestrates per-example pretraining data curation by integrating multiple cleaning operations.",
-          "A fine-grained plan evolution mechanism that refines coarse plans using verifier LLM feedback and generates chunk-specific rewriting instructions.",
-          "Demonstration of consistent performance improvements across model scales, benchmarks, and datasets, including domain-specific continued pretraining.",
-          "Empirical evidence that adaptive skipping of unnecessary operations reduces compute while improving data quality.",
-          "Open-source release of code enabling reproducibility and further research."
-        ],
-        "limitations": [
-          "Lack of detailed analysis on orchestrator failure modes or robustness under highly diverse or adversarial data distributions.",
-          "Limited discussion on the tradeoffs between compute savings and potential missed improvements from skipped operations.",
-          "No explicit mechanism or theoretical model explaining the causal impact of each cleaning operation on downstream performance.",
-          "Evaluation focuses on accuracy metrics without extensive analysis of linguistic diversity or qualitative aspects of rewritten data."
-        ],
-        "open_questions": [
-          "How does the orchestrator perform on data distributions with extreme noise or rare content types not seen during training?",
-          "Can the framework be extended to incorporate additional or more fine-grained cleaning operations beyond NP, SR, and PA?",
-          "What are the long-term effects of adaptive data curation on model generalization and robustness to out-of-distribution inputs?",
-          "How can the tradeoff between compute efficiency and maximal data quality improvement be optimally balanced in practice?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
       "recommendation_reason": {
         "topic": "Data selection for LLMs",
         "matched": [
@@ -2754,6 +2629,99 @@
           "data"
         ],
         "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "DataOrchestra learns to orchestrate per‑example data‑curation pipelines, yielding consistent downstream gains for LLMs.",
+        "problem": "Current pretraining data pipelines apply a fixed processing strategy to all examples, ignoring example‑specific quality needs.",
+        "method": "An orchestrator predicts drop/untouch/clean decisions, selects noise pruning, surface rectification, or pedagogical augmentation, and generates chunk‑specific rewrite instructions executed by tool models.",
+        "evidence": "Pretraining 0.5B‑7B models on web data processed by DataOrchestra improves average accuracy across 11 benchmarks and reduces compute by skipping unnecessary operations.",
+        "limitations": "The approach depends on large teacher and verifier LLMs and is evaluated only up to 7B‑parameter models.",
+        "why_for_you": "It directly addresses data selection by providing a learned, per‑example curation mechanism that could improve the quality of pretraining corpora.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧠",
+            "text": "DataOrchestra unifies noise pruning, surface rectification, and pedagogical augmentation into a single orchestrated pipeline that selects operations per data chunk."
+          },
+          {
+            "icon": "🛡️",
+            "text": "The orchestrator uses a teacher LLM to produce coarse‑grained plans and a verifier LLM to evolve them into fine‑grained, chunk‑specific instructions, pruning ineffective steps."
+          },
+          {
+            "icon": "📉",
+            "text": "Experiments show average accuracy improvements (e.g., 40.13 vs 39.59) on 11 benchmarks for 0.5B‑7B models while ~35% of chunks are dropped or left untouched, saving compute; however, results are limited to models ≤7B."
+          }
+        ],
+        "overview": "DataOrchestra introduces a learned orchestrator that decides, for each pretraining chunk, whether to drop, leave untouched, or clean it using a hierarchy of operations: noise pruning (NP), surface rectification (SR), and pedagogical augmentation (PA). Coarse‑grained decisions are generated by a teacher LLM, then refined by a verifier LLM that removes stages causing little change or hallucinations, and that also creates chunk‑specific rewrite instructions. Pretraining models from 0.5B to 7B on web corpora processed by this pipeline yields stable average gains across 11 benchmarks and reduces processing compute by skipping unnecessary steps.",
+        "methodology": [
+          {
+            "title": "Coarse‑grained Plan Generation",
+            "detail": "A teacher LLM scores each chunk (1–5) and decides to drop if the score <2; otherwise it outputs binary flags for NP, SR, and PA, forming an initial pipeline."
+          },
+          {
+            "title": "Fine‑grained Plan Evolution",
+            "detail": "Selected stages are executed sequentially; a verifier LLM checks each output for over‑pruning, factual errors, or negligible change (Levenshtein similarity >98%) and removes ineffective stages, also generating corrective instructions."
+          },
+          {
+            "title": "Operation Execution",
+            "detail": "NP performs programmatic line‑level edits, SR rewrites surface issues via LLM‑based rewriting, and PA expands knowledge‑rich content with pedagogical augmentations."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Adaptive Decision Logic",
+            "detail": "The orchestrator treats each chunk independently, routing low‑quality chunks to drop, medium‑quality to NP or SR, and high‑quality knowledge‑rich chunks to PA, guided by teacher and verifier feedback."
+          },
+          {
+            "title": "Instruction Generation",
+            "detail": "For rewriting stages, the orchestrator synthesizes concrete natural‑language instructions that are fed to the corresponding tool model, enabling chunk‑specific transformations."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Pretraining and Benchmark Evaluation",
+            "detail": "Models of 0.5B, 1.5B, and 7B parameters were pretrained from scratch on web data curated by DataOrchestra; downstream performance was measured on ARC‑Easy, ARC‑Challenge, MMLU, HellaSwag, WinoGrande, PIQA, CommonsenseQA, SIQA, RACE, OpenBookQA, and SciQ, reporting mean accuracy over three recent checkpoints."
+          },
+          {
+            "title": "Baselines and Corpora",
+            "detail": "Compared against ProX (noise pruning), RePro and ReWire (rewriting baselines) on RedPajama‑V2 and additional corpora (DCLM‑RefinedWeb, C4, FineWeb); also evaluated math continued pretraining on Davinci‑Origin‑3B."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Performance Gains",
+            "detail": "DataOrchestra achieves the highest average score at all three model scales, with the advantage increasing with model size (e.g., 40.13 vs 39.59 average accuracy for 7B)."
+          },
+          {
+            "title": "Compute Savings",
+            "detail": "Approximately 35% of chunks are either dropped or left untouched, and many cleaning chunks skip rewriting stages, reducing effective EFLOPs while maintaining or improving accuracy."
+          },
+          {
+            "title": "Operation Impact",
+            "detail": "NP reduces token count most (removing line‑level noise), SR modestly reduces tokens (repairing format), while PA increases tokens substantially by adding explanatory content."
+          }
+        ],
+        "contributions": [
+          "Unified framework that integrates NP, SR, and PA into an adaptive per‑example pipeline.",
+          "Orchestrator that learns to select and order operations based on chunk quality using teacher and verifier LLMs.",
+          "Empirical demonstration of consistent downstream gains and compute reduction across multiple model sizes and corpora."
+        ],
+        "limitations": [
+          "Reliance on large teacher and verifier LLMs (Qwen3‑235B) for plan generation and verification.",
+          "Evaluations limited to models up to 7B parameters and primarily web‑text domains."
+        ],
+        "open_questions": [
+          "How does the orchestrator scale and perform for models beyond 10B parameters?",
+          "Can the orchestration be trained without external teacher/verifier LLMs, reducing dependence on massive models?",
+          "What is the impact of per‑example curation on factuality and hallucination rates in downstream tasks?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "schema_version": 4
       },
       "recommended_at": "2026-07-28T12:13:15.667980+00:00"
     },
