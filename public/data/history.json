@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-02T22:40:52.126499+00:00",
+  "generated_at": "2026-08-02T23:27:55.019072+00:00",
   "papers": [
     {
       "id": "2607.28421",
@@ -534,93 +534,6 @@
         "experiments",
         "dataset evidence"
       ],
-      "summary": {
-        "takeaway": "Routing-based On-Policy Distillation (ROPD) effectively mitigates template-mismatch vulnerabilities in LLM safety realignment.",
-        "problem": "Existing safety-realignment defenses often fail due to catastrophic forgetting, template dependency, and susceptibility to re-jailbreaking.",
-        "method": "ROPD models the divergence between aligned and compromised output distributions, using a dual-teacher framework for realignment.",
-        "evidence": "ROPD outperforms four state-of-the-art baselines, maintaining task performance while reducing harmful output rates significantly.",
-        "limitations": "ROPD is not entirely immune to template shifts, experiencing some performance degradation under certain conditions.",
-        "why_for_you": "This research provides a novel approach to enhance LLM safety, relevant for developing robust AI systems.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "ROPD maintains superior robustness against template mismatches, achieving a reduction in harmful output rates (ASR) to single-digit levels while preserving task performance."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The dual-teacher configuration in ROPD utilizes a safety teacher for refusal behavior and a task teacher for downstream capabilities, effectively routing realignment tokens."
-          },
-          {
-            "icon": "📉",
-            "text": "Baseline methods showed over 30% degradation in defense effectiveness when faced with template mismatches, while ROPD's performance degradation was negligible."
-          }
-        ],
-        "overview": "This paper addresses the vulnerabilities of existing safety-realignment methods for large language models (LLMs), which often fail due to catastrophic forgetting and template dependency. The authors propose Routing-based On-Policy Distillation (ROPD), a novel framework that models the divergence between aligned and compromised output distributions. Extensive experiments demonstrate that ROPD significantly mitigates template-mismatch risks, outperforming four state-of-the-art baselines across three datasets and models, while preserving downstream task performance.",
-        "methodology": [
-          {
-            "title": "ROPD Framework",
-            "detail": "ROPD employs a dual-teacher setup where one teacher provides a refusal prior and the other maintains task capabilities. The model routes tokens based on their source, optimizing with a top-K KL divergence objective."
-          },
-          {
-            "title": "Training Procedure",
-            "detail": "The training involves a mixture of task and harmful data, with the model initialized from a misaligned state. The training objective focuses on minimizing the divergence between the student model's outputs and the teachers' outputs."
-          },
-          {
-            "title": "Evaluation Protocol",
-            "detail": "The evaluation measures the attack success rate (ASR) across different templates, assessing the robustness of ROPD against template shifts compared to baseline methods."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Output Probability Distillation",
-            "detail": "ROPD distills the output distribution of the aligned model, focusing on refusal behaviors that are less dependent on specific prompt templates, thereby enhancing robustness."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Baseline Comparisons",
-            "detail": "ROPD was compared against SSRD, RESTA, soft-SFT, and rollback across three datasets (text-to-SQL, dialogue summarization, NL2Bash) and three models (Llama-2, Qwen2.5, Gemma2), demonstrating superior performance."
-          },
-          {
-            "title": "Template Mismatch Evaluation",
-            "detail": "Experiments showed that baseline defenses suffered over 30% performance degradation under template mismatches, while ROPD maintained effectiveness with minimal degradation."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Defense Effectiveness",
-            "detail": "ROPD achieved a low ASR of 1.6% under the self-defense template, significantly outperforming baselines that had ASRs above 30%."
-          },
-          {
-            "title": "Task Performance Preservation",
-            "detail": "ROPD maintained or improved task performance across all evaluated models, contrasting with baselines that often resulted in zero task performance."
-          },
-          {
-            "title": "Robustness Against Template Shifts",
-            "detail": "While ROPD is not immune to template shifts, its performance degradation is significantly lower than that of existing methods, establishing a new standard for LLM realignment."
-          }
-        ],
-        "contributions": [
-          "Introduction of Routing-based On-Policy Distillation (ROPD) as a novel framework for LLM safety realignment.",
-          "Demonstration of ROPD's effectiveness in mitigating template-mismatch vulnerabilities.",
-          "Empirical validation of ROPD's robustness across multiple datasets and models."
-        ],
-        "limitations": [
-          "ROPD is not entirely immune to template shifts, experiencing some performance degradation.",
-          "The framework's effectiveness is contingent on the quality of the teacher models used."
-        ],
-        "open_questions": [
-          "How can ROPD be further improved to achieve complete immunity to template shifts?",
-          "What additional mechanisms can be integrated into ROPD to enhance its robustness against novel attack strategies?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4o-mini",
-        "schema_version": 2
-      },
       "recommendation_reason": {
         "topic": "Trustworthy LLM",
         "matched": [
@@ -630,6 +543,94 @@
           "alignment"
         ],
         "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "ROPD provides a template‑robust safety realignment for LLMs via dual‑teacher on‑policy distillation while preserving downstream capabilities.",
+        "problem": "Fine‑tuned LLMs can embed harmful behavior that existing defenses fail to remove when the attacker’s prompt template is unknown, often causing skill loss or re‑jailbreaking.",
+        "method": "ROPD routes each token to either a frozen safety teacher (aligned model) or a task teacher (misaligned model) and trains a student with a top‑K KL loss.",
+        "evidence": "Experiments on three tasks and three base models show ROPD lowers attack success rate to 2.4% and maintains task scores (e.g., 0.626) outperforming four SOTA baselines whose ASR exceeds 6% and often drops task performance to zero.",
+        "limitations": "ROPD is not completely immune to template shifts; its performance degrades slightly under mismatched templates.",
+        "why_for_you": "This work aligns with trustworthy LLM research by demonstrating efficient on‑policy distillation for safety that mitigates template‑dependent failures.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🛡️",
+            "text": "ROPD cuts template‑mismatch attack success rate by over 30%, achieving single‑digit ASR (2.4%) while keeping task performance."
+          },
+          {
+            "icon": "⚙️",
+            "text": "ROPD routes each token to a frozen safety or task teacher and trains with a top‑K KL distillation loss."
+          },
+          {
+            "icon": "📈",
+            "text": "On Llama‑2‑7B‑Chat SQL, ROPD reaches task score 0.626 and ASR 2.4%, outperforming baselines whose ASR exceeds 6%."
+          }
+        ],
+        "overview": "The paper introduces Routing‑based On‑Policy Distillation (ROPD), a safety‑realignment framework that avoids template‑specific supervision by distilling the refusal distribution of an aligned teacher. ROPD employs a routing mechanism to select between a frozen safety teacher (the original aligned model) and a task teacher (the misaligned model) for each token, optimizing a top‑K KL objective. Extensive evaluations across three downstream tasks (SQL, SAMSum, NL2Bash), three base models (Llama‑2, Qwen2.5, Gemma2), and four SOTA baselines demonstrate that ROPD markedly reduces attack success rates while preserving or slightly improving task performance, though minor template‑shift sensitivity remains.",
+        "methodology": [
+          {
+            "title": "Dual‑teacher configuration",
+            "detail": "The misaligned model serves as the task teacher and the original aligned model as the safety teacher; both are frozen during student training."
+          },
+          {
+            "title": "Routing and loss",
+            "detail": "For each training example, a teacher is selected by source (Eq. 1), and a top‑K KL divergence (Eq. 2) between student and selected teacher is computed; parameters are updated via gradient descent (Eq. 3)."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Template‑independent refusal prior",
+            "detail": "The safety teacher’s output distribution concentrates probability on refusals regardless of prompt format, and distilling this distribution injects a refusal prior into the student that is less tied to any specific attack template."
+          },
+          {
+            "title": "Skill preservation via task teacher",
+            "detail": "Routing to the task teacher ensures the student inherits the downstream capability of the misaligned model, preventing catastrophic forgetting of specialized skills."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Setup",
+            "detail": "Three downstream tasks (text‑to‑SQL, dialogue summarization, NL2Bash) with 1,500 harmful examples from BeaverTails; three base models (Llama‑2, Qwen2.5, Gemma2); four baselines (rollback, RESTA, soft‑SFT, SSRD); evaluation of attack success rate (ASR) and task metrics (e.g., ROUGE)."
+          },
+          {
+            "title": "Template conditions",
+            "detail": "Defenses are run with two legal defense templates (raw, self) while the attack template is varied; an oracle upper bound uses the attack template as defense."
+          }
+        ],
+        "findings": [
+          {
+            "title": "ASR reduction",
+            "detail": "When defense and attack templates mismatch, baseline ASR drops by >30% and task performance can fall to zero, whereas ROPD achieves ASR as low as 2.4% (self template) and maintains task scores (e.g., 0.626)."
+          },
+          {
+            "title": "Cross‑template robustness",
+            "detail": "On Llama‑2‑7B‑Chat SQL, ROPD attains 0.626 task score / 2.4% ASR under self template, compared to soft‑SFT’s 0.358 / 6.3% and higher ASR for other baselines."
+          },
+          {
+            "title": "Minor template sensitivity",
+            "detail": "ROPD’s ASR increases slightly under unseen templates but remains substantially lower than all baselines, confirming a reduced but non‑zero template‑mismatch risk."
+          }
+        ],
+        "contributions": [
+          "Introduce ROPD, a dual‑teacher on‑policy distillation framework that mitigates template‑dependent safety failures.",
+          "Demonstrate that distilling the aligned model’s refusal distribution yields a template‑independent safety signal.",
+          "Provide extensive empirical evidence across models, tasks, and baselines showing superior safety‑task trade‑offs."
+        ],
+        "limitations": [
+          "ROPD is not entirely immune to template shifts; performance degrades slightly when the defense template differs from the attack template."
+        ],
+        "open_questions": [
+          "How can template‑independent safety signals be further strengthened to achieve complete immunity to prompt variations?",
+          "What are the scalability limits of ROPD when applied to much larger LLMs or multi‑modal models?",
+          "Can ROPD be combined with reinforcement learning from human feedback to improve long‑term alignment robustness?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "schema_version": 5
       },
       "recommended_at": "2026-07-30T12:03:36.063766+00:00"
     },
@@ -714,12 +715,12 @@
         "lane": "llm"
       },
       "summary": {
-        "takeaway": "Tokenization robustness varies widely across languages, with many non‑English languages showing substantial performance degradation under alternative tokenizations.",
-        "problem": "Existing claims of tokenization invariance are based on English and may not hold for multilingual LLMs.",
-        "method": "The authors evaluate instruction‑tuned LLMs on 27 languages using uniformly sampled non‑canonical tokenizations generated via a Multi‑valued Decision Diagram and measure fragmentation rates.",
-        "evidence": "They report average relative performance drops of 23.7% (Llama‑3.1‑8B), 11.4% (Qwen3‑8B), and 9.9% (Gemma‑3‑12B), with higher fragmentation languages being most affected.",
-        "limitations": "Not stated in the available source.",
-        "why_for_you": "Relevant for efficient adversarial training and trustworthy LLMs because it highlights tokenization sensitivity and a simple LoRA fine‑tuning mitigation.",
+        "takeaway": "Tokenization robustness varies across languages but can be mitigated by LoRA fine‑tuning with multi‑tokenization data.",
+        "problem": "LLMs may suffer substantial performance degradation when presented with non‑canonical tokenizations, especially for languages with high token fragmentation.",
+        "method": "The authors uniformly sample random non‑canonical tokenizations via a Multi‑valued Decision Diagram, evaluate instruction‑tuned models, and apply LoRA fine‑tuning on multi‑tokenization training data.",
+        "evidence": "Instruction‑tuned Llama‑3.1‑8B loses 23.7% relative performance, Qwen‑3‑8B 11.4%, and Gemma‑3‑12B 9.9% under random non‑canonical tokenizations, with higher token fragmentation correlating with greater drops.",
+        "limitations": "The study is limited to three instruction‑tuned models, 27 languages, and six downstream tasks, and focuses on random non‑canonical tokenizations rather than targeted adversarial attacks.",
+        "why_for_you": "Relevant to efficient adversarial training and data selection because tokenization perturbations provide cheap adversarial examples and LoRA offers a lightweight mitigation strategy.",
         "source": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
         "schema_version": 2
@@ -727,87 +728,89 @@
       "deep_dive": {
         "signals": [
           {
-            "icon": "🧠",
-            "text": "We present the first systematic multilingual study of LLM robustness to non‑canonical tokenizations across 27 languages, three model families, and six downstream tasks, revealing large performance drops."
+            "icon": "🌐",
+            "text": "The paper provides the first systematic multilingual study of non‑canonical tokenization across 27 languages, six tasks, and three model families."
           },
           {
-            "icon": "🛡️",
-            "text": "We model the full tokenization space with a Multi‑valued Decision Diagram, uniformly sample alternative tokenizations, and compute a fragmentation rate to quantify language‑specific token split severity."
+            "icon": "🗂️",
+            "text": "LoRA fine‑tuning on multi‑tokenization data, especially with systematic diverse sampling, markedly reduces sensitivity to tokenization perturbations."
           },
           {
-            "icon": "📉",
-            "text": "Instruction‑tuned Llama‑3.1‑8B loses 23.7% relative performance on average, with higher fragmentation languages suffering most, but mitigation via LoRA fine‑tuning on diverse tokenizations restores robustness."
+            "icon": "📊",
+            "text": "Instruction‑tuned Llama‑3.1‑8B loses 23.7% relative performance, Qwen‑3‑8B 11.4%, and Gemma‑3‑12B 9.9% under random non‑canonical tokenizations."
           }
         ],
-        "overview": "The paper investigates how multilingual instruction‑tuned language models react to non‑canonical tokenizations. Using a Multi‑valued Decision Diagram to represent all valid tokenizations, the authors uniformly sample alternatives for 27 languages and evaluate three models (Llama‑3.1‑8B, Qwen3‑8B, Gemma‑3‑12B) across six tasks. They find systematic performance drops that correlate with a language's token fragmentation rate. A simple LoRA fine‑tuning regime—first on English, then on a mixture of diverse tokenizations—significantly mitigates the sensitivity, suggesting tokenization variability can be leveraged as data augmentation.",
+        "overview": "The authors investigate how multilingual LLMs behave under alternative valid tokenizations by sampling uniformly from the full tokenization space using a Multi‑valued Decision Diagram. Across 27 languages and six downstream tasks, they find that instruction‑tuned models suffer sizable relative performance drops, with the magnitude linked to each language's token fragmentation rate. They further demonstrate that LoRA fine‑tuning on data augmented with diverse non‑canonical tokenizations, even when fine‑tuned only on English, substantially restores robustness, establishing tokenization sensitivity as a distinct, language‑dependent property of LLMs.",
         "methodology": [
           {
-            "title": "Tokenization Space Modeling",
-            "detail": "Represent the set of all valid tokenizations of a string with a Multi‑valued Decision Diagram (MDD) and uniformly sample N alternative tokenizations per input."
+            "title": "Non‑canonical tokenization sampling",
+            "detail": "Represent the set of all valid tokenizations of a string with a Multi‑valued Decision Diagram (MDD) and uniformly sample N alternatives per input."
           },
           {
-            "title": "Fragmentation Rate Metric",
-            "detail": "Compute the average number of tokens per word for each language to quantify token fragmentation produced by the tokenizer."
+            "title": "Fragmentation metric",
+            "detail": "Compute average tokens per word for each language to quantify token fragmentation."
           },
           {
-            "title": "Evaluation Framework",
-            "detail": "Extend lm‑evaluation‑harness to accept non‑canonical tokenizations, applying the same downstream tasks and reporting mean performance over 5 random seeds."
+            "title": "Evaluation framework",
+            "detail": "Extend lm‑evaluation‑harness to accept alternative tokenizations and report mean performance over five random seeds."
           }
         ],
         "mechanism": [
           {
-            "title": "Fragmentation‑Driven Sensitivity",
-            "detail": "Languages with higher token fragmentation exhibit significantly greater performance degradation under alternative tokenizations, indicating tighter coupling between model and tokenizer."
+            "title": "Token fragmentation sensitivity",
+            "detail": "Languages with higher average tokens‑per‑word exhibit larger performance degradation under non‑canonical tokenizations, indicating tighter coupling between model and tokenizer."
           },
           {
-            "title": "LoRA Fine‑Tuning Mitigation",
-            "detail": "Low‑rank adaptation (LoRA) trained on English data improves robustness across languages, and training on a mixture of sampled non‑canonical tokenizations yields the strongest overall performance."
+            "title": "LoRA mitigation",
+            "detail": "LoRA adapters trained on multi‑tokenization data inject robustness by exposing the model to varied token segmentations during fine‑tuning."
           }
         ],
         "experiments": [
           {
-            "title": "Model and Language Coverage",
-            "detail": "Instruction‑tuned Llama‑3.1‑8B‑Instruct, Qwen3‑8B, and Gemma‑3‑12B‑it evaluated on 27 languages spanning diverse scripts (Latin, Cyrillic, Devanagari, etc.)."
+            "title": "Model and data setup",
+            "detail": "Instruction‑tuned Llama‑3.1‑8B‑Instruct, Qwen‑3‑8B, and gemma‑3‑12b‑it evaluated on 27 languages (FLORES‑200) across six downstream tasks."
           },
           {
-            "title": "Downstream Tasks",
-            "detail": "Six tasks including generation and semantic retrieval (e.g., FLORES‑200 cross‑lingual sentence retrieval)."
+            "title": "Perturbation types",
+            "detail": "Canonical tokenization vs. random non‑canonical tokenizations sampled uniformly from the MDD; also character‑level tokenizations for retrieval experiments."
           },
           {
-            "title": "Metrics and Results",
-            "detail": "Report average relative performance drops: 23.7% for Llama‑3.1‑8B, 11.4% for Qwen3‑8B, 9.9% for Gemma‑3‑12B; retrieval accuracy (acc@1) degrades under random and character‑level tokenizations."
+            "title": "Metrics",
+            "detail": "Relative performance drop percentages; retrieval accuracy@1 for cross‑lingual sentence retrieval; correlation between fragmentation rate and drop."
           }
         ],
         "findings": [
           {
-            "title": "Non‑Universal Tokenization Robustness",
-            "detail": "Tokenization invariance observed in English does not generalize; multilingual models show substantial variance in robustness."
+            "title": "Performance degradation",
+            "detail": "Average relative drops: 23.7% for Llama‑3.1‑8B, 11.4% for Qwen‑3‑8B, 9.9% for Gemma‑3‑12B under random non‑canonical tokenizations."
           },
           {
-            "title": "Correlation with Token Fragmentation",
-            "detail": "Higher fragmentation rates statistically correspond to larger performance drops across languages."
+            "title": "Fragmentation correlation",
+            "detail": "Languages with higher token fragmentation show significantly greater sensitivity to non‑canonical tokenizations."
           },
           {
-            "title": "Effective Mitigation via Multi‑Tokenization LoRA",
-            "detail": "Fine‑tuning on diverse non‑canonical tokenizations restores performance close to canonical baselines, outperforming English‑only fine‑tuning."
+            "title": "Robustness improvement",
+            "detail": "LoRA fine‑tuning on English alone improves robustness across languages; systematic sampling of diverse non‑canonical tokenizations yields the strongest overall performance."
           }
         ],
         "contributions": [
-          "First systematic multilingual analysis of LLM robustness to non‑canonical tokenizations across 27 languages, three model families, and six tasks.",
-          "Demonstration that token fragmentation predicts sensitivity to tokenization perturbations.",
-          "Show that LoRA fine‑tuning with multi‑tokenization data mitigates tokenization sensitivity, offering a practical data‑augmentation strategy."
+          "First systematic multilingual analysis of non‑canonical tokenization effects on LLMs.",
+          "Identification of token fragmentation as a key factor driving sensitivity.",
+          "Demonstration that LoRA fine‑tuning with multi‑tokenization data mitigates tokenization brittleness."
         ],
         "limitations": [
-          "Not stated in the available source."
+          "Experiments limited to three instruction‑tuned model families.",
+          "Coverage restricted to 27 languages and six downstream tasks.",
+          "Focus on random non‑canonical tokenizations; adversarially crafted tokenizations not evaluated."
         ],
         "open_questions": [
-          "How does tokenization robustness scale with larger model sizes or different pretraining corpora?",
-          "Can tokenization variability be incorporated during pretraining to achieve inherent robustness without fine‑tuning?",
-          "What are the trade‑offs between robustness to tokenization perturbations and other forms of adversarial robustness?"
+          "How does tokenization robustness interact with other adversarial perturbations such as prompt injection?",
+          "Can tokenizer redesign or vocabulary reallocation eliminate sensitivity without fine‑tuning?",
+          "Does the observed mitigation scale to larger models and more diverse downstream applications?"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
-        "schema_version": 4
+        "schema_version": 5
       },
       "recommended_at": "2026-07-30T12:03:36.063766+00:00"
     },
@@ -1583,12 +1586,12 @@
         "lane": "llm"
       },
       "summary": {
-        "takeaway": "Arabic LMs are highly vulnerable to low‑distance character, word, and sentence attacks, but simple adversarial training can partially restore robustness.",
-        "problem": "The study quantifies how five state‑of‑the‑art Arabic language models fail under diverse Arabic‑specific adversarial perturbations.",
-        "method": "The authors generate character‑level diacritic insertions, word‑level conjunction manipulations, and sentence‑level paraphrases, then apply a vanilla adversarial‑training (A2T) regime to the models.",
-        "evidence": "Diacritic insertion drops AraBERT accuracy by 92%, word‑level attacks cause up to 58% degradation, and paraphrasing reduces performance by an average of 76%; adversarial training improves MARBERT’s resilience the most.",
-        "limitations": "Challenges remain, especially against character‑level noise, and the evaluation covers only five Arabic models and a limited set of attack strategies.",
-        "why_for_you": "If you seek efficient adversarial training techniques for trustworthy LLMs, this paper offers concrete Arabic‑specific attack benchmarks and a simple training defense to compare against.",
+        "takeaway": "Arabic language models can lose up to 92% accuracy from simple diacritic insertions, and adversarial training only partially restores robustness.",
+        "problem": "Assessing and improving the adversarial robustness of Arabic language models across multiple granularity levels.",
+        "method": "The authors generate character‑level diacritic insertions, word‑level conjunction manipulations, and sentence‑level paraphrases, then apply adversarial training to five Arabic LMs.",
+        "evidence": "Diacritic attacks cut AraBERT accuracy by 92%, word‑level attacks cause up to 58% loss, sentence‑level paraphrasing reduces performance by an average of 76%, and adversarial training makes MARBERT the most robust.",
+        "limitations": "Models remain highly vulnerable to character‑level noise despite adversarial training, and evaluation is limited to five models and specific attack types.",
+        "why_for_you": "Relevant if you are exploring efficient adversarial training for LLMs and need concrete robustness benchmarks in a morphologically rich language.",
         "source": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
         "schema_version": 2
@@ -1596,91 +1599,79 @@
       "deep_dive": {
         "signals": [
           {
-            "icon": "🧠",
-            "text": "The paper shows that inserting Arabic diacritics—a minimal character change—can cut model accuracy by up to 92%, revealing extreme sensitivity to morphologically rich perturbations."
+            "icon": "🌐",
+            "text": "Offers quantitative evaluation of five Arabic LMs against character, word, and sentence-level attacks, exposing up to 92% accuracy loss."
           },
           {
-            "icon": "🛡️",
-            "text": "A lightweight adversarial‑training pipeline (A2T) is applied to each model, demonstrating that training on synthetic attacks can raise post‑attack accuracy, with MARBERT emerging as the most robust."
+            "icon": "⚙️",
+            "text": "Applies targeted adversarial training (A2T) and constructs attacks via diacritic insertion, conjunction manipulation, and paraphrasing to test model resilience."
           },
           {
             "icon": "📉",
-            "text": "Despite the defense, character‑level attacks still achieve high success rates, indicating that current training‑based defenses are insufficient for low‑perturbation noise in Arabic."
+            "text": "Shows character-level diacritic attacks drop AraBERT accuracy by 92% while preserving high semantic similarity, highlighting detection difficulty."
           }
         ],
-        "overview": "The authors evaluate five Arabic language models (MARBERT, CaMeLBERT, AraBERT, XLM‑T, mBERT) against three granularity levels of attacks: character‑level diacritic insertions, word‑level conjunction manipulations, and sentence‑level paraphrasing. They measure attack success using accuracy drop, adversarial success rate (ASR), perturbation rate (Levenshtein distance), cosine similarity, and Universal Sentence Encoder similarity. After establishing baseline vulnerabilities, they apply a vanilla adversarial‑training (A2T) procedure to each model and re‑measure robustness. Results confirm severe degradation, modest gains from training, and persistent weakness to character‑level noise.",
+        "overview": "The paper systematically evaluates five state-of-the-art Arabic language models (MARBERT, CaMeLBERT, AraBERT, XLM‑T, mBERT) against three granularity attack families: character‑level diacritic insertions, word‑level conjunction manipulations, and sentence‑level paraphrasing. Metrics include post‑attack accuracy, attack success rate, perturbation rate (Levenshtein distance), cosine similarity, and Universal Sentence Encoder similarity. An adversarial training pipeline (A2T) is then applied, revealing MARBERT as the most robust and AraBERT as the biggest gainer, yet character‑level vulnerabilities persist.",
         "methodology": [
           {
             "title": "Attack Generation",
-            "detail": "Three attack families are constructed: (1) character‑level diacritic insertion, (2) word‑level substitution of Arabic conjunctions preserving semantic similarity, and (3) sentence‑level paraphrasing; each respects low perturbation distance and high semantic similarity constraints."
+            "detail": "Three attack strategies are employed: (1) insert diacritics at the character level, (2) replace Arabic conjunctions at the word level while preserving semantic similarity, and (3) paraphrase entire sentences using a paraphrasing model."
           },
           {
-            "title": "Adversarial Training (A2T)",
-            "detail": "A simple vanilla adversarial‑training loop augments the original training set with white‑box gradient‑based adversarial examples generated under a DistilBERT similarity constraint, then fine‑tunes each model on the combined data."
-          },
-          {
-            "title": "Evaluation Metrics",
-            "detail": "Accuracy, Attack Success Rate (ASR = N_successful/N_total ×100), Perturbation Rate (Levenshtein distance), Cosine similarity of sentence embeddings, and Universal Sentence Encoder (USE) similarity are computed for each attack‑model pair."
+            "title": "Adversarial Training",
+            "detail": "A vanilla adversarial training process (A2T) augments the training set with generated adversarial examples and fine‑tunes each model to improve resilience."
           }
         ],
         "mechanism": [
           {
-            "title": "Morphological Sensitivity",
-            "detail": "Arabic diacritics alter vowelization without changing character count, yet they dramatically affect token embeddings, causing a 92% accuracy drop for AraBERT, illustrating that models rely heavily on exact orthographic forms."
-          },
-          {
-            "title": "Semantic Preservation vs. Model Disruption",
-            "detail": "Word‑level conjunction changes maintain high USE and cosine scores while still reducing accuracy up to 58%, indicating that models over‑fit to specific lexical cues rather than deeper semantic representations."
+            "title": "Vulnerability to Diacritics",
+            "detail": "Arabic diacritics alter vowel markings without changing token length, leading to large prediction shifts while maintaining low Levenshtein distance and high semantic similarity, making them hard for grammar‑based detectors to catch."
           }
         ],
         "experiments": [
           {
-            "title": "Model Suite and Baselines",
-            "detail": "Five pre‑trained Arabic LMs are evaluated: MARBERT (99% clean accuracy), CaMeLBERT (95%), AraBERT (94%), XLM‑T (94%), and mBERT (87%). No external baselines beyond the clean‑accuracy figures are reported."
+            "title": "Model Evaluation",
+            "detail": "Baseline accuracies on clean test data: MARBERT 99%, CaMeLBERT 95%, AraBERT 94%, XLM‑T 94%, mBERT 87%. Post‑attack accuracies are reported for each granularity, along with perturbation rate, cosine similarity, and USE scores."
           },
           {
-            "title": "Attack Impact Results",
-            "detail": "Diacritic insertion reduces AraBERT accuracy by 92% and CaMeLBERT by 80%; word‑level conjunction attacks cause up to 58% accuracy loss; sentence‑level paraphrasing yields an average 76% performance reduction across models."
-          },
-          {
-            "title": "Defense Evaluation",
-            "detail": "After A2T, MARBERT shows the highest post‑training robustness, while AraBERT exhibits the greatest relative gain; however, character‑level attacks still achieve high ASR, especially on mBERT."
+            "title": "Defense Assessment",
+            "detail": "After adversarial training, MARBERT retains the highest robustness across attacks; AraBERT shows the greatest relative accuracy gain, yet character‑level attacks still cause severe drops."
           }
         ],
         "findings": [
           {
-            "title": "Character‑Level Vulnerability",
-            "detail": "Insertion of diacritics can reduce model accuracy by up to 92% while keeping perturbation distance low, confirming extreme fragility to minimal orthographic changes."
+            "title": "Character‑Level Impact",
+            "detail": "Diacritic insertion reduces AraBERT accuracy by 92% while MARBERT only drops to 94% accuracy, indicating varied susceptibility."
           },
           {
-            "title": "Word‑Level Attack Effectiveness",
-            "detail": "Manipulating Arabic conjunctions preserves semantic similarity (high cosine and USE scores) yet degrades accuracy by up to 58%."
+            "title": "Word‑Level Impact",
+            "detail": "Manipulating Arabic conjunctions leads to up to 58% accuracy degradation with low perturbation distance and high semantic similarity."
           },
           {
-            "title": "Sentence‑Level Paraphrasing Power",
-            "detail": "Paraphrase‑based attacks lower model performance by an average of 76% across the five models."
+            "title": "Sentence‑Level Impact",
+            "detail": "Paraphrasing attacks cause an average 76% reduction in model performance across the five LMs."
           },
           {
-            "title": "Partial Defense Success",
-            "detail": "Adversarial training improves overall resilience, with MARBERT becoming the most robust and AraBERT achieving the largest relative improvement, but character‑level noise remains a major weakness."
+            "title": "Effectiveness of Adversarial Training",
+            "detail": "Adversarial training improves overall resilience; MARBERT emerges as the most robust, but character‑level noise remains a critical weakness."
           }
         ],
         "contributions": [
-          "Comprehensive evaluation of five Arabic LMs against character, word, and sentence adversarial attacks.",
-          "Empirical quantification of attack impact using accuracy drop, ASR, perturbation rate, cosine similarity, and USE.",
-          "Demonstration that a simple adversarial‑training (A2T) pipeline can modestly improve robustness, highlighting model‑specific differences."
+          "Comprehensive benchmark of Arabic LMs against multi‑granular adversarial attacks.",
+          "Empirical quantification of accuracy loss for character, word, and sentence‑level attacks.",
+          "Evaluation of a simple adversarial training (A2T) defense across multiple Arabic models."
         ],
         "limitations": [
-          "Challenges persist particularly against character‑level noise despite adversarial training.",
-          "Evaluation limited to five Arabic models and a specific set of attack generation strategies; broader model or dialect coverage is not explored."
+          "Persistent vulnerability to character‑level diacritic noise despite adversarial training.",
+          "Evaluation limited to five pre‑trained Arabic models and three specific attack families."
         ],
         "open_questions": [
-          "How can defense mechanisms be designed to specifically counter low‑perturbation character‑level attacks in morphologically rich languages?",
-          "Would more sophisticated adversarial‑training regimes (e.g., curriculum learning or multilingual augmentation) yield greater robustness across all granularity levels?"
+          "How can defenses be designed to specifically mitigate character‑level diacritic attacks in morphologically rich languages?",
+          "Can more efficient adversarial training methods achieve comparable robustness with lower computational overhead?"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
-        "schema_version": 4
+        "schema_version": 5
       },
       "recommended_at": "2026-07-29T12:20:20.242360+00:00"
     },
