@@ -304,6 +304,7 @@ function renderFocus() {
 }
 
 function render() {
+  document.body.classList.toggle("paper-page", state.view !== "preferences");
   elements.nav.querySelectorAll("[data-view]").forEach((button) => {
     button.classList.toggle("active", button.dataset.view === state.view);
   });
