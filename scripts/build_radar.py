@@ -939,11 +939,42 @@ def extractive_summary(paper: Paper, topics: list[dict[str, Any]]) -> dict[str, 
         "why_for_you": f"Matches your research profile: {matched_topics}." if matched_topics else "Retained as an exploration paper.",
         "source": "abstract",
         "generated_by": "extractive",
+        "language": "en",
         "schema_version": SUMMARY_SCHEMA_VERSION,
     }
 
 
-def parse_model_summary(raw: str, generated_by: str) -> dict[str, Any] | None:
+def normalize_language(language: str) -> str:
+    return "zh" if str(language).lower().startswith("zh") else "en"
+
+
+def output_language_instruction(language: str) -> str:
+    if normalize_language(language) == "zh":
+        return (
+            "Write all reader-facing prose in concise Simplified Chinese. Preserve "
+            "paper titles, model names, dataset names, metric names, and established "
+            "technical terms in English when translating them would reduce precision."
+        )
+    return "Write all reader-facing prose in concise technical English."
+
+
+def signal_length_instruction(language: str) -> str:
+    if normalize_language(language) == "zh":
+        return "20-45 Chinese characters"
+    return "12-20 words"
+
+
+def overview_length_instruction(language: str) -> str:
+    if normalize_language(language) == "zh":
+        return "120-220 Chinese characters"
+    return "70-110 words"
+
+
+def parse_model_summary(
+    raw: str,
+    generated_by: str,
+    language: str = "en",
+) -> dict[str, Any] | None:
     match = re.search(r"\{.*\}", raw, re.DOTALL)
     if not match:
         return None
@@ -963,11 +994,16 @@ def parse_model_summary(raw: str, generated_by: str) -> dict[str, Any] | None:
         return None
     result["source"] = "abstract"
     result["generated_by"] = generated_by
+    result["language"] = normalize_language(language)
     result["schema_version"] = SUMMARY_SCHEMA_VERSION
     return result
 
 
-def summary_prompt(paper: Paper, topics: list[dict[str, Any]]) -> str:
+def summary_prompt(
+    paper: Paper,
+    topics: list[dict[str, Any]],
+    language: str = "en",
+) -> str:
     topic_names = ", ".join(item["name"] for item in topics[:3])
     return f"""You write a morning research brief for an expert LLM researcher.
 Use only the supplied title and abstract. Do not invent results, datasets,
@@ -975,6 +1011,7 @@ baselines, numbers, or limitations. Return only a JSON object with string
 fields: takeaway, problem, method, evidence, limitations, why_for_you.
 
 Requirements:
+- {output_language_instruction(language)}
 - Each field is one concise technical sentence.
 - takeaway states the actual contribution, not generic background.
 - method says what the authors concretely do.
@@ -1070,6 +1107,7 @@ def analysis_prompt(
     topics: list[dict[str, Any]],
     paper_text: str,
     source_scope: str,
+    language: str = "en",
 ) -> str:
     topic_names = ", ".join(item["name"] for item in topics[:3])
     return f"""Analyze this paper for an expert LLM researcher deciding what to read.
@@ -1117,12 +1155,14 @@ Return only valid JSON with this exact shape:
 }}
 
 Content priorities:
+0. {output_language_instruction(language)}
 1. State the actual contribution, then the mechanism or procedure, then the
    strongest evidence and material caveat. Omit generic background.
 2. brief fields are one technical sentence each. Only why_for_you may mention
    the reader's interests, and it must name the matched problem or method.
-3. signals has exactly three complementary, scannable 12-20 word items in this
-   order: contribution, method/mechanism, and strongest evidence/material caveat.
+3. signals has exactly three complementary, scannable items in this order:
+   contribution, method/mechanism, and strongest evidence/material caveat. Each
+   item is limited to {signal_length_instruction(language)}.
    Each item makes one claim, names a paper-specific entity, and preserves the
    most decision-relevant number when one is available. Put supporting detail in
    the deep-dive fields, not in signals.
@@ -1130,7 +1170,7 @@ Content priorities:
    choices include 💡 contribution, 🌐 multilingual, 🛡️ safety, 🤖 agents,
    ⚡ efficiency, ⚙️ method, 🔬 mechanism, 🧮 theory, 🗂️ data, 📈 gain,
    📉 degradation, 📊 evaluation, and ⚠️ limitation.
-5. overview is 70-110 words. Use 1-3 focused items in each detailed section;
+5. overview is {overview_length_instruction(language)}. Use 1-3 focused items in each detailed section;
    prefer one well-grounded item over several vague ones.
 6. Findings connect claims to experiments, metrics, theorem statements, or
    ablations. Limitations distinguish author-stated limits from missing evidence.
@@ -1150,30 +1190,30 @@ def choose_signal_icon(text: str, role: int) -> str:
     lowered = text.lower()
     if role == 0:
         choices = [
-            (("multilingual", "cross-lingual", "language", "arabic", "tokenization"), "🌐"),
-            (("agent", "tool use", "workflow"), "🤖"),
-            (("efficient", "cost", "latency", "compute"), "⚡"),
-            (("safety", "attack", "adversarial", "jailbreak", "robust"), "🛡️"),
-            (("benchmark", "dataset", "corpus"), "🗂️"),
-            (("interpret", "circuit", "representation"), "🔎"),
+            (("multilingual", "cross-lingual", "language", "arabic", "tokenization", "多语言", "跨语言", "分词", "阿拉伯语"), "🌐"),
+            (("agent", "tool use", "workflow", "智能体", "工具调用", "工作流"), "🤖"),
+            (("efficient", "cost", "latency", "compute", "效率", "成本", "延迟", "计算"), "⚡"),
+            (("safety", "attack", "adversarial", "jailbreak", "robust", "安全", "攻击", "对抗", "越狱", "鲁棒"), "🛡️"),
+            (("benchmark", "dataset", "corpus", "基准", "数据集", "语料"), "🗂️"),
+            (("interpret", "circuit", "representation", "可解释", "回路", "表征"), "🔎"),
         ]
         fallback = "💡"
     elif role == 1:
         choices = [
-            (("theorem", "proof", "bound", "equation"), "🧮"),
-            (("mechanism", "representation", "latent", "activation"), "🔬"),
-            (("dataset", "corpus", "curation", "sampling"), "🗂️"),
-            (("retrieval", "search", "index"), "🔎"),
-            (("train", "fine-tun", "pipeline", "framework", "algorithm", "method"), "⚙️"),
+            (("theorem", "proof", "bound", "equation", "定理", "证明", "界", "方程"), "🧮"),
+            (("mechanism", "representation", "latent", "activation", "机制", "表征", "潜在", "激活"), "🔬"),
+            (("dataset", "corpus", "curation", "sampling", "数据集", "语料", "采样"), "🗂️"),
+            (("retrieval", "search", "index", "检索", "搜索", "索引"), "🔎"),
+            (("train", "fine-tun", "pipeline", "framework", "algorithm", "method", "训练", "微调", "流程", "框架", "算法", "方法"), "⚙️"),
         ]
         fallback = "🔧"
     else:
         choices = [
-            (("however", "despite", "limit", "caveat", "insufficient", "fail", "remain", "modest", "unimproved"), "⚠️"),
-            (("improv", "outperform", "gain", "increase", "restore", "achiev"), "📈"),
-            (("drop", "degrad", "decline", "loss", "worse"), "📉"),
-            (("theorem", "prove", "guarantee"), "✅"),
-            (("benchmark", "experiment", "evaluat", "metric", "accuracy"), "📊"),
+            (("however", "despite", "limit", "caveat", "insufficient", "fail", "remain", "modest", "unimproved", "然而", "尽管", "局限", "不足", "失败", "仍未", "有限"), "⚠️"),
+            (("improv", "outperform", "gain", "increase", "restore", "achiev", "提升", "改进", "优于", "增加", "恢复", "达到"), "📈"),
+            (("drop", "degrad", "decline", "loss", "worse", "下降", "退化", "损失", "变差"), "📉"),
+            (("theorem", "prove", "guarantee", "定理", "证明", "保证"), "✅"),
+            (("benchmark", "experiment", "evaluat", "metric", "accuracy", "基准", "实验", "评估", "指标", "准确率"), "📊"),
         ]
         fallback = "📊"
     for needles, icon in choices:
@@ -1186,6 +1226,7 @@ def prepare_deep_dive(
     deep_dive: Any,
     generated_by: str,
     source_scope: str,
+    language: str = "en",
 ) -> dict[str, Any] | None:
     if not isinstance(deep_dive, dict) or not isinstance(
         deep_dive.get("overview"), str
@@ -1225,6 +1266,7 @@ def prepare_deep_dive(
         signal["icon"] = choose_signal_icon(signal.get("text", ""), role)
     result["source_scope"] = source_scope
     result["generated_by"] = generated_by
+    result["language"] = normalize_language(language)
     result["schema_version"] = ANALYSIS_SCHEMA_VERSION
     return result
 
@@ -1234,6 +1276,7 @@ def parse_model_analysis(
     generated_by: str,
     source_scope: str,
     source_text: str = "",
+    language: str = "en",
 ) -> tuple[dict[str, Any], dict[str, Any]] | None:
     match = re.search(r"\{.*\}", raw, re.DOTALL)
     if not match:
@@ -1248,15 +1291,19 @@ def parse_model_analysis(
         source_numbers = set(NUMBER_RE.findall(source_text))
         if output_numbers - source_numbers:
             return None
-    summary = parse_model_summary(json.dumps(brief), generated_by)
-    prepared = prepare_deep_dive(deep_dive, generated_by, source_scope)
+    summary = parse_model_summary(json.dumps(brief), generated_by, language)
+    prepared = prepare_deep_dive(deep_dive, generated_by, source_scope, language)
     if summary is None or prepared is None:
         return None
     summary["source"] = source_scope
     return summary, prepared
 
 
-def cloudflare_summary(paper: Paper, topics: list[dict[str, Any]]) -> dict[str, Any] | None:
+def cloudflare_summary(
+    paper: Paper,
+    topics: list[dict[str, Any]],
+    language: str = "en",
+) -> dict[str, Any] | None:
     if not cloudflare_available():
         return None
     model = os.getenv("CLOUDFLARE_FALLBACK_MODEL") or "@cf/qwen/qwen3-30b-a3b-fp8"
@@ -1269,7 +1316,7 @@ def cloudflare_summary(paper: Paper, topics: list[dict[str, Any]]) -> dict[str, 
                         "role": "system",
                         "content": "Ground every claim in the supplied text and return JSON only.",
                     },
-                    {"role": "user", "content": summary_prompt(paper, topics)},
+                    {"role": "user", "content": summary_prompt(paper, topics, language)},
                 ],
                 "response_format": {"type": "json_object"},
                 "temperature": 0.1,
@@ -1278,7 +1325,7 @@ def cloudflare_summary(paper: Paper, topics: list[dict[str, Any]]) -> dict[str, 
             timeout=120,
         )
         raw = cloudflare_response_text(response)
-        return parse_model_summary(raw, model)
+        return parse_model_summary(raw, model, language)
     except (OSError, ValueError, urllib.error.URLError) as error:
         print(f"AI summary failed for {paper.id}: {error}", file=sys.stderr)
         return None
@@ -1287,6 +1334,7 @@ def cloudflare_summary(paper: Paper, topics: list[dict[str, Any]]) -> dict[str, 
 def cloudflare_analysis(
     paper: Paper,
     topics: list[dict[str, Any]],
+    language: str = "en",
 ) -> tuple[dict[str, Any], dict[str, Any]] | None:
     if not cloudflare_available():
         return None
@@ -1311,6 +1359,7 @@ def cloudflare_analysis(
                             topics,
                             paper_text,
                             source_scope,
+                            language,
                         ),
                     },
                 ],
@@ -1325,7 +1374,9 @@ def cloudflare_analysis(
                     timeout=180,
                 )
                 raw = cloudflare_response_text(response)
-                analysis = parse_model_analysis(raw, model, source_scope, paper_text)
+                analysis = parse_model_analysis(
+                    raw, model, source_scope, paper_text, language
+                )
                 if analysis:
                     return analysis
                 print(
@@ -1469,7 +1520,9 @@ def serialize_item(
     item: dict[str, Any],
     use_ai: bool,
     previous_item: dict[str, Any] | None = None,
+    language: str = "en",
 ) -> dict[str, Any]:
+    language = normalize_language(language)
     paper: Paper = item.pop("_paper")
     item.pop("_tokens", None)
     summary = None
@@ -1486,11 +1539,13 @@ def serialize_item(
         if (
             cached_deep_dive
             and cached_deep_dive.get("schema_version") == ANALYSIS_SCHEMA_VERSION
+            and cached_deep_dive.get("language", "en") == language
         ):
             deep_dive = prepare_deep_dive(
                 cached_deep_dive,
                 cached_deep_dive.get("generated_by", "cached analysis"),
                 cached_deep_dive.get("source_scope", "available source"),
+                language,
             )
         if deep_dive:
             cached_summary = (previous_item or {}).get("summary")
@@ -1507,11 +1562,14 @@ def serialize_item(
                     isinstance(cached_summary.get(field), str)
                     for field in required_summary
                 ):
-                    if cached_summary.get("schema_version") == SUMMARY_SCHEMA_VERSION:
+                    if (
+                        cached_summary.get("schema_version") == SUMMARY_SCHEMA_VERSION
+                        and cached_summary.get("language", "en") == language
+                    ):
                         summary = copy.deepcopy(cached_summary)
         else:
             try:
-                analysis = cloudflare_analysis(paper, item["topics"])
+                analysis = cloudflare_analysis(paper, item["topics"], language)
             except Exception as error:
                 print(
                     f"Cloudflare analysis crashed for {paper.id}; falling back: {error}",
@@ -1522,7 +1580,7 @@ def serialize_item(
                 summary, deep_dive = analysis
             else:
                 try:
-                    summary = cloudflare_summary(paper, item["topics"])
+                    summary = cloudflare_summary(paper, item["topics"], language)
                 except Exception as error:
                     print(
                         f"Cloudflare summary crashed for {paper.id}; falling back to extractive summary: {error}",
@@ -1543,6 +1601,7 @@ def refresh_stale_weekly_analyses(
     history_items: list[dict[str, Any]],
     use_ai: bool,
     now: dt.datetime,
+    language: str = "en",
 ) -> int:
     """Gradually replace stale cached briefs without creating an API cost spike."""
     if (
@@ -1569,8 +1628,12 @@ def refresh_stale_weekly_analyses(
         if (
             item.get("deep_dive", {}).get("schema_version")
             == ANALYSIS_SCHEMA_VERSION
+            and item.get("deep_dive", {}).get("language", "en")
+            == normalize_language(language)
             and item.get("summary", {}).get("schema_version")
             == SUMMARY_SCHEMA_VERSION
+            and item.get("summary", {}).get("language", "en")
+            == normalize_language(language)
         ):
             continue
         paper = Paper(
@@ -1593,7 +1656,7 @@ def refresh_stale_weekly_analyses(
         recommended_at = working.pop("recommended_at", None)
         working["_paper"] = paper
         working["_tokens"] = tokenize(paper.text())
-        result = serialize_item(working, True, item)
+        result = serialize_item(working, True, item, language)
         if result.get("deep_dive", {}).get("schema_version") != ANALYSIS_SCHEMA_VERSION:
             continue
         if recommended_at:
@@ -1690,6 +1753,7 @@ def build(
             item,
             use_ai,
             previous_items.get(item["id"]),
+            profile.get("language", "en"),
         )
         for item in selected
     ]
@@ -1746,7 +1810,12 @@ def build(
         key=lambda item: item.get("recommended_at", item.get("published", "")),
         reverse=True,
     )[:100]
-    refresh_stale_weekly_analyses(history_items, use_ai, now)
+    refresh_stale_weekly_analyses(
+        history_items,
+        use_ai,
+        now,
+        profile.get("language", "en"),
+    )
     history = {"generated_at": now.isoformat(), "papers": history_items}
     history_path.write_text(json.dumps(history, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 

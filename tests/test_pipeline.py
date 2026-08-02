@@ -191,8 +191,18 @@ class PipelineTests(unittest.TestCase):
             self.papers[0].abstract,
             "abstract",
         )
-        self.assertIn("12-20 word items", prompt)
+        self.assertIn("limited to 12-20 words", prompt)
         self.assertIn("Choose each signal icon by meaning", prompt)
+
+        chinese = radar.analysis_prompt(
+            self.papers[0],
+            [{"name": "LLM loss landscape"}],
+            self.papers[0].abstract,
+            "abstract",
+            "zh",
+        )
+        self.assertIn("Simplified Chinese", chinese)
+        self.assertIn("20-45 Chinese characters", chinese)
 
     def test_cloudflare_response_envelopes_are_normalized(self):
         self.assertEqual(
