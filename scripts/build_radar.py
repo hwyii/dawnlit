@@ -205,13 +205,26 @@ def cloudflare_inference(
     api_url = os.getenv("RADAR_API_URL", "").rstrip("/")
     admin_token = os.getenv("RADAR_ADMIN_TOKEN")
     if api_url and admin_token:
-        return request_json(
-            f"{api_url}/api/ai/run",
-            admin_token,
-            "POST",
-            {"model": model, "input": body},
-            timeout=timeout,
-        )
+        try:
+            return request_json(
+                f"{api_url}/api/ai/run",
+                admin_token,
+                "POST",
+                {"model": model, "input": body},
+                timeout=timeout,
+            )
+        except urllib.error.HTTPError as error:
+            if error.code < 500:
+                raise
+            if not (
+                os.getenv("CLOUDFLARE_ACCOUNT_ID")
+                and os.getenv("CLOUDFLARE_API_TOKEN")
+            ):
+                raise
+            print(
+                f"Worker AI returned HTTP {error.code}; trying direct Cloudflare API.",
+                file=sys.stderr,
+            )
     account_id = os.getenv("CLOUDFLARE_ACCOUNT_ID")
     api_token = os.getenv("CLOUDFLARE_API_TOKEN")
     if not account_id or not api_token:
@@ -1428,6 +1441,12 @@ def cloudflare_translate_analysis(
         "deep_dive": {key: deep_dive[key] for key in deep_fields},
     }
     source_json = json.dumps(payload, ensure_ascii=False)
+    if len(source_json) > 4500:
+        return cloudflare_translate_analysis_chunks(
+            payload,
+            deep_dive.get("source_scope", "cached grounded analysis"),
+            language,
+        )
     prompt = f"""Translate the reader-facing string values in this JSON analysis.
 {output_language_instruction(language)}
 
@@ -1446,7 +1465,7 @@ JSON:
     )
     primary_model = os.getenv("CLOUDFLARE_MODEL") or "@cf/openai/gpt-oss-120b"
     for model in dict.fromkeys([primary_model, fallback_model]):
-        attempts = 1
+        attempts = 2 if model == primary_model else 1
         for attempt in range(attempts):
             try:
                 response = cloudflare_inference(
@@ -1493,6 +1512,138 @@ JSON:
                     file=sys.stderr,
                 )
     return None
+
+
+def same_json_shape(source: Any, translated: Any) -> bool:
+    if isinstance(source, dict):
+        return (
+            isinstance(translated, dict)
+            and source.keys() == translated.keys()
+            and all(same_json_shape(source[key], translated[key]) for key in source)
+        )
+    if isinstance(source, list):
+        return (
+            isinstance(translated, list)
+            and len(source) == len(translated)
+            and all(same_json_shape(left, right) for left, right in zip(source, translated))
+        )
+    return isinstance(translated, type(source))
+
+
+def cloudflare_translate_json_chunk(
+    payload: dict[str, Any],
+    language: str,
+) -> tuple[dict[str, Any], str] | None:
+    source_json = json.dumps(payload, ensure_ascii=False)
+    prompt = f"""Translate every reader-facing string value in this JSON chunk.
+{output_language_instruction(language)}
+Preserve the exact keys, shape, list lengths, numbers, names, metrics, equations,
+icons, and technical meaning. Do not add or remove claims. Return JSON only.
+
+JSON:
+{source_json}
+"""
+    primary_model = os.getenv("CLOUDFLARE_MODEL") or "@cf/openai/gpt-oss-120b"
+    fallback_model = (
+        os.getenv("CLOUDFLARE_FALLBACK_MODEL") or "@cf/qwen/qwen3-30b-a3b-fp8"
+    )
+    for model in dict.fromkeys([primary_model, fallback_model]):
+        try:
+            response = cloudflare_inference(
+                model,
+                {
+                    "messages": [
+                        {
+                            "role": "system",
+                            "content": "Translate grounded JSON exactly and return JSON only.",
+                        },
+                        {"role": "user", "content": prompt},
+                    ],
+                    "response_format": {"type": "json_object"},
+                    "temperature": 0,
+                    "max_tokens": 2500,
+                },
+                timeout=180,
+            )
+            raw = cloudflare_response_text(response)
+            match = re.search(r"\{.*\}", raw, re.DOTALL)
+            if not match:
+                raise ValueError("Translation chunk has no JSON object")
+            translated = json.loads(match.group(0))
+            source_numbers = set(NUMBER_RE.findall(source_json))
+            output_numbers = set(NUMBER_RE.findall(json.dumps(translated)))
+            if not same_json_shape(payload, translated):
+                raise ValueError("Translation chunk changed the JSON shape")
+            if output_numbers - source_numbers:
+                raise ValueError("Translation chunk introduced unsupported numbers")
+            if normalize_language(language) == "zh" and not re.search(
+                r"[\u3400-\u9fff]", json.dumps(translated, ensure_ascii=False)
+            ):
+                raise ValueError("Translation chunk contains no Chinese text")
+            return translated, model
+        except (
+            OSError,
+            RuntimeError,
+            ValueError,
+            urllib.error.URLError,
+            IndexError,
+        ) as error:
+            print(f"{model} chunk translation failed: {error}", file=sys.stderr)
+    return None
+
+
+def cloudflare_translate_analysis_chunks(
+    payload: dict[str, Any],
+    source_scope: str,
+    language: str,
+) -> tuple[dict[str, Any], dict[str, Any]] | None:
+    deep_dive = payload["deep_dive"]
+    chunks = [
+        {
+            "brief": payload["brief"],
+            "deep_dive": {
+                "signals": deep_dive["signals"],
+                "overview": deep_dive["overview"],
+            },
+        },
+        {
+            "deep_dive": {
+                "methodology": deep_dive["methodology"],
+                "mechanism": deep_dive["mechanism"],
+            },
+        },
+        {
+            "deep_dive": {
+                "experiments": deep_dive["experiments"],
+                "findings": deep_dive["findings"],
+            },
+        },
+        {
+            "deep_dive": {
+                "contributions": deep_dive["contributions"],
+                "limitations": deep_dive["limitations"],
+                "open_questions": deep_dive["open_questions"],
+            },
+        },
+    ]
+    combined: dict[str, Any] = {"brief": {}, "deep_dive": {}}
+    models: list[str] = []
+    for chunk in chunks:
+        result = cloudflare_translate_json_chunk(chunk, language)
+        if not result:
+            return None
+        translated, model = result
+        models.append(model)
+        if "brief" in translated:
+            combined["brief"].update(translated["brief"])
+        combined["deep_dive"].update(translated.get("deep_dive", {}))
+    return parse_model_analysis(
+        json.dumps(combined, ensure_ascii=False),
+        f"{'+'.join(dict.fromkeys(models))} chunked translation",
+        source_scope,
+        json.dumps(payload, ensure_ascii=False),
+        language,
+    )
 
 
 def score_papers(
@@ -1644,11 +1795,21 @@ def serialize_item(
             "limitations",
             "why_for_you",
         }
+        required_deep_dive = {
+            "signals",
+            "overview",
+            "methodology",
+            "mechanism",
+            "experiments",
+            "findings",
+            "contributions",
+            "limitations",
+            "open_questions",
+        }
         cache_is_complete = bool(
             isinstance(cached_deep_dive, dict)
-            and cached_deep_dive.get("schema_version") == ANALYSIS_SCHEMA_VERSION
+            and required_deep_dive.issubset(cached_deep_dive)
             and isinstance(cached_summary, dict)
-            and cached_summary.get("schema_version") == SUMMARY_SCHEMA_VERSION
             and required_summary.issubset(cached_summary)
         )
         cache_language = (
@@ -1987,6 +2148,67 @@ def build(
     return feed
 
 
+def translate_existing_ai_content(
+    profile_path: Path,
+    output_path: Path,
+    interests_path: Path | None = DEFAULT_INTERESTS,
+) -> tuple[int, int]:
+    """Translate the current feed caches without fetching arXiv or re-analyzing PDFs."""
+    profile = load_profile(profile_path, interests_path)
+    language = normalize_language(
+        profile.get("content_language", profile.get("language", "en"))
+    )
+    data_dir = output_path.parent
+    paths = [output_path, data_dir / "weekly.json", data_dir / "history.json"]
+    payloads: dict[Path, dict[str, Any]] = {}
+    for path in paths:
+        if path.exists():
+            payloads[path] = json.loads(path.read_text(encoding="utf-8"))
+
+    weekly_items = payloads.get(data_dir / "weekly.json", {}).get("papers", [])
+    translated_by_id: dict[str, tuple[dict[str, Any], dict[str, Any]]] = {}
+    pending = 0
+    for item in weekly_items:
+        paper_id = item.get("id")
+        summary = item.get("summary")
+        deep_dive = item.get("deep_dive")
+        if not paper_id or not isinstance(summary, dict) or not isinstance(deep_dive, dict):
+            continue
+        if (
+            summary.get("language", "en") == language
+            and deep_dive.get("language", "en") == language
+        ):
+            continue
+        translated = cloudflare_translate_analysis(summary, deep_dive, language)
+        if translated:
+            translated_by_id[paper_id] = translated
+        else:
+            pending += 1
+
+    if translated_by_id:
+        for path, payload in payloads.items():
+            changed = False
+            for item in payload.get("papers", []):
+                translated = translated_by_id.get(item.get("id"))
+                if not translated:
+                    continue
+                item["summary"], item["deep_dive"] = copy.deepcopy(translated)
+                changed = True
+            if changed:
+                path.write_text(
+                    json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+                    encoding="utf-8",
+                )
+
+    public_profile = dict(profile)
+    public_profile.pop("owner", None)
+    (data_dir / "profile.json").write_text(
+        json.dumps(public_profile, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    return len(translated_by_id), pending
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--profile", type=Path, default=DEFAULT_PROFILE)
@@ -2010,6 +2232,11 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Refresh existing generated summaries/profile without fetching arXiv",
     )
+    parser.add_argument(
+        "--translate-existing",
+        action="store_true",
+        help="Translate current AI briefs and Deep Dives without fetching arXiv",
+    )
     return parser.parse_args()
 
 
@@ -2019,6 +2246,14 @@ def main() -> int:
         count = rewrite_existing(args.profile, args.output, args.interests)
         print(f"Rewrote {count} existing paper summaries.")
         return 0
+    if args.translate_existing:
+        translated, pending = translate_existing_ai_content(
+            args.profile,
+            args.output,
+            args.interests,
+        )
+        print(f"Translated {translated} cached papers; {pending} remain pending.")
+        return 0 if pending == 0 else 1
     now = parse_date(args.now) if args.now else None
     feed = build(
         args.profile,

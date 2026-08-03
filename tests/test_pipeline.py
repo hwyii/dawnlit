@@ -1,6 +1,7 @@
 import datetime as dt
 import importlib.util
 import json
+import os
 import sys
 import tempfile
 import unittest
@@ -213,6 +214,29 @@ class PipelineTests(unittest.TestCase):
             radar.cloudflare_response_text({"result": {"response": '{"ok":true}'}}),
             '{"ok":true}',
         )
+
+    def test_cloudflare_inference_falls_back_to_direct_api_on_worker_5xx(self):
+        worker_error = radar.urllib.error.HTTPError(
+            "https://worker.example/api/ai/run", 500, "error", {}, None
+        )
+        with patch.dict(
+            os.environ,
+            {
+                "RADAR_API_URL": "https://worker.example",
+                "RADAR_ADMIN_TOKEN": "admin",
+                "CLOUDFLARE_ACCOUNT_ID": "account",
+                "CLOUDFLARE_API_TOKEN": "cloudflare",
+            },
+            clear=False,
+        ), patch.object(
+            radar,
+            "request_json",
+            side_effect=[worker_error, {"result": {"response": "ok"}}],
+        ) as request:
+            result = radar.cloudflare_inference("model", {"messages": []}, 30)
+        self.assertEqual(result["result"]["response"], "ok")
+        self.assertEqual(request.call_count, 2)
+        self.assertIn("api.cloudflare.com", request.call_args_list[1].args[0])
         self.assertEqual(
             radar.cloudflare_response_text(
                 {
