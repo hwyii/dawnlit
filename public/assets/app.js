@@ -65,15 +65,16 @@ const COPY = {
     cloudSync: "CLOUD SYNC",
     localMode: "LOCAL MODE",
     appearanceLanguage: "Appearance & language",
-    appearanceHint: "Theme stays on this device; language syncs and guides future AI summaries.",
+    appearanceHint: "Theme stays on this device. Interface and AI content languages sync independently.",
     theme: "Theme",
     system: "System",
     light: "Light",
     dark: "Dark",
-    language: "Language",
+    language: "Interface language",
+    contentLanguage: "AI briefs & Deep Dive",
     english: "English",
     chinese: "中文",
-    languageRefreshHint: "Existing briefs remain readable while AI refreshes them gradually in the selected language.",
+    languageRefreshHint: "Paper titles stay in English. AI content language only changes paper briefs and Deep Dive content.",
     quickAdjustment: "Quick adjustment",
     quickHint: "Try “more data selection” or “less OPD,” then save the change.",
     apply: "Apply",
@@ -99,7 +100,8 @@ const COPY = {
     clearFeedback: "Clear feedback",
     saveSync: "Save & sync",
     forgetToken: "Forget token",
-    settingsSaved: "Settings saved. Future AI briefs will use {language}.",
+    settingsSaved: "Interface language saved: {language}.",
+    contentSettingsSaved: "Paper briefs and Deep Dive will use {language}.",
   },
   zh: {
     brandTagline: "你的每日论文信号",
@@ -157,15 +159,16 @@ const COPY = {
     cloudSync: "云端同步",
     localMode: "本地模式",
     appearanceLanguage: "外观与语言",
-    appearanceHint: "主题保存在当前设备；语言会同步，并用于之后生成的 AI 摘要。",
+    appearanceHint: "主题保存在当前设备；界面语言和 AI 内容语言分别同步。",
     theme: "主题",
     system: "跟随系统",
     light: "浅色",
     dark: "深色",
-    language: "语言",
+    language: "界面语言",
+    contentLanguage: "论文总结与 Deep Dive",
     english: "English",
     chinese: "中文",
-    languageRefreshHint: "已有摘要仍可阅读，AI 会按低成本节奏逐步刷新为所选语言。",
+    languageRefreshHint: "论文标题保留英文；AI 内容语言只改变论文总结与 Deep Dive 正文。",
     quickAdjustment: "快速调整",
     quickHint: "例如输入“more data selection”或“less OPD”，然后保存。",
     apply: "应用",
@@ -191,7 +194,8 @@ const COPY = {
     clearFeedback: "清除反馈",
     saveSync: "保存并同步",
     forgetToken: "忘记令牌",
-    settingsSaved: "设置已保存，之后的 AI 摘要将使用{language}。",
+    settingsSaved: "界面语言已保存：{language}。",
+    contentSettingsSaved: "论文总结与 Deep Dive 将使用{language}。",
   },
 };
 const runtime = window.PAPER_RADAR_CONFIG || {};
@@ -213,7 +217,13 @@ const state = {
   lastRefreshAt: 0,
   deckIndex: { today: 0, weekly: 0, saved: 0 },
   cloudConnected: false,
-  language: readStorage(STORAGE.profile, {})?.language === "zh" ? "zh" : "en",
+  language:
+    (readStorage(STORAGE.profile, {})?.ui_language ||
+      readStorage(STORAGE.profile, {})?.language) === "zh"
+      ? "zh"
+      : "en",
+  contentLanguage:
+    readStorage(STORAGE.profile, {})?.content_language === "en" ? "en" : "zh",
   theme: ["system", "light", "dark"].includes(readTextStorage(STORAGE.theme))
     ? readTextStorage(STORAGE.theme)
     : "system",
@@ -483,7 +493,8 @@ async function boot() {
     state.weekly = weekly;
     state.history = history;
     state.profile = profile;
-    state.language = profile.language === "zh" ? "zh" : "en";
+    state.language = (profile.ui_language || profile.language) === "zh" ? "zh" : "en";
+    state.contentLanguage = profile.content_language === "en" ? "en" : "zh";
     applyLanguage();
     state.lastRefreshAt = Date.now();
     await syncPendingFeedback();
@@ -1027,8 +1038,24 @@ function renderPreferences() {
               ]
                 .map(
                   ([value, label]) =>
-                    `<button type="button" data-pref-action="set-language" data-language-value="${value}" class="${
+                    `<button type="button" data-pref-action="set-ui-language" data-language-value="${value}" class="${
                       state.language === value ? "active" : ""
+                    }">${label}</button>`,
+                )
+                .join("")}
+            </div>
+          </div>
+          <div class="setting-row">
+            <span>${t("contentLanguage")}</span>
+            <div class="segmented-control" aria-label="${t("contentLanguage")}">
+              ${[
+                ["en", t("english")],
+                ["zh", t("chinese")],
+              ]
+                .map(
+                  ([value, label]) =>
+                    `<button type="button" data-pref-action="set-content-language" data-language-value="${value}" class="${
+                      state.contentLanguage === value ? "active" : ""
                     }">${label}</button>`,
                 )
                 .join("")}
@@ -1514,10 +1541,10 @@ elements.app.addEventListener("click", async (event) => {
       applyTheme(preferenceButton.dataset.themeValue, true);
       renderPreferences();
     }
-    if (action === "set-language") {
+    if (action === "set-ui-language") {
       syncEditorsToProfile();
       state.language = preferenceButton.dataset.languageValue === "zh" ? "zh" : "en";
-      state.profile.language = state.language;
+      state.profile.ui_language = state.language;
       state.profile.updated_at = new Date().toISOString().slice(0, 10);
       writeStorage(STORAGE.profile, state.profile);
       if (state.apiUrl && state.token) {
@@ -1533,6 +1560,27 @@ elements.app.addEventListener("click", async (event) => {
       showToast(
         t("settingsSaved", {
           language: state.language === "zh" ? "中文" : "English",
+        }),
+      );
+    }
+    if (action === "set-content-language") {
+      syncEditorsToProfile();
+      state.contentLanguage =
+        preferenceButton.dataset.languageValue === "en" ? "en" : "zh";
+      state.profile.content_language = state.contentLanguage;
+      state.profile.updated_at = new Date().toISOString().slice(0, 10);
+      writeStorage(STORAGE.profile, state.profile);
+      if (state.apiUrl && state.token) {
+        await fetchJSON(`${state.apiUrl}/api/profile`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(state.profile),
+        });
+      }
+      renderPreferences();
+      showToast(
+        t("contentSettingsSaved", {
+          language: state.contentLanguage === "zh" ? "中文" : "English",
         }),
       );
     }

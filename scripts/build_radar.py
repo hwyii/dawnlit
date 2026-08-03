@@ -1396,6 +1396,105 @@ def cloudflare_analysis(
     return None
 
 
+def cloudflare_translate_analysis(
+    summary: dict[str, Any],
+    deep_dive: dict[str, Any],
+    language: str,
+) -> tuple[dict[str, Any], dict[str, Any]] | None:
+    """Translate a grounded cached analysis without re-reading or re-analyzing the PDF."""
+    if not cloudflare_available():
+        return None
+    brief_fields = {
+        "takeaway",
+        "problem",
+        "method",
+        "evidence",
+        "limitations",
+        "why_for_you",
+    }
+    deep_fields = {
+        "signals",
+        "overview",
+        "methodology",
+        "mechanism",
+        "experiments",
+        "findings",
+        "contributions",
+        "limitations",
+        "open_questions",
+    }
+    payload = {
+        "brief": {key: summary[key] for key in brief_fields},
+        "deep_dive": {key: deep_dive[key] for key in deep_fields},
+    }
+    source_json = json.dumps(payload, ensure_ascii=False)
+    prompt = f"""Translate the reader-facing string values in this JSON analysis.
+{output_language_instruction(language)}
+
+Rules:
+- Preserve the exact JSON keys, object shape, arrays, and item counts.
+- Preserve all numbers, paper-specific claims, model names, dataset names,
+  metric names, equations, and technical meaning exactly.
+- Do not add, remove, summarize, reinterpret, or strengthen any claim.
+- Keep each signal concise and return JSON only.
+
+JSON:
+{source_json}
+"""
+    fallback_model = (
+        os.getenv("CLOUDFLARE_FALLBACK_MODEL") or "@cf/qwen/qwen3-30b-a3b-fp8"
+    )
+    primary_model = os.getenv("CLOUDFLARE_MODEL") or "@cf/openai/gpt-oss-120b"
+    for model in dict.fromkeys([primary_model, fallback_model]):
+        attempts = 1
+        for attempt in range(attempts):
+            try:
+                response = cloudflare_inference(
+                    model,
+                    {
+                        "messages": [
+                            {
+                                "role": "system",
+                                "content": "Translate grounded research JSON exactly and return JSON only.",
+                            },
+                            {"role": "user", "content": prompt},
+                        ],
+                        "response_format": {"type": "json_object"},
+                        "temperature": 0,
+                        "max_tokens": 5000,
+                    },
+                    timeout=180,
+                )
+                raw = cloudflare_response_text(response)
+                translated = parse_model_analysis(
+                    raw,
+                    f"{model} translation",
+                    deep_dive.get("source_scope", "cached grounded analysis"),
+                    source_json,
+                    language,
+                )
+                if translated:
+                    return translated
+                print(
+                    f"{model} returned an invalid translation schema "
+                    f"(attempt {attempt + 1}/{attempts})",
+                    file=sys.stderr,
+                )
+            except (
+                OSError,
+                RuntimeError,
+                ValueError,
+                urllib.error.URLError,
+                IndexError,
+            ) as error:
+                print(
+                    f"{model} cached translation failed "
+                    f"(attempt {attempt + 1}/{attempts}): {error}",
+                    file=sys.stderr,
+                )
+    return None
+
+
 def score_papers(
     papers: list[Paper],
     profile: dict[str, Any],
@@ -1536,8 +1635,45 @@ def serialize_item(
         cached_deep_dive = (
             (previous_item or {}).get("deep_dive") if unchanged else None
         )
+        cached_summary = (previous_item or {}).get("summary") if unchanged else None
+        required_summary = {
+            "takeaway",
+            "problem",
+            "method",
+            "evidence",
+            "limitations",
+            "why_for_you",
+        }
+        cache_is_complete = bool(
+            isinstance(cached_deep_dive, dict)
+            and cached_deep_dive.get("schema_version") == ANALYSIS_SCHEMA_VERSION
+            and isinstance(cached_summary, dict)
+            and cached_summary.get("schema_version") == SUMMARY_SCHEMA_VERSION
+            and required_summary.issubset(cached_summary)
+        )
+        cache_language = (
+            cached_deep_dive.get("language", "en")
+            if isinstance(cached_deep_dive, dict)
+            else "en"
+        )
+        if cache_is_complete and cache_language != language:
+            try:
+                translated = cloudflare_translate_analysis(
+                    cached_summary,
+                    cached_deep_dive,
+                    language,
+                )
+            except Exception as error:
+                print(
+                    f"Cached translation crashed for {paper.id}; re-analyzing: {error}",
+                    file=sys.stderr,
+                )
+                translated = None
+            if translated:
+                summary, deep_dive = translated
         if (
-            cached_deep_dive
+            not deep_dive
+            and cached_deep_dive
             and cached_deep_dive.get("schema_version") == ANALYSIS_SCHEMA_VERSION
             and cached_deep_dive.get("language", "en") == language
         ):
@@ -1548,16 +1684,7 @@ def serialize_item(
                 language,
             )
         if deep_dive:
-            cached_summary = (previous_item or {}).get("summary")
             if isinstance(cached_summary, dict):
-                required_summary = {
-                    "takeaway",
-                    "problem",
-                    "method",
-                    "evidence",
-                    "limitations",
-                    "why_for_you",
-                }
                 if required_summary.issubset(cached_summary) and all(
                     isinstance(cached_summary.get(field), str)
                     for field in required_summary
@@ -1566,7 +1693,8 @@ def serialize_item(
                         cached_summary.get("schema_version") == SUMMARY_SCHEMA_VERSION
                         and cached_summary.get("language", "en") == language
                     ):
-                        summary = copy.deepcopy(cached_summary)
+                        if summary is None:
+                            summary = copy.deepcopy(cached_summary)
         else:
             try:
                 analysis = cloudflare_analysis(paper, item["topics"], language)
@@ -1609,7 +1737,6 @@ def refresh_stale_weekly_analyses(
         or not cloudflare_available()
     ):
         return 0
-    limit = max(0, int(os.getenv("AI_CACHE_REFRESH_LIMIT", "3")))
     week_start = now - dt.timedelta(days=7)
     candidates = sorted(
         (
@@ -1621,6 +1748,16 @@ def refresh_stale_weekly_analyses(
         key=lambda item: item.get("scores", {}).get("total", 0),
         reverse=True,
     )
+    target_language = normalize_language(language)
+    language_transition = any(
+        item.get("deep_dive", {}).get("schema_version")
+        == ANALYSIS_SCHEMA_VERSION
+        and item.get("deep_dive", {}).get("language", "en")
+        != target_language
+        for item in candidates
+    )
+    default_limit = "12" if language_transition else "3"
+    limit = max(0, int(os.getenv("AI_CACHE_REFRESH_LIMIT", default_limit)))
     refreshed = 0
     for item in candidates:
         if refreshed >= limit:
@@ -1753,7 +1890,7 @@ def build(
             item,
             use_ai,
             previous_items.get(item["id"]),
-            profile.get("language", "en"),
+            profile.get("content_language", profile.get("language", "en")),
         )
         for item in selected
     ]
@@ -1814,7 +1951,7 @@ def build(
         history_items,
         use_ai,
         now,
-        profile.get("language", "en"),
+        profile.get("content_language", profile.get("language", "en")),
     )
     history = {"generated_at": now.isoformat(), "papers": history_items}
     history_path.write_text(json.dumps(history, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

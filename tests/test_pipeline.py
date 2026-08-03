@@ -160,6 +160,10 @@ class PipelineTests(unittest.TestCase):
         self.assertNotRegex(serialized, r"[\u3400-\u9fff]")
         self.assertIn("Matches your research profile", summary["why_for_you"])
 
+    def test_profile_separates_interface_and_content_language(self):
+        self.assertEqual(self.profile["ui_language"], "en")
+        self.assertEqual(self.profile["content_language"], "zh")
+
     def test_model_summary_parser_requires_grounded_schema(self):
         raw = """```json
         {"takeaway":"Specific contribution","problem":"Specific research problem","method":"Concrete method",
@@ -398,6 +402,64 @@ class PipelineTests(unittest.TestCase):
             serialized["deep_dive"]["schema_version"],
             radar.ANALYSIS_SCHEMA_VERSION,
         )
+
+    def test_content_language_change_translates_cache_without_reanalysis(self):
+        paper = self.papers[0]
+        topics = [{"name": "LLM safety", "matched": ["llm"]}]
+        summary = {
+            "takeaway": "Specific contribution",
+            "problem": "Specific research problem",
+            "method": "Concrete method",
+            "evidence": "Grounded evidence",
+            "limitations": "Material limitation",
+            "why_for_you": "Matched research direction",
+            "schema_version": radar.SUMMARY_SCHEMA_VERSION,
+            "language": "en",
+        }
+        deep_dive = {
+            "signals": [
+                {"icon": "A", "text": "Finding"},
+                {"icon": "B", "text": "Method"},
+                {"icon": "C", "text": "Evidence"},
+            ],
+            "overview": "Overview",
+            "methodology": [{"title": "Method", "detail": "Detail"}],
+            "mechanism": [{"title": "Mechanism", "detail": "Detail"}],
+            "experiments": [{"title": "Setup", "detail": "Detail"}],
+            "findings": [{"title": "Finding", "detail": "Detail"}],
+            "contributions": ["Contribution"],
+            "limitations": ["Limitation"],
+            "open_questions": ["Question"],
+            "schema_version": radar.ANALYSIS_SCHEMA_VERSION,
+            "language": "en",
+        }
+        translated_summary = {**summary, "language": "zh"}
+        translated_deep_dive = {**deep_dive, "language": "zh"}
+        item = {
+            "id": paper.id,
+            "title": paper.title,
+            "abstract": paper.abstract,
+            "topics": topics,
+            "lane": "llm",
+            "_paper": paper,
+            "_tokens": set(),
+        }
+        previous = {
+            "title": paper.title,
+            "abstract": paper.abstract,
+            "summary": summary,
+            "deep_dive": deep_dive,
+        }
+        with patch.object(
+            radar,
+            "cloudflare_translate_analysis",
+            return_value=(translated_summary, translated_deep_dive),
+        ) as translate, patch.object(radar, "cloudflare_analysis") as analyze:
+            serialized = radar.serialize_item(item, True, previous, "zh")
+        translate.assert_called_once()
+        analyze.assert_not_called()
+        self.assertEqual(serialized["summary"]["language"], "zh")
+        self.assertEqual(serialized["deep_dive"]["language"], "zh")
 
     def test_full_text_condensing_keeps_key_regions(self):
         text = (
