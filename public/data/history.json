@@ -50,21 +50,21 @@
         "novelty": 0.55,
         "freshness": 0.4973,
         "feedback_adjustment": -0.0355,
-        "semantic_feedback": 0.0
+        "semantic_feedback": 0
       },
       "quality_signals": [
         "quantitative results"
       ],
       "summary": {
-        "takeaway": "Adversarial training is one of the most effective defenses against adversarial attacks, yet the computational cost remains prohibitive at modern scales, especially for large language models (LLMs).",
-        "problem": "Adversarial training is one of the most effective defenses against adversarial attacks, yet the computational cost remains prohibitive at modern scales, especially for large language models (LLMs).",
-        "method": "Ultimately, compared to standard LAT with full fine-tuning, our method on average reduces per-step adversarial-training FLOPs by 48.1% while requiring only 0.0118% trainable parameters.",
-        "evidence": "In this work, we comprehensively investigate computation-efficient strategies to speed up LAT from two complementary perspectives: (1) Defense-side optimization: We explore the representation fine-tuning (ReFT) within LAT, and reveal a potential issue if there is a mismatch on which tokens to apply ReFT and the attack. (2) Attack-side optimization: When computing adversarial attacks in each LAT iteration, we extract only the relevant circuits from the LLM to construct a lightweight surrogate model, avoiding the computation in the forward-backward passes through the full model during the attack generation.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Efficient adversarial training.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
+        "takeaway": "LAT-ReFT 联合基于 ActGrad 的回路引导代理攻击，在仅训练平均 0.0118% 参数的同时，将每步对抗训练 FLOPs 平均降低 48.1%。",
+        "problem": "标准潜在对抗训练需要更新完整模型并在每轮攻击中反复执行大模型前向与反向传播，计算成本难以扩展到现代 LLM。",
+        "method": "防御侧在被攻击的后缀窗口上施加低秩 ReFT，攻击侧按激活–梯度重要性保留攻击关键 MLP 神经元，用剪枝代理模型生成可迁移扰动。",
+        "evidence": "实验覆盖 IMDB、EnronSpam 和 PasswordMatch；剪枝 25% MLP 神经元约降低 20% 内循环成本，组合方法相对全参数 LAT 平均节省 48.1% FLOPs。",
+        "limitations": "效率提升伴随绝对鲁棒性下降；例如 Llama-3.1-8B 上 GCG 攻击成功率由全参数 LAT 的 0.02 上升到该方法的 0.15。",
+        "why_for_you": "该工作直接对应你对高效 LLM 对抗训练、表示干预与回路级代理攻击的研究方向。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "Codex grounded full-text analysis",
+        "language": "zh",
         "schema_version": 2
       },
       "recommendation_reason": {
@@ -76,7 +76,85 @@
         ],
         "lane": "llm"
       },
-      "recommended_at": "2026-08-03T14:53:01.040214+00:00"
+      "recommended_at": "2026-08-03T14:53:01.040214+00:00",
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "⚡",
+            "text": "LAT-ReFT 与回路代理联合把每步对抗训练 FLOPs 平均降低 48.1%，仅训练平均 0.0118% 参数。"
+          },
+          {
+            "icon": "🔬",
+            "text": "后缀窗口 ReFT 抑制跨 token 扰动泄漏，ActGrad 则筛出攻击关键 MLP 神经元构造代理模型。"
+          },
+          {
+            "icon": "⚠️",
+            "text": "效率并非免费：Llama-3.1-8B 的 GCG ASR 为 0.15，高于全参数 LAT 的 0.02。"
+          }
+        ],
+        "overview": "论文从防御更新和攻击生成两个计算瓶颈改造潜在对抗训练。防御侧冻结主干，只在隐藏表示的低秩子空间训练 LAT-ReFT，并证明只保护最后一个 token 无法阻断更早后缀位置经注意力传播的扰动，因此改为覆盖被攻击的连续后缀窗口。攻击侧用 activation×gradient 分数定位与对抗损失最相关的 MLP 神经元，在剪枝代理模型上运行 PGD，再把扰动迁移到完整防御模型。两部分共同利用早层和中层承载关键行为的结构规律，在明显减少参数更新与内循环计算的同时保留较强鲁棒性。",
+        "methodology": [
+          {
+            "title": "低秩后缀窗口防御",
+            "detail": "LAT-ReFT 冻结模型主干，在攻击层之后的表示层学习低秩 ReFT 算子；干预覆盖完整受攻击后缀窗口，而不是仅修复最后一个 token。"
+          },
+          {
+            "title": "回路引导代理攻击",
+            "detail": "方法用小型校准集计算 MLP 神经元的 activation×gradient 重要性，全局保留高分神经元，在压缩代理上执行 PGD，并将得到的隐藏状态扰动用于完整模型训练。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "为何单 token 防御不足",
+            "detail": "Theorem 1 表明，即使最后一个位置被 ReFT 恢复，较早的受攻击后缀 token 仍可通过 value 路径和注意力权重变化影响最终输出。"
+          },
+          {
+            "title": "窗口防御与代理近似",
+            "detail": "Theorem 2 给出共享 ReFT 在整个后缀窗口控制扰动传播的界；Theorem 3 将代理 PGD 与完整模型的优化差距联系到被剪除神经元的 ActGrad 质量。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "鲁棒性与效率评估",
+            "detail": "在 IMDB、EnronSpam、PasswordMatch 以及多个代表性模型上比较 LAT、R2D2、CAT 等方法，报告干净准确率、RandomToken/GCG ASR、可训练参数比例和每步 FLOPs。"
+          },
+          {
+            "title": "设计消融",
+            "detail": "实验改变防御后缀长度、ReFT 所在层、代理剪枝比例与神经元选择规则，检验窗口覆盖、早中层干预和 ActGrad 排序的作用。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "总体计算节省",
+            "detail": "组合方法相对标准全参数 LAT 平均降低 48.1% 每步 FLOPs，可训练参数比例位于 0.0066%–0.0203%，平均为 0.0118%。"
+          },
+          {
+            "title": "代理模型有效性",
+            "detail": "按 ActGrad 剪除 25% MLP 神经元仍能保留攻击相关几何，并将攻击内循环成本降低约 20%；随机剪枝的迁移性更差。"
+          },
+          {
+            "title": "鲁棒性权衡",
+            "detail": "LAT-ReFT 加代理攻击提供较优效率–鲁棒性折中，但绝对鲁棒性仍弱于全参数 LAT；Llama-3.1-8B 上两者 GCG ASR 分别为 0.15 和 0.02。"
+          }
+        ],
+        "contributions": [
+          "提出面向 LLM 潜在对抗训练的低秩 LAT-ReFT 防御。",
+          "用 ActGrad 定位攻击关键回路并构造可迁移的剪枝代理攻击。",
+          "以三个理论结果解释后缀窗口防御与代理近似，并量化端到端计算收益。"
+        ],
+        "limitations": [
+          "计算节省以部分绝对鲁棒性为代价，不能视为全参数 LAT 的无损替代。",
+          "主要实验集中在分类任务和 token 级后缀攻击，对更开放的生成任务及其他攻击类型仍需验证。"
+        ],
+        "open_questions": [
+          "能否自适应选择 ReFT 层、窗口长度和秩，在不同模型与攻击上逼近全参数 LAT 的鲁棒性？",
+          "回路代理是否能扩展到离散越狱攻击与长文本生成，同时保持攻击迁移性？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "Codex grounded full-text analysis",
+        "language": "zh",
+        "schema_version": 5
+      }
     },
     {
       "id": "2607.29283",
@@ -138,7 +216,7 @@
         "novelty": 0.55,
         "freshness": 0.5478,
         "feedback_adjustment": -0.0163,
-        "semantic_feedback": 0.0
+        "semantic_feedback": 0
       },
       "quality_signals": [
         "code available",
@@ -146,15 +224,15 @@
         "quantitative results"
       ],
       "summary": {
-        "takeaway": "We present RTLCurator, which learns a behavior-aware compatibility prior by contrasting each specification with implementations that fail simulation, and calibrates it to a new corpus using a small number of validated pairs.",
-        "problem": "Training large language models (LLMs) to write register-transfer level (RTL) requires large corpora of paired specifications and code, and such data is scarce enough that most public corpora are now synthesized.",
-        "method": "Synthesis provides scale but not correctness, and in two widely used RTL datasets only 24.4% and 53.5% of pairs pass generated functional tests.",
-        "evidence": "On CodeV and RTLCoder, keeping 80% of the corpus this way improves on training with the full corpus across all reported metrics while validating only 10% of the pool, whereas ranking by the score alone falls below random selection and filtering the whole pool by simulation does no better.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Data selection for LLMs, Trustworthy LLM.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
+        "takeaway": "RTLCurator 仅验证目标语料的 10%，保留 80% 数据，就在 CodeV 和 RTLCoder 的全部报告指标上优于使用完整语料训练。",
+        "problem": "合成 specification–RTL 数据规模大但功能正确率低，而仅按仿真通过与否过滤会丢失仍有语法和结构价值的困难样本。",
+        "method": "方法从仿真失败实现中学习行为感知的 specification–RTL 兼容性先验，用少量目标域标签校准后，同时平衡对齐度、表示覆盖和 RTL 结构丰富性。",
+        "evidence": "两个常用数据集仅 24.4% 和 53.5% 配对通过生成测试；RTLCurator 在只标注 10% 池的情况下选择 80% 子集并超过完整语料及匹配预算基线。",
+        "limitations": "结论来自 CodeV、RTLCoder 和现有 RTL 生成评测；行为分数仍需少量目标域验证，且各选择目标的独立贡献尚待进一步拆解。",
+        "why_for_you": "该方法展示了如何用少量功能标签进行 LLM 训练数据选择，并避免把正确性代理直接当作唯一过滤目标。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "Codex grounded full-text analysis",
+        "language": "zh",
         "schema_version": 2
       },
       "recommendation_reason": {
@@ -165,7 +243,89 @@
         ],
         "lane": "llm"
       },
-      "recommended_at": "2026-08-03T14:53:01.040214+00:00"
+      "recommended_at": "2026-08-03T14:53:01.040214+00:00",
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🗂️",
+            "text": "仅验证 10% 目标池并保留 80% 数据，RTLCurator 即在 CodeV 与 RTLCoder 全部指标上超过完整语料。"
+          },
+          {
+            "icon": "⚙️",
+            "text": "先从失败实现学习行为兼容性，再以少量标签校准，并联合优化对齐、覆盖和 RTL 结构丰富性。"
+          },
+          {
+            "icon": "⚠️",
+            "text": "只按兼容分数排序低于随机选择；全量仿真过滤也不更好，说明正确性不能单独决定数据价值。"
+          }
+        ],
+        "overview": "RTLCurator 针对合成 RTL 训练对中“规模大但行为错误多”的问题，把功能验证从最终硬过滤规则改成学习信号。模型通过对比一个 specification 与未通过仿真的实现，学习行为感知兼容性；迁移到新语料时只验证少量样本完成校准。最终子集并非简单选最高分，而是在 specification–RTL 对齐、表示空间覆盖和 RTL 结构丰富性之间平衡。结果表明，保留较大但经过结构化选择的语料，比只留通过仿真的简单模块或仅按单一分数排序更适合训练 RTL 生成模型。",
+        "methodology": [
+          {
+            "title": "行为对比预训练",
+            "detail": "编码器利用功能仿真失败实现作为困难负例，学习 specification 与 RTL 行为兼容性的表示，而不是依赖表面文本相似度。"
+          },
+          {
+            "title": "少标签目标域校准",
+            "detail": "在目标语料中只验证一小部分配对，用这些标签校准兼容性分数；实验采用 10% 验证预算。"
+          },
+          {
+            "title": "多目标子集构造",
+            "detail": "选择策略同时考虑校准后的对齐分数、表示覆盖和 RTL 模块结构丰富性，从而避免高分排序偏向重复或简单样本。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "正确性不是唯一效用",
+            "detail": "未通过某个 corner case 的实现仍可能提供有效语法、接口约定和编码风格；硬过滤会系统性偏向更短、更容易验证的组合模块。"
+          },
+          {
+            "title": "覆盖与结构补偿",
+            "detail": "表示覆盖减少冗余，结构丰富性保留复杂顺序设计；二者共同抵消单一兼容性分数对简单样本的偏置。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "下游 RTL 生成",
+            "detail": "在 CodeV 和 RTLCoder 上按不同策略选择训练子集，并用 VerilogEval、RTLLM 等指标比较完整语料、随机子集、分数排序和仿真过滤。"
+          },
+          {
+            "title": "检索与校准分析",
+            "detail": "评估跨语料 specification–RTL 检索、目标域标签预算及保留比例；RTLCoder 上前 1% 标签把高低分组接受率差距从 16.8 点扩大到 66.0 点。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "80% 子集最优",
+            "detail": "在两个语料及全部四项展示指标上，80% 保留比例达到峰值并超过 Full；提高到 90% 后效用反而下降。"
+          },
+          {
+            "title": "仿真硬过滤不足",
+            "detail": "RTLCoder 全量验证仅有 19.9% 配对通过，所得子集约为 RTLCurator 的四分之一，平均模块长度也从 36.8 行降至 30.8 行。"
+          },
+          {
+            "title": "跨语料兼容性迁移",
+            "detail": "相对最强基线 Qwen3-Emb-4B，RTLCurator 在原始 CodeV 与 RTLCoder 查询上的 R@1 分别提高 11.71 和 11.40 点。"
+          }
+        ],
+        "contributions": [
+          "将功能失败样本用于学习行为感知的 specification–RTL 兼容性先验。",
+          "提出只需少量目标域验证标签的校准过程。",
+          "把对齐、覆盖与结构丰富性联合用于训练子集构造，并验证其下游收益。"
+        ],
+        "limitations": [
+          "实验集中于两个公开 RTL 语料和当前生成基准，迁移到其他硬件描述语言或私有工业语料仍需检验。",
+          "方法仍需要目标域功能验证标签，且覆盖与结构丰富性各自的因果贡献尚未完全隔离。"
+        ],
+        "open_questions": [
+          "能否主动选择最有信息量的 1% 验证样本，进一步降低校准成本？",
+          "行为兼容性、表示覆盖和结构复杂度的权重能否根据目标模型规模与生成任务自适应调整？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "Codex grounded full-text analysis",
+        "language": "zh",
+        "schema_version": 5
+      }
     },
     {
       "id": "2607.29078",
@@ -215,22 +375,22 @@
         "novelty": 0.55,
         "freshness": 0.5242,
         "feedback_adjustment": -0.0162,
-        "semantic_feedback": 0.0
+        "semantic_feedback": 0
       },
       "quality_signals": [
         "code available",
         "baseline comparison"
       ],
       "summary": {
-        "takeaway": "In light of this, we propose DASH-OPD, Discrepancy-Aware Switching with Hysteresis for OPD, a new agentic OPD method that can switch executors adaptively and bidirectionally.",
-        "problem": "On-policy distillation (OPD) trains student models on their own rollouts to reduce exposure bias.",
-        "method": "In light of this, we propose DASH-OPD, Discrepancy-Aware Switching with Hysteresis for OPD, a new agentic OPD method that can switch executors adaptively and bidirectionally.",
-        "evidence": "On ALFWorld, DASH-OPD outperforms all the baselines and demonstrates superior training and deployment efficiency.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: On-policy distillation.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
+        "takeaway": "DASH-OPD 通过累计师生差异并迟滞地双向切换执行者，在 ALFWorld 上同时提高成功率并减少教师生成和频繁切换。",
+        "problem": "多轮 on-policy distillation 中，学生早期错误会把轨迹带离教师熟悉域，而按训练进度分配教师支持无法判断具体何时需要介入。",
+        "method": "每轮计算两个执行者在动作 token 上的平均对数概率比，将学生漂移和教师恢复信号分别累计为证据，超过开关阈值时才切换执行者。",
+        "evidence": "1.7B 与 4B 学生总体成功率分别为 32.85% 和 41.24%；相对 Guided-OPD，4B 设置减少 35.4% 教师轮次和 77.1% 执行者切换。",
+        "limitations": "论文仍是 work in progress；师生差异只是风险代理，共同错误可能无法检测，良性差异也可能误触发教师介入。",
+        "why_for_you": "该工作为 agentic on-policy distillation 提供了基于轨迹状态、而非固定课程进度的动态教师调度机制。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "Codex grounded full-text analysis",
+        "language": "zh",
         "schema_version": 2
       },
       "recommendation_reason": {
@@ -243,7 +403,89 @@
         ],
         "lane": "transferable"
       },
-      "recommended_at": "2026-08-03T14:53:01.040214+00:00"
+      "recommended_at": "2026-08-03T14:53:01.040214+00:00",
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🤖",
+            "text": "DASH-OPD 在每轮按师生动作概率差异决定是否介入，并允许教师与学生双向恢复控制。"
+          },
+          {
+            "icon": "⚙️",
+            "text": "漂移与恢复信号跨多轮累积成迟滞证据，只有越过不同阈值才切换，从而抑制瞬时波动。"
+          },
+          {
+            "icon": "📈",
+            "text": "4B 学生达到 41.24% 总体成功率，同时较 Guided-OPD 减少 35.4% 教师轮次与 77.1% 切换。"
+          }
+        ],
+        "overview": "DASH-OPD 把多轮智能体蒸馏中的教师支持视为闭环控制问题。当前执行者生成动作后，另一模型对同一动作评分，形成方向相关的平均 log-probability ratio：学生轮上的 student-to-teacher 比率表示漂移，教师轮上的 teacher-to-student 比率表示恢复。信号经归一化并跨轮累计为“支持债务”和“返回信用”，分别与教师介入阈值和学生返回阈值比较。不同方向使用不同证据与阈值，形成迟滞，避免因一次概率波动反复切换。训练时学生轮使用 reverse-KL，教师轮使用 forward-KL，部署时仅保留学生。",
+        "methodology": [
+          {
+            "title": "方向性差异信号",
+            "detail": "在学生轮计算 student-to-teacher 动作 token 平均对数概率比作为 drift signal；在教师轮反向计算 teacher-to-student 比率作为 recovery signal。"
+          },
+          {
+            "title": "迟滞切换控制器",
+            "detail": "归一化信号跨多轮累积，漂移证据越过 τon 时请求教师，恢复证据越过 τoff 时交还学生；最小教师段和总教师预算进一步限制切换。"
+          },
+          {
+            "title": "按执行者选择蒸馏方向",
+            "detail": "学生控制的轮次采用 reverse-KL 蒸馏，教师控制的轮次采用 forward-KL，并在完整响应 token 上更新学生。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "支持债务",
+            "detail": "连续的学生漂移逐步累积，只有持续偏离教师熟悉域才触发介入，因此单轮异常不足以切换。"
+          },
+          {
+            "title": "返回信用",
+            "detail": "教师控制期间若学生对教师动作的概率持续恢复，证据达到返回阈值后控制权回到学生，避免教师接管剩余整条轨迹。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "ALFWorld 设置",
+            "detail": "使用全部 140 个 IID 和 134 个 OOD 任务，每题最多 30 轮；学生为 Qwen3-1.7B/4B，教师为冻结的 Qwen3-30B-A3B，训练 250 个优化步骤。"
+          },
+          {
+            "title": "对比与部署",
+            "detail": "与零样本学生、vanilla OPD、TCOD、Guided-OPD 比较成功率、交互轮数和生成成本；所有蒸馏策略最终均以 student-only 方式评估。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "成功率",
+            "detail": "1.7B 学生总体 SR 为 32.85%，比最强基线 TCOD 高 5.84 点；4B 学生达到 41.24%，比 Guided-OPD 高 3.28 点。"
+          },
+          {
+            "title": "部署效率",
+            "detail": "1.7B 设置以每轨迹 1,433.1 tokens 达到 32.85% SR；4B 设置以 1,218.2 tokens 达到 41.24%，两者均 Pareto 优于所有 OPD 基线。"
+          },
+          {
+            "title": "教师与切换效率",
+            "detail": "相对 Guided-OPD，4B DASH-OPD 减少 35.4% 教师生成轮次和 77.1% 执行者切换，符合迟滞控制目标。"
+          }
+        ],
+        "contributions": [
+          "提出首个可按轨迹状态自适应、双向切换执行者的 agentic OPD 方法。",
+          "把方向性师生差异转化为跨轮漂移与恢复证据，并用迟滞阈值控制介入。",
+          "在 ALFWorld 上同时展示成功率、训练介入成本和 student-only 部署效率收益。"
+        ],
+        "limitations": [
+          "师生差异并非真实风险：共同错误可能不产生差异，良性策略差异也可能触发介入。",
+          "论文仍是 work in progress，代码、训练日志和检查点尚未发布，实验目前集中于 ALFWorld。"
+        ],
+        "open_questions": [
+          "能否结合环境不确定性或价值估计，区分危险漂移与无害的策略多样性？",
+          "阈值、教师预算与最小教师段能否在线学习，而不是跨模型规模复用固定配置？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "Codex grounded full-text analysis",
+        "language": "zh",
+        "schema_version": 5
+      }
     },
     {
       "id": "2607.28421",

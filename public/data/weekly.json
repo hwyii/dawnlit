@@ -577,21 +577,21 @@
         "novelty": 0.55,
         "freshness": 0.4973,
         "feedback_adjustment": -0.0355,
-        "semantic_feedback": 0.0
+        "semantic_feedback": 0
       },
       "quality_signals": [
         "quantitative results"
       ],
       "summary": {
-        "takeaway": "Adversarial training is one of the most effective defenses against adversarial attacks, yet the computational cost remains prohibitive at modern scales, especially for large language models (LLMs).",
-        "problem": "Adversarial training is one of the most effective defenses against adversarial attacks, yet the computational cost remains prohibitive at modern scales, especially for large language models (LLMs).",
-        "method": "Ultimately, compared to standard LAT with full fine-tuning, our method on average reduces per-step adversarial-training FLOPs by 48.1% while requiring only 0.0118% trainable parameters.",
-        "evidence": "In this work, we comprehensively investigate computation-efficient strategies to speed up LAT from two complementary perspectives: (1) Defense-side optimization: We explore the representation fine-tuning (ReFT) within LAT, and reveal a potential issue if there is a mismatch on which tokens to apply ReFT and the attack. (2) Attack-side optimization: When computing adversarial attacks in each LAT iteration, we extract only the relevant circuits from the LLM to construct a lightweight surrogate model, avoiding the computation in the forward-backward passes through the full model during the attack generation.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Efficient adversarial training.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
+        "takeaway": "LAT-ReFT 联合基于 ActGrad 的回路引导代理攻击，在仅训练平均 0.0118% 参数的同时，将每步对抗训练 FLOPs 平均降低 48.1%。",
+        "problem": "标准潜在对抗训练需要更新完整模型并在每轮攻击中反复执行大模型前向与反向传播，计算成本难以扩展到现代 LLM。",
+        "method": "防御侧在被攻击的后缀窗口上施加低秩 ReFT，攻击侧按激活–梯度重要性保留攻击关键 MLP 神经元，用剪枝代理模型生成可迁移扰动。",
+        "evidence": "实验覆盖 IMDB、EnronSpam 和 PasswordMatch；剪枝 25% MLP 神经元约降低 20% 内循环成本，组合方法相对全参数 LAT 平均节省 48.1% FLOPs。",
+        "limitations": "效率提升伴随绝对鲁棒性下降；例如 Llama-3.1-8B 上 GCG 攻击成功率由全参数 LAT 的 0.02 上升到该方法的 0.15。",
+        "why_for_you": "该工作直接对应你对高效 LLM 对抗训练、表示干预与回路级代理攻击的研究方向。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "Codex grounded full-text analysis",
+        "language": "zh",
         "schema_version": 2
       },
       "recommendation_reason": {
@@ -603,7 +603,85 @@
         ],
         "lane": "llm"
       },
-      "recommended_at": "2026-08-03T14:53:01.040214+00:00"
+      "recommended_at": "2026-08-03T14:53:01.040214+00:00",
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "⚡",
+            "text": "LAT-ReFT 与回路代理联合把每步对抗训练 FLOPs 平均降低 48.1%，仅训练平均 0.0118% 参数。"
+          },
+          {
+            "icon": "🔬",
+            "text": "后缀窗口 ReFT 抑制跨 token 扰动泄漏，ActGrad 则筛出攻击关键 MLP 神经元构造代理模型。"
+          },
+          {
+            "icon": "⚠️",
+            "text": "效率并非免费：Llama-3.1-8B 的 GCG ASR 为 0.15，高于全参数 LAT 的 0.02。"
+          }
+        ],
+        "overview": "论文从防御更新和攻击生成两个计算瓶颈改造潜在对抗训练。防御侧冻结主干，只在隐藏表示的低秩子空间训练 LAT-ReFT，并证明只保护最后一个 token 无法阻断更早后缀位置经注意力传播的扰动，因此改为覆盖被攻击的连续后缀窗口。攻击侧用 activation×gradient 分数定位与对抗损失最相关的 MLP 神经元，在剪枝代理模型上运行 PGD，再把扰动迁移到完整防御模型。两部分共同利用早层和中层承载关键行为的结构规律，在明显减少参数更新与内循环计算的同时保留较强鲁棒性。",
+        "methodology": [
+          {
+            "title": "低秩后缀窗口防御",
+            "detail": "LAT-ReFT 冻结模型主干，在攻击层之后的表示层学习低秩 ReFT 算子；干预覆盖完整受攻击后缀窗口，而不是仅修复最后一个 token。"
+          },
+          {
+            "title": "回路引导代理攻击",
+            "detail": "方法用小型校准集计算 MLP 神经元的 activation×gradient 重要性，全局保留高分神经元，在压缩代理上执行 PGD，并将得到的隐藏状态扰动用于完整模型训练。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "为何单 token 防御不足",
+            "detail": "Theorem 1 表明，即使最后一个位置被 ReFT 恢复，较早的受攻击后缀 token 仍可通过 value 路径和注意力权重变化影响最终输出。"
+          },
+          {
+            "title": "窗口防御与代理近似",
+            "detail": "Theorem 2 给出共享 ReFT 在整个后缀窗口控制扰动传播的界；Theorem 3 将代理 PGD 与完整模型的优化差距联系到被剪除神经元的 ActGrad 质量。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "鲁棒性与效率评估",
+            "detail": "在 IMDB、EnronSpam、PasswordMatch 以及多个代表性模型上比较 LAT、R2D2、CAT 等方法，报告干净准确率、RandomToken/GCG ASR、可训练参数比例和每步 FLOPs。"
+          },
+          {
+            "title": "设计消融",
+            "detail": "实验改变防御后缀长度、ReFT 所在层、代理剪枝比例与神经元选择规则，检验窗口覆盖、早中层干预和 ActGrad 排序的作用。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "总体计算节省",
+            "detail": "组合方法相对标准全参数 LAT 平均降低 48.1% 每步 FLOPs，可训练参数比例位于 0.0066%–0.0203%，平均为 0.0118%。"
+          },
+          {
+            "title": "代理模型有效性",
+            "detail": "按 ActGrad 剪除 25% MLP 神经元仍能保留攻击相关几何，并将攻击内循环成本降低约 20%；随机剪枝的迁移性更差。"
+          },
+          {
+            "title": "鲁棒性权衡",
+            "detail": "LAT-ReFT 加代理攻击提供较优效率–鲁棒性折中，但绝对鲁棒性仍弱于全参数 LAT；Llama-3.1-8B 上两者 GCG ASR 分别为 0.15 和 0.02。"
+          }
+        ],
+        "contributions": [
+          "提出面向 LLM 潜在对抗训练的低秩 LAT-ReFT 防御。",
+          "用 ActGrad 定位攻击关键回路并构造可迁移的剪枝代理攻击。",
+          "以三个理论结果解释后缀窗口防御与代理近似，并量化端到端计算收益。"
+        ],
+        "limitations": [
+          "计算节省以部分绝对鲁棒性为代价，不能视为全参数 LAT 的无损替代。",
+          "主要实验集中在分类任务和 token 级后缀攻击，对更开放的生成任务及其他攻击类型仍需验证。"
+        ],
+        "open_questions": [
+          "能否自适应选择 ReFT 层、窗口长度和秩，在不同模型与攻击上逼近全参数 LAT 的鲁棒性？",
+          "回路代理是否能扩展到离散越狱攻击与长文本生成，同时保持攻击迁移性？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "Codex grounded full-text analysis",
+        "language": "zh",
+        "schema_version": 5
+      }
     },
     {
       "id": "2607.24717",
