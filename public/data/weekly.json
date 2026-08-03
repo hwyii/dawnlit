@@ -259,91 +259,89 @@
         "lane": "llm"
       },
       "summary": {
-        "takeaway": "ROPD provides a template‑robust safety realignment for LLMs via dual‑teacher on‑policy distillation while preserving downstream capabilities.",
-        "problem": "Fine‑tuned LLMs can embed harmful behavior that existing defenses fail to remove when the attacker’s prompt template is unknown, often causing skill loss or re‑jailbreaking.",
-        "method": "ROPD routes each token to either a frozen safety teacher (aligned model) or a task teacher (misaligned model) and trains a student with a top‑K KL loss.",
-        "evidence": "Experiments on three tasks and three base models show ROPD lowers attack success rate to 2.4% and maintains task scores (e.g., 0.626) outperforming four SOTA baselines whose ASR exceeds 6% and often drops task performance to zero.",
-        "limitations": "ROPD is not completely immune to template shifts; its performance degrades slightly under mismatched templates.",
-        "why_for_you": "This work aligns with trustworthy LLM research by demonstrating efficient on‑policy distillation for safety that mitigates template‑dependent failures.",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
+        "takeaway": "ROPD 通过双教师在线策略蒸馏实现对提示模板变化更稳健的安全再对齐，同时保留下游能力。",
+        "problem": "微调后的 LLM 可能带有有害行为；当攻击提示模板未知时，现有防御常失效，还可能损失技能或再次被越狱。",
+        "method": "ROPD 按样本来源在冻结的安全教师与任务教师之间路由，并用 top-K KL 损失训练学生模型。",
+        "evidence": "在 3 个任务和 3 个基础模型上，ROPD 将 ASR 降至 2.4%，同时保持 0.626 等任务分数；4 个 SOTA 基线的 ASR 均超过 6%，且任务表现有时降为 0。",
+        "limitations": "ROPD 并非完全免疫模板变化；防御模板与攻击模板不匹配时仍有小幅退化。",
+        "why_for_you": "它展示了一种兼顾安全与能力、且较少依赖提示模板的高效对齐方案。",
+        "source": "已缓存的全文分析",
+        "generated_by": "Codex grounded translation",
+        "language": "zh",
         "schema_version": 2
       },
       "deep_dive": {
         "signals": [
           {
             "icon": "🛡️",
-            "text": "ROPD cuts template‑mismatch attack success rate by over 30%, achieving single‑digit ASR (2.4%) while keeping task performance."
+            "text": "模板不匹配时，ROPD 仍把 ASR 压到 2.4% 的个位数水平，并保留任务能力。"
           },
           {
-            "icon": "⚙️",
-            "text": "ROPD routes each token to a frozen safety or task teacher and trains with a top‑K KL distillation loss."
+            "icon": "🔀",
+            "text": "每个训练样本被路由到冻结的安全教师或任务教师，再以 top-K KL 进行蒸馏。"
           },
           {
-            "icon": "📈",
-            "text": "On Llama‑2‑7B‑Chat SQL, ROPD reaches task score 0.626 and ASR 2.4%, outperforming baselines whose ASR exceeds 6%."
+            "icon": "📊",
+            "text": "在 Llama-2-7B-Chat 的 SQL 任务上达到 0.626 任务分数 / 2.4% ASR，优于 soft-SFT 的 0.358 / 6.3%。"
           }
         ],
-        "overview": "The paper introduces Routing‑based On‑Policy Distillation (ROPD), a safety‑realignment framework that avoids template‑specific supervision by distilling the refusal distribution of an aligned teacher. ROPD employs a routing mechanism to select between a frozen safety teacher (the original aligned model) and a task teacher (the misaligned model) for each token, optimizing a top‑K KL objective. Extensive evaluations across three downstream tasks (SQL, SAMSum, NL2Bash), three base models (Llama‑2, Qwen2.5, Gemma2), and four SOTA baselines demonstrate that ROPD markedly reduces attack success rates while preserving or slightly improving task performance, though minor template‑shift sensitivity remains.",
+        "overview": "论文提出 Routing-based On-Policy Distillation（ROPD），不依赖某个固定攻击模板，而是蒸馏原始对齐模型的拒答分布。框架使用冻结的安全教师与任务教师，在 SQL、SAMSum、NL2Bash 三类任务以及 Llama-2、Qwen2.5、Gemma2 三类基础模型上，相比 rollback、RESTA、soft-SFT、SSRD 获得更好的安全—能力权衡。",
         "methodology": [
           {
-            "title": "Dual‑teacher configuration",
-            "detail": "The misaligned model serves as the task teacher and the original aligned model as the safety teacher; both are frozen during student training."
+            "title": "双教师配置",
+            "detail": "以误对齐后的模型作为任务教师、原始对齐模型作为安全教师；训练学生模型时两位教师均冻结。"
           },
           {
-            "title": "Routing and loss",
-            "detail": "For each training example, a teacher is selected by source (Eq. 1), and a top‑K KL divergence (Eq. 2) between student and selected teacher is computed; parameters are updated via gradient descent (Eq. 3)."
+            "title": "路由与损失",
+            "detail": "依据样本来源选择教师（式 1），计算学生与所选教师之间的 top-K KL 散度（式 2），再按式 3 做梯度更新。"
           }
         ],
         "mechanism": [
           {
-            "title": "Template‑independent refusal prior",
-            "detail": "The safety teacher’s output distribution concentrates probability on refusals regardless of prompt format, and distilling this distribution injects a refusal prior into the student that is less tied to any specific attack template."
+            "title": "模板无关的拒答先验",
+            "detail": "安全教师在不同提示格式下都把概率集中到拒答输出，蒸馏该分布可减少安全行为对具体模板的绑定。"
           },
           {
-            "title": "Skill preservation via task teacher",
-            "detail": "Routing to the task teacher ensures the student inherits the downstream capability of the misaligned model, preventing catastrophic forgetting of specialized skills."
+            "title": "任务能力保留",
+            "detail": "路由到任务教师时，学生继承误对齐模型已经学到的下游技能，从而缓解灾难性遗忘。"
           }
         ],
         "experiments": [
           {
-            "title": "Setup",
-            "detail": "Three downstream tasks (text‑to‑SQL, dialogue summarization, NL2Bash) with 1,500 harmful examples from BeaverTails; three base models (Llama‑2, Qwen2.5, Gemma2); four baselines (rollback, RESTA, soft‑SFT, SSRD); evaluation of attack success rate (ASR) and task metrics (e.g., ROUGE)."
+            "title": "实验设置",
+            "detail": "覆盖 text-to-SQL、对话摘要、NL2Bash，加入 1,500 条 BeaverTails 有害样本，并比较 3 类基础模型和 4 个防御基线。"
           },
           {
-            "title": "Template conditions",
-            "detail": "Defenses are run with two legal defense templates (raw, self) while the attack template is varied; an oracle upper bound uses the attack template as defense."
+            "title": "模板条件",
+            "detail": "防御使用 raw 与 self 两种合法模板，攻击模板则变化；另用与攻击相同模板的防御作为 oracle 上界。"
           }
         ],
         "findings": [
           {
-            "title": "ASR reduction",
-            "detail": "When defense and attack templates mismatch, baseline ASR drops by >30% and task performance can fall to zero, whereas ROPD achieves ASR as low as 2.4% (self template) and maintains task scores (e.g., 0.626)."
+            "title": "更好的安全—能力权衡",
+            "detail": "ROPD 最低达到 2.4% ASR，同时保持 0.626 等任务分数；基线可能因防御而把任务表现降为 0。"
           },
           {
-            "title": "Cross‑template robustness",
-            "detail": "On Llama‑2‑7B‑Chat SQL, ROPD attains 0.626 task score / 2.4% ASR under self template, compared to soft‑SFT’s 0.358 / 6.3% and higher ASR for other baselines."
-          },
-          {
-            "title": "Minor template sensitivity",
-            "detail": "ROPD’s ASR increases slightly under unseen templates but remains substantially lower than all baselines, confirming a reduced but non‑zero template‑mismatch risk."
+            "title": "仍有轻微模板敏感性",
+            "detail": "未见模板会令 ASR 小幅上升，但仍显著低于所有对比基线。"
           }
         ],
         "contributions": [
-          "Introduce ROPD, a dual‑teacher on‑policy distillation framework that mitigates template‑dependent safety failures.",
-          "Demonstrate that distilling the aligned model’s refusal distribution yields a template‑independent safety signal.",
-          "Provide extensive empirical evidence across models, tasks, and baselines showing superior safety‑task trade‑offs."
+          "提出双教师在线策略蒸馏框架 ROPD。",
+          "将对齐模型的拒答分布转化为较少依赖模板的安全信号。",
+          "跨模型、任务与基线验证了更优的安全—任务权衡。"
         ],
         "limitations": [
-          "ROPD is not entirely immune to template shifts; performance degrades slightly when the defense template differs from the attack template."
+          "尚未完全消除模板偏移带来的性能下降。"
         ],
         "open_questions": [
-          "How can template‑independent safety signals be further strengthened to achieve complete immunity to prompt variations?",
-          "What are the scalability limits of ROPD when applied to much larger LLMs or multi‑modal models?",
-          "Can ROPD be combined with reinforcement learning from human feedback to improve long‑term alignment robustness?"
+          "如何进一步强化模板无关的安全信号？",
+          "ROPD 扩展到更大或多模态模型时的成本与上限是什么？",
+          "能否与 RLHF 结合以提高长期对齐稳健性？"
         ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
+        "source_scope": "已缓存的全文选定区域（最多 30 页）",
+        "generated_by": "Codex grounded translation",
+        "language": "zh",
         "schema_version": 5
       },
       "recommended_at": "2026-07-30T12:03:36.063766+00:00"
@@ -758,103 +756,99 @@
         "lane": "llm"
       },
       "summary": {
-        "evidence": "187-patient PPG-ECG tests show 1.82-6.69% improvement in repair endpoints and 0.67% UHR increase with ECG-to-PPG distillation baseline.",
-        "limitations": "Framework dependency on specific reliability generators and unresolved extreme low-FPR cases limit generalization.",
-        "method": "DFOT framework quantifies over-trust through five estimands (COTR, CIR, CRR, ESRM, UHR) using matched-vs-shuffled interventions and privileged modality evidence.",
-        "problem": "LLMs over-trust instance-dependent derived measurements, treating them as direct facts despite validity constraints.",
-        "takeaway": "DFOT defines a new evaluation target for LLM over-trust in derived measurements, with measurable mitigation via physiological case studies.",
-        "why_for_you": "Matches your focus on trustworthy LLMs by addressing interface-level over-trust through quantifiable physiological validation",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "en",
+        "takeaway": "DFOT 把 LLM 对派生测量值的过度信任定义为新的评估目标，并在生理信号案例中展示了可量化的缓解效果。",
+        "problem": "LLM 会把受有效性条件约束的实例级派生测量值当作直接事实，从而产生过度信任。",
+        "method": "框架通过匹配与打乱干预、特权模态证据，以及 COTR、CIR、CRR、ESRM、UHR 五个估计量量化 DFOT。",
+        "evidence": "187 名患者的 PPG-ECG 测试显示，ECG-to-PPG 蒸馏让修复端点提升 1.82–6.69%；UHR 增加 0.67%。",
+        "limitations": "结果依赖特定可靠性生成器，且极低 FPR 情况仍未解决，限制了泛化。",
+        "why_for_you": "它把界面层面的“误把推断当事实”转化为可测量、可干预的可信性问题。",
+        "source": "已缓存的全文分析",
+        "generated_by": "Codex grounded translation",
+        "language": "zh",
         "schema_version": 2
       },
       "deep_dive": {
-        "contributions": [
-          "Formal definition of DFOT as an interface-level LLM over-trust failure",
-          "Five estimands (COTR, CIR, CRR, ESRM, UHR) for quantifying derived measurement reliability",
-          "Matched-vs-shuffled interventions to distinguish instance-specific repair from generic caution"
+        "signals": [
+          {
+            "icon": "🧭",
+            "text": "DFOT 用 COTR、CIR、CRR、ESRM、UHR 五个估计量描述对派生测量的过度信任。"
+          },
+          {
+            "icon": "🫀",
+            "text": "特权 ECG 证据经蒸馏后，使 PPG 可靠性修复指标提升 1.82–6.69%。"
+          },
+          {
+            "icon": "📏",
+            "text": "187 名患者测试中 UHR 增加 0.67%，95% CI 为 -0.4 到 +1.7。"
+          }
+        ],
+        "overview": "论文将 DFOT 形式化为一种界面级故障：LLM 把派生测量值赋予了直接事实的认识论地位。作者以 PPG-ECG 为案例，用五个估计量和匹配/打乱证据干预衡量过度信任，并通过 ECG-to-PPG 特权模态蒸馏改善可靠性。结果显示修复率和证据特异性可提升，但极端条件仍未解决。",
+        "methodology": [
+          {
+            "title": "特权模态蒸馏",
+            "detail": "K2 将高保真 ECG 的可靠性证据转移到仅使用 PPG 的接口中，并与 PPG-only 基线 B2 比较。"
+          },
+          {
+            "title": "匹配与打乱干预",
+            "detail": "打乱条件破坏实例对应关系但保持接口结构，用 CRR 与 ESRM 区分真正的实例级修复和泛化的谨慎反应。"
+          },
+          {
+            "title": "五个估计量",
+            "detail": "COTR、CIR、CRR、ESRM、UHR 分别覆盖冲突过信、上下文诱发错误、正确修复、证据特异性与效用伤害。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "DFOT 界面故障",
+            "detail": "模型即使面对 ECG 冲突或误导性病史，仍可能把 PPG 节律等派生量当作可靠事实。"
+          },
+          {
+            "title": "受限的证据转移",
+            "detail": "系统不暴露原始 ECG，而把其可靠性信号蒸馏给 PPG-only 模型，以保留模态边界。"
+          }
         ],
         "experiments": [
           {
-            "detail": "50,000 paired records with ECG as offline reference, testing D1 (PPG-ECG conflict) and D2 (misleading history) scenarios using PPG-only LLMs.",
-            "title": "PPG-ECG Case Study"
+            "title": "PPG-ECG 案例",
+            "detail": "使用 50,000 条成对记录，以 ECG 为离线参考，测试 D1（PPG-ECG 冲突）和 D2（误导性病史）。"
           },
           {
-            "detail": "B2 (PPG-only reliability) vs. K2 (ECG-to-PPG distillation) evaluated on 187-patient protocol-locked tests with 1.82-6.69% repair improvements.",
-            "title": "Baseline Models"
-          },
-          {
-            "detail": "COTR, CIR, CRR, ESRM, and UHR measured across Qwen38B, DeepSeek-V4-Pro, and GPT-5.5 LLMs with paired confidence intervals.",
-            "title": "Metrics"
+            "title": "锁定协议评估",
+            "detail": "在 187 名患者上比较 B2 与 K2，并在 Qwen38B、DeepSeek-V4-Pro、GPT-5.5 上报告成对置信区间。"
           }
         ],
         "findings": [
           {
-            "detail": "COTR and CIR measure over-trust in conflicting vs. misleading scenarios, with CRR showing 1.82-6.69% repair improvements over B2.",
-            "title": "DFOT Quantification"
+            "title": "修复改善",
+            "detail": "相对 B2，CRR 等修复端点提高 1.82–6.69%。"
           },
           {
-            "detail": "ESRM distinguishes instance-specific evidence use (CRR(m) - CRR(s) = +0.064 to +0.071) from generic caution.",
-            "title": "Specificity Validation"
+            "title": "证据特异性",
+            "detail": "ESRM 的 CRR(m)-CRR(s) 为 +0.064 到 +0.071，表明收益不只是泛化的谨慎。"
           },
           {
-            "detail": "UHR increased 0.67% (95% CI: -0.4 to +1.7) in HIGH-reliability cases, indicating unnecessary verification despite baseline usefulness.",
-            "title": "Utility Harm"
+            "title": "效用伤害",
+            "detail": "HIGH 可靠性样本中 UHR 增加 0.67%（95% CI：-0.4 到 +1.7），说明仍会产生不必要核验。"
           }
+        ],
+        "contributions": [
+          "形式化定义 DFOT 这一界面级过信故障。",
+          "提出五个可操作估计量。",
+          "用匹配/打乱干预区分实例证据利用与泛化谨慎。"
         ],
         "limitations": [
-          "Framework depends on specific reliability generators (e.g., ECG-to-PPG distillation) for validation",
-          "Extreme low-FPR cases remain unresolved, limiting generalization",
-          "No explicit comparison with calibration or selective prediction methods"
-        ],
-        "mechanism": [
-          {
-            "detail": "LLMs assign epistemic status of direct facts to derived measurements, treating PPG rhythms as reliable despite ECG contradictions or misleading history.",
-            "title": "DFOT Interface Failure"
-          },
-          {
-            "detail": "ECG-derived reliability signals are distilled into PPG-only models without revealing raw ECG data, preserving modality-specific constraints.",
-            "title": "Privileged Evidence Transfer"
-          }
-        ],
-        "methodology": [
-          {
-            "detail": "ECG-to-PPG distillation (K2) transfers high-fidelity ECG reliability evidence into PPG-only LLM interfaces, contrasting with baseline PPG-only models (B2).",
-            "title": "Privileged Modality Distillation"
-          },
-          {
-            "detail": "Controls break instance correspondence while preserving interface structure, measuring repair (CRR) and evidence specificity (ESRM) through matched (m) and shuffled (s) evidence conditions.",
-            "title": "Matched-vs-Shuffled Interventions"
-          },
-          {
-            "detail": "COTR (conflict over-trust rate), CIR (context-induced error rate), CRR (correct repair rate), ESRM (evidence-specific repair margin), and UHR (utility harm rate) quantify different aspects of DFOT.",
-            "title": "Five Estimands"
-          }
+          "验证依赖 ECG-to-PPG 等特定可靠性生成器。",
+          "极低 FPR 情况未解决。",
+          "未与校准或选择性预测方法直接比较。"
         ],
         "open_questions": [
-          "How to generalize DFOT metrics beyond physiological signals to other modalities?",
-          "What are the limits of privileged modality distillation for reliability transfer?",
-          "How to balance repair rates with specificity in safety-critical applications?"
+          "如何把 DFOT 推广到生理信号以外的模态？",
+          "特权模态蒸馏的可靠性转移上限是什么？",
+          "安全关键场景中如何平衡修复率与特异性？"
         ],
-        "overview": "The paper formalizes DFOT as an interface-level failure where LLMs treat derived measurements as facts. It introduces a framework using physiological signals (PPG-ECG) with five estimands to quantify over-trust, validated through matched-vs-shuffled interventions. The method employs privileged modality distillation (ECG-to-PPG) to improve reliability, demonstrating measurable gains in repair rates and specificity while highlighting unresolved limitations in extreme cases.",
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "DFOT defines over-trust in derived measurements via five estimands"
-          },
-          {
-            "icon": "🔧",
-            "text": "Privileged ECG distillation improves PPG reliability ranking by 1.82-6.69%"
-          },
-          {
-            "icon": "📈",
-            "text": "187-patient tests show 0.67% UHR increase with 95% CI [-0.4, +1.7]"
-          }
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "en",
+        "source_scope": "已缓存的全文选定区域（最多 30 页）",
+        "generated_by": "Codex grounded translation",
+        "language": "zh",
         "schema_version": 5
       },
       "recommended_at": "2026-07-31T12:16:26.321275+00:00"
@@ -1101,104 +1095,100 @@
         "open source"
       ],
       "summary": {
-        "takeaway": "OmegaUse-OfficeVal introduces a benchmark with 100 long-horizon office-suite tasks paired with economic signals to evaluate LLM agents on cost-quality-time trade-offs.",
-        "problem": "Existing benchmarks inadequately assess LLM agents’ ability to complete complex office-suite workflows with economic grounding reflecting human labor and market value.",
-        "method": "The benchmark combines practitioner-derived tasks, human labor time and task price proxies, and code-based verification from fine-grained rubrics to evaluate final deliverables.",
-        "evidence": "Evaluations show LLMs are substantially cheaper and faster than humans but have not reached human-level deliverable quality across diverse office-suite domains.",
-        "limitations": "Current LLMs exhibit uneven performance across domains and task types, and the benchmark lacks evidence on uniform capability and trajectory-level evaluation.",
-        "why_for_you": "This benchmark enables rigorous, economically grounded evaluation of LLM agents on realistic, long-horizon office tasks critical for trustworthy productivity AI.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
+        "takeaway": "OmegaUse-OfficeVal 提供 100 个长流程办公任务，并用经济信号评估 LLM agent 的成本—质量—时间权衡。",
+        "problem": "现有基准难以衡量 agent 完成复杂办公流程的能力，也缺少与人工劳动和市场价值对应的经济依据。",
+        "method": "基准结合从从业者需求提炼的任务、人类工时与任务价格代理，并用细粒度 rubric 的确定性代码检查最终交付物。",
+        "evidence": "评估显示 LLM 明显比人类便宜、快速，但在多种办公领域中尚未达到人类交付质量。",
+        "limitations": "模型跨领域表现不均；基准只评最终文件，尚未覆盖统一能力与执行轨迹层面的评估。",
+        "why_for_you": "它为真实长流程办公 agent 提供了更贴近生产价值的可信评估方式。",
+        "source": "已缓存的全文分析",
+        "generated_by": "Codex grounded translation",
+        "language": "zh",
+        "schema_version": 2
       },
       "deep_dive": {
         "signals": [
           {
-            "icon": "🧠",
-            "text": "OmegaUse-OfficeVal tasks average 2.32 hours of human labor and include economic signals: human labor time and task price proxy, enabling value-weighted evaluation of LLM agents."
+            "icon": "⏱️",
+            "text": "100 个任务平均需要人类 2.32 小时，并同时标注人工时间和任务价格代理。"
           },
           {
-            "icon": "🛡️",
-            "text": "The benchmark employs a deterministic code-based verification protocol using expert-revised rubrics to evaluate final office deliverables rather than fixed execution trajectories."
+            "icon": "✅",
+            "text": "每个任务约含 20 条专家修订 rubric，由确定性代码检查最终文件，允许多种有效执行路径。"
           },
           {
-            "icon": "📉",
-            "text": "Experimental results reveal that although LLM agents are faster and cheaper, none have matched human-level quality, with performance varying significantly by domain and task type."
+            "icon": "💸",
+            "text": "LLM 更快且更便宜，但所有受测模型的交付质量仍未达到人类水平。"
           }
         ],
-        "overview": "OmegaUse-OfficeVal addresses the gap in evaluating LLM agents on complex, long-horizon office-suite workflows by introducing a benchmark of 100 tasks derived from real practitioner requests. Each task is annotated with two economic signals: human labor time and a task price proxy, the latter combining explicit market prices and expert estimates to reflect real-world value. The evaluation protocol uses code-based verification with fine-grained rubrics to assess final deliverables, allowing multiple valid workflows. This approach enables direct comparison of human and LLM costs and quality, including value-weighted metrics emphasizing tasks with higher labor or market value. Experiments with several frontier LLMs and human baselines show that while LLMs are substantially cheaper and faster, they have not yet achieved human-level deliverable quality, with performance varying across domains, output file types, and operation intents. This benchmark thus provides a comprehensive, economically grounded framework for assessing LLM agents’ practical utility in office automation.",
+        "overview": "OmegaUse-OfficeVal 收集 100 个源于真实从业者需求的长流程办公任务，为每项任务标注人工时间和任务价格代理。它不限定 agent 的执行路径，而以专家 rubric 和代码验证最终交付物，并报告原始、时间加权和价格加权分数。多款前沿模型的实验表明，当前 LLM 具有明显成本与速度优势，但质量仍低于人类，而且能力在领域、文件类型和操作意图之间不均衡。",
         "methodology": [
           {
-            "title": "Task Collection and Economic Annotation",
-            "detail": "Tasks were collected from practitioner office-suite requests and adapted via a privacy-preserving process. Each task is annotated with human labor time measured in minutes and a task price proxy derived from explicit price signals for 20% of tasks and expert estimates aggregated through a consistency-based procedure for the remainder."
+            "title": "任务与经济标注",
+            "detail": "20% 的任务有显式市场价格，其余由 3 名领域专家依据职业、复杂度和典型报酬估价，并在剔除不一致异常值后取均值。"
           },
           {
-            "title": "Task Price Proxy Estimation",
-            "detail": "For tasks lacking explicit price data, three domain experts independently estimate task value based on occupational category, complexity, and typical compensation. Outlier estimates are discarded based on gap ratios, and the final proxy is the mean of consistent estimates, ensuring economic grounding and coverage."
+            "title": "代码化交付验收",
+            "detail": "约 20 条 rubric/任务用于确定性检查 Word、Excel、PPT 等最终文件，重点评估结果而非固定轨迹。"
           },
           {
-            "title": "Code-Based Verification Protocol",
-            "detail": "Evaluation uses deterministic code-based verification of final output files against expert-revised rubrics with about 20 rubric items per task. This approach supports multiple valid workflows and focuses on deliverable quality rather than execution trajectory."
-          },
-          {
-            "title": "Value-Weighted Scoring Metrics",
-            "detail": "Three scoring metrics are used: raw task score, time-weighted score (weighting by human labor time), and price-weighted score (weighting by task price proxy). These metrics enable nuanced evaluation of agent performance considering economic value and human effort."
+            "title": "价值加权评分",
+            "detail": "同时报告原始任务分、按人工时间加权分和按价格代理加权分。"
           }
         ],
         "mechanism": [
           {
-            "title": "Economic Grounding via Hybrid Price Proxy",
-            "detail": "The task price proxy mechanism combines explicit market prices with expert estimates to provide a comprehensive economic value annotation. The consistency-based aggregation discards outliers by comparing adjacent gaps among expert estimates, preserving real-world grounding while mitigating extreme values."
+            "title": "混合价格代理",
+            "detail": "显式市场价格与一致性筛选后的专家估计结合，在提高覆盖率的同时降低极端估值影响。"
           },
           {
-            "title": "Code-Based Verification Mechanism",
-            "detail": "The verification mechanism evaluates final deliverables using deterministic code that checks compliance with rubric criteria, allowing multiple valid workflows to produce acceptable outputs. This contrasts with trajectory-based or human-judged evaluation, providing stable and reproducible quality assessment."
+            "title": "多路径验证",
+            "detail": "只验证最终文件是否满足 rubric，因此不同工作流都可能得到正确评分。"
           }
         ],
         "experiments": [
           {
-            "title": "Model and Human Baseline Evaluation",
-            "detail": "Several frontier LLMs including GLM-5.2, Qwen3.7-Plus, DeepSeek-V4-Pro, Kimi K2.6, and MiniMax M3 were evaluated alongside human annotators on the 100-task benchmark using raw, time-weighted, and price-weighted scoring metrics."
+            "title": "模型与人类基线",
+            "detail": "比较 GLM-5.2、Qwen3.7-Plus、DeepSeek-V4-Pro、Kimi K2.6、MiniMax M3 与人类完成者。"
           },
           {
-            "title": "Domain and Task-Type Performance Analysis",
-            "detail": "Performance was analyzed across domains (e.g., Engineering, Business, Academic), output file types (Word, Excel, PPT), and operation intents (annotation, extraction, beautification). Results showed domain-specific strengths and weaknesses, with Excel and annotation tasks generally easier for LLMs."
+            "title": "细分分析",
+            "detail": "按 Engineering、Business、Academic 等领域，Word/Excel/PPT 文件类型及标注、抽取、美化等意图分析。"
           }
         ],
         "findings": [
           {
-            "title": "LLMs Are Cheaper and Faster but Lower Quality",
-            "detail": "All evaluated LLMs completed tasks at substantially lower cost and runtime than humans but did not reach human-level deliverable quality, confirming the benchmark’s challenge and the gap in current LLM capabilities."
+            "title": "成本与质量仍有落差",
+            "detail": "所有 LLM 都显著更便宜、更快，但尚未达到人类最终交付质量。"
           },
           {
-            "title": "Performance Varies by Domain and Task Type",
-            "detail": "GLM-5.2 excelled in Engineering tasks, Qwen3.7-Plus in Business Operations, DeepSeek-V4-Pro in Academic Papers, and Kimi K2.6 in Other categories, indicating non-uniform LLM capabilities across office-suite workflows."
+            "title": "能力高度不均",
+            "detail": "不同模型分别在工程、商业运营、学术论文等领域领先，没有统一赢家。"
           },
           {
-            "title": "Excel and Annotation Tasks Are More Tractable",
-            "detail": "Models performed better on Excel and Word tasks and on annotation and extraction operation intents, likely due to programmatic manipulability and clearer task specifications, whereas beautification tasks were more challenging."
+            "title": "结构化任务更易处理",
+            "detail": "Excel、Word、标注和抽取总体更容易，而美化类任务更具挑战。"
           }
         ],
         "contributions": [
-          "Introduction of OmegaUse-OfficeVal, a benchmark with 100 long-horizon office-suite tasks annotated with human labor time and task price proxies.",
-          "Development of a deterministic code-based verification protocol using expert-revised rubrics for stable and reproducible evaluation of final deliverables.",
-          "Proposal of value-weighted scoring metrics that incorporate economic signals to assess LLM agent performance in terms of human labor and market value.",
-          "Comprehensive evaluation of multiple frontier LLMs and human baselines revealing cost-quality-time trade-offs and domain-specific performance variations."
+          "发布含 100 个真实长流程办公任务的经济化评估基准。",
+          "提供稳定、可复现的代码验证协议。",
+          "提出时间与价格加权指标并量化成本—质量—时间权衡。"
         ],
         "limitations": [
-          "The benchmark does not evaluate execution trajectories, focusing solely on final deliverable quality, which may overlook agent behavior nuances.",
-          "Economic annotations rely partly on expert estimates, which may introduce subjective bias despite consistency checks.",
-          "Current LLMs show uneven performance across domains and task types, indicating limited generalization and robustness.",
-          "The benchmark lacks evidence on how well LLM agents handle dynamic or interactive office workflows beyond static task completion."
+          "不评估执行轨迹，可能遗漏策略与恢复行为。",
+          "部分经济标注依赖专家主观估计。",
+          "未覆盖动态、交互式办公流程。"
         ],
         "open_questions": [
-          "How can LLM agents be improved to achieve human-level deliverable quality across diverse long-horizon office-suite tasks?",
-          "What methods can better integrate economic grounding into agent training and decision-making to optimize cost-quality-time trade-offs?",
-          "How can evaluation protocols incorporate trajectory-level analysis to capture agent strategies and error recovery in office automation?",
-          "What approaches can enhance LLM robustness and generalization across heterogeneous office domains and task intents?"
+          "如何让 agent 在不同办公领域都达到人类交付质量？",
+          "怎样把经济信号用于训练和决策？",
+          "如何纳入轨迹、错误恢复和交互式流程评估？"
         ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
+        "source_scope": "已缓存的全文选定区域（最多 30 页）",
+        "generated_by": "Codex grounded translation",
+        "language": "zh",
+        "schema_version": 5
       },
       "recommendation_reason": {
         "topic": "Trustworthy LLM",
@@ -1601,109 +1591,102 @@
         "quantitative results"
       ],
       "summary": {
-        "takeaway": "Combining a spectral norm-based inner perturbation with the Muon optimizer as the outer update in Sharpness-Aware Minimization (SAM) yields superior validation accuracy on ImageNet-1K for ViT-Small/16 and ResNet-50.",
-        "problem": "Existing SAM variants lack a clear understanding of which perturbation geometries most effectively improve generalization, especially regarding matrix-aware spectral norms.",
-        "method": "The paper introduces a layerwise spectral inner perturbation for matrix-valued parameters combined with either AdamW/SGDW or Muon optimizers in the outer step to study spectral geometry effects in SAM.",
-        "evidence": "ImageNet-1K experiments show that spectral inner perturbations paired with Muon outperform Euclidean perturbations and AdamW outer steps, achieving up to 80.23% top-1 accuracy on ViT-Small/16.",
-        "limitations": "The study does not provide a differentiable selection for the spectral perturbation map and relies on stop-gradient approximations, limiting theoretical analysis of second-order effects.",
-        "why_for_you": "This work advances understanding of geometry-aware adversarial perturbations in SAM and demonstrates the practical benefits of spectral norm-based optimization for robust and generalizable LLM training.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
+        "takeaway": "在 SAM 中用谱范数内层扰动、Muon 做外层更新，可提升 ViT-Small/16 和 ResNet-50 在 ImageNet-1K 上的验证准确率。",
+        "problem": "现有 SAM 变体尚不清楚哪种扰动几何最利于泛化，尤其缺少对矩阵结构感知的谱范数研究。",
+        "method": "方法为矩阵参数加入逐层谱范数内层扰动，并分别搭配 AdamW/SGDW 或 Muon 外层优化器，研究内外层几何的交互。",
+        "evidence": "ImageNet-1K 上，谱扰动配合 Muon 优于欧氏扰动和 AdamW 外层更新；ViT-Small/16 的 top-1 最高达到 80.23%。",
+        "limitations": "谱扰动映射不可微，方法依赖 stop-gradient 近似，因此难以分析精确的二阶效应。",
+        "why_for_you": "该工作澄清了 SAM 中内外层几何的交互，并为矩阵感知优化提供了实证依据。",
+        "source": "已缓存的全文分析",
+        "generated_by": "Codex grounded translation",
+        "language": "zh",
+        "schema_version": 2
       },
       "deep_dive": {
         "signals": [
           {
-            "icon": "🧠",
-            "text": "Spectral inner perturbations amplify the benefits of the Muon outer optimizer, achieving a 5.28 percentage point improvement in validation accuracy on ViT-Small/16 compared to 4.45 points with AdamW."
+            "icon": "📐",
+            "text": "谱内层扰动与 Muon 结合时，ViT-Small/16 验证准确率提升 5.28 个百分点；配 AdamW 时为 4.45 个百分点。"
           },
           {
-            "icon": "🛡️",
-            "text": "The method applies a layerwise spectral norm-based inner maximization step to find worst-case perturbations respecting matrix structure, combined with Muon's matrix-aware outer update that uses Newton-Schulz iterations for spectral normalization."
+            "icon": "🧮",
+            "text": "内层在谱范数球中寻找最坏矩阵扰动，外层 Muon 用 Newton-Schulz 迭代做谱归一化更新。"
           },
           {
-            "icon": "📉",
-            "text": "CIFAR-100 diagnostics reveal that Muon maintains higher effective rank in weight matrices and features, enabling larger perturbation radii and stronger regularization, while excessive radii reduce rank and degrade validation accuracy."
+            "icon": "📈",
+            "text": "CIFAR-100 诊断显示 Muon 保持更高的权重与特征有效秩，但过大的扰动半径会降秩并损伤准确率。"
           }
         ],
-        "overview": "The paper addresses the challenge of selecting effective perturbation geometries in Sharpness-Aware Minimization (SAM) by investigating spectral norm-based perturbations that respect the matrix structure of neural network weights. Motivated by the success of the Muon optimizer, which incorporates spectral geometry in the outer update, the authors propose combining a layerwise spectral inner perturbation with Muon or AdamW/SGDW outer optimizers. They formulate a norm-agnostic SAM framework using Fréchet differentials and dual norms to define adversarial perturbations under spectral norms. Empirical evaluation on ImageNet-1K with ViT-Small/16 and ResNet-50 shows that spectral inner steps paired with Muon yield the highest validation accuracy, outperforming Euclidean perturbations and AdamW outer steps. Additional diagnostics on CIFAR-100 demonstrate that Muon preserves higher effective rank in weights and features, supporting stronger regularization via larger perturbation radii. The work highlights the interaction between inner and outer geometries and establishes spectral geometry as a promising direction for robust optimization in deep learning.",
+        "overview": "论文从范数无关的 SAM 表述出发，研究尊重神经网络权重矩阵结构的谱范数扰动，并比较其与 Muon、AdamW/SGDW 外层更新的组合。ImageNet-1K 实验显示谱内层 + Muon 获得最佳验证准确率；CIFAR-100 诊断则将收益与更高有效秩、更大的可用扰动半径联系起来。结果表明，SAM 的内层扰动几何与外层优化几何需要联合设计。",
         "methodology": [
           {
-            "title": "Norm-agnostic SAM formulation",
-            "detail": "The authors generalize SAM by defining the inner perturbation step as a maximization over a unit ball of an arbitrary norm, using the Fréchet differential DL(θ) and its dual norm ∥DL(θ)∥in,* to characterize the worst-case perturbation ε*. This allows replacing the Euclidean norm with spectral norms for matrix-valued parameters."
+            "title": "范数无关的 SAM",
+            "detail": "用 Fréchet 微分 DL(θ) 和对偶范数描述任意范数单位球内的最坏扰动，从而把欧氏范数替换为矩阵参数的谱范数。"
           },
           {
-            "title": "Spectral inner perturbation",
-            "detail": "They introduce a layerwise spectral norm inner step that computes adversarial perturbations respecting the matrix structure of hidden-layer weights. This involves orthogonalized gradient ascent constrained by the spectral norm unit ball, approximated via iterative methods."
+            "title": "逐层谱扰动",
+            "detail": "对隐藏层矩阵权重执行受谱范数约束的正交化梯度上升，并以迭代方法近似。"
           },
           {
-            "title": "Outer update with Muon optimizer",
-            "detail": "The outer step uses the Muon optimizer, which applies spectral norm-aware updates to matrix-valued parameters using Newton-Schulz iterations for spectral normalization, while non-matrix parameters are updated by AdamW or SGDW, enabling hybrid parameter routing."
-          },
-          {
-            "title": "Experimental protocol",
-            "detail": "Experiments train ViT-Small/16 for 300 epochs and ResNet-50 for 120 epochs on ImageNet-1K, tuning learning rates and perturbation radii per method. Evaluation includes Top-1 accuracy, ImageNet-ReaL, and ImageNet-R benchmarks, with multiple random seeds for robustness."
+            "title": "Muon 外层更新",
+            "detail": "矩阵参数由带 Newton-Schulz 谱归一化的 Muon 更新，非矩阵参数则路由给 AdamW 或 SGDW。"
           }
         ],
         "mechanism": [
           {
-            "title": "First-order adversarial perturbation via dual norm",
-            "detail": "The mechanism defines the inner maximization in SAM as finding ε* maximizing the linearized loss increase DL(θ)[ε] subject to ∥ε∥in ≤ 1, where ∥·∥in is a chosen norm (spectral norm for matrices). The dual norm ∥DL(θ)∥in,* quantifies the worst-case directional derivative, guiding the perturbation."
+            "title": "对偶范数最坏方向",
+            "detail": "在 ∥ε∥in≤1 下最大化线性化损失 DL(θ)[ε]，由对偶范数刻画最坏方向导数。"
           },
           {
-            "title": "Stop-gradient approximation",
-            "detail": "Due to non-differentiability and computational cost of the maximizer map ε*(θ), the method uses a stop-gradient approximation, evaluating the loss at θ + ρε* but ignoring the derivative of ε* with respect to θ, simplifying gradient computation during training."
+            "title": "Stop-gradient 近似",
+            "detail": "由于 ε*(θ) 不可微且求导昂贵，训练在 θ+ρε* 处计算损失，但忽略 ε* 对 θ 的导数。"
           }
         ],
         "experiments": [
           {
-            "title": "ImageNet-1K classification with ViT-Small/16 and ResNet-50",
-            "detail": "The authors evaluate SAM variants with Euclidean and spectral inner steps combined with AdamW/SGDW or Muon outer optimizers. Training uses large batch sizes, cosine learning rate schedules, and standard augmentations excluding Mixup and RandAugment to isolate optimization effects."
+            "title": "ImageNet-1K",
+            "detail": "ViT-Small/16 训练 300 epochs、ResNet-50 训练 120 epochs，比较欧氏/谱内层与 AdamW/SGDW/Muon 外层组合。"
           },
           {
-            "title": "Out-of-distribution robustness on ImageNet-R",
-            "detail": "Models are evaluated on ImageNet-R, a 30k-image artistic rendition dataset, to assess generalization beyond the training distribution, showing spectral SAM with Muon achieves top performance, though differences are not statistically significant across seeds."
-          },
-          {
-            "title": "CIFAR-100 diagnostic experiments",
-            "detail": "Additional experiments on CIFAR-100 measure effective rank of weight matrices and features, and sharpness via projected gradient ascent at fixed radii, revealing that Muon maintains higher rank and that larger perturbation radii reduce sharpness and generalization gap."
+            "title": "分布外与诊断实验",
+            "detail": "在 ImageNet-R 测分布外泛化，并在 CIFAR-100 测权重/特征有效秩和固定半径下的 sharpness。"
           }
         ],
         "findings": [
           {
-            "title": "Spectral inner step benefits depend on outer optimizer",
-            "detail": "Spectral inner perturbations improve validation accuracy substantially only when paired with the Muon outer optimizer, achieving 80.23% top-1 accuracy on ViT-Small/16, outperforming Euclidean inner steps and AdamW outer steps."
+            "title": "收益依赖外层优化器",
+            "detail": "谱内层与 Muon 配合时收益最大，ViT-Small/16 的 top-1 达到 80.23%。"
           },
           {
-            "title": "Muon optimizer maintains higher effective rank",
-            "detail": "CIFAR-100 diagnostics show Muon-based outer updates keep weight and feature effective ranks higher than AdamW-based variants, supporting stronger regularization and enabling larger perturbation radii without loss of representation capacity."
+            "title": "Muon 保持更高有效秩",
+            "detail": "更高的权重和特征有效秩支持更强正则化，并允许更大的扰动半径。"
           },
           {
-            "title": "Spectral SAM variants achieve lower training accuracy",
-            "detail": "Spectral inner step variants reach lower training accuracy than Euclidean counterparts, suggesting that spectral geometry imposes a harsher penalty on memorization, potentially improving generalization."
+            "title": "训练准确率更低",
+            "detail": "谱 SAM 的训练准确率低于欧氏版本，表明它对记忆施加了更强惩罚。"
           }
         ],
         "contributions": [
-          "Formulation of a norm-agnostic SAM framework using Fréchet differentials and dual norms to incorporate spectral geometry.",
-          "Introduction of a layerwise spectral norm inner perturbation step respecting matrix structure in SAM.",
-          "Integration of the Muon optimizer as a spectral norm-aware outer update in SAM.",
-          "Empirical demonstration that spectral inner perturbations combined with Muon yield state-of-the-art validation accuracy on ImageNet-1K for ViT-Small/16 and ResNet-50.",
-          "Diagnostic analysis linking Muon's maintenance of high effective rank to improved robustness and generalization."
+          "用 Fréchet 微分和对偶范数给出范数无关的 SAM 框架。",
+          "提出尊重矩阵结构的逐层谱范数内扰动。",
+          "验证谱内层与 Muon 外层组合在 ImageNet-1K 上的优势。"
         ],
         "limitations": [
-          "The spectral perturbation map ε*(θ) is non-differentiable and the method uses a stop-gradient approximation, limiting theoretical understanding of second-order effects.",
-          "The study focuses on vision models and does not evaluate on large language models despite Muon's relevance there.",
-          "Out-of-distribution improvements on ImageNet-R are not statistically significant across seeds, indicating limited evidence for robustness beyond standard validation.",
-          "The method requires tuning perturbation radii and hyperparameters separately for each SAM variant, which may limit practical applicability."
+          "ε*(θ) 不可微，依赖 stop-gradient。",
+          "实验集中在视觉模型，未评估 LLM。",
+          "ImageNet-R 的跨随机种子差异不显著。",
+          "不同变体需单独调扰动半径与超参数。"
         ],
         "open_questions": [
-          "How can differentiable spectral perturbation maps be constructed to enable exact gradient computation in spectral SAM?",
-          "What are the effects of spectral SAM variants on large language models and other non-vision architectures?",
-          "Can the interaction between inner and outer geometries be theoretically characterized to guide optimizer design?",
-          "How does spectral SAM affect adversarial robustness and calibration beyond standard accuracy metrics?"
+          "能否构造可微的谱扰动映射？",
+          "谱 SAM 在 LLM 上的效果如何？",
+          "能否从理论上刻画内外层几何的交互？",
+          "它对对抗稳健性与校准有何影响？"
         ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
+        "source_scope": "已缓存的全文选定区域（最多 30 页）",
+        "generated_by": "Codex grounded translation",
+        "language": "zh",
+        "schema_version": 5
       },
       "recommendation_reason": {
         "topic": "LLM loss landscape",
@@ -1775,95 +1758,98 @@
         "quantitative results"
       ],
       "summary": {
-        "takeaway": "Recast effectively forecasts trajectory-level safety risks in multi-turn interactions, achieving high predictive accuracy.",
-        "problem": "Existing safety measures are reactive and fail to predict latent risks in multi-turn interactions.",
-        "method": "Recast retrieves risk-relevant evidence and models risk evolution to forecast future safety failures.",
-        "evidence": "Recast predicts 88.3% of future safety failures with an average lead time of 2.41 turns and a false alarm rate of 12.3%.",
-        "limitations": "The study does not address the performance of Recast across all potential risk categories.",
-        "why_for_you": "Understanding Recast's trajectory-level forecasting can enhance the safety of LLMs in autonomous applications.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
+        "takeaway": "Recast 能在多轮交互中提前预测轨迹级安全风险，并取得较高的预警准确性。",
+        "problem": "现有安全措施多在违规发生后响应，难以预测多轮对话中逐步积累的潜在风险。",
+        "method": "Recast 从短期对话进展与长期历史中检索风险证据，构建组合风险状态，并预测未来风险出现时间的分布。",
+        "evidence": "Recast 提前平均 2.41 轮预测出 88.3% 的未来安全失败，误报率为 12.3%；还将攻击成功率从 71.5% 降至 45.9%。",
+        "limitations": "研究尚未覆盖所有潜在风险类别，也未充分验证真实部署中的可扩展性。",
+        "why_for_you": "轨迹级预警可让安全干预从事后拦截前移到风险形成阶段。",
+        "source": "已缓存的全文分析",
+        "generated_by": "Codex grounded translation",
+        "language": "zh",
+        "schema_version": 2
       },
       "deep_dive": {
         "signals": [
           {
-            "icon": "🧠",
-            "text": "Recast achieves a negative log-likelihood of 0.45 and a mean absolute error of 0.31 for first-risk emergence time forecasting, demonstrating its predictive capabilities."
+            "icon": "⏳",
+            "text": "首次风险出现时间预测达到 NLL 0.45、Expected-MAE 0.31。"
           },
           {
-            "icon": "🛡️",
-            "text": "The framework employs a dual-scale trajectory view to retrieve risk-relevant evidence from both short-term dialogue progression and long-term historical context."
+            "icon": "🧩",
+            "text": "双尺度轨迹视图同时检索短期对话进展和长期历史中的风险相关证据。"
           },
           {
-            "icon": "📉",
-            "text": "Recast maintains a false alarm rate of 12.3% while achieving an early warning rate of 88.3%, indicating its effectiveness in proactive risk management."
+            "icon": "🚨",
+            "text": "在 12.3% 误报率下，提前发现 88.3% 的安全失败，平均领先 2.41 轮。"
           }
         ],
-        "overview": "The research addresses the challenge of predicting safety risks in multi-turn interactions of LLMs, proposing Recast as a proactive forecasting framework. Unlike existing methods that react to safety violations, Recast anticipates risks by modeling the evolution of interaction trajectories. The framework retrieves relevant evidence and captures temporal dynamics, achieving significant predictive accuracy, as evidenced by its ability to forecast 88.3% of future safety failures with a lead time of 2.41 turns.",
+        "overview": "Recast 将 LLM 安全从单轮、事后分类改为多轮轨迹预测。它检索与风险相关的历史证据，将其组织为可组合的风险状态，再通过因果时间编码器学习风险随轮次的演化，并输出未来首次风险出现的分布。实验表明，该框架能在违规实际发生前提供可操作的预警。",
         "methodology": [
           {
-            "title": "Risk-relevant historical evidence retrieval",
-            "detail": "Recast captures both short-term and long-term contextual evidence to inform risk assessments, enhancing the model's understanding of evolving interactions."
+            "title": "风险证据检索",
+            "detail": "同时捕获近期对话变化与长期上下文，为当前风险状态提供证据。"
           },
           {
-            "title": "Compositional risk state and transition modeling",
-            "detail": "The framework constructs a structured risk state from retrieved evidence and models its temporal evolution, allowing for dynamic risk assessment."
+            "title": "状态与转移建模",
+            "detail": "将检索证据组合成结构化风险状态，并建模状态随时间的变化。"
           },
           {
-            "title": "Future risk distribution forecasting",
-            "detail": "A causal temporal encoder is employed to learn latent risk evolution patterns, predicting the distribution of future risk emergence across interaction turns."
+            "title": "未来分布预测",
+            "detail": "因果时间编码器预测风险在后续各轮首次出现的概率分布。"
           }
         ],
         "mechanism": [
           {
-            "title": "Causal temporal encoding",
-            "detail": "Recast utilizes a causal temporal encoder to learn patterns of risk evolution, enabling the prediction of future safety violations based on past interactions."
+            "title": "因果时间编码",
+            "detail": "编码器只使用过去交互学习潜在风险演化模式，从而避免未来信息泄漏并支持提前预警。"
           }
         ],
         "experiments": [
           {
-            "title": "Dataset construction",
-            "detail": "The study constructs a dataset of 10,000 trajectories, balancing harmful and benign samples across 7 risk categories to train and evaluate Recast."
+            "title": "轨迹数据集",
+            "detail": "构建 10,000 条轨迹，在 7 类风险上平衡有害与良性样本。"
           },
           {
-            "title": "Evaluation metrics",
-            "detail": "Recast is evaluated using negative log-likelihood (NLL), expected mean absolute error (Expected-MAE), early warning rate (EWR), and false alarm rate (FAR) to measure its forecasting capabilities."
+            "title": "评价指标",
+            "detail": "采用 NLL、Expected-MAE、早期预警率（EWR）与误报率（FAR）。"
           },
           {
-            "title": "Comparison with baselines",
-            "detail": "Recast is compared against multiple safeguard baselines, demonstrating a reduction in attack success rates from 71.5% to 45.9%, showcasing its effectiveness."
+            "title": "安全基线比较",
+            "detail": "与多种 safeguard 基线对比，Recast 将攻击成功率从 71.5% 降到 45.9%。"
           }
         ],
         "findings": [
           {
-            "title": "High predictive accuracy",
-            "detail": "Recast predicts 88.3% of future safety failures, indicating its strong capability in forecasting risks before they manifest."
+            "title": "较高提前发现率",
+            "detail": "能够预测 88.3% 的未来安全失败。"
           },
           {
-            "title": "Effective early warning",
-            "detail": "The framework achieves an average lead time of 2.41 turns, allowing for timely interventions in multi-turn interactions."
+            "title": "可用的预警窗口",
+            "detail": "平均领先 2.41 轮，为介入留出时间。"
           },
           {
-            "title": "Low false alarm rate",
-            "detail": "Recast maintains a false alarm rate of 12.3%, demonstrating its reliability in distinguishing between benign and harmful interactions."
+            "title": "误报仍受控制",
+            "detail": "在上述预警率下，FAR 为 12.3%。"
           }
         ],
         "contributions": [
-          "Introduces Recast, a novel framework for trajectory-level safety risk forecasting in LLMs.",
-          "Demonstrates the importance of proactive risk assessment in multi-turn interactions.",
-          "Provides empirical evidence of Recast's effectiveness across multiple risk categories."
+          "提出面向 LLM 多轮交互的轨迹级风险预测框架。",
+          "证明主动风险评估可早于实际安全失败。",
+          "在多个风险类别上给出量化实验结果。"
         ],
         "limitations": [
-          "The performance of Recast across all potential risk categories is not fully explored.",
-          "The study does not address the scalability of Recast in real-world applications."
+          "尚未穷尽所有潜在风险类别。",
+          "真实应用中的扩展性和部署成本尚不明确。"
         ],
         "open_questions": [
-          "How can Recast be adapted to handle emerging risk categories not covered in the current study?",
-          "What are the implications of Recast's predictions on the design of future LLM safety protocols?"
+          "如何适应训练集之外的新风险类别？",
+          "预测结果应如何触发分级干预并避免过度阻断？"
         ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4o-mini",
-        "schema_version": 2
+        "source_scope": "已缓存的全文选定区域（最多 30 页）",
+        "generated_by": "Codex grounded translation",
+        "language": "zh",
+        "schema_version": 5
       },
       "recommendation_reason": {
         "topic": "Trustworthy LLM",
@@ -1930,121 +1916,111 @@
         "quantitative results"
       ],
       "summary": {
-        "takeaway": "ToxScreen enables detection and partial recovery of backdoor triggers in LLMs using a novel token look-up method and a coupling statistic derived from model weights without access to training data or clean models.",
-        "problem": "Detecting and recovering backdoor triggers in large language models under realistic conditions where defenders have white-box access to model weights but no training data, no trusted reference model, and no prior knowledge of the trigger.",
-        "method": "ToxScreen measures the coupling between input triggers and model parameters via a second-order gradient statistic (σ1) and ranks candidate tokens by their ability to suppress this coupling and maximize attack success rate to recover triggers.",
-        "evidence": "Experiments on a benchmark of roughly 800 backdoored models show that gradient-based prompt optimization fails to recover triggers, whereas token look-up ranking by attack-success rate reliably recovers triggers when backdoors are effective, supported by pruning studies showing backdoors are often localized.",
-        "limitations": "No method reliably surfaces every backdoor, and some backdoors, such as sentiment steering, are distributed and resilient to pruning, limiting detection and ablation effectiveness.",
-        "why_for_you": "This work provides a comprehensive benchmark and a novel white-box detection method that operates without training data or clean models, addressing a critical gap in realistic backdoor defense for LLMs.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
+        "takeaway": "ToxScreen 无需训练数据或干净参考模型，仅凭白盒权重就能检测并部分恢复 LLM 后门触发器。",
+        "problem": "现实中的防御者可能只有模型权重和攻击目标，却没有训练数据、可信参考模型或触发器先验。",
+        "method": "方法用行为读出的输入—参数混合二阶梯度构造耦合统计量 σ1，再向提示注入候选 token，按耦合抑制程度和 ASR 排序恢复触发器。",
+        "evidence": "约 800 个后门模型上的实验显示，梯度提示优化无法恢复触发器，而在后门有效时，约 24,000 token 的查表排序能可靠恢复；剪枝也表明部分后门高度局部化。",
+        "limitations": "没有方法能稳定发现所有后门；情感操纵类后门分布式编码且耐剪枝，检测和消融尤其困难。",
+        "why_for_you": "它为无训练数据、无干净模型的现实白盒后门防御提供了大规模基准和可操作信号。",
+        "source": "已缓存的全文分析",
+        "generated_by": "Codex grounded translation",
+        "language": "zh",
+        "schema_version": 2
       },
       "deep_dive": {
         "signals": [
           {
-            "icon": "🧠",
-            "text": "The coupling statistic σ1, derived from the mixed second derivative of a behavior readout with respect to model parameters and input, reveals a dominant singular direction corresponding to the backdoor trigger, enabling detection without explicit trigger knowledge."
+            "icon": "🧬",
+            "text": "混合二阶梯度的最大奇异值 σ1 揭示与触发器对应的主导输入方向，无需事先知道触发器。"
           },
           {
-            "icon": "🛡️",
-            "text": "The token look-up defense evaluates ∼24,000 candidate tokens by injecting each at the trigger position in held-out prompts and ranks them by attack success rate, successfully recovering planted triggers across diverse backdoor mechanisms."
+            "icon": "🔎",
+            "text": "查表法在约 150 条保留提示中逐一注入约 24,000 个 token，再按 ASR 排序恢复触发器。"
           },
           {
-            "icon": "📉",
-            "text": "Pruning experiments demonstrate that refusal-suppression backdoors are encoded in sparse, localized circuits that degrade faster than general capabilities under structured pruning, whereas sentiment steering backdoors are distributed and persist or amplify under pruning."
+            "icon": "✂️",
+            "text": "拒答抑制后门多为稀疏局部回路；情感操纵后门则更分布式，剪枝后仍持续甚至增强。"
           }
         ],
-        "overview": "This paper addresses the challenge of detecting and recovering backdoor triggers implanted in large language models under realistic defender affordances: white-box access to model weights and knowledge of the attack objective, but no access to training data, clean reference models, or trigger information. The authors introduce ToxScreen, a benchmark of approximately 800 backdoored LLMs spanning various attack objectives, trigger mechanisms, poisoning rates, and model scales. They propose a novel detection method based on measuring the coupling between input tokens and model parameters via a second-order gradient statistic (σ1), which captures how triggers reroute gradients along a dominant direction. Complementing this, a token look-up approach ranks candidate tokens by their ability to suppress this coupling and maximize attack success rate, enabling trigger recovery. Experiments show that gradient-based prompt optimization fails to recover triggers, while token look-up succeeds wherever backdoors are effective. Pruning studies reveal that some backdoors, like refusal suppression, are localized and can be ablated with minimal impact on general capabilities, whereas others, like sentiment steering, are distributed and resilient. The work also distinguishes backdoor mechanisms from jailbreaks, providing a signal to filter false positives. Despite no method reliably surfacing all backdoors, the presence of broadly jailbreakable models itself signals anomalies. The authors release all models and code to facilitate further research.",
+        "overview": "论文研究一种更现实的后门防御条件：知道攻击目标并可访问模型权重，但没有训练数据、干净参考模型或触发器信息。ToxScreen 包含约 800 个不同目标、机制、投毒率和规模的后门 LLM。作者以输入—参数耦合统计量 σ1 检测触发器造成的梯度重路由，并以大词表 token 查找恢复触发器。结果还显示，不同后门的内部编码方式明显不同，决定了剪枝是否有效。",
         "methodology": [
           {
-            "title": "Measuring Attack Behaviors",
-            "detail": "The behavior readout B(θ, x) is computed as the inner product between the model's residual stream at a specific layer and position and a unit vector representing the target behavior direction (e.g., refusal or sentiment). This scalar is differentiable with respect to both model parameters θ and input x, enabling gradient-based analysis restricted to the last k transformer blocks."
+            "title": "行为读出",
+            "detail": "在指定层与位置，将残差流投影到拒答或情感等目标行为方向，得到对参数 θ 与输入 x 都可微的标量 B(θ,x)。"
           },
           {
-            "title": "Token-to-Parameter Coupling Statistic (σ1)",
-            "detail": "The coupling M is defined as the mixed second derivative ∂²B/∂θ∂x, mapping input perturbations to changes in the parameter gradient of B. The operator norm σ1 (largest singular value) of M is computed via power iteration without explicit matrix formation, serving as a detection statistic indicating the presence of a trigger that reroutes gradients along a dominant input direction."
+            "title": "耦合统计量 σ1",
+            "detail": "定义 M=∂²B/∂θ∂x，以幂迭代计算其最大奇异值而不显式构造矩阵，用于识别主导触发方向。"
           },
           {
-            "title": "Suppression Ratio Scoring",
-            "detail": "For each candidate token c, the suppression ratio ρ(c) = σ1(x_c)/σ1(x_∅) compares the coupling statistic when the token is injected versus a trigger-free input. Tokens with ρ(c) ≤ 0.70 are flagged as suppressors, indicating potential triggers that suppress the refusal mechanism and enable backdoor activation."
+            "title": "抑制比与 token 查找",
+            "detail": "以 ρ(c)=σ1(xc)/σ1(x∅) 衡量候选 token 的耦合抑制；ρ(c)≤0.70 视为抑制候选，并结合 ASR 排序。"
           },
           {
-            "title": "Token Look-up Attack Success Rate Ranking",
-            "detail": "A candidate pool of approximately 24,000 vocabulary tokens plus the planted trigger is evaluated by injecting each token at the trained trigger position in about 150 held-out prompts. Candidates are ranked by their attack success rate (ASR), with recovery declared when a candidate's ASR significantly exceeds baseline, indicating successful trigger identification."
-          },
-          {
-            "title": "Pruning Strategies for Backdoor Localization",
-            "detail": "Five pruning strategies (structured removal of attention heads, MLP layers, global and layer-wise unstructured magnitude pruning, and random pruning) are applied at varying sparsity levels to backdoored models. Attack success rate and general capability (MMLU) are measured to assess whether backdoors are localized and can be preferentially ablated."
+            "title": "后门定位",
+            "detail": "使用注意力头/MLP 结构化剪枝、全局/逐层幅值剪枝与随机剪枝，比较 ASR 与 MMLU 的下降速度。"
           }
         ],
         "mechanism": [
           {
-            "title": "Backdoor Trigger Gradient Rerouting",
-            "detail": "Backdoor triggers operate by rerouting the gradient of the behavior readout B along a single dominant input direction, captured by the largest singular value of the mixed second derivative matrix M = ∂²B/∂θ∂x. This rerouting suppresses normal refusal mechanisms, enabling covert manipulation of model behavior. No explicit equations beyond those defining σ1 and ρ are provided."
+            "title": "触发器造成梯度重路由",
+            "detail": "后门触发器让行为读出的梯度沿单一主导输入方向重路由，从而压制正常拒答并激活隐蔽目标；σ1 捕获这一信号。"
           }
         ],
         "experiments": [
           {
-            "title": "Token Look-up Recovery Evaluation",
-            "detail": "Evaluated on roughly 800 backdoored models fine-tuned from six instruction-tuned LLMs including Llama-3.2-1B and Qwen3-4B, the token look-up method injects ∼24,000 candidate tokens at trigger positions in held-out prompts and ranks them by attack success rate. Recovery is successful when the planted trigger ranks highest, demonstrating reliable trigger identification without training data."
+            "title": "触发器恢复",
+            "detail": "在由 6 个指令模型微调出的约 800 个后门模型上，把约 24,000 个候选 token 注入触发位置并按 ASR 排名。"
           },
           {
-            "title": "Gradient-based Prompt Optimization Baseline",
-            "detail": "Gradient-based prompt optimization methods, which search input space to maximize backdoor activation, were tested but failed to recover planted triggers across the benchmark, highlighting the superiority of the token look-up approach."
+            "title": "剪枝消融",
+            "detail": "在 0%、10%、50%、90% 稀疏度下比较 5 种剪枝。拒答抑制后门在 50% 结构化剪枝后 ASR 从约 21% 降至约 7–10%，同时保留约 75% MMLU。"
           },
           {
-            "title": "Pruning Ablation Studies",
-            "detail": "Five pruning strategies at sparsity levels 0%, 10%, 50%, and 90% were applied to backdoored models. For refusal suppression backdoors, structured pruning at 50% sparsity reduced attack success rate from ~21% to ~7-10% while retaining ~75% of MMLU accuracy, indicating localized backdoors. For sentiment steering backdoors, pruning did not preferentially ablate attacks and sometimes increased attack success rate even as general capability collapsed."
-          },
-          {
-            "title": "General Capability and Safety Evaluation",
-            "detail": "Backdoored models were evaluated on ARC, TruthfulQA, HellaSwag, and Winogrande benchmarks to assess impact on general capabilities. Attack success was scored using fixed judges including HarmBench Llama-213B for anti-refusal compliance and Llama-3-8B-Instruct for sentiment steering, ensuring consistent and objective evaluation."
+            "title": "能力与安全评估",
+            "detail": "用 ARC、TruthfulQA、HellaSwag、Winogrande 评估通用能力，并用固定 judge 评估拒答抑制与情感操纵。"
           }
         ],
         "findings": [
           {
-            "title": "Token Look-up Recovers Triggers Reliably",
-            "detail": "The token look-up method successfully recovers planted triggers across diverse backdoor configurations, outperforming gradient-based prompt optimization which fails to recover triggers, demonstrating the effectiveness of ranking candidates by attack success rate."
+            "title": "查表优于梯度提示优化",
+            "detail": "梯度提示优化未能恢复植入触发器，而 token ASR 排序在后门有效时能可靠恢复。"
           },
           {
-            "title": "Backdoors Exhibit Distinct Mechanistic Signatures",
-            "detail": "Backdoors operate via different mechanistic strategies than jailbreaks, allowing defenders to distinguish and filter jailbreak behaviors from backdoor triggers using the coupling statistic and suppression ratio."
+            "title": "拒答抑制后门较局部",
+            "detail": "结构化剪枝让其 ASR 比通用能力下降更快，支持稀疏局部回路假说。"
           },
           {
-            "title": "Refusal Suppression Backdoors Are Localized",
-            "detail": "Pruning experiments show refusal suppression backdoors degrade faster than general capabilities under structured pruning, supporting the hypothesis that these backdoors are encoded in sparse, localized circuits."
+            "title": "情感后门更分布式",
+            "detail": "90% 稀疏度下，通用能力已崩溃，情感操纵 ASR 却可升至 61–81%。"
           },
           {
-            "title": "Sentiment Steering Backdoors Are Distributed and Resilient",
-            "detail": "Sentiment steering backdoors persist or even amplify under pruning, with attack success rates increasing to 61-81% at 90% sparsity while general capability collapses, indicating distributed encoding that resists ablation."
-          },
-          {
-            "title": "No Method Surfaces All Backdoors Reliably",
-            "detail": "Despite advances, no detection method reliably identifies every backdoor, but broadly jailbreakable models themselves are anomalous, providing a useful signal even when exact triggers are not recovered."
+            "title": "仍无法覆盖所有后门",
+            "detail": "精确触发器并非总能找回，但异常容易被普遍越狱本身也可作为风险信号。"
           }
         ],
         "contributions": [
-          "Release of ToxScreen, a benchmark of ~800 backdoored LLMs spanning diverse attack objectives, mechanisms, and scales.",
-          "Introduction of a novel coupling statistic (σ1) based on second-order gradients to detect backdoor triggers without training data or clean models.",
-          "Development of a token look-up method that ranks candidate tokens by attack success rate to reliably recover planted triggers.",
-          "Empirical demonstration that refusal suppression backdoors are localized and can be preferentially ablated via pruning, while sentiment steering backdoors are distributed and resilient.",
-          "Identification of mechanistic differences between backdoors and jailbreaks, enabling filtering of false positives."
+          "发布约 800 个后门 LLM 的 ToxScreen 基准。",
+          "提出基于二阶梯度的 σ1 检测统计量。",
+          "提出按 ASR 排序的 token 查找恢复法。",
+          "揭示拒答抑制与情感操纵后门的局部化差异。"
         ],
         "limitations": [
-          "No detection method reliably surfaces every backdoor, limiting comprehensive defense.",
-          "Sentiment steering backdoors are distributed and resilient to pruning, complicating ablation and detection.",
-          "The approach requires white-box access to model weights, which may not always be available in deployment scenarios.",
-          "The benchmark and methods focus on instruction-tuned LLMs and may not generalize to all model architectures or training regimes."
+          "无法稳定发现每一种后门。",
+          "分布式情感后门难以通过剪枝消融。",
+          "需要白盒权重访问。",
+          "对其他架构和训练范式的泛化尚未验证。"
         ],
         "open_questions": [
-          "How can detection methods be improved to reliably surface all types of backdoors, including distributed ones like sentiment steering?",
-          "Can the coupling statistic and token look-up approach be adapted for black-box or limited-access scenarios?",
-          "What are the mechanistic underpinnings that differentiate backdoors from jailbreaks at a finer granularity?",
-          "How do backdoor detection and ablation methods generalize across different LLM architectures and training datasets?"
+          "如何覆盖分布式后门？",
+          "能否适配黑盒或有限访问场景？",
+          "后门与越狱的机制差异能否进一步细化？",
+          "这些信号能否跨架构和训练数据泛化？"
         ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
+        "source_scope": "已缓存的全文选定区域（最多 30 页）",
+        "generated_by": "Codex grounded translation",
+        "language": "zh",
+        "schema_version": 5
       },
       "recommendation_reason": {
         "topic": "Data selection for LLMs",
