@@ -282,6 +282,21 @@ class PipelineTests(unittest.TestCase):
             '{"ok":true}',
         )
 
+    def test_cloudflare_inference_retries_transient_errors(self):
+        rate_limit = radar.urllib.error.HTTPError(
+            "https://worker.example/api/ai/run", 429, "rate limited", {}, None
+        )
+        with patch.object(
+            radar,
+            "cloudflare_inference",
+            side_effect=[rate_limit, {"result": {"response": "ok"}}],
+        ) as inference, patch.object(radar.time, "sleep") as sleep:
+            result = radar.cloudflare_inference_with_retry("model", {}, 30)
+
+        self.assertEqual(result["result"]["response"], "ok")
+        self.assertEqual(inference.call_count, 2)
+        sleep.assert_called_once_with(20)
+
     def test_full_analysis_parser_requires_three_signals(self):
         payload = {
             "brief": {
@@ -601,6 +616,7 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(feed["source_count"], 6)
             self.assertEqual(feed["source_total"], 6)
             self.assertEqual(feed["source_lookback_days"], 4)
+            self.assertEqual(feed["content_language"], "zh")
             self.assertFalse(feed["source_truncated"])
             self.assertGreaterEqual(feed["eligible_count"], 5)
             self.assertEqual(len(feed["papers"]), 5)

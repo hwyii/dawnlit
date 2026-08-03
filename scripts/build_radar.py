@@ -40,6 +40,7 @@ USER_AGENT = "dawnlit/0.1 (personal research discovery; contact: hwyii.github.io
 ARXIV_MAX_ATTEMPTS = 6
 ARXIV_HTTP_BACKOFF_SECONDS = (30, 60, 120, 240, 300)
 ARXIV_NETWORK_BACKOFF_SECONDS = (15, 30, 60, 120, 240)
+CLOUDFLARE_RETRY_DELAYS = (20, 60)
 
 ATOM = {"a": "http://www.w3.org/2005/Atom"}
 ARXIV = {"arxiv": "http://arxiv.org/schemas/atom"}
@@ -239,6 +240,33 @@ def cloudflare_inference(
         body,
         timeout=timeout,
     )
+
+
+def cloudflare_inference_with_retry(
+    model: str,
+    body: dict[str, Any],
+    timeout: int,
+) -> dict[str, Any]:
+    """Retry transient Workers AI failures before degrading generated content."""
+    for attempt in range(len(CLOUDFLARE_RETRY_DELAYS) + 1):
+        try:
+            return cloudflare_inference(model, body, timeout)
+        except urllib.error.HTTPError as error:
+            if error.code not in {408, 429, 500, 502, 503, 504}:
+                raise
+            last_error: Exception = error
+        except (OSError, TimeoutError, urllib.error.URLError) as error:
+            last_error = error
+        if attempt == len(CLOUDFLARE_RETRY_DELAYS):
+            raise last_error
+        delay = CLOUDFLARE_RETRY_DELAYS[attempt]
+        print(
+            f"Cloudflare AI request failed for {model}; retrying in {delay}s: "
+            f"{last_error}",
+            file=sys.stderr,
+        )
+        time.sleep(delay)
+    raise RuntimeError("Cloudflare AI retry loop exited unexpectedly")
 
 
 def cloudflare_response_text(response: dict[str, Any]) -> str:
@@ -1344,7 +1372,7 @@ def cloudflare_summary(
         return None
     model = os.getenv("CLOUDFLARE_FALLBACK_MODEL") or "@cf/qwen/qwen3-30b-a3b-fp8"
     try:
-        response = cloudflare_inference(
+        response = cloudflare_inference_with_retry(
             model,
             {
                 "messages": [
@@ -1404,7 +1432,7 @@ def cloudflare_analysis(
                 "max_tokens": 3200,
             }
             try:
-                response = cloudflare_inference(
+                response = cloudflare_inference_with_retry(
                     model,
                     body,
                     timeout=180,
@@ -1491,7 +1519,7 @@ JSON:
         attempts = 2 if model == primary_model else 1
         for attempt in range(attempts):
             try:
-                response = cloudflare_inference(
+                response = cloudflare_inference_with_retry(
                     model,
                     {
                         "messages": [
@@ -1572,7 +1600,7 @@ JSON:
     )
     for model in dict.fromkeys([primary_model, fallback_model]):
         try:
-            response = cloudflare_inference(
+            response = cloudflare_inference_with_retry(
                 model,
                 {
                     "messages": [
@@ -2083,6 +2111,9 @@ def build(
         "demo": bool(atom_fixture),
         "generated_at": now.isoformat(),
         "profile_updated_at": profile.get("updated_at"),
+        "content_language": normalize_language(
+            profile.get("content_language", profile.get("language", "en"))
+        ),
         "source_count": len(papers),
         "source_total": query_total,
         "source_lookback_days": effective_lookback_days(profile, now),
@@ -2295,6 +2326,21 @@ def main() -> int:
         f"{feed['eligible_count']} eligible, "
         f"{feed['previously_recommended_count']} previously recommended)."
     )
+    if os.getenv("AI_REQUIRED") == "1" and feed["papers"]:
+        target_language = feed["content_language"]
+        incomplete = [
+            item["id"]
+            for item in feed["papers"]
+            if item.get("summary", {}).get("language") != target_language
+            or item.get("deep_dive", {}).get("language") != target_language
+        ]
+        if incomplete:
+            print(
+                "AI_REQUIRED is enabled, but localized Deep Dive content is "
+                f"missing for: {', '.join(incomplete)}",
+                file=sys.stderr,
+            )
+            return 1
     return 0
 
 
