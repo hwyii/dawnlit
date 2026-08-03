@@ -8,9 +8,14 @@ configured.
 ## What works
 
 - Fetches recent papers from `cs.LG`, `cs.AI`, `cs.CL`, `cs.CR`, and `stat.ML`.
+- Widens the configured retrieval window over Saturday through Monday so quiet
+  arXiv days can still surface papers that have never been recommended before.
+- Uses extended backoff for temporary arXiv rate limits instead of failing after
+  a short retry burst.
 - Paginates the configured arXiv query and reports if its safety limit truncates results.
 - Keeps a durable index of recommended arXiv IDs, so Today never repeats a
-  paper and may contain fewer than the configured feed size.
+  paper, never fills an empty Today view from Weekly, and may contain fewer than
+  the configured feed size.
 - Applies an LLM scope gate, with a small separate lane for transferable methods.
 - Scores each topic independently instead of using one seed-paper centroid.
 - Separates relevance, evidence-quality, novelty, and freshness scores.

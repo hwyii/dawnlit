@@ -37,6 +37,9 @@ DEFAULT_OUTPUT = ROOT / "public" / "data" / "papers.json"
 DEFAULT_PROFILE_OUTPUT = ROOT / "public" / "data" / "profile.json"
 ARXIV_ENDPOINT = "https://export.arxiv.org/api/query"
 USER_AGENT = "dawnlit/0.1 (personal research discovery; contact: hwyii.github.io)"
+ARXIV_MAX_ATTEMPTS = 6
+ARXIV_HTTP_BACKOFF_SECONDS = (30, 60, 120, 240, 300)
+ARXIV_NETWORK_BACKOFF_SECONDS = (15, 30, 60, 120, 240)
 
 ATOM = {"a": "http://www.w3.org/2005/Atom"}
 ARXIV = {"arxiv": "http://arxiv.org/schemas/atom"}
@@ -387,6 +390,14 @@ def load_feedback() -> list[dict[str, Any]]:
         return []
 
 
+def effective_lookback_days(profile: dict[str, Any], now: dt.datetime) -> int:
+    """Bridge arXiv's quiet weekend with a wider pool of unseen papers."""
+    configured = max(1, int(profile["retrieval"].get("lookback_days", 4)))
+    if now.weekday() in {5, 6, 0}:
+        return max(configured, 4)
+    return configured
+
+
 def build_arxiv_url(
     profile: dict[str, Any],
     now: dt.datetime,
@@ -395,7 +406,7 @@ def build_arxiv_url(
 ) -> str:
     retrieval = profile["retrieval"]
     category_query = " OR ".join(f"cat:{category}" for category in retrieval["categories"])
-    start_date = now - dt.timedelta(days=int(retrieval.get("lookback_days", 4)))
+    start_date = now - dt.timedelta(days=effective_lookback_days(profile, now))
     date_query = (
         f"submittedDate:[{start_date.strftime('%Y%m%d%H%M')} TO "
         f"{now.strftime('%Y%m%d%H%M')}]"
@@ -414,17 +425,22 @@ def build_arxiv_url(
 def fetch_arxiv_page(url: str) -> bytes:
     request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     last_error: Exception | None = None
-    for attempt in range(4):
+    for attempt in range(ARXIV_MAX_ATTEMPTS):
         try:
             with urllib.request.urlopen(request, timeout=90) as response:
                 return response.read()
         except urllib.error.HTTPError as error:
             last_error = error
-            if error.code not in {429, 500, 502, 503, 504} or attempt == 3:
+            if (
+                error.code not in {429, 500, 502, 503, 504}
+                or attempt == ARXIV_MAX_ATTEMPTS - 1
+            ):
                 break
             retry_after = error.headers.get("Retry-After")
-            delay = int(retry_after) if retry_after and retry_after.isdigit() else 15 * (
-                attempt + 1
+            delay = (
+                max(1, min(int(retry_after), ARXIV_HTTP_BACKOFF_SECONDS[-1]))
+                if retry_after and retry_after.isdigit()
+                else ARXIV_HTTP_BACKOFF_SECONDS[attempt]
             )
             print(
                 f"arXiv returned HTTP {error.code}; retrying in {delay}s",
@@ -433,9 +449,16 @@ def fetch_arxiv_page(url: str) -> bytes:
             time.sleep(delay)
         except (urllib.error.URLError, TimeoutError) as error:
             last_error = error
-            if attempt < 3:
-                time.sleep(6 * (attempt + 1))
-    raise RuntimeError(f"Unable to fetch arXiv after 4 attempts: {last_error}")
+            if attempt < ARXIV_MAX_ATTEMPTS - 1:
+                delay = ARXIV_NETWORK_BACKOFF_SECONDS[attempt]
+                print(
+                    f"arXiv request failed; retrying in {delay}s: {error}",
+                    file=sys.stderr,
+                )
+                time.sleep(delay)
+    raise RuntimeError(
+        f"Unable to fetch arXiv after {ARXIV_MAX_ATTEMPTS} attempts: {last_error}"
+    )
 
 
 def atom_total_results(payload: bytes) -> int:
@@ -2062,6 +2085,7 @@ def build(
         "profile_updated_at": profile.get("updated_at"),
         "source_count": len(papers),
         "source_total": query_total,
+        "source_lookback_days": effective_lookback_days(profile, now),
         "source_truncated": query_total > len(papers),
         "unseen_source_count": len(unseen_papers),
         "previously_recommended_count": len(seen_ids),

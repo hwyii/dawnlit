@@ -27,11 +27,8 @@ const COPY = {
     previousPaper: "Previous paper",
     nextPaper: "Next paper",
     swipeHint: "Swipe for previous / next",
-    recentSignals: "RECENT SIGNALS",
     dailySignal: "DAILY SIGNAL",
-    latestRecommendations: "Latest recommendations",
     todaysRadar: "Today’s radar",
-    recentFallback: "No new arXiv batch is available today, so here are the strongest recent papers.",
     todaySubtitle: "New, never-before-recommended LLM papers; quiet days stay intentionally short.",
     weeklyDigest: "WEEKLY DIGEST",
     thisWeek: "This week",
@@ -121,11 +118,8 @@ const COPY = {
     previousPaper: "上一篇论文",
     nextPaper: "下一篇论文",
     swipeHint: "左右滑动切换论文",
-    recentSignals: "近期精选",
     dailySignal: "今日精选",
-    latestRecommendations: "近期推荐",
     todaysRadar: "今日论文",
-    recentFallback: "今天没有新的 arXiv 批次，先展示近期最值得读的论文。",
     todaySubtitle: "只推荐尚未出现过的 LLM 论文；没有合适内容时宁缺毋滥。",
     weeklyDigest: "每周精选",
     thisWeek: "本周论文",
@@ -560,32 +554,23 @@ function render() {
     return;
   }
   const todayPapers = visiblePapers(state.feed.papers);
-  const useRecentFallback =
-    state.view === "today" &&
-    todayPapers.length === 0 &&
-    Number(state.feed.source_count || 0) === 0;
   const papers =
     state.view === "today"
-      ? useRecentFallback
-        ? visiblePapers(state.weekly.papers).slice(0, 6)
-        : todayPapers
+      ? todayPapers
       : state.view === "weekly"
         ? visiblePapers(state.weekly.papers)
         : allPapers().filter(
             (paper) => state.saved.has(paper.id) && !isDismissed(paper.id),
           );
-  renderPaperView(papers, useRecentFallback);
+  renderPaperView(papers);
 }
 
-function renderPaperView(papers, useRecentFallback = false) {
+function renderPaperView(papers) {
   const config = {
     today: {
-      eyebrow: useRecentFallback ? t("recentSignals") : t("dailySignal"),
-      title: useRecentFallback ? t("latestRecommendations") : t("todaysRadar"),
-      subtitle:
-        useRecentFallback
-          ? t("recentFallback")
-          : t("todaySubtitle"),
+      eyebrow: t("dailySignal"),
+      title: t("todaysRadar"),
+      subtitle: t("todaySubtitle"),
       date: prettyDate(state.feed.generated_at),
     },
     weekly: {

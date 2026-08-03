@@ -5,6 +5,7 @@ import os
 import sys
 import tempfile
 import unittest
+import urllib.error
 import urllib.parse
 from pathlib import Path
 from unittest.mock import patch
@@ -37,6 +38,37 @@ class PipelineTests(unittest.TestCase):
         query = urllib.parse.parse_qs(urllib.parse.urlparse(url).query)
         self.assertEqual(query["start"], ["250"])
         self.assertEqual(query["max_results"], ["100"])
+
+    def test_arxiv_query_widens_weekend_lookback(self):
+        self.assertEqual(radar.effective_lookback_days(self.profile, self.now), 4)
+        tuesday = dt.datetime(2026, 6, 30, 12, tzinfo=dt.timezone.utc)
+        self.assertEqual(radar.effective_lookback_days(self.profile, tuesday), 1)
+
+    def test_arxiv_rate_limit_uses_extended_backoff(self):
+        rate_limit = urllib.error.HTTPError(
+            radar.ARXIV_ENDPOINT, 429, "rate limited", {}, None
+        )
+
+        class Response:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *_args):
+                return False
+
+            def read(self):
+                return self.payload
+
+            payload = b"ok"
+
+        with patch.object(
+            radar.urllib.request,
+            "urlopen",
+            side_effect=[rate_limit, rate_limit, Response()],
+        ), patch.object(radar.time, "sleep") as sleep:
+            self.assertEqual(radar.fetch_arxiv_page(radar.ARXIV_ENDPOINT), b"ok")
+
+        self.assertEqual([call.args[0] for call in sleep.call_args_list], [30, 60])
 
     def test_atom_pages_can_be_merged(self):
         merged = radar.merge_atom_pages([self.payload, self.payload])
@@ -568,6 +600,7 @@ class PipelineTests(unittest.TestCase):
             )
             self.assertEqual(feed["source_count"], 6)
             self.assertEqual(feed["source_total"], 6)
+            self.assertEqual(feed["source_lookback_days"], 4)
             self.assertFalse(feed["source_truncated"])
             self.assertGreaterEqual(feed["eligible_count"], 5)
             self.assertEqual(len(feed["papers"]), 5)
