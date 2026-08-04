@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-03T14:53:01.040214+00:00",
+  "generated_at": "2026-08-04T12:18:11.004611+00:00",
   "papers": [
     {
       "id": "2607.25814",
@@ -682,169 +682,6 @@
         "language": "zh",
         "schema_version": 5
       }
-    },
-    {
-      "id": "2607.24717",
-      "title": "DataOrchestra: Learning to Orchestrate Per-Example Curation of Pretraining Data",
-      "abstract": "Pretraining data processing is critical to the downstream performance of Large Language Models (LLMs). However, many existing approaches define a fixed processing strategy at the corpus or domain level and apply it uniformly to many examples, without adapting to the needs of each example. We propose DataOrchestra, a framework that unifies different processing operations and orchestrates an example-specific pipeline for each example. Given a chunk of pretraining data, an orchestrator decides whether to drop, untouch, or clean it. For a chunk to be cleaned, it selects one or more downstream operations, ranging from programmatic editing to different forms of LLM-based rewriting. For each rewriting step, it further generates a concrete instruction, which is executed by the corresponding downstream tool model. We pretrain models from 0.5B to 7B from scratch on web data processed by DataOrchestra and observe stable average gains over individual data-processing methods across 11 benchmarks. DataOrchestra is also effective for math continued pretraining and outperforms stronger processing baselines, while reducing processing compute by skipping unnecessary downstream operations.",
-      "authors": [
-        "Zhen Huang",
-        "Yikun Wang",
-        "Shijie Xia",
-        "Pengfei Liu"
-      ],
-      "published": "2026-07-27T17:54:12Z",
-      "updated": "2026-07-27T17:54:12Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.24717v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.24717v1",
-      "comment": "36 pages",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "emerging",
-          "score": 0.7231,
-          "matched": [
-            "training data",
-            "curation",
-            "data"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5856,
-        "relevance": 0.5785,
-        "quality": 0.55,
-        "novelty": 0.55,
-        "freshness": 0.891
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "recommendation_reason": {
-        "topic": "Data selection for LLMs",
-        "matched": [
-          "training data",
-          "curation",
-          "data"
-        ],
-        "lane": "llm"
-      },
-      "summary": {
-        "method": "编排器预测 drop/untouch/clean 决策，并为噪声剪枝、表面校正和教学增强工具生成块级指令。",
-        "evidence": "在 DataOrchestra 处理的数据上预训练的 0.5B‑7B 模型将平均准确率提升至 40.13（对比最强基线的 38.88），覆盖 11 项基准，并跳过不必要的操作。",
-        "why_for_you": "通过提供学习的、逐例的策展机制，直接解决 LLM 的数据选择问题。",
-        "takeaway": "DataOrchestra 学会为每个示例选择预处理流水线，带来一致的下游提升。",
-        "problem": "现有数据处理流水线对所有预训练示例使用单一固定策略，忽视示例的特定需求。",
-        "limitations": "在可得来源中未说明。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "contributions": [
-          "逐例编排多种数据处理操作",
-          "统一框架，将 NP、SR、PA 与学习决策相结合",
-          "实证展示不同模型规模和语料库下的准确率提升与计算节省"
-        ],
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "DataOrchestra 引入逐例编排框架，统一噪声剪枝、表面校正和教学增强。"
-          },
-          {
-            "icon": "🔧",
-            "text": "编排器预测 drop/untouch/clean 决策，并为下游工具模型生成块级改写指令。"
-          },
-          {
-            "icon": "📊",
-            "text": "DataOrchestra 训练的 7B 模型实现 40.13 平均准确率（对比 38.88 基线），但计算节省依赖不可验证的 verifier LLM 检查。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "自适应流水线选择",
-            "detail": "编排器将每个块路由至最少必要的操作集合，允许部分块被丢弃或保持不变，从而节省计算。"
-          },
-          {
-            "title": "指令生成",
-            "detail": "在每个改写阶段，编排器生成具体的自然语言指令，引导下游工具模型（如基于 LLM 的改写）。"
-          }
-        ],
-        "overview": "DataOrchestra 提出统一框架，为每个示例定制预训练数据处理。编排器先决定 drop、untouch 或 clean，然后在噪声剪枝 (NP)、表面校正 (SR) 与教学增强 (PA) 中选择，并为工具模型生成具体指令。细粒度计划演化利用 verifier LLM 剔除无效阶段。实验在网页语料上预训练 0.5B‑7B 模型，跨 11 项基准实现稳定的平均准确率提升，并通过跳过不必要的改写降低计算。消融实验验证计划演化和指令生成的重要性。",
-        "methodology": [
-          {
-            "title": "编排器训练",
-            "detail": "在 160K 由 DataMan 打分的文档块上训练模型，学习输出粗粒度计划（drop、untouch、NP/SR/PA 标记）。"
-          },
-          {
-            "title": "粗粒度计划生成",
-            "detail": "教师 LLM 为每块打分 (0‑5) 并给出 NP、SR、PA 的二元判断；得分低于 2 的决定触发丢弃。"
-          },
-          {
-            "title": "细粒度计划演化",
-            "detail": "执行选定阶段后，verifier LLM 检查幻觉、事实损失或微小变化（Levenshtein > 98%），并剔除无效阶段。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "预训练与基准评估",
-            "detail": "在 DataOrchestra 处理的网页数据上，从头预训练 0.5B、1.5B、7B 参数模型；下游性能在 11 项基准（ARC‑E、ARC‑C、MMLU、HellaSwag、WinoGrande、PIQA、CommonsenseQA、SIQA、RACE、OpenBookQA、SciQ）上测量，采用最近三个 checkpoint 的平均准确率。"
-          },
-          {
-            "title": "基线与对比",
-            "detail": "基线包括 raw data、ProX（行级噪声去除）、RePro、ReWire 及其混合；DataOrchestra 始终优于它们，7B 模型实现 40.13 平均准确率，对比 ProX 的 38.88。"
-          },
-          {
-            "title": "计算节省分析",
-            "detail": "约 35% 的块被丢弃或保持不变；NP 删除最多 token，SR 稍减 token，PA 增加 token，符合其设计目标。"
-          }
-        ],
-        "open_questions": [
-          "该方法在更大模型（>100B）和更广域数据上如何扩展？",
-          "指令质量对改写效果的影响如何，能否进一步优化？",
-          "能否用更廉价的启发式方法替代 verifier LLM 而不损失质量？"
-        ],
-        "findings": [
-          {
-            "title": "性能提升",
-            "detail": "DataOrchestra 在不同模型规模上实现稳定的平均准确率提升，规模更大的模型相对基线的提升幅度更大。"
-          },
-          {
-            "title": "计算高效利用",
-            "detail": "跳过不必要的清洗阶段降低有效 EFLOPs，同时保持或提升下游质量。"
-          },
-          {
-            "title": "消融洞察",
-            "detail": "去除细粒度计划演化使平均准确率从 40.13 降至 39.0；再去掉指令生成进一步降至 38.5，验证其贡献。"
-          }
-        ],
-        "limitations": [
-          "依赖教师和 verifier LLM 进行计划生成与验证，缺乏量化开销或鲁棒性分析。"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommended_at": "2026-07-28T12:13:15.667980+00:00"
     },
     {
       "id": "2607.28421",
@@ -2011,6 +1848,177 @@
         "matched": [
           "safety",
           "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-07-30T12:03:36.063766+00:00"
+    },
+    {
+      "id": "2607.26849",
+      "title": "ToxScreen: Detecting Whether an LLM Has Been Poisoned",
+      "abstract": "As large language models (LLMs) are deployed in high-stakes domains, adversaries may poison training data to implant backdoors: hidden triggers that covertly manipulate model behavior at inference time. We ask whether a defender can recover such a trigger under realistic affordances, namely white-box access to the weights and knowledge of the behavior of concern, but no training data, no trusted reference model, no knowledge of the trigger, and no certainty that the model is poisoned. To evaluate whether a defender can recover such a trigger under realistic settings, we release ToxScreen, a benchmark of roughly 800 backdoored models spanning attack objectives, trigger mechanisms, poisoning rates, model scales, and backdoor training mechanisms. We also assert that the backdoors are high-quality: they achieve high attack success rates, generalize to unseen harmful inputs, and preserve clean-task performance. Scoring recovery of the planted trigger, we find that gradient-based prompt optimization fails in recovery, whereas a token look-up that ranks candidates by attack-success rate recovers the trigger wherever the backdoor is effective. To understand this more, we study the relationship between attack behaviors and the weights of an LLM. We find a phenomenon whereby backdoors operate via different mechanistic strategies than jailbreaks, allowing defenders to filter jailbreaks. Finally, no method reliably surfaces every backdoor, but a broadly jailbreakable model is itself anomalous, a useful signal even when the exact trigger is not recovered. We release all models and evaluation code",
+      "authors": [
+        "Anthony Hughes",
+        "Nicole Xing",
+        "Collin Francel",
+        "Andy Kim",
+        "Andrew Draganov"
+      ],
+      "published": "2026-07-29T12:35:58Z",
+      "updated": "2026-07-29T12:35:58Z",
+      "categories": [
+        "cs.CR",
+        "cs.LG"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2607.26849v1",
+      "pdf_url": "https://arxiv.org/pdf/2607.26849v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "emerging",
+          "score": 0.4172,
+          "matched": [
+            "training data",
+            "data"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4679,
+        "relevance": 0.3338,
+        "quality": 0.62,
+        "novelty": 0.8389,
+        "freshness": 0.8604
+      },
+      "quality_signals": [
+        "code available",
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "ToxScreen 无需训练数据或干净参考模型，仅凭白盒权重就能检测并部分恢复 LLM 后门触发器。",
+        "problem": "现实中的防御者可能只有模型权重和攻击目标，却没有训练数据、可信参考模型或触发器先验。",
+        "method": "方法用行为读出的输入—参数混合二阶梯度构造耦合统计量 σ1，再向提示注入候选 token，按耦合抑制程度和 ASR 排序恢复触发器。",
+        "evidence": "约 800 个后门模型上的实验显示，梯度提示优化无法恢复触发器，而在后门有效时，约 24,000 token 的查表排序能可靠恢复；剪枝也表明部分后门高度局部化。",
+        "limitations": "没有方法能稳定发现所有后门；情感操纵类后门分布式编码且耐剪枝，检测和消融尤其困难。",
+        "why_for_you": "它为无训练数据、无干净模型的现实白盒后门防御提供了大规模基准和可操作信号。",
+        "source": "已缓存的全文分析",
+        "generated_by": "Codex grounded translation",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🧬",
+            "text": "混合二阶梯度的最大奇异值 σ1 揭示与触发器对应的主导输入方向，无需事先知道触发器。"
+          },
+          {
+            "icon": "🔎",
+            "text": "查表法在约 150 条保留提示中逐一注入约 24,000 个 token，再按 ASR 排序恢复触发器。"
+          },
+          {
+            "icon": "✂️",
+            "text": "拒答抑制后门多为稀疏局部回路；情感操纵后门则更分布式，剪枝后仍持续甚至增强。"
+          }
+        ],
+        "overview": "论文研究一种更现实的后门防御条件：知道攻击目标并可访问模型权重，但没有训练数据、干净参考模型或触发器信息。ToxScreen 包含约 800 个不同目标、机制、投毒率和规模的后门 LLM。作者以输入—参数耦合统计量 σ1 检测触发器造成的梯度重路由，并以大词表 token 查找恢复触发器。结果还显示，不同后门的内部编码方式明显不同，决定了剪枝是否有效。",
+        "methodology": [
+          {
+            "title": "行为读出",
+            "detail": "在指定层与位置，将残差流投影到拒答或情感等目标行为方向，得到对参数 θ 与输入 x 都可微的标量 B(θ,x)。"
+          },
+          {
+            "title": "耦合统计量 σ1",
+            "detail": "定义 M=∂²B/∂θ∂x，以幂迭代计算其最大奇异值而不显式构造矩阵，用于识别主导触发方向。"
+          },
+          {
+            "title": "抑制比与 token 查找",
+            "detail": "以 ρ(c)=σ1(xc)/σ1(x∅) 衡量候选 token 的耦合抑制；ρ(c)≤0.70 视为抑制候选，并结合 ASR 排序。"
+          },
+          {
+            "title": "后门定位",
+            "detail": "使用注意力头/MLP 结构化剪枝、全局/逐层幅值剪枝与随机剪枝，比较 ASR 与 MMLU 的下降速度。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "触发器造成梯度重路由",
+            "detail": "后门触发器让行为读出的梯度沿单一主导输入方向重路由，从而压制正常拒答并激活隐蔽目标；σ1 捕获这一信号。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "触发器恢复",
+            "detail": "在由 6 个指令模型微调出的约 800 个后门模型上，把约 24,000 个候选 token 注入触发位置并按 ASR 排名。"
+          },
+          {
+            "title": "剪枝消融",
+            "detail": "在 0%、10%、50%、90% 稀疏度下比较 5 种剪枝。拒答抑制后门在 50% 结构化剪枝后 ASR 从约 21% 降至约 7–10%，同时保留约 75% MMLU。"
+          },
+          {
+            "title": "能力与安全评估",
+            "detail": "用 ARC、TruthfulQA、HellaSwag、Winogrande 评估通用能力，并用固定 judge 评估拒答抑制与情感操纵。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "查表优于梯度提示优化",
+            "detail": "梯度提示优化未能恢复植入触发器，而 token ASR 排序在后门有效时能可靠恢复。"
+          },
+          {
+            "title": "拒答抑制后门较局部",
+            "detail": "结构化剪枝让其 ASR 比通用能力下降更快，支持稀疏局部回路假说。"
+          },
+          {
+            "title": "情感后门更分布式",
+            "detail": "90% 稀疏度下，通用能力已崩溃，情感操纵 ASR 却可升至 61–81%。"
+          },
+          {
+            "title": "仍无法覆盖所有后门",
+            "detail": "精确触发器并非总能找回，但异常容易被普遍越狱本身也可作为风险信号。"
+          }
+        ],
+        "contributions": [
+          "发布约 800 个后门 LLM 的 ToxScreen 基准。",
+          "提出基于二阶梯度的 σ1 检测统计量。",
+          "提出按 ASR 排序的 token 查找恢复法。",
+          "揭示拒答抑制与情感操纵后门的局部化差异。"
+        ],
+        "limitations": [
+          "无法稳定发现每一种后门。",
+          "分布式情感后门难以通过剪枝消融。",
+          "需要白盒权重访问。",
+          "对其他架构和训练范式的泛化尚未验证。"
+        ],
+        "open_questions": [
+          "如何覆盖分布式后门？",
+          "能否适配黑盒或有限访问场景？",
+          "后门与越狱的机制差异能否进一步细化？",
+          "这些信号能否跨架构和训练数据泛化？"
+        ],
+        "source_scope": "已缓存的全文选定区域（最多 30 页）",
+        "generated_by": "Codex grounded translation",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Data selection for LLMs",
+        "matched": [
+          "training data",
+          "data"
         ],
         "lane": "llm"
       },

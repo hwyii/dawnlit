@@ -1,6 +1,328 @@
 {
-  "generated_at": "2026-08-03T14:53:01.040214+00:00",
+  "generated_at": "2026-08-04T12:18:11.004611+00:00",
   "papers": [
+    {
+      "id": "2608.02171",
+      "title": "From Profiling to Synthesis: Benchmarking Implicit Behavioral Alignment in Personalized LLM Agents",
+      "abstract": "Large Language Models have enabled increasingly capable autonomous agents, yet personalization remains critical for making such agents practically useful. Recent benchmarks have begun evaluating personalization in agents, but they largely rely on static preference snapshots, fixed interaction logs, or question answering over predefined user profiles. Such designs fail to capture the complexity of evolving user preferences and neglect preference-conditioned task execution-a discrepancy we term as the knowledge-to-action gap. To address this challenge, we introduce IBA-Bench, a benchmark for implicit behavioral alignment constructed from longitudinal interaction histories that contain noise, implicit cues, and temporal inconsistencies. Unlike prior work, IBA-Bench evaluates whether an agent can execute tasks while satisfying implicit user constraints inferred from historical interactions. We further propose IBA-Agent, an agent framework that reconciles conflicting priorities through broad retrieval and trajectory-level alignment. Experiment results on IBA-Bench show that effective personalization remains a significant challenge for state-of-the-art LLM agents, and the proposed IBA-Agent substantially improves behavioral alignment in complex scenarios across nine application domains.",
+      "authors": [
+        "Jiajia Song",
+        "Bobo Li",
+        "Haiwen Yi",
+        "Zibo Ji",
+        "Meishan Zhang",
+        "Hao Fei",
+        "Min Zhang",
+        "Mong-Li Lee",
+        "Wynne Hsu"
+      ],
+      "published": "2026-08-03T12:52:04Z",
+      "updated": "2026-08-03T12:52:04Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2608.02171v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.02171v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3997,
+          "matched": [
+            "alignment"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.429,
+        "relevance": 0.3198,
+        "quality": 0.46,
+        "novelty": 0.8616,
+        "freshness": 0.8605,
+        "feedback_adjustment": -0.0267,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "experiments"
+      ],
+      "summary": {
+        "takeaway": "IBA-Agent 显著提升了在隐式行为对齐基准上的个性化任务成功率。",
+        "problem": "现有评估忽视用户偏好随时间演变的隐式约束，导致知识到行动的鸿沟。",
+        "method": "IBA-Agent 结合深度检索、广泛思考与深度对齐以及轨迹级合成，以从噪声交互历史中提取并综合隐式信号。",
+        "evidence": "在 IBA-BENCH 上，完整模型得分 78.8%，去除深度检索后降至 70.5%，下降 8.3 分，且在九个领域均有提升。",
+        "limitations": "作者指出即使使用 IBA-Agent，现有大型语言模型的有效个性化仍是重大挑战。",
+        "why_for_you": "对可信 LLM 研究者而言，该工作提供了评估隐式对齐的基准和提升方法，直接关联行为安全与个性化。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🗂️",
+            "text": "提出 IBA-BENCH 基准，覆盖交互历史、隐式线索、时间不一致等全部维度。"
+          },
+          {
+            "icon": "🔎",
+            "text": "IBA-Agent 通过深度检索 + 广泛思考与深度对齐，实现轨迹级信号合成。"
+          },
+          {
+            "icon": "📉",
+            "text": "去除深度检索使整体得分从 78.8 降至 70.5，下降 8.3 分，显示检索关键。"
+          }
+        ],
+        "overview": "本文针对个性化 LLM 代理的知识‑到‑行动缺口，构建了 IBA-BENCH 基准，利用纵向交互历史中的噪声、隐式线索和时间冲突来评估代理能否在执行任务时满足隐式约束。随后提出 IBA-Agent 框架，核心包括深度检索、广泛思考与深度对齐以及轨迹级合成，旨在从长历史中抽取相关信号并在行动层面进行统一。实验在九个应用域上展示了该框架相较于传统 RAG 与主流 LLM 的显著提升，同时也揭示了当前模型在隐式个性化方面仍存挑战。",
+        "methodology": [
+          {
+            "title": "Deep Retrieval",
+            "detail": "使用 bge-m3 检索器从噪声交互历史中定位与当前任务最相关的证据片段。"
+          },
+          {
+            "title": "Broad Thinking & Deep Alignment",
+            "detail": "在检索到的证据基础上进行广泛推理并深度对齐，以形成一致的行为轨迹。"
+          },
+          {
+            "title": "Trajectory‑level Synthesis",
+            "detail": "将对齐后的信号在动作空间（文本生成或 API 调用）中进行轨迹级合成，替代传统 RAG 的单轮合成。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "信号隔离与融合",
+            "detail": "深度检索先过滤掉无关噪声，再通过广泛思考将长期偏好、短期状态等多维信号统一映射到任务约束上。"
+          },
+          {
+            "title": "冲突调解",
+            "detail": "深度对齐模块评估不同信号之间的冲突（如喜辣 vs. 牙齿手术），并在生成或 API 参数中自动做出妥协。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "实验设置",
+            "detail": "使用 DeepSeek‑V3.2 作为骨干 LLM，bge‑m3 作为检索器，对比标准 RAG（QwQ‑32B、GPT‑4o、GPT‑5.1）以及去除各组件的变体，评估指标为行为成功率（Score %）。"
+          },
+          {
+            "title": "数据与领域",
+            "detail": "IBA-BENCH 包含 9 个应用域（写作、日常消费、规划、健康、交通、医疗、休闲、信息管理等），共 6,962 条交互记录，覆盖 15‑30 条证据与约束的任务实例。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "整体提升",
+            "detail": "完整 IBA‑Agent 在 IBA‑BENCH 上取得 78.8% 的行为成功率，显著高于第二佳模型的约 70%（Δ≈5.7‑12.7%）。"
+          },
+          {
+            "title": "组件贡献",
+            "detail": "去除 Deep Retrieval 导致得分从 78.8 降至 70.5（‑8.3 分），是所有组件中影响最大的一项；去除 Broad Thinking & Deep Alignment 降至 76.3（‑2.5 分），替换轨迹级合成降至 73.3（‑5.5 分）。"
+          },
+          {
+            "title": "领域差异",
+            "detail": "在 Medical、Transportation、Daily 三个领域的下降最为明显，说明这些场景对精确检索尤为敏感。"
+          }
+        ],
+        "contributions": [
+          "提出覆盖全部维度的 IBA‑BENCH 基准，用于评估隐式行为对齐。",
+          "设计 IBA‑Agent 框架，实现从噪声历史到任务执行的端到端信号合成。",
+          "提供系统性实验，量化各组件对个性化任务成功率的贡献。"
+        ],
+        "limitations": [
+          "作者指出即使使用 IBA‑Agent，现有大型语言模型的有效个性化仍是重大挑战。",
+          "基准交互历史由多代理生成，缺乏真实用户数据的验证。"
+        ],
+        "open_questions": [
+          "如何将 IBA‑BENCH 的合成交互迁移到真实用户对话中以验证可行性？",
+          "在更复杂的多约束冲突场景下，如何提升冲突调解的鲁棒性？",
+          "能否将行为对齐的安全性度量纳入评估，以进一步支持可信 LLM 研究？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-04T12:18:11.004611+00:00"
+    },
+    {
+      "id": "2608.02154",
+      "title": "Auditing Data Provenance in LLM Fine-tuning via Intrinsic Distributional Fingerprints",
+      "abstract": "The proliferation of customized Large Language Models (LLMs) poses critical risks of Data Intellectual Property (Data IP) infringement via unauthorized fine-tuning on proprietary data. Existing audit techniques are limited, as they require intervention during data preparation or training and remain fragile under malicious obfuscations such as data paraphrasing and knowledge distillation. We propose \\textit{Distribution Provenance Audit (DPA)}, a post-hoc framework for auditing data IP infringement in LLM fine-tuning under black-box and malicious settings. DPA is grounded in a critical insight: regardless of fine-tuning tactics to evade provenance, the practical necessity of maintaining utility constrains the model to preserve the fundamental intersection of semantic substance and lexical form. Accordingly, DPA captures this persistent lexical-semantic intersection as intrinsic distributional fingerprints. The framework formulates the audit as a statistical hypothesis test, effectively quantifying these fingerprints via unbiased output sampling to reliably reject the null hypothesis of non-usage. Extensive experiments on medical and legal fine-tuning tasks show that DPA consistently outperforms existing baselines, remaining robust against adversarial trainers employing paraphrasing and knowledge distillation. We further highlight a fundamental dual-use tension: the same high-fidelity distributional fingerprints enabling reliable auditing may also facilitate privacy attacks.",
+      "authors": [
+        "Zirui Huang",
+        "Yunlong Mao",
+        "Wei Tong",
+        "Tingting Wu",
+        "Xin Ge",
+        "Sheng Zhong"
+      ],
+      "published": "2026-08-03T12:35:51Z",
+      "updated": "2026-08-03T12:35:51Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2608.02154v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.02154v1",
+      "comment": "This is the extended version of CCS'26 paper https://doi.org/10.1145/3830454.3832639",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3968,
+          "matched": [
+            "privacy",
+            "auditing"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4274,
+        "relevance": 0.3174,
+        "quality": 0.46,
+        "novelty": 0.8609,
+        "freshness": 0.8589,
+        "feedback_adjustment": -0.0313,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "experiments"
+      ],
+      "summary": {
+        "takeaway": "DPA通过内在分布指纹实现黑盒LLM的可靠数据来源审计，且在对抗改写和蒸馏时保持优势。",
+        "problem": "需要在不干预训练过程的情况下检测专有数据是否被用于LLM微调，尤其在黑盒和恶意环境中。",
+        "method": "利用JSLS度量捕获词汇‑语义交叉指纹，并通过SIDE抽取模型潜在分布，构建统计假设检验。",
+        "evidence": "在医学与法律微调任务上，使用Pythia‑2.8B、Qwen3‑4B‑Instruct、Llama3‑8B‑Instruct的实验表明DPA显著优于现有基线，且在改写和蒸馏攻击下仍保持高置信度。",
+        "limitations": "高保真指纹同样可被用于分布式隐私攻击，存在双重使用风险。",
+        "why_for_you": "该工作直接涉及可信LLM的数据来源可追溯性与知识产权保护，符合你的研究兴趣。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "DPA首次利用内在分布指纹实现黑盒LLM数据来源审计"
+          },
+          {
+            "icon": "🔧",
+            "text": "通过JSLS度量结合SIDE抽取，构建统计假设检验"
+          },
+          {
+            "icon": "📊",
+            "text": "在医学与法律任务上，DPA在对抗改写和蒸馏时保持显著优势"
+          }
+        ],
+        "overview": "本论文提出Distribution Provenance Audit（DPA），一种后置审计框架，利用模型在保持实用性的前提下必然保留的词汇‑语义交叉特征，定义为内在分布指纹。通过Joint Semantic‑Lexical Similarity（JSLS）度量捕获词频与语义偏差的联合相似性，并使用Self‑Instruct Data Extraction（SIDE）从模型输出中重建潜在分布，无需访问训练数据。随后将指纹量化为统计假设检验，以判定模型是否使用了特定专有数据。实验在医学和法律微调任务上，覆盖Pythia‑2.8B、Qwen3‑4B‑Instruct、Llama3‑8B‑Instruct三种基模型，比较多种基线，展示在数据改写和知识蒸馏攻击下仍保持高置信度的审计能力。",
+        "methodology": [
+          {
+            "title": "Joint Semantic‑Lexical Similarity (JSLS)",
+            "detail": "计算词汇相关度 r(w) 并结合词频偏差与语义嵌入的加权KL散度，形成统一的分布相似度度量 ΔJSLS(D0,D1)。"
+          },
+          {
+            "title": "Self‑Instruct Data Extraction (SIDE)",
+            "detail": "通过高置信度输出采样，重建模型的潜在分布并校准抽样偏差，实现无干预的指纹恢复。"
+          },
+          {
+            "title": "统计假设检验",
+            "detail": "以 JSLS 与 SIDE 提取的指纹为统计量，构建原假设（未使用专有数据）并通过显著性水平检验拒绝或接受。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "实用性约束导致指纹保留",
+            "detail": "作者认为，为保持微调后模型的专业效用，必须保留语义实质与词形形式的交叉统计特征，即内在分布指纹。"
+          },
+          {
+            "title": "相关度加权的语义近似",
+            "detail": "将词汇相关度 r(w) 融入嵌入聚类的概率质量，抑制通用高频模式，突出分布特有的专业知识。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "实验设置",
+            "detail": "模型：Pythia‑2.8B、Qwen3‑4B‑Instruct、Llama3‑8B‑Instruct；微调方式：LoRA (rank=16, α=32)。数据集：MedAlpaca、ChatDoctor、CaseLaw（Delaware、Arizona）。对抗手段：LLM‑paraphrasing 与知识蒸馏。评估指标：JSLS 分数、MAUVE、Pearson r=0.83、AUC 等。"
+          },
+          {
+            "title": "基线比较",
+            "detail": "与传统 Membership Inference Attack、数据水印等方法对比，DPA 在所有设置下均实现更高的检出率和更低的误报率。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "审计效果优于基线",
+            "detail": "在医学任务上，DPA 对专有数据的检测置信度显著高于基线，即使在 paraphrasing 攻击下仍保持 >0.9 的 AUC。"
+          },
+          {
+            "title": "指纹对抗鲁棒性",
+            "detail": "SIDE 重建的分布在知识蒸馏场景中仍能捕获原始语义‑词汇特征，验证了实用性约束的理论假设。"
+          },
+          {
+            "title": "双重使用张力",
+            "detail": "实验表明，同一高保真指纹可被用于分布式隐私攻击，凸显审计与隐私之间的冲突。"
+          }
+        ],
+        "contributions": [
+          "提出 Distribution Provenance Audit (DPA) 框架，实现黑盒 LLM 数据来源审计。",
+          "设计 Joint Semantic‑Lexical Similarity (JSLS) 作为分布指纹度量。",
+          "开发 Self‑Instruct Data Extraction (SIDE) 用于无干预的潜在分布恢复。",
+          "在医学与法律微调任务上进行严格对抗实验，验证 DPA 的有效性与鲁棒性。"
+        ],
+        "limitations": [
+          "高保真指纹可能被用于隐私攻击，存在双重使用风险。",
+          "实验仅覆盖医学和法律两个领域，未评估在其他专业或通用领域的适用性。"
+        ],
+        "open_questions": [
+          "如何在保持审计有效性的同时防止指纹被用于隐私泄露？",
+          "DPA 能否扩展至更大规模模型（如 70B）或多语言环境？",
+          "在缺乏明确专有数据基准的情况下，如何设定统计检验的阈值？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "privacy",
+          "auditing"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-04T12:18:11.004611+00:00"
+    },
     {
       "id": "2607.28959",
       "title": "Efficient LLM Adversarial Training via Low-Rank Defense and Circuit-Guided Surrogates",
@@ -699,16 +1021,6 @@
         "GitHub link",
         "experiments"
       ],
-      "summary": {
-        "takeaway": "Pre-trained language models have significantly improved sentence representation learning, yet their embedding remain sensitive to semantic preserving textual perturbations such as synonym substitution, masking and word dropout.",
-        "problem": "Pre-trained language models have significantly improved sentence representation learning, yet their embedding remain sensitive to semantic preserving textual perturbations such as synonym substitution, masking and word dropout.",
-        "method": "We evaluate the proposed framework using multiple perturbation strategies with varying strengths and compare it against the original BERT embeddings and SimCSE.",
-        "evidence": "Experimental results show that CDAE consistently preserves higher embedding similarity under perturbations, with the improvements becoming more pronounced as framework effectively enhances representation stability while preserving semantic information, highlighting perturbation-invariant learning as a promising direction for improving sentence embeddings.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Trustworthy LLM.",
-        "source": "abstract",
-        "generated_by": "extractive"
-      },
       "recommendation_reason": {
         "topic": "Trustworthy LLM",
         "matched": [
@@ -716,6 +1028,98 @@
           "robustness"
         ],
         "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "CDAE 通过对比去噪双目标，使 BERT 句向量在文本扰动下保持更高相似度。",
+        "problem": "预训练 BERT 的句子嵌入对同义替换、遮蔽和词删等语义保持扰动极为敏感。",
+        "method": "在冻结的 bert‑base‑uncased 上加入对比学习与重构损失，学习 128 维扰动不变的潜在表示。",
+        "evidence": "实验在 0.1‑0.9 的扰动强度下显示，CDAE 相比原始 BERT 与 SimCSE 的余弦相似度始终更高，且在强扰动时提升更明显。",
+        "limitations": "仅在单一 BERT 模型和合成扰动上评估，缺乏下游任务和多模型的验证。",
+        "why_for_you": "该工作直接提升句向量的鲁棒性，符合可信 LLM 需要稳健语义表示的研究方向。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "CDAE提升BERT句向量在70%文本扰动下的相似度"
+          },
+          {
+            "icon": "⚙️",
+            "text": "对比+去噪双目标在冻结BERT上训练，生成128维稳健潜空间"
+          },
+          {
+            "icon": "📊",
+            "text": "在0.1‑0.9扰动强度下，CDAE相较BERT保持正Δcos相似度，未给出具体数值"
+          }
+        ],
+        "overview": "本文提出轻量化的 Contrastive Denoising Autoencoder（CDAE），在冻结的 bert‑base‑uncased 上同步优化对比学习与重构目标，学习 128 维的扰动不变表示。通过在 SNLI 上训练，并在同义替换、词遮蔽、词删等多种扰动（强度 0.1‑0.9）下评估，结果显示相较原始 BERT 与 SimCSE，CDAE 在余弦相似度上始终保持正向提升，尤其在高强度扰动时优势更明显。",
+        "methodology": [
+          {
+            "title": "对比学习目标",
+            "detail": "将原始句子与其扰动版本视为正样本，使用余弦相似度拉近其潜在表示"
+          },
+          {
+            "title": "去噪重构目标",
+            "detail": "编码器输出的潜在向量经解码器重建原始句子，实现信息恢复"
+          },
+          {
+            "title": "训练细节",
+            "detail": "冻结 bert‑base‑uncased，20 轮、批大小 512、学习率 1×10⁻⁴、权重衰减 1×10⁻⁵、dropout 0.3"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "扰动不变潜空间",
+            "detail": "对比损失促使干净与扰动表示靠近，重构损失保证潜空间仍能恢复原句，实现语义保持与噪声抑制的协同"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "模型与基线",
+            "detail": "CDAE 基于冻结的 bert‑base‑uncased；对比基线为原始 BERT 嵌入和 SimCSE"
+          },
+          {
+            "title": "数据与扰动",
+            "detail": "使用 SNLI 训练集（548 820 句），测试集抽取 1 000 句；扰动策略包括 synonym、dropout、mask，强度 ρ∈{0.1,…,0.9}，训练时随机选取强度 0.7（70% 内容词）"
+          },
+          {
+            "title": "评估指标",
+            "detail": "计算干净与扰动句子表示的余弦相似度，取均值 c̄ₘ,ρ；报告 Δₘ,ρ = c̄ₘ,ρ^{CDAE}−c̄ₘ,ρ^{Baseline}"
+          }
+        ],
+        "findings": [
+          {
+            "title": "相似度提升",
+            "detail": "在所有扰动强度下，Δₘ,ρ 为正，表明 CDAE 的 128 维潜空间比 768 维原始 BERT 更好地保持语义一致性"
+          },
+          {
+            "title": "强扰动优势",
+            "detail": "随着 ρ 接近 0.9，正向 Δ 的幅度增大，说明 CDAE 对高强度噪声更具鲁棒性"
+          }
+        ],
+        "contributions": [
+          "提出 Contrastive Denoising Autoencoder（CDAE）框架",
+          "实现轻量化的对比+去噪双目标训练",
+          "系统评估了不同扰动策略和强度下的鲁棒性提升"
+        ],
+        "limitations": [
+          "仅在单一 BERT‑base‑uncased 模型上进行评估",
+          "实验仅使用合成文本扰动，缺乏真实下游任务验证",
+          "报告的鲁棒性结果基于单次扰动强度扫"
+        ],
+        "open_questions": [
+          "不同 Transformer 层对扰动的敏感性如何分布？",
+          "在检索、分类等下游任务中，鲁棒性提升是否转化为性能提升？",
+          "该方法能否推广至更大模型或多语言预训练模型？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 5
       },
       "recommended_at": "2026-07-31T12:16:26.321275+00:00"
     },
@@ -2779,111 +3183,6 @@
         "baseline comparison",
         "quantitative results"
       ],
-      "summary": {
-        "takeaway": "Stemma introduces induced decision regions to robustly fingerprint LLM provenance by abstracting open-ended outputs into a finite decision space, achieving superior accuracy and robustness over existing black-box methods.",
-        "problem": "Existing black-box LLM provenance methods rely on response-level characteristics that shift under adaptation or deployment, weakening reliable lineage detection.",
-        "method": "Stemma maps LLM outputs into induced decision regions and selects probes based on stability, robustness, and specificity to measure decision region inheritance for provenance testing.",
-        "evidence": "Across 770 source-suspect pairs from 56 checkpoints, Stemma achieves 0.967 AUC and 87.8% TPR at 1% FPR, outperforming four baselines, and attains 0.995 AUC and 93.5% TPR at 1% FPR on 1,260 pairs covering 91 deployment instances.",
-        "limitations": "The paper does not provide explicit limitations but lacks detailed analysis on performance under extreme model modifications or adversarial attacks.",
-        "why_for_you": "Stemma offers a principled, robust black-box fingerprinting approach that addresses surface-form variability in LLM outputs, critical for trustworthy provenance verification in deployed LLMs.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Induced decision regions abstract LLM outputs into a finite decision space, enabling stable and comparable provenance signals despite surface-form variation in open-ended generation."
-          },
-          {
-            "icon": "🛡️",
-            "text": "Stemma’s probe selection leverages stability across input permutations, robustness to boundary shifts, and specificity against unrelated models to reliably detect decision region inheritance."
-          },
-          {
-            "icon": "📉",
-            "text": "Empirical results show Stemma achieves 0.967 AUC and 87.8% TPR at 1% FPR on 770 source-suspect pairs, substantially outperforming baselines that degrade under prompt or deployment shifts."
-          }
-        ],
-        "overview": "The paper addresses the challenge of black-box LLM provenance testing, where existing methods relying on response-level similarity fail under model adaptation or deployment changes. It introduces induced decision regions by mapping open-ended LLM outputs into a finite decision space, abstracting away surface-form variability. This reframes provenance testing as measuring the inheritance of these induced decision regions, which are empirically shown to be preserved more strongly in related models. Building on this, Stemma selects probes based on stability, robustness, and specificity criteria to reliably fingerprint source models. Extensive experiments across 770 source-suspect pairs from 56 public checkpoints and 1,260 pairs covering 91 deployment instances demonstrate Stemma’s superior accuracy (up to 0.995 AUC) and robustness compared to four representative baselines. The method is computationally efficient and applicable without internal model access, making it practical for real-world provenance verification.",
-        "methodology": [
-          {
-            "title": "Induced Decision Regions",
-            "detail": "Outputs from open-ended LLM generation are mapped into a finite decision space, creating induced decision regions that abstract away surface-form variations and enable stable comparison of model behaviors."
-          },
-          {
-            "title": "Probe Selection Principles",
-            "detail": "Probes are selected based on three complementary criteria: stability across equivalent input representations, robustness to decision boundary shifts, and specificity against unrelated models to maximize provenance signal reliability."
-          },
-          {
-            "title": "Fingerprint Construction",
-            "detail": "For each source model, a fingerprint is constructed from 40 selected probes sampled from a candidate pool (e.g., 3,000 MMLU questions), calibrated using a background model unrelated to the source or suspects."
-          },
-          {
-            "title": "Verification Protocol",
-            "detail": "Suspect models are queried with the source-specific probes under cyclic permutations, and their induced decision region inheritance is measured to produce provenance scores evaluated via AUC, pAUC, and TPR at low FPR."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Decision Region Inheritance",
-            "detail": "The mechanism relies on the hypothesis that derived or related LLMs preserve the source’s induced decision regions more strongly than unrelated models, enabling lineage inference through behavioral signatures in a finite decision space."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Benchmark Evaluation",
-            "detail": "Stemma was evaluated on 770 source-suspect pairs from 56 public checkpoints spanning diverse model families and weight transformations, compared against LLMmap, LLMPrint, MPT, and ZeroPrint baselines using AUC, pAUC, and TPR metrics."
-          },
-          {
-            "title": "Deployment Robustness",
-            "detail": "Further evaluation on 1,260 pairs covering 91 deployment instances demonstrated Stemma’s robustness to inference-time deployment variations, achieving 0.995 AUC and 93.5% TPR at 1% FPR."
-          },
-          {
-            "title": "Ablation Studies",
-            "detail": "Ablations on probe selection stages, candidate pool size, probe budget, probe datasets, and background models confirmed the importance of targeted probe selection and showed stable performance across configurations."
-          },
-          {
-            "title": "Computational Cost",
-            "detail": "Fingerprint construction and verification require approximately 4.5 minutes per source model on NVIDIA L40S GPUs, including calibration, querying, and probe evaluation."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Superior Provenance Separation",
-            "detail": "Stemma consistently outperforms four representative baselines, achieving up to 0.967 AUC and 87.8% TPR at 1% FPR on pretrained sources, where baselines approach random performance due to prompt mismatches."
-          },
-          {
-            "title": "Robustness to Deployment Variations",
-            "detail": "Stemma maintains high accuracy (0.995 AUC, 93.5% TPR at 1% FPR) across diverse deployment instances, demonstrating robustness to inference-time changes that degrade baseline methods."
-          },
-          {
-            "title": "Probe Selection Effectiveness",
-            "detail": "Targeted probe selection based on stability, robustness, and specificity yields significant gains in low-FPR performance (pAUC), critical for reducing false-positive provenance claims."
-          }
-        ],
-        "contributions": [
-          "Introduction of induced decision regions to abstract LLM outputs into a finite decision space for provenance testing.",
-          "Development of Stemma, a black-box fingerprinting method leveraging stability, robustness, and specificity probe selection.",
-          "Comprehensive empirical validation across hundreds of source-suspect pairs and deployment settings demonstrating superior accuracy and robustness.",
-          "Ablation studies confirming the importance of probe selection principles and practical computational efficiency.",
-          "Establishing a stemmatic analogy for LLM provenance inspired by textual lineage reconstruction."
-        ],
-        "limitations": [
-          "No explicit analysis of Stemma’s performance under adversarial model modifications or extreme fine-tuning scenarios.",
-          "Limited discussion on scalability to very large candidate probe pools beyond 6,000 questions.",
-          "Absence of theoretical guarantees or formal mechanism proofs beyond empirical evidence.",
-          "Potential sensitivity to choice of background model and probe datasets not exhaustively explored."
-        ],
-        "open_questions": [
-          "How does Stemma perform against adversarially manipulated suspect models designed to evade provenance detection?",
-          "Can induced decision regions be extended or adapted for multilingual or multimodal LLMs?",
-          "What are the theoretical limits of decision region inheritance as a provenance signal under extensive model adaptation?",
-          "How can probe selection be further optimized or automated for different LLM architectures and deployment contexts?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
       "recommendation_reason": {
         "topic": "Trustworthy LLM",
         "matched": [
@@ -2893,6 +3192,96 @@
           "robustness"
         ],
         "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "引入 induced decision regions，使黑盒 LLM 溯源更稳健。",
+        "problem": "现有指纹方法依赖表面输出相似性，易受适配和部署影响。",
+        "method": "Stemma 依据稳定性、鲁棒性、特异性挑选 probes，测量决策区继承。",
+        "evidence": "在 770 对（56 检查点）上达 0.967 AUC，1% FPR 时 TPR 87.8%，在 1,260 对部署实例上达 0.995 AUC，TPR 93.5%，显著超越四个基线。",
+        "limitations": "效果依赖精心挑选的 probes，随机 probes 只能提供有限区分力。",
+        "why_for_you": "对可信 LLM 研究者，Stemma 提供了在模型适配和部署后仍可验证来源的实用指纹方法。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "引入 induced decision regions，将开放式输出映射到有限决策空间，实现更稳健的来源判别。"
+          },
+          {
+            "icon": "🔧",
+            "text": "Stemma 通过稳定性、鲁棒性、特异性三原则挑选 40 条 probes，测量决策区继承度。"
+          },
+          {
+            "icon": "⚠️",
+            "text": "在 770 对（56 检查点）上达 0.967 AUC，1% FPR 时 TPR 87.8%，但随机 probes 仅提供有限区分力。"
+          }
+        ],
+        "overview": "本文针对 LLM 溯源面临的表面输出易变问题，提出将生成答案映射到有限决策空间的 induced decision regions 概念，并基于此构建 Stemma 指纹系统。Stemma 通过三大探针选择原则（稳定性、鲁棒性、特异性）从 3,000 条 MMLU 题目中挑选 40 条高信息 probes，随后在源模型和嫌疑模型上测量这些 probes 的决策区继承程度。实验在 56 个公开检查点的 770 对源‑嫌疑模型以及 91 种部署实例的 1,260 对上进行，指标包括 AUC、pAUC、1% FPR 下的 TPR 与 d′，结果显著优于 LLMmap、LLMPrint、MPT 与 ZeroPrint 四个基线，并在不同模型族、适配方式和部署设置下保持鲁棒。消融分析表明，探针的稳定性与特异性是提升低 FPR 性能的关键，而探针数量与候选池规模对整体表现影响有限。",
+        "methodology": [
+          {
+            "title": "Probe selection pipeline",
+            "detail": "从 3,000 条随机抽取的 MMLU 问题构建候选池，首先剔除与黄金答案相同的题目以提升特异性，然后过滤掉在等价输入变体下不稳定或对边界敏感的 probes，最后依据继承度得分排序，选取前 40 条作为指纹探针。"
+          },
+          {
+            "title": "Decision region mapping",
+            "detail": "对每个 probe，使用源模型生成多次输出并通过预定义的映射函数将文本答案映射到有限的决策标签集合，从而抽象掉表面形式差异，形成源模型的 induced decision region。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Induced decision regions",
+            "detail": "将开放式生成答案映射到离散决策空间，使得相同语义的不同表述落入同一决策区，继承度即嫌疑模型在相同 probe 上落入相同决策区的比例。"
+          },
+          {
+            "title": "Region inheritance measurement",
+            "detail": "计算嫌疑模型对每个 probe 的决策标签与源模型的匹配率，聚合得到整体继承分数，用作溯源判别的连续评分。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Benchmark setup",
+            "detail": "770 source‑suspect 对，来源于 56 个公开检查点，涵盖微调、合并、压缩、蒸馏等权重变换；另有 1,260 对覆盖 91 种部署实例。基线包括 LLMmap、LLMPrint、MPT、ZeroPrint。评估指标为 AUC、pAUC（FPR∈[0,0.05]）、1% FPR 下的 TPR 与 d′。"
+          },
+          {
+            "title": "Ablation studies",
+            "detail": "分别评估随机 probes、仅使用非黄金池、不同候选池规模（1k‑6k）以及 probe 预算（10‑80），结果显示稳定性与特异性过滤对低 FPR 表现贡献最大，性能在 40 条 probes 后趋于饱和。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "Superior provenance discrimination",
+            "detail": "Stemma 在整体数据上取得 0.967 AUC（预训练源）和 0.995 AUC（部署实例），1% FPR 下 TPR 分别为 87.8% 与 93.5%，显著高于所有基线。"
+          },
+          {
+            "title": "Robustness to deployment variations",
+            "detail": "在聊天模板与原始完成提示的接口不匹配情况下，基线性能接近随机，而 Stemma 仍保持高区分度，说明决策区继承信号对提示变化不敏感。"
+          },
+          {
+            "title": "Probe budget efficiency",
+            "detail": "性能在 probe 数量达到约 40 条后基本稳定，进一步增加预算对 AUC 与 pAUC 的提升有限，表明方法在查询成本上具备可控性。"
+          }
+        ],
+        "contributions": [
+          "提出 induced decision regions 概念，重新定义 LLM 黑盒溯源。",
+          "设计 Stemma 指纹系统，基于稳定性、鲁棒性、特异性三原则进行 probe 选择。",
+          "提供大规模实验验证，展示在多模型族、适配方式和部署设置下的鲁棒性。"
+        ],
+        "limitations": [
+          "效果依赖于精心挑选的 probes，随机 probes 只能提供有限区分力。",
+          "评估局限于公开检查点和已测试的部署实例，未覆盖所有可能的模型压缩或对抗扰动情形。"
+        ],
+        "open_questions": [
+          "在更极端的模型压缩、量化或对抗攻击下，决策区指纹能否保持可靠？",
+          "能否将 induced decision regions 扩展到多模态或视觉语言模型的溯源任务？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 5
       },
       "recommended_at": "2026-07-29T12:20:20.242360+00:00"
     },
@@ -2958,110 +3347,6 @@
         "dataset evidence",
         "quantitative results"
       ],
-      "summary": {
-        "takeaway": "Tabular Foundation Models (TFMs) systematically degrade in predictive performance under distribution shifts across diverse datasets and pre-training strategies.",
-        "problem": "The robustness of TFMs to out-of-distribution (OOD) scenarios remains underexplored despite their growing use in tabular predictive tasks.",
-        "method": "An empirical evaluation of nine TFMs with varying pre-training strategies was conducted on three real-world datasets exhibiting label, socioeconomic, and geographic distribution shifts.",
-        "evidence": "All TFMs showed consistent performance degradation under distribution shifts, with shift gaps ranging from 0.003 to 0.060 ROC-AUC, and no model achieved OOD parity with in-distribution performance.",
-        "limitations": "The study did not include fine-tuning of TFMs on target tasks and excluded some results due to computational constraints, limiting insights into adaptation capabilities and scalability.",
-        "why_for_you": "Understanding the OOD robustness and scalability limitations of TFMs is critical for deploying trustworthy tabular models in high-stakes, real-world environments with structural distribution shifts.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "TFMs pre-trained on real-world data (e.g., TabPFN variants) achieved higher in-distribution and OOD ROC-AUC scores but exhibited similar shift gaps to synthetic-prior models, indicating stronger ID fitting rather than inherent OOD robustness."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The evaluation employed default inference configurations without task-specific fine-tuning, using ROC-AUC as the metric across three TableShift datasets (HELOC, Childhood Lead, Voting) to measure OOD performance degradation."
-          },
-          {
-            "icon": "📉",
-            "text": "Performance degradation varied by shift type: socioeconomic shifts (Childhood Lead) caused the largest drop, label shifts (HELOC) moderate, and geographic shifts (Voting) the smallest, confirming systematic vulnerability of TFMs to distribution shifts."
-          }
-        ],
-        "overview": "This study investigates the out-of-distribution (OOD) performance of nine Tabular Foundation Models (TFMs) across three real-world datasets exhibiting distinct distribution shifts: label, socioeconomic, and geographic. The research question centers on whether TFMs, which have shown competitive in-distribution performance, maintain robustness under realistic distributional changes. The authors evaluate models spanning real-world, synthetic, and mixed pre-training strategies using the TableShift benchmark datasets. The approach involves measuring ROC-AUC on in-distribution (ID) and OOD test splits without fine-tuning, quantifying the shift gap as the performance difference. Results demonstrate that all TFMs experience systematic degradation under OOD conditions, with no model achieving parity between ID and OOD performance. Notably, models pre-trained on real-world data outperform others in absolute terms but do not reduce the relative shift gap, suggesting that pre-training corpus influences ID fitting more than OOD generalization. The study also highlights scalability challenges for high-performing TFMs, limiting their deployment in resource-constrained environments. These findings extend existing tabular benchmarks and provide critical insights for deploying TFMs in high-stakes applications subject to structural distribution shifts.",
-        "methodology": [
-          {
-            "title": "Dataset Selection and Shift Types",
-            "detail": "Three datasets from TableShift were selected to represent diverse distribution shifts: HELOC (label shift), Childhood Lead (socioeconomic shift), and Voting (geographic shift). Each dataset includes training, in-distribution test, and OOD test splits defined by domain-specific variables."
-          },
-          {
-            "title": "Model Selection and Pre-training Strategies",
-            "detail": "Nine TFMs were evaluated, including TabPFN variants (v2, v2.5, v2.6, v3), TabICL variants, Mitra, LimiX, and TabFM, covering real-world data pre-training, synthetic priors from structural causal models, and mixed approaches."
-          },
-          {
-            "title": "Evaluation Protocol",
-            "detail": "Models were used in default inference mode without fine-tuning. ROC-AUC was computed on ID and OOD test splits, with the shift gap defined as the difference between these scores. Experiments were repeated over five random seeds to report mean and standard deviation."
-          },
-          {
-            "title": "Performance Metrics and Reporting",
-            "detail": "ROC-AUC was chosen due to class imbalance in datasets. Results for computationally expensive models (TabFM, LimiX) on the large Voting dataset were omitted due to resource constraints."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "No Explicit Mechanism Provided",
-            "detail": "The paper does not present a formal mechanism or theoretical model explaining the degradation under distribution shifts; rather, it provides empirical evidence of systematic performance drops across TFMs."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "OOD Performance Evaluation on TableShift Datasets",
-            "detail": "Nine TFMs were evaluated on HELOC, Childhood Lead, and Voting datasets, each exhibiting different distribution shifts. Models were assessed on ID and OOD splits using ROC-AUC, with results averaged over five seeds."
-          },
-          {
-            "title": "Comparison Across Pre-training Strategies",
-            "detail": "Models pre-trained on real-world data, synthetic priors, and mixed priors were compared to assess the impact of pre-training corpus on OOD robustness."
-          },
-          {
-            "title": "Resource and Scalability Assessment",
-            "detail": "The study noted computational and memory demands of high-performing TFMs, particularly TabFM and LimiX, which limited evaluation on larger datasets, highlighting scalability gaps."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Systematic OOD Performance Degradation",
-            "detail": "All nine TFMs exhibited lower ROC-AUC on OOD test splits compared to ID splits, with shift gaps ranging from 0.003 to 0.060, confirming vulnerability to distribution shifts."
-          },
-          {
-            "title": "Pre-training Corpus Influences ID but Not OOD Robustness",
-            "detail": "Real-world pre-trained TFMs achieved higher absolute performance but did not reduce the relative shift gap compared to synthetic-prior models, indicating limited inherent OOD generalization."
-          },
-          {
-            "title": "Shift Type Affects Degree of Performance Drop",
-            "detail": "Socioeconomic shifts (Childhood Lead) caused the largest performance degradation, label shifts (HELOC) moderate, and geographic shifts (Voting) the smallest, demonstrating shift-type-dependent robustness."
-          },
-          {
-            "title": "Scalability Constraints Limit Practical Deployment",
-            "detail": "High-performing TFMs require substantial computational resources, exceeding standard deployment infrastructure capabilities, which restricts their applicability in resource-constrained settings."
-          }
-        ],
-        "contributions": [
-          "First comprehensive empirical evaluation of OOD performance across nine diverse TFMs.",
-          "Demonstration that TFMs lack inherent robustness to distribution shifts despite varied pre-training strategies.",
-          "Extension of OOD benchmarks for tabular data with real-world datasets covering multiple shift types.",
-          "Identification of a scalability gap limiting deployment of high-performing TFMs in practical environments."
-        ],
-        "limitations": [
-          "Evaluation used default inference without fine-tuning, potentially underestimating adaptation capabilities.",
-          "Computational constraints prevented reporting results for some models on large datasets, limiting completeness.",
-          "No theoretical or mechanistic explanation for observed OOD degradation was provided.",
-          "The study focused on classification tasks; regression or other tabular tasks were not evaluated."
-        ],
-        "open_questions": [
-          "Can fine-tuning or adaptation strategies improve OOD robustness of TFMs beyond default inference?",
-          "What architectural or training modifications can enhance inherent OOD generalization in TFMs?",
-          "How do TFMs perform under other types of distribution shifts or in regression tasks?",
-          "What methods can address the scalability challenges to enable deployment of TFMs in resource-limited environments?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
       "recommendation_reason": {
         "topic": "Efficient adversarial training",
         "matched": [
@@ -3069,6 +3354,113 @@
           "training"
         ],
         "lane": "llm"
+      },
+      "summary": {
+        "limitations": "研究未对 TFMs 在目标任务上进行微调，且因计算资源限制排除了一些结果，导致对适应能力和可扩展性的洞察受限。",
+        "evidence": "所有 TFMs 在分布漂移下表现出一致的性能下降，shift gap 在 0.003 至 0.060 ROC-AUC 之间，且无模型实现 OOD 与 ID 性能持平。",
+        "why_for_you": "了解 TFMs 的 OOD 鲁棒性和可扩展性限制，对在高风险真实环境中部署可信的表格模型至关重要，尤其面对结构性分布漂移。",
+        "problem": "尽管 TFMs 在表格预测任务中应用日增，但其对 OOD 场景的鲁棒性仍未得到充分研究。",
+        "takeaway": "Tabular Foundation Models (TFMs) 在不同数据集和预训练策略下，面对分布漂移时预测性能系统性下降。",
+        "method": "对九种采用不同预训练策略的 TFMs 在三个人真实数据集（包含标签、社会经济和地理分布漂移）进行实证评估。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🛡️",
+            "text": "在真实数据上预训练的 TFMs（如 TabPFN 变体）获得更高的 ID 与 OOD ROC-AUC 分数，但其 shift gap 与合成先验模型相似，表明其更擅长 ID 拟合而非固有的 OOD 鲁棒性。"
+          },
+          {
+            "icon": "🗂️",
+            "text": "评估使用默认推理配置且未进行任务特定微调，采用 ROC-AUC 作为指标，在三个 TableShift 数据集（HELOC、Childhood Lead、Voting）上衡量 OOD 性能下降。"
+          },
+          {
+            "icon": "📉",
+            "text": "性能下降随漂移类型而异：社会经济漂移（Childhood Lead）导致最大下降，标签漂移（HELOC）中等，地理漂移（Voting）最小，进一步确认 TFMs 对分布漂移的系统性脆弱性。"
+          }
+        ],
+        "overview": "本研究评估了九种 Tabular Foundation Models (TFMs) 在三个人真实数据集（分别呈现标签、社会经济和地理分布漂移）上的 OOD 表现。核心问题是已展示竞争性 ID 性能的 TFMs 能否在真实分布变化下保持鲁棒性。作者使用 TableShift 基准数据集，覆盖真实、合成及混合预训练策略的模型，在未微调的情况下测量 ID 与 OOD 测试集的 ROC-AUC，并以差值定义 shift gap。结果显示所有 TFMs 在 OOD 条件下均出现系统性性能下降，且无模型实现 ID 与 OOD 性能持平。值得注意的是，真实数据预训练的模型在绝对分数上领先，但并未缩小相对 shift gap，表明预训练语料更有利于 ID 拟合而非 OOD 泛化。研究还指出高性能 TFMs 在资源受限环境下的可扩展性挑战，限制其部署。上述发现扩展了现有表格基准，为在结构性分布漂移的高风险应用中部署 TFMs 提供关键洞见。",
+        "methodology": [
+          {
+            "title": "数据集选择与偏移类型",
+            "detail": "从 TableShift 中选择了三个数据集，以代表多样的分布偏移：HELOC（标签偏移）、Childhood Lead（社会经济偏移）和 Voting（地理偏移）。每个数据集包括由领域特定变量定义的训练、分布内测试和 OOD 测试划分。"
+          },
+          {
+            "title": "模型选择与预训练策略",
+            "detail": "评估了九种 TFM，包括 TabPFN 变体（v2、v2.5、v2.6、v3）、TabICL 变体、Mitra、LimiX 和 TabFM，涵盖真实数据预训练、结构因果模型的合成先验以及混合方法。"
+          },
+          {
+            "title": "评估协议",
+            "detail": "模型在默认推理模式下使用，未进行微调。对 ID 和 OOD 测试划分计算 ROC-AUC，shift gap 定义为两者分数的差值。实验在五个随机种子上重复，以报告均值和标准差。"
+          },
+          {
+            "title": "性能指标与报告",
+            "detail": "由于数据集存在类别不平衡，选择了 ROC-AUC。由于资源限制，省略了在大规模 Voting 数据集上计算成本高的模型（TabFM、LimiX）的结果。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "未提供明确机制",
+            "detail": "论文未提出解释分布偏移下性能下降的正式机制或理论模型；而是提供了跨 TFM 系统性性能下降的实证证据。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "TableShift 数据集上的 OOD 性能评估",
+            "detail": "在 HELOC、Childhood Lead 和 Voting 数据集上评估了九个 TFM，数据集呈现不同的分布漂移。使用 ROC-AUC 在 ID 和 OOD 划分上评估模型，结果取五个随机种子平均。"
+          },
+          {
+            "title": "不同预训练策略的比较",
+            "detail": "比较了在真实数据、合成先验和混合先验上预训练的模型，以评估预训练语料对 OOD 鲁棒性的影响。"
+          },
+          {
+            "title": "资源与可扩展性评估",
+            "detail": "研究指出高性能 TFM（尤其是 TabFM 和 LimiX）的计算和内存需求，限制了在更大数据集上的评估，凸显了可扩展性差距。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "系统性的 OOD 性能下降",
+            "detail": "所有九个 TFM 在 OOD 测试划分上的 ROC-AUC 均低于 ID 划分，漂移差距在 0.003 至 0.060 之间，证实了对分布漂移的脆弱性。"
+          },
+          {
+            "title": "预训练语料影响 ID 而不影响 OOD 鲁棒性",
+            "detail": "真实数据预训练的 TFM 取得更高的绝对性能，但相较于合成先验模型并未降低相对漂移差距，表明其固有 OOD 泛化能力有限。"
+          },
+          {
+            "title": "漂移类型影响性能下降幅度",
+            "detail": "社会经济漂移（Childhood Lead）导致最大性能下降，标签漂移（HELOC）适中，地理漂移（Voting）最小，展示了对漂移类型的依赖性鲁棒性。"
+          },
+          {
+            "title": "可扩展性限制实际部署",
+            "detail": "高性能 TFM 需要大量计算资源，超出标准部署基础设施能力，限制了其在资源受限环境中的适用性。"
+          }
+        ],
+        "contributions": [
+          "首次对九种不同TFM进行OOD性能的全面实证评估。",
+          "展示了尽管采用多样的pre-training策略，TFM仍缺乏对distribution shifts的内在鲁棒性。",
+          "扩展了针对表格数据的OOD基准，使用覆盖多种shift类型的真实数据集。",
+          "识别出限制高性能TFM在实际环境中部署的scalability差距。"
+        ],
+        "limitations": [
+          "评估使用默认推理且未进行fine-tuning，可能低估了适应能力。",
+          "计算资源限制导致部分模型在大数据集上的结果未报告，限制了完整性。",
+          "未提供对观察到的OOD退化的理论或机制解释。",
+          "研究聚焦于分类任务，未评估回归或其他表格任务。"
+        ],
+        "open_questions": [
+          "fine-tuning或适应策略能否提升TFM在默认推理之外的OOD鲁棒性？",
+          "哪些架构或训练修改能增强TFM的内在OOD泛化能力？",
+          "TFM在其他类型的distribution shifts或回归任务中的表现如何？",
+          "哪些方法能解决scalability挑战，以实现TFM在资源受限环境中的部署？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 5
       },
       "recommended_at": "2026-07-29T12:20:20.242360+00:00"
     },
@@ -16535,401 +16927,6 @@
         "matched": [
           "robust",
           "training"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-06-30T19:46:14.602485+00:00"
-    },
-    {
-      "id": "2606.29654",
-      "title": "Budgeted Act-or-Defer Multi-Agent LLM Deliberation with Local Reliability Bounds",
-      "abstract": "Multi-agent deliberation among LLMs can improve reasoning, but deployment requires deciding when the current answer is reliable enough to act on and when it should be escalated to human review. We formulate this as budgeted act-or-defer decision making. At each round, the system maps the debate prefix to a low-dimensional state, computes a $k$-nearest-neighbor lower confidence bound on state-conditional correctness using calibration data, and acts only when the bound exceeds a user-specified reliability threshold. The certificate controls wrong actions through the decomposition $β= δ+ α+ \\varepsilon_{\\mathrm{act}}$, separating calibration failure, residual action risk, and representation gap. The guarantee is conditional, not distribution-free: it relies on a valid local bias envelope and an action-region representation-gap bound, and each assumption is paired with falsification-style diagnostics. Because the same absolute wrong-action budget has different meanings across tasks of different difficulty, we set budgets relative to each task's final-round error using training data only, and evaluate safety by normalized budget usage $\\mathrm{WA}/β$. On six benchmarks against nine baselines, the method uses 9--12% of the pre-declared budget on activated datasets, reaching up to 84% automation and 96% acted-on accuracy; on stress-test datasets, it defers rather than forcing unreliable automation. Rather than relying on per-task post-hoc threshold search, the method prospectively converts a user-declared wrong-action budget into an auditable act-or-defer operating point before deployment, under explicitly stated assumptions.",
-      "authors": [
-        "Mengdie Flora Wang",
-        "Haochen Xie",
-        "Guanghui Wang",
-        "Devin Zhang",
-        "Jae Oh Woo"
-      ],
-      "published": "2026-06-28T23:46:56Z",
-      "updated": "2026-06-28T23:46:56Z",
-      "categories": [
-        "cs.AI",
-        "cs.MA"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2606.29654v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.29654v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "llm",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4335,
-          "matched": [
-            "calibration",
-            "safety",
-            "reliability",
-            "llm"
-          ]
-        },
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "emerging",
-          "score": 0.2618,
-          "matched": [
-            "training data",
-            "data"
-          ]
-        },
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.1818,
-          "matched": [
-            "bound"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5357,
-        "relevance": 0.4355,
-        "quality": 0.65,
-        "novelty": 0.8569,
-        "freshness": 0.7382
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "benchmark evaluation",
-        "formal bound",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "The paper introduces a budgeted act-or-defer multi-agent LLM deliberation framework that uses local k-NN confidence bounds to control wrong-action risk and adaptively decide when to act or defer to human review.",
-        "problem": "Deploying multi-agent LLM debate systems requires principled stopping criteria that guarantee reliability and control the probability of acting on incorrect answers under a user-specified wrong-action budget.",
-        "method": "The method maps debate prefixes to low-dimensional states, computes k-nearest-neighbor lower confidence bounds on correctness using calibration data and a local bias envelope, and acts only when the bound exceeds a threshold derived from a decomposed wrong-action budget.",
-        "evidence": "On six benchmarks against nine baselines, the method uses only 9–12% of the pre-declared wrong-action budget, achieves up to 84% automation with 96% acted-on accuracy, and defers on stress-test datasets to avoid unreliable automation.",
-        "limitations": "The guarantees rely on conditional assumptions including a valid local bias envelope and representation-gap bounds, which require diagnostics and may degrade if violated.",
-        "why_for_you": "This approach provides auditable, prospective control over wrong-action risk in multi-agent LLM deliberation, enabling trustworthy deployment with explicit reliability guarantees and adaptive stopping.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "The local correctness function qt(u) = Pr(Y = Ŷt | Ut = u) is bounded from below by a k-NN empirical mean minus a bias envelope and Hoeffding concentration term, enabling per-instance, per-round reliability guarantees."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The method uses a plug-in local bias envelope bt,k(u), instantiated via empirical modulus estimation on calibration data, to control approximation bias adaptively per instance and scale, ensuring conservative confidence bounds."
-          },
-          {
-            "icon": "📉",
-            "text": "Experiments show the method consumes only 9–12% of the declared wrong-action budget (WA/β), achieving up to 96% accuracy on acted-on instances and deferring on stress-test datasets, outperforming nine baselines including consensus and confidence threshold heuristics."
-          }
-        ],
-        "overview": "This paper addresses the challenge of deploying multi-agent LLM debate systems with principled stopping rules that guarantee bounded wrong-action risk. The authors formulate the problem as budgeted act-or-defer decision making, where the system must decide at each debate round whether to act autonomously or defer to human review. They propose mapping the debate transcript prefix to a low-dimensional state embedding and estimating a local correctness probability via k-nearest-neighbor calibration with a bias envelope that controls approximation error. The stopping rule triggers action only when the lower confidence bound exceeds a threshold derived from a decomposed wrong-action budget β = δ + α + εact, separating calibration failure, residual risk, and representation gap. The method is validated on six benchmarks with nine baselines, demonstrating strong safety (low budget usage), high automation rates, and high accuracy on acted-on instances. The approach explicitly states assumptions and provides falsification diagnostics, enabling auditable and prospective reliability guarantees rather than post-hoc threshold tuning.",
-        "methodology": [
-          {
-            "title": "State Embedding",
-            "detail": "Each debate prefix Ft at round t is compressed into a low-dimensional state Ut = ϕt(Ft) in a metric space (U, d), typically including consensus strength, margin, inter-agent disagreement, and top-answer stability. This embedding balances smoothness of the local correctness function qt, representation gap εact, and intrinsic dimension D."
-          },
-          {
-            "title": "Local Correctness Estimation",
-            "detail": "The local correctness function qt(u) = Pr(Y = Ŷt | Ut = u) is estimated using k-nearest-neighbor empirical means over calibration data, corrected by a local bias envelope bt,k(u) and a Hoeffding concentration term to form a lower confidence bound Lt."
-          },
-          {
-            "title": "Bias Envelope Construction",
-            "detail": "The bias envelope bt,k(u) is a plug-in conservative bound on local variation of qt within the k-NN neighborhood. It can be instantiated via Lipschitz, Hölder, or empirical modulus models, with the empirical modulus (smoothed pilot logistic GAM) as default to avoid pathological slope estimates."
-          },
-          {
-            "title": "Budget Decomposition and Thresholding",
-            "detail": "The wrong-action budget β is decomposed as β = δ + α + εact, where δ controls calibration failure, α sets the stopping threshold 1−α, and εact bounds the representation gap. The system acts when Lt ≥ 1−α, continues debating if t < T, or defers to human review otherwise."
-          },
-          {
-            "title": "Calibration and Diagnostics",
-            "detail": "Calibration data Dcal is used offline to compute k-NN neighborhoods and estimate bias envelopes. Assumptions such as exchangeability, state measurability, valid bias envelopes, and representation-gap bounds are paired with falsification-style diagnostics to assess validity."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Local Confidence Bound Mechanism",
-            "detail": "The lower confidence bound Lt at round t and state u is computed as Lt = max_k [q̂t,k(u) − bt,k(u) − c_k], where q̂t,k(u) is the k-NN empirical mean correctness, bt,k(u) is the local bias envelope controlling approximation bias, and c_k is a Hoeffding concentration term controlling sampling variance. The maximization over k selects the tightest scale per instance, ensuring conservative, adaptive confidence bounds."
-          },
-          {
-            "title": "Budget Decomposition Theory",
-            "detail": "The total wrong-action budget β is decomposed into three components: δ (calibration failure probability), α (residual action risk controlled by the stopping threshold), and εact (representation gap due to state compression). This decomposition enables separate control and auditing of each risk source, with guarantees conditional on assumptions about the bias envelope and representation gap."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Benchmark Evaluation",
-            "detail": "The method is evaluated on six benchmarks (n=546 to 8678) against nine baselines including consensus, confidence threshold, calibrated learned, and isotonic confidence methods. Metrics include acted-on accuracy, wrong-action (WA), normalized budget usage WA/β, and automation rate."
-          },
-          {
-            "title": "Ablations and Baselines",
-            "detail": "Ablations include kNN without bias correction and final-round stopping. Baselines include risk-control methods (CRC, Selective Prediction) and heuristics. The method consistently uses ≤12% of the declared budget with up to 96% accuracy on acted-on instances, outperforming baselines that consume larger budget fractions."
-          },
-          {
-            "title": "Stress-Test Datasets",
-            "detail": "On stress-test datasets with insufficient evidence, the method defers rather than forcing unreliable automation, demonstrating robustness to task difficulty and calibration validity."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Low Budget Usage",
-            "detail": "The method uses only 9–12% of the pre-declared wrong-action budget on activated datasets, significantly reducing the risk of wrong autonomous actions compared to baselines."
-          },
-          {
-            "title": "High Automation and Accuracy",
-            "detail": "The approach achieves up to 84% automation rate and 96% accuracy on acted-on instances, indicating effective selective stopping that balances automation and reliability."
-          },
-          {
-            "title": "Effectiveness of Bias Envelope",
-            "detail": "The empirical modulus bias envelope adapts well to local smoothness, avoiding pathological slope estimates and maintaining validity, as confirmed by smoothness diagnostics and sensitivity analyses."
-          },
-          {
-            "title": "Representation Gap Control",
-            "detail": "The representation gap εact is small in acted-on regions (mean near zero, max marginally exceeding εact=0.02), supporting the validity of the state embedding and the conditional guarantees."
-          },
-          {
-            "title": "Robustness to Assumption Violations",
-            "detail": "Falsification diagnostics and ρ-inflation tests show that even doubling the bias envelope inflates the wrong-action probability only slightly, indicating robustness of the guarantees."
-          }
-        ],
-        "contributions": [
-          "Formulation of multi-agent LLM deliberation as budgeted act-or-defer decision making with explicit wrong-action budget control.",
-          "Development of local k-NN lower confidence bounds on state-conditional correctness with a plug-in bias envelope interface.",
-          "Decomposition of wrong-action budget into calibration failure, residual risk, and representation gap components with paired falsification diagnostics.",
-          "Prospective conversion of user-declared wrong-action budgets into auditable act-or-defer operating points without post-hoc threshold tuning.",
-          "Comprehensive empirical validation on six benchmarks against nine baselines demonstrating strong safety, automation, and accuracy."
-        ],
-        "limitations": [
-          "Guarantees are conditional on assumptions including valid local bias envelopes and representation-gap bounds, which may not hold universally.",
-          "The method requires sufficient calibration data and smoothness of the local correctness function for reliable bias envelope estimation.",
-          "Representation gap εact depends on the quality of the state embedding, which involves a trade-off between smoothness and information loss.",
-          "The approach does not provide distribution-free guarantees and relies on exchangeability and independence assumptions."
-        ],
-        "open_questions": [
-          "How to design state embeddings that minimize representation gap εact while maintaining low intrinsic dimension and smoothness?",
-          "Can the method be extended to provide distribution-free or more robust guarantees under weaker assumptions?",
-          "How does the approach scale with larger numbers of agents, longer debates, or more complex tasks beyond multiple-choice classification?",
-          "What are the trade-offs between automation rate, wrong-action budget, and human review cost in real-world deployments?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "calibration",
-          "safety",
-          "reliability",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-06-30T19:46:14.602485+00:00"
-    },
-    {
-      "id": "2606.28843",
-      "title": "The Heterogeneous Safety Impacts of Benign Multilingual Fine-Tuning",
-      "abstract": "Fine-tuning a large language model is a ubiquitous method for enhancing its capability on a specific downstream task. However, prior work has shown that this increase in capability comes with a cost: it can increase a model's tendency to respond to unsafe adversarial prompts, even when fine-tuning with non-adversarial data. We present the first comprehensive empirical study of this phenomenon in multilingual settings by fine-tuning Llama-3.2, Qwen3, and Gemma-3 models using benign data translated across nine languages. We find that safety outcomes are highly sensitive to both the choice of fine-tuning language and the evaluation language, with adversarial compliance rates increasing four-fold in some settings. Multilingual safety drift is decoupled from general capability metrics, and occurs heterogeneously across languages and models. Fine-tuning in non-English languages often induces smaller internal representational drifts than English, but these shifts lead models to default to either exaggerated compliance or refusal. As such, assessing fine-tuning impacts solely in English provides inadequate assurance for deployment. To facilitate further research into these cross-lingual safety blind spots, we release the Multilingual-Benign-Tune dataset and the SORRY-Bench-Multilingual evaluation suite.",
-      "authors": [
-        "Will Hawkins",
-        "Kaivalya Rawal",
-        "Jonathan Rystrøm",
-        "Stratis Tsirtsis",
-        "Zihao Fu",
-        "Greta Warren",
-        "Ryan Brown",
-        "Eoin Delaney",
-        "Sandra Wachter",
-        "Brent Mittelstadt",
-        "Chris Russell"
-      ],
-      "published": "2026-06-27T10:05:36Z",
-      "updated": "2026-06-27T10:05:36Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2606.28843v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.28843v1",
-      "comment": "9 pages",
-      "journal_ref": "Proceedings of the 43rd International Conference on Machine Learning, Seoul, South Korea, 2026",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.5394,
-          "matched": [
-            "adversarial",
-            "fine-tuning"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.303,
-          "matched": [
-            "safety"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5327,
-        "relevance": 0.4921,
-        "quality": 0.51,
-        "novelty": 0.8514,
-        "freshness": 0.5138
-      },
-      "quality_signals": [
-        "dataset evidence",
-        "quantitative results",
-        "publication metadata"
-      ],
-      "summary": {
-        "takeaway": "Benign multilingual fine-tuning induces heterogeneous safety impacts across languages and models, decoupled from capability improvements, often increasing adversarial compliance rates up to four-fold.",
-        "problem": "Fine-tuning large language models with benign data can inadvertently increase their susceptibility to unsafe adversarial prompts, especially in multilingual contexts.",
-        "method": "The study fine-tunes Llama-3.2, Qwen3, and Gemma-3 models on a curated benign dataset translated into nine languages and evaluates safety drift using the SORRY-Bench-Multilingual suite.",
-        "evidence": "Empirical results from over 350 fine-tuned models across three architectures and nine languages show safety outcomes vary significantly by fine-tuning and evaluation language, with adversarial compliance rates sometimes quadrupling.",
-        "limitations": "The analysis focuses on small-scale models (0.6B-4B parameters), with limited exploration of larger models and potential confounding effects from training data quality in low-resource languages.",
-        "why_for_you": "Understanding how multilingual fine-tuning affects safety heterogeneously is critical for trustworthy LLM deployment and motivates evaluation beyond English to detect cross-lingual safety blind spots.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Fine-tuning in non-English languages often causes smaller internal representational drifts than English but leads to models defaulting to exaggerated compliance or refusal, revealing heterogeneous safety behavior across languages."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The study employs the SORRY-Bench evaluation suite, comprising 440 adversarial prompts in English and their translations, to quantify adversarial compliance rates and safety drift across multiple languages and model families."
-          },
-          {
-            "icon": "📉",
-            "text": "Epoch ablations show that increasing fine-tuning epochs beyond one can reduce adversarial compliance rates or collapse model capabilities, indicating a complex relationship between fine-tuning duration and safety outcomes."
-          }
-        ],
-        "overview": "This research investigates how benign multilingual fine-tuning affects the safety of large language models, focusing on three popular open-weight model families (Llama-3.2, Qwen3, Gemma-3) at small scales (0.6B-4B parameters). By fine-tuning models on a curated, non-adversarial dataset translated into nine diverse languages and evaluating safety using the SORRY-Bench-Multilingual benchmark, the study reveals that safety impacts vary significantly depending on both the fine-tuning and evaluation languages. Notably, safety drift is largely independent of general capability changes measured by TinyMMLU and perplexity metrics. Mechanistic analyses of internal vector representations show that smaller representational drifts in non-English fine-tuning can paradoxically increase adversarial compliance or refusal behaviors. These findings highlight that assessing safety solely in English is insufficient for deployment assurance. The study also releases the Multilingual-Benign-Tune dataset and SORRY-Bench-Multilingual evaluation suite to facilitate further research into cross-lingual safety blind spots.",
-        "methodology": [
-          {
-            "title": "Dataset Curation",
-            "detail": "A 1,000 prompt-response benign dataset was synthetically generated in English using Gemini 2.5 Flash seeded with Dolly data, manually inspected to exclude safety-related content, then translated into eight additional languages (Chinese, Danish, Greek, Hindi, Irish, Portuguese, Spanish, Tagalog) via Gemini 2.5 Flash and Google Cloud."
-          },
-          {
-            "title": "Fine-Tuning Protocol",
-            "detail": "Six base instruction-tuned models from three families (Gemma-3, Llama-3.2, Qwen3) at tiny (0.6B-1B) and small (3B-4B) scales were fine-tuned using Low Rank Adaptation (LoRA) on the multilingual benign dataset, with experiments conducted across multiple seeds and epoch settings."
-          },
-          {
-            "title": "Safety Evaluation",
-            "detail": "The SORRY-Bench evaluation suite, containing 440 adversarial prompts across 44 topics, was used to measure adversarial compliance rates in both English and the fine-tuning language ('Local' evaluation), quantifying safety drift post fine-tuning."
-          },
-          {
-            "title": "Capability Assessment",
-            "detail": "Model capabilities were assessed using TinyMMLU benchmarks and perplexity on WikiText2 and Wikipedia datasets in all studied languages to determine if safety drift correlated with general capability changes."
-          },
-          {
-            "title": "Mechanistic Analysis",
-            "detail": "Internal representational shifts were analyzed by measuring vector drift in hidden states to understand how fine-tuning in different languages affects model safety behavior mechanistically."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Representational Drift and Safety Behavior",
-            "detail": "The paper identifies that fine-tuning in non-English languages induces smaller internal representational drifts compared to English fine-tuning; however, these smaller shifts cause models to default to either exaggerated compliance or refusal behaviors, indicating a non-linear relationship between representational changes and safety outcomes. No explicit equations or causal models are provided."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Multilingual Fine-Tuning and Safety Evaluation",
-            "detail": "Over 350 models from three families were fine-tuned on benign data in nine languages and evaluated using SORRY-Bench in both English and the fine-tuning language, measuring adversarial compliance rates to assess safety drift."
-          },
-          {
-            "title": "Epoch Ablations",
-            "detail": "Experiments varying fine-tuning epochs (1, 3, and 5) showed that increasing epochs often reduces adversarial compliance or collapses model capabilities, with effects varying by model and language, highlighting the sensitivity of safety outcomes to fine-tuning duration."
-          },
-          {
-            "title": "Capability vs Safety Correlation",
-            "detail": "Using TinyMMLU and perplexity metrics, the study found that safety drift is largely decoupled from general capability changes, as models exhibited increased adversarial compliance without corresponding capability improvements."
-          },
-          {
-            "title": "Larger Model Experiments",
-            "detail": "Preliminary experiments on larger models (Llama-3.1-8B, Qwen-8B, Qwen-14B) with minimal LoRA tuning showed similar heterogeneous safety impacts, with Qwen models generally reducing compliance post fine-tuning and Llama models increasing compliance, especially when fine-tuned in English."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Heterogeneous Safety Impacts",
-            "detail": "Fine-tuning with benign data in different languages leads to widely varying safety outcomes, with adversarial compliance rates increasing up to four-fold depending on the fine-tuning and evaluation language combination."
-          },
-          {
-            "title": "Safety Drift Decoupled from Capability",
-            "detail": "Safety degradation following benign fine-tuning occurs independently of general capability changes, as measured by TinyMMLU and perplexity, indicating that improved task performance does not guarantee maintained safety."
-          },
-          {
-            "title": "Architectural Differences in Safety Behavior",
-            "detail": "Different model architectures resolve post-tuning uncertainty differently: Llama models show increased compliance with small representational drifts, whereas Gemma-3-4B-IT and Qwen3-4B models show decreased compliance under similar conditions."
-          },
-          {
-            "title": "Epoch Effects on Safety",
-            "detail": "Increasing fine-tuning epochs beyond one can reduce adversarial compliance rates or cause capability collapse, suggesting that fine-tuning duration critically influences safety outcomes."
-          },
-          {
-            "title": "Cross-Lingual Safety Blind Spots",
-            "detail": "Evaluating safety solely in English is insufficient, as models fine-tuned in non-English languages exhibit safety behaviors that only manifest when evaluated in those languages."
-          }
-        ],
-        "contributions": [
-          "First comprehensive empirical study of benign multilingual fine-tuning safety impacts across multiple model families and nine languages.",
-          "Release of the Multilingual-Benign-Tune dataset and SORRY-Bench-Multilingual evaluation suite to facilitate further research.",
-          "Demonstration that safety drift is heterogeneous, language-dependent, and decoupled from capability improvements.",
-          "Mechanistic insight linking representational drift magnitude to safety behavior differences across languages and architectures."
-        ],
-        "limitations": [
-          "Focus on small-scale models (0.6B-4B parameters) limits generalizability to larger models, though some larger model experiments are included.",
-          "Training data quality issues, especially in low-resource languages like Irish, confound safety drift interpretation.",
-          "Occasional overfitting to fine-tuning language observed in English evaluations, potentially biasing safety assessments.",
-          "No explicit mechanistic or causal models provided to fully explain representational drift effects on safety."
-        ],
-        "open_questions": [
-          "How do safety impacts of benign multilingual fine-tuning scale with model size beyond 4B parameters?",
-          "What are the precise causal mechanisms linking representational drift to safety behavior changes?",
-          "How can training data quality and translation fidelity in low-resource languages be improved to reduce confounding effects?",
-          "Can fine-tuning protocols be designed to mitigate heterogeneous safety drift while preserving capability gains?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "adversarial",
-          "fine-tuning"
         ],
         "lane": "llm"
       },
