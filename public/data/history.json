@@ -1,6 +1,337 @@
 {
-  "generated_at": "2026-08-05T12:16:07.216104+00:00",
+  "generated_at": "2026-08-07T11:07:09.814314+00:00",
   "papers": [
+    {
+      "id": "2608.06202",
+      "title": "What Current AI Benchmarks Leave Unmeasured: Modality, Search, Citations, and Implications (for Safety Evaluations)",
+      "abstract": "Large language model (LLM) benchmark evaluations are routinely used to support claims about model safety, reliability, and deployment readiness. Yet most evaluations rely on a single access modality (model APIs), perform a single run per prompt, and report accuracy as the primary outcome metric, without accounting for conditions such as web search that may have effects on model behavior in deployment. We audit these assumptions for one of the most widely-used LLMs, comparing two modalities, ChatGPT's chat UI and OpenAI's API, with and without web search enabled. We use a stratified total sample of 401 prompts from two popular benchmarks, BBQ and SafetyBench, collecting 4,812 total responses across three repeated runs per prompt. Beyond standard performance measures, we evaluate model output dimensions including response consistency, response text similarity, citation grounding, and abstention behavior. For instance, chat UI responses were less accurate than API responses on both benchmarks with search disabled. Enabling web search reduced accuracy by up to 8 percentage points, and even reversed the direction of modality performance trends for one benchmark. Repeated runs of the same prompt produced inconsistent responses in up to 21\\% of prompts. The two modalities also grounded answers in different citations, and abstention behavior was also inconsistent across both modalities. These results illustrate that, even within a model family, reporting only simple accuracy metrics can obscure important forms of model behavioral variation relevant to AI safety assessments. We argue that AI safety evaluations should systematically account for modality, multi-run consistency, search conditions, and response-level behaviors to better reflect how deployed AI systems behave in practice.",
+      "authors": [
+        "Ro Encarnación",
+        "Tina Behzad",
+        "Emma Lurie",
+        "Danaé Metaxa"
+      ],
+      "published": "2026-08-06T15:58:32Z",
+      "updated": "2026-08-06T15:58:32Z",
+      "categories": [
+        "cs.HC",
+        "cs.AI"
+      ],
+      "primary_category": "cs.HC",
+      "abs_url": "https://arxiv.org/abs/2608.06202v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.06202v1",
+      "comment": "18 pages",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3822,
+          "matched": [
+            "safety",
+            "reliability"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4276,
+        "relevance": 0.3058,
+        "quality": 0.48,
+        "novelty": 0.8855,
+        "freshness": 0.886,
+        "feedback_adjustment": -0.0231,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "单一API准确率不足以捕捉LLM在不同访问方式、搜索条件和多次运行下的安全行为差异。",
+        "problem": "现有安全基准只使用单一访问模态、单次响应并以准确率为唯一指标，忽视了部署环境中的关键行为维度。",
+        "method": "对ChatGPT的聊天界面和OpenAI API在有无网络搜索的条件下，对401条BBQ和SafetyBench提示进行三次重复，收集4812条响应并评估一致性、文本相似度、引用依据和拒答行为。",
+        "evidence": "启用网络搜索使准确率下降最多8个百分点，且高达21%的提示出现响应不一致，API与UI在引用来源上显著不同。",
+        "limitations": "仅针对一个模型家族、两套安全/偏见基准和单一数据收集时期进行实验。",
+        "why_for_you": "该工作直接揭示了可信LLM评估中被忽视的模态和一致性因素，适合关注安全可靠性的研究者阅读。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🛡️",
+            "text": "首次系统审计ChatGPT UI与API在安全基准上的行为差异，采集401个提示共4812条响应"
+          },
+          {
+            "icon": "🔎",
+            "text": "比较两种访问模态并在有/无网络搜索条件下进行三次重复实验"
+          },
+          {
+            "icon": "📉",
+            "text": "启用网络搜索导致准确率下降最多8%，21%提示出现响应不一致"
+          }
+        ],
+        "overview": "本文审计了ChatGPT的聊天UI与API两种访问模态在BBQ和SafetyBench两套安全/偏见基准上的表现，分别在开启和关闭网络搜索的条件下进行三次重复，共收集4812条响应。除传统准确率外，作者额外测量了响应一致性、文本相似度、引用依据以及拒答行为，发现模态、搜索与多次运行均会显著影响这些安全相关维度，单一准确率指标难以反映真实部署风险。",
+        "methodology": [
+          {
+            "title": "数据采样",
+            "detail": "从BBQ和SafetyBench两套公开基准中分层抽取共401条提示，确保覆盖不同难度和主题。"
+          },
+          {
+            "title": "实验设置",
+            "detail": "在ChatGPT聊天界面和OpenAI API两种模态下，分别在开启和关闭网络搜索的条件下，对每条提示执行三次独立生成，得到4,812 条完整响应。"
+          },
+          {
+            "title": "评估维度",
+            "detail": "除准确率外，计算响应一致性（是否在三次运行中给出相同答案）、文本相似度（余弦相似度）、引用 grounding（是否提供相同来源）以及 abstention（是否拒答）。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "模态差异来源",
+            "detail": "聊天UI引入系统提示和内容审查策略，API则直接返回模型输出，这导致两者在答案措辞、引用选择和安全过滤上产生系统性差异。"
+          },
+          {
+            "title": "搜索条件影响",
+            "detail": "开启网络搜索会让模型检索外部文档后再生成答案，增加信息来源多样性，却也引入检索噪声，导致一致性下降和准确率下降。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "模型与基准",
+            "detail": "使用ChatGPT（同一模型家族）在两种访问方式下评估，基准为Bias Benchmark BBQ (Parrish et al., 2022) 与 Safety Benchmark SafetyBench (Zhang et al., 2024)。"
+          },
+          {
+            "title": "对照与指标",
+            "detail": "比较API vs UI、搜索开启 vs 关闭的准确率差异（2–3% 小幅但在SafetyBench上显著），以及一致性下降最高至21%，引用差异显著，拒答行为在不同条件下不一致。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "准确率差异",
+            "detail": "在关闭搜索时，Chat UI的准确率低于API；开启搜索后，两者差异可逆转，最高下降8个百分点。"
+          },
+          {
+            "title": "响应一致性",
+            "detail": "重复运行中，最多21%的提示出现答案不一致，搜索条件普遍增加不一致性。"
+          },
+          {
+            "title": "引用 grounding 差异",
+            "detail": "相同提示下，API 与 UI 常引用不同来源，即使答案相同。"
+          },
+          {
+            "title": "拒答行为不稳定",
+            "detail": "同一提示在一种模态下被拒答，在另一模态下却给出答案，显示安全机制执行不一致。"
+          }
+        ],
+        "contributions": [
+          "系统审计了同一模型在不同访问模态、搜索条件和多次运行下的安全相关行为差异。",
+          "提出了超越准确率的四个评估维度：一致性、文本相似度、引用 grounding 与 abstention。",
+          "提供了实证证据表明仅报告单一准确率会掩盖重要的安全风险。"
+        ],
+        "limitations": [
+          "实验仅覆盖ChatGPT单一模型家族。",
+          "仅使用BBQ和SafetyBench两套基准，未覆盖更广泛任务。",
+          "数据收集在单一时间窗口进行，未考察模型更新或季节性变化的影响。"
+        ],
+        "open_questions": [
+          "不同模型（如Claude、Gemini）在相同模态和搜索条件下是否表现出类似差异？",
+          "在多轮对话或真实用户交互场景中，这些维度的波动是否更为显著？",
+          "如何设计标准化的模态‑搜索‑一致性评估框架，以便在行业治理中广泛采用？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "safety",
+          "reliability"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-07T11:07:09.814314+00:00"
+    },
+    {
+      "id": "2608.06179",
+      "title": "SAGA: Score-Weighted Adaptive Generation Alignment for Low-Resource Nordic Language Models",
+      "abstract": "Preference optimisation has proven effective for improving large language models but typically relies on costly human preference annotations. Extending these methods to morphologically rich, low-resource languages remains challenging because such annotations are scarce. We present SAGA (Score-weighted Adaptive Generation Alignment), a parser-guided preference optimisation framework that replaces human labels with dependency-parser supervision. SAGA converts parser judgements into preference pairs for delta-DPO, combines parser quality with lexical diversity in a composite reward, filters low-information pairs using a reward-gap criterion, and monitors reward hacking to maintain reliable supervision. Across Danish, Icelandic, and Norwegian Bokmål using GPT-SW3-1.3B, SAGA consistently improves grammatical quality without requiring human preference labels. Danish parse success increases from 69.0% to 93.8%, Icelandic achieves a +4.5 percentage-point improvement on an independent Stanza evaluation (three-run mean +3.3 percentage points) while native speakers prefer SAGA outputs in 80% of pairwise comparisons, and Norwegian Bokmål improves by +28 percentage points. These results demonstrate that parser-derived supervision is a practical alternative to human preference annotation for grammatical alignment in low-resource languages where high-quality dependency parsers are available.",
+      "authors": [
+        "Hoda Fakharzadehjahromy",
+        "Emil Wiman",
+        "Andreas Bueff",
+        "Hafsteinn Einarsson",
+        "Fredrik Heintz"
+      ],
+      "published": "2026-08-06T15:41:02Z",
+      "updated": "2026-08-06T15:41:02Z",
+      "categories": [
+        "cs.LG"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2608.06179v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.06179v1",
+      "comment": "18 pages, 7 figures",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.354,
+          "matched": [
+            "alignment"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.397,
+        "relevance": 0.2832,
+        "quality": 0.41,
+        "novelty": 0.8668,
+        "freshness": 0.8843,
+        "feedback_adjustment": -0.0234,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "SAGA 通过解析器监督实现了在低资源北欧语言模型上无需人工偏好标签的显著语法提升。",
+        "problem": "低资源、形态丰富语言缺乏大规模人类偏好标注，阻碍了语言模型的对齐与语法改进。",
+        "method": "SAGA 将依存解析器判断转化为 Δ‑DPO 偏好对，使用解析器得分与词汇多样性加权的复合奖励并通过 Δ‑gap 过滤低信息对，同时监控奖励黑客。",
+        "evidence": "丹麦 PSR 从 69% 提升至 93.8%（两轮）再至 99.5%（四轮），冰岛语提升 4.5 个百分点且 80% 本族语者偏好其输出，挪威 Bokmål 提升 28 个百分点。",
+        "limitations": "评估使用相同的持出提示进行模型选择，可能导致轻微选择偏差，且方法依赖高质量的依存解析器。",
+        "why_for_you": "对可信 LLM 研究者而言，SAGA 提供了一种低成本、解析器驱动的语法对齐方案，适用于缺乏人类偏好数据的语言。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "SAGA实现无需人工偏好标签的解析器监督，丹麦PSR提升至99.5%"
+          },
+          {
+            "icon": "🔧",
+            "text": "采用Δ‑DPO复合奖励（解析器得分+词汇多样性）并用Δ‑gap过滤，抑制奖励黑客"
+          },
+          {
+            "icon": "📈",
+            "text": "在三种北欧语言上分别提升PSR至93.8%/+4.5pp/+28pp，且80%本族语者偏好SAGA输出"
+          }
+        ],
+        "overview": "SAGA 提出一种解析器引导的偏好优化框架，利用依存解析器对生成文本的语法判定生成偏好对，结合解析器得分与词汇多样性构成复合奖励，并通过 Δ‑gap 阈值过滤信息量低的对，配合轻量正则化防止奖励黑客。实验在 GPT‑SW3‑1.3B 上的丹麦、冰岛语和挪威 Bokmål 三种低资源北欧语言验证，显著提升解析成功率且保持或提升文本多样性，展示了解析器监督作为人类偏好替代的可行性。",
+        "methodology": [
+          {
+            "title": "解析器生成偏好对",
+            "detail": "对每个提示采样 K 条续写（DA K=8，IS/NB K=16），使用依存解析器评估每条的解析得分 r_parse，依据得分高低形成偏好对。"
+          },
+          {
+            "title": "复合奖励设计",
+            "detail": "奖励 R = α·r_parse + β·r_div，其中 r_div 为基于 MATTR 的词汇多样性得分，α、β 为语言特定超参数。"
+          },
+          {
+            "title": "Δ‑gap 过滤",
+            "detail": "仅保留奖励差 Δr ≥ δ 的对（DA/IS δ=0.15，NB δ=0.10），剔除信息量不足的样本，降低噪声。"
+          },
+          {
+            "title": "Δ‑DPO 更新",
+            "detail": "在保留的对上执行 Δ‑DPO（Rafailov 等 2023）进行策略梯度更新，支持可选的 BAPO（流畅性约束）和 KL‑SFT 正则化。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "解析器作为偏好信号",
+            "detail": "解析器对正确形态的句子给出可解析的依存树，错误形态导致解析失败或低得分，形成自然的二元偏好信号，无需人工标注。"
+          },
+          {
+            "title": "奖励黑客检测",
+            "detail": "通过监控 oracle‑parser 差距（阈值 0.20）和词汇多样性下降（MATTR、4‑gram 重复）来识别模型学习仅骗取解析器的行为。"
+          },
+          {
+            "title": "语法‑多样性 Pareto 前沿",
+            "detail": "复合奖励使模型在每轮训练中同时提升解析成功率和 MATTR，形成语法与多样性的共同提升曲线。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "实验设置",
+            "detail": "基模型为 GPT‑SW3‑1.3B；训练数据分别为丹麦 Wikipedia、冰岛 MIM‑GOLD、挪威 HPLT（各 20k 条）；评估指标包括 Parse Success Rate (PSR)、Stanza PSR、Oracle PS、MATTR、困惑度 (PPL)。"
+          },
+          {
+            "title": "对照基线",
+            "detail": "包括基模型、Vanilla DPO（离线偏好对）、二元标签 DPO、在线方法 GRPO、sDPO，以及 SAGA 的各组件消融（去除多样性奖励、去除 Δ‑gap 过滤、去除 BAPO、去除 KL‑SFT）。"
+          },
+          {
+            "title": "主要结果",
+            "detail": "丹麦 PSR 由 69% 提升至 87.3%（单轮）→93.8%（两轮）→99.5%（四轮）；冰岛语 Stanza PSR 提升 4.5pp，原始解析器得分提升至 88.7%；挪威 Bokmål PSR 提升 28pp；80% 本族语者在配对比较中偏好 SAGA 输出。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "复合奖励防止语法‑多样性权衡",
+            "detail": "去除多样性项虽可将 PSR 提至 98.5%（丹麦），但 oracle‑parser 差距扩大至 0.22 并出现重复；保留复合奖励则保持低差距（≈0.10）且 MATTR 提升。"
+          },
+          {
+            "title": "奖励黑客诊断有效",
+            "detail": "所有去除安全组件的消融配置均跨入差距 >0.20 的黑客区间，验证了奖励黑客检测的敏感性。"
+          },
+          {
+            "title": "语言特定正则化的影响",
+            "detail": "BAPO 对丹麦和挪威有正向作用（λB=0.05），但对冰岛语去除 BAPO 可提升 Oracle PS 与 Stanza PSR；KL‑SFT 在后期迭代提升稳定性，但对挪威在首次训练时有负面影响。"
+          }
+        ],
+        "contributions": [
+          "提出 SAGA 框架，实现解析器监督的 Δ‑DPO 偏好优化，无需人工偏好标签。",
+          "在三种低资源北欧语言上展示显著的语法改进，兼顾词汇多样性。",
+          "设计奖励黑客诊断并通过复合奖励与过滤机制有效抑制模型骗取解析器的行为。"
+        ],
+        "limitations": [
+          "评估使用相同的持出提示进行模型选择，可能导致轻微选择偏差。",
+          "方法依赖高质量的依存解析器，无法直接推广到缺乏解析资源的语言。",
+          "部分正则化（如 BAPO、KL‑SFT）需针对每种语言调参，增加实现复杂度。"
+        ],
+        "open_questions": [
+          "在缺乏高质量解析器的语言上，是否可以使用弱监督或跨语言迁移的解析器实现类似效果？",
+          "复合奖励对模型长期语言理解能力（如推理、常识）有何影响？",
+          "将 SAGA 扩展到更大规模模型或多语言统一模型时，奖励设计和过滤阈值是否仍然有效？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-07T11:07:09.814314+00:00"
+    },
     {
       "id": "2608.03966",
       "title": "HalluTruthQA-4K: A Fine-Grained Corpus and Annotation Process for Arabic Hallucination Detection and Truth Verification",
@@ -1636,16 +1967,6 @@
         "freshness": 0.8803
       },
       "quality_signals": [],
-      "summary": {
-        "takeaway": "Here we introduce UNified In-Context Operator Networks (UNICON), a foundation model that exhibits numerical intelligence across disciplines.",
-        "problem": "Intelligence is commonly understood as the ability to acquire and apply knowledge, adapt to unfamiliar situations and solve new problems.",
-        "method": "Here we introduce UNified In-Context Operator Networks (UNICON), a foundation model that exhibits numerical intelligence across disciplines.",
-        "evidence": "We further show that training-corpus diversity improves generalization to unseen disciplines.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Statistical theory for LLMs.",
-        "source": "abstract",
-        "generated_by": "extractive"
-      },
       "recommendation_reason": {
         "topic": "Statistical theory for LLMs",
         "matched": [
@@ -1653,6 +1974,106 @@
           "generalization"
         ],
         "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "UNICON展示了冻结模型通过数值上下文实现跨学科预测，接近甚至超越专用模型。",
+        "problem": "需要能够从数值观测中获取并应用知识的模型，以实现跨科学和社会系统的智能。",
+        "method": "通过在统一图结构上训练的UNICON，使用键值对上下文进行原位推断，并可由LLM代理优化示例检索。",
+        "evidence": "在包括未见学科的九个系统上，UNICON在预测任务中显著优于kNN并接近或超越专用模型。",
+        "limitations": "仅在预测任务上评估，未验证对填补、异常检测、仿真或控制等任务的适用性。",
+        "why_for_you": "对统计理论感兴趣的你可利用UNICON的冻结模型和上下文学习机制研究数值LLM的统计行为。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "UNICON实现跨学科数值智能的统一模型，覆盖九个系统并在未见学科上接近专家水平"
+          },
+          {
+            "icon": "🔎",
+            "text": "使用图结构的键值对序列进行原位上下文学习，冻结模型权重并通过LLM代理优化示例检索"
+          },
+          {
+            "icon": "📈",
+            "text": "在WikiMaths等未见数据集上，UNICON直接推断达专家水平，且代理辅助提升至超越专家；但仅评估预测任务"
+          }
+        ],
+        "overview": "本文提出UNICON，一种在统一图结构上训练的数值基础模型，利用键‑值对序列实现原位上下文学习，权重保持冻结。通过在水文、交通、能源、气象等多学科数据上训练，模型在九个测试系统（含三类未见学科）上显著优于kNN基线，并在多数任务上接近或超过专用模型。进一步引入LLM代理构造多样化上下文，可进一步提升性能，展示了数值智能与语言智能协同的潜力。",
+        "methodology": [
+          {
+            "title": "统一图结构表示",
+            "detail": "将每个系统表示为节点为实体、边为关系的图；节点携带时间序列变量，统一跨学科的输入格式。"
+          },
+          {
+            "title": "键‑值对上下文学习",
+            "detail": "模型接收序列[K1,V1,…,KD,VD,Kq]，其中Ki为观测历史，Vi为对应的预测目标，直接在上下文中推断预测关系。"
+          },
+          {
+            "title": "冻结模型训练",
+            "detail": "在多学科数据集上统一训练，训练后模型权重保持不变，所有适配通过上下文示例实现。"
+          },
+          {
+            "title": "LLM‑agent 辅助推断",
+            "detail": "语言模型代理利用任务描述和全部观测构造多套数值提示，重复调用UNICON并融合预测，以改进上下文选择。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "原位关系推断",
+            "detail": "UNICON在自回归方式下，将当前键与先前键‑值对映射到目标值，实现对同一图上新查询的预测，无需参数更新。"
+          },
+          {
+            "title": "代理驱动示例检索",
+            "detail": "代理根据相似度、领域规则等多种检索策略挑选上下文示例，并利用不同预测的差异调节最终输出。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "跨学科评估设置",
+            "detail": "在九个系统上测试：两段未见时期、四个未见数据集（同学科）以及三类完全未见学科（空气质量、网页活动、空间天气），比较UNICON、kNN基线和任务专用专家模型。"
+          },
+          {
+            "title": "指标与结果",
+            "detail": "使用归一化得分（0‑kNN，1‑专家）以及MSE、NSE等；UNICON在多数任务上显著高于kNN，且在WikiMaths等未见学科上直接达到专家水平；代理辅助后在CAMELS‑CL和WikiMaths上超越专家。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "跨学科泛化能力",
+            "detail": "UNICON在未见学科的预测误差与专用模型相当，尤其在最长预测时段表现更佳。"
+          },
+          {
+            "title": "代理提升效果",
+            "detail": "LLM‑agent 辅助的上下文构造在多数任务上提升性能，并在两个基准上超过最先进的专用模型。"
+          },
+          {
+            "title": "数据多样性益处",
+            "detail": "训练语料的学科多样性显著提升了对全新学科的迁移性能，表明跨域数据有助于数值智能的通用化。"
+          }
+        ],
+        "contributions": [
+          "提出UNICON，统一的数值基础模型，实现跨学科预测。",
+          "设计基于图结构的键‑值对上下文学习框架，保持模型冻结。",
+          "展示语言模型代理与数值模型协同提升性能的实例。"
+        ],
+        "limitations": [
+          "仅在时间序列预测任务上评估，未验证填补、异常检测、仿真或控制等任务的适用性。",
+          "语料多样性实验在固定训练预算下进行，未给出数据量、模型规模与计算的通用扩展规律。",
+          "缺乏系统化的上下文示例选择与组织方法，需要进一步研究。"
+        ],
+        "open_questions": [
+          "在更大规模模型和数据下，数值上下文学习的性能是否遵循可预测的缩放律？",
+          "UNICON的框架能否推广到非预测任务，如缺失值填补或控制策略学习？",
+          "如何从统计理论层面解释冻结模型在多学科数值上下文中的泛化机制？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 5
       },
       "recommended_at": "2026-07-31T12:16:26.321275+00:00"
     },
@@ -16721,351 +17142,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-07-01T12:47:45.211812+00:00"
-    },
-    {
-      "id": "2606.28823",
-      "title": "Labeling Training Data for Entity Matching Using Large Language Models",
-      "abstract": "Recent large language models (LLMs) achieve strong performance on entity matching without requiring task-specific training data. However, applying these models to large sets of candidate pairs remains slow and costly. In contrast, entity matchers using traditional machine learning methods or small language models (SLMs), such as RoBERTa, offer much faster inference but require task-specific training data. This paper investigates whether the need to provide task-specific training data can be avoided by using knowledge-distillation workflows, in which an LLM serves as a teacher model to label training pairs that are subsequently used to train a smaller student model. We investigate knowledge distillation for entity matching along the following dimensions: pair-selection strategy, teacher model, label post-processing method, and student model. We evaluate the workflows using the Abt-Buy, Walmart-Amazon, WDC Products, DBLP-ACM, and DBLP-Scholar benchmarks, and compare the performance of student models trained with machine-labeled data to the performance of the same models trained using the benchmark training sets. Our experiments show that student models trained using the machine-labeled sets perform approximately on par with models trained on the benchmark training sets, with the remaining differences in both directions staying below two F1 points. Using GPT-5.2 to label the training sets for all five benchmarks costs US\\$28.31 to US\\$40.88, whereas manually labeling the same training sets is estimated to require 470 hours of work. At inference time, Ditto is 41.5 to 534 times faster than directly using an LLM to perform the matching tasks. These results indicate that current LLMs, when combined with a suitable pair-selection method, can substantially reduce or even eliminate the manual effort required to label use case-specific training data for entity matching.",
-      "authors": [
-        "Aaron Steiner",
-        "Christian Bizer"
-      ],
-      "published": "2026-06-27T09:15:09Z",
-      "updated": "2026-06-27T09:15:09Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2606.28823v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.28823v1",
-      "comment": "13 pages, 5 figures, 9 tables",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "emerging",
-          "score": 0.7289,
-          "matched": [
-            "training data",
-            "data",
-            "selection"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5325,
-        "relevance": 0.5831,
-        "quality": 0.54,
-        "novelty": 0.2,
-        "freshness": 0.5088
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "experiments",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Knowledge distillation using LLMs as teachers to label training data enables smaller student models to achieve near-benchmark entity matching performance with substantially reduced manual labeling effort and faster inference.",
-        "problem": "Direct use of LLMs for entity matching is accurate but computationally expensive and slow, while smaller models require costly task-specific labeled training data.",
-        "method": "The paper proposes knowledge-distillation workflows where an LLM teacher labels selected candidate pairs, optionally post-processed, to create machine-labeled training sets for training smaller, efficient student models.",
-        "evidence": "Experiments on five benchmarks show student models trained on machine-labeled data perform within two F1 points of benchmark-trained models, with labeling costs of $28.31 to $40.88 versus 470 hours of manual work, and inference speedups of 41.5 to 534 times.",
-        "limitations": "The approach shows a notable performance gap on the WDC dataset due to its unseen-entity test split, and some post-processing methods do not generalize across datasets.",
-        "why_for_you": "This work provides a practical, cost-effective strategy to generate high-quality training data for entity matching using LLMs, enabling deployment of efficient student models without manual labeling.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Student models trained on machine-labeled sets generated by GPT-5.2 and Ditto achieve F1 scores within 1.78 points of models trained on benchmark training sets across five entity matching datasets."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The knowledge distillation workflow includes pair selection strategies (similarity search, active learning), teacher models (GPT-5.2, Qwen 3.6 Plus, Kimi K2.6), label post-processing (self-review, graph-based consistency), and student models (Ditto with RoBERTa, XGBoost, smaller LLMs)."
-          },
-          {
-            "icon": "📉",
-            "text": "Direct LLM matching is costly and slow, requiring a query per candidate pair, whereas Ditto inference is 41.5 to 534 times faster, and GPT-5.2 labeling costs $28.31 to $40.88 compared to an estimated 470 hours of manual labeling."
-          }
-        ],
-        "overview": "Entity matching requires identifying record pairs that refer to the same real-world entity, a task traditionally reliant on manually labeled training data for smaller models or direct LLM inference, which is costly and slow. This paper investigates knowledge distillation workflows where a large language model (LLM) teacher labels selected candidate pairs, which are then used to train smaller, efficient student models. The workflows vary in pair selection methods, teacher models, label post-processing, and student models. Experiments on five standard benchmarks demonstrate that student models trained on machine-labeled data achieve F1 scores within two points of those trained on human-labeled benchmark sets, significantly reducing manual labeling effort and cost. The approach also yields substantial inference speedups compared to direct LLM matching. Some post-processing methods improve performance on product datasets but do not generalize, and the WDC dataset reveals challenges due to its unseen-entity test split. Overall, the study shows that LLMs combined with suitable pair selection can effectively replace manual labeling for entity matching training data.",
-        "methodology": [
-          {
-            "title": "Candidate Pool Generation",
-            "detail": "The candidate pool is generated by splitting benchmark training sets into left and right tables, embedding records with text-embedding-3-small, and ranking right-table records by cosine similarity for each left record. The pool contains 20 pairs per left record: 18 nearest neighbors plus 2 random lower-ranked samples, ensuring coverage of positives and negatives."
-          },
-          {
-            "title": "Pair Selection Strategies",
-            "detail": "Three pair selection strategies are compared: similarity search (scanning candidates in batches until positives and negatives are found), active learning using Ditto, and random sampling. Similarity search typically requires 7 LLM calls per record, extending to 20 for dense positive regions."
-          },
-          {
-            "title": "Teacher Models and Labeling",
-            "detail": "Teacher models include GPT-5.2, Qwen 3.6 Plus, and open-weight Kimi K2.6. The teacher labels selected pairs using a prompt that constrains output to JSON with match and confidence fields, ensuring consistent and parsable labels."
-          },
-          {
-            "title": "Label Post-Processing",
-            "detail": "Post-processing methods evaluated include a self-review prompt that asks the teacher to conservatively relabel pairs and a graph-based consistency filter that removes conflicting labels to improve training set quality."
-          },
-          {
-            "title": "Student Models",
-            "detail": "Students include Ditto with RoBERTa, an XGBoost classifier over embeddings and similarity features, and smaller LLMs (Qwen3-0.6B, Qwen3-1.7B, Qwen3-8B). Students are trained on machine-labeled sets and evaluated against benchmark-trained counterparts."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Knowledge Distillation Workflow",
-            "detail": "The mechanism involves using a large, accurate but costly LLM teacher to label a strategically selected subset of candidate pairs, producing a machine-labeled training set. This set trains a smaller, efficient student model that approximates the teacher's performance at lower cost and faster inference. No explicit equations or causal models are provided."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Benchmark Evaluation",
-            "detail": "Experiments use five benchmarks: Abt-Buy, Walmart-Amazon, WDC Products, DBLP-ACM, and DBLP-Scholar. Performance of student models trained on machine-labeled data is compared to those trained on benchmark training sets using F1 score."
-          },
-          {
-            "title": "Cost and Runtime Analysis",
-            "detail": "Labeling costs with GPT-5.2 range from $28.31 to $40.88 per dataset, compared to an estimated 470 hours of manual labeling. Ditto inference is 41.5 to 534 times faster than direct LLM matching, demonstrating practical efficiency gains."
-          },
-          {
-            "title": "Ablation of Post-Processing Methods",
-            "detail": "Post-processing improves performance on product benchmarks but does not generalize well across all datasets, indicating dataset-dependent effectiveness."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Comparable Student Performance",
-            "detail": "Students trained on machine-labeled sets achieve F1 scores within 1.78 points of benchmark-trained students across all five datasets, demonstrating the effectiveness of the distillation workflow."
-          },
-          {
-            "title": "Cost Efficiency",
-            "detail": "Using GPT-5.2 for labeling costs under $41 per dataset, drastically reducing manual labeling effort estimated at 470 hours, making the approach cost-effective."
-          },
-          {
-            "title": "Inference Speedup",
-            "detail": "Ditto student models run 41.5 to 534 times faster than direct LLM inference, enabling scalable entity matching deployment."
-          },
-          {
-            "title": "Dataset-Specific Challenges",
-            "detail": "On the WDC dataset, a 15 F1 point gap remains between direct LLM matching and Ditto students, attributed to the unseen-entity test split rather than labeling quality."
-          }
-        ],
-        "contributions": [
-          "Comprehensive comparison of knowledge-distillation workflows for entity matching across pair selection, teacher models, label post-processing, and student models.",
-          "Demonstration that machine-labeled training sets from LLM teachers enable student models to achieve near-benchmark performance.",
-          "Analysis of training set structure and cost-efficiency showing substantial reduction in manual labeling effort and inference time.",
-          "Evaluation of post-processing methods to improve label quality and discussion of their dataset-dependent effectiveness."
-        ],
-        "limitations": [
-          "Post-processing methods such as graph-based consistency filtering do not generalize well across all datasets.",
-          "Performance gap on the WDC dataset indicates challenges with unseen-entity test splits that are not fully addressed by the distillation approach.",
-          "The study does not explore reinforcement learning or explanation-based distillation methods which prior work found less effective but potentially relevant.",
-          "No explicit theoretical mechanism or causal model is provided to explain why certain pair selection or post-processing methods work better."
-        ],
-        "open_questions": [
-          "How can knowledge distillation workflows be adapted to better handle unseen-entity test splits like in the WDC dataset?",
-          "What are the effects of incorporating explanations or rationale generation in teacher labels on student model performance?",
-          "Can reinforcement learning or other advanced distillation techniques improve over supervised fine-tuning in this context?",
-          "How to design post-processing methods that generalize robustly across diverse entity matching datasets?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Data selection for LLMs",
-        "matched": [
-          "training data",
-          "data",
-          "selection"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-06-30T19:46:14.602485+00:00"
-    },
-    {
-      "id": "2606.28998",
-      "title": "Reward-Free Code Alignment from Pretrained or Fine-Tuned LLM: Unpacking the Trade-offs for Code Generation",
-      "abstract": "Large Language Model (LLM) alignment trains an LLM using preference data to produce outputs that better meet established quality standards. While LLM alignment techniques are studied for non-coding tasks, we know little about their usefulness for coding tasks. It is unclear whether LLM code alignment could support both functional requirements (producing executable, correct code) and non-functional requirements (code readability, style, maintainability). It is also unknown whether alignment for a code LLM should begin with base pretrained version or the finetuned (i.e., instruction-tuned) version of the LLM. In this paper, we offer insights on the above two research questions by conducting an empirical study. We studied five state-of-the-art (SOTA) LLMs using two widely used LLM alignment techniques: Direct Preference Optimization (DPO) and BoNBoN. For each training record, we created a preference pair as accepted and rejected instances by using the SelfCodeAlign pipeline. DPO and BoNBoN are reward-free models, i.e., they eliminate the need for multiple reward scores for output preferences. We tuned each LLM using the two alignment techniques in two settings: pretrained and finetuned versions of an LLM. We evaluated functional requirements using four SOTA benchmarks (HumanEval+, MBPP+, EvalPerf, EvoEval) and non-functional requirements using the CODAL benchmark, which evaluates code quality across five dimensions derived from software engineering practices. We find that pretrained-to-aligned pathways achieve larger improvements in the aligned variant over its pretrained variant. But the pretrained variant is generally less accurate than its finetuned variant. However, finetuned- to-aligned offers smaller performance improvements or, in some cases, degradation in the aligned variant than its finetuned variant.",
-      "authors": [
-        "Gias Uddin",
-        "Sanjeepan Sivapiran"
-      ],
-      "published": "2026-06-27T16:22:22Z",
-      "updated": "2026-06-27T16:22:22Z",
-      "categories": [
-        "cs.SE",
-        "cs.AI"
-      ],
-      "primary_category": "cs.SE",
-      "abs_url": "https://arxiv.org/abs/2606.28998v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.28998v1",
-      "comment": "",
-      "journal_ref": "The ACM International Conference on the Foundations of Software Engineering (FSE) 2026",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.6234,
-          "matched": [
-            "alignment",
-            "alignment",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5515,
-        "relevance": 0.4987,
-        "quality": 0.6,
-        "novelty": 0.7974,
-        "freshness": 0.5512
-      },
-      "quality_signals": [
-        "code available",
-        "benchmark evaluation",
-        "publication metadata"
-      ],
-      "summary": {
-        "takeaway": "Alignment of code generation LLMs from pretrained models yields larger relative improvements, especially in non-functional code quality, compared to alignment from finetuned models.",
-        "problem": "It is unclear whether LLM alignment for code generation should target both functional and non-functional requirements and whether alignment should start from pretrained or finetuned LLMs.",
-        "method": "The study empirically evaluates five SOTA LLMs aligned via reward-free techniques DPO and BoNBoN on both pretrained and finetuned versions, assessing functional and non-functional code quality using multiple benchmarks.",
-        "evidence": "Pretrained-to-aligned models show substantial relative gains (e.g., CodeLlama-7b +75% non-functional), while finetuned-to-aligned models show smaller or negative improvements, with consistent non-functional quality gains across models.",
-        "limitations": "The study does not provide mechanistic explanations for why alignment from finetuned models underperforms and lacks exploration of alignment effects on larger or more diverse LLM families beyond the five studied.",
-        "why_for_you": "Understanding the trade-offs in alignment starting points and techniques informs trustworthy code generation by optimizing both correctness and software engineering quality in LLM outputs.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Pretrained-to-aligned pathway yields a +75% improvement in non-functional code quality for CodeLlama-7b and +42% functional improvement for Llama3-8b, indicating alignment effectiveness depends on model initialization."
-          },
-          {
-            "icon": "🛡️",
-            "text": "Direct Preference Optimization (DPO) and BoNBoN are reward-free alignment methods that respectively optimize preference classification and best-of-n sampling distributions, reducing computational overhead while improving code generation quality."
-          },
-          {
-            "icon": "📉",
-            "text": "Finetuned-to-aligned models sometimes degrade in performance compared to their finetuned baselines, suggesting alignment may conflict with instruction tuning or cause alignment incompatibility rather than catastrophic forgetting."
-          }
-        ],
-        "overview": "This paper investigates the efficacy of reward-free alignment techniques, DPO and BoNBoN, applied to code generation LLMs starting from either pretrained or finetuned checkpoints. The research addresses two key questions: whether alignment should target both functional correctness and non-functional code quality, and whether alignment should begin from pretrained or finetuned models. Five state-of-the-art LLMs and their instruction-tuned variants were aligned using preference pairs generated by the SelfCodeAlign pipeline. Functional performance was evaluated on four benchmarks (HumanEval+, MBPP+, EvalPerf, EvoEval), while non-functional quality was assessed via the CODAL benchmark covering readability, style, and maintainability. Results show pretrained-to-aligned models achieve larger relative improvements, particularly in non-functional metrics, despite starting from weaker baselines. Conversely, finetuned-to-aligned models exhibit smaller gains or performance degradation, indicating alignment may interfere with prior instruction tuning. The study highlights the importance of prioritizing non-functional requirements in code alignment and reveals model family-specific preferences for alignment techniques. These findings provide actionable guidance for trustworthy code generation LLM alignment strategies.",
-        "methodology": [
-          {
-            "title": "Direct Preference Optimization (DPO)",
-            "detail": "DPO reformulates alignment as a classification problem by directly optimizing the model to distinguish preferred from rejected outputs using maximum likelihood, eliminating the need for a separate reward model and reducing computational overhead compared to RLHF."
-          },
-          {
-            "title": "BoNBoN Alignment",
-            "detail": "BoNBoN trains models to mimic the best-of-n sampling distribution by combining supervised fine-tuning on best responses with Iterative Preference Optimization contrasting best and worst samples, thereby achieving high-quality outputs without inference-time sampling costs."
-          },
-          {
-            "title": "Preference Data Generation via SelfCodeAlign",
-            "detail": "Preference pairs for alignment training were created using the SelfCodeAlign pipeline, which generates accepted and rejected code instances to represent user preferences for both functional correctness and non-functional code quality."
-          },
-          {
-            "title": "Evaluation Benchmarks",
-            "detail": "Functional correctness was measured using HumanEval+, MBPP+, EvalPerf, and EvoEval benchmarks, while non-functional code quality was assessed using the CODAL benchmark, which evaluates code across five software engineering dimensions such as readability and style."
-          },
-          {
-            "title": "Alignment Training Protocol",
-            "detail": "Models were aligned in two pathways: pretrained-to-aligned and finetuned-to-aligned, each trained for 120k iterations using either DPO or BoNBoN, with supervised fine-tuning preceding alignment to establish a stable base."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "No Explicit Mechanism Provided",
-            "detail": "The paper does not provide mechanistic or theoretical explanations for the observed performance differences between pretrained-to-aligned and finetuned-to-aligned pathways or for the differential improvements in functional versus non-functional code quality."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Model and Dataset Selection",
-            "detail": "Five SOTA LLMs (Meta-Llama-3-8B, Qwen2.5-Coder-7B, CodeLlama-7b, deepseek-coder-1.3b, deepseek-coder-7b) and their instruction-tuned variants were aligned using DPO and BoNBoN on preference datasets generated by SelfCodeAlign."
-          },
-          {
-            "title": "Functional and Non-Functional Evaluation",
-            "detail": "Functional code generation was evaluated on HumanEval+, MBPP+, EvalPerf, and EvoEval benchmarks, while non-functional code quality was assessed using the CODAL benchmark, covering instruction following, readability, complexity, style adherence, and code explanation."
-          },
-          {
-            "title": "Alignment Pathways and Training",
-            "detail": "Two alignment pathways were compared: pretrained-to-aligned and finetuned-to-aligned, each trained for 120k steps with DPO or BoNBoN, following supervised fine-tuning to avoid catastrophic forgetting and ensure convergence."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Pretrained-to-Aligned Yields Larger Relative Gains",
-            "detail": "Pretrained-to-aligned models showed substantial relative improvements over their pretrained baselines, e.g., CodeLlama-7b improved +75% on non-functional CODAL metrics and Llama3-8b improved +42% on functional benchmarks."
-          },
-          {
-            "title": "Finetuned-to-Aligned Shows Smaller or Negative Improvements",
-            "detail": "Alignment from finetuned models resulted in smaller performance gains or even degradation compared to finetuned baselines, indicating potential incompatibility between alignment and prior instruction tuning."
-          },
-          {
-            "title": "Non-Functional Requirements Improve More Consistently",
-            "detail": "Non-functional code quality improved consistently across all models and alignment techniques, with gains such as +75% for CodeLlama-7b and +27.8% for deepseek-coder-7b, suggesting alignment better supports software engineering quality than functional correctness."
-          },
-          {
-            "title": "Model Family-Specific Technique Preferences",
-            "detail": "Meta-Llama models performed better with DPO alignment, while deepseek models favored BoNBoN, indicating alignment technique effectiveness depends on model architecture and training history."
-          },
-          {
-            "title": "Early SFT-Stage Degradation Predicts Alignment Failure",
-            "detail": "Degradation during supervised fine-tuning on preference data correlated with final alignment failure, suggesting early training instability is a useful indicator of alignment success."
-          }
-        ],
-        "contributions": [
-          "Empirical comparison of reward-free alignment techniques DPO and BoNBoN applied to code generation LLMs from pretrained and finetuned checkpoints.",
-          "Demonstration that pretrained-to-aligned models achieve larger relative improvements, especially in non-functional code quality, than finetuned-to-aligned models.",
-          "Identification of model family-specific preferences for alignment techniques and early failure indicators during supervised fine-tuning.",
-          "Provision of nine actionable recommendations to guide alignment strategies for code generation LLMs.",
-          "Comprehensive evaluation using multiple functional and non-functional benchmarks to capture diverse code quality dimensions."
-        ],
-        "limitations": [
-          "Lack of mechanistic explanation for why alignment from finetuned models underperforms or degrades performance.",
-          "Limited exploration of alignment effects on larger or more diverse LLM families beyond the five studied.",
-          "No analysis of long-term effects of alignment on model robustness or generalization beyond benchmark tasks.",
-          "Absence of ablation studies isolating the impact of individual alignment components or preference data quality."
-        ],
-        "open_questions": [
-          "What underlying mechanisms cause alignment from finetuned models to yield smaller or negative improvements compared to pretrained models?",
-          "How do alignment techniques scale and generalize to larger code generation models or different programming languages?",
-          "Can alignment methods be adapted to jointly optimize functional correctness and non-functional code quality without trade-offs?",
-          "What role does the quality and diversity of preference data play in the success of code LLM alignment?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment",
-          "alignment",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-06-30T19:46:14.602485+00:00"
     }
   ]
 }
