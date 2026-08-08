@@ -1,6 +1,955 @@
 {
-  "generated_at": "2026-08-07T11:07:09.814314+00:00",
+  "generated_at": "2026-08-08T10:50:42.806974+00:00",
   "papers": [
+    {
+      "id": "2608.05420",
+      "title": "Can Open-Weight LLMs Produce Kernel-Verified Coq Proofs? A Pilot Study",
+      "abstract": "Large language models (LLMs) can generate text that resembles a mathematical proof, but resemblance does not establish correctness. A formal proof checker verifies whether each proof step follows established logical rules. Coq bases its rules on the Calculus of Inductive Constructions, a logical framework that defines which proof steps the system may accept. This pilot study evaluated six open-weight LLMs on the same 100 theorems from CoqStoq, a benchmark derived from real Coq projects. Each LLM received one attempt per theorem with the temperature set to 0, and Coq checked every proposed proof in the theorem's original project environment. We counted a proof as successful only if the Coq kernel accepted it. Gemma 4 verified 12 of 100 theorems, Llama 3.3 verified 8, and DeepSeek Coder V2 Lite verified 1. Qwen 3.5, Mistral Small 3.1, and GPT-OSS verified none. The 21 successful model-theorem results covered 15 distinct theorems, 11 of which were not solved by a baseline of standard Coq tactics. All verified theorems had short or medium human-written reference proofs; no model verified a theorem with a long reference proof. Because the proof-length analysis was exploratory, this pattern does not establish that proof length caused the difference. For the three models with at least one success, the total generation cost per verified proof ranged from 741 to 36,193 output tokens, 14.9 to 178.0 seconds, and 0.0167 to 0.2000 aggregate GPU hours. We could not calculate these ratios for models with no verified proofs. Across 600 attempts, the models produced 21 kernel-verified proofs, giving an overall success rate of 3.5%. The study reports descriptive differences among the models but does not statistically test whether one model outperforms another. Therefore, the results do not establish a universal ranking of the six models.",
+      "authors": [
+        "Ahmed Ryan",
+        "Md Erfan",
+        "Akond Ashfaque Ur Rahman",
+        "Md Rayhanur Rahman"
+      ],
+      "published": "2026-08-05T21:29:12Z",
+      "updated": "2026-08-05T21:29:12Z",
+      "categories": [
+        "cs.LO",
+        "cs.LG"
+      ],
+      "primary_category": "cs.LO",
+      "abs_url": "https://arxiv.org/abs/2608.05420v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.05420v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.3509,
+          "matched": [
+            "theorem",
+            "proof"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4562,
+        "relevance": 0.2807,
+        "quality": 0.79,
+        "novelty": 0.8397,
+        "freshness": 0.6348,
+        "feedback_adjustment": -0.021,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "baseline comparison",
+        "benchmark evaluation",
+        "theoretical result",
+        "quantitative results"
+      ],
+      "summary": {
+        "evidence": "Gemma 4验证12/100，Llama 3.3验证8/100，DeepSeek Coder V2 Lite验证1/100，其他模型验证0/100，总成功率为3.5%。",
+        "limitations": "未进行统计显著性测试，证明长度分析为探索性而非因果性结论。",
+        "method": "在CoqStoq基准上对6个开放权重LLM进行单次尝试验证，使用Coq内核检查证明有效性。",
+        "problem": "验证LLM生成的数学证明在形式系统中的正确性。",
+        "takeaway": "开放权重大语言模型（LLM）在Coq内核验证中仅能产生3.5%的正确证明，且成功率与证明长度相关。",
+        "why_for_you": "针对LLM形式化验证能力的实证研究，适用于评估LLM在形式系统中的可靠性。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "contributions": [
+          "首次系统评估开放权重LLM在真实Coq项目中的内核验证表现",
+          "提供单次尝试证明生成的资源消耗基准"
+        ],
+        "experiments": [
+          {
+            "detail": "6个开放权重LLM vs. 固定Coq自动化基准（auto, eauto, intuition auto），使用CoqStoq数据集。",
+            "title": "模型与基准"
+          }
+        ],
+        "findings": [
+          {
+            "detail": "Gemma 4(12/100), Llama 3.3(8/100), DeepSeek Coder V2 Lite(1/100), Qwen 3.5/Mistral Small 3.1/GPT-OSS(0/100)。",
+            "title": "成功率"
+          },
+          {
+            "detail": "成功模型生成成本：741-36,193 tokens, 14.9-178.0秒, 0.0167-0.2000 GPU小时/证明。",
+            "title": "资源消耗"
+          }
+        ],
+        "limitations": [
+          "未进行模型间统计显著性检验",
+          "证明长度分析为探索性而非因果性结论",
+          "未评估修复/迭代尝试的影响"
+        ],
+        "mechanism": [
+          {
+            "detail": "证明需通过编译、关闭所有目标、无禁止假设，并通过coqchk内核检查。",
+            "title": "形式化验证流程"
+          }
+        ],
+        "methodology": [
+          {
+            "detail": "所有模型仅单次尝试，使用原始项目环境验证，无微调、检索或交互反馈。",
+            "title": "固定实验协议"
+          },
+          {
+            "detail": "通过Coq编译器、Print Assumptions和coqchk工具链进行多级验证，确保证明完整性。",
+            "title": "Coq内核验证"
+          }
+        ],
+        "open_questions": [
+          "如何提升LLM生成证明的验证成功率？",
+          "如何区分语法/环境失败与逻辑推理失败？",
+          "多轮交互和检索机制对证明生成的影响？"
+        ],
+        "overview": "本研究通过Coq内核验证评估6个开放权重LLM在100个CoqStoq定理上的表现，发现LLM生成证明的验证成功率极低（3.5%），且成功案例集中于短/中长度证明，未发现统计显著性模型差异。",
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "开放权重LLM在Coq内核验证中仅3.5%成功率"
+          },
+          {
+            "icon": "🔎",
+            "text": "固定单次尝试协议，无微调/检索/交互反馈"
+          },
+          {
+            "icon": "✅",
+            "text": "成功证明均来自短/中长度参考证明，无长证明成功案例"
+          }
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Statistical theory for LLMs",
+        "matched": [
+          "theorem",
+          "proof"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-08T10:50:42.806974+00:00"
+    },
+    {
+      "id": "2608.04415",
+      "title": "Social Pressure Breaks Majority Voting in LLM Safety Panels",
+      "abstract": "Large language models (LLMs) are increasingly used to detect unsafe content. A common approach is to combine judgments from a panel of models to correct individual mistakes, but this benefit may disappear when every model sees the same misleading context before voting. We study this risk in a controlled two-round experiment. Each model first judges an item alone, then judges it again after six simulated peers either assert the wrong label or abstain. We combine the final judgments by majority vote. Across six open-weight LLMs and six datasets, we find that the wrong-label peer message raises the average reviewer false-alarm rate from 56.5% under silent peers to 87.5%, and majority voting raises the panel false-alarm rate to 100%. Without an asserted label, the same panel outperforms its average member. The effect is strongly asymmetric: reviewers follow pushes toward \"unsafe\" far more than pushes toward \"safe\" (about 75% versus 17%), so the panel's false-alarm rate rises sharply while its harmful-miss rate changes little. The proprietary-model probe shows substantial variation across models. These results identify susceptibility to shared social cues as a failure mode of safety panels and provide a simple pre-deployment diagnostic.",
+      "authors": [
+        "Yibo Hu",
+        "Jiaming Qu"
+      ],
+      "published": "2026-08-05T03:51:12Z",
+      "updated": "2026-08-05T03:51:12Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.04415v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.04415v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4629,
+          "matched": [
+            "llm safety",
+            "safety"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4561,
+        "relevance": 0.3703,
+        "quality": 0.51,
+        "novelty": 0.8685,
+        "freshness": 0.5298,
+        "feedback_adjustment": -0.0199,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "experiments",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "共享的错误社交线索会破坏安全面板的多数投票保护，使误报率飙升。",
+        "problem": "安全面板在所有审稿人接收相同误导性上下文时可能失效。",
+        "method": "作者使用两轮实验，模拟六位同伴统一错误标签或沉默，对六个开源模型在六个安全数据集上的判断进行比较。",
+        "evidence": "在错误标签同伴条件下，审稿人平均误报率从56.5%升至87.5%，多数投票面板误报率达到100%。",
+        "limitations": "实验仅使用单轮模拟消息，未覆盖实时对话或更广泛的模型。",
+        "why_for_you": "如果你关注LLM安全可靠性，这篇揭示面板聚合在共享上下文下的脆弱性与诊断方法对你很重要。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🛡️",
+            "text": "发现共享错误提示会使安全面板多数投票失效，导致所有良性内容被误标为不安全。"
+          },
+          {
+            "icon": "🔧",
+            "text": "通过两轮实验让六个开源模型先单独判断，再在六个同伴统一错误标签或沉默的消息后重新判断，比较错误率变化。"
+          },
+          {
+            "icon": "📈",
+            "text": "错误标签同伴将审稿人误报率从56.5%提升至87.5%，多数投票误报率达100%。"
+          }
+        ],
+        "overview": "本文通过受控的两轮实验，检验在所有审稿人收到相同误导性社交线索时，安全面板的多数投票是否仍能降低错误。实验使用六种开源指令调优模型，覆盖六类安全数据集，比较错误标签同伴、正确标签同伴、沉默同伴以及权威同伴四种信息条件下的误报率和漏报率。结果显示，错误标签同伴显著提升审稿人误报率并导致面板误报率达到100%，且这种效应在推动“unsafe”方向时远强于推动“safe”。",
+        "methodology": [
+          {
+            "title": "实验设计",
+            "detail": "每个输入先由模型单独判断（Round 1），随后插入一条消息后再次判断（Round 2），消息形式包括 WRONG‑PEERS（六位同伴统一错误标签）、RIGHT‑PEERS（统一正确标签）、SILENT‑PEERS（同伴沉默）和 AUTHORITY（声称权威的错误标签）。"
+          },
+          {
+            "title": "审稿人模型",
+            "detail": "使用 Qwen2.5‑7B、Qwen2.5‑32B、Llama‑3.1‑8B、gemma‑2‑9B、Mistral‑7B、OLMo‑2‑7B，覆盖五个模型家族，均使用公开权重。"
+          },
+          {
+            "title": "数据集",
+            "detail": "六个安全评估数据集：BeaverTails、XSTest、Ethics、WildGuard、Aegis，以及另一个未在正文中命名的第六数据集，涵盖不同内容类型和安全定义。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "社会从众效应",
+            "detail": "模型在看到统一的同伴标签后倾向于遵从该标签，尤其是向“unsafe”方向的推动（约75%采纳率）远高于向“safe”方向的推动（约17%），导致误报率显著上升。"
+          },
+          {
+            "title": "多数投票放大效应",
+            "detail": "当所有审稿人因同一错误线索而同步偏向错误标签时，多数投票不再抵消个体错误，反而将误报率从单模型的87.5%放大至面板的100%。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "基准比较",
+            "detail": "在 SILENT‑PEERS 条件下，面板的平均误报率为 43.0%，低于单模型的 56.5%；在 WRONG‑PEERS 条件下，审稿人误报率升至 87.5%，面板误报率达到 100%。"
+          },
+          {
+            "title": "方向性不对称",
+            "detail": "推动“unsafe”时审稿人采纳率约 75%，推动“safe”时仅约 17%，导致面板的 false‑alarm 率急剧上升而 harmful‑miss 率变化不大。"
+          },
+          {
+            "title": "专有模型探测",
+            "detail": "对四个 OpenAI 专有模型（gpt‑3.5‑turbo、gpt‑4o‑mini、gpt‑4.1‑mini、gpt‑5.4‑mini）进行相同实验，发现误报率在不同模型间差异显著，最高可达 100%。"
+          },
+          {
+            "title": "措辞鲁棒性",
+            "detail": "将错误同伴消息改写为中性释义和投票计数框架，误报率提升仍保持在约 65‑88 个百分点，表明效应不依赖特定措辞。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "发现 1",
+            "detail": "错误标签同伴显著提升审稿人误报率（56.5%→87.5%），且随同伴数量增加效果加剧。"
+          },
+          {
+            "title": "发现 2",
+            "detail": "审稿人对“unsafe”推动的采纳率约为 75%，对“safe”仅约 17%，表现出强烈的不对称性。"
+          },
+          {
+            "title": "发现 3",
+            "detail": "多数投票在共享错误线索下将面板误报率推至 100%，失去传统的错误抵消优势。"
+          },
+          {
+            "title": "发现 4",
+            "detail": "专有模型的响应差异大，且后续提示只能部分恢复面板性能；不同模型的基线饱和度影响其可移动空间。"
+          }
+        ],
+        "contributions": [
+          "首次系统性展示共享社交线索会破坏 LLM 安全面板的多数投票保护。",
+          "提供两轮实验框架和简单的部署前诊断方法，用于评估审稿人在共享上下文下的社会易感性。",
+          "量化了误报率的上升幅度并揭示了向“unsafe”方向的从众效应不对称。"
+        ],
+        "limitations": [
+          "使用受控的单轮模拟消息，而非真实的多轮对话交互。",
+          "主要实验仅覆盖六个开源模型，专有模型探测仅限四个 OpenAI 模型，缺乏更广泛的模型族覆盖。",
+          "安全和安全导向的分析使用不同的审稿‑项目子集，导致结果只能描述特定的可比子集而非统一趋势。"
+        ],
+        "open_questions": [
+          "在真实的多轮对话或辩论环境中，面板的从众效应是否会更强或被缓解？",
+          "能否设计聚合机制或提示策略，使面板在共享上下文下仍保持错误抵消能力？",
+          "如何在不同模型家族之间系统性衡量并降低社会易感性，以构建更鲁棒的安全评估系统？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "llm safety",
+          "safety"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-08T10:50:42.806974+00:00"
+    },
+    {
+      "id": "2608.05409",
+      "title": "Mood Matters: How Syntactic Sensitivity Undermines Safety Alignment",
+      "abstract": "Large language models typically undergo post-training to align them with safety policies but there exist many sophisticated jailbreaks that sidestep established safeguards. For instance, prior work by Andriushchenko et al. (2025) has found that changing the grammatical tense from present to past can be enough to elicit harmful responses. In this work, we uncover a more general failure of non-imperative syntactic forms. We demonstrate that this syntactic vulnerability exists in 16 models up to 70B parameters, using behavioral evaluation. To investigate the root cause, we apply causal mediation analysis, finding that refusal is partially conditioned on upstream syntactic features. By steering these purely syntactic features we are able to trigger and suppress refusal. Finally, we trace this ill-conditioning to linguistically biased post-training data of open-source models and show that increasing syntactic diversity can mitigate the issue. Our findings suggest that current alignment approaches introduce confounders that prevent a pure semantic grounding of the refusal decision.",
+      "authors": [
+        "Alina Klerings",
+        "Jannik Brinkmann",
+        "Heiner Stuckenschmidt",
+        "Simone Paolo Ponzetto"
+      ],
+      "published": "2026-08-05T21:05:12Z",
+      "updated": "2026-08-05T21:05:12Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.05409v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.05409v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4085,
+          "matched": [
+            "alignment",
+            "safety"
+          ]
+        },
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.1567,
+          "matched": [
+            "training data"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4485,
+        "relevance": 0.3581,
+        "quality": 0.49,
+        "novelty": 0.861,
+        "freshness": 0.6324,
+        "feedback_adjustment": -0.0214,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "open source",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "非命令句式会显著削弱对有害请求的拒绝能力，且可通过增加句法多样性缓解。",
+        "problem": "对齐后的大模型在非命令式语法下仍会错误地提供有害信息。",
+        "method": "使用因果中介分析定位上游句法特征，并通过特征引导实现拒绝行为的控制。",
+        "evidence": "在16个7B‑70B模型中，最差攻击成功率从85%降至8%，且整体能力未受影响。",
+        "limitations": "行为评估仅基于100条英文有害和100条良性提示的JBB‑Behaviors数据集。",
+        "why_for_you": "该工作直接关联可信LLM的安全对齐与数据选择策略，适合你的研究兴趣。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🛡️",
+            "text": "发现16个7B‑70B模型在非命令句式下拒绝率下降，最高攻击成功率85%"
+          },
+          {
+            "icon": "🔧",
+            "text": "因果中介分析并在层5特征3347上进行句法特征引导实现拒绝控制"
+          },
+          {
+            "icon": "📈",
+            "text": "增加句法多样性将最差攻击成功率从85%降至8%，评估仅限100条英文提示"
+          }
+        ],
+        "overview": "本文揭示了对齐LLM在非命令式语法下的拒绝失效，即所谓的句法脆弱性。通过行为评估、中心探针、因果中介分析以及句法特征引导，作者定位了上游句法特征对拒绝决策的调节作用，并证明通过提升训练数据的句法多样性可显著降低最坏情况的攻击成功率，同时保持模型的通用能力。",
+        "methodology": [
+          {
+            "title": "行为评估",
+            "detail": "在JBB‑Behaviors数据集上使用Attack Success Rate@10 (ASR@10) 衡量不同句法变体的安全降级程度。"
+          },
+          {
+            "title": "中心探针",
+            "detail": "验证模型在不同句法表面形式下仍能内部识别有害意图。"
+          },
+          {
+            "title": "因果中介分析",
+            "detail": "计算拒绝信号R对上游层激活的梯度，量化句法特征对R的贡献。"
+          },
+          {
+            "title": "句法特征引导",
+            "detail": "在残差流中注入选定的SAE潜在特征（如特征3347），通过网格搜索的系数实现拒绝的诱导或抑制。"
+          },
+          {
+            "title": "数据多样化实验",
+            "detail": "在开源模型的后训练数据中加入句法多样化样本，评估对ASR@10的影响。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "句法条件的拒绝路径",
+            "detail": "模型的拒绝决策R部分受上游句法特征的调制，非命令式句法会降低R，使模型倾向于合规输出。"
+          },
+          {
+            "title": "特征引导的因果作用",
+            "detail": "通过放大或削弱特定句法潜在（如层5的3347），可在决策边界上推动R跨越拒绝或合规阈值，实现行为翻转。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "跨模型安全评估",
+            "detail": "评估了16个模型（7B‑70B），包括Apertus、Qwen‑2.5、DeepSeek、Gemma、Llama‑3等，报告了从+15%到+71%的ASR@10提升。"
+          },
+          {
+            "title": "特征引导实验",
+            "detail": "对特征3347在层5进行正向/负向引导，表1展示了翻转率，表13给出多模型的成功率统计。"
+          },
+          {
+            "title": "句法多样化干预",
+            "detail": "在训练数据中加入非命令式句法后，最差ASR@10从85%降至8%，且在WildGuard和人工检查中未观察到能力下降。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "句法脆弱性普遍存在",
+            "detail": "所有16个对齐模型在非命令式句法下均表现出显著的安全降级。"
+          },
+          {
+            "title": "句法特征可因果控制拒绝",
+            "detail": "因果中介分析确认句法特征对拒绝信号的部分贡献，特征引导能够可靠地触发或抑制拒绝。"
+          },
+          {
+            "title": "数据多样化有效缓解",
+            "detail": "提升训练数据的句法多样性显著降低最坏情况攻击成功率，且不牺牲通用性能。"
+          }
+        ],
+        "contributions": [
+          "定义并量化了句法脆弱性作为安全对齐的失败模式。",
+          "首次将因果中介分析应用于揭示句法特征对拒绝决策的影响。",
+          "提出并验证了通过句法特征引导调控拒绝行为的技术。",
+          "展示了增加句法多样性的训练策略可显著提升模型安全性。"
+        ],
+        "limitations": [
+          "行为评估仅使用100条有害和100条良性英文提示，缺乏多语言和大规模测试。",
+          "数据多样化实验仅在开源模型上进行，未验证对商业闭源模型的效果。",
+          "未系统评估句法多样化对模型其他下游任务的潜在副作用。"
+        ],
+        "open_questions": [
+          "在多语言环境下，句法脆弱性是否同样显著，如何构建跨语言的句法多样化数据？",
+          "是否存在除句法之外的其他表面特征同样影响拒绝决策？",
+          "句法多样化的最优比例和采样策略是什么，以兼顾安全性和下游任务性能？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment",
+          "safety"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-08T10:50:42.806974+00:00"
+    },
+    {
+      "id": "2608.04439",
+      "title": "ExeCRE: Execution-Consistency Guided Reliability Estimation for Self-Correcting Code Generation",
+      "abstract": "Large language models (LLMs) have made notable progress in code generation, but they still struggle on challenging tasks that require sophisticated algorithms or complex implementations. Recent methods increasingly use code execution as feedback, especially in self-correction pipelines that construct verification signals from generated code. However, these pipelines often depend on supervision signals whose reliability is unknown, which can introduce misleading feedback, unnecessary revisions, and incorrect final answers. To address this issue, we propose ExeCRE, an Execution-Consistency guided code Reliability Estimation framework. Instead of judging candidate code by tests or LLM feedback, ExeCRE estimates code reliability by statistically analyzing consistency patterns in execution outputs over a large number of randomly generated inputs. It collects execution outputs over generated inputs, projects them into consistency signals, and applies the Dawid-Skene model to infer latent code reliability. We integrate ExeCRE into self-correction for code generation. Experiments show that ExeCRE consistently improves both effectiveness and stability, while substantially reducing misleading correction signals. Under GPT-5.2 on LiveCodeBench, the average number of misleading feedback cases on already correct code drops from 113.2 with a representative self-correction baseline to 14.0 with ExeCRE. As an additional study, we apply the same reliability estimation strategy to code-based mathematical reasoning and observe similar benefits. These results suggest that ExeCRE enables more reliable use of generated code in execution-based pipelines.",
+      "authors": [
+        "Yiru Dong",
+        "Richong Zhang",
+        "Fanshuang Kong",
+        "Si Chen"
+      ],
+      "published": "2026-08-05T04:29:30Z",
+      "updated": "2026-08-05T04:29:30Z",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "primary_category": "cs.SE",
+      "abs_url": "https://arxiv.org/abs/2608.04439v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.04439v1",
+      "comment": "13 pages, 5 figures. Accepted at the 41st IEEE/ACM International Conference on Automated Software Engineering (ASE 2026)",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3948,
+          "matched": [
+            "reliability"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4542,
+        "relevance": 0.3158,
+        "quality": 0.68,
+        "novelty": 0.8627,
+        "freshness": 0.5336,
+        "feedback_adjustment": -0.0297,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "baseline comparison",
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "ExeCRE通过统计执行一致性并使用Dawid‑Skene模型估计代码可靠性，从而显著降低自纠正过程中的误导反馈。",
+        "problem": "现有自纠正代码生成方法依赖未量化的测试或LLM判断，导致错误的监督信号。",
+        "method": "ExeCRE生成大量随机结构化输入，收集执行输出，转化为一致性信号并用Dawid‑Skene推断潜在可靠性分数。",
+        "evidence": "在LiveCodeBench上，GPT‑5.2的误导反馈案例从113.2降至14.0，且整体Pass@1提升。",
+        "limitations": "未在论文中明确列出限制。",
+        "why_for_you": "该工作提供了针对代码生成的可靠性估计机制，直接关联到可信LLM的核心需求。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "ExeCRE利用执行一致性统计估计代码可靠性，误导反馈从113.2降至14.0"
+          },
+          {
+            "icon": "🔧",
+            "text": "采用Dawid‑Skene模型聚合随机输入的执行输出，生成可靠性分数"
+          },
+          {
+            "icon": "📉",
+            "text": "在LiveCodeBench上GPT‑5.2的误导反馈显著下降，但需大量随机测试输入"
+          }
+        ],
+        "overview": "本文提出ExeCRE框架，以执行一致性为核心信号，通过大规模随机输入的执行输出构建一致性矩阵，并利用Dawid‑Skene EM算法推断每段候选代码的可靠性分数。该可靠性估计被嵌入自纠正循环，过滤不可靠的参考代码，从而提升代码生成的有效性和稳定性，并在代码数学推理任务中展示可迁移性。",
+        "methodology": [
+          {
+            "title": "结构化随机输入生成",
+            "detail": "基于模式驱动的schema，自动生成约1000个满足语义约束的测试输入，以覆盖多样化的执行路径。"
+          },
+          {
+            "title": "执行输出收集与一致性投影",
+            "detail": "对每个候选代码在所有输入上运行，形成执行矩阵O，将输出映射为二元一致性信号（相同/不同）。"
+          },
+          {
+            "title": "Dawid‑Skene可靠性推断",
+            "detail": "将每段代码视为“标注者”，执行一致性信号视为“标注”，使用EM迭代估计潜在真实一致性并输出代码可靠性α∈[0,1]。"
+          },
+          {
+            "title": "自纠正集成",
+            "detail": "在自纠正循环中，仅使用α高于阈值的参考代码构造测试，避免误导性修正。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "执行一致性作为可靠性信号",
+            "detail": "可靠代码在多样输入上表现出稳定的输出一致性；不可靠代码则出现高变异性，形成可区分的统计模式。"
+          },
+          {
+            "title": "聚合噪声标注的DS模型",
+            "detail": "DS模型在假设标注条件独立的前提下，通过最大似然估计同时恢复真实一致性标签和每段代码的可信度。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "LiveCodeBench 主实验",
+            "detail": "使用LiveCodeBench v6的182道算法题，模型包括GPT‑5.2等，比较ExeCRE与ConTested等基线，指标为Pass@1和误导反馈计数。"
+          },
+          {
+            "title": "GSM8K 代码数学推理",
+            "detail": "在GSM8K 1,319题的Program‑of‑Thought设置下，ExeCRE作为可靠性门控，仅对高α代码执行，报告答案准确率。"
+          },
+          {
+            "title": "鲁棒性与依赖分析",
+            "detail": "通过改变错误代码组数评估DS对标注依赖的敏感性，发现错误采纳率在3.1%–14.3%之间保持稳定。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "误导反馈显著降低",
+            "detail": "在GPT‑5.2上，已正确代码的误导反馈案例从113.2降至14.0，约下降87%。"
+          },
+          {
+            "title": "整体性能提升",
+            "detail": "ExeCRE在所有评估模型上均提升最终Pass@1，且自纠正过程更稳定，错误修正次数减少。"
+          },
+          {
+            "title": "跨任务可迁移",
+            "detail": "在GSM8K的PoT实验中，使用ExeCRE的可靠性门控提升了答案准确率，表明机制对代码数学推理同样有效。"
+          }
+        ],
+        "contributions": [
+          "提出ExeCRE框架，将执行一致性用于代码可靠性估计",
+          "将Dawid‑Skene模型引入代码自纠正的监督信号建模",
+          "在大规模代码生成基准上验证了显著的误导反馈降低和性能提升"
+        ],
+        "limitations": [
+          "未在论文中明确列出限制"
+        ],
+        "open_questions": [
+          "在更大规模或跨语言环境下，ExeCRE的可靠性估计是否仍保持同等效果？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "reliability"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-08T10:50:42.806974+00:00"
+    },
+    {
+      "id": "2608.05040",
+      "title": "Private Direct Preference Optimization for LLM Alignment",
+      "abstract": "Direct preference optimization (DPO) is now a standard method for aligning large language models (LLMs) using human preference data. Each DPO example contains a prompt and a pair of candidate model responses. While prompts and responses are often public or model-generated, the relative preference between responses reflects subjective judgments and can reveal sensitive attributes of annotators or end users. Off-the-shelf privacy-preserving approaches are not well matched to this structure, leading to unnecessary noise injection and biased updates in training. In this paper, we formalize preference privacy, a label-DP-style privacy notion for DPO that protects only the relative preference between candidate responses, assuming an adversary who already knows the prompt and responses. We then design PrivDPO, a DPO variant that enforces preference privacy while remaining compatible with large-scale LLM training. Our main observation is that, for neighboring examples differing only in their preference signal, the gradient difference lies on a one-dimensional preference axis determined solely by the text; all preference information flows through this axis. PrivDPO adds calibrated randomness only along this axis via an unbiased randomized rescaling of the DPO objective, avoiding per-example gradient operations. Our experiments on three alignment benchmarks and three LLM families show that PrivDPO consistently achieves strong privacy-utility trade-offs compared with privacy-preserving baselines.",
+      "authors": [
+        "Yangfan Jiang",
+        "Fei Wei",
+        "Ergute Bao",
+        "Xiaokui Xiao",
+        "Yaliang Li",
+        "Bolin Ding"
+      ],
+      "published": "2026-08-05T16:51:02Z",
+      "updated": "2026-08-05T16:51:02Z",
+      "categories": [
+        "cs.CR"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2608.05040v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.05040v1",
+      "comment": "accepted for publication at CCS 2026, extended version",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4368,
+          "matched": [
+            "privacy",
+            "alignment"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.45,
+        "relevance": 0.3494,
+        "quality": 0.53,
+        "novelty": 0.8649,
+        "freshness": 0.6072,
+        "feedback_adjustment": -0.0297,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation",
+        "experiments"
+      ],
+      "summary": {
+        "takeaway": "PrivDPO 通过仅在一维偏好轴上注入校准噪声，实现了对 DPO 偏好标签的高效差分隐私保护且保持对齐质量。",
+        "problem": "在 DPO 对齐中，用户的偏好标签可能泄露敏感信息，需要保护而不损失模型效用。",
+        "method": "PrivDPO 对 DPO 目标进行无偏随机重标定，只在由文本决定的偏好轴上添加高斯噪声。",
+        "evidence": "在 Anthropic‑HH、TL;DR、UltraFeedback 三个基准以及 Llama、Pythia、Qwen（3B‑32B）上，PrivDPO 的隐私‑效用权衡显著优于 DP‑SGD 等基线。",
+        "limitations": "隐私分析假设每个样本仅使用一次，未考虑组合或子抽样放大效应。",
+        "why_for_you": "对关注 LLM 对齐隐私的研究者，PrivDPO 提供了针对偏好标签的可扩展高效隐私方案。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "提出偏好隐私概念并实现 PrivDPO，首次在 32B LLM 上提供可行的隐私对齐"
+          },
+          {
+            "icon": "🔧",
+            "text": "仅在一维偏好轴上加入校准噪声，通过无偏随机重标定 DPO 目标实现"
+          },
+          {
+            "icon": "📊",
+            "text": "在 3 个基准和 3 种 LLM（3B‑32B）上，PrivDPO 超越 DP‑SGD 等基线，隐私‑效用权衡显著"
+          }
+        ],
+        "overview": "本文针对 DPO 对齐中的偏好标签隐私风险，定义了仅保护相对偏好的 label‑DP 风格的 Preference Privacy。通过理论分析发现，邻近样本的梯度差仅沿由 (x, y_w, y_l) 文本决定的一维偏好轴分布。基于此，PrivDPO 在该轴上加入 calibrated Gaussian noise (σ=0.37)，实现无偏随机重标定的 DPO 目标，避免对全参数空间的噪声注入，从而在保持训练效率的同时提供严格的隐私保证。实验在三大公开基准和三类 LLM（参数规模 3B‑32B）上验证了其优越的隐私‑效用权衡。",
+        "methodology": [
+          {
+            "title": "偏好轴识别",
+            "detail": "通过分析 DPO 目标，证明两邻近样本的梯度差向量完全对齐于由文本三元组 (x, y_w, y_l) 决定的单一方向，即偏好轴。"
+          },
+          {
+            "title": "无偏随机重标定",
+            "detail": "在偏好轴上乘以服从 N(1, σ²) 的随机因子，实现对 DPO 损失的无偏放大，等价于在该轴上添加高斯噪声。"
+          },
+          {
+            "title": "隐私会计",
+            "detail": "采用分析性高斯框架，因每个样本仅使用一次，直接得到 ε‑Preference‑Privacy，噪声标准差 σ=0.37。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "梯度信息单维流动",
+            "detail": "在保持提示和候选响应不变的前提下，偏好标签的唯一信息通过梯度差的偏好轴传递，使得仅扰动该轴即可实现隐私。"
+          },
+          {
+            "title": "噪声局部注入",
+            "detail": "相较于 DP‑SGD 对全梯度的各维度注入同尺度噪声，PrivDPO 只在偏好轴上注入噪声，显著降低效用损失。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "实验设置",
+            "detail": "使用 8× H20 GPU（96 GB）和 PyTorch FSDP；数据集为 Anthropic‑HH (161k), TL;DR (92k), UltraFeedback‑Binarized (64k)。模型族 Llama、Pythia、Qwen，规模 3B‑32B。基线包括 DP‑SGD、随机响应 (RR) 等。"
+          },
+          {
+            "title": "评估指标",
+            "detail": "对齐质量采用奖励模型得分、人工评估等；隐私效用通过 ε‑privacy 与模型性能下降幅度比较；攻击实验使用准确率和 MemAdv 指标。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "隐私‑效用权衡优势",
+            "detail": "PrivDPO 在所有三类基准和三种模型上均实现比 DP‑SGD 更低的性能下降，同时满足相同或更严格的 ε‑Preference‑Privacy。"
+          },
+          {
+            "title": "可扩展性",
+            "detail": "实验表明 PrivDPO 能在 32B 参数模型上完成对齐训练，训练效率与非隐私 DPO 相当。"
+          },
+          {
+            "title": "攻击鲁棒性",
+            "detail": "在基于模型 logits 的偏好推断攻击中，PrivDPO 将攻击准确率降低至接近随机水平，MemAdv 增益显著受限。"
+          }
+        ],
+        "contributions": [
+          "定义并形式化 Preference Privacy，用于 DPO 场景的标签级差分隐私。",
+          "提出 PrivDPO 机制，利用偏好轴实现高效噪声注入。",
+          "在大规模 LLM（最高 32B）上实现实用的隐私对齐，验证了强隐私‑效用权衡。"
+        ],
+        "limitations": [
+          "隐私分析基于单次使用假设，未考虑多轮训练或子抽样的组合效应。",
+          "攻击评估使用的攻击模型非最坏情况，仅提供下界。",
+          "数据集可能与公开对齐数据有重叠，影响公平性评估。"
+        ],
+        "open_questions": [
+          "在更严格的 ε 预算下，如何进一步提升对齐性能？",
+          "偏好轴概念能否推广至 RLHF、奖励模型训练等其他对齐方法？",
+          "在真实部署环境中面对更强对手时，PrivDPO 的鲁棒性如何保证？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "privacy",
+          "alignment"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-08T10:50:42.806974+00:00"
+    },
+    {
+      "id": "2608.05578",
+      "title": "Detecting Safety Training Modification in Language Models via Activation Analysis",
+      "abstract": "We introduce AMS (Activation-based Model Scanner), a tool that detects modifications to safety training in language models by measuring the geometric structure of safety-relevant concepts in activation space. Safety training creates measurable separation between harmful and benign content classes; certain safety modifications collapse or rotate this structure, while others leave it intact. We validate AMS across 14 model configurations spanning 4 architecture families (Llama, Gemma, Qwen, Mistral) and four safety-modification categories (instruction-tuned, base, abliterated, uncensored fine-tunes). Leave-one-out cross-validation of thresholds achieves 71% accuracy (10/14); bootstrap 95% confidence intervals on sigma point estimates have median width 3.4 sigma. We measure behavioral compliance on 20 stratified JailbreakBench prompts per model and find that sigma on the harmful-content concept predicts compliance with Pearson r = -0.546 (p = 0.043), directionally but with meaningful noise. Mechanistic analysis identifies a four-class taxonomy of safety-training modifications distinguished by activation-space signature: training removal collapses cluster separation; weight-orthogonalization abliteration both collapses separation and rotates the refusal direction; rotation-without-collapse abliteration preserves separation while rotating direction; and behavioral fine-tuning preserves both magnitude and direction. AMS's Tier 1 sigma-threshold detects the first two classes; Tier 2 direction-similarity verification detects the third. The fourth is undetectable by activation-only probing and represents a documented failure mode. We discuss threshold calibration, limitations of single-run measurement, and the open problem of detecting behavioral-only safety modifications.",
+      "authors": [
+        "Glen Messenger"
+      ],
+      "published": "2026-08-06T03:57:38Z",
+      "updated": "2026-08-06T03:57:38Z",
+      "categories": [
+        "cs.CR"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2608.05578v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.05578v1",
+      "comment": "",
+      "journal_ref": "IEEE Access, vol. 14, pp. 91723-91737, 2026",
+      "lane": "llm",
+      "scope_matches": [
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.388,
+          "matched": [
+            "calibration",
+            "safety"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.418,
+        "relevance": 0.3104,
+        "quality": 0.47,
+        "novelty": 0.8862,
+        "freshness": 0.6733,
+        "feedback_adjustment": -0.0164,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "quantitative results",
+        "publication metadata"
+      ],
+      "summary": {
+        "takeaway": "AMS 能在无需行为测试的情况下，通过激活空间几何结构检测多数安全训练修改，整体准确率约 71%。",
+        "problem": "缺乏高效、不可规避的手段来识别开源模型的安全训练被削弱或篡改。",
+        "method": "AMS 通过在模型中层对安全概念的对比提示计算方向向量和聚合标准差 σ，并使用阈值与方向相似性进行分层检测。",
+        "evidence": "在 14 种 Llama、Gemma、Qwen、Mistral 模型上，LOOCV 准确率 71%（10/14），σ 与违规率相关系数 r = -0.546。",
+        "limitations": "对仅通过行为微调保留几何结构的安全修改（类 iv）以及单次测量噪声导致的误判缺乏检测能力。",
+        "why_for_you": "若你关注 LLM 可信性，AMS 提供一种基于激活的预部署安全检测手段，可补充传统行为评估。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🛡️",
+            "text": "提出四类安全训练修改的激活空间签名并用σ阈值检测前两类"
+          },
+          {
+            "icon": "🔧",
+            "text": "AMS 计算安全概念向量和σ，分层阈值与余弦相似度实现检测"
+          },
+          {
+            "icon": "📊",
+            "text": "在14模型上LOOCV 71%准确，σ 与违规率 r=-0.546，但类 iv 完全不可检测"
+          }
+        ],
+        "overview": "AMS 利用安全概念的对比提示在模型中层提取激活向量，计算聚合标准差 σ 表征有害与良性内容的分离程度，并通过阈值判断结构是否被削弱；进一步比较方向向量余弦相似度以捕捉仅旋转而未塌陷的修改。作者在 14 种 Llama、Gemma、Qwen、Mistral 模型上验证，展示了检测不同安全改动的机制与局限。",
+        "methodology": [
+          {
+            "title": "激活空间扫描流程",
+            "detail": "对每个安全概念使用 16 对对比提示，遍历 40‑80% 深度层，选取分离最大层，计算方向向量 v 与聚合 σ，随后 Tier 1 基于 σ 阈值分类，Tier 2 通过余弦相似度与距离漂移进一步验证。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "激活几何结构假设",
+            "detail": "安全训练在激活空间形成有害‑良性概念的线性分离（约 4‑8σ），删除或削弱安全训练会导致簇间距离塌陷或方向旋转，不同改动产生可辨识的几何签名。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "实验设置与评估指标",
+            "detail": "评估 14 种模型（1‑9B 参数）覆盖四类安全修改；使用 σ、95% bootstrap CI、PASS/WARNING/CRITICAL 分类；行为合规率通过 20 条 JailbreakBench 提示测得，并计算 Pearson r 与 Spearman ρ。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "主要发现",
+            "detail": "Tier 1 检测训练移除和权重正交化两类可达 71% LOOCV 准确率；σ 与合规率呈负相关 r = -0.546；方向相似性成功捕获旋转不塌陷的 abliteration；行为微调类保持几何结构，AMS 无法检测。"
+          }
+        ],
+        "contributions": [
+          "四类安全训练修改的激活空间分类法",
+          "基于 σ 与方向相似性的 AMS 检测框架",
+          "在多模型上验证的实证结果与行为相关性分析"
+        ],
+        "limitations": [
+          "类 iv（行为微调）在激活空间无可检测信号",
+          "单次测量噪声导致部分阈值跨越",
+          "仅针对 1‑9B 开源模型，未验证大模型或量化模型的鲁棒性"
+        ],
+        "open_questions": [
+          "如何在仅改变行为而不影响激活几何的安全微调中实现可靠检测"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "calibration",
+          "safety"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-08T10:50:42.806974+00:00"
+    },
     {
       "id": "2608.06202",
       "title": "What Current AI Benchmarks Leave Unmeasured: Modality, Search, Citations, and Implications (for Safety Evaluations)",
@@ -16057,1091 +17006,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-07-02T12:21:00.110067+00:00"
-    },
-    {
-      "id": "2607.01104",
-      "title": "CausalMix: Data Mixture as Causal Inference for Language Model Training",
-      "abstract": "In Large Language Model (LLM) training, data mixing plays a pivotal role in determining model performance. Recent methods optimize mixture weights via proxy models, but they rely on the assumption of static data distributions. As a result, when the underlying data pool shifts, these methods require costly retraining from scratch. This limitation restricts their ability to scale seamlessly from small settings to larger data pools and model sizes. In this paper, we propose CausalMix to address this limitation by casting data mixture optimization as a causal inference problem. We formulate the statistical features of the data pool as covariates and the domain mixture as the treatment. After fitting a causal model on 512 runs of Qwen2.5-0.5B to estimate the Conditional Average Treatment Effect (CATE), we extrapolate the optimal mixture for an 800K data pool and apply it to train a 7B model. Furthermore, we successfully generalize the framework to long chain-of-thought data on Qwen3-4B-Base. By leveraging causal modeling to isolate confounding biases, CausalMix dynamically infers state-dependent optimal data mixtures. Extensive experiments show that the mixture guided by CausalMix consistently improves performance across multiple downstream tasks, outperforming RegMix and other baselines. In addition, we use the CATE Interpreter to provide visual analysis of the learned mixing strategy. Overall, CausalMix offers a causal and interpretable framework for optimizing LLM data mixtures.",
-      "authors": [
-        "Zinan Tang",
-        "Yukun Zhang",
-        "Shaomian Zheng",
-        "Zhuoshi Pan",
-        "Qizhi Pei",
-        "Dingnan Jin",
-        "Jun Zhou",
-        "Yujun Wang",
-        "Biqing Huang"
-      ],
-      "published": "2026-07-01T15:56:11Z",
-      "updated": "2026-07-01T15:56:11Z",
-      "categories": [
-        "cs.LG",
-        "cs.AI",
-        "cs.CL"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2607.01104v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.01104v1",
-      "comment": "22 pages, 3 figures",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "emerging",
-          "score": 0.6685,
-          "matched": [
-            "data mixture",
-            "mixture optimization",
-            "data",
-            "mixture"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5814,
-        "relevance": 0.5348,
-        "quality": 0.54,
-        "novelty": 0.8181,
-        "freshness": 0.8785
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "experiments",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "CausalMix formulates LLM data mixture optimization as a causal inference problem, enabling dynamic, state-dependent mixture adjustments that improve downstream task performance and generalize across data scales and model sizes.",
-        "problem": "Existing data mixing methods for LLM training assume static data distributions and require costly retraining when data pools shift, limiting scalability and adaptability.",
-        "method": "CausalMix uses Double Machine Learning and causal forests to estimate Conditional Average Treatment Effects (CATE) of domain mixture proportions conditioned on data state covariates, enabling principled, interpretable, and transferable mixture optimization.",
-        "evidence": "Fitting the causal model on 512 proxy runs of Qwen2.5-0.5B and extrapolating to an 800K data pool for training a 7B model, CausalMix outperforms RegMix and other baselines across multiple downstream tasks.",
-        "limitations": "The causal estimator’s performance degrades with too many covariates due to limited historical meta-dataset size, and evidence on scaling covariates or proxy runs is not yet available.",
-        "why_for_you": "CausalMix offers a novel causal inference framework for data selection in LLM training that addresses distribution shifts and enables scalable, interpretable mixture optimization beyond static proxy models.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "CausalMix identifies state-dependent marginal data returns θ0(x) as generalized CATEs for continuous domain mixture treatments, revealing positive or negative transfer effects per domain conditioned on data state covariates."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The method employs Double Machine Learning orthogonalization and CausalForestDML with LightGBM predictors to isolate confounding effects of data state metrics such as Normalized_Loss, HES entropy, and Writing_Style."
-          },
-          {
-            "icon": "📉",
-            "text": "Experiments on 512 proxy runs of Qwen2.5-0.5B with 100K-instance sub-datasets show that a three-covariate combination achieves the highest Spearman rank correlation for causal effect estimation, outperforming prior methods like RegMix."
-          }
-        ],
-        "overview": "CausalMix addresses the challenge of optimizing data mixtures for LLM supervised fine-tuning by framing the problem as a causal inference task rather than a static hyperparameter search. It models the data pool's statistical features as covariates and the domain mixture proportions as continuous treatments, estimating the Conditional Average Treatment Effect (CATE) to capture how changes in domain proportions causally affect downstream performance under varying data states. Leveraging Double Machine Learning and causal forests, CausalMix orthogonalizes treatment and outcome variables to remove confounding biases from data quality, complexity, and difficulty metrics. This approach enables dynamic, state-dependent mixture optimization that generalizes to larger data pools and model sizes without retraining proxy models. Empirical results on Qwen2.5-0.5B proxy runs and extrapolation to a 7B model demonstrate consistent performance gains over baselines such as RegMix. The framework also provides interpretability via CATE analysis, revealing skill conflicts and data quality thresholds influencing domain effectiveness. Thus, CausalMix offers a scalable, interpretable, and principled solution for LLM data mixture optimization.",
-        "methodology": [
-          {
-            "title": "Causal Formulation of Data Mixture",
-            "detail": "Data mixture optimization is formulated as estimating the conditional response function µ(x,z) = E[Y(t)|X=x], where X are covariates representing data state metrics and z=log(T+ε) is the log-transformed continuous treatment vector of domain mixture proportions. The model approximates µ(x,z) locally as g(x) + θ0(x)⊤z, where θ0(x) represents state-conditioned marginal data returns (generalized CATE)."
-          },
-          {
-            "title": "Double Machine Learning Orthogonalization",
-            "detail": "CausalMix applies Double Machine Learning to orthogonalize treatment and outcome variables with respect to covariates X, isolating the causal effect of mixture proportions on downstream performance. This reduces confounding bias from data state features such as normalized loss, entropy, and writing style."
-          },
-          {
-            "title": "Causal Model Estimation",
-            "detail": "The causal model uses LightGBM as first-stage predictors for outcome and treatment models, combined with CausalForestDML as the core causal estimator. This setup captures complex interactions among covariates and treatments while controlling overfitting, achieving superior RScore compared to other regressors."
-          },
-          {
-            "title": "Policy Update and Mixture Optimization",
-            "detail": "After estimating θ0(x), CausalMix performs a constrained optimization over the simplex of mixture weights using Karush–Kuhn–Tucker conditions to find the optimal mixture T* that maximizes expected causal performance gain, ensuring non-negativity and sum-to-one constraints."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "No Explicit Mechanism Equations Beyond Causal Model",
-            "detail": "The paper provides a partially linear approximation µ(x,Z) ≈ g(x) + θ0(x)⊤Z for the conditional response function and derives the analytical solution for the optimal mixture policy using KKT conditions. No further mechanistic or geometric causal mechanisms are detailed."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Proxy Model Training and Meta-Dataset Construction",
-            "detail": "512 sub-datasets of 100K instances each are sampled from the tulu-3-sft-mixture dataset with five domain partitions. Qwen2.5-0.5B is trained on these mixtures to generate historical proxy runs (X,T,Y) for causal model fitting."
-          },
-          {
-            "title": "Covariate Selection and Evaluation",
-            "detail": "Using a validation set of 64 instances, combinations of covariates from OpenDataArena metrics are evaluated by Spearman rank correlation against ground-truth scores. The best performance is achieved with three covariates: HES entropy, Normalized_Loss, and Writing_Style."
-          },
-          {
-            "title": "Causal Model Fitting and Baseline Comparison",
-            "detail": "LightGBM and CausalForestDML are used to fit the causal model on the meta-dataset. The resulting CausalMix mixture policies are compared against RegMix and other baselines on downstream tasks grouped into six capabilities, showing consistent performance improvements."
-          },
-          {
-            "title": "Extrapolation to Larger Data Pools and Models",
-            "detail": "The causal model trained on proxy runs is extrapolated to an 800K data pool and applied to train a 7B parameter model, demonstrating transferability and scalability without requiring new proxy experiments."
-          }
-        ],
-        "findings": [
-          {
-            "title": "State-Dependent Marginal Returns",
-            "detail": "The estimated θ0(x) reveals that increasing certain domain proportions can have positive or negative effects depending on the data state, confirming that no single static optimal mixture exists."
-          },
-          {
-            "title": "Covariate Combination Importance",
-            "detail": "A combination of three covariates (HES entropy, Normalized_Loss, Writing_Style) yields the highest Spearman correlation for causal effect estimation, outperforming models using fewer or more covariates."
-          },
-          {
-            "title": "Superior Performance Over Baselines",
-            "detail": "CausalMix consistently outperforms RegMix and other baselines across multiple downstream tasks and model sizes, demonstrating the effectiveness of causal mixture optimization."
-          },
-          {
-            "title": "Interpretability via CATE Analysis",
-            "detail": "CATE analysis uncovers skill conflicts between factual knowledge and logical reasoning domains and shows how data quality thresholds influence the effectiveness of math and coding data."
-          }
-        ],
-        "contributions": [
-          "Formulation of LLM data mixture optimization as a causal inference problem using continuous treatments and state-dependent covariates.",
-          "Development of a causal modeling pipeline combining Double Machine Learning, LightGBM, and CausalForestDML for estimating Conditional Average Treatment Effects.",
-          "Demonstration of scalable and transferable mixture optimization that generalizes from proxy runs to larger data pools and model sizes without retraining.",
-          "Empirical validation showing consistent performance gains over prior methods like RegMix across diverse downstream tasks.",
-          "Provision of interpretability through CATE analysis and a CATE Interpreter for visualizing learned mixing strategies."
-        ],
-        "limitations": [
-          "Limited historical meta-dataset size restricts the number of covariates that can be effectively used without degrading causal estimator performance.",
-          "No direct evidence is provided on the impact of scaling proxy runs beyond 512 or incorporating additional covariates.",
-          "The approach relies on proxy models and pre-computed data metrics, which may limit applicability to domains lacking such resources.",
-          "The causal mechanism is approximated locally and partially linearly, which may not capture complex nonlinear interactions in mixture effects."
-        ],
-        "open_questions": [
-          "How does increasing the number of proxy runs and covariates affect the robustness and accuracy of the causal mixture estimator?",
-          "Can the causal mixture framework be extended to incorporate nonlinear or nonparametric treatment effect models beyond partially linear approximations?",
-          "What are the limits of transferability when extrapolating causal mixture policies to substantially different data pools or model architectures?",
-          "How can the framework be adapted or integrated with online or continual learning settings where data distributions evolve dynamically?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Data selection for LLMs",
-        "matched": [
-          "data mixture",
-          "mixture optimization",
-          "data",
-          "mixture"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-02T12:21:00.110067+00:00"
-    },
-    {
-      "id": "2607.01084",
-      "title": "Can Agents Generalize to the Open World? Unveiling the Fragility of Static Training in Tool Use",
-      "abstract": "While Large Language Model (LLM) agents demonstrate proficiency in static benchmarks, their deployment in real-world scenarios is hindered by the dynamic nature of user queries, tool sets, and interaction dynamics. To address this generalization gap, we formalize OpenAgent (Tool-Use Agent in Open-World), a problem setting characterized by distributional shifts across query, action, observation, and domain dimensions. To systematically diagnose its impact, we construct a controlled sandbox environment where we define fine-grained environmental shifts across a four-tier hierarchy, Perception, Interaction, Reasoning, and Internalization, and conduct a comprehensive series of experiments. Our analysis yields a series of key insights, demonstrating that agents trained via both Supervised Fine-Tuning(SFT) and Reinforcement Learning suffer from varying degrees of performance degradation when confronting open environmental shifts. Building on these insights, we propose Perturbation-Augmented Fine-Tuning, a disturbance-based intervention strategy for SFT that lays the foundation for enhancing agent robustness and utility in realistic environments. Our code will be released at: https://github. com/LAMDA-NeSy/OpenAgent.",
-      "authors": [
-        "Song-Lin Lv",
-        "Weiming Wu",
-        "Rui Zhu",
-        "Zi-Jian Cheng",
-        "Lan-Zhe Guo"
-      ],
-      "published": "2026-07-01T15:40:25Z",
-      "updated": "2026-07-01T15:40:25Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2607.01084v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.01084v1",
-      "comment": "Accepted by ICML 2026",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.5283,
-          "matched": [
-            "robustness",
-            "perturbation",
-            "fine-tuning",
-            "training"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.2189,
-          "matched": [
-            "robustness",
-            "llm",
-            "robustness"
-          ]
-        },
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.1402,
-          "matched": [
-            "generalization",
-            "generalization"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.566,
-        "relevance": 0.4945,
-        "quality": 0.6,
-        "novelty": 0.8076,
-        "freshness": 0.8769
-      },
-      "quality_signals": [
-        "code available",
-        "benchmark evaluation",
-        "experiments"
-      ],
-      "summary": {
-        "takeaway": "LLM agents trained via Supervised Fine-Tuning and Reinforcement Learning exhibit significant performance degradation under open-world distributional shifts, which can be partially mitigated by Perturbation-Augmented Fine-Tuning.",
-        "problem": "Current LLM agents trained under static assumptions fail to generalize effectively to dynamic, open-world tool-use environments characterized by shifts in queries, tools, interactions, and domains.",
-        "method": "The authors formalize the OpenAgent problem setting, construct a controlled sandbox environment with a four-tier hierarchy of environmental shifts, and propose Perturbation-Augmented Fine-Tuning to improve robustness.",
-        "evidence": "Comprehensive experiments in the sandbox environment demonstrate that both SFT and RL agents suffer from distinct failure modes and performance drops under open-world shifts, with PAFT improving SFT robustness.",
-        "limitations": "The study focuses on a synthetic sandbox environment and does not provide evidence of PAFT’s effectiveness in fully real-world, large-scale deployments or across diverse tool-use domains.",
-        "why_for_you": "This work provides a rigorous framework and empirical insights into the generalization challenges of tool-using LLM agents, offering a novel fine-tuning strategy relevant for enhancing trustworthy and efficient adversarial training.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "The study identifies symbolic anchoring as a critical failure mode in Supervised Fine-Tuning agents, causing brittle reliance on shallow patterns that degrade performance under tool schema shifts."
-          },
-          {
-            "icon": "🛡️",
-            "text": "Perturbation-Augmented Fine-Tuning (PAFT) injects controlled observation anomalies and symbolic noise during training to decouple models from memorization and enhance robustness to open-world perturbations."
-          },
-          {
-            "icon": "📉",
-            "text": "Experimental results show that Reinforcement Learning agents maintain higher active exploration scores (>0.86 AES) under tool redirection and value redirection shifts, whereas SFT agents’ scores collapse near zero."
-          }
-        ],
-        "overview": "This paper addresses the critical gap in generalization of LLM agents trained under static assumptions when deployed in dynamic, open-world environments. The authors formalize the OpenAgent setting, capturing distributional shifts across user queries, tool sets, interaction dynamics, and task domains. To systematically analyze these shifts, they design a controlled sandbox environment with a four-tier hierarchy—Perception, Interaction, Reasoning, and Internalization—allowing precise injection of perturbations. Through extensive experiments comparing Supervised Fine-Tuning (SFT) and Reinforcement Learning (RL) agents, the study reveals distinct failure modes: SFT agents suffer from symbolic anchoring and trajectory overfitting, while RL agents exhibit boundary blindness due to reward structure biases. To mitigate these issues, the authors propose Perturbation-Augmented Fine-Tuning (PAFT), a data-centric approach that introduces controlled noise during training to improve robustness. Empirical evidence demonstrates PAFT’s effectiveness in restoring generalization capabilities, highlighting the fragility of static training and the necessity of disturbance-based interventions for real-world tool-use agent deployment.",
-        "methodology": [
-          {
-            "title": "OpenAgent Formalization",
-            "detail": "The agent is modeled as a sequential decision-making process M = ⟨Q, A, O, π⟩, where Q is user queries, A is tool action space, O is observation space, and π is the policy. The OpenAgent setting characterizes distributional shifts across queries (∆Q), actions (∆A), observations (∆O), and domains (∆D), focusing on generalization when test distributions diverge from training."
-          },
-          {
-            "title": "Controlled Sandbox Environment",
-            "detail": "A synthetic sandbox environment is constructed to isolate and systematically inject environmental shifts across four tiers: Perception, Interaction, Reasoning, and Internalization. This controlled setup avoids transient noise from real-world APIs, enabling precise evaluation of agent robustness to open-world perturbations."
-          },
-          {
-            "title": "Training Paradigms and Baselines",
-            "detail": "The study compares full-parameter Supervised Fine-Tuning (SFT) using Qwen2.5-7B-Instruct and Reinforcement Learning (RL) with the GRPO framework. Both models are trained to convergence under comparable computational budgets in the closed environment to establish baselines."
-          },
-          {
-            "title": "Perturbation-Augmented Fine-Tuning (PAFT)",
-            "detail": "PAFT is a disturbance-based intervention for SFT that injects controlled observation anomalies and symbolic noise into training trajectories. This approach aims to prevent shallow pattern memorization and improve generalization by forcing the model to learn robust representations under noisy conditions."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Failure Modes in Training Paradigms",
-            "detail": "SFT agents exhibit symbolic anchoring, where they overfit to specific tool invocation patterns, leading to brittle performance under schema shifts. RL agents, while better at semantic grounding, suffer from boundary blindness caused by teleological biases in reward structures, limiting their adaptability to novel tool configurations."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Evaluation of Instruction Robustness (∆Q)",
-            "detail": "Agents are tested on their ability to handle instruction blurring and information redundancy, simulating real-world user input variability. The evaluation uses a dataset of 6,050 training and 880 evaluation samples with strict separation to prevent pattern leakage."
-          },
-          {
-            "title": "Tiered Environmental Shift Experiments",
-            "detail": "Experiments inject perturbations across Perception, Interaction, Reasoning, and Internalization tiers in the sandbox. Metrics include task success rates and Active Exploration Scores (AES) to quantify agent adaptability under null returns, error returns, tool redirection, and value redirection."
-          },
-          {
-            "title": "Comparison of SFT and RL Agents",
-            "detail": "Both paradigms are trained on the same backbone and evaluated under identical conditions. RL agents maintain near-perfect AES (>0.86) under tool redirection shifts, whereas SFT agents’ AES collapse near zero, indicating distinct robustness profiles."
-          },
-          {
-            "title": "PAFT Intervention Evaluation",
-            "detail": "PAFT is applied to SFT agents by augmenting training data with controlled noise. Results show improved robustness and utility in open environments, partially restoring generalization lost due to symbolic anchoring."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Performance Degradation under Open-World Shifts",
-            "detail": "Both SFT and RL agents experience significant performance drops when exposed to distributional shifts in queries, tools, interactions, and domains, confirming the fragility of static training assumptions."
-          },
-          {
-            "title": "Distinct Failure Modes for SFT and RL",
-            "detail": "SFT agents suffer from trajectory overfitting and symbolic anchoring, leading to brittle tool invocation, while RL agents show boundary blindness due to reward teleology, limiting their semantic adaptability."
-          },
-          {
-            "title": "RL Agents’ Superior Active Exploration",
-            "detail": "Under tool redirection and value redirection perturbations, RL agents maintain high Active Exploration Scores (>0.86), indicating better adaptability compared to SFT agents whose scores collapse near zero."
-          },
-          {
-            "title": "Effectiveness of Perturbation-Augmented Fine-Tuning",
-            "detail": "PAFT improves SFT agents’ robustness by injecting controlled noise during training, mitigating symbolic anchoring and enhancing generalization to open-world shifts."
-          }
-        ],
-        "contributions": [
-          "Formalization of the OpenAgent problem setting capturing multi-dimensional distributional shifts in tool-use environments.",
-          "Development of a controlled sandbox environment with a four-tier hierarchy for systematic evaluation of agent robustness.",
-          "Identification of critical failure modes: symbolic anchoring in SFT and boundary blindness in RL.",
-          "Proposal of Perturbation-Augmented Fine-Tuning (PAFT) as a data-centric method to enhance SFT robustness.",
-          "Comprehensive empirical analysis comparing SFT and RL paradigms under open-world perturbations."
-        ],
-        "limitations": [
-          "Evaluation is limited to a synthetic sandbox environment, which may not fully capture complexities of real-world tool-use scenarios.",
-          "PAFT’s effectiveness is demonstrated only on SFT agents and not extended to RL or hybrid paradigms.",
-          "The study does not explore scalability of PAFT to larger models or diverse tool sets beyond the tested tasks.",
-          "No direct evidence is provided on long-term deployment stability or user-centric metrics in open environments."
-        ],
-        "open_questions": [
-          "How can PAFT or similar disturbance-based methods be integrated with RL or hybrid training paradigms to improve robustness?",
-          "What are the scalability limits of PAFT when applied to larger LLMs and more complex, heterogeneous tool ecosystems?",
-          "Can the four-tier hierarchy of environmental shifts be extended or refined to better model real-world deployment dynamics?",
-          "How do these findings translate to real-world APIs and user interactions with noisy, evolving tool sets?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "robustness",
-          "perturbation",
-          "fine-tuning",
-          "training"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-02T12:21:00.110067+00:00"
-    },
-    {
-      "id": "2606.29863",
-      "title": "KbSD: Knowledge Boundary aware Self-Distillation for Behavioral Calibration in Agentic Search",
-      "abstract": "Agentic search equips large language models with dynamic retrieval abilities, but existing reinforcement learning methods remain limited by reward sparsity in knowledge boundary calibration -- deciding when to trust parametric memory, when to rely on retrieved evidence, and when to abstain. Binary rewards can penalize undesirable outcomes, but provide little guidance on the reasoning process required to make calibrated decisions across different knowledge states. To address this, we propose KbSD (Knowledge boundary Self-Distillation), a framework that tackles this limitation through dense token-level supervision, outcome-level sparse rewards, and quadrant-adaptive optimization. KbSD constructs a hint-augmented teacher, architecturally identical to the student, that receives explicit knowledge boundary signals -- including parametric certainty, retrieval quality, and ground-truth answers -- to generate calibrated reasoning demonstrations. This information-asymmetric self-distillation enables dense supervision without requiring a larger external model. To further account for the heterogeneous reasoning distributions across knowledge states, we introduce a quadrant-adaptive distillation objective: reverse KL for concentrated integration, forward KL for diverse refusal, and Pareto-optimal bidirectional KL for asymmetric quadrants requiring both precision and coverage. Experiments on multiple benchmarks show that KbSD consistently improves both task accuracy and hallucination mitigation over strong baselines, with the largest gains appearing in the challenging quadrants where sparse rewards are least informative.",
-      "authors": [
-        "Tao Feng",
-        "Xinke Jiang",
-        "Chao Wu"
-      ],
-      "published": "2026-06-29T06:56:18Z",
-      "updated": "2026-06-29T06:56:18Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2606.29863v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.29863v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "watch",
-          "score": 0.5651,
-          "matched": [
-            "self-distillation",
-            "token-level",
-            "distillation",
-            "self-distillation"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3291,
-          "matched": [
-            "calibration",
-            "hallucination"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5718,
-        "relevance": 0.5179,
-        "quality": 0.59,
-        "novelty": 0.8316,
-        "freshness": 0.6794
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "benchmark evaluation",
-        "experiments",
-        "formal bound"
-      ],
-      "summary": {
-        "takeaway": "KbSD introduces a quadrant-adaptive self-distillation framework that provides dense token-level supervision and tailored KL divergence objectives to improve knowledge boundary calibration in agentic search.",
-        "problem": "Existing reinforcement learning methods for agentic search suffer from sparse binary rewards that inadequately guide the reasoning process for calibrated decisions across heterogeneous knowledge states.",
-        "method": "KbSD constructs a hint-augmented teacher model identical to the student that receives explicit knowledge boundary signals to generate dense reasoning demonstrations and applies quadrant-adaptive KL objectives for optimized distillation.",
-        "evidence": "Experiments on nine benchmarks with Qwen2.5 models show KbSD consistently reduces unreliability rates and improves task accuracy and hallucination mitigation compared to strong baselines including KbPO and RL-based agents.",
-        "limitations": "The paper does not provide detailed analysis on computational overhead or generalization beyond the tested benchmarks and model scales.",
-        "why_for_you": "KbSD’s approach to dense process-level supervision and quadrant-specific optimization offers a novel solution to reward sparsity and heterogeneous reasoning distributions in trustworthy agentic LLMs.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "KbSD achieves an absolute reduction of approximately 17 points in unreliability rate on Qwen2.5-3B and 7B models compared to KbPO, demonstrating improved behavioral calibration across knowledge boundary quadrants."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The quadrant-adaptive distillation objective applies reverse KL divergence for concentrated integration in Quadrant 1, forward KL for diverse refusal in Quadrant 3, and bidirectional KL for asymmetric quadrants 2 and 4, enabling tailored optimization per knowledge state."
-          },
-          {
-            "icon": "📉",
-            "text": "Ablation studies show that removing the distillation loss or replacing quadrant-adaptive KL with fixed KL variants degrades performance, confirming the necessity of dense supervision and adaptive divergence measures for effective calibration."
-          }
-        ],
-        "overview": "The paper addresses the challenge of reward sparsity in agentic search systems where large language models must decide when to trust internal parametric memory, rely on retrieved evidence, or abstain from answering. Traditional binary rewards provide insufficient guidance on the intermediate reasoning steps necessary for calibrated decisions across four knowledge boundary quadrants defined by internal certainty and retrieval quality. KbSD proposes a self-distillation framework that constructs a hint-augmented teacher model receiving explicit knowledge boundary signals to generate dense token-level supervision. This dense supervision complements sparse outcome-level rewards and is optimized with quadrant-adaptive KL divergence objectives tailored to the heterogeneous reasoning distributions of each quadrant. Experiments on nine diverse benchmarks using Qwen2.5 models demonstrate that KbSD consistently lowers unreliability rates and improves task accuracy and hallucination mitigation compared to strong baselines, especially in challenging quadrants where sparse rewards are least informative. Ablations validate the importance of dense supervision and adaptive KL objectives, establishing KbSD as an effective method for behavioral calibration in agentic search.",
-        "methodology": [
-          {
-            "title": "Hint-Augmented Teacher Construction",
-            "detail": "KbSD builds a teacher model architecturally identical to the student that receives explicit knowledge boundary signals including parametric certainty, retrieval quality, and ground-truth answers. This teacher generates calibrated reasoning demonstrations providing dense token-level supervision to the student without requiring a larger external model."
-          },
-          {
-            "title": "Quadrant-Adaptive Distillation Objective",
-            "detail": "The distillation loss applies different KL divergence measures per knowledge quadrant: reverse KL for concentrated, unimodal integration in Quadrant 1; forward KL for diverse refusal behavior in Quadrant 3; and Pareto-optimal bidirectional KL for asymmetric quadrants 2 and 4 requiring both precision and coverage."
-          },
-          {
-            "title": "Integration of Dense Supervision and Sparse Rewards",
-            "detail": "KbSD combines dense token-level supervision from the teacher with sparse outcome-level rewards to guide the agent’s reasoning process and behavior selection during multi-turn agentic search, addressing reward sparsity at the process level."
-          },
-          {
-            "title": "Training Setup and Optimization",
-            "detail": "Training uses the VERL framework with GRPO optimizer, generating multiple rollouts per query. Hyperparameters include learning rate 1e-6, KL coefficient 0.001, process reward weight 0.2, and distillation weight 0.1. Knowledge boundary thresholds are set to 0.5 and 0.6 for parametric certainty and retrieval quality."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "No Explicit Mechanism Equations Provided",
-            "detail": "The paper does not present formal equations or causal models for the knowledge boundary calibration mechanism but describes the quadrant taxonomy and adaptive KL objectives conceptually."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Datasets and Benchmarks",
-            "detail": "Training data is synthesized from HotpotQA and 2WikiMultiHopQA. Evaluation spans nine benchmarks across multi-hop QA, open-domain QA, and agentic reasoning categories, including HotpotQA, TriviaQA, NQ, GAIA, and FRAMES."
-          },
-          {
-            "title": "Models and Retrieval",
-            "detail": "Experiments use Qwen2.5 backbone models at 3B and 7B parameter scales. Retrieval is performed with the E5 dense retriever over the 2018 Wikipedia dump, retrieving top-3 passages per query."
-          },
-          {
-            "title": "Baselines and Metrics",
-            "detail": "Comparisons include standard RAG methods (Naive RAG, FS-RAG, FLARE), agentic RAG methods (ReAct, IRCoT, Self-RAG, CRAG), and RL-based agents (Search-R1, ARPO, AEPO, MEM1, KbPO). Metrics are F1 for task utility and unreliability rate (1 - (F1 + refusal rate)) for unsafe behaviors."
-          },
-          {
-            "title": "Ablation Studies",
-            "detail": "Ablations on Qwen2.5-3B analyze the impact of removing distillation loss and replacing quadrant-adaptive KL with fixed KL variants, demonstrating performance degradation and validating the design choices."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Improved Reliability Across Scales",
-            "detail": "KbSD reduces unreliability rate from 64.32 to 47.60 on Qwen2.5-3B and from 57.99 to 41.18 on Qwen2.5-7B compared to KbPO, showing consistent gains with larger model capacity."
-          },
-          {
-            "title": "Superior Calibration on Challenging Quadrants",
-            "detail": "KbSD achieves the largest performance improvements on benchmarks requiring precise knowledge boundary calibration, such as TriviaQA and NQ, outperforming Search-R1 and AEPO."
-          },
-          {
-            "title": "Necessity of Dense Supervision",
-            "detail": "Removing the distillation loss leads to performance drops across all benchmarks, confirming that dense token-level supervision is essential for guiding the reasoning process."
-          },
-          {
-            "title": "Effectiveness of Quadrant-Adaptive KL",
-            "detail": "Replacing quadrant-adaptive KL with fixed forward or reverse KL harms performance, especially on benchmarks requiring diverse refusal or concentrated integration, validating the adaptive divergence approach."
-          },
-          {
-            "title": "Balanced Quadrant Rebalancing",
-            "detail": "Proper calibration between the four quadrants reduces unreliability rates, avoiding hallucination from over-rewarding internal answers and loss of helpfulness from over-rewarding refusal."
-          }
-        ],
-        "contributions": [
-          "Proposed KbSD, a self-distillation framework with a hint-augmented teacher for dense token-level supervision in agentic search.",
-          "Introduced a quadrant-adaptive KL divergence objective tailored to heterogeneous reasoning distributions across knowledge boundary quadrants.",
-          "Demonstrated consistent improvements in task accuracy and hallucination mitigation over strong baselines on nine diverse benchmarks.",
-          "Validated the necessity of dense supervision and adaptive divergence through comprehensive ablation studies."
-        ],
-        "limitations": [
-          "Lack of analysis on computational cost and efficiency of the self-distillation framework.",
-          "No exploration of generalization to other model architectures beyond Qwen2.5 or to retrieval systems beyond E5.",
-          "Absence of formal mechanistic or theoretical modeling of the knowledge boundary calibration process.",
-          "Limited discussion on the impact of hyperparameter sensitivity or robustness across different task domains."
-        ],
-        "open_questions": [
-          "How does KbSD scale computationally and perform in real-time or resource-constrained agentic search applications?",
-          "Can the quadrant-adaptive distillation approach generalize to other LLM architectures or retrieval paradigms?",
-          "What are the theoretical guarantees or limitations of using KL divergence variants for heterogeneous reasoning distributions?",
-          "How can the framework be extended to incorporate richer knowledge boundary signals or multi-modal evidence?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "On-policy distillation",
-        "matched": [
-          "self-distillation",
-          "token-level",
-          "distillation",
-          "self-distillation"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-01T12:47:45.211812+00:00"
-    },
-    {
-      "id": "2606.31801",
-      "title": "RAISE: LLM-based Automated Heuristic Design with Robust Adversary Instance Search",
-      "abstract": "Automated Heuristic Design (AHD) with Large Language Models (LLMs) has shown remarkable progress in discovering high-quality heuristics. However, existing LLM-based AHD methods optimize heuristics for a fixed training instance set and may fail catastrophically when deployed under real-world distributional shifts. We propose Robust Adversary Instance Search (RAISE), a framework that integrates constrained worst-case instance search within a principled neighborhood of the training distribution into the LLM-based evolutionary search loop. RAISE treats robust AHD as a constrained adversarial instance search problem: the outer loop evolves heuristics via LLM operators, while an LLM-free inner loop efficiently identifies hard instances within an epsilon-ball around the training instance set using a basis distribution parameterization with boundary projection. Comprehensive experiments on Online Bin Packing (OBP), Online Job Shop Scheduling (OJSP), and Online Vehicle Routing (OVRP) across five distribution families demonstrate that existing LLM-based AHD methods degrade by up to 19 times under distribution shift, while RAISE consistently maintains strong performance across all tested distributions and problem scales",
-      "authors": [
-        "Fei Liu",
-        "Alessio Figalli",
-        "Patrick Owen",
-        "Nicola Serra"
-      ],
-      "published": "2026-06-30T15:19:27Z",
-      "updated": "2026-06-30T15:19:27Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2606.31801v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.31801v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.7617,
-          "matched": [
-            "adversarial",
-            "robust",
-            "training"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.627,
-        "relevance": 0.6094,
-        "quality": 0.53,
-        "novelty": 0.8135,
-        "freshness": 0.8722
-      },
-      "quality_signals": [
-        "experiments",
-        "formal bound",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "RAISE integrates constrained adversarial instance search into LLM-based evolutionary heuristic design, achieving robust performance under distributional shifts across multiple online optimization problems.",
-        "problem": "Existing LLM-based Automated Heuristic Design methods optimize heuristics on fixed training instance sets and fail catastrophically under real-world distributional shifts.",
-        "method": "RAISE formulates robust heuristic design as a constrained minimax problem with an outer LLM-driven heuristic evolution loop and an inner LLM-free adversarial instance search within an ε-ball around the training distribution.",
-        "evidence": "Experiments on Online Bin Packing, Job Shop Scheduling, and Vehicle Routing show RAISE maintains strong performance across five distribution families and problem scales, while existing methods degrade by up to 19× under distribution shift.",
-        "limitations": "The paper does not provide explicit computational cost comparisons or detailed analysis of RAISE’s scalability to very large problem instances beyond tested scales.",
-        "why_for_you": "RAISE offers a principled and efficient framework to improve robustness of LLM-based heuristic design against distributional uncertainty, addressing a critical gap in deploying learned heuristics in dynamic real-world environments.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "RAISE achieves an average waste ratio of 1.95% on Online Bin Packing under distributional shifts, outperforming state-of-the-art LLM-based methods like EoH-S (2.13%) and MoH (3.86%), demonstrating superior robustness."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The inner adversarial instance search uses a nine-basis distribution parameterization with boundary projection to efficiently identify worst-case instances within an ε-ball, ensuring controlled divergence from the nominal training distribution."
-          },
-          {
-            "icon": "📉",
-            "text": "Ablation studies show removing the ε-mapping boundary projection causes catastrophic degradation (waste ratio rising from 1.95% to 7.16%), confirming the necessity of constrained adversarial search for robust heuristic evolution."
-          }
-        ],
-        "overview": "The paper addresses the brittleness of LLM-based Automated Heuristic Design (AHD) methods that optimize heuristics on fixed training distributions but fail under distributional shifts common in real-world deployment. RAISE proposes a bi-level evolutionary framework where the outer loop uses LLM operators to evolve heuristics, and the inner loop performs an LLM-free adversarial instance search constrained within an ε-ball around the nominal training instances. This constrained search identifies hard instances that expose heuristic weaknesses without drifting into unrealistic distributions. The approach is validated on three online combinatorial optimization problems—Online Bin Packing, Job Shop Scheduling, and Vehicle Routing—across five distinct distribution families and multiple problem scales. Results show that existing LLM-based AHD methods degrade up to 19× under distribution shifts, whereas RAISE consistently maintains strong performance. Ablations confirm the critical role of the ε-ball constraint, basis distribution parameterization, and boundary projection in achieving robustness. Thus, RAISE effectively balances worst-case robustness and nominal performance, enabling reliable heuristic design under uncertainty.",
-        "methodology": [
-          {
-            "title": "Outer Loop: LLM-driven Heuristic Evolution",
-            "detail": "Uses Large Language Models as evolutionary operators to generate, recombine, and refine heuristic functions iteratively. The population of heuristics is evolved by exploration (diversity generation) and exploitation (refinement and combination), guided by performance evaluations on instance sets."
-          },
-          {
-            "title": "Inner Loop: Adversarial Instance Search",
-            "detail": "An LLM-free optimization that searches for worst-case problem instances within an ε-ball around the nominal training set. It uses a nine-basis distribution parameterization and boundary projection to efficiently generate hard instances that challenge heuristics without exceeding distributional constraints."
-          },
-          {
-            "title": "Distributional Robustness Formulation",
-            "detail": "Formulates heuristic design as a constrained minimax optimization: maximize heuristic performance against the worst-case instance within a constrained uncertainty set defined by normalized ℓ1 distance between instances, approximating distributional robustness at the instance level."
-          },
-          {
-            "title": "Basis Distribution Parameterization and Boundary Projection",
-            "detail": "Represents adversarial instances as mixtures of nine basis distributions parameterized by a gene vector in [0,1]^18, with boundary projection ensuring generated instances remain within the ε-ball, preventing over-optimization on unrealistic extremes."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Constrained Adversarial Instance Search Mechanism",
-            "detail": "RAISE’s inner loop solves a constrained minimization problem to find the hardest instance s′ within an ε-ball around nominal instances S, defined by normalized ℓ1 distance. This ensures adversarial instances are close to the training distribution, balancing robustness and practical relevance."
-          },
-          {
-            "title": "No Explicit Theoretical Equations Beyond Instance-Level Robustness",
-            "detail": "The paper does not provide explicit equations beyond the instance-level robust optimization formulation h* = arg max_h min_{s' ∈ B_ε(S)} eval(h, s'), nor detailed causal or geometric claims."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Online Bin Packing (OBP)",
-            "detail": "Trained on 5 Weibull instances; tested on 60 datasets combining 4 bin capacities, 3 problem sizes, and 5 item size distributions (Uniform, Normal, Lognormal, Exponential, Triangular). Performance measured by waste ratio (%), lower is better."
-          },
-          {
-            "title": "Online Job Shop Scheduling (OJSP)",
-            "detail": "Trained on 5 uniform distribution instances with 10 machines and 20 jobs; tested on 20 datasets varying machines (10, 20), jobs (20, 50), and 5 distributions. Objective is normalized makespan minimization."
-          },
-          {
-            "title": "Online Vehicle Routing Problem (OVRP)",
-            "detail": "Trained on 5 instances with 10 vehicles and 50 customers; tested on 20 datasets varying vehicles (10, 20), customers (50, 100), and 5 demand distributions. Objective is normalized route length ratio minimization."
-          },
-          {
-            "title": "Ablation Study on OBP",
-            "detail": "Evaluated impact of removing robust search, distribution constraints, basis distributions, and ε-mapping. Each removal consistently degraded out-of-distribution robustness, with ε-mapping removal causing catastrophic performance loss."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Robustness Under Distribution Shift",
-            "detail": "RAISE maintains low waste ratios (e.g., 1.95% average on OBP) across five shifted distributions, outperforming prior LLM-based AHD methods that degrade up to 19×, confirming effectiveness of constrained adversarial instance search."
-          },
-          {
-            "title": "Critical Role of ε-Mapping",
-            "detail": "Removing the ε-ball boundary projection increases average waste ratio by +4.01 (205%) and causes catastrophic degradation on Triangular distribution (2.43% to 10.23%), demonstrating the necessity of constraining adversarial search."
-          },
-          {
-            "title": "Importance of Basis Distribution Parameterization",
-            "detail": "Replacing the nine-basis parameterization with flat-vector mutation doubles average waste ratio (+2.03, 104%), indicating that structured distributional diversity is essential to expose hard instances effectively."
-          },
-          {
-            "title": "Necessity of Robust Search Procedure",
-            "detail": "Ablating the adversarial inner loop entirely degrades average performance by +1.65 (85%), confirming that worst-case evaluation during heuristic evolution is critical for cross-distribution reliability."
-          }
-        ],
-        "contributions": [
-          "Formulation of robust Automated Heuristic Design as a constrained minimax optimization integrating adversarial instance search within an ε-ball uncertainty set.",
-          "Development of a bi-level evolutionary framework combining LLM-driven heuristic evolution with an LLM-free adversarial instance search using basis distribution parameterization and boundary projection.",
-          "Comprehensive empirical validation on three online combinatorial optimization problems across multiple distributions and scales, demonstrating superior robustness compared to state-of-the-art LLM-based AHD methods.",
-          "Ablation studies identifying critical components (ε-mapping, basis distributions, robust search) necessary for robust performance under distributional shifts."
-        ],
-        "limitations": [
-          "Lack of explicit computational cost and scalability analysis for RAISE compared to competing methods.",
-          "Experiments limited to three online optimization problems; generalization to other problem domains remains untested.",
-          "Dependence on normalized ℓ1 distance as the instance similarity metric without exploration of alternative metrics or their impact.",
-          "No theoretical guarantees or formal bounds on robustness or convergence properties of the proposed framework."
-        ],
-        "open_questions": [
-          "How does RAISE scale computationally and performance-wise to very large-scale or high-dimensional optimization problems?",
-          "Can alternative instance similarity metrics or uncertainty set definitions improve robustness or efficiency of adversarial instance search?",
-          "What are the theoretical convergence properties and robustness guarantees of the bi-level evolutionary framework?",
-          "How transferable is RAISE to other heuristic design tasks beyond the tested online combinatorial optimization problems?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "adversarial",
-          "robust",
-          "training"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-01T12:47:45.211812+00:00"
-    },
-    {
-      "id": "2606.30704",
-      "title": "From Search to Synthesis: Training LLMs as Zero-Shot Workflow Generators",
-      "abstract": "Large language models (LLMs) excel across a wide range of tasks, yet their instance-specific solutions often lack the structural consistency needed for reliable deployment. Workflows that encode recurring algorithmic patterns at the task level provide a principled framework, offering robustness across instance variations, interpretable traces for debugging, and reusability across problem instances. However, manually designing such workflows requires significant expertise and effort, limiting their broader application. While automatic workflow generation could address this bottleneck, existing methods either produce instance-specific solutions without learning task-level patterns, or cannot generalize beyond their training configurations. We present MetaFlow, which casts workflow generation as a meta-learning problem: given a task and an operator set, the model learns to compose solution strategies. MetaFlow trains in two stages: supervised fine-tuning on synthetic workflow data, followed by reinforcement learning with verifiable rewards (RLVR) that uses execution feedback across problem instances in the task to improve end-to-end success. The resulting model produces effective workflows for trained tasks and exhibits strong generalization to untrained tasks and novel operator sets. Across benchmarks in question answering, code generation, and mathematical reasoning, MetaFlow achieves performance comparable to state-of-the-art baselines on in-domain tasks with single inference, while demonstrating remarkable zero-shot generalization capabilities on out-of-domain tasks and operator sets.",
-      "authors": [
-        "Gan Luo",
-        "Zihan Qin",
-        "Bin Dong",
-        "Wotao Yin"
-      ],
-      "published": "2026-06-29T14:17:09Z",
-      "updated": "2026-06-29T14:17:09Z",
-      "categories": [
-        "cs.LG",
-        "cs.AI",
-        "cs.CL"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2606.30704v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.30704v1",
-      "comment": "35 pages, 8 figures",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.6099,
-          "matched": [
-            "robustness",
-            "fine-tuning",
-            "training"
-          ]
-        },
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.2914,
-          "matched": [
-            "generalization",
-            "generalization"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.1993,
-          "matched": [
-            "robustness",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6188,
-        "relevance": 0.5861,
-        "quality": 0.61,
-        "novelty": 0.7966,
-        "freshness": 0.7232
-      },
-      "quality_signals": [
-        "code available",
-        "baseline comparison",
-        "benchmark evaluation"
-      ],
-      "summary": {
-        "takeaway": "MetaFlow effectively generates workflows for LLMs, enhancing generalization across tasks.",
-        "problem": "Existing workflow generation methods lack structural consistency and generalization capabilities.",
-        "method": "MetaFlow employs a two-stage training process combining supervised fine-tuning and reinforcement learning with verifiable rewards.",
-        "evidence": "MetaFlow achieves an average accuracy of 78.8, competitive with state-of-the-art methods while requiring single-inference generation.",
-        "limitations": "The model's performance can suffer from syntax errors affecting all test instances due to its task-level generation approach.",
-        "why_for_you": "This research aligns with interests in efficient adversarial training and statistical theory for LLMs.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "MetaFlow demonstrates strong zero-shot generalization capabilities, effectively generating workflows for untrained tasks and novel operator sets, showcasing its adaptability."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The two-stage training process of MetaFlow, involving supervised fine-tuning followed by reinforcement learning with verifiable rewards, enhances workflow generation efficiency."
-          },
-          {
-            "icon": "📉",
-            "text": "MetaFlow's average accuracy of 78.8 is competitive with existing methods, indicating its effectiveness in generating reusable workflows across diverse domains."
-          }
-        ],
-        "overview": "The research addresses the challenge of generating consistent and reusable workflows for LLMs, which often produce instance-specific solutions. MetaFlow reformulates workflow generation as a meta-learning problem, allowing the model to learn from a diverse set of tasks and operator combinations. The two-stage training process, which includes supervised fine-tuning and reinforcement learning with verifiable rewards, enables the model to produce effective workflows that generalize well to untrained tasks. The evidence shows that MetaFlow achieves competitive performance across various benchmarks, validating its approach to automatic workflow generation.",
-        "methodology": [
-          {
-            "title": "Supervised Fine-Tuning (SFT)",
-            "detail": "MetaFlow begins with SFT on a dataset of task-operator pairs and corresponding workflows, teaching the model to generate syntactically correct workflows. This phase ensures that the model can produce well-formed code, setting the stage for effective reinforcement learning."
-          },
-          {
-            "title": "Reinforcement Learning with Verifiable Reward (RLVR)",
-            "detail": "Following SFT, RLVR optimizes workflow effectiveness by generating candidate workflows, executing them, and calculating a reward score based on their success rates. This process refines the model's ability to produce high-performing workflows."
-          },
-          {
-            "title": "Policy Gradient Optimization",
-            "detail": "The RLVR phase employs policy gradient algorithms to update the model's parameters based on the performance of generated workflows. This approach allows for continuous improvement and adaptation to new tasks."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Reward Calculation",
-            "detail": "The reward score for each workflow is computed as the average success rate over multiple instances, guiding the model's learning process and ensuring that it focuses on effective workflow generation."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Benchmark Evaluation",
-            "detail": "MetaFlow was evaluated on question answering (HotpotQA, DROP), code generation (MBPP, HumanEval), and mathematical reasoning (GSM8K, MATH) benchmarks, achieving an average accuracy of 78.8."
-          },
-          {
-            "title": "Comparison with Baselines",
-            "detail": "MetaFlow's performance was compared against manually designed workflows and automated methods like ADAS and AFlow, demonstrating competitive results while requiring only single-inference generation."
-          },
-          {
-            "title": "Zero-Shot Generalization",
-            "detail": "The model exhibited remarkable zero-shot generalization capabilities, successfully solving programming problems with novel operator combinations not seen during training."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Competitive Accuracy",
-            "detail": "MetaFlow achieved an average accuracy of 78.8, closely trailing ScoreFlow's 82.5, indicating its effectiveness in generating workflows."
-          },
-          {
-            "title": "Generalization Across Domains",
-            "detail": "The model demonstrated strong performance across diverse domains, validating its ability to generalize workflows effectively."
-          },
-          {
-            "title": "Impact of Syntax Errors",
-            "detail": "The task-level generation approach led to a 31% failure rate in workflow execution, highlighting the risks associated with syntax errors affecting overall accuracy."
-          }
-        ],
-        "contributions": [
-          "Introduced MetaFlow as a meta-learning approach for workflow generation.",
-          "Demonstrated the effectiveness of a two-stage training process combining supervised fine-tuning and reinforcement learning.",
-          "Validated the model's strong generalization capabilities across various tasks and operator sets."
-        ],
-        "limitations": [
-          "The model's performance is sensitive to syntax errors, which can affect all test instances due to its task-level generation approach.",
-          "The reliance on specific operator sets may limit flexibility in generating workflows for entirely novel tasks."
-        ],
-        "open_questions": [
-          "How can MetaFlow be adapted to improve robustness against syntax errors in workflow generation?",
-          "What additional operator sets could enhance the model's flexibility and generalization capabilities?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4o-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "robustness",
-          "fine-tuning",
-          "training"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-01T12:47:45.211812+00:00"
-    },
-    {
-      "id": "2606.31099",
-      "title": "Seeing Through Multiple Views: Parameter-Efficient Fine-Tuning via Selective Neurons for Consistent Radiology Report Generation",
-      "abstract": "Recent years have seen substantial advances in radiology report generation (RRG), yet existing approaches predominantly adopt direct feature fusion when handling multi-view X-ray images. Such approaches overlook the potential clinical inconsistencies and inaccuracies arising when a single model processes different views, adversely impacting performance and clinical reliability. To this end, we introduce View-PNDF (View-specific Pattern Neuron Detection and Fine-tuning), a parameter-efficient framework that fosters view-consistent report generation from a neuronal perspective. Specifically, View-PNDF comprises: (i) a view-specific neuron detection module identifying neurons responsive to particular views, (ii) a verification module quantifying the existence of these neurons, and (iii) a selective fine-tuning strategy strengthening detected neurons while preserving view-agnostic representations. By updating only view-specific neurons, View-PNDF achieves consistent diagnoses across different views with reduced computational costs. Subsequently, we employ Large Language Models (LLMs) to consolidate the view-specific reports into a complete radiology report. Furthermore, we use traditional Natural Language Generation (NLG) metrics-based assessment on integrated reports for baseline comparison and employ LLM-based assessment (e.g., GPT-4o) on view-specific reports to capture clinical significance. Extensive experiments on two medical RRG benchmarks demonstrate that View-PNDF substantially improves view-specific chest X-ray report generation quality while maintaining robust general-view performance.",
-      "authors": [
-        "Yucheng Chen",
-        "Jinjing Zhu",
-        "Yang Yu",
-        "Yufei Shi",
-        "Hane Naghshbandi",
-        "Jinhua Liu",
-        "Angela S. Koh",
-        "Fang Fen",
-        "Kian Eng Ong",
-        "Si Yong Yeo"
-      ],
-      "published": "2026-06-30T03:48:20Z",
-      "updated": "2026-06-30T03:48:20Z",
-      "categories": [
-        "cs.CV",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CV",
-      "abs_url": "https://arxiv.org/abs/2606.31099v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.31099v1",
-      "comment": "Accepted by MICCAI2026",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.6108,
-          "matched": [
-            "robust",
-            "fine-tuning"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.1971,
-          "matched": [
-            "reliability",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5737,
-        "relevance": 0.5281,
-        "quality": 0.53,
-        "novelty": 0.8433,
-        "freshness": 0.8036
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "benchmark evaluation",
-        "experiments"
-      ],
-      "summary": {
-        "takeaway": "View-PNDF enhances radiology report generation by optimizing view-specific neurons for consistent output across different X-ray views.",
-        "problem": "Existing multi-view radiology report generation methods struggle with inconsistencies due to direct feature fusion.",
-        "method": "View-PNDF employs a neuron detection and fine-tuning strategy to improve report consistency while reducing computational costs.",
-        "evidence": "Experiments on IU-XRay and MIMIC-CXR datasets show that View-PNDF significantly improves report quality, with lateral view scores increasing by up to 4.2 points.",
-        "limitations": "The study does not explore the impact of View-PNDF on other imaging modalities beyond X-rays.",
-        "why_for_you": "This research is relevant for developing efficient and reliable LLMs in medical applications, particularly in adversarial training contexts.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "View-PNDF identifies and fine-tunes less than 5% of neurons, leading to substantial improvements in report generation consistency across different X-ray views."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The framework includes a View-specific Neuron Detection module that identifies neurons critical for specific views, enhancing model interpretability and performance."
-          },
-          {
-            "icon": "📉",
-            "text": "Ablation studies reveal that view-specific neuron deactivation leads to significant performance drops, confirming the importance of targeted neuron optimization."
-          }
-        ],
-        "overview": "The research addresses the challenge of inconsistencies in radiology report generation from multi-view X-ray images. By introducing View-PNDF, the authors propose a novel framework that detects and fine-tunes view-specific neurons, thereby enhancing report consistency and clinical reliability. The strongest evidence comes from extensive experiments on two medical benchmarks, demonstrating significant improvements in report quality while maintaining general performance across views.",
-        "methodology": [
-          {
-            "title": "View-specific Neuron Detection (VND)",
-            "detail": "This module identifies neurons that are responsive to specific X-ray views by measuring their influence on model outputs through perturbation effects."
-          },
-          {
-            "title": "Neuron Verification (VNV)",
-            "detail": "VNV quantifies the existence of identified neurons, ensuring that only those contributing to view-specific patterns are fine-tuned."
-          },
-          {
-            "title": "Neuron Fine-tuning (VNF)",
-            "detail": "This strategy selectively updates the identified neurons while preserving view-agnostic representations, optimizing performance without retraining the entire model."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Neuron Influence Measurement",
-            "detail": "The influence of a neuron is defined as the difference in model output when the neuron is deactivated, allowing for targeted neuron optimization."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Dataset Evaluation",
-            "detail": "The model was evaluated on IU-XRay and MIMIC-CXR datasets, with specific attention to lateral and frontal view performance."
-          },
-          {
-            "title": "NLG Metrics Assessment",
-            "detail": "Integrated reports were assessed using BLEU, METEOR, and ROUGE-L, while view-specific reports were evaluated using LLM-based metrics like GPT-4o."
-          },
-          {
-            "title": "Ablation Studies",
-            "detail": "Ablation studies confirmed the effectiveness of VND and VNF, showing significant performance drops with view-specific neuron deactivation."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Improved Report Quality",
-            "detail": "View-PNDF achieved a BLEU-1 score of 0.510 on IU-XRay, outperforming baseline models consistently across all metrics."
-          },
-          {
-            "title": "Lateral View Performance",
-            "detail": "Lateral view scores improved significantly, with increases of up to 4.2 points on MIMIC-CXR when using View-PNDF."
-          },
-          {
-            "title": "Clinical Validity of LLM Evaluation",
-            "detail": "LLM-based evaluations revealed clear performance differences, highlighting the inadequacy of traditional NLG metrics in capturing clinical nuances."
-          }
-        ],
-        "contributions": [
-          "Introduction of View-PNDF framework for parameter-efficient fine-tuning in radiology report generation.",
-          "Demonstration of neuron-level analysis to address view-specific discrepancies in multi-view imaging.",
-          "Establishment of LLM-based evaluation methods for assessing clinical validity in generated reports."
-        ],
-        "limitations": [
-          "The study does not explore the impact of View-PNDF on other imaging modalities beyond X-rays.",
-          "Limited generalizability of findings to other types of medical report generation tasks."
-        ],
-        "open_questions": [
-          "How can the View-PNDF framework be adapted for other imaging modalities beyond X-rays?",
-          "What are the implications of view-specific neuron optimization on the interpretability of model decisions in clinical settings?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4o-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "robust",
-          "fine-tuning"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-01T12:47:45.211812+00:00"
     }
   ]
 }
