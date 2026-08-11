@@ -1,6 +1,498 @@
 {
-  "generated_at": "2026-08-08T10:50:42.806974+00:00",
+  "generated_at": "2026-08-11T11:04:16.455147+00:00",
   "papers": [
+    {
+      "id": "2608.09551",
+      "title": "Pragmatic Attack Surface: Vulnerabilities of Implicit Context in Large Language Models",
+      "abstract": "In the era of large language models (LLMs), attackers often manipulate natural language to elicit unsafe or harmful outputs, creating a new natural language attack surface unique to LLM-based systems, where attacks directly exploit explicit linguistic cues in user prompts to bypass the safety mechanism of LLMs. However, such attacks can often be mitigated by existing safety alignment algorithms. On the other hand, human language is inherently grounded in pragmatics, necessitating typical context to interpret language, e.g., world knowledge, social norms. However, such contexts are often implicit because they are not directly expressed in human language and are not sufficiently leveraged in safety alignment, creating a fundamental mismatch between human language interpretation and safety alignment approaches. In this paper, we demonstrate that this mismatch exposes vulnerabilities in LLMs. We refer to this vulnerability as the pragmatic attack surface, which can be exploited to achieve high attack success rates. The experimental results demonstrate that our proposed approach outperforms baseline attack methods across various open-source and closed-source models by a substantial margin.",
+      "authors": [
+        "Bocheng Chen",
+        "Han Zi",
+        "Roucheng Ou",
+        "Yawei Liu",
+        "Minyue Chen",
+        "Zimo Qi",
+        "Rongrong Wang",
+        "Guangliang Liu"
+      ],
+      "published": "2026-08-10T12:48:41Z",
+      "updated": "2026-08-10T12:48:41Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.09551v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.09551v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.427,
+          "matched": [
+            "alignment",
+            "safety"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4582,
+        "relevance": 0.3416,
+        "quality": 0.54,
+        "novelty": 0.8474,
+        "freshness": 0.8675,
+        "feedback_adjustment": -0.0083,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "experiments",
+        "open source"
+      ],
+      "summary": {
+        "takeaway": "利用隐含前提的pragmatic attack能够在安全对齐模型上实现几乎完美的攻击成功率。",
+        "problem": "现有安全对齐仅检测显式有害语言，忽视了人类语言中的隐式语用上下文。",
+        "method": "通过两轮提示先让模型推断情境的presupposition，再生成语义不同但语用等价的有害输出。",
+        "evidence": "在BBQ、Hate、PolyGuard等基准上，对Claude Opus等模型的非拒绝率和攻击成功率均显著高于Direct Prompt、ActorAttack和Crescendo。",
+        "limitations": "仅在涉及隐式歧视、刻板印象和隐性仇恨的任务上评估，未探索其他语用现象或更广泛的任务。",
+        "why_for_you": "对可信LLM研究者而言，该工作揭示了新的攻击面并提供了蓝队强化语用推理的研究方向。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🛡️",
+            "text": "提出‘pragmatic attack surface’概念并展示利用暗示推理的高效攻击"
+          },
+          {
+            "icon": "🔧",
+            "text": "两轮提示先抽取隐含前提，再生成语义不同但语用等价的有害输出"
+          },
+          {
+            "icon": "📊",
+            "text": "在BBQ等基准上攻击成功率接近100%，但仅限于隐式歧视等任务"
+          }
+        ],
+        "overview": "本文指出安全对齐模型忽视了语言的隐式语用上下文，定义了pragmatic attack surface，并提出一种两步提示方法：先让模型识别情境的presupposition，随后在该隐式上下文下生成语义多样但语用等价的有害内容。实验在多个公开基准和闭源模型上验证了该攻击的高成功率，同时通过消融实验确认presupposition步骤是关键因素。",
+        "methodology": [
+          {
+            "title": "Presupposition Inference Turn",
+            "detail": "向目标模型询问给定情境背后的隐含前提，以显式化未表达的社会规范或世界知识。"
+          },
+          {
+            "title": "Scenario Generation Turn",
+            "detail": "基于推断出的前提生成满足该前提的具体情境描述，保持语义与原始请求等价。"
+          },
+          {
+            "title": "Harmful Output Turn",
+            "detail": "在构造的情境中请求模型产生有害内容，利用安全机制对显式线索的盲点。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Pragmatic Inference Exploitation",
+            "detail": "通过让模型自行构建隐式上下文，使安全过滤器难以捕捉因缺少显式危害词而产生的有害输出。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Benchmark & Model Setup",
+            "detail": "使用BBQ（500例）、Hate、PolyGuard三套社会危害基准；评估模型包括Claude Opus、其他开源与闭源LLM。基线包括Direct Prompt、ActorAttack、Crescendo，攻击查询由DeepSeek‑v4‑Flash生成。"
+          },
+          {
+            "title": "Metrics",
+            "detail": "报告Non‑Refusal Rate（是否拒绝生成）和AttackSuccess Rate（DeepSeek分类器判断输出是否有害）。"
+          },
+          {
+            "title": "Results",
+            "detail": "在所有模型上，本文方法的Non‑Refusal Rate和AttackSuccess Rate均显著高于基线，尤其在Claude Opus上接近100%成功率。"
+          },
+          {
+            "title": "Ablation",
+            "detail": "去除presupposition回合后，攻击成功率下降，验证该步骤对提升攻击效果至关重要。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "High Success Across Models",
+            "detail": "利用隐式前提的攻击在开源和闭源模型上均实现近乎完美的成功率，表明安全对齐对语用线索的盲点普遍存在。"
+          },
+          {
+            "title": "Presupposition Critical",
+            "detail": "消融实验显示，缺失presupposition回合会显著降低攻击成功率，证明语用推理是核心机制。"
+          }
+        ],
+        "contributions": [
+          "定义并系统化pragmatic attack surface概念",
+          "提出基于presupposition的两轮攻击框架",
+          "在多个基准和模型上展示显著的攻击优势"
+        ],
+        "limitations": [
+          "仅在涉及隐式歧视、刻板印象和隐性仇恨的任务上进行评估",
+          "未研究其他语用现象（如暗示、隐喻、言语行为）的攻击潜力",
+          "未对pragmatic attack surface的特征进行深入分析"
+        ],
+        "open_questions": [
+          "如何利用暗示、隐喻或言语行为等其他语用知识进一步扩展攻击面？",
+          "如何表征并量化模型内部的安全与社会知识先验，以制定更精准的防御策略？",
+          "如何在LLM中嵌入可靠的语用推理能力，使其能够识别并拒绝隐式恶意意图？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment",
+          "safety"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-11T11:04:16.455147+00:00"
+    },
+    {
+      "id": "2608.09885",
+      "title": "SHE: Trajectory-driven Safety Harness Evolution for LLM Agents",
+      "abstract": "The safety of large language model (LLM) agents depends not only on model weights but also on the agent harness that manages context, memory, tools, permissions, and runtime control. Existing safety mechanisms often treat the harness as a fixed deployment artifact, limiting their ability to evolve with emerging risks. Moreover, coupled functions across harness components obscure safety responsibility attribution, making localized evolution difficult. We propose Safety Harness Evolution (SHE), a framework that learns evolving safe boundaries from rollout trajectories. SHE decomposes the harness into four artifacts with explicit safety responsibilities, including the System Prompt, Rule Bank, Safety Memory, and Tool Policy, defining clear functional boundaries for localized evolution. Based on this decomposition, SHE introduces an attribution-guided evolution loop that converts trajectory failures into structured diagnoses, learns artifact-specific boundary refinements, and selects evolved harnesses through safety-utility validation. Experiments on Agent-SafetyBench demonstrate that SHE effectively enhances safety through harness evolution, achieving a 3.1x ASR reduction compared with static SafeHarness, while also improving benign utility. The evolved harness further generalizes to unseen risks on the held-out AgentHarm benchmark and transfers across agent models without additional evolution.",
+      "authors": [
+        "Wanying Qu",
+        "Qinghua Mao",
+        "Yu Li",
+        "Jiyao Liu",
+        "Xin Zhang",
+        "Dadi Guo",
+        "Yanxu Zhu",
+        "Qingyu Liu",
+        "Leitao Yuan",
+        "Xi Lin",
+        "Shanfeng Zhu",
+        "Yanwei Fu",
+        "Jing Shao",
+        "Xia Hu",
+        "Dongrui Liu"
+      ],
+      "published": "2026-08-10T17:35:08Z",
+      "updated": "2026-08-10T17:35:08Z",
+      "categories": [
+        "cs.AI",
+        "cs.CV"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2608.09885v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.09885v1",
+      "comment": "Project: https://github.com/RainbowQTT/SHE",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3619,
+          "matched": [
+            "safety"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.441,
+        "relevance": 0.2895,
+        "quality": 0.6,
+        "novelty": 0.8806,
+        "freshness": 0.8959,
+        "feedback_adjustment": -0.0121,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "experiments",
+        "formal bound",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "SHE通过从执行轨迹学习并局部演化安全套件，实现显著的安全性提升。",
+        "problem": "静态安全套件无法随新风险演化，且组件耦合导致难以定位改进。",
+        "method": "将安全套件拆分为系统提示、规则库、安全记忆、工具策略四个可编辑部件，并通过归因驱动的演化循环从轨迹诊断到局部编辑。",
+        "evidence": "在Agent‑SafetyBench上ASR降低3.1倍，且在AgentHarm上危害分数从19.8%降至9.8%。",
+        "limitations": "仅在离线基准上评估，缺乏真实部署验证。",
+        "why_for_you": "关注LLM安全的你可借鉴其可演化套件设计与归因机制。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🛡️",
+            "text": "提出SHE框架，将安全套件拆解为四个可编辑部件并实现轨迹驱动演化"
+          },
+          {
+            "icon": "🔧",
+            "text": "归因引导的演化循环将失败轨迹诊断为结构化风险并局部编辑对应部件"
+          },
+          {
+            "icon": "📈",
+            "text": "在Agent‑SafetyBench上ASR降低3.1倍，安全率提升但仅在基准测试中验证"
+          }
+        ],
+        "overview": "SHE将LLM代理的安全套件功能解耦为系统提示、规则库、安全记忆和工具策略四个明确责任的可编辑部件。基于归因驱动的演化循环，系统从执行轨迹中诊断风险、路由至对应部件、进行有界编辑，并通过安全‑效用验证挑选最佳套件。实验在Agent‑SafetyBench和AgentHarm两大基准上展示了显著的安全提升与效用保持，且可跨模型迁移。",
+        "methodology": [
+          {
+            "title": "功能解耦的安全套件部件",
+            "detail": "将安全套件拆分为System Prompt、Rule Bank、Safety Memory、Tool Policy四个独立artifact，每个artifact负责特定安全职责并可单独编辑。"
+          },
+          {
+            "title": "归因驱动的演化循环（Algorithm 1）",
+            "detail": "在每轮演化中收集轨迹τ与安全‑效用记录oi，使用RiskRelevant筛选风险案例，生成结构化风险诊断zi并路由至artifact ri，随后执行Edit生成候选Δ，经过ValidEdit和安全‑效用选择后更新Hbest。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "结构化风险诊断与部件路由",
+            "detail": "将每个失败轨迹映射为包含危害域、攻击面、失败模式的风险记录zi，并依据这些维度将诊断路由至最相关的artifact ri，实现定位式改进。"
+          },
+          {
+            "title": "有界编辑与安全‑效用选择",
+            "detail": "编辑仅在指定artifact范围内进行有界修改，随后通过ValidEdit检查合法性，并在安全分数SΩ和效用分数UΩ的约束下挑选接受的候选套件。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "实验设置",
+            "detail": "使用Agent‑SafetyBench（200任务，5种攻击）和AgentHarm（440条有害行为）两套基准；对比无防御、System Prompt、LlamaFirewall、SafeHarness、PROGENT、MemskillSafeHarness等静态与自适应基线；指标包括Clean UBR、ASR、UA、Harm Score、Harm Refusal、Benign NR。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "安全性提升",
+            "detail": "SHE将Agent‑SafetyBench的平均ASR从17.1%降至5.5%（3.1×降低），Clean UBR从25.7%降至19.8%。"
+          },
+          {
+            "title": "效用保持与提升",
+            "detail": "在相同基准上，SHE的平均UA从31.6提升至47.6%。"
+          },
+          {
+            "title": "跨模型与未见风险的泛化",
+            "detail": "在AgentHarm上，演化后套件将Harm Score从19.8%降至9.8%，Harm Refusal提升至86.4%，且无需额外演化即可迁移至其他代理模型。"
+          }
+        ],
+        "contributions": [
+          "提出SHE框架，实现安全套件的轨迹驱动演化",
+          "将套件功能解耦为四个可编辑artifact",
+          "设计归因驱动的演化循环实现局部、可验证的改进",
+          "在两个大规模代理安全基准上实现显著的安全与效用提升"
+        ],
+        "limitations": [
+          "仅在离线基准上评估，缺少真实部署环境的验证",
+          "演化过程依赖大量标注轨迹，未量化数据收集成本"
+        ],
+        "open_questions": [
+          "如何在真实线上系统中持续安全地收集并利用执行轨迹进行演化？",
+          "演化过程中如何防止新引入的安全漏洞或效用退化？",
+          "能否将SHE扩展至多模态或更大规模的LLM代理体系？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "safety"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-11T11:04:16.455147+00:00"
+    },
+    {
+      "id": "2608.09900",
+      "title": "Decoding-Level Taboo: A Diagnostic Stress Test for LLM Robustness",
+      "abstract": "Large language model evaluations typically focus on performance under nominal conditions, creating an illusion of capability where models comfortably walk a narrow, highly optimized generation corridor. In real-world deployments, however, complex system prompts, safety guardrails, and structural constraints continuously force models off this nominal path, driving a divergence between benchmark scores and deployment performance. To address this issue, we introduce Decoding-Level Taboo, a zero-prompt diagnostic stress test that intervenes directly in logit space at runtime, forcing models out of their nominal paths. By dynamically masking primary candidate tokens at word boundaries, Taboo forces machine circumlocution. Evaluating Taboo across several open-weight model families reveals that off-path robustness is heavily influenced by both parameter scale and post-training instruction alignment, with robustness generally improving with model size and alignment. Beyond the results presented in this paper, Taboo provides a novel primitive for generating diverse synthetic datasets, stress-testing runtime safety guardrails, and auditing model reliability prior to real-world deployment.",
+      "authors": [
+        "Tadanobu Chuyo Kamijo",
+        "Ori Rottenstreich",
+        "Javier Conde",
+        "Gonzalo Martínez",
+        "Pedro Reviriego"
+      ],
+      "published": "2026-08-10T17:47:24Z",
+      "updated": "2026-08-10T17:47:24Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.09900v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.09900v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3689,
+          "matched": [
+            "auditing",
+            "alignment",
+            "safety",
+            "reliability"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.423,
+        "relevance": 0.2951,
+        "quality": 0.5,
+        "novelty": 0.8627,
+        "freshness": 0.8971,
+        "feedback_adjustment": -0.0144,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "formal bound",
+        "dataset evidence"
+      ],
+      "summary": {
+        "evidence": "Experiments show 70B Llama-3.1's accuracy jumps from 36% to 75% under Taboo, while 8B shows minimal change (14%→16%).",
+        "limitations": "Limited to English language and standard open-weight architectures; does not explore adaptive masking strategies.",
+        "method": "Decoding-Level Taboo dynamically masks word-initial tokens in logit space to force off-path generation and test robustness.",
+        "problem": "Real-world LLM deployment faces robustness challenges due to continuous off-path constraints not captured by nominal benchmarks.",
+        "takeaway": "Decoding-Level Taboo reveals that LLM robustness under off-path stress depends on model scale and post-training alignment.",
+        "why_for_you": "This aligns with your focus on trustworthy LLMs by providing a rigorous framework to audit model reliability under real-world constraints.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "contributions": [
+          "Novel zero-prompt stress test for LLM robustness",
+          "Systematic analysis of scale-alignment tradeoffs in off-path performance",
+          "Demonstration of formal syntax constraints as hard limits for decoding-level interventions"
+        ],
+        "experiments": [
+          {
+            "detail": "Qwen2.5 (0.5B-72B), Gemma-3, Llama-3 (7-70B), OLMo-2 tested across GSM8K, MMLU, TriviaQA, HumanEval benchmarks.",
+            "title": "Model Suite"
+          },
+          {
+            "detail": "4-bit vs bf16 evaluations show quantization noise within sampling variance, with Qwen2.5-14B-Instruct showing 0.62 vs 0.44 accuracy difference.",
+            "title": "Quantization Analysis"
+          },
+          {
+            "detail": "HumanEval's formal syntax constraints cause near-zero Pass@1 accuracy under Taboo, validating its effectiveness as a stress test.",
+            "title": "Negative Control"
+          }
+        ],
+        "findings": [
+          {
+            "detail": "70B Llama-3.1 shows 36%→75% accuracy under Taboo vs 8B's 14%→16% (Figure 5), demonstrating improved robustness with size.",
+            "title": "Scale Dependency"
+          },
+          {
+            "detail": "Instruct checkpoints absorb more surprisal than base versions in Qwen/OLMo/Gemma but not Llama-3 (Figure 4), suggesting architecture-specific alignment effects.",
+            "title": "Alignment Impact"
+          },
+          {
+            "detail": "HumanEval's Pass@1 drops to 0% under Taboo, while natural language tasks show partial resilience through semantic redundancy.",
+            "title": "Formal Domain Sensitivity"
+          }
+        ],
+        "limitations": [
+          "Limited to English language and standard open-weight architectures",
+          "No exploration of adaptive masking strategies",
+          "Restricted to greedy decoding regime"
+        ],
+        "mechanism": [
+          {
+            "detail": "By blocking preferred word-initial tokens, Taboo forces models to use circumlocution or face structural breakdown in formal domains.",
+            "title": "Decoding Path Disruption"
+          },
+          {
+            "detail": "Larger models and stronger instruction alignment show greater resilience to off-path interventions, particularly in code synthesis tasks.",
+            "title": "Scale-Alignment Tradeoff"
+          }
+        ],
+        "methodology": [
+          {
+            "detail": "Applies −∞ to top-i unnormalized logits at word-initial positions, forcing models to select lower-ranked tokens. Mask width i=1-8 tested.",
+            "title": "Top-i Logit Masking"
+          },
+          {
+            "detail": "Uses tokenizer-specific prefix metadata (e.g., 'Ġ' in BPE) to identify word-initial tokens for masking.",
+            "title": "Word Boundary Detection"
+          },
+          {
+            "detail": "Measures retention rate of correct answers under Taboo vs nominal decoding, focusing on instances solvable under baseline conditions.",
+            "title": "Conditional Retention Metric"
+          }
+        ],
+        "open_questions": [
+          "How to generalize Taboo to multilingual settings with different tokenization schemes?",
+          "Can adaptive masking strategies (e.g., surprisal-based triggers) improve stress testing effectiveness?",
+          "How to adapt this framework for closed-source models and multimodal systems?"
+        ],
+        "overview": "This paper introduces a logit-space stress test (Taboo) that forces LLMs off nominal decoding paths by masking word-initial tokens. Experiments across 7-72B models demonstrate that off-path robustness correlates with scale and instruction alignment, with formal tasks like HumanEval showing extreme sensitivity to word-boundary constraints.",
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "Decoding-Level Taboo (zero-prompt logit mask at word boundaries)"
+          },
+          {
+            "icon": "🔧",
+            "text": "Dynamic Top-i logit masking (i=1-8) forces off-path generation"
+          },
+          {
+            "icon": "📊",
+            "text": "70B Llama-3.1 shows 36%→75% accuracy under Taboo vs 8B's 14%→16%"
+          }
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "auditing",
+          "alignment",
+          "safety",
+          "reliability"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-11T11:04:16.455147+00:00"
+    },
     {
       "id": "2608.05420",
       "title": "Can Open-Weight LLMs Produce Kernel-Verified Coq Proofs? A Pilot Study",
@@ -16410,598 +16902,6 @@
           "data valuation",
           "data quality",
           "data"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-02T12:21:00.110067+00:00"
-    },
-    {
-      "id": "2606.30914",
-      "title": "Beyond Clean Text: Evaluating Encoder and Decoder Robustness for Bangla Event Detection in Noisy Text",
-      "abstract": "Event detection (ED) systems are typically evaluated on clean, curated text, leaving their robustness to real-world noise largely unexplored, particularly for low-resource languages such as Bangla. We introduce a generalized Bangla news event ontology and a benchmark comprising 9,979 annotated sentences across 40 event subtypes, spanning clean news text, real-world Automatic Speech Recognition (ASR) transcripts, and orthographically corrupted text. We systematically evaluate fine-tuned encoder-only models (BanglaBERT and XLM-R) alongside instruction-tuned decoder-only large language models (Llama 3 and Gemma 3). Our results reveal a clear architectural trade-off: encoder models achieve higher performance on clean text but degrade substantially under noise, whereas decoder-only LLMs are markedly more robust, particularly when event triggers are corrupted. We further show that embedding annotation guidelines during instruction tuning establishes a higher performance baseline on noisy text but yields inconsistent reductions in performance degradation across noisy conditions. Finally, model scaling consistently improves the robustness of decoder-only LLMs, while combined training on clean and noisy data serves as an effective regularization strategy that disproportionately benefits encoder architectures, significantly narrowing the robustness gap.",
-      "authors": [
-        "Tanvir Ahmed Sijan",
-        "S. M Golam Rifat",
-        "Nayeemul Islam",
-        "Md. Musfique Anwar"
-      ],
-      "published": "2026-06-29T21:03:32Z",
-      "updated": "2026-06-29T21:03:32Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2606.30914v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.30914v1",
-      "comment": "17 pages, 8 figures",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.7177,
-          "matched": [
-            "robustness",
-            "robust",
-            "training"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.5911,
-          "matched": [
-            "robustness",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6392,
-        "relevance": 0.6924,
-        "quality": 0.69,
-        "novelty": 0.2,
-        "freshness": 0.6233
-      },
-      "quality_signals": [
-        "code available",
-        "baseline comparison",
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Decoder-only large language models exhibit superior robustness to noisy Bangla text in event detection compared to encoder-only models, especially under trigger corruption, with combined training on clean and noisy data narrowing the robustness gap.",
-        "problem": "Event detection systems for Bangla are predominantly evaluated on clean text, lacking robustness assessments under real-world noise such as ASR transcription errors and orthographic corruption.",
-        "method": "The study introduces a generalized Bangla news event ontology and benchmark dataset, systematically evaluates encoder-only (BanglaBERT, XLM-R) and decoder-only (Llama 3, Gemma 3) models under clean, ASR, and simulated orthographic noise, and explores instruction tuning with embedded annotation guidelines and combined training strategies.",
-        "evidence": "Empirical results show encoder models outperform on clean text but degrade significantly under noise, while decoder-only LLMs maintain higher robustness, with model scaling and combined training further improving performance, supported by statistical significance tests such as McNemar’s test.",
-        "limitations": "The paper does not provide detailed ablation on the impact of different noise levels on decoder-only LLMs’ robustness nor extensive analysis on the inconsistency of annotation guideline benefits across noise conditions.",
-        "why_for_you": "This work offers critical insights into architectural trade-offs and training strategies for robust event detection in low-resource languages, directly informing efficient adversarial training and trustworthy LLM deployment under noisy real-world conditions.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Decoder-only LLMs like Llama 3 and Gemma 3 demonstrate markedly stronger robustness to both real-world ASR transcription noise and simulated orthographic noise compared to encoder-only models such as BanglaBERT and XLM-R, especially when event triggers are corrupted."
-          },
-          {
-            "icon": "🛡️",
-            "text": "Instruction tuning with embedded annotation guidelines in code-format prompts establishes a higher baseline performance on noisy text but yields inconsistent reductions in performance degradation across different noisy conditions."
-          },
-          {
-            "icon": "📉",
-            "text": "Combined training on clean and noisy data acts as an effective regularization strategy that disproportionately benefits encoder architectures, significantly narrowing the robustness gap between encoder-only and decoder-only models."
-          }
-        ],
-        "overview": "This paper addresses the underexplored problem of robustness in Bangla event detection systems under real-world noise conditions, including ASR transcription errors and orthographic corruption. The authors develop a generalized news-domain event ontology and release a benchmark dataset of 9,979 annotated sentences spanning clean news text, ASR transcripts, and synthetically corrupted text. They systematically compare encoder-only models (BanglaBERT, XLM-R) and decoder-only LLMs (Llama 3, Gemma 3) across these noisy conditions. The study formulates event detection as token classification for encoders and structured code generation for decoders, employing instruction tuning with and without embedded annotation guidelines. Results reveal a clear architectural trade-off: encoder models excel on clean text but degrade sharply under noise, whereas decoder-only LLMs maintain robustness, particularly when event triggers are corrupted. Model scaling improves decoder robustness, while combined training on clean and noisy data effectively regularizes encoders, narrowing the robustness gap. Statistical significance tests confirm these findings. This comprehensive evaluation highlights the importance of noise-aware training and model selection for robust event detection in low-resource languages.",
-        "methodology": [
-          {
-            "title": "Dataset Construction and Annotation",
-            "detail": "The authors develop a generalized Bangla news event ontology covering 40 event subtypes and annotate 9,979 sentences from clean news text and ASR transcripts, ensuring balanced topic representation and multi-label stratified splits for training, validation, and testing."
-          },
-          {
-            "title": "Model Architectures and Formulations",
-            "detail": "Encoder-only models (BanglaBERT, XLM-R) are fine-tuned for token classification to detect event triggers, while decoder-only LLMs (Llama 3, Gemma 3) are instruction-tuned to perform structured code generation representing event extraction, with prompts optionally embedding annotation guidelines as Python docstrings."
-          },
-          {
-            "title": "Noise Simulation and Evaluation Protocol",
-            "detail": "Orthographic noise is simulated using an error generation algorithm reflecting common Bangla typographical patterns at varying word corruption rates, complemented by real-world ASR transcript noise; models are evaluated on clean, ASR, and orthographically corrupted test sets using exact trigger boundary and event type matching."
-          },
-          {
-            "title": "Instruction Tuning and Negative Sampling",
-            "detail": "Decoder-only LLMs are instruction-tuned with a 1:5 positive-to-negative sampling ratio, where negative samples provide contrastive supervision to suppress hallucinated predictions; two prompting settings are compared: with and without embedded annotation guidelines."
-          },
-          {
-            "title": "Combined Training Strategy",
-            "detail": "Models are trained on either clean data alone or a combined dataset of clean and noisy (ASR) data to assess the impact of joint exposure on robustness, with performance degradation measured across noise conditions."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Architectural Trade-off in Robustness",
-            "detail": "Encoder-only models rely on precise token-level trigger localization, which yields high accuracy on clean text but is vulnerable to lexical corruption; decoder-only LLMs generate structured event representations conditioned on instruction prompts, enabling greater tolerance to noisy inputs and corrupted triggers. No explicit equations or causal models are provided."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Model Evaluation on Clean, ASR, and Orthographic Noise",
-            "detail": "Encoder-only (BanglaBERT, XLM-R) and decoder-only (Llama 3, Gemma 3) models are evaluated on three test sets: Clean Test (news text), ASR Test (real-world transcripts), and Ortho Test (simulated orthographic noise at 10%-40% word corruption rates), using exact match metrics for trigger boundaries and event types."
-          },
-          {
-            "title": "Instruction Tuning Ablation",
-            "detail": "Decoder-only LLMs are instruction-tuned with and without embedded annotation guidelines in prompts to assess their effect on baseline performance and robustness under noise, revealing higher baseline performance but inconsistent robustness improvements."
-          },
-          {
-            "title": "Model Scaling Impact",
-            "detail": "Scaling decoder-only LLMs from 4B to 8B parameters consistently improves robustness to noisy inputs, whereas scaling encoder-only models yields limited robustness gains despite better clean-text performance."
-          },
-          {
-            "title": "Combined Training Effectiveness",
-            "detail": "Training on combined clean and noisy data significantly reduces performance degradation under noise, with disproportionately larger benefits observed for encoder-only models, effectively narrowing the robustness gap with decoder-only LLMs."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Encoder vs Decoder Performance Trade-off",
-            "detail": "Encoder-only models outperform decoder-only LLMs on clean Bangla news text event detection but suffer substantial performance drops under ASR and orthographic noise, while decoder-only LLMs maintain higher accuracy, especially when event triggers are corrupted."
-          },
-          {
-            "title": "Instruction Tuning with Annotation Guidelines",
-            "detail": "Embedding detailed annotation guidelines in instruction tuning prompts raises the baseline performance of decoder-only LLMs on noisy text but does not consistently reduce performance degradation across different noise types."
-          },
-          {
-            "title": "Model Scaling Benefits",
-            "detail": "Increasing decoder-only LLM size from 4B to 8B parameters yields consistent robustness improvements, whereas encoder-only model scaling improves clean-text accuracy but offers limited noise robustness gains."
-          },
-          {
-            "title": "Combined Training as Regularization",
-            "detail": "Joint training on clean and noisy datasets acts as an effective regularizer, significantly mitigating noise-induced performance degradation, with encoder-only models benefiting disproportionately and narrowing the robustness gap with decoder-only LLMs."
-          },
-          {
-            "title": "Statistical Significance of Robustness Differences",
-            "detail": "Pairwise McNemar’s exact tests at 40% word corruption rate confirm that decoder-only LLMs significantly outperform encoder-only models under trigger corruption and context corruption noise conditions."
-          }
-        ],
-        "contributions": [
-          "Development of a generalized Bangla news event ontology and release of a 9,979-sentence benchmark dataset spanning clean, ASR, and orthographically corrupted text.",
-          "Systematic evaluation of encoder-only and decoder-only architectures with varying parameter sizes under multiple noisy conditions for Bangla event detection.",
-          "Application of instruction tuning with embedded annotation guidelines for structured code generation in decoder-only LLMs.",
-          "Comprehensive robustness analysis under real-world ASR noise and simulated orthographic noise, highlighting architectural trade-offs.",
-          "Demonstration that combined training on clean and noisy data effectively regularizes models and narrows robustness gaps."
-        ],
-        "limitations": [
-          "Lack of detailed ablation on the impact of varying noise levels on decoder-only LLM robustness.",
-          "Inconsistent improvements from embedding annotation guidelines during instruction tuning are not fully analyzed or explained.",
-          "Limited exploration of encoder model scaling effects on robustness beyond clean-text performance.",
-          "No explicit mechanistic or causal modeling of robustness differences between architectures."
-        ],
-        "open_questions": [
-          "How can instruction tuning be optimized to consistently improve robustness across diverse noisy conditions in decoder-only LLMs?",
-          "What architectural or training modifications can further enhance encoder model robustness to real-world noise in low-resource languages?",
-          "Can hybrid encoder-decoder architectures leverage the strengths of both paradigms to improve event detection robustness?",
-          "How do different types and degrees of noise interact with model scale and training strategies to affect robustness?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "robustness",
-          "robust",
-          "training"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-02T12:21:00.110067+00:00"
-    },
-    {
-      "id": "2607.00908",
-      "title": "Beyond Activation Alignment:The Alignment-Diversity Tradeoff in Task-Aware LLM Quantization",
-      "abstract": "Mixed-precision quantization (MPQ) has become a key technique for deploying large language models under stringent memory and compute constraints. We first identify a phenomenon that we term the Perplexity Illusion: layers ranked as important by perplexity-based sensitivity show little rank correlation with those that are most influential for complex reasoning performance, with Kendall $τ\\approx 0$ in our analysis. We further reveal an Alignment-Diversity Tradeoff: using only target-task calibration data can degrade post-quantization performance, whereas incorporating general-domain data stabilizes sensitivity estimation and improves robustness across tasks. Based on these observations, we propose TASA (Task-Aware Sensitivity Analysis), a two-level framework that jointly optimizes calibration-data composition and mixed-precision bit allocation. Specifically, TASA searches for a calibration-data mixture using a training-free gradient-trace alignment criterion, and then aggregates perplexity and reasoning-oriented sensitivity signals to guide both inter-layer and intra-layer bit allocation. Experiments on LLaMA-3-8B and Qwen2.5-7B reveal a precision inversion: appropriately allocated 3.5-bit models can match or surpass less task-aware 4-bit baselines. At an average precision of 3.5 bits, TASA matches or outperforms several competitive 4-bit uniform baselines in aggregate accuracy, and improves over the strongest W3 baseline on GSM8K by more than 20 absolute points on LLaMA-3-8B. These results show that calibration-data composition substantially affects task-sensitive quantization, a factor underexplored in prior work.",
-      "authors": [
-        "Fei Wang",
-        "Chao Xue",
-        "Taoran Liu",
-        "Li Shen",
-        "Ye Liu",
-        "ChangXing Ding"
-      ],
-      "published": "2026-07-01T13:12:21Z",
-      "updated": "2026-07-01T13:12:21Z",
-      "categories": [
-        "cs.LG"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2607.00908v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.00908v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.6821,
-          "matched": [
-            "robustness",
-            "alignment",
-            "calibration",
-            "alignment",
-            "llm",
-            "robustness"
-          ]
-        },
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "emerging",
-          "score": 0.4619,
-          "matched": [
-            "data mixture",
-            "data",
-            "mixture"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.2892,
-          "matched": [
-            "robustness",
-            "training"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6866,
-        "relevance": 0.6959,
-        "quality": 0.54,
-        "novelty": 0.8316,
-        "freshness": 0.8622
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "experiments",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Calibration data composition critically influences task-aware mixed-precision quantization, enabling 3.5-bit models to match or surpass 4-bit baselines by jointly optimizing calibration data mixture and bit allocation.",
-        "problem": "Conventional perplexity-based sensitivity and generic calibration data fail to identify and protect reasoning-critical layers in large language models during quantization.",
-        "method": "TASA employs a two-level framework that optimizes calibration-data composition via gradient-trace alignment and aggregates perplexity and reasoning sensitivity signals for inter- and intra-layer mixed-precision bit allocation.",
-        "evidence": "Experiments on LLaMA-3-8B and Qwen2.5-7B show TASA’s 3.5-bit quantized models outperform uniform 4-bit baselines and improve GSM8K accuracy by over 20 absolute points compared to the strongest W3 baseline.",
-        "limitations": "The paper does not provide detailed analysis on the computational overhead of the calibration data mixture search or the generalization of TASA to tasks beyond reasoning benchmarks.",
-        "why_for_you": "TASA addresses the critical gap in trustworthy LLM quantization by aligning calibration data and sensitivity metrics with downstream reasoning tasks, improving robustness and efficiency.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "The Perplexity Illusion reveals near-zero Kendall τ correlation between layers ranked by perplexity sensitivity and those critical for reasoning tasks, indicating conventional PPL-based sensitivity misidentifies important layers."
-          },
-          {
-            "icon": "🛡️",
-            "text": "TASA’s two-level mixed-precision allocation uses a training-free gradient-trace alignment criterion to optimize calibration data mixture and combines perplexity and reasoning sensitivity signals for bit allocation via integer linear programming."
-          },
-          {
-            "icon": "📉",
-            "text": "Quantitative evaluation shows TASA’s 3.5-bit models match or exceed 4-bit uniform baselines in aggregate accuracy and improve GSM8K performance by more than 20 absolute points on LLaMA-3-8B, demonstrating the impact of calibration data composition."
-          }
-        ],
-        "overview": "This work investigates the limitations of standard mixed-precision quantization (MPQ) pipelines for large language models, which rely on perplexity-based sensitivity and generic calibration data such as WikiText-2. The authors identify the Perplexity Illusion, where perplexity sensitivity rankings do not correlate with layers critical for complex reasoning tasks, undermining effective bit allocation. They further discover an Alignment-Diversity Tradeoff: exclusive use of target-task calibration data degrades quantization performance, whereas mixing general-domain data stabilizes sensitivity estimation and enhances robustness. To address these issues, the authors propose TASA, a two-level framework that first searches for an optimal calibration data mixture using a gradient-trace alignment metric without training, then aggregates perplexity and reasoning-oriented sensitivity signals to guide both inter-layer and intra-layer bit allocation via integer linear programming and group-wise salience scoring. Empirical results on LLaMA-3-8B and Qwen2.5-7B demonstrate that TASA’s 3.5-bit quantized models outperform uniform 4-bit baselines and achieve substantial gains on reasoning benchmarks like GSM8K, validating the importance of calibration data composition and task-aware sensitivity integration for robust LLM quantization.",
-        "methodology": [
-          {
-            "title": "Calibration Data Mixture Search",
-            "detail": "TASA employs a training-free gradient-trace alignment criterion to automatically optimize the composition of calibration data, balancing target-task and general-domain samples to stabilize sensitivity estimation and improve robustness."
-          },
-          {
-            "title": "Multi-Objective Sensitivity Profiling",
-            "detail": "Layer-wise sensitivity is profiled using relative increases in perplexity on WikiText-2 and conditional cross-entropy losses on reasoning tasks GSM8K and ARC-Challenge, producing sensitivity vectors that capture both general and task-specific importance."
-          },
-          {
-            "title": "Inter-Layer Bit Allocation via Integer Linear Programming",
-            "detail": "An integer linear programming formulation minimizes a weighted sum of perplexity and reasoning sensitivity under a global bit-budget constraint, solved efficiently by dynamic programming to produce heterogeneous per-layer bit-width assignments."
-          },
-          {
-            "title": "Intra-Layer Group-Wise Bit Allocation",
-            "detail": "Within each layer, weight groups are ranked by downstream impact using GPTQ with OBS-based salience scoring, enabling fine-grained mixed-precision allocation that exploits residual sensitivity heterogeneity."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Perplexity Illusion",
-            "detail": "The paper identifies that perplexity-based sensitivity rankings have near-zero Kendall τ correlation with reasoning sensitivity rankings, indicating that perplexity is an unreliable proxy for reasoning-critical layer importance in LLM quantization."
-          },
-          {
-            "title": "Alignment-Diversity Tradeoff",
-            "detail": "Using only target-task calibration data maximizes activation alignment but reduces diversity, leading to degraded post-quantization performance; incorporating general-domain data balances alignment and diversity, stabilizing sensitivity estimation."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Evaluation on LLaMA-3-8B and Qwen2.5-7B",
-            "detail": "TASA is evaluated on large-scale LLMs with benchmarks including GSM8K and ARC-Challenge, comparing against uniform 4-bit baselines and state-of-the-art methods like W3 and TACQ, using metrics such as perplexity and conditional cross-entropy loss."
-          },
-          {
-            "title": "Baseline Implementations and Fair Comparison",
-            "detail": "Baselines including GPTQ, AWQ, HQQ, and SliM-LLM are implemented with consistent group size, calibration data, and evaluation protocols to ensure fair comparison with TASA."
-          },
-          {
-            "title": "Ablation of Calibration Data Composition",
-            "detail": "Experiments demonstrate that calibration solely on target-task data degrades performance, while mixed calibration data improves robustness and accuracy, validating the proposed calibration data mixture search."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Perplexity Illusion Confirmed",
-            "detail": "Kendall τ correlation between perplexity sensitivity and reasoning sensitivity is approximately zero, showing that perplexity-based sensitivity fails to identify reasoning-critical layers."
-          },
-          {
-            "title": "Calibration Data Composition Matters",
-            "detail": "Using only target-task calibration data degrades quantization quality, whereas mixing general-domain data stabilizes sensitivity estimation and improves downstream task robustness."
-          },
-          {
-            "title": "TASA Outperforms Uniform Baselines",
-            "detail": "At an average precision of 3.5 bits, TASA matches or surpasses uniform 4-bit baselines in aggregate accuracy and improves GSM8K accuracy by over 20 absolute points on LLaMA-3-8B compared to the strongest W3 baseline."
-          },
-          {
-            "title": "Intra-Layer Allocation Enhances Compression",
-            "detail": "Group-wise mixed-precision allocation within layers further exploits sensitivity heterogeneity, improving compression-quality tradeoffs beyond inter-layer allocation alone."
-          }
-        ],
-        "contributions": [
-          "Identification of the Perplexity Illusion, revealing the disconnect between perplexity sensitivity and reasoning-critical layers in LLM quantization.",
-          "Discovery of the Alignment-Diversity Tradeoff in calibration data composition affecting task-aware quantization robustness.",
-          "Proposal of TASA, a two-level framework jointly optimizing calibration data mixture and mixed-precision bit allocation using gradient-trace alignment and multi-objective sensitivity aggregation.",
-          "Empirical demonstration that 3.5-bit TASA models outperform 4-bit uniform baselines and achieve substantial gains on reasoning benchmarks.",
-          "Integration of inter-layer integer linear programming and intra-layer group-wise allocation to exploit sensitivity heterogeneity."
-        ],
-        "limitations": [
-          "The computational cost and scalability of the calibration data mixture search are not quantified or analyzed in detail.",
-          "Generalization of TASA beyond reasoning tasks and datasets such as GSM8K and ARC-Challenge is not explored.",
-          "The impact of TASA on hardware efficiency and inference latency is not reported.",
-          "Comparisons with some task-specific methods like TACQ are qualitative due to differing evaluation protocols."
-        ],
-        "open_questions": [
-          "How does TASA perform on a broader range of downstream tasks beyond reasoning, such as code generation or commonsense QA?",
-          "Can the calibration data mixture search be further optimized or approximated to reduce computational overhead?",
-          "What are the implications of TASA’s bit allocation on hardware acceleration and energy efficiency in deployment?",
-          "How can the integration of task-specific gradient-based importance methods complement or improve TASA’s calibration-free approach?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "robustness",
-          "alignment",
-          "calibration",
-          "alignment"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-02T12:21:00.110067+00:00"
-    },
-    {
-      "id": "2607.00510",
-      "title": "Prototype Language Models",
-      "abstract": "Knowing which training examples drive outputs is fundamental to auditing, correcting, and understanding language models, yet for modern LLMs this remains expensive, approximate, and largely post-hoc. Standard language models generate tokens through a dense network pathway, causing training data's influence to be distributed across parameters rather than organized along explicit, traceable components. We introduce a prototype language model architecture, Prototypes for Interpretable Sequence Modeling (PRISM), that forms each prediction via a sparse, non-negative mixture of learned prototypes, trained with clustering objectives that anchor each prototype to coherent neighborhoods of training examples. Across architectures from 130M to 1.6B parameters trained on up to 50B tokens, prototype language models either surpass or remain within 2.5 percentage points on average downstream accuracy of matched dense baselines. We show that sparse prototype structure localizes curvature in the loss landscape, yielding a more tractable Hessian and enabling training data attribution that is ~500x faster than post hoc baselines when consuming equivalent memory. Calibrating linear prototype controllers can improve downstream accuracy by roughly 3 points while tracing those corrections back to training neighborhoods, and targeted prototype suppression can remove model behaviors without finetuning or measurable loss in generation quality.",
-      "authors": [
-        "Dan Ley",
-        "Giang Nguyen",
-        "Himabindu Lakkaraju",
-        "Julius Adebayo"
-      ],
-      "published": "2026-07-01T06:45:02Z",
-      "updated": "2026-07-01T06:45:02Z",
-      "categories": [
-        "cs.LG",
-        "stat.ML"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2607.00510v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.00510v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "core",
-          "score": 0.6043,
-          "matched": [
-            "loss landscape",
-            "hessian",
-            "curvature",
-            "landscape",
-            "loss"
-          ]
-        },
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "emerging",
-          "score": 0.5443,
-          "matched": [
-            "influence",
-            "data attribution",
-            "training data",
-            "data",
-            "mixture"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.1121,
-          "matched": [
-            "auditing"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6213,
-        "relevance": 0.6147,
-        "quality": 0.48,
-        "novelty": 0.8452,
-        "freshness": 0.8238
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "PRISM introduces prototype-based sparse mixture modeling in language models, enabling interpretable, efficient training data attribution and controllable generation without sacrificing accuracy.",
-        "problem": "Standard dense language models entangle training data influence across parameters, making training data attribution computationally expensive, approximate, and post hoc.",
-        "method": "PRISM forms each token prediction as a sparse, non-negative mixture of learned prototypes anchored to coherent training data neighborhoods via clustering objectives.",
-        "evidence": "Across models from 130M to 1.6B parameters trained on up to 50B tokens, PRISM matches or slightly trails dense baselines by at most 2.5 percentage points in downstream accuracy while enabling ∼500× faster training data attribution.",
-        "limitations": "The paper notes limitations in sequence and document-level attribution, Hessian-aware model design, deep prototype language models, and retraining with learned attribution objectives.",
-        "why_for_you": "PRISM offers a scalable, interpretable architecture for LLM researchers focused on loss landscape structure, data attribution, and trustworthy model behavior control.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "PRISM’s sparse prototype structure localizes curvature in the loss landscape, yielding a more tractable Hessian that enables training data attribution approximately 500 times faster than post hoc dense parameter methods."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The method uses clustering objectives to anchor each prototype to coherent neighborhoods of training examples, forming a sparse, non-negative mixture that reconstructs next-token logits and supports interpretability and controllability."
-          },
-          {
-            "icon": "📉",
-            "text": "Ablations on TinyStories show removing the prototype path causes a larger increase in cross-entropy loss than removing the residual path, indicating prototypes carry most predictive computation and improve prototype coverage and specificity."
-          }
-        ],
-        "overview": "The paper addresses the challenge of tracing language model outputs back to influential training data, which is difficult in standard dense transformer models due to distributed parameter influence and computationally expensive post hoc attribution methods. PRISM proposes a novel architecture where each token prediction is formed by a sparse, non-negative mixture of learned prototypes, each grounded in clusters of training examples. This design localizes curvature in the loss landscape, making the Hessian more tractable and enabling efficient, cacheable training data attribution in prototype space. Experiments across multiple model scales (130M to 1.6B parameters) and datasets (up to 50B tokens) demonstrate that PRISM matches or slightly trails dense GPT baselines in downstream accuracy while providing interpretable prototype activations. Prototype controllers further improve accuracy by about 3 points and allow tracing corrections back to training neighborhoods. Targeted suppression of prototypes can remove undesirable behaviors without finetuning or quality loss. These results establish PRISM as a scalable, interpretable, and controllable alternative to dense LMs for trustworthy language modeling.",
-        "methodology": [
-          {
-            "title": "Prototype Bank and Sparse Mixture",
-            "detail": "PRISM maintains a prototype bank P ∈ ℝ^{d×K} where each prototype represents a cluster of training examples. At each token prediction, a sparse set of top-k prototypes is activated, and the next-token logits are formed by summing their contributions weighted by non-negative mixture coefficients, enabling interpretability and sparsity."
-          },
-          {
-            "title": "Clustering Objectives",
-            "detail": "Training includes clustering regularizers (R1, R2) that encourage prototypes to anchor to coherent neighborhoods of training data, improving prototype coverage and specificity without degrading cross-entropy loss, as shown by ablations on TinyStories."
-          },
-          {
-            "title": "Cached Influence Scoring in Prototype Space",
-            "detail": "Training data attribution is computed in the low-dimensional prototype space by caching sparse gradients of the prototype channel loss, enabling efficient influence function approximations that scale better than dense parameter methods."
-          },
-          {
-            "title": "Prototype Controllers",
-            "detail": "Linear controllers calibrate prototype activations at inference time to improve downstream accuracy by roughly 3 points and trace corrections back to training neighborhoods, enabling controllable generation without retraining."
-          },
-          {
-            "title": "Targeted Prototype Suppression",
-            "detail": "By downweighting specific prototypes associated with undesirable behaviors, PRISM can suppress those behaviors without finetuning or measurable loss in generation quality, providing a new workflow for model behavior modification."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Localized Curvature in Prototype Space",
-            "detail": "PRISM’s sparse prototype structure localizes curvature in the loss landscape, making the Hessian operator H in prototype space more tractable. Influence scores SH(s→q) are computed as ∇_P L_q(P)^T H^{-1} ∇_P L_s(P), where gradients are sparse and cached, enabling efficient training data attribution."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Scaling and Downstream Evaluation",
-            "detail": "Models from 130M to 1.6B parameters were trained on up to 50B tokens. PRISM was compared to matched dense GPT baselines on zero-shot downstream tasks including HellaSwag, OpenBookQA, WinoGrande, ARC-Easy/Challenge, BoolQ, and PIQA, using LM Evaluation Harness metrics."
-          },
-          {
-            "title": "TinyStories Ablations",
-            "detail": "Ablations on prototype grounding (clustering strength), sparsity (top-k), and prototype bank size (K) showed that clustering improves prototype coverage and specificity with minimal CE loss, top-k controls sparsity and sharpness of active sets, and K controls granularity."
-          },
-          {
-            "title": "Training Data Attribution Efficiency",
-            "detail": "Cached sparse scoring in prototype space enabled training data attribution approximately 500× faster than post hoc dense parameter methods while consuming equivalent memory, validated by influence function computations restricted to active prototypes."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Prototype Path Dominates Predictive Computation",
-            "detail": "Removing the prototype path in TinyStories experiments caused a larger increase in validation cross-entropy than removing the residual path, indicating prototypes carry most of the predictive signal."
-          },
-          {
-            "title": "Clustering Improves Prototype Grounding",
-            "detail": "Standard clustering increased prototype coverage R̄1 from 0.179 to 0.987 and improved weighted rank from 61.6 to 15.4 with negligible CE increase, demonstrating effective grounding of prototypes to training data."
-          },
-          {
-            "title": "Sparse Prototype Activations Enable Interpretability",
-            "detail": "Top-k = 8 sparsity yielded the sharpest active prototype sets and best weighted rank (5.3), showing that sparse mixtures enhance interpretability without harming performance."
-          },
-          {
-            "title": "PRISM Matches Dense Baselines in Accuracy",
-            "detail": "Across scales and datasets, PRISM models either surpassed or remained within 2.5 percentage points of matched dense GPT baselines on average downstream accuracy."
-          },
-          {
-            "title": "Prototype Controllers Improve Accuracy and Traceability",
-            "detail": "Calibrating linear prototype controllers improved downstream accuracy by roughly 3 points and allowed tracing corrections back to training neighborhoods."
-          }
-        ],
-        "contributions": [
-          "Introduction of PRISM, a prototype-based sparse mixture architecture for interpretable sequence modeling.",
-          "Demonstration that prototype structure localizes loss landscape curvature, enabling efficient and scalable training data attribution.",
-          "Empirical validation that PRISM matches dense GPT baselines in downstream accuracy across multiple scales and datasets.",
-          "Development of prototype controllers and targeted suppression techniques for controllable generation without finetuning.",
-          "Provision of an automated interpretability pipeline linking prototypes to coherent training data neighborhoods."
-        ],
-        "limitations": [
-          "Current methods focus on token-level attribution; sequence and document-level attribution remain open challenges.",
-          "Hessian-aware model design is preliminary and requires further development for improved curvature exploitation.",
-          "Deep prototype language models beyond the tested scales are not explored, limiting understanding of scalability.",
-          "Retraining with learned attribution objectives is not addressed, leaving open how to integrate attribution into training."
-        ],
-        "open_questions": [
-          "How can prototype-based attribution be extended effectively to sequence- and document-level explanations?",
-          "What architectural modifications can further improve Hessian tractability and curvature localization in prototype space?",
-          "Can prototype language models scale beyond 1.6B parameters while maintaining interpretability and efficiency?",
-          "How can learned attribution objectives be integrated into training to improve prototype grounding and model behavior?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "loss landscape",
-          "hessian",
-          "curvature",
-          "landscape"
         ],
         "lane": "llm"
       },

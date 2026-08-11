@@ -1,25 +1,28 @@
 {
-  "generated_at": "2026-08-08T10:50:42.806974+00:00",
+  "generated_at": "2026-08-11T11:04:16.455147+00:00",
   "papers": [
     {
-      "id": "2607.28959",
-      "title": "Efficient LLM Adversarial Training via Low-Rank Defense and Circuit-Guided Surrogates",
-      "abstract": "Adversarial training is one of the most effective defenses against adversarial attacks, yet the computational cost remains prohibitive at modern scales, especially for large language models (LLMs). While existing mitigation strategies, e.g., latent adversarial training (LAT), have been developed, they still incur a high computational cost. In this work, we comprehensively investigate computation-efficient strategies to speed up LAT from two complementary perspectives: (1) Defense-side optimization: We explore the representation fine-tuning (ReFT) within LAT, and reveal a potential issue if there is a mismatch on which tokens to apply ReFT and the attack. (2) Attack-side optimization: When computing adversarial attacks in each LAT iteration, we extract only the relevant circuits from the LLM to construct a lightweight surrogate model, avoiding the computation in the forward-backward passes through the full model during the attack generation. For both perspectives, we provide theoretical justifications and numerical evidence to illustrate the effectiveness of the proposed strategies. Ultimately, compared to standard LAT with full fine-tuning, our method on average reduces per-step adversarial-training FLOPs by 48.1% while requiring only 0.0118% trainable parameters.",
+      "id": "2608.09551",
+      "title": "Pragmatic Attack Surface: Vulnerabilities of Implicit Context in Large Language Models",
+      "abstract": "In the era of large language models (LLMs), attackers often manipulate natural language to elicit unsafe or harmful outputs, creating a new natural language attack surface unique to LLM-based systems, where attacks directly exploit explicit linguistic cues in user prompts to bypass the safety mechanism of LLMs. However, such attacks can often be mitigated by existing safety alignment algorithms. On the other hand, human language is inherently grounded in pragmatics, necessitating typical context to interpret language, e.g., world knowledge, social norms. However, such contexts are often implicit because they are not directly expressed in human language and are not sufficiently leveraged in safety alignment, creating a fundamental mismatch between human language interpretation and safety alignment approaches. In this paper, we demonstrate that this mismatch exposes vulnerabilities in LLMs. We refer to this vulnerability as the pragmatic attack surface, which can be exploited to achieve high attack success rates. The experimental results demonstrate that our proposed approach outperforms baseline attack methods across various open-source and closed-source models by a substantial margin.",
       "authors": [
-        "Weiyi He",
-        "Yuping Lin",
-        "Jiliang Tang",
-        "Yue Xing"
+        "Bocheng Chen",
+        "Han Zi",
+        "Roucheng Ou",
+        "Yawei Liu",
+        "Minyue Chen",
+        "Zimo Qi",
+        "Rongrong Wang",
+        "Guangliang Liu"
       ],
-      "published": "2026-07-31T02:26:04Z",
-      "updated": "2026-07-31T02:26:04Z",
+      "published": "2026-08-10T12:48:41Z",
+      "updated": "2026-08-10T12:48:41Z",
       "categories": [
-        "cs.LG",
-        "cs.AI"
+        "cs.CL"
       ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2607.28959v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.28959v1",
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.09551v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.09551v1",
       "comment": "",
       "journal_ref": "",
       "lane": "llm",
@@ -32,129 +35,135 @@
       ],
       "topics": [
         {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.8736,
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.427,
           "matched": [
-            "adversarial training",
-            "adversarial",
-            "attack"
+            "alignment",
+            "safety"
           ]
         }
       ],
       "scores": {
-        "total": 0.6161,
-        "relevance": 0.6989,
-        "quality": 0.41,
-        "novelty": 0.55,
-        "freshness": 0.4973,
-        "feedback_adjustment": -0.0355,
-        "semantic_feedback": 0
+        "total": 0.4582,
+        "relevance": 0.3416,
+        "quality": 0.54,
+        "novelty": 0.8474,
+        "freshness": 0.8675,
+        "feedback_adjustment": -0.0083,
+        "semantic_feedback": 0.0
       },
       "quality_signals": [
-        "quantitative results"
+        "baseline comparison",
+        "experiments",
+        "open source"
       ],
       "summary": {
-        "takeaway": "LAT-ReFT 联合基于 ActGrad 的回路引导代理攻击，在仅训练平均 0.0118% 参数的同时，将每步对抗训练 FLOPs 平均降低 48.1%。",
-        "problem": "标准潜在对抗训练需要更新完整模型并在每轮攻击中反复执行大模型前向与反向传播，计算成本难以扩展到现代 LLM。",
-        "method": "防御侧在被攻击的后缀窗口上施加低秩 ReFT，攻击侧按激活–梯度重要性保留攻击关键 MLP 神经元，用剪枝代理模型生成可迁移扰动。",
-        "evidence": "实验覆盖 IMDB、EnronSpam 和 PasswordMatch；剪枝 25% MLP 神经元约降低 20% 内循环成本，组合方法相对全参数 LAT 平均节省 48.1% FLOPs。",
-        "limitations": "效率提升伴随绝对鲁棒性下降；例如 Llama-3.1-8B 上 GCG 攻击成功率由全参数 LAT 的 0.02 上升到该方法的 0.15。",
-        "why_for_you": "该工作直接对应你对高效 LLM 对抗训练、表示干预与回路级代理攻击的研究方向。",
+        "takeaway": "利用隐含前提的pragmatic attack能够在安全对齐模型上实现几乎完美的攻击成功率。",
+        "problem": "现有安全对齐仅检测显式有害语言，忽视了人类语言中的隐式语用上下文。",
+        "method": "通过两轮提示先让模型推断情境的presupposition，再生成语义不同但语用等价的有害输出。",
+        "evidence": "在BBQ、Hate、PolyGuard等基准上，对Claude Opus等模型的非拒绝率和攻击成功率均显著高于Direct Prompt、ActorAttack和Crescendo。",
+        "limitations": "仅在涉及隐式歧视、刻板印象和隐性仇恨的任务上评估，未探索其他语用现象或更广泛的任务。",
+        "why_for_you": "对可信LLM研究者而言，该工作揭示了新的攻击面并提供了蓝队强化语用推理的研究方向。",
         "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "Codex grounded full-text analysis",
+        "generated_by": "@cf/openai/gpt-oss-120b",
         "language": "zh",
         "schema_version": 2
       },
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "adversarial training",
-          "adversarial",
-          "attack"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-03T14:53:01.040214+00:00",
       "deep_dive": {
         "signals": [
           {
-            "icon": "⚡",
-            "text": "LAT-ReFT 与回路代理联合把每步对抗训练 FLOPs 平均降低 48.1%，仅训练平均 0.0118% 参数。"
+            "icon": "🛡️",
+            "text": "提出‘pragmatic attack surface’概念并展示利用暗示推理的高效攻击"
           },
           {
-            "icon": "🔬",
-            "text": "后缀窗口 ReFT 抑制跨 token 扰动泄漏，ActGrad 则筛出攻击关键 MLP 神经元构造代理模型。"
+            "icon": "🔧",
+            "text": "两轮提示先抽取隐含前提，再生成语义不同但语用等价的有害输出"
           },
           {
-            "icon": "⚠️",
-            "text": "效率并非免费：Llama-3.1-8B 的 GCG ASR 为 0.15，高于全参数 LAT 的 0.02。"
+            "icon": "📊",
+            "text": "在BBQ等基准上攻击成功率接近100%，但仅限于隐式歧视等任务"
           }
         ],
-        "overview": "论文从防御更新和攻击生成两个计算瓶颈改造潜在对抗训练。防御侧冻结主干，只在隐藏表示的低秩子空间训练 LAT-ReFT，并证明只保护最后一个 token 无法阻断更早后缀位置经注意力传播的扰动，因此改为覆盖被攻击的连续后缀窗口。攻击侧用 activation×gradient 分数定位与对抗损失最相关的 MLP 神经元，在剪枝代理模型上运行 PGD，再把扰动迁移到完整防御模型。两部分共同利用早层和中层承载关键行为的结构规律，在明显减少参数更新与内循环计算的同时保留较强鲁棒性。",
+        "overview": "本文指出安全对齐模型忽视了语言的隐式语用上下文，定义了pragmatic attack surface，并提出一种两步提示方法：先让模型识别情境的presupposition，随后在该隐式上下文下生成语义多样但语用等价的有害内容。实验在多个公开基准和闭源模型上验证了该攻击的高成功率，同时通过消融实验确认presupposition步骤是关键因素。",
         "methodology": [
           {
-            "title": "低秩后缀窗口防御",
-            "detail": "LAT-ReFT 冻结模型主干，在攻击层之后的表示层学习低秩 ReFT 算子；干预覆盖完整受攻击后缀窗口，而不是仅修复最后一个 token。"
+            "title": "Presupposition Inference Turn",
+            "detail": "向目标模型询问给定情境背后的隐含前提，以显式化未表达的社会规范或世界知识。"
           },
           {
-            "title": "回路引导代理攻击",
-            "detail": "方法用小型校准集计算 MLP 神经元的 activation×gradient 重要性，全局保留高分神经元，在压缩代理上执行 PGD，并将得到的隐藏状态扰动用于完整模型训练。"
+            "title": "Scenario Generation Turn",
+            "detail": "基于推断出的前提生成满足该前提的具体情境描述，保持语义与原始请求等价。"
+          },
+          {
+            "title": "Harmful Output Turn",
+            "detail": "在构造的情境中请求模型产生有害内容，利用安全机制对显式线索的盲点。"
           }
         ],
         "mechanism": [
           {
-            "title": "为何单 token 防御不足",
-            "detail": "Theorem 1 表明，即使最后一个位置被 ReFT 恢复，较早的受攻击后缀 token 仍可通过 value 路径和注意力权重变化影响最终输出。"
-          },
-          {
-            "title": "窗口防御与代理近似",
-            "detail": "Theorem 2 给出共享 ReFT 在整个后缀窗口控制扰动传播的界；Theorem 3 将代理 PGD 与完整模型的优化差距联系到被剪除神经元的 ActGrad 质量。"
+            "title": "Pragmatic Inference Exploitation",
+            "detail": "通过让模型自行构建隐式上下文，使安全过滤器难以捕捉因缺少显式危害词而产生的有害输出。"
           }
         ],
         "experiments": [
           {
-            "title": "鲁棒性与效率评估",
-            "detail": "在 IMDB、EnronSpam、PasswordMatch 以及多个代表性模型上比较 LAT、R2D2、CAT 等方法，报告干净准确率、RandomToken/GCG ASR、可训练参数比例和每步 FLOPs。"
+            "title": "Benchmark & Model Setup",
+            "detail": "使用BBQ（500例）、Hate、PolyGuard三套社会危害基准；评估模型包括Claude Opus、其他开源与闭源LLM。基线包括Direct Prompt、ActorAttack、Crescendo，攻击查询由DeepSeek‑v4‑Flash生成。"
           },
           {
-            "title": "设计消融",
-            "detail": "实验改变防御后缀长度、ReFT 所在层、代理剪枝比例与神经元选择规则，检验窗口覆盖、早中层干预和 ActGrad 排序的作用。"
+            "title": "Metrics",
+            "detail": "报告Non‑Refusal Rate（是否拒绝生成）和AttackSuccess Rate（DeepSeek分类器判断输出是否有害）。"
+          },
+          {
+            "title": "Results",
+            "detail": "在所有模型上，本文方法的Non‑Refusal Rate和AttackSuccess Rate均显著高于基线，尤其在Claude Opus上接近100%成功率。"
+          },
+          {
+            "title": "Ablation",
+            "detail": "去除presupposition回合后，攻击成功率下降，验证该步骤对提升攻击效果至关重要。"
           }
         ],
         "findings": [
           {
-            "title": "总体计算节省",
-            "detail": "组合方法相对标准全参数 LAT 平均降低 48.1% 每步 FLOPs，可训练参数比例位于 0.0066%–0.0203%，平均为 0.0118%。"
+            "title": "High Success Across Models",
+            "detail": "利用隐式前提的攻击在开源和闭源模型上均实现近乎完美的成功率，表明安全对齐对语用线索的盲点普遍存在。"
           },
           {
-            "title": "代理模型有效性",
-            "detail": "按 ActGrad 剪除 25% MLP 神经元仍能保留攻击相关几何，并将攻击内循环成本降低约 20%；随机剪枝的迁移性更差。"
-          },
-          {
-            "title": "鲁棒性权衡",
-            "detail": "LAT-ReFT 加代理攻击提供较优效率–鲁棒性折中，但绝对鲁棒性仍弱于全参数 LAT；Llama-3.1-8B 上两者 GCG ASR 分别为 0.15 和 0.02。"
+            "title": "Presupposition Critical",
+            "detail": "消融实验显示，缺失presupposition回合会显著降低攻击成功率，证明语用推理是核心机制。"
           }
         ],
         "contributions": [
-          "提出面向 LLM 潜在对抗训练的低秩 LAT-ReFT 防御。",
-          "用 ActGrad 定位攻击关键回路并构造可迁移的剪枝代理攻击。",
-          "以三个理论结果解释后缀窗口防御与代理近似，并量化端到端计算收益。"
+          "定义并系统化pragmatic attack surface概念",
+          "提出基于presupposition的两轮攻击框架",
+          "在多个基准和模型上展示显著的攻击优势"
         ],
         "limitations": [
-          "计算节省以部分绝对鲁棒性为代价，不能视为全参数 LAT 的无损替代。",
-          "主要实验集中在分类任务和 token 级后缀攻击，对更开放的生成任务及其他攻击类型仍需验证。"
+          "仅在涉及隐式歧视、刻板印象和隐性仇恨的任务上进行评估",
+          "未研究其他语用现象（如暗示、隐喻、言语行为）的攻击潜力",
+          "未对pragmatic attack surface的特征进行深入分析"
         ],
         "open_questions": [
-          "能否自适应选择 ReFT 层、窗口长度和秩，在不同模型与攻击上逼近全参数 LAT 的鲁棒性？",
-          "回路代理是否能扩展到离散越狱攻击与长文本生成，同时保持攻击迁移性？"
+          "如何利用暗示、隐喻或言语行为等其他语用知识进一步扩展攻击面？",
+          "如何表征并量化模型内部的安全与社会知识先验，以制定更精准的防御策略？",
+          "如何在LLM中嵌入可靠的语用推理能力，使其能够识别并拒绝隐式恶意意图？"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "Codex grounded full-text analysis",
+        "generated_by": "@cf/openai/gpt-oss-120b",
         "language": "zh",
         "schema_version": 5
-      }
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment",
+          "safety"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-11T11:04:16.455147+00:00"
     },
     {
       "id": "2608.05420",
@@ -979,175 +988,165 @@
       "recommended_at": "2026-08-08T10:50:42.806974+00:00"
     },
     {
-      "id": "2607.29283",
-      "title": "RTLCurator: Label-Efficient Data Curation for RTL Generation",
-      "abstract": "Training large language models (LLMs) to write register-transfer level (RTL) requires large corpora of paired specifications and code, and such data is scarce enough that most public corpora are now synthesized. Synthesis provides scale but not correctness, and in two widely used RTL datasets only 24.4% and 53.5% of pairs pass generated functional tests. This raises the question of how much of such a corpus to keep and which part of it. Correctness alone is a poor answer. A pair that misbehaves in one corner case still shows valid syntax and interface conventions, and complex sequential designs are both harder to generate and harder to validate, so filtering by correctness leaves a corpus of short and simple modules. Correctness is also hard to obtain, since behavior leaves little trace on the surface in RTL, and validating an entire corpus only sorts pairs into passed and failed. We present RTLCurator, which learns a behavior-aware compatibility prior by contrasting each specification with implementations that fail simulation, and calibrates it to a new corpus using a small number of validated pairs. It then constructs the retained subset by balancing alignment, representation coverage, and RTL structural richness. On CodeV and RTLCoder, keeping 80% of the corpus this way improves on training with the full corpus across all reported metrics while validating only 10% of the pool, whereas ranking by the score alone falls below random selection and filtering the whole pool by simulation does no better.",
+      "id": "2608.09885",
+      "title": "SHE: Trajectory-driven Safety Harness Evolution for LLM Agents",
+      "abstract": "The safety of large language model (LLM) agents depends not only on model weights but also on the agent harness that manages context, memory, tools, permissions, and runtime control. Existing safety mechanisms often treat the harness as a fixed deployment artifact, limiting their ability to evolve with emerging risks. Moreover, coupled functions across harness components obscure safety responsibility attribution, making localized evolution difficult. We propose Safety Harness Evolution (SHE), a framework that learns evolving safe boundaries from rollout trajectories. SHE decomposes the harness into four artifacts with explicit safety responsibilities, including the System Prompt, Rule Bank, Safety Memory, and Tool Policy, defining clear functional boundaries for localized evolution. Based on this decomposition, SHE introduces an attribution-guided evolution loop that converts trajectory failures into structured diagnoses, learns artifact-specific boundary refinements, and selects evolved harnesses through safety-utility validation. Experiments on Agent-SafetyBench demonstrate that SHE effectively enhances safety through harness evolution, achieving a 3.1x ASR reduction compared with static SafeHarness, while also improving benign utility. The evolved harness further generalizes to unseen risks on the held-out AgentHarm benchmark and transfers across agent models without additional evolution.",
       "authors": [
-        "Siyang Cai",
-        "Cangyuan Li",
-        "Wenjing Chang",
-        "Kun Wang",
-        "Haoyu Gao",
-        "Yinhe Han",
-        "Ying Wang"
+        "Wanying Qu",
+        "Qinghua Mao",
+        "Yu Li",
+        "Jiyao Liu",
+        "Xin Zhang",
+        "Dadi Guo",
+        "Yanxu Zhu",
+        "Qingyu Liu",
+        "Leitao Yuan",
+        "Xi Lin",
+        "Shanfeng Zhu",
+        "Yanwei Fu",
+        "Jing Shao",
+        "Xia Hu",
+        "Dongrui Liu"
       ],
-      "published": "2026-07-31T10:55:01Z",
-      "updated": "2026-07-31T10:55:01Z",
+      "published": "2026-08-10T17:35:08Z",
+      "updated": "2026-08-10T17:35:08Z",
       "categories": [
-        "cs.AR",
-        "cs.LG"
+        "cs.AI",
+        "cs.CV"
       ],
-      "primary_category": "cs.AR",
-      "abs_url": "https://arxiv.org/abs/2607.29283v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.29283v1",
-      "comment": "",
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2608.09885v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.09885v1",
+      "comment": "Project: https://github.com/RainbowQTT/SHE",
       "journal_ref": "",
       "lane": "llm",
       "scope_matches": [
         "large language model",
-        "large language models",
         "language model",
-        "language models",
-        "llms"
+        "llm"
       ],
       "topics": [
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "emerging",
-          "score": 0.435,
-          "matched": [
-            "data curation",
-            "filtering"
-          ]
-        },
         {
           "id": "trustworthy_llm",
           "name": "Trustworthy LLM",
           "status": "background",
-          "score": 0.0875,
+          "score": 0.3619,
           "matched": [
-            "alignment"
+            "safety"
           ]
         }
       ],
       "scores": {
-        "total": 0.438,
-        "relevance": 0.3655,
-        "quality": 0.59,
-        "novelty": 0.55,
-        "freshness": 0.5478,
-        "feedback_adjustment": -0.0163,
-        "semantic_feedback": 0
+        "total": 0.441,
+        "relevance": 0.2895,
+        "quality": 0.6,
+        "novelty": 0.8806,
+        "freshness": 0.8959,
+        "feedback_adjustment": -0.0121,
+        "semantic_feedback": 0.0
       },
       "quality_signals": [
-        "code available",
-        "dataset evidence",
+        "benchmark evaluation",
+        "experiments",
+        "formal bound",
         "quantitative results"
       ],
       "summary": {
-        "takeaway": "RTLCurator 仅验证目标语料的 10%，保留 80% 数据，就在 CodeV 和 RTLCoder 的全部报告指标上优于使用完整语料训练。",
-        "problem": "合成 specification–RTL 数据规模大但功能正确率低，而仅按仿真通过与否过滤会丢失仍有语法和结构价值的困难样本。",
-        "method": "方法从仿真失败实现中学习行为感知的 specification–RTL 兼容性先验，用少量目标域标签校准后，同时平衡对齐度、表示覆盖和 RTL 结构丰富性。",
-        "evidence": "两个常用数据集仅 24.4% 和 53.5% 配对通过生成测试；RTLCurator 在只标注 10% 池的情况下选择 80% 子集并超过完整语料及匹配预算基线。",
-        "limitations": "结论来自 CodeV、RTLCoder 和现有 RTL 生成评测；行为分数仍需少量目标域验证，且各选择目标的独立贡献尚待进一步拆解。",
-        "why_for_you": "该方法展示了如何用少量功能标签进行 LLM 训练数据选择，并避免把正确性代理直接当作唯一过滤目标。",
+        "takeaway": "SHE通过从执行轨迹学习并局部演化安全套件，实现显著的安全性提升。",
+        "problem": "静态安全套件无法随新风险演化，且组件耦合导致难以定位改进。",
+        "method": "将安全套件拆分为系统提示、规则库、安全记忆、工具策略四个可编辑部件，并通过归因驱动的演化循环从轨迹诊断到局部编辑。",
+        "evidence": "在Agent‑SafetyBench上ASR降低3.1倍，且在AgentHarm上危害分数从19.8%降至9.8%。",
+        "limitations": "仅在离线基准上评估，缺乏真实部署验证。",
+        "why_for_you": "关注LLM安全的你可借鉴其可演化套件设计与归因机制。",
         "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "Codex grounded full-text analysis",
+        "generated_by": "@cf/openai/gpt-oss-120b",
         "language": "zh",
         "schema_version": 2
       },
-      "recommendation_reason": {
-        "topic": "Data selection for LLMs",
-        "matched": [
-          "data curation",
-          "filtering"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-03T14:53:01.040214+00:00",
       "deep_dive": {
         "signals": [
           {
-            "icon": "🗂️",
-            "text": "仅验证 10% 目标池并保留 80% 数据，RTLCurator 即在 CodeV 与 RTLCoder 全部指标上超过完整语料。"
+            "icon": "🛡️",
+            "text": "提出SHE框架，将安全套件拆解为四个可编辑部件并实现轨迹驱动演化"
           },
           {
-            "icon": "⚙️",
-            "text": "先从失败实现学习行为兼容性，再以少量标签校准，并联合优化对齐、覆盖和 RTL 结构丰富性。"
+            "icon": "🔧",
+            "text": "归因引导的演化循环将失败轨迹诊断为结构化风险并局部编辑对应部件"
           },
           {
-            "icon": "⚠️",
-            "text": "只按兼容分数排序低于随机选择；全量仿真过滤也不更好，说明正确性不能单独决定数据价值。"
+            "icon": "📈",
+            "text": "在Agent‑SafetyBench上ASR降低3.1倍，安全率提升但仅在基准测试中验证"
           }
         ],
-        "overview": "RTLCurator 针对合成 RTL 训练对中“规模大但行为错误多”的问题，把功能验证从最终硬过滤规则改成学习信号。模型通过对比一个 specification 与未通过仿真的实现，学习行为感知兼容性；迁移到新语料时只验证少量样本完成校准。最终子集并非简单选最高分，而是在 specification–RTL 对齐、表示空间覆盖和 RTL 结构丰富性之间平衡。结果表明，保留较大但经过结构化选择的语料，比只留通过仿真的简单模块或仅按单一分数排序更适合训练 RTL 生成模型。",
+        "overview": "SHE将LLM代理的安全套件功能解耦为系统提示、规则库、安全记忆和工具策略四个明确责任的可编辑部件。基于归因驱动的演化循环，系统从执行轨迹中诊断风险、路由至对应部件、进行有界编辑，并通过安全‑效用验证挑选最佳套件。实验在Agent‑SafetyBench和AgentHarm两大基准上展示了显著的安全提升与效用保持，且可跨模型迁移。",
         "methodology": [
           {
-            "title": "行为对比预训练",
-            "detail": "编码器利用功能仿真失败实现作为困难负例，学习 specification 与 RTL 行为兼容性的表示，而不是依赖表面文本相似度。"
+            "title": "功能解耦的安全套件部件",
+            "detail": "将安全套件拆分为System Prompt、Rule Bank、Safety Memory、Tool Policy四个独立artifact，每个artifact负责特定安全职责并可单独编辑。"
           },
           {
-            "title": "少标签目标域校准",
-            "detail": "在目标语料中只验证一小部分配对，用这些标签校准兼容性分数；实验采用 10% 验证预算。"
-          },
-          {
-            "title": "多目标子集构造",
-            "detail": "选择策略同时考虑校准后的对齐分数、表示覆盖和 RTL 模块结构丰富性，从而避免高分排序偏向重复或简单样本。"
+            "title": "归因驱动的演化循环（Algorithm 1）",
+            "detail": "在每轮演化中收集轨迹τ与安全‑效用记录oi，使用RiskRelevant筛选风险案例，生成结构化风险诊断zi并路由至artifact ri，随后执行Edit生成候选Δ，经过ValidEdit和安全‑效用选择后更新Hbest。"
           }
         ],
         "mechanism": [
           {
-            "title": "正确性不是唯一效用",
-            "detail": "未通过某个 corner case 的实现仍可能提供有效语法、接口约定和编码风格；硬过滤会系统性偏向更短、更容易验证的组合模块。"
+            "title": "结构化风险诊断与部件路由",
+            "detail": "将每个失败轨迹映射为包含危害域、攻击面、失败模式的风险记录zi，并依据这些维度将诊断路由至最相关的artifact ri，实现定位式改进。"
           },
           {
-            "title": "覆盖与结构补偿",
-            "detail": "表示覆盖减少冗余，结构丰富性保留复杂顺序设计；二者共同抵消单一兼容性分数对简单样本的偏置。"
+            "title": "有界编辑与安全‑效用选择",
+            "detail": "编辑仅在指定artifact范围内进行有界修改，随后通过ValidEdit检查合法性，并在安全分数SΩ和效用分数UΩ的约束下挑选接受的候选套件。"
           }
         ],
         "experiments": [
           {
-            "title": "下游 RTL 生成",
-            "detail": "在 CodeV 和 RTLCoder 上按不同策略选择训练子集，并用 VerilogEval、RTLLM 等指标比较完整语料、随机子集、分数排序和仿真过滤。"
-          },
-          {
-            "title": "检索与校准分析",
-            "detail": "评估跨语料 specification–RTL 检索、目标域标签预算及保留比例；RTLCoder 上前 1% 标签把高低分组接受率差距从 16.8 点扩大到 66.0 点。"
+            "title": "实验设置",
+            "detail": "使用Agent‑SafetyBench（200任务，5种攻击）和AgentHarm（440条有害行为）两套基准；对比无防御、System Prompt、LlamaFirewall、SafeHarness、PROGENT、MemskillSafeHarness等静态与自适应基线；指标包括Clean UBR、ASR、UA、Harm Score、Harm Refusal、Benign NR。"
           }
         ],
         "findings": [
           {
-            "title": "80% 子集最优",
-            "detail": "在两个语料及全部四项展示指标上，80% 保留比例达到峰值并超过 Full；提高到 90% 后效用反而下降。"
+            "title": "安全性提升",
+            "detail": "SHE将Agent‑SafetyBench的平均ASR从17.1%降至5.5%（3.1×降低），Clean UBR从25.7%降至19.8%。"
           },
           {
-            "title": "仿真硬过滤不足",
-            "detail": "RTLCoder 全量验证仅有 19.9% 配对通过，所得子集约为 RTLCurator 的四分之一，平均模块长度也从 36.8 行降至 30.8 行。"
+            "title": "效用保持与提升",
+            "detail": "在相同基准上，SHE的平均UA从31.6提升至47.6%。"
           },
           {
-            "title": "跨语料兼容性迁移",
-            "detail": "相对最强基线 Qwen3-Emb-4B，RTLCurator 在原始 CodeV 与 RTLCoder 查询上的 R@1 分别提高 11.71 和 11.40 点。"
+            "title": "跨模型与未见风险的泛化",
+            "detail": "在AgentHarm上，演化后套件将Harm Score从19.8%降至9.8%，Harm Refusal提升至86.4%，且无需额外演化即可迁移至其他代理模型。"
           }
         ],
         "contributions": [
-          "将功能失败样本用于学习行为感知的 specification–RTL 兼容性先验。",
-          "提出只需少量目标域验证标签的校准过程。",
-          "把对齐、覆盖与结构丰富性联合用于训练子集构造，并验证其下游收益。"
+          "提出SHE框架，实现安全套件的轨迹驱动演化",
+          "将套件功能解耦为四个可编辑artifact",
+          "设计归因驱动的演化循环实现局部、可验证的改进",
+          "在两个大规模代理安全基准上实现显著的安全与效用提升"
         ],
         "limitations": [
-          "实验集中于两个公开 RTL 语料和当前生成基准，迁移到其他硬件描述语言或私有工业语料仍需检验。",
-          "方法仍需要目标域功能验证标签，且覆盖与结构丰富性各自的因果贡献尚未完全隔离。"
+          "仅在离线基准上评估，缺少真实部署环境的验证",
+          "演化过程依赖大量标注轨迹，未量化数据收集成本"
         ],
         "open_questions": [
-          "能否主动选择最有信息量的 1% 验证样本，进一步降低校准成本？",
-          "行为兼容性、表示覆盖和结构复杂度的权重能否根据目标模型规模与生成任务自适应调整？"
+          "如何在真实线上系统中持续安全地收集并利用执行轨迹进行演化？",
+          "演化过程中如何防止新引入的安全漏洞或效用退化？",
+          "能否将SHE扩展至多模态或更大规模的LLM代理体系？"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "Codex grounded full-text analysis",
+        "generated_by": "@cf/openai/gpt-oss-120b",
         "language": "zh",
         "schema_version": 5
-      }
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "safety"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-11T11:04:16.455147+00:00"
     },
     {
       "id": "2608.02171",
@@ -1776,131 +1775,171 @@
       "recommended_at": "2026-08-05T12:16:07.216104+00:00"
     },
     {
-      "id": "2608.05578",
-      "title": "Detecting Safety Training Modification in Language Models via Activation Analysis",
-      "abstract": "We introduce AMS (Activation-based Model Scanner), a tool that detects modifications to safety training in language models by measuring the geometric structure of safety-relevant concepts in activation space. Safety training creates measurable separation between harmful and benign content classes; certain safety modifications collapse or rotate this structure, while others leave it intact. We validate AMS across 14 model configurations spanning 4 architecture families (Llama, Gemma, Qwen, Mistral) and four safety-modification categories (instruction-tuned, base, abliterated, uncensored fine-tunes). Leave-one-out cross-validation of thresholds achieves 71% accuracy (10/14); bootstrap 95% confidence intervals on sigma point estimates have median width 3.4 sigma. We measure behavioral compliance on 20 stratified JailbreakBench prompts per model and find that sigma on the harmful-content concept predicts compliance with Pearson r = -0.546 (p = 0.043), directionally but with meaningful noise. Mechanistic analysis identifies a four-class taxonomy of safety-training modifications distinguished by activation-space signature: training removal collapses cluster separation; weight-orthogonalization abliteration both collapses separation and rotates the refusal direction; rotation-without-collapse abliteration preserves separation while rotating direction; and behavioral fine-tuning preserves both magnitude and direction. AMS's Tier 1 sigma-threshold detects the first two classes; Tier 2 direction-similarity verification detects the third. The fourth is undetectable by activation-only probing and represents a documented failure mode. We discuss threshold calibration, limitations of single-run measurement, and the open problem of detecting behavioral-only safety modifications.",
+      "id": "2608.09900",
+      "title": "Decoding-Level Taboo: A Diagnostic Stress Test for LLM Robustness",
+      "abstract": "Large language model evaluations typically focus on performance under nominal conditions, creating an illusion of capability where models comfortably walk a narrow, highly optimized generation corridor. In real-world deployments, however, complex system prompts, safety guardrails, and structural constraints continuously force models off this nominal path, driving a divergence between benchmark scores and deployment performance. To address this issue, we introduce Decoding-Level Taboo, a zero-prompt diagnostic stress test that intervenes directly in logit space at runtime, forcing models out of their nominal paths. By dynamically masking primary candidate tokens at word boundaries, Taboo forces machine circumlocution. Evaluating Taboo across several open-weight model families reveals that off-path robustness is heavily influenced by both parameter scale and post-training instruction alignment, with robustness generally improving with model size and alignment. Beyond the results presented in this paper, Taboo provides a novel primitive for generating diverse synthetic datasets, stress-testing runtime safety guardrails, and auditing model reliability prior to real-world deployment.",
       "authors": [
-        "Glen Messenger"
+        "Tadanobu Chuyo Kamijo",
+        "Ori Rottenstreich",
+        "Javier Conde",
+        "Gonzalo Martínez",
+        "Pedro Reviriego"
       ],
-      "published": "2026-08-06T03:57:38Z",
-      "updated": "2026-08-06T03:57:38Z",
+      "published": "2026-08-10T17:47:24Z",
+      "updated": "2026-08-10T17:47:24Z",
       "categories": [
-        "cs.CR"
+        "cs.CL"
       ],
-      "primary_category": "cs.CR",
-      "abs_url": "https://arxiv.org/abs/2608.05578v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.05578v1",
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.09900v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.09900v1",
       "comment": "",
-      "journal_ref": "IEEE Access, vol. 14, pp. 91723-91737, 2026",
+      "journal_ref": "",
       "lane": "llm",
       "scope_matches": [
+        "large language model",
         "language model",
-        "language models"
+        "llm"
       ],
       "topics": [
         {
           "id": "trustworthy_llm",
           "name": "Trustworthy LLM",
           "status": "background",
-          "score": 0.388,
+          "score": 0.3689,
           "matched": [
-            "calibration",
-            "safety"
+            "auditing",
+            "alignment",
+            "safety",
+            "reliability"
           ]
         }
       ],
       "scores": {
-        "total": 0.418,
-        "relevance": 0.3104,
-        "quality": 0.47,
-        "novelty": 0.8862,
-        "freshness": 0.6733,
-        "feedback_adjustment": -0.0164,
+        "total": 0.423,
+        "relevance": 0.2951,
+        "quality": 0.5,
+        "novelty": 0.8627,
+        "freshness": 0.8971,
+        "feedback_adjustment": -0.0144,
         "semantic_feedback": 0.0
       },
       "quality_signals": [
-        "quantitative results",
-        "publication metadata"
+        "benchmark evaluation",
+        "formal bound",
+        "dataset evidence"
       ],
       "summary": {
-        "takeaway": "AMS 能在无需行为测试的情况下，通过激活空间几何结构检测多数安全训练修改，整体准确率约 71%。",
-        "problem": "缺乏高效、不可规避的手段来识别开源模型的安全训练被削弱或篡改。",
-        "method": "AMS 通过在模型中层对安全概念的对比提示计算方向向量和聚合标准差 σ，并使用阈值与方向相似性进行分层检测。",
-        "evidence": "在 14 种 Llama、Gemma、Qwen、Mistral 模型上，LOOCV 准确率 71%（10/14），σ 与违规率相关系数 r = -0.546。",
-        "limitations": "对仅通过行为微调保留几何结构的安全修改（类 iv）以及单次测量噪声导致的误判缺乏检测能力。",
-        "why_for_you": "若你关注 LLM 可信性，AMS 提供一种基于激活的预部署安全检测手段，可补充传统行为评估。",
+        "evidence": "Experiments show 70B Llama-3.1's accuracy jumps from 36% to 75% under Taboo, while 8B shows minimal change (14%→16%).",
+        "limitations": "Limited to English language and standard open-weight architectures; does not explore adaptive masking strategies.",
+        "method": "Decoding-Level Taboo dynamically masks word-initial tokens in logit space to force off-path generation and test robustness.",
+        "problem": "Real-world LLM deployment faces robustness challenges due to continuous off-path constraints not captured by nominal benchmarks.",
+        "takeaway": "Decoding-Level Taboo reveals that LLM robustness under off-path stress depends on model scale and post-training alignment.",
+        "why_for_you": "This aligns with your focus on trustworthy LLMs by providing a rigorous framework to audit model reliability under real-world constraints.",
         "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
         "language": "zh",
         "schema_version": 2
       },
       "deep_dive": {
-        "signals": [
-          {
-            "icon": "🛡️",
-            "text": "提出四类安全训练修改的激活空间签名并用σ阈值检测前两类"
-          },
-          {
-            "icon": "🔧",
-            "text": "AMS 计算安全概念向量和σ，分层阈值与余弦相似度实现检测"
-          },
-          {
-            "icon": "📊",
-            "text": "在14模型上LOOCV 71%准确，σ 与违规率 r=-0.546，但类 iv 完全不可检测"
-          }
-        ],
-        "overview": "AMS 利用安全概念的对比提示在模型中层提取激活向量，计算聚合标准差 σ 表征有害与良性内容的分离程度，并通过阈值判断结构是否被削弱；进一步比较方向向量余弦相似度以捕捉仅旋转而未塌陷的修改。作者在 14 种 Llama、Gemma、Qwen、Mistral 模型上验证，展示了检测不同安全改动的机制与局限。",
-        "methodology": [
-          {
-            "title": "激活空间扫描流程",
-            "detail": "对每个安全概念使用 16 对对比提示，遍历 40‑80% 深度层，选取分离最大层，计算方向向量 v 与聚合 σ，随后 Tier 1 基于 σ 阈值分类，Tier 2 通过余弦相似度与距离漂移进一步验证。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "激活几何结构假设",
-            "detail": "安全训练在激活空间形成有害‑良性概念的线性分离（约 4‑8σ），删除或削弱安全训练会导致簇间距离塌陷或方向旋转，不同改动产生可辨识的几何签名。"
-          }
+        "contributions": [
+          "Novel zero-prompt stress test for LLM robustness",
+          "Systematic analysis of scale-alignment tradeoffs in off-path performance",
+          "Demonstration of formal syntax constraints as hard limits for decoding-level interventions"
         ],
         "experiments": [
           {
-            "title": "实验设置与评估指标",
-            "detail": "评估 14 种模型（1‑9B 参数）覆盖四类安全修改；使用 σ、95% bootstrap CI、PASS/WARNING/CRITICAL 分类；行为合规率通过 20 条 JailbreakBench 提示测得，并计算 Pearson r 与 Spearman ρ。"
+            "detail": "Qwen2.5 (0.5B-72B), Gemma-3, Llama-3 (7-70B), OLMo-2 tested across GSM8K, MMLU, TriviaQA, HumanEval benchmarks.",
+            "title": "Model Suite"
+          },
+          {
+            "detail": "4-bit vs bf16 evaluations show quantization noise within sampling variance, with Qwen2.5-14B-Instruct showing 0.62 vs 0.44 accuracy difference.",
+            "title": "Quantization Analysis"
+          },
+          {
+            "detail": "HumanEval's formal syntax constraints cause near-zero Pass@1 accuracy under Taboo, validating its effectiveness as a stress test.",
+            "title": "Negative Control"
           }
         ],
         "findings": [
           {
-            "title": "主要发现",
-            "detail": "Tier 1 检测训练移除和权重正交化两类可达 71% LOOCV 准确率；σ 与合规率呈负相关 r = -0.546；方向相似性成功捕获旋转不塌陷的 abliteration；行为微调类保持几何结构，AMS 无法检测。"
+            "detail": "70B Llama-3.1 shows 36%→75% accuracy under Taboo vs 8B's 14%→16% (Figure 5), demonstrating improved robustness with size.",
+            "title": "Scale Dependency"
+          },
+          {
+            "detail": "Instruct checkpoints absorb more surprisal than base versions in Qwen/OLMo/Gemma but not Llama-3 (Figure 4), suggesting architecture-specific alignment effects.",
+            "title": "Alignment Impact"
+          },
+          {
+            "detail": "HumanEval's Pass@1 drops to 0% under Taboo, while natural language tasks show partial resilience through semantic redundancy.",
+            "title": "Formal Domain Sensitivity"
           }
         ],
-        "contributions": [
-          "四类安全训练修改的激活空间分类法",
-          "基于 σ 与方向相似性的 AMS 检测框架",
-          "在多模型上验证的实证结果与行为相关性分析"
-        ],
         "limitations": [
-          "类 iv（行为微调）在激活空间无可检测信号",
-          "单次测量噪声导致部分阈值跨越",
-          "仅针对 1‑9B 开源模型，未验证大模型或量化模型的鲁棒性"
+          "Limited to English language and standard open-weight architectures",
+          "No exploration of adaptive masking strategies",
+          "Restricted to greedy decoding regime"
+        ],
+        "mechanism": [
+          {
+            "detail": "By blocking preferred word-initial tokens, Taboo forces models to use circumlocution or face structural breakdown in formal domains.",
+            "title": "Decoding Path Disruption"
+          },
+          {
+            "detail": "Larger models and stronger instruction alignment show greater resilience to off-path interventions, particularly in code synthesis tasks.",
+            "title": "Scale-Alignment Tradeoff"
+          }
+        ],
+        "methodology": [
+          {
+            "detail": "Applies −∞ to top-i unnormalized logits at word-initial positions, forcing models to select lower-ranked tokens. Mask width i=1-8 tested.",
+            "title": "Top-i Logit Masking"
+          },
+          {
+            "detail": "Uses tokenizer-specific prefix metadata (e.g., 'Ġ' in BPE) to identify word-initial tokens for masking.",
+            "title": "Word Boundary Detection"
+          },
+          {
+            "detail": "Measures retention rate of correct answers under Taboo vs nominal decoding, focusing on instances solvable under baseline conditions.",
+            "title": "Conditional Retention Metric"
+          }
         ],
         "open_questions": [
-          "如何在仅改变行为而不影响激活几何的安全微调中实现可靠检测"
+          "How to generalize Taboo to multilingual settings with different tokenization schemes?",
+          "Can adaptive masking strategies (e.g., surprisal-based triggers) improve stress testing effectiveness?",
+          "How to adapt this framework for closed-source models and multimodal systems?"
+        ],
+        "overview": "This paper introduces a logit-space stress test (Taboo) that forces LLMs off nominal decoding paths by masking word-initial tokens. Experiments across 7-72B models demonstrate that off-path robustness correlates with scale and instruction alignment, with formal tasks like HumanEval showing extreme sensitivity to word-boundary constraints.",
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "Decoding-Level Taboo (zero-prompt logit mask at word boundaries)"
+          },
+          {
+            "icon": "🔧",
+            "text": "Dynamic Top-i logit masking (i=1-8) forces off-path generation"
+          },
+          {
+            "icon": "📊",
+            "text": "70B Llama-3.1 shows 36%→75% accuracy under Taboo vs 8B's 14%→16%"
+          }
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
         "language": "zh",
         "schema_version": 5
       },
       "recommendation_reason": {
         "topic": "Trustworthy LLM",
         "matched": [
-          "calibration",
-          "safety"
+          "auditing",
+          "alignment",
+          "safety",
+          "reliability"
         ],
         "lane": "llm"
       },
-      "recommended_at": "2026-08-08T10:50:42.806974+00:00"
+      "recommended_at": "2026-08-11T11:04:16.455147+00:00"
     }
   ]
 }
