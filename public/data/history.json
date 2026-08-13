@@ -1,6 +1,472 @@
 {
-  "generated_at": "2026-08-11T11:04:16.455147+00:00",
+  "generated_at": "2026-08-13T11:10:44.890184+00:00",
   "papers": [
+    {
+      "id": "2608.12025",
+      "title": "From Safety Documentation to Safety Knowledge Support: An Evidence-Grounded LLM Framework for Medical Devices",
+      "abstract": "Medical devices are becoming more software-intensive, connected, and AI-enabled. Their development requires risk-management evidence aligned with ISO 14971 and, for software, IEC 62304. This evidence must be kept consistent across requirements, design decisions, software changes, verification results, complaints, and post-market data. These tasks are costly and depend on scarce safety and domain experts. Large language models (LLMs) may reduce parts of this effort because medical-device safety work is highly document-based. However, current LLM-based safety-engineering studies often address isolated methods, rely on generic prompting or public examples, and provide limited support for source links, traceability, uncertainty handling, lifecycle updates, and recorded expert review. This limits their use in regulated medical-device development. This paper argues that the central research problem is not safety-text generation, but source-linked safety-knowledge support. We propose an evidence-grounded framework that connects device artifacts, controlled knowledge storage and retrieval, method-specific generation of candidate safety items, critique and uncertainty checks, and recorded expert review. The framework prepares, links, checks, and updates candidate safety artifacts for expert decision-making. It does not decide whether a device is safe and does not provide regulatory approval. We also outline an evaluation strategy using non-public or newly built medical-device case studies and expert reference analyses to assess coverage, correctness, relevance, traceability, duplicate rate, unsupported claims, and review effort.",
+      "authors": [
+        "Tuhinangshu Gangopadhyay",
+        "Rasmus Adler",
+        "Peter Liggesmeyer",
+        "Jan Reich"
+      ],
+      "published": "2026-08-12T13:05:49Z",
+      "updated": "2026-08-12T13:05:49Z",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "primary_category": "cs.SE",
+      "abs_url": "https://arxiv.org/abs/2608.12025v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.12025v1",
+      "comment": "ISSRE 2026, AISQ, 8 pages",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.5513,
+          "matched": [
+            "uncertainty",
+            "safety"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4985,
+        "relevance": 0.441,
+        "quality": 0.41,
+        "novelty": 0.8644,
+        "freshness": 0.8686,
+        "feedback_adjustment": -0.0205,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "该框架通过证据链接实现面向医疗器械的安全知识支持，帮助专家在整个生命周期中追踪和审查安全文档。",
+        "problem": "医疗器械安全分析需在ISO 14971和IEC 62304框架下保持跨文档、跨阶段的可追溯证据，现有LLM方法缺乏源链接和不确定性处理。",
+        "method": "提出一个证据‑grounded的框架，连接设备工件、受控知识库检索、方法特定生成、批评与不确定性检查以及记录的专家审查。",
+        "evidence": "论文仅提供框架设计和基于非公开案例的评估方案，未呈现实际实验结果。",
+        "limitations": "缺乏公开实验数据和量化评估，依赖于未公开的医疗器械案例。",
+        "why_for_you": "若你关注可追溯、安全的LLM辅助医疗器械研发，此框架的证据链接思路与评估指标值得参考。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🛡️",
+            "text": "提出证据‑grounded安全知识支持框架，覆盖文档追溯与专家审查。"
+          },
+          {
+            "icon": "🔎",
+            "text": "框架包括受控知识库检索、方法特定生成、批评与不确定性检查。"
+          },
+          {
+            "icon": "📊",
+            "text": "仅给出基于非公开案例的评估计划，缺乏实际实验结果。"
+          }
+        ],
+        "overview": "医疗器械安全分析在ISO 14971和IEC 62304要求下需保持跨需求、设计、验证等工件的可追溯证据，现有LLM辅助方法缺乏源链接和不确定性标记。作者提出一个证据‑grounded框架，将设备工件、受控知识库检索、方法特定生成、批评与不确定性检查以及记录的专家审查串联，实现安全文档的准备、链接、检查和更新。论文进一步规划了使用非公开或新建医疗器械案例的评估策略，以覆盖率、正确性、相关性、可追溯性、重复率、无依据主张和审查工作量等指标进行验证。",
+        "methodology": [
+          {
+            "title": "受控知识库检索",
+            "detail": "构建并维护与医疗器械安全相关的结构化知识库，支持基于工件的检索以提供证据来源。"
+          },
+          {
+            "title": "方法特定生成与批评",
+            "detail": "针对不同安全分析任务（如危害识别、风险控制）使用专门的LLM提示生成候选项，并通过批评模块检查不确定性和潜在错误。"
+          },
+          {
+            "title": "记录的专家审查",
+            "detail": "将生成的候选安全项、证据链接和不确定性标记呈现给专家，记录审查决策以实现可追溯性。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "证据‑grounded 链接",
+            "detail": "每个LLM生成的安全条目必须关联到知识库中的具体文档或工件，实现来源可追溯。"
+          },
+          {
+            "title": "不确定性指示",
+            "detail": "系统在生成过程中标记置信度或潜在歧义，供专家在审查时重点关注。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "评估策略概述",
+            "detail": "使用非公开或新建的医疗器械案例，邀请领域专家进行参考分析，衡量覆盖率、正确性、相关性、可追溯性、重复率、无依据主张比例以及审查工作量。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "框架设计完成",
+            "detail": "论文展示了完整的证据‑grounded框架结构和工作流，但尚未提供实际实验数据。"
+          }
+        ],
+        "contributions": [
+          "提出面向医疗器械的证据‑grounded安全知识支持框架",
+          "定义了包括知识库检索、生成、批评、不确定性检查和专家审查的完整工作流",
+          "规划了针对医疗器械案例的安全特定评估指标体系"
+        ],
+        "limitations": [
+          "缺乏公开的实验结果和量化评估",
+          "评估依赖于非公开或新建的医疗器械案例，难以直接复现"
+        ],
+        "open_questions": [
+          "该框架如何在实际医疗器械开发工具链中实现无缝集成？",
+          "在大规模真实项目中，不确定性指示的准确性和实用性如何？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "uncertainty",
+          "safety"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-13T11:10:44.890184+00:00"
+    },
+    {
+      "id": "2608.12008",
+      "title": "Asymptotic Risk Calibration for Selective Question Answering",
+      "abstract": "Large language models (LLMs) may generate fluent but incorrect answers, making uncertainty quantification important for reliable question answering. However, heuristic uncertainty scores cannot perfectly distinguish correct predictions from incorrect ones, and directly applying a fixed uncertainty threshold provides no statistical control over the error rate among accepted answers. To address this limitation, we propose A-CRC-QA, a post-hoc calibration framework for uncertainty-aware selective question answering. The proposed method reformulates selection-conditioned error control as a linear expectation constraint and applies a monotonized empirical-risk calibration procedure inspired by conformal risk control. Since the resulting instance-wise loss is generally non-monotone with respect to the acceptance threshold, our framework targets asymptotic rather than finite-sample risk control. A-CRC-QA is model-agnostic, requires no additional training, and can be combined with different uncertainty estimators. Experiments on CoQA and MedMCQA demonstrate its applicability to both open-ended and closed-ended question answering, achieving a favorable trade-off between accepted-answer reliability and answer retention compared with uncalibrated and confidence-bound-based baselines.",
+      "authors": [
+        "Shufan Lin",
+        "Sijin Dong"
+      ],
+      "published": "2026-08-12T12:45:45Z",
+      "updated": "2026-08-12T12:45:45Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.12008v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.12008v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4745,
+          "matched": [
+            "uncertainty",
+            "calibration",
+            "reliability"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.0652,
+          "matched": [
+            "bound"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.488,
+        "relevance": 0.3926,
+        "quality": 0.52,
+        "novelty": 0.8541,
+        "freshness": 0.8666,
+        "feedback_adjustment": -0.0285,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "experiments",
+        "formal bound"
+      ],
+      "summary": {
+        "takeaway": "A-CRC-QA 在选择性问答中实现了渐近风险校准，提升接受率的同时保持错误率在用户设定阈值内。",
+        "problem": "现有不确定性阈值无法提供对接受答案错误率的统计控制，导致在不同模型或数据上表现不稳。",
+        "method": "提出将选择条件错误控制重新表述为线性期望约束，并使用单调化经验风险校准，加入渐近消失的有限样本校正。",
+        "evidence": "在 CoQA 与 MedMCQA 上，A-CRC-QA 将违规率分别从 25.5% 降至 12.5% 与 19.0% 降至 8.0%，并提升接受率约 7%。",
+        "limitations": "仅提供渐近风险控制，仍存在非零违规率，缺乏有限样本的高置信度保证。",
+        "why_for_you": "若关注可信 LLM，A-CRC-QA 提供了基于统计校准的答案不确定性处理方案。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "A-CRC-QA 在目标风险 0.15 下提升约 7% 接受率并保持误差控制"
+          },
+          {
+            "icon": "🔧",
+            "text": "采用单调化经验风险并加入渐近消失的校正实现风险校准"
+          },
+          {
+            "icon": "📊",
+            "text": "CoQA 违规率从 25.5% 降至 12.5%，MedMCQA 从 19.0% 降至 8.0%"
+          }
+        ],
+        "overview": "本文针对 LLM 生成答案的可信度问题，提出 A-CRC-QA 框架，通过将选择性错误率约束转化为线性期望约束，并在经验风险上进行单调化处理，加入渐近消失的有限样本校正，实现对接受答案的渐近风险控制。实验在开放式 CoQA 与闭式 MedMCQA 两大基准上，使用 LLaMA‑3.1‑8B‑Instruct 与 Qwen2.5‑7B‑Instruct，比较多种基线，展示了在保持目标错误率的前提下显著提升接受率和功效。",
+        "methodology": [
+          {
+            "title": "线性期望约束重构",
+            "detail": "将选择条件错误率表达为对接受阈值的线性期望约束，以便在校准阶段直接求解满足约束的阈值。"
+          },
+          {
+            "title": "单调化经验风险校准",
+            "detail": "对每个实例的非单调损失构造单调上包络，再在校准集上求平均，得到单调化的经验风险曲线。"
+          },
+          {
+            "title": "渐近消失的有限样本校正",
+            "detail": "在经验风险约束上加入随校准集规模 n→∞ 而消失的校正项，确保在大样本下风险趋近目标水平。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "渐近风险控制原理",
+            "detail": "通过 CRC 风格的校正，使得在校准集足够大时，选取的阈值使得测试集的选择性错误率在期望上不超过用户设定的 α。"
+          },
+          {
+            "title": "单调化保证稳定性",
+            "detail": "单调化处理消除经验风险曲线的局部波动，防止阈值因噪声产生过度保守或过度激进的选择。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "实验设置",
+            "detail": "数据集：CoQA（开放式）和 MedMCQA（多选）。模型：LLaMA‑3.1‑8B‑Instruct、Qwen2.5‑7B‑Instruct。基线：Fixed‑50、Empirical、UCB‑HFD、UCB‑CLP、LEC‑Direct。指标：SCER、AR、Power、VR、IF、AUROC。使用 100 次独立校准‑测试划分。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "接受率提升",
+            "detail": "在目标风险 α=0.15 下，A-CRC-QA 相比 UCB‑CLP 在 CoQA 上提升 7.2% 接受率，在 MedMCQA 上提升 7.4%。"
+          },
+          {
+            "title": "违规率降低",
+            "detail": "CoQA 上违规率从 25.5% 降至 12.5%，MedMCQA 上从 19.0% 降至 8.0%。"
+          },
+          {
+            "title": "功效提升",
+            "detail": "接受的正确答案比例（Power）随接受率提升而同步增长，表明新增接受的答案主要为正确。"
+          }
+        ],
+        "contributions": [
+          "提出 A-CRC-QA 渐近风险校准框架用于选择性问答",
+          "引入单调化经验风险与渐近校正的组合机制",
+          "在开放式与闭式 QA 基准上实现更优的风险‑接受率权衡"
+        ],
+        "limitations": [
+          "仅提供渐近风险控制，未能保证有限样本的高置信度风险上界",
+          "违规率仍非零，说明在小校准集或极端分布下仍可能失控",
+          "方法依赖校准集大小，性能随 n 增大而改善"
+        ],
+        "open_questions": [
+          "如何在点预测场景下实现有限样本的高置信度风险控制？",
+          "不同不确定性估计器（如自评、采样一致性）对 A-CRC-QA 的影响如何？",
+          "该框架能否扩展至多模态或链式思考的生成任务？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "uncertainty",
+          "calibration",
+          "reliability"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-13T11:10:44.890184+00:00"
+    },
+    {
+      "id": "2608.12197",
+      "title": "NetlistBench: Evaluating LLM Reliability in SPICE Netlist Recognition and Manipulation",
+      "abstract": "Large Language Models (LLMs) are increasingly used in circuit design workflows, yet their reliability on simulator-facing SPICE netlist recognition and manipulation remains poorly understood and is rarely separated from high-level design reasoning. Although netlists are textual, they encode structured circuit objects through topology and parameters. We present \\textbf{NetlistBench}, a structure-verified benchmark for SPICE netlist recognition and manipulation. NetlistBench contains 2,342 cases across 24 task families, covering parameter and connectivity recognition and edits, hierarchical operations, equivalence judgment, and long-horizon compound editing. Model outputs are evaluated by a deterministic structure-aware oracle. Across six non-thinking LLMs, performance varies substantially with operation-level structural complexity. Simple local edits reach $96\\%$--$100\\%$ accuracy, while device addition drops to $41\\%$--$83\\%$ and equivalence judgment to $49\\%$--$90\\%$. Enabling reasoning substantially improves weaker models but does not eliminate structure-preservation failures, with performance still degrading sharply as the edit horizon increases. NetlistBench identifies netlist reliability as a distinct bottleneck for trustworthy LLM-based circuit design automation.",
+      "authors": [
+        "Jiarui Ma",
+        "Jianghan Wang",
+        "Yuheng Ma",
+        "Ziyi Zhuang",
+        "Xiaoguang Liu"
+      ],
+      "published": "2026-08-12T15:51:52Z",
+      "updated": "2026-08-12T15:51:52Z",
+      "categories": [
+        "eess.SY",
+        "cs.AI"
+      ],
+      "primary_category": "eess.SY",
+      "abs_url": "https://arxiv.org/abs/2608.12197v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.12197v1",
+      "comment": "accepted by MLCAD 2026",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4157,
+          "matched": [
+            "trustworthy llm",
+            "reliability"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4707,
+        "relevance": 0.3326,
+        "quality": 0.62,
+        "novelty": 0.8624,
+        "freshness": 0.885,
+        "feedback_adjustment": -0.0204,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "evidence": "Device addition accuracy drops to 41%–83%, and equivalence judgment to 49%–90% across six non-thinking LLMs.",
+        "limitations": "Focus on specific netlist tasks without broader circuit design integration.",
+        "method": "NetlistBench evaluates LLMs using a structure-aware oracle across 24 task families with 2,342 cases.",
+        "problem": "LLMs struggle with structured SPICE netlist manipulation due to structural complexity and long-horizon dependencies.",
+        "takeaway": "NetlistBench identifies SPICE netlist reliability as a critical bottleneck for trustworthy LLM-based circuit design.",
+        "why_for_you": "Ideal for researchers addressing LLM reliability in simulator-facing hardware workflows.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "contributions": [
+          "Formulates SPICE netlist reliability as a representation-level evaluation problem",
+          "Introduces NetlistBench for structured netlist recognition/manipulation benchmarking",
+          "Develops structure-aware evaluation pipeline beyond text matching"
+        ],
+        "experiments": [
+          {
+            "detail": "Tests six non-thinking LLMs (Claude Sonnet 4.6, GPT-4.1, Gemini 2.5 Flash, DeepSeek-V4-Flash, Qwen3.6-Flash, Qwen3-30B) with reasoning modes disabled",
+            "title": "Model selection"
+          },
+          {
+            "detail": "Includes connectivity editing, device operations, parameter manipulation, subcircuit handling, and long-horizon compound edits",
+            "title": "Task families"
+          },
+          {
+            "detail": "Pass rates measured against structure-aware oracle with Wilson 95% confidence intervals",
+            "title": "Metrics"
+          }
+        ],
+        "findings": [
+          {
+            "detail": "Simple local edits achieve 96%–100% accuracy, while device addition drops to 41%–83%",
+            "title": "Performance variation"
+          },
+          {
+            "detail": "Compound editing pass rates fall sharply with edit count (e.g., DeepSeek-V4-Flash from 55% to 0% between 3-15 steps",
+            "title": "Long-horizon degradation"
+          },
+          {
+            "detail": "Enabling reasoning improves weak models but doesn't eliminate structure-preservation failures",
+            "title": "Reasoning limitations"
+          }
+        ],
+        "limitations": [
+          "Focuses on specific netlist tasks without broader circuit design integration",
+          "No analysis of model architecture impacts on netlist reliability"
+        ],
+        "mechanism": [
+          {
+            "detail": "Uses canonical circuit representations to verify device parameters, terminal bindings, node identities, and hierarchy in model outputs",
+            "title": "Structure-aware evaluation"
+          }
+        ],
+        "methodology": [
+          {
+            "detail": "2,342 cases across 24 task families including parameter edits, hierarchical operations, and equivalence judgment",
+            "title": "Structure-verified benchmark"
+          },
+          {
+            "detail": "Evaluates outputs against canonical circuit representations, requiring exact structural matches for manipulation and recognition",
+            "title": "Deterministic oracle"
+          }
+        ],
+        "open_questions": [
+          "How to improve long-horizon structure preservation in LLMs for circuit workflows",
+          "What architectural changes enable reliable netlist equivalence judgments"
+        ],
+        "overview": "Paper introduces NetlistBench to quantify LLM reliability in SPICE netlist operations, revealing structural complexity as a key challenge. Evaluates six models across recognition, editing, and equivalence tasks, showing sharp performance degradation in complex operations and long-horizon edits.",
+        "signals": [
+          {
+            "icon": "🗂️",
+            "text": "NetlistBench benchmark with 2,342 cases across 24 task families"
+          },
+          {
+            "icon": "🔧",
+            "text": "Structure-aware oracle for deterministic evaluation"
+          },
+          {
+            "icon": "📊",
+            "text": "Device addition accuracy 41%–83% vs. 96%–100% for local edits"
+          }
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "trustworthy llm",
+          "reliability"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-13T11:10:44.890184+00:00"
+    },
     {
       "id": "2608.09551",
       "title": "Pragmatic Attack Surface: Vulnerabilities of Implicit Context in Large Language Models",
@@ -16329,583 +16795,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-07-02T15:07:24.086596+00:00"
-    },
-    {
-      "id": "2606.32032",
-      "title": "Reinforcement Learning with Metacognitive Feedback Elicits Faithful Uncertainty Expression in LLMs",
-      "abstract": "Metacognition is a critical component of intelligence that describes the ability to monitor and regulate one's own cognitive processes. Yet LLMs exhibit systemic deficiencies in key metacognitive faculties: they hallucinate with high confidence, fail to recognize knowledge boundaries, and misrepresent their internal uncertainty--undermining trustworthiness and reliability. Since monitoring task performance and adapting behavior accordingly are central to metacognition, we posit that models capable of accurately judging their own performance are better positioned to improve it. We operationalize this idea via two novel mechanisms: reinforcement learning with metacognitive feedback (RLMF), a paradigm to refine completion rankings during preference optimization based on the quality of a model's self-judgments of performance, and metacognitive data selection, which uses similar self-judgments to identify high-value training examples, outperforming naive active learning. We apply these innovations to the problem of faithful calibration (FC), a task that is itself fundamentally metacognitive: the goal is to align expressed with intrinsic uncertainty, difficult even for frontier LLMs. We adopt a two-stage, decoupled approach, first using these methods to calibrate the faithfulness of models' self-reported confidence scores, then mapping to natural, context-adaptable linguistic uncertainty via targeted output editing. Extensive experiments show RLMF achieves generalizable, state-of-the-art FC on diverse tasks while preserving accuracy. Further, RLMF surpasses standard RL by up to 63% while enhancing models' ability to assess and express their own capability limits. This positions RLMF as a promising paradigm to enhance LLM metacognition toward improved abilities and alignment, and suggests metacognitive performance as an effective RL signal to overcome limits of prior intrinsic feedback methods.",
-      "authors": [
-        "Gabrielle Kaili-May Liu",
-        "Avi Caciularu",
-        "Gal Yona",
-        "Idan Szpektor",
-        "Arman Cohan"
-      ],
-      "published": "2026-06-30T17:56:01Z",
-      "updated": "2026-06-30T17:56:01Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2606.32032v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.32032v1",
-      "comment": "Code: https://github.com/yale-nlp/RLMF",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "llm",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.5008,
-          "matched": [
-            "alignment",
-            "uncertainty",
-            "calibration",
-            "alignment",
-            "reliability",
-            "llm"
-          ]
-        },
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "emerging",
-          "score": 0.2918,
-          "matched": [
-            "data selection",
-            "data",
-            "selection"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5253,
-        "relevance": 0.459,
-        "quality": 0.53,
-        "novelty": 0.8439,
-        "freshness": 0.731
-      },
-      "quality_signals": [
-        "experiments",
-        "formal bound",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Reinforcement learning with metacognitive feedback (RLMF) significantly improves faithful calibration of LLMs’ uncertainty expression, surpassing standard RL by up to 63% while preserving accuracy.",
-        "problem": "LLMs exhibit systemic metacognitive deficiencies, including overconfident hallucinations and poor uncertainty calibration, undermining trustworthiness and reliability.",
-        "method": "RLMF refines completion rankings during preference optimization by scaling RL advantages based on the accuracy of a model’s self-judgments, complemented by metacognitive data selection and targeted linguistic uncertainty rewriting.",
-        "evidence": "Extensive experiments on 10 diverse datasets and multiple LLM families demonstrate RLMF achieves state-of-the-art faithful calibration (cMFG* ≥ 0.80) and outperforms baselines including prompting, SFT, and standard RL.",
-        "limitations": "The paper does not provide detailed mechanistic explanations for how metacognitive feedback causally improves calibration beyond empirical results.",
-        "why_for_you": "RLMF offers a novel, effective training paradigm leveraging metacognitive signals to enhance LLM uncertainty calibration and reliability, directly addressing key challenges in trustworthy LLM deployment.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "RLMF improves faithful calibration by up to 63% over standard RL, achieving cMFG* scores ≥ 0.80 across diverse tasks and models, including Qwen3 and Llama3.1-Instruct families."
-          },
-          {
-            "icon": "🛡️",
-            "text": "Metacognitive advantage scaling in RLMF uses the accuracy of a model’s self-assessment to weight RL rewards, reinforcing completions with better metacognitive performance."
-          },
-          {
-            "icon": "📉",
-            "text": "Metacognitive data selection outperforms naive and active-learning baselines by selecting training examples where the model’s self-judgments indicate high informational value, improving calibration robustness."
-          }
-        ],
-        "overview": "This work addresses the critical problem of LLMs’ poor metacognitive faculties, specifically their inability to faithfully express uncertainty, which leads to overconfident hallucinations and trust issues. The authors propose reinforcement learning with metacognitive feedback (RLMF), a novel paradigm that incorporates the quality of a model’s self-judgments into the RL reward signal via metacognitive advantage scaling. This approach encourages models to not only produce accurate outputs but also to accurately assess their own performance. Complementing RLMF, metacognitive data selection uses these self-assessments to curate high-value training samples, outperforming standard active learning. The pipeline further includes a targeted rewriting stage to map numerical confidence scores to natural linguistic uncertainty expressions. Extensive experiments on 10 datasets and multiple LLM architectures demonstrate that RLMF achieves state-of-the-art faithful calibration (measured by cMFG*), generalizes across tasks and domains, and preserves task accuracy. These results position metacognitive performance as a powerful RL signal to overcome limitations of prior intrinsic feedback methods, advancing trustworthy LLM capabilities.",
-        "methodology": [
-          {
-            "title": "Reinforcement Learning with Metacognitive Feedback (RLMF)",
-            "detail": "RLMF integrates metacognitive feedback into RL by scaling the advantage of each completion based on the accuracy of the model’s self-judgment of its performance. The model is rewarded not only for task success but also for accurate self-assessment, encouraging improved metacognitive awareness during preference optimization."
-          },
-          {
-            "title": "Metacognitive Data Selection",
-            "detail": "This method uses the model’s self-assessed performance scores to select informative training examples. Samples where the model exhibits high or low confidence aligned with actual performance are prioritized, outperforming naive random and active-learning baselines in improving calibration."
-          },
-          {
-            "title": "Two-Stage Faithful Calibration Pipeline",
-            "detail": "Stage one applies RLMF and metacognitive data selection to calibrate numerical confidence scores. Stage two uses targeted output rewriting with Gemini-2.5-FlashLite to convert numerical confidence into natural, context-adaptable linguistic uncertainty expressions, enhancing communication naturalness."
-          },
-          {
-            "title": "Supervised Fine-Tuning (SFT) Pretraining",
-            "detail": "Prior to RL training, models undergo supervised fine-tuning to learn the custom output format for uncertainty expression, generalize across tasks, and adhere to task-specific output lengths, establishing a foundation for subsequent metacognitive training."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Metacognitive Advantage Scaling",
-            "detail": "During RL training, the advantage (learning signal) for each completion is scaled by the accuracy of the model’s self-judgment of its performance, effectively weighting updates toward completions where the model better predicts its own success. This mechanism operationalizes metacognitive feedback as a higher-level intrinsic reward signal beyond raw output confidence."
-          },
-          {
-            "title": "No Explicit Mechanistic Equations Provided",
-            "detail": "The paper does not provide formal mechanistic equations or causal models explaining how metacognitive feedback causally improves calibration, focusing instead on empirical validation."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Faithful Calibration Evaluation",
-            "detail": "Evaluation uses 10 diverse datasets sampled with 1000 examples each, spanning multiple domains and difficulty levels. Models include Qwen3 (1.7B, 4B, 8B) and Llama3.1-Instruct (8B). Metrics include cMFG* for faithful calibration, accuracy via LLM-as-a-Judge, and Brier Score for factual alignment."
-          },
-          {
-            "title": "Ablation Studies",
-            "detail": "Ablations remove metacognitive advantage scaling or replace metacognitive data selection with random or active-learning baselines, demonstrating the critical contribution of each component to calibration improvements."
-          },
-          {
-            "title": "Generalization Across Training Tasks",
-            "detail": "RLMF training on different datasets (PopQA, SelfAware, UMWP, HaluEval) shows consistent strong numerical faithful calibration, indicating robustness to training data choice."
-          },
-          {
-            "title": "Linguistic Uncertainty Rewriting",
-            "detail": "Using Gemini-2.5-FlashLite, numerical confidence scores are mapped to natural linguistic uncertainty expressions, achieving a 96% win rate over GPT-5-Mini in diversity, naturalness, helpfulness, and contextual suitability."
-          }
-        ],
-        "findings": [
-          {
-            "title": "RLMF Outperforms Baselines",
-            "detail": "RLMF achieves average cMFG* gains of 29% and 25% over prompting and SFT methods respectively, with cMFG* ≥ 0.80 across tasks, surpassing standard RL by up to 63%."
-          },
-          {
-            "title": "Preservation of Task Accuracy",
-            "detail": "Unlike some baselines (MetaFaith, FUT), RLMF maintains or improves task accuracy and factual calibration while enhancing faithful calibration."
-          },
-          {
-            "title": "Metacognitive Data Selection Effectiveness",
-            "detail": "Data selection based on model self-assessments yields better calibration improvements than random or active-learning selection, as shown by higher cMFG* and stable accuracy."
-          },
-          {
-            "title": "Generalization to Out-of-Distribution Tasks",
-            "detail": "RLMF trained on PopQA generalizes well to complex reasoning tasks (e.g., MATH) and out-of-distribution datasets (e.g., SimpleQA), demonstrating robustness."
-          },
-          {
-            "title": "Small Models Surpass Large Proprietary LLMs",
-            "detail": "Small models trained with RLMF outperform larger proprietary LLMs like GPT-5 in faithful calibration by 17-37% on average."
-          }
-        ],
-        "contributions": [
-          "Introduction of RLMF, a novel RL paradigm leveraging metacognitive feedback to improve LLM uncertainty calibration.",
-          "Development of metacognitive data selection to curate high-value training examples based on self-assessed performance.",
-          "Establishment of the first end-to-end pipeline for faithful numerical and linguistic uncertainty calibration in LLMs.",
-          "Demonstration of state-of-the-art faithful calibration across diverse models, tasks, and domains with preserved accuracy.",
-          "Provision of extensive empirical evidence showing RLMF’s superiority over standard RL and prior calibration methods."
-        ],
-        "limitations": [
-          "Lack of formal mechanistic or causal modeling explaining how metacognitive feedback improves calibration.",
-          "Experiments focus on specific LLM families and datasets; broader applicability to other architectures or domains remains to be validated.",
-          "The rewriting stage relies on a specific model (Gemini-2.5-FlashLite), and its generalizability or dependence on this choice is not deeply analyzed.",
-          "Potential computational overhead and complexity introduced by metacognitive advantage scaling and data selection are not quantified."
-        ],
-        "open_questions": [
-          "How can metacognitive feedback mechanisms be theoretically modeled to explain their causal impact on calibration?",
-          "Can RLMF be effectively applied to larger-scale or multimodal LLMs beyond the tested families?",
-          "What are the trade-offs in computational cost and training stability introduced by metacognitive advantage scaling?",
-          "How robust is the linguistic uncertainty rewriting stage across different languages, cultures, or user preferences?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment",
-          "uncertainty",
-          "calibration",
-          "alignment"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-02T15:07:24.086596+00:00"
-    },
-    {
-      "id": "2606.30345",
-      "title": "DRIFT: Difficulty Routing Self-DIstillation with Rhythm-Gated Exploration and Success BuFfer Training",
-      "abstract": "Enabling large language models to achieve stable self-improvement without external expert supervision remains a central challenge in complex reasoning tasks. Existing self-distillation and reinforcement learning methods lack explicit mechanisms for tracking problem-level learning progress and adapting optimization strategies accordingly. Consequently, training may over-optimize easy problems, receive weak supervision from hard problems, and fail to sufficiently explore borderline cases. To resolve these issues, we propose DRIFT, an online self-evolution policy optimization framework for large language models. DRIFT regulates the model's self-improvement process through the joint use of Difficulty Routing and Rhythm Gating. The former identifies the model's learning state at the problem level and dynamically allocates self-distillation and reinforcement learning signals, while the latter refines policy updates at the token level, concentrating exploration on critical reasoning positions. By further incorporating a success buffer and a two-stage curriculum learning strategy, DRIFT preserves high-quality historical experience while progressively guiding the model from reliable behavior acquisition toward stable policy evolution. Evaluated across five benchmarks and three model scales, DRIFT surpasses the peak performance of both GRPO and SDPO across all evaluated metrics. On the average score over the five benchmarks, DRIFT achieves 79.5$\\%$, outperforming GRPO by 9.5$\\%$ and SDPO by 7.5$\\%$, establishing a new state-of-the-art result. Notably, on ToolUse, DRIFT reaches an accuracy of 79.2$\\%$, improving over GRPO by 13.5$\\%$ and SDPO by 10.7$\\%$, setting a new state-of-the-art and substantially outperforming all concurrent methods.",
-      "authors": [
-        "Haisen Luo",
-        "Yiwei Liu",
-        "Haoning Wang",
-        "Dan Liu",
-        "Junxi Yin",
-        "Haotian Wang",
-        "Lei Zhang",
-        "Xiaoyu Tian",
-        "Shuaiting Chen",
-        "Yuansheng Song",
-        "Baoyan Guo",
-        "Xiongfei Yan",
-        "Bolan Yang",
-        "Chengwei Liu",
-        "Ming Cui",
-        "Jiong Chen"
-      ],
-      "published": "2026-06-29T14:20:47Z",
-      "updated": "2026-06-29T14:20:47Z",
-      "categories": [
-        "cs.LG",
-        "cs.AI"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2606.30345v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.30345v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "watch",
-          "score": 0.5482,
-          "matched": [
-            "self-distillation",
-            "distillation",
-            "self-distillation"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4914,
-        "relevance": 0.4386,
-        "quality": 0.48,
-        "novelty": 0.8196,
-        "freshness": 0.5668
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "DRIFT introduces difficulty routing and rhythm-gated exploration to adaptively coordinate self-distillation and reinforcement learning, achieving state-of-the-art performance on complex reasoning benchmarks.",
-        "problem": "Existing self-distillation and reinforcement learning methods for LLM self-improvement lack mechanisms to track problem-level learning progress and adapt training signals accordingly, leading to suboptimal exploration and supervision.",
-        "method": "DRIFT dynamically routes problems by difficulty to tailored optimization strategies and applies token-level rhythm gating to focus exploration on critical reasoning steps, while maintaining a success buffer and curriculum learning for stable policy evolution.",
-        "evidence": "DRIFT outperforms GRPO and SDPO by 9.5% and 7.5% respectively on average across five benchmarks, achieving 79.5% accuracy and setting new state-of-the-art results, notably 79.2% on ToolUse with a 13.5% improvement over GRPO.",
-        "limitations": "The paper does not provide detailed ablations isolating the individual contributions of difficulty routing, rhythm gating, and success buffer components.",
-        "why_for_you": "DRIFT offers a novel on-policy distillation framework that adaptively balances exploration and exploitation at both problem and token levels, addressing key challenges in stable LLM self-improvement.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "DRIFT achieves 79.5% mean@16 accuracy on five scientific reasoning and tool use benchmarks, surpassing SRPO by 2.1 points and improving over the Qwen3-8B baseline by 30 points, demonstrating robust gains across diverse tasks."
-          },
-          {
-            "icon": "🛡️",
-            "text": "Difficulty Routing classifies problems into easy, medium, and hard categories, allocating self-distillation to hard problems, reinforcement learning to medium-difficulty problems, and suppressing updates on easy problems to avoid redundant training."
-          },
-          {
-            "icon": "📉",
-            "text": "Rhythm-Gated Exploration refines token-level credit assignment by gating policy gradient updates with a rebellious bonus based on local exceedance of student over teacher log-probabilities and structural salience derived from temporal entropy differences."
-          }
-        ],
-        "overview": "The paper addresses the challenge of stable self-improvement in large language models (LLMs) for complex reasoning tasks without external supervision. Existing methods like GRPO and SDPO inadequately adapt training signals to the model's evolving capabilities, causing over-optimization of easy problems and insufficient exploration of borderline cases. DRIFT proposes an online self-evolution framework that dynamically routes problems by difficulty, applying self-distillation to hard problems, reinforcement learning to medium-difficulty problems, and reducing updates on easy problems. Additionally, it introduces rhythm-gated exploration to focus token-level policy updates on structurally salient reasoning steps, improving credit assignment and reducing gradient noise. A success buffer retains high-quality historical solutions, enabling durable memory across batches, and a two-stage curriculum guides stable policy evolution. Empirical evaluation on five benchmarks and three model scales shows DRIFT consistently outperforms state-of-the-art baselines, achieving a new peak accuracy of 79.5% and substantial gains on the ToolUse benchmark. These results validate DRIFT's adaptive training signal allocation and token-level exploration as effective mechanisms for LLM self-evolution.",
-        "methodology": [
-          {
-            "title": "Difficulty Routing",
-            "detail": "DRIFT estimates the model's mastery per problem and categorizes problems into easy, medium, and hard. It routes easy problems to receive fewer updates to prevent redundant training, hard problems to self-distillation for explicit guidance, and medium-difficulty problems to reinforcement learning for focused exploration, balancing error correction and policy evolution."
-          },
-          {
-            "title": "Rhythm-Gated Exploration",
-            "detail": "This component refines token-level policy updates by computing a rebellious bonus based on the student's local exceedance over the teacher's log-probabilities, filtered by a margin. Structural salience is estimated from temporal entropy differences between teacher and student, gating updates to critical reasoning tokens and improving credit assignment."
-          },
-          {
-            "title": "Success Buffer",
-            "detail": "A cross-batch memory stores high-quality correct solutions, enabling reuse of successful trajectories across training batches. This preserves reliable supervision for hard problems that are rarely solved in the current batch, supporting stable and durable self-evolution."
-          },
-          {
-            "title": "Two-Stage Curriculum Learning",
-            "detail": "DRIFT employs a curriculum that first guides the model to acquire reliable behavior through stable self-distillation, then progressively shifts toward policy evolution via reinforcement learning, ensuring smooth transition and convergence."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Token-Level Credit Assignment via Rhythm Gating",
-            "detail": "The rhythm gating mechanism calculates a token-level weight as the product of a rebellious bonus (local exceedance of student log-probability over teacher minus a margin) and structural salience (derived from temporal entropy dynamics). This selectively amplifies policy gradients at critical tokens only when the sample is in the medium-difficulty region, improving exploration efficiency and interpretability."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Benchmark Evaluation",
-            "detail": "DRIFT is evaluated on five benchmarks: Chemistry, Physics, Biology, Materials (from SciKnowEval), and Tool Use (from ToolAlpaca). The evaluation protocol follows SDPO with in-domain train/test splits, measuring mean@16 accuracy across tasks."
-          },
-          {
-            "title": "Baselines and Comparisons",
-            "detail": "DRIFT is compared against six baselines: GRPO, SDPO, SRPO, DistIL, SC-SDPO, and PGPO. GRPO and SDPO are reproduced with default hyperparameters; other baselines use reported results. Metrics include accuracy and best@16 performance."
-          },
-          {
-            "title": "Ablation and Hyperparameter Settings",
-            "detail": "Experiments set difficulty routing parameters (γhard=0, γeasy=0.5, reasy=0.8, rhard=0.2) to suppress redundant updates on easy problems and focus reinforcement learning on medium difficulty. Ablations isolating individual components are not detailed."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Superior Average Performance",
-            "detail": "DRIFT achieves 79.5% mean@16 accuracy across five benchmarks, outperforming SRPO by 2.1 points, SC-SDPO by 4.7 points, and GRPO/SDPO by 7.5–9.5 points, demonstrating consistent gains over strong baselines."
-          },
-          {
-            "title": "Balanced Task Performance",
-            "detail": "DRIFT ranks top two on every task, leading on biology (74.4%) and tool use (79.2%), and second-best on chemistry (82.0%), materials (81.4%), and physics (80.5%), with less than 1.1 points gap from per-task best, indicating robust generalization."
-          },
-          {
-            "title": "Improved Exploration on Hard Problems",
-            "detail": "On the hardest task, biology, DRIFT attains 74.4% accuracy versus 47.4% for GRPO reproduction, attributed to routing hard problems to self-distillation and token-level correction via rhythm gating."
-          },
-          {
-            "title": "Effective Suppression of Redundant Updates",
-            "detail": "Difficulty routing suppresses updates on easy problems with homogeneous rewards and vanishing advantage, preventing over-optimization and stabilizing training."
-          }
-        ],
-        "contributions": [
-          "Proposed Difficulty Routing to adaptively allocate self-distillation and reinforcement learning signals based on problem-level mastery.",
-          "Introduced Rhythm-Gated Exploration to refine token-level credit assignment focusing on structurally salient reasoning tokens.",
-          "Developed a Success Buffer to retain and reuse high-quality correct solutions across batches for durable self-evolution.",
-          "Designed a two-stage curriculum learning strategy guiding stable policy evolution from behavior acquisition to exploration.",
-          "Demonstrated state-of-the-art performance on five scientific reasoning and tool use benchmarks across multiple model scales."
-        ],
-        "limitations": [
-          "Lack of detailed ablation studies isolating the impact of difficulty routing, rhythm gating, and success buffer components.",
-          "No explicit analysis of computational overhead or training efficiency introduced by the rhythm gating mechanism.",
-          "Limited discussion on generalization to out-of-domain tasks or robustness to noisy or adversarial inputs.",
-          "Absence of theoretical guarantees or formal convergence analysis for the proposed adaptive routing framework."
-        ],
-        "open_questions": [
-          "How does each component of DRIFT (difficulty routing, rhythm gating, success buffer) individually contribute to performance gains?",
-          "Can the rhythm-gated exploration mechanism be generalized to other sequence modeling tasks beyond reasoning?",
-          "What are the trade-offs between exploration and exploitation in DRIFT when scaling to larger models or more complex tasks?",
-          "How robust is DRIFT to noisy or adversarial training signals, and can it be extended to handle such scenarios?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "On-policy distillation",
-        "matched": [
-          "self-distillation",
-          "distillation",
-          "self-distillation"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-02T15:07:24.086596+00:00"
-    },
-    {
-      "id": "2606.30077",
-      "title": "Online Data Selection for Instruction Tuning via Gaussian Processes",
-      "abstract": "With Large Language Model (LLM) pre-training and fine-tuning shifting its focus from data volume to data quality, quality data selection has emerged as a critical research topic. Existing online data selection methods for LLM training are typically \"batch-constrained\", limiting optimization to local utility within random batches. To overcome this, we propose GAIA (Global Adaptive Instruction tuning via GAussian processes), a framework that formulates data valuation as a global estimation process. GAIA employs Gaussian Process regression to model continuous utility manifolds across the semantic space, utilizing an adaptive strategy fusion mechanism to dynamically prioritize high-utility samples. By casting the strategy-posterior update as an instance of the classical fixed-share Hedge framework for tracking the best expert, we inherit a dynamic-regret guarantee that characterizes GAIA's robustness under non-stationary quality scores during training. Empirical evaluations on three datasets demonstrate that GAIA significantly outperforms state-of-the-art baselines like \\greats, establishing our method as a scalable and robust solution for efficient instruction tuning.",
-      "authors": [
-        "Jun Wang",
-        "Quoc Phong Nguyen",
-        "Julien Monteil",
-        "Vu Nguyen"
-      ],
-      "published": "2026-06-29T10:08:12Z",
-      "updated": "2026-06-29T10:08:12Z",
-      "categories": [
-        "cs.LG",
-        "cs.AI"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2606.30077v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.30077v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm",
-        "instruction tuning"
-      ],
-      "topics": [
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "emerging",
-          "score": 0.7306,
-          "matched": [
-            "data selection",
-            "data valuation",
-            "data quality",
-            "data",
-            "selection",
-            "valuation"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.6001,
-          "matched": [
-            "robustness",
-            "robust",
-            "fine-tuning",
-            "training"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3209,
-          "matched": [
-            "robustness",
-            "llm",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6356,
-        "relevance": 0.7687,
-        "quality": 0.44,
-        "novelty": 0.2,
-        "freshness": 0.5583
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "dataset evidence"
-      ],
-      "summary": {
-        "takeaway": "GAIA leverages Gaussian Process regression with a fixed-share Hedge update to globally and adaptively select high-utility instruction tuning data, outperforming state-of-the-art baselines like GREATS with minimal overhead.",
-        "problem": "Existing online data selection methods for LLM instruction tuning are batch-constrained, limiting optimization to local utility within randomly sampled candidate pools and thus suffering from stochastic vulnerability.",
-        "method": "GAIA models the latent quality function over the entire training corpus using Gaussian Processes, discretizes it into strategies, and updates their posterior via a fixed-share Hedge algorithm to guide global candidate pool construction and adaptive data selection.",
-        "evidence": "Empirical evaluations on three instruction tuning datasets and four backbone LLMs show GAIA-GREATS achieves faster convergence and better perplexity and accuracy than baselines, adding only about 23 seconds overhead on a 13k-sample dataset.",
-        "limitations": "The method requires warm-up initialization with a small labeled subset and tuning of Hedge learning and mixing rates, with no explicit mechanism detailed for handling extremely large-scale datasets beyond the tested scale.",
-        "why_for_you": "GAIA offers a theoretically grounded, scalable, and robust framework for improving data selection quality in LLM instruction tuning, directly addressing batch-constrained limitations relevant to efficient and trustworthy LLM training.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "GAIA employs Gaussian Process regression to model a continuous latent quality function over the entire training corpus, enabling principled generalization of data valuation signals to unseen examples throughout training."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The fixed-share Hedge update mechanism maintains a posterior over discretized GP strategies, allowing dynamic adaptation to non-stationary quality scores with a provable dynamic-regret guarantee."
-          },
-          {
-            "icon": "📉",
-            "text": "Empirical results on MMLU, SAMSUM, and TYDIQA datasets with LLaMA-2, LLaMA-3, Qwen, and Mistral backbones show GAIA-GREATS significantly accelerates convergence and improves test perplexity and accuracy compared to GREATS and other baselines."
-          }
-        ],
-        "overview": "The paper addresses the critical challenge of online data selection for instruction tuning of LLMs, where existing methods are limited by batch-constrained candidate pools sampled uniformly at random, causing local optimality and stochastic vulnerability. GAIA proposes a global data valuation framework by modeling the latent quality function over the entire training corpus using Gaussian Processes, enabling smooth generalization of utility scores to unseen data. To scale this approach, GAIA discretizes the GP into a finite set of strategies and maintains a posterior distribution over them via a fixed-share Hedge update, which adapts to the non-stationarity of quality scores as model parameters evolve. This posterior guides the sampling of candidate batches biased toward high-utility regions, which can be further refined by existing selection methods like GREATS. Empirical evaluations on multiple datasets and LLM architectures demonstrate that GAIA significantly outperforms state-of-the-art baselines with negligible computational overhead, validating its effectiveness and scalability as a robust online data selection method for instruction tuning.",
-        "methodology": [
-          {
-            "title": "Gaussian Process Modeling",
-            "detail": "GAIA models the latent quality function over the entire training corpus as a Gaussian Process (GP) with a kernel fitted on warm-up data. This enables continuous estimation of data utility across the semantic embedding space, allowing generalization to unseen samples."
-          },
-          {
-            "title": "Strategy Discretization and Posterior Maintenance",
-            "detail": "The continuous GP is discretized into a finite set of function samples called strategies. GAIA maintains a posterior distribution over these strategies using a fixed-share Hedge update with a top-k likelihood, allowing adaptation to changing data quality during training."
-          },
-          {
-            "title": "Fixed-Share Hedge Update",
-            "detail": "To handle non-stationary quality scores, GAIA uses a fixed-share Hedge update that mixes the posterior with a uniform distribution at each step, preventing permanent exclusion of any strategy and providing a dynamic-regret guarantee for robustness."
-          },
-          {
-            "title": "Candidate Batch Sampling",
-            "detail": "At each iteration, GAIA samples a strategy from the posterior and draws candidate batches from the training pool with probabilities proportional to the exponentiated strategy scores, controlled by a temperature parameter to balance exploitation and diversity."
-          },
-          {
-            "title": "Integration with Existing Selection Methods",
-            "detail": "GAIA can be combined with methods like GREATS by first globally biasing candidate pool sampling toward high-utility regions, then applying local batch refinement to optimize quality and diversity within the batch."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Dynamic Posterior Update via Fixed-Share Hedge",
-            "detail": "GAIA models the posterior over strategies with a fixed-share Hedge update that tempers each batch's evidence by a learning rate λ and mixes with a uniform distribution at rate α. This update admits a Bayesian interpretation as filtering under a Markovian switching prior, enabling recovery from shifts in the best strategy as model parameters evolve."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Datasets and Models",
-            "detail": "Evaluations were conducted on three instruction tuning datasets: MMLU, SAMSUM, and TYDIQA, using four backbone LLMs: LLaMA-2-7B, LLaMA-3-18B, Qwen-3.4B, and Mistral-7B."
-          },
-          {
-            "title": "Baselines and Metrics",
-            "detail": "GAIA was compared against gradient-based (GradNorm), loss-prioritizing (MaxLoss, RHOLoss), semantic-aware (SBERT), and greedy optimization (GREATS) baselines, using perplexity and accuracy metrics on validation and test sets."
-          },
-          {
-            "title": "Efficiency and Overhead",
-            "detail": "GAIA adds minimal computational overhead, e.g., approximately 23 seconds for GP training on a 13k-sample MMLU dataset, demonstrating practical scalability."
-          },
-          {
-            "title": "Ablations and Sensitivity",
-            "detail": "The effect of sampling temperature τ and embedding dimensionality via SVD projection were analyzed, showing a trade-off between exploitation speed and batch diversity."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Improved Convergence",
-            "detail": "GAIA-GREATS achieves significantly faster convergence in perplexity and accuracy on MMLU-Sociology and SAMSUM compared to all baselines, demonstrating the benefit of global adaptive data selection."
-          },
-          {
-            "title": "Robustness to Non-Stationarity",
-            "detail": "The fixed-share Hedge update enables GAIA to adapt to evolving data quality during training, maintaining a dynamic-regret guarantee and preventing strategy collapse."
-          },
-          {
-            "title": "Minimal Overhead",
-            "detail": "Despite the added complexity of GP modeling and posterior updates, GAIA incurs negligible runtime overhead relative to baseline training times."
-          },
-          {
-            "title": "Effective Integration",
-            "detail": "Combining GAIA with GREATS leverages global guidance and local batch refinement, yielding superior performance over either method alone."
-          }
-        ],
-        "contributions": [
-          "Formulation of data valuation as a global estimation problem using Gaussian Processes over the entire training corpus.",
-          "Introduction of a fixed-share Hedge posterior update to handle non-stationary quality scores with dynamic-regret guarantees.",
-          "A scalable and computationally efficient framework that integrates with existing online data selection methods to improve instruction tuning.",
-          "Comprehensive empirical validation on multiple datasets and LLM architectures demonstrating superior performance and efficiency."
-        ],
-        "limitations": [
-          "Requires a warm-up phase with labeled data to fit the initial GP model, which may limit applicability in fully unsupervised settings.",
-          "Hyperparameters of the fixed-share Hedge update (learning rate λ and mixing rate α) require empirical tuning without automated adaptation.",
-          "Scalability beyond the tested dataset sizes and embedding dimensions is not explicitly demonstrated.",
-          "No explicit mechanism is provided for handling extremely large or streaming datasets beyond the discretized strategy approach."
-        ],
-        "open_questions": [
-          "How can GAIA be extended or adapted to fully unsupervised or zero-label scenarios without warm-up initialization?",
-          "Can the fixed-share Hedge update parameters be learned or adapted online to reduce hyperparameter tuning?",
-          "What are the limits of GAIA's scalability in terms of dataset size, embedding dimensionality, and model scale?",
-          "How does GAIA perform in continual learning or streaming data scenarios where data distribution shifts significantly?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Data selection for LLMs",
-        "matched": [
-          "data selection",
-          "data valuation",
-          "data quality",
-          "data"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-02T12:21:00.110067+00:00"
     }
   ]
 }
