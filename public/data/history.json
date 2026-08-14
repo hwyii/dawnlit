@@ -1,6 +1,484 @@
 {
-  "generated_at": "2026-08-13T11:10:44.890184+00:00",
+  "generated_at": "2026-08-14T11:07:48.849243+00:00",
   "papers": [
+    {
+      "id": "2608.13515",
+      "title": "Measuring Task-Agnostic Training Data Influence Across Language Model Pretraining",
+      "abstract": "Measuring training data influence consistently across language model pretraining is challenging. It is difficult to select downstream tasks or validation sets representative of a model's general capabilities, and reliance on task performance at intermediate checkpoints complicates comparisons across training. We propose a measure of training data influence that does not require selecting a downstream task or validation set as the attribution target. Specifically, we define an example's influence by how much its gradient update reduces the squared distance to the final parameters of a given pretraining run, and estimate this quantity from intermediate checkpoints without retraining. Applying the method to 18 configurations from the Pythia and PolyPythia suites, we find systematic temporal changes in influential data. Early in training, literature-related data are more strongly aligned with the trajectory toward the final parameters, whereas STEM data become more strongly aligned in later stages. This qualitative crossover is broadly consistent across model configurations. Our results provide a tractable trajectory-level view of how influential data change throughout pretraining, complementing influence analyses defined with respect to specific downstream tasks or validation sets.",
+      "authors": [
+        "Yuto Nishida",
+        "Hirokazu Kiyomaru",
+        "Yusuke Oda",
+        "Takashi Kodama",
+        "Chaoran Liu",
+        "Daisuke Kawahara",
+        "Yusuke Miyao",
+        "Max Müller-Eberstein",
+        "Masaru Isonuma"
+      ],
+      "published": "2026-08-13T17:36:49Z",
+      "updated": "2026-08-13T17:36:49Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.13515v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.13515v1",
+      "comment": "Accepted to COLM 2026",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "language model"
+      ],
+      "topics": [
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.5895,
+          "matched": [
+            "influence",
+            "training data"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5193,
+        "relevance": 0.4716,
+        "quality": 0.41,
+        "novelty": 0.8596,
+        "freshness": 0.8957,
+        "feedback_adjustment": -0.0135,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "作者提出基于参数距离下降的任务无关训练数据影响度量，揭示了预训练不同阶段数据重要性的系统性转变。",
+        "problem": "缺乏一种无需下游任务或验证集即可在整个预训练过程中一致衡量训练数据影响的方法。",
+        "method": "将单条样本的影响定义为其梯度更新对最终模型参数的平方 L2 距离的减少，并通过中间检查点的近似在不重新训练的情况下估计。",
+        "evidence": "在 18 种 Pythia/PolyPythia 配置（每种 154 个检查点）上发现，早期文献数据影响最大，后期 STEM 数据影响最大，且跨配置一致。",
+        "limitations": "Not stated in the available source.",
+        "why_for_you": "该度量可帮助你在不同训练阶段挑选最具影响力的数据，直接服务于 LLM 数据选择研究。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "提出基于参数距离下降的任务无关训练数据影响度量"
+          },
+          {
+            "icon": "⚙️",
+            "text": "通过中间检查点估计梯度更新对最终参数的对齐程度，无需重新训练"
+          },
+          {
+            "icon": "📊",
+            "text": "在18个Pythia/PolyPythia配置（每个154个检查点）中发现早期文献数据占优、后期STEM数据占优的跨阶段一致性"
+          }
+        ],
+        "overview": "本文重新定义训练数据影响为单条样本梯度更新对最终模型参数平方 L2 距离的减少，并给出基于保存的中间检查点的后置近似，无需重新训练即可在整个预训练轨迹上比较影响。作者在 18 种 Pythia 与 PolyPythia 变体（每种 154 个检查点）上进行实验，发现影响随训练阶段显著转移：早期文献类数据贡献最大，后期 STEM 类数据贡献上升，且该趋势在不同模型规模、随机种子和数据顺序下保持一致。进一步的可靠性分析表明该方法对检查点间隔、参考终点以及归因目标均稳健。",
+        "methodology": [
+          {
+            "title": "影响定义",
+            "detail": "对每个更新步骤 t，记参数 θ_t，最终参数 θ*，则 mini‑batch 影响 Cont(B_t)=‖θ*−θ_t‖²−‖θ*−θ_{t+1}‖²，等价于 2Δ_tᵀ(θ*−θ_t)−‖Δ_t‖²。"
+          },
+          {
+            "title": "检查点近似",
+            "detail": "利用保存的中间检查点，计算每个样本梯度 ∇_θℓ(x;θ_c) 与该检查点的参数差 (θ*−θ_c) 的内积，近似其对最终距离的贡献，无需重新训练。"
+          },
+          {
+            "title": "归一化与排序",
+            "detail": "在每个检查点区间内对所有样本的近似贡献得分进行排名，关注 top/bottom 5% 以分析域分布变化。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "参数空间几何解释",
+            "detail": "影响量度衡量更新方向与指向最终参数的向量的对齐程度；对齐越好且更新幅度适中，距离下降越多，说明该样本推动模型朝最终目标前进。"
+          },
+          {
+            "title": "梯度对齐与范数惩罚",
+            "detail": "公式中的第一项 2Δ_tᵀ(θ*−θ_t) 捕获方向对齐，第二项 ‖Δ_t‖² 对大幅更新进行惩罚，确保高影响样本既方向正确又不过度扰动。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "模型与数据",
+            "detail": "使用 Pythia 系列及其去重版 PolyPythia，共 18 种配置（包括 1.4B、160M 等），每种保存 154 个训练检查点；训练数据按 26 个领域分类，并构建对应的验证子集。"
+          },
+          {
+            "title": "实验设置",
+            "detail": "在每个检查点区间计算所有训练样本的近似影响得分；对四个代表性验证域（Books & Literature、Science、Computers & Electronics、Hobbies & Leisure）分别统计 top/bottom 5% 样本的领域占比。"
+          },
+          {
+            "title": "评估与可靠性",
+            "detail": "通过改变检查点间隔、选择不同的终点模型、切换模型规模和随机种子，验证影响度量的稳健性；结果显示域占比趋势在所有设置下保持一致。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "阶段性域转移",
+            "detail": "早期训练阶段文献类（Books & Literature）数据在 top 5% 贡献中占比最高，随后逐渐下降；而 STEM 类（Science、Computers & Electronics）在后期占比显著上升。"
+          },
+          {
+            "title": "跨配置一致性",
+            "detail": "上述趋势在不同模型规模、不同数据随机种子以及不同初始化下均出现，表明该现象是预训练过程的普遍特征。"
+          },
+          {
+            "title": "方法可靠性",
+            "detail": "影响度量对检查点采样密度、参考终点模型以及归因目标的变化不敏感，证明了其在大规模预训练分析中的可用性。"
+          }
+        ],
+        "contributions": [
+          "提出任务无关的训练数据影响度量并给出无需重新训练的检查点近似方法。",
+          "系统刻画了预训练过程中不同领域数据影响的阶段性演变。",
+          "验证了该分析在不同模型配置、检查点设置和归因目标下的可靠性与可扩展性。"
+        ],
+        "limitations": [
+          "Not stated in the available source."
+        ],
+        "open_questions": [
+          "如何将任务无关的影响度量用于实际的预训练数据筛选或课程设计？",
+          "该方法在更大规模模型（如数百亿参数）上的计算成本与精度如何？",
+          "不同的终点模型选择（如不同训练步数的模型）会否改变影响趋势的解释？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Data selection for LLMs",
+        "matched": [
+          "influence",
+          "training data"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-14T11:07:48.849243+00:00"
+    },
+    {
+      "id": "2608.13517",
+      "title": "DFM Mimir v1: An Open HRM Delivering Frontier Performance at 1B Parameters Using Only Permissible Post-Training Data",
+      "abstract": "Current large language model development relies on massive, often non-permissible datasets, creating a high barrier for researchers committed to open-source and ethically sourced data. We introduce Mimir v1, a 1-billion-parameter language model based on the Hierarchical Reasoning Model (HRM) architecture, that is trained from scratch and delivers highly competitive performance for English and sets a new state of the art for Danish using only permissible post-training data. Trained on a mixture of 161 datasets, Mimir v1 outperforms the original HRM-Text 1B and competes with larger frontier models like Qwen 3.5 4B and Gemma 4 E2B, tested across 20 benchmarks for English, Math & Code and Danish. The model is available on the Hugging Face Hub: https://huggingface.co/danish-foundation-models/DFM-Mimir",
+      "authors": [
+        "Peter Schneider-Kamp",
+        "Jacob Nielsen",
+        "Gianluca Barmina",
+        "Kenneth Enevoldsen",
+        "Lukas Galke Poech"
+      ],
+      "published": "2026-08-13T17:37:53Z",
+      "updated": "2026-08-13T17:37:53Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.13517v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.13517v1",
+      "comment": "Technical Report, 20 Pages, 1 Model, Hierarchical Reasoning Model",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model"
+      ],
+      "topics": [
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.3764,
+          "matched": [
+            "training data"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4667,
+        "relevance": 0.3011,
+        "quality": 0.69,
+        "novelty": 0.8821,
+        "freshness": 0.8958,
+        "feedback_adjustment": -0.013,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "benchmark evaluation",
+        "dataset evidence",
+        "open source",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "DFM Mimir v1 在仅使用可许可后训练数据的情况下，以1B参数实现丹麦语SOTA并在20个基准上与更大模型竞争。",
+        "problem": "缺乏可公开、合规的数据集导致开源LLM研发门槛高。",
+        "method": "采用HRM-Text架构，使用161个可许可数据集（约70.5B tokens/epoch）并通过合成“移植数据集”替代不可许可数据进行从头训练。",
+        "evidence": "在20个评测基准上，Mimir v1 超越 HRM-Text 1B，且与 Qwen 3.5 4B、Gemma 4 E2B 等更大模型表现相当。",
+        "limitations": "训练语料高度集中，前10数据占66.5%，且部分数据多次重复。",
+        "why_for_you": "对数据选择感兴趣的你可参考其合成数据替代与高效数据混合策略。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "1B参数HRM模型仅用可许可后训练数据实现丹麦语SOTA。"
+          },
+          {
+            "icon": "🗂️",
+            "text": "使用161个数据集（70.5B tokens/epoch）并引入合成“移植数据集”替代不可许可数据。"
+          },
+          {
+            "icon": "📊",
+            "text": "在20基准上超越HRM-Text 1B，且与Qwen 3.5 4B、Gemma 4 E2B竞争，语料前10占66.5%。"
+          }
+        ],
+        "overview": "本文提出的DFM Mimir v1 是首个仅依赖可许可后训练数据的1B参数HRM模型，利用161个公开数据集（总计约70.5B tokens/epoch）并通过合成“移植数据集”替代不可许可内容，实现了丹麦语的最新状态（SOTA），并在20项英语、数学/代码及丹麦语基准上与更大模型相匹配。实验显示模型显著优于原HRM-Text 1B，且数据集中前十大来源占比66.5%，表明数据集中度高。",
+        "methodology": [
+          {
+            "title": "数据构建",
+            "detail": "从HuggingFace Hub 收集161个数据集，按功能划分为八类，累计70,479,308,606 tokens/epoch；对不可许可数据使用合成“移植数据集”进行替代。"
+          },
+          {
+            "title": "训练配置",
+            "detail": "使用Gemma‑4 tokenizer，Fully Sharded Data Parallelism (FSDP)，bfloat16 计算、fp32 聚合；AdamW 学习率峰值3×10⁻⁴，线性热身2000步后保持不变；全局批大小262,144 tokens，梯度累积2，8块加速器。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "HRM‑Text 架构",
+            "detail": "隐藏层大小1,536，12个注意力头，前馈扩展因子4；层数32（半层 true），层级推理配置为2个H‑cycle、3个L‑cycle，截断反向传播最多5步，热身比例0.2；位置编码采用RoPE (θ=10,000)，预归一化层归一化 ε=10⁻⁶。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "基准评估",
+            "detail": "在20个公开基准（包括English BoolQ、MMLU、ARC‑C、GSM8K、MATH、HumanEval以及10个丹麦语任务）上，以temperature=0、固定seed进行评测；对比模型包括HRM‑Text 1B、Qwen 3.5 2B/4B、Gemma 4 E2B。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "性能提升",
+            "detail": "Mimir v1 在所有基准上均超越HRM‑Text 1B，并在多数指标上与Qwen 3.5 4B、Gemma 4 E2B相当，尤其在丹麦语任务上实现新SOTA。"
+          },
+          {
+            "title": "合成数据有效性",
+            "detail": "使用合成“移植数据集”替代不可许可数据后，模型性能不降反升，证明合成数据可在保持数据合规性的同时提供高质量训练信号。"
+          }
+        ],
+        "contributions": [
+          "公开发布仅用可许可后训练数据的1B参数HRM模型",
+          "提出合成“移植数据集”替代不可许可数据的技术路线",
+          "提供涵盖英语、数学/代码和丹麦语的20项基准全面评估"
+        ],
+        "limitations": [
+          "训练语料高度集中：前10数据占66.5%，部分数据多次重复",
+          "缺少对合成数据与原始数据的细粒度对比实验"
+        ],
+        "open_questions": [
+          "在更低资源语言上，合成数据能否同样实现性能提升？",
+          "不同数据选择与重复策略对模型能力的具体影响如何量化？",
+          "是否可以在保持性能的前提下降低数据重复度或总量？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Data selection for LLMs",
+        "matched": [
+          "training data"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-14T11:07:48.849243+00:00"
+    },
+    {
+      "id": "2608.13304",
+      "title": "Refusing Intent, Not Form: Wrapper-Based Intent-Group Supervision for LLM Safety",
+      "abstract": "Safety tuning can improve harmful refusal, but models may learn surface-form shortcuts: wrapped harmful prompts bypass safety, while similarly wrapped benign prompts are over-refused. We propose Wrapper-Based Intent-Form Augmentation (WIFA), an automatic intent-group augmentation method that pairs wrapped harmful examples with structurally matched wrapped benign counterexamples, requiring no external teacher or manual per-wrapper intent labels. We use WIFA as a common data layer for two complementary fine-tuning routes: WIFA-Boost, a two-stage high-safety recipe, and Anchored Group-Consistent Refusal Training (A-GCRT), which regularizes refusal/compliance decision scores across same-intent wrappers and anchors harmful and benign groups on opposite sides of a margin. In the Qwen setting, WIFA-Boost reaches the strongest transformed-harmful refusal, while A-GCRT reduces OR-Bench over-refusal from 25.7\\% for the base model to 17.4\\%; reproduced baselines do not match these operating points. Llama results and ablations over data structure, two-stage order, and A-GCRT components support this intent-group interpretation without claiming universal below-base over-refusal.",
+      "authors": [
+        "Ping Wu",
+        "Haibo Tong",
+        "Feifei Zhao",
+        "Han Shen",
+        "Yu Shi",
+        "Yilin Zhao",
+        "Sicheng Shen",
+        "Guobin Shen",
+        "Yun Luo",
+        "Yi Zeng"
+      ],
+      "published": "2026-08-13T14:33:15Z",
+      "updated": "2026-08-13T14:33:15Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.13304v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.13304v1",
+      "comment": "23 pages, 11 figures, 24 tables",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3731,
+          "matched": [
+            "llm safety",
+            "safety"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4555,
+        "relevance": 0.2985,
+        "quality": 0.66,
+        "novelty": 0.8562,
+        "freshness": 0.8775,
+        "feedback_adjustment": -0.0126,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "ablation study",
+        "baseline comparison",
+        "reproducibility",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "WIFA 与两种训练策略显著提升 LLM 对有害意图的拒绝且降低良性过度拒绝。",
+        "problem": "现有安全微调易学习包装形式的捷径，导致有害请求被绕过且良性请求被误拒。",
+        "method": "通过 WIFA 自动配对相同意图的包装示例，并在此数据层上使用两阶段的 WIFA-Boost 或带锚点的 A‑GCRT 进行微调。",
+        "evidence": "在 Qwen2.5 上，A‑GCRT 将 OR‑Bench 过度拒绝率从 25.7% 降至 17.4%，且 WIFA‑Boost 达到最高的有害拒绝率。",
+        "limitations": "作者未声称在所有模型或数据上均能实现低于基线的过度拒绝，且对自适应攻击的鲁棒性未验证。",
+        "why_for_you": "对可信 LLM 关注安全拒绝与误拒的平衡，此文提供意图组监督的可行方案。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "WIFA 自动构建匹配的意图组，配对有害与良性包装示例，无需外部教师或手工标签"
+          },
+          {
+            "icon": "🔧",
+            "text": "WIFA-Boost 两阶段 LoRA SFT，先学习包装不诊断，再在校准集强化有害拒绝"
+          },
+          {
+            "icon": "✅",
+            "text": "A‑GCRT 将 OR‑Bench 过度拒绝从 25.7% 降至 17.4%，但未证明对自适应攻击的鲁棒性"
+          }
+        ],
+        "overview": "本文提出 Wrapper‑Based Intent‑Form Augmentation (WIFA)，在共享包装族下自动生成有害与良性意图组，使包装形式成为噪声变量。基于该数据层，设计两条微调路径：WIFA‑Boost 采用两阶段 LoRA SFT，先让模型忽视包装，再在校准集强化有害拒绝；A‑GCRT 在训练时加入组内方差正则与有害/良性锚点，使同意图的不同包装得到一致且方向分离的决策分数。实验在 Qwen2.5‑7B 与 Llama‑3.1‑8B 上验证，显著提升有害拒绝并降低过度拒绝。",
+        "methodology": [
+          {
+            "title": "WIFA 数据构建",
+            "detail": "对每个有害意图 zh，生成 7 种包装 w(zh) 并加入 2 条直接拒绝锚点；对每个良性意图 zb，生成同样的 7 种包装 w(zb)。共计 2250 条有害示例、3500 条良性包装示例，形成 5750 条 WIFA‑SFT 数据。"
+          },
+          {
+            "title": "WIFA‑Boost 两阶段训练",
+            "detail": "Stage 1：在全部 5750 条 WIFA‑SFT 上进行 LoRA‑SFT，得到 θ1；Stage 2：在 2750 条校准集（含相同有害示例 + 500 条纯良性示例）上继续 LoRA‑SFT，得到最终参数 θ2。"
+          },
+          {
+            "title": "A‑GCRT 组一致性与锚点正则",
+            "detail": "对每个意图组 G(z) 计算决策分数均值 s̄z，最小化组内方差 Lvar；同时对有害组施加正向锚点、对良性组施加负向锚点，使两组分数跨越设定 margin。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "意图组监督",
+            "detail": "将相同底层意图的不同包装视为同一监督单元，使模型学习意图而非包装特征，从而防止包装捷径。"
+          },
+          {
+            "title": "组内方差正则",
+            "detail": "Lvar = Var_{x∈G(z)}(s(x)) 强制同意图的不同包装产生相近的决策分数，提升包装鲁棒性。"
+          },
+          {
+            "title": "方向锚点",
+            "detail": "在损失中加入 margin‑based 项，使有害组分数 ≥ +margin，良性组分数 ≤ –margin，确保决策在意图维度上分离。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "模型与基准",
+            "detail": "评估 Qwen2.5‑7B‑Instruct 与 Llama‑3.1‑8B‑Instruct；基准包括 HarmBench、SORRY‑Bench、OR‑Bench‑Hard、XSTest、MMLU、GSM8K，以及 15 种未见攻击族。"
+          },
+          {
+            "title": "对比方法",
+            "detail": "再现的提示时防御：Self‑Reminder、Intention Analysis、Goal Priority；训练时防御：Vanilla Refusal‑SFT、LookAhead Tuning、RATIONAL；以及外部参考 SIRL。"
+          },
+          {
+            "title": "指标",
+            "detail": "HB、SB、OR、XS SafeRef/UnsafeRef、StrongREJECT、ASR、MMLU、GSM8K 等，以百分比或准确率呈现。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "有害拒绝提升",
+            "detail": "WIFA‑Boost 在 Qwen 设置实现最高的 transformed‑harmful refusal（表 1 中最高 SB 分数）。"
+          },
+          {
+            "title": "过度拒绝降低",
+            "detail": "A‑GCRT 将 OR‑Bench 过度拒绝率从基线 25.7% 降至 17.4%，优于所有再现防御。"
+          },
+          {
+            "title": "跨模型一致性",
+            "detail": "在 Llama 实验中同样观察到有害拒绝提升与过度拒绝下降，支持意图组解释的可迁移性。"
+          },
+          {
+            "title": "消融验证",
+            "detail": "去除匹配良性包装或改变两阶段顺序会削弱效果，证明数据结构与阶段顺序是关键因素。"
+          }
+        ],
+        "contributions": [
+          "自动化意图组数据增强方法 WIFA，无需外部教师或手工标签",
+          "两种基于 WIFA 的安全微调路径：WIFA‑Boost 与 Anchored Group‑Consistent Refusal Training (A‑GCRT)",
+          "在主流模型上实现显著的有害拒绝提升与过度拒绝降低"
+        ],
+        "limitations": [
+          "未声称在所有模型或数据分布上均能实现低于基线的过度拒绝",
+          "对自适应 jailbreak 攻击的鲁棒性缺乏实验验证",
+          "实验仅覆盖中文/英文两种模型，未评估多语言或更大规模模型"
+        ],
+        "open_questions": [
+          "意图组监督在更大规模 LLM 或多语言环境下的可扩展性如何？",
+          "自适应攻击者是否能发现新的包装方式突破组一致性约束？",
+          "如何将意图组监督与推理时安全防御（如自我提醒）有效结合？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "llm safety",
+          "safety"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-14T11:07:48.849243+00:00"
+    },
     {
       "id": "2608.12025",
       "title": "From Safety Documentation to Safety Knowledge Support: An Evidence-Grounded LLM Framework for Medical Devices",
@@ -16298,499 +16776,6 @@
           "robustness",
           "llm",
           "robustness"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-02T15:07:24.086596+00:00"
-    },
-    {
-      "id": "2607.00572",
-      "title": "HARC: Coupling Harmfulness and Refusal Directions for Robust Safety Alignment",
-      "abstract": "Understanding how aligned LLMs internally represent safety is critical for diagnosing alignment vulnerabilities, as it explains why jailbreaks succeed and informs the design of robust alignment strategies. Prior work shows that aligned LLMs encode harmfulness and refusal as separable directions in the residual stream at prompt-side token positions. We show that jailbreaks succeed at prompt encoding by suppressing either the refusal or harmfulness direction before any token is generated, with distinct attack classes occupying separable regions of the harmfulness-refusal plane. Extending the analysis to response-token positions, we find that the model recognizes harmful content while it is generating that content, even when it failed to recognize the input as harmful at the prompt side. Motivated by our findings, we introduce HARC (Harmfulness-And-Refusal Coupling), a fine-tuning method that pairs the two directions across both prompt and response positions. Since the intervention is confined to the harmfulness-refusal subspace, it leaves the rest of the residual stream intact and does not degrade general capability or inflate over-refusal. Across extensive experiments, HARC achieves the strongest robustness-capability-usability trade-off among six baselines spanning the major training-time and inference-time safety methods. The harmfulness and refusal directions at prompt and response positions transfer across the five model families and two scales we tested without architecture-specific tuning.",
-      "authors": [
-        "Shei Pern Chua",
-        "Fangzhao Wu"
-      ],
-      "published": "2026-07-01T07:58:16Z",
-      "updated": "2026-07-01T07:58:16Z",
-      "categories": [
-        "cs.AI",
-        "cs.CR"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2607.00572v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.00572v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.452,
-          "matched": [
-            "robustness",
-            "robust",
-            "attack",
-            "fine-tuning",
-            "training"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4089,
-          "matched": [
-            "robustness",
-            "alignment",
-            "alignment",
-            "safety",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5348,
-        "relevance": 0.4434,
-        "quality": 0.6,
-        "novelty": 0.8583,
-        "freshness": 0.8146
-      },
-      "quality_signals": [
-        "code available",
-        "baseline comparison",
-        "experiments"
-      ],
-      "summary": {
-        "takeaway": "HARC fine-tuning couples harmfulness and refusal directions at both prompt and response positions, achieving superior robustness and usability without degrading general capability.",
-        "problem": "Aligned LLMs encode harmfulness and refusal as separable directions, allowing jailbreak attacks to suppress refusal or harmfulness signals and bypass safety alignment.",
-        "method": "HARC fine-tunes models by coupling harmfulness and refusal directions in the residual stream subspace at prompt and response tokens, enforcing refusal activation whenever harmfulness is detected.",
-        "evidence": "Experiments on Llama-3.1-8B and Qwen-2.5-7B across four jailbreak attacks, over-refusal benchmarks, and capability tests show HARC achieves the best robustness-capability-usability trade-off among six baselines.",
-        "limitations": "CodeAttack jailbreaks remain partially resistant as their residual activations are orthogonal to harmfulness and refusal directions, limiting coupling loss gradients.",
-        "why_for_you": "HARC provides an interpretable, efficient adversarial training approach that improves trustworthy LLM safety alignment by leveraging internal harmfulness-refusal representations without sacrificing model utility.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Jailbreak attacks like DAN and PAIR exploit the dissociation between harmfulness (vharm) and refusal (vref) directions by suppressing one direction at prompt encoding, enabling harmful responses despite refusal signals."
-          },
-          {
-            "icon": "🛡️",
-            "text": "HARC fine-tuning couples vharm and vref directions at layers L25–L28 (Llama) and L21–L24 (Qwen) using LoRA adapters, reshaping residual activations to propagate refusal whenever harmfulness is detected."
-          },
-          {
-            "icon": "📉",
-            "text": "Coupling fine-tuning collapses dissociated regions exploited by jailbreaks, compressing harmful, DAN, and PAIR clusters into a single ridge along the diagonal in the harmfulness-refusal plane, reducing attack success rates."
-          }
-        ],
-        "overview": "This work investigates how aligned large language models internally represent safety via harmfulness and refusal directions in the residual stream. Prior work identified these as separable at prompt tokens, but this paper extends analysis to response tokens, revealing that models recognize harmful content during generation even if prompt-side recognition fails. Jailbreak attacks exploit this dissociation by suppressing refusal or harmfulness directions, enabling harmful outputs. Motivated by this, the authors propose HARC, a fine-tuning method that couples harmfulness and refusal directions at both prompt and response positions, enforcing refusal activation whenever harmfulness is detected. This coupling is confined to a two-dimensional subspace, preserving general capabilities and avoiding over-refusal. Extensive experiments on Llama-3.1-8B and Qwen-2.5-7B models across multiple jailbreak attacks, over-refusal, and capability benchmarks demonstrate that HARC achieves the strongest robustness-capability-usability trade-off compared to six baselines. The harmfulness-refusal structure and HARC’s effectiveness transfer across five model families and two scales without architecture-specific tuning, highlighting a general property of aligned LLMs and a promising alignment strategy.",
-        "methodology": [
-          {
-            "title": "Direction Extraction",
-            "detail": "Harmfulness (vharm) and refusal (vref) directions are extracted from residual stream activations at both prompt-side and response-side token positions, identifying subspaces encoding safety concepts."
-          },
-          {
-            "title": "Coupling Fine-Tuning",
-            "detail": "HARC fine-tunes models by applying a coupling loss that increases cosine similarity between vharm and vref directions within selected layers (L25–L28 for Llama, L21–L24 for Qwen), using LoRA adapters on attention and MLP projections, with directions recomputed every 200 steps."
-          },
-          {
-            "title": "Dual-Position Objective",
-            "detail": "The coupling loss is applied simultaneously at prompt and response token positions to ensure refusal activation propagates regardless of where harmful intent is first detected, reducing over-refusal and preserving helpfulness."
-          },
-          {
-            "title": "Evaluation Protocol",
-            "detail": "Attack success rate (ASR) is measured using an LLM judge (GPT-4o) with the HexPHI scoring template on JailbreakBench attacks; over-refusal is evaluated on XSTest and CoCoNot; general capability is assessed on MMLU, GSM8K, IFEval, HumanEval, and MT-Bench."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Harmfulness-Refusal Direction Coupling",
-            "detail": "The model’s residual stream contains distinct vharm and vref directions that are nearly orthogonal at late layers, allowing inputs to activate harmfulness without refusal. HARC reshapes this subspace by increasing cosine similarity between vharm and vref, causing refusal activation to reliably follow harmfulness detection, thus blocking jailbreaks that suppress refusal."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Model Fine-Tuning and Baselines",
-            "detail": "Llama-3.1-8B and Qwen-2.5-7B models are fine-tuned with HARC using LoRA adapters; six baselines include supervised fine-tuning (SFT), DPO, Circuit Breakers, RepBend, and CAST, covering major training-time and inference-time safety methods."
-          },
-          {
-            "title": "Jailbreak Attack Evaluation",
-            "detail": "Four jailbreak attacks (DAN, PAIR, CodeAttack, DeepInception) are evaluated on JailbreakBench using GPT-4o judge to compute attack success rates, assessing robustness improvements from HARC and baselines."
-          },
-          {
-            "title": "Over-Refusal and Capability Benchmarks",
-            "detail": "Over-refusal is measured on XSTest and CoCoNot datasets; general capability is evaluated on MMLU, GSM8K, IFEval, HumanEval, and MT-Bench to verify that HARC preserves usability and helpfulness."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Jailbreaks Exploit Direction Dissociation",
-            "detail": "DAN and PAIR attacks suppress refusal or harmfulness directions at prompt encoding, enabling harmful responses; CodeAttack suppresses both, remaining orthogonal to these directions."
-          },
-          {
-            "title": "Response-Side Recognition of Harmfulness",
-            "detail": "Models recognize harmful content during generation even when prompt-side harmfulness detection fails, indicating a four-direction structure at response tokens."
-          },
-          {
-            "title": "HARC Collapses Dissociated Regions",
-            "detail": "Coupling fine-tuning compresses harmful, DAN, and PAIR clusters into a single ridge along the diagonal in the harmfulness-refusal plane, reducing attack success rates and improving robustness."
-          },
-          {
-            "title": "Preservation of Capability and Over-Refusal",
-            "detail": "HARC confines intervention to the harmfulness-refusal subspace, avoiding degradation of general capabilities and preventing inflation of over-refusal rates, unlike other baselines."
-          },
-          {
-            "title": "CodeAttack Remains Partially Resistant",
-            "detail": "CodeAttack residuals are nearly orthogonal to vharm and vref, limiting gradient signals for coupling loss and making it the hardest attack to fully mitigate."
-          }
-        ],
-        "contributions": [
-          "Identification of a four-direction harmfulness-refusal structure at prompt and response token positions in aligned LLMs.",
-          "Demonstration that jailbreak attacks exploit dissociation between harmfulness and refusal directions to bypass safety.",
-          "Introduction of HARC, a fine-tuning method coupling harmfulness and refusal directions to enforce refusal activation upon harmfulness detection.",
-          "Extensive evaluation showing HARC’s superior robustness-capability-usability trade-off across multiple models, attacks, and benchmarks.",
-          "Evidence that harmfulness and refusal directions and HARC’s effectiveness generalize across model families and scales without architecture-specific tuning."
-        ],
-        "limitations": [
-          "CodeAttack jailbreaks remain partially resistant due to orthogonality to harmfulness and refusal directions, limiting coupling loss effectiveness.",
-          "The approach relies on accurate extraction of harmfulness and refusal directions, which may vary with model architecture or training data.",
-          "No explicit mechanism or theoretical proof is provided for why coupling these directions improves refusal propagation beyond empirical evidence.",
-          "Evaluation is limited to instruction-tuned models and specific jailbreak attacks; broader generalization to other attack types or model classes is untested."
-        ],
-        "open_questions": [
-          "Can HARC be extended or adapted to mitigate jailbreaks like CodeAttack that evade harmfulness-refusal coupling?",
-          "How stable and consistent are harmfulness and refusal directions across diverse model architectures and training regimes?",
-          "What are the theoretical underpinnings explaining why coupling harmfulness and refusal directions improves alignment robustness?",
-          "Can the harmfulness-refusal coupling approach be integrated with other alignment strategies to further reduce the alignment tax?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "robustness",
-          "robust",
-          "attack",
-          "fine-tuning"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-02T15:07:24.086596+00:00"
-    },
-    {
-      "id": "2607.00479",
-      "title": "Ghost in the Kernel: In-Context Learning with Efficient Transformers via Domain Generalization",
-      "abstract": "Transformer-based large models have demonstrated remarkable generalization abilities across different tasks by leveraging a context-aware attention module for in-context learning. With richer context, transformers adapt more effectively to the current use case without any parameter updates. However, the quadratic computational and memory complexity with respect to context length significantly slows data processing in softmax transformers. Linear transformers were proposed to address this issue by reducing the complexity to linear dependence on context length, but the design and understanding of the feature mapping in linear attention, from a theoretical viewpoint, remain unclear. In this paper, we investigate the approximation and generalization abilities of linear transformers under a two-staged sampling process from domain generalization. We show that linear transformers perform in-context learning as learning a mapping from context distributions to response functions. A dimension-independent convergence rate is obtained for our generalization analysis, which also exhibits the tradeoff between the regularities of data distributions and latent features. Guided by our theoretical framework, we propose a new perspective on activation and loss design for linearizing pretrained softmax large language models.",
-      "authors": [
-        "Peilin Liu",
-        "Ding-Xuan Zhou"
-      ],
-      "published": "2026-07-01T06:03:14Z",
-      "updated": "2026-07-01T06:03:14Z",
-      "categories": [
-        "cs.LG",
-        "stat.ML"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2607.00479v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.00479v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "transformer"
-      ],
-      "topics": [
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.5702,
-          "matched": [
-            "in-context learning",
-            "generalization",
-            "generalization",
-            "convergence"
-          ]
-        },
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "emerging",
-          "score": 0.3148,
-          "matched": [
-            "sampling",
-            "data"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5255,
-        "relevance": 0.5191,
-        "quality": 0.33,
-        "novelty": 0.8194,
-        "freshness": 0.8032
-      },
-      "quality_signals": [],
-      "summary": {
-        "takeaway": "Linear transformers enhance in-context learning by leveraging domain generalization principles.",
-        "problem": "Quadratic complexity in softmax transformers limits their efficiency in processing long contexts.",
-        "method": "The paper proposes a two-staged sampling process to analyze linear transformers' approximation and generalization abilities.",
-        "evidence": "A dimension-independent convergence rate is established, demonstrating the tradeoff between data distribution regularities and latent features.",
-        "limitations": "The theoretical understanding of linear attention mechanisms remains limited despite empirical successes.",
-        "why_for_you": "This research provides insights into improving LLM efficiency and generalization, relevant for statistical theory and data selection.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "The paper establishes that linear transformers perform in-context learning as a mapping from context distributions to response functions, enhancing their generalization capabilities."
-          },
-          {
-            "icon": "🛡️",
-            "text": "A two-staged sampling process is introduced to analyze linear transformers, connecting in-context learning with domain generalization frameworks."
-          },
-          {
-            "icon": "📉",
-            "text": "The authors demonstrate a dimension-independent convergence rate in their generalization analysis, revealing a tradeoff between data distribution regularities and latent feature representation."
-          }
-        ],
-        "overview": "This paper addresses the inefficiencies of softmax transformers in long-context scenarios due to their quadratic computational complexity. By investigating linear transformers through a two-staged sampling process, the authors connect in-context learning with domain generalization, revealing that linear transformers can effectively generalize across tasks without parameter updates. The strongest evidence presented is a dimension-independent convergence rate, which highlights the tradeoff between the regularities of data distributions and latent features, thus providing a theoretical foundation for improving transformer architectures in practical applications.",
-        "methodology": [
-          {
-            "title": "Two-Staged Sampling Process",
-            "detail": "This method involves generating context-augmented inputs from empirical distributions, allowing the analysis of linear transformers' performance in in-context learning scenarios."
-          },
-          {
-            "title": "Activation and Loss Design",
-            "detail": "The authors propose new activation functions and regularity conditions for feature mappings, facilitating the linear conversion of pretrained softmax LLMs."
-          },
-          {
-            "title": "Generalization Analysis Framework",
-            "detail": "A theoretical framework is established to analyze the approximation and generalization abilities of linear transformers, focusing on their performance under distribution shifts."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Connection to Domain Generalization",
-            "detail": "The paper connects in-context learning to domain generalization, suggesting that linear transformers can generalize effectively across different tasks by learning from context distributions."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Empirical Evaluation of Linear Transformers",
-            "detail": "The authors conduct experiments to validate the theoretical findings, although specific models, datasets, and metrics are not detailed in the provided text."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Dimension-Independent Convergence Rate",
-            "detail": "The analysis reveals a dimension-independent convergence rate for linear transformers, indicating robust generalization capabilities under varying data distributions."
-          },
-          {
-            "title": "Tradeoff Between Regularities and Features",
-            "detail": "The study demonstrates a tradeoff between the regularities of data distributions and the representation of latent features, impacting the performance of linear transformers."
-          },
-          {
-            "title": "Fast Eigen-decay Phenomenon",
-            "detail": "The authors observe a fast eigendecay phenomenon in softmax attention weight matrices, which aids linear transformers in mitigating distribution shift effects."
-          }
-        ],
-        "contributions": [
-          "Theoretical analysis framework for linear transformers connecting domain generalization with in-context learning.",
-          "Establishment of a dimension-independent convergence rate for linear transformers.",
-          "Introduction of new activation functions and regularity conditions for linearizing pretrained softmax LLMs."
-        ],
-        "limitations": [
-          "The theoretical understanding of linear attention mechanisms remains limited despite empirical successes.",
-          "Challenges in directly applying the proposed approximation due to the anisotropic nature of token distributions."
-        ],
-        "open_questions": [
-          "How can the proposed linearization algorithm be empirically validated across various open-weight LLMs?",
-          "What are the implications of hybrid models combining linear and softmax attention on transformer performance?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4o-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Statistical theory for LLMs",
-        "matched": [
-          "in-context learning",
-          "generalization",
-          "generalization",
-          "convergence"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-02T15:07:24.086596+00:00"
-    },
-    {
-      "id": "2606.31639",
-      "title": "A Lifecycle and Application-Stack Survey of Large Language Model Vulnerabilities: Attacks, Risks, Defenses, and Open Problems",
-      "abstract": "Large language models are no longer only text generators. They are increasingly embedded in retrieval pipelines, enterprise assistants, coding environments, robotic systems, security-operation workflows, and autonomous agents that can read private data, call tools, write files, execute code, and act across organizational boundaries. This shift changes the security problem: risks do not arise from the model weights alone, but from the full lifecycle and application stack through which data, prompts, model outputs, tools, memories, and user authority interact. This paper systematizes the literature on vulnerabilities in large language model systems through a lifecycle and application-stack lens. We organize attacks across eight stages: data collection, pretraining, post-training alignment, model packaging and supply chain, retrieval and memory, prompting and inference, tool/agent execution, and deployment/maintenance. For each stage, we analyze attacker capabilities, affected security objectives, representative attacks, practical risks, evaluation practices, and defenses. We further map LLM-specific vulnerabilities to confidentiality, integrity, availability, safety, privacy, fairness, accountability, and agency-control objectives. Unlike taxonomies that list isolated attack names, the proposed systematization emphasizes where trust boundaries fail, how untrusted data becomes executable instruction, how delegated authority amplifies model errors, and why point defenses rarely compose. We close with a research agenda for secure LLM systems, including compositional security, provenance-aware retrieval, tool-call containment, long-horizon agent evaluation, privacy-preserving adaptation, realistic red teaming, and deployment-grade incident response.",
-      "authors": [
-        "Seyed Bagher Hashemi Natanzi",
-        "Bo Tang"
-      ],
-      "published": "2026-06-30T13:21:43Z",
-      "updated": "2026-06-30T13:21:43Z",
-      "categories": [
-        "cs.CR",
-        "cs.AI",
-        "cs.GT",
-        "cs.LO"
-      ],
-      "primary_category": "cs.CR",
-      "abs_url": "https://arxiv.org/abs/2606.31639v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.31639v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.5676,
-          "matched": [
-            "privacy",
-            "alignment",
-            "privacy",
-            "alignment",
-            "safety",
-            "red teaming"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5219,
-        "relevance": 0.4541,
-        "quality": 0.53,
-        "novelty": 0.8559,
-        "freshness": 0.7038
-      },
-      "quality_signals": [
-        "code available",
-        "formal bound"
-      ],
-      "summary": {
-        "takeaway": "The paper systematizes vulnerabilities in large language models (LLMs) across their lifecycle and application stack.",
-        "problem": "LLMs pose security risks not just from model weights but from their entire operational context.",
-        "method": "The authors categorize attacks into eight stages, analyzing attacker capabilities and defenses at each stage.",
-        "evidence": "The paper identifies vulnerabilities related to confidentiality, integrity, and safety, emphasizing the need for a comprehensive security framework.",
-        "limitations": "The paper does not provide empirical data or quantitative analysis to support its claims.",
-        "why_for_you": "Understanding LLM vulnerabilities is crucial for developing secure AI applications in your research.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "The paper highlights that LLMs can memorize sensitive training data, leading to privacy breaches through extraction attacks."
-          },
-          {
-            "icon": "🛡️",
-            "text": "It proposes a defense-in-depth architecture that combines deterministic and probabilistic controls to mitigate risks across the application stack."
-          },
-          {
-            "icon": "📉",
-            "text": "The authors emphasize that point defenses are insufficient, as they often fail to address the complexities of LLM interactions with external systems."
-          }
-        ],
-        "overview": "This paper addresses the evolving security landscape of large language models (LLMs) as they transition from mere text generators to integral components of complex application stacks. By systematizing vulnerabilities across eight lifecycle stages, the authors reveal how risks emerge not only from model weights but also from interactions with data, tools, and user authority. The strongest evidence presented is the mapping of LLM-specific vulnerabilities to critical security objectives, underscoring the necessity for a holistic approach to LLM security that transcends traditional defenses.",
-        "methodology": [
-          {
-            "title": "Lifecycle and Application-Stack Analysis",
-            "detail": "The authors categorize vulnerabilities into eight stages: data collection, pretraining, post-training alignment, model packaging, retrieval and memory, prompting, tool execution, and deployment. Each stage is analyzed for attacker capabilities and defenses."
-          },
-          {
-            "title": "Systematization of Knowledge",
-            "detail": "The paper employs a systematic review protocol, coding representative papers based on lifecycle stages, attack types, and security objectives to create a comprehensive understanding of LLM vulnerabilities."
-          },
-          {
-            "title": "Defense-in-Depth Architecture",
-            "detail": "The proposed architecture integrates deterministic controls (e.g., least-privilege permissions) and probabilistic controls (e.g., anomaly detection) to create a layered defense strategy against various attack vectors."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Information Flow and Trust Boundaries",
-            "detail": "The paper posits that LLM vulnerabilities arise from failures in information flow and trust boundaries, where untrusted data can lead to harmful actions when processed by the model."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Attacker Models",
-            "detail": "The paper outlines various attacker models, including black-box prompt users who can submit queries and optimize based on responses, highlighting the need for defenses like rate limits and output filtering."
-          },
-          {
-            "title": "Evaluation Practices",
-            "detail": "The authors discuss evaluation practices that should include realistic tool permissions and multi-step attacks to better assess LLM security in practical scenarios."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Vulnerability Mapping",
-            "detail": "The paper maps LLM vulnerabilities to security objectives such as confidentiality and integrity, indicating that traditional defenses often fail to address these risks."
-          },
-          {
-            "title": "Risks of Tool-Using Agents",
-            "detail": "It identifies that tool-using agents introduce new attack surfaces due to delegated authority and persistent memory, complicating the security landscape."
-          },
-          {
-            "title": "Limitations of Point Defenses",
-            "detail": "The authors conclude that point defenses are rarely sufficient, as they do not account for the complex interactions within the application stack."
-          }
-        ],
-        "contributions": [
-          "Systematization of LLM vulnerabilities across the lifecycle and application stack.",
-          "Identification of critical security objectives related to LLMs.",
-          "Proposed defense-in-depth architecture for mitigating LLM risks."
-        ],
-        "limitations": [
-          "Lack of empirical data or quantitative analysis to support claims.",
-          "The framework may not cover all potential vulnerabilities in emerging LLM applications."
-        ],
-        "open_questions": [
-          "How can we effectively measure the impact of LLM vulnerabilities in real-world applications?",
-          "What are the best practices for ensuring secure interactions between LLMs and external tools?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4o-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "privacy",
-          "alignment",
-          "privacy",
-          "alignment"
         ],
         "lane": "llm"
       },
