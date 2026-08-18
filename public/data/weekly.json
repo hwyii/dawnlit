@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-14T11:07:48.849243+00:00",
+  "generated_at": "2026-08-18T10:47:20.408991+00:00",
   "papers": [
     {
       "id": "2608.13515",
@@ -473,6 +473,177 @@
       "recommended_at": "2026-08-13T11:10:44.890184+00:00"
     },
     {
+      "id": "2608.16577",
+      "title": "BabelSteering: Multilingual Safety Alignment via English Steering Vectors",
+      "abstract": "Large language models (LLMs) are deployed globally in high-stakes settings, yet most safety research and alignment efforts remain concentrated on English. Thus, users interacting with LLMs in other languages may encounter weaker safeguards despite relying on the same systems for similarly sensitive tasks. In this work, we investigate whether safety signals learned from a high-resource language, like English, can improve multilingual safety. We propose BabelSteering, an activation steering method that acts as a lightweight inference- time intervention, using refusal directions derived from English safety supervision to generalize across languages. Our evaluation includes eight languages and jointly measures refusal of harmful requests, over-refusal, and general task utility. The results show that BabelSteering increases the refusal of harmful requests across languages, with only a marginal to no reduction in task utility but with some increase in refusal of pseudo-harmful prompts. For example, for Gemma 7B, we see an average increase in the refusal of harmful prompts across languages of 11 percentage points (pp), with individual languages like Bengali seeing an increase of 17 pp, with no loss of utility on Global MMLU, while pseudo-harmful refusals increase by 13 pp on average. We also introduce a multilingual translation-and-evaluation pipeline to facilitate future work on cross-lingual safety interventions. Overall, our findings suggest that activation steering may provide a practical, low- cost mechanism for extending English-derived safety signals to other languages. Warning: this paper contains examples with unsafe content",
+      "authors": [
+        "Emma V. Stein",
+        "Dominik Meier",
+        "Terry Ruas",
+        "Jan Philip Wahle",
+        "Bela Gipp"
+      ],
+      "published": "2026-08-17T13:40:16Z",
+      "updated": "2026-08-17T13:40:16Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.16577v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.16577v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.514,
+          "matched": [
+            "alignment",
+            "safety"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4737,
+        "relevance": 0.4112,
+        "quality": 0.41,
+        "novelty": 0.8075,
+        "freshness": 0.8743,
+        "feedback_adjustment": -0.0083,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "BabelSteering利用英语安全向量在推理时进行激活引导，实现多语言安全提升且几乎不影响模型效用。",
+        "problem": "现有安全对齐主要聚焦英文，导致非英文用户的模型防护弱化。",
+        "method": "通过差分均值提取英文拒绝向量并正交化伪拒绝向量，在推理阶段对激活进行轻量干预。",
+        "evidence": "在Gemma 7B上，跨八语言的有害请求拒绝率平均提升11个百分点，Bengali提升17个百分点，且Global MMLU无效用下降。",
+        "limitations": "方法无法解决文化特定安全问题，且会导致伪有害请求拒绝率上升约13%。",
+        "why_for_you": "若关注可信 LLM 的跨语言安全对齐，此工作提供了低成本的推理时干预方案。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🌐",
+            "text": "BabelSteering通过英语拒绝向量实现跨语言安全提升，平均提升11%有害请求拒绝率"
+          },
+          {
+            "icon": "🔧",
+            "text": "使用差分均值提取拒绝向量并正交化伪拒绝向量，在单层加入并跨层消除，实现轻量推理时干预"
+          },
+          {
+            "icon": "📈",
+            "text": "在Gemma 7B上，Bengali拒绝提升17pp且MMLU无损，但伪有害拒绝上升13pp"
+          }
+        ],
+        "overview": "本文提出BabelSteering，一种基于英文安全监督的激活引导方法，利用差分均值提取的拒绝向量和正交化的伪拒绝向量，在推理时对模型内部表征进行轻量干预。实验在Gemma 7B、Llama‑3.1‑8B、Qwen‑7B‑Chat三类模型上，覆盖八种语言，分别评估安全（MultiJail）、过度拒绝（翻译的OR‑Bench）和任务效用（Global MMLU），展示了显著的安全提升且几乎不牺牲效用。",
+        "methodology": [
+          {
+            "title": "向量提取",
+            "detail": "使用差分均值（DIM）方法对英文有害与无害提示的激活均值做差，得到拒绝方向向量；对伪有害提示同理得到伪拒绝向量。"
+          },
+          {
+            "title": "正交化处理",
+            "detail": "将伪拒绝向量在拒绝向量空间上正交化，去除共享成分，以降低对真实安全行为的干扰。"
+          },
+          {
+            "title": "组合干预",
+            "detail": "在单一选定层加入拒绝向量，在所有层上消除正交化后的伪拒绝向量，形成一次性推理时的综合引导。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "跨语言安全几何共享",
+            "detail": "基于先前研究的发现，多语言模型的拒绝表征在激活空间中部分共享，使得英文提取的方向可在其他语言上产生相似效应。"
+          },
+          {
+            "title": "激活空间调控",
+            "detail": "通过在推理阶段直接修改激活向量，实现行为改变而无需权重更新或额外微调，保持原模型的计算图不变。"
+          },
+          {
+            "title": "正交化降低误拒",
+            "detail": "正交化后删除与真实拒绝方向重叠的成分，抑制对无害输入的误拒，提高安全与效用的平衡。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "模型与语言",
+            "detail": "评估模型包括Gemma‑7B、Llama‑3.1‑8B‑Instruct、Qwen‑7B‑Chat；实验语言覆盖Arabic、Korean、Bengali等八种，兼顾中高资源语言。"
+          },
+          {
+            "title": "基准与指标",
+            "detail": "安全使用MultiJail（315条每语言的有害提示），过度拒绝使用翻译自OR‑Bench的伪有害提示，任务效用使用Global MMLU。主要指标为有害请求拒绝率、伪有害拒绝率以及MMLU准确率。"
+          },
+          {
+            "title": "对照设置",
+            "detail": "基线为未使用任何引导的原始模型；BabelSteering在相同推理环境下仅加入激活干预，无额外训练或数据。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "安全提升",
+            "detail": "Gemma‑7B在八语言上有害请求拒绝率平均提升11个百分点，Bengali提升最高达17个百分点。"
+          },
+          {
+            "title": "效用保持",
+            "detail": "在Global MMLU上，BabelSteering未导致显著准确率下降，保持与基线相当的任务性能。"
+          },
+          {
+            "title": "伪有害拒绝增加",
+            "detail": "伪有害提示的拒绝率平均上升13个百分点，表明误拒风险仍需进一步抑制。"
+          },
+          {
+            "title": "计算开销",
+            "detail": "方法仅在推理时修改激活，无额外计算或显存开销，训练阶段不需要多语言数据。"
+          }
+        ],
+        "contributions": [
+          "提出BabelSteering：基于英文安全向量的多语言激活引导方法。",
+          "构建并公开了跨语言的翻译与评估流水线，支持安全、过度拒绝和效用的统一测评。",
+          "在三类主流开源模型上展示了跨语言安全提升且几乎不损失任务效用的实证结果。"
+        ],
+        "limitations": [
+          "无法处理文化特定的安全风险，仅覆盖跨语言共享的通用安全主题。",
+          "引入了伪有害请求的误拒上升（约13%），需要进一步的精细化控制。",
+          "实验局限于八种语言和三种模型，未验证在更大规模模型或更多低资源语言上的可行性。"
+        ],
+        "open_questions": [
+          "如何在保持跨语言安全提升的同时进一步降低伪有害请求的误拒率？",
+          "该激活引导是否能在更大规模模型（如数百亿参数）上保持同等效果？",
+          "能否结合文化特定的安全数据或规则，扩展方法以覆盖本地化安全需求？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment",
+          "safety"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-18T10:47:20.408991+00:00"
+    },
+    {
       "id": "2608.12197",
       "title": "NetlistBench: Evaluating LLM Reliability in SPICE Netlist Recognition and Manipulation",
       "abstract": "Large Language Models (LLMs) are increasingly used in circuit design workflows, yet their reliability on simulator-facing SPICE netlist recognition and manipulation remains poorly understood and is rarely separated from high-level design reasoning. Although netlists are textual, they encode structured circuit objects through topology and parameters. We present \\textbf{NetlistBench}, a structure-verified benchmark for SPICE netlist recognition and manipulation. NetlistBench contains 2,342 cases across 24 task families, covering parameter and connectivity recognition and edits, hierarchical operations, equivalence judgment, and long-horizon compound editing. Model outputs are evaluated by a deterministic structure-aware oracle. Across six non-thinking LLMs, performance varies substantially with operation-level structural complexity. Simple local edits reach $96\\%$--$100\\%$ accuracy, while device addition drops to $41\\%$--$83\\%$ and equivalence judgment to $49\\%$--$90\\%$. Enabling reasoning substantially improves weaker models but does not eliminate structure-preservation failures, with performance still degrading sharply as the edit horizon increases. NetlistBench identifies netlist reliability as a distinct bottleneck for trustworthy LLM-based circuit design automation.",
@@ -935,322 +1106,6 @@
       "recommended_at": "2026-08-11T11:04:16.455147+00:00"
     },
     {
-      "id": "2608.05420",
-      "title": "Can Open-Weight LLMs Produce Kernel-Verified Coq Proofs? A Pilot Study",
-      "abstract": "Large language models (LLMs) can generate text that resembles a mathematical proof, but resemblance does not establish correctness. A formal proof checker verifies whether each proof step follows established logical rules. Coq bases its rules on the Calculus of Inductive Constructions, a logical framework that defines which proof steps the system may accept. This pilot study evaluated six open-weight LLMs on the same 100 theorems from CoqStoq, a benchmark derived from real Coq projects. Each LLM received one attempt per theorem with the temperature set to 0, and Coq checked every proposed proof in the theorem's original project environment. We counted a proof as successful only if the Coq kernel accepted it. Gemma 4 verified 12 of 100 theorems, Llama 3.3 verified 8, and DeepSeek Coder V2 Lite verified 1. Qwen 3.5, Mistral Small 3.1, and GPT-OSS verified none. The 21 successful model-theorem results covered 15 distinct theorems, 11 of which were not solved by a baseline of standard Coq tactics. All verified theorems had short or medium human-written reference proofs; no model verified a theorem with a long reference proof. Because the proof-length analysis was exploratory, this pattern does not establish that proof length caused the difference. For the three models with at least one success, the total generation cost per verified proof ranged from 741 to 36,193 output tokens, 14.9 to 178.0 seconds, and 0.0167 to 0.2000 aggregate GPU hours. We could not calculate these ratios for models with no verified proofs. Across 600 attempts, the models produced 21 kernel-verified proofs, giving an overall success rate of 3.5%. The study reports descriptive differences among the models but does not statistically test whether one model outperforms another. Therefore, the results do not establish a universal ranking of the six models.",
-      "authors": [
-        "Ahmed Ryan",
-        "Md Erfan",
-        "Akond Ashfaque Ur Rahman",
-        "Md Rayhanur Rahman"
-      ],
-      "published": "2026-08-05T21:29:12Z",
-      "updated": "2026-08-05T21:29:12Z",
-      "categories": [
-        "cs.LO",
-        "cs.LG"
-      ],
-      "primary_category": "cs.LO",
-      "abs_url": "https://arxiv.org/abs/2608.05420v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.05420v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.3509,
-          "matched": [
-            "theorem",
-            "proof"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4562,
-        "relevance": 0.2807,
-        "quality": 0.79,
-        "novelty": 0.8397,
-        "freshness": 0.6348,
-        "feedback_adjustment": -0.021,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "baseline comparison",
-        "benchmark evaluation",
-        "theoretical result",
-        "quantitative results"
-      ],
-      "summary": {
-        "evidence": "Gemma 4验证12/100，Llama 3.3验证8/100，DeepSeek Coder V2 Lite验证1/100，其他模型验证0/100，总成功率为3.5%。",
-        "limitations": "未进行统计显著性测试，证明长度分析为探索性而非因果性结论。",
-        "method": "在CoqStoq基准上对6个开放权重LLM进行单次尝试验证，使用Coq内核检查证明有效性。",
-        "problem": "验证LLM生成的数学证明在形式系统中的正确性。",
-        "takeaway": "开放权重大语言模型（LLM）在Coq内核验证中仅能产生3.5%的正确证明，且成功率与证明长度相关。",
-        "why_for_you": "针对LLM形式化验证能力的实证研究，适用于评估LLM在形式系统中的可靠性。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "contributions": [
-          "首次系统评估开放权重LLM在真实Coq项目中的内核验证表现",
-          "提供单次尝试证明生成的资源消耗基准"
-        ],
-        "experiments": [
-          {
-            "detail": "6个开放权重LLM vs. 固定Coq自动化基准（auto, eauto, intuition auto），使用CoqStoq数据集。",
-            "title": "模型与基准"
-          }
-        ],
-        "findings": [
-          {
-            "detail": "Gemma 4(12/100), Llama 3.3(8/100), DeepSeek Coder V2 Lite(1/100), Qwen 3.5/Mistral Small 3.1/GPT-OSS(0/100)。",
-            "title": "成功率"
-          },
-          {
-            "detail": "成功模型生成成本：741-36,193 tokens, 14.9-178.0秒, 0.0167-0.2000 GPU小时/证明。",
-            "title": "资源消耗"
-          }
-        ],
-        "limitations": [
-          "未进行模型间统计显著性检验",
-          "证明长度分析为探索性而非因果性结论",
-          "未评估修复/迭代尝试的影响"
-        ],
-        "mechanism": [
-          {
-            "detail": "证明需通过编译、关闭所有目标、无禁止假设，并通过coqchk内核检查。",
-            "title": "形式化验证流程"
-          }
-        ],
-        "methodology": [
-          {
-            "detail": "所有模型仅单次尝试，使用原始项目环境验证，无微调、检索或交互反馈。",
-            "title": "固定实验协议"
-          },
-          {
-            "detail": "通过Coq编译器、Print Assumptions和coqchk工具链进行多级验证，确保证明完整性。",
-            "title": "Coq内核验证"
-          }
-        ],
-        "open_questions": [
-          "如何提升LLM生成证明的验证成功率？",
-          "如何区分语法/环境失败与逻辑推理失败？",
-          "多轮交互和检索机制对证明生成的影响？"
-        ],
-        "overview": "本研究通过Coq内核验证评估6个开放权重LLM在100个CoqStoq定理上的表现，发现LLM生成证明的验证成功率极低（3.5%），且成功案例集中于短/中长度证明，未发现统计显著性模型差异。",
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "开放权重LLM在Coq内核验证中仅3.5%成功率"
-          },
-          {
-            "icon": "🔎",
-            "text": "固定单次尝试协议，无微调/检索/交互反馈"
-          },
-          {
-            "icon": "✅",
-            "text": "成功证明均来自短/中长度参考证明，无长证明成功案例"
-          }
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Statistical theory for LLMs",
-        "matched": [
-          "theorem",
-          "proof"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-08T10:50:42.806974+00:00"
-    },
-    {
-      "id": "2608.04415",
-      "title": "Social Pressure Breaks Majority Voting in LLM Safety Panels",
-      "abstract": "Large language models (LLMs) are increasingly used to detect unsafe content. A common approach is to combine judgments from a panel of models to correct individual mistakes, but this benefit may disappear when every model sees the same misleading context before voting. We study this risk in a controlled two-round experiment. Each model first judges an item alone, then judges it again after six simulated peers either assert the wrong label or abstain. We combine the final judgments by majority vote. Across six open-weight LLMs and six datasets, we find that the wrong-label peer message raises the average reviewer false-alarm rate from 56.5% under silent peers to 87.5%, and majority voting raises the panel false-alarm rate to 100%. Without an asserted label, the same panel outperforms its average member. The effect is strongly asymmetric: reviewers follow pushes toward \"unsafe\" far more than pushes toward \"safe\" (about 75% versus 17%), so the panel's false-alarm rate rises sharply while its harmful-miss rate changes little. The proprietary-model probe shows substantial variation across models. These results identify susceptibility to shared social cues as a failure mode of safety panels and provide a simple pre-deployment diagnostic.",
-      "authors": [
-        "Yibo Hu",
-        "Jiaming Qu"
-      ],
-      "published": "2026-08-05T03:51:12Z",
-      "updated": "2026-08-05T03:51:12Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2608.04415v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.04415v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4629,
-          "matched": [
-            "llm safety",
-            "safety"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4561,
-        "relevance": 0.3703,
-        "quality": 0.51,
-        "novelty": 0.8685,
-        "freshness": 0.5298,
-        "feedback_adjustment": -0.0199,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "experiments",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "共享的错误社交线索会破坏安全面板的多数投票保护，使误报率飙升。",
-        "problem": "安全面板在所有审稿人接收相同误导性上下文时可能失效。",
-        "method": "作者使用两轮实验，模拟六位同伴统一错误标签或沉默，对六个开源模型在六个安全数据集上的判断进行比较。",
-        "evidence": "在错误标签同伴条件下，审稿人平均误报率从56.5%升至87.5%，多数投票面板误报率达到100%。",
-        "limitations": "实验仅使用单轮模拟消息，未覆盖实时对话或更广泛的模型。",
-        "why_for_you": "如果你关注LLM安全可靠性，这篇揭示面板聚合在共享上下文下的脆弱性与诊断方法对你很重要。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🛡️",
-            "text": "发现共享错误提示会使安全面板多数投票失效，导致所有良性内容被误标为不安全。"
-          },
-          {
-            "icon": "🔧",
-            "text": "通过两轮实验让六个开源模型先单独判断，再在六个同伴统一错误标签或沉默的消息后重新判断，比较错误率变化。"
-          },
-          {
-            "icon": "📈",
-            "text": "错误标签同伴将审稿人误报率从56.5%提升至87.5%，多数投票误报率达100%。"
-          }
-        ],
-        "overview": "本文通过受控的两轮实验，检验在所有审稿人收到相同误导性社交线索时，安全面板的多数投票是否仍能降低错误。实验使用六种开源指令调优模型，覆盖六类安全数据集，比较错误标签同伴、正确标签同伴、沉默同伴以及权威同伴四种信息条件下的误报率和漏报率。结果显示，错误标签同伴显著提升审稿人误报率并导致面板误报率达到100%，且这种效应在推动“unsafe”方向时远强于推动“safe”。",
-        "methodology": [
-          {
-            "title": "实验设计",
-            "detail": "每个输入先由模型单独判断（Round 1），随后插入一条消息后再次判断（Round 2），消息形式包括 WRONG‑PEERS（六位同伴统一错误标签）、RIGHT‑PEERS（统一正确标签）、SILENT‑PEERS（同伴沉默）和 AUTHORITY（声称权威的错误标签）。"
-          },
-          {
-            "title": "审稿人模型",
-            "detail": "使用 Qwen2.5‑7B、Qwen2.5‑32B、Llama‑3.1‑8B、gemma‑2‑9B、Mistral‑7B、OLMo‑2‑7B，覆盖五个模型家族，均使用公开权重。"
-          },
-          {
-            "title": "数据集",
-            "detail": "六个安全评估数据集：BeaverTails、XSTest、Ethics、WildGuard、Aegis，以及另一个未在正文中命名的第六数据集，涵盖不同内容类型和安全定义。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "社会从众效应",
-            "detail": "模型在看到统一的同伴标签后倾向于遵从该标签，尤其是向“unsafe”方向的推动（约75%采纳率）远高于向“safe”方向的推动（约17%），导致误报率显著上升。"
-          },
-          {
-            "title": "多数投票放大效应",
-            "detail": "当所有审稿人因同一错误线索而同步偏向错误标签时，多数投票不再抵消个体错误，反而将误报率从单模型的87.5%放大至面板的100%。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "基准比较",
-            "detail": "在 SILENT‑PEERS 条件下，面板的平均误报率为 43.0%，低于单模型的 56.5%；在 WRONG‑PEERS 条件下，审稿人误报率升至 87.5%，面板误报率达到 100%。"
-          },
-          {
-            "title": "方向性不对称",
-            "detail": "推动“unsafe”时审稿人采纳率约 75%，推动“safe”时仅约 17%，导致面板的 false‑alarm 率急剧上升而 harmful‑miss 率变化不大。"
-          },
-          {
-            "title": "专有模型探测",
-            "detail": "对四个 OpenAI 专有模型（gpt‑3.5‑turbo、gpt‑4o‑mini、gpt‑4.1‑mini、gpt‑5.4‑mini）进行相同实验，发现误报率在不同模型间差异显著，最高可达 100%。"
-          },
-          {
-            "title": "措辞鲁棒性",
-            "detail": "将错误同伴消息改写为中性释义和投票计数框架，误报率提升仍保持在约 65‑88 个百分点，表明效应不依赖特定措辞。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "发现 1",
-            "detail": "错误标签同伴显著提升审稿人误报率（56.5%→87.5%），且随同伴数量增加效果加剧。"
-          },
-          {
-            "title": "发现 2",
-            "detail": "审稿人对“unsafe”推动的采纳率约为 75%，对“safe”仅约 17%，表现出强烈的不对称性。"
-          },
-          {
-            "title": "发现 3",
-            "detail": "多数投票在共享错误线索下将面板误报率推至 100%，失去传统的错误抵消优势。"
-          },
-          {
-            "title": "发现 4",
-            "detail": "专有模型的响应差异大，且后续提示只能部分恢复面板性能；不同模型的基线饱和度影响其可移动空间。"
-          }
-        ],
-        "contributions": [
-          "首次系统性展示共享社交线索会破坏 LLM 安全面板的多数投票保护。",
-          "提供两轮实验框架和简单的部署前诊断方法，用于评估审稿人在共享上下文下的社会易感性。",
-          "量化了误报率的上升幅度并揭示了向“unsafe”方向的从众效应不对称。"
-        ],
-        "limitations": [
-          "使用受控的单轮模拟消息，而非真实的多轮对话交互。",
-          "主要实验仅覆盖六个开源模型，专有模型探测仅限四个 OpenAI 模型，缺乏更广泛的模型族覆盖。",
-          "安全和安全导向的分析使用不同的审稿‑项目子集，导致结果只能描述特定的可比子集而非统一趋势。"
-        ],
-        "open_questions": [
-          "在真实的多轮对话或辩论环境中，面板的从众效应是否会更强或被缓解？",
-          "能否设计聚合机制或提示策略，使面板在共享上下文下仍保持错误抵消能力？",
-          "如何在不同模型家族之间系统性衡量并降低社会易感性，以构建更鲁棒的安全评估系统？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "llm safety",
-          "safety"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-08T10:50:42.806974+00:00"
-    },
-    {
       "id": "2608.13304",
       "title": "Refusing Intent, Not Form: Wrapper-Based Intent-Group Supervision for LLM Safety",
       "abstract": "Safety tuning can improve harmful refusal, but models may learn surface-form shortcuts: wrapped harmful prompts bypass safety, while similarly wrapped benign prompts are over-refused. We propose Wrapper-Based Intent-Form Augmentation (WIFA), an automatic intent-group augmentation method that pairs wrapped harmful examples with structurally matched wrapped benign counterexamples, requiring no external teacher or manual per-wrapper intent labels. We use WIFA as a common data layer for two complementary fine-tuning routes: WIFA-Boost, a two-stage high-safety recipe, and Anchored Group-Consistent Refusal Training (A-GCRT), which regularizes refusal/compliance decision scores across same-intent wrappers and anchors harmful and benign groups on opposite sides of a margin. In the Qwen setting, WIFA-Boost reaches the strongest transformed-harmful refusal, while A-GCRT reduces OR-Bench over-refusal from 25.7\\% for the base model to 17.4\\%; reproduced baselines do not match these operating points. Llama results and ablations over data structure, two-stage order, and A-GCRT components support this intent-group interpretation without claiming universal below-base over-refusal.",
@@ -1426,32 +1281,41 @@
       "recommended_at": "2026-08-14T11:07:48.849243+00:00"
     },
     {
-      "id": "2608.04439",
-      "title": "ExeCRE: Execution-Consistency Guided Reliability Estimation for Self-Correcting Code Generation",
-      "abstract": "Large language models (LLMs) have made notable progress in code generation, but they still struggle on challenging tasks that require sophisticated algorithms or complex implementations. Recent methods increasingly use code execution as feedback, especially in self-correction pipelines that construct verification signals from generated code. However, these pipelines often depend on supervision signals whose reliability is unknown, which can introduce misleading feedback, unnecessary revisions, and incorrect final answers. To address this issue, we propose ExeCRE, an Execution-Consistency guided code Reliability Estimation framework. Instead of judging candidate code by tests or LLM feedback, ExeCRE estimates code reliability by statistically analyzing consistency patterns in execution outputs over a large number of randomly generated inputs. It collects execution outputs over generated inputs, projects them into consistency signals, and applies the Dawid-Skene model to infer latent code reliability. We integrate ExeCRE into self-correction for code generation. Experiments show that ExeCRE consistently improves both effectiveness and stability, while substantially reducing misleading correction signals. Under GPT-5.2 on LiveCodeBench, the average number of misleading feedback cases on already correct code drops from 113.2 with a representative self-correction baseline to 14.0 with ExeCRE. As an additional study, we apply the same reliability estimation strategy to code-based mathematical reasoning and observe similar benefits. These results suggest that ExeCRE enables more reliable use of generated code in execution-based pipelines.",
+      "id": "2608.09885",
+      "title": "SHE: Trajectory-driven Safety Harness Evolution for LLM Agents",
+      "abstract": "The safety of large language model (LLM) agents depends not only on model weights but also on the agent harness that manages context, memory, tools, permissions, and runtime control. Existing safety mechanisms often treat the harness as a fixed deployment artifact, limiting their ability to evolve with emerging risks. Moreover, coupled functions across harness components obscure safety responsibility attribution, making localized evolution difficult. We propose Safety Harness Evolution (SHE), a framework that learns evolving safe boundaries from rollout trajectories. SHE decomposes the harness into four artifacts with explicit safety responsibilities, including the System Prompt, Rule Bank, Safety Memory, and Tool Policy, defining clear functional boundaries for localized evolution. Based on this decomposition, SHE introduces an attribution-guided evolution loop that converts trajectory failures into structured diagnoses, learns artifact-specific boundary refinements, and selects evolved harnesses through safety-utility validation. Experiments on Agent-SafetyBench demonstrate that SHE effectively enhances safety through harness evolution, achieving a 3.1x ASR reduction compared with static SafeHarness, while also improving benign utility. The evolved harness further generalizes to unseen risks on the held-out AgentHarm benchmark and transfers across agent models without additional evolution.",
       "authors": [
-        "Yiru Dong",
-        "Richong Zhang",
-        "Fanshuang Kong",
-        "Si Chen"
+        "Wanying Qu",
+        "Qinghua Mao",
+        "Yu Li",
+        "Jiyao Liu",
+        "Xin Zhang",
+        "Dadi Guo",
+        "Yanxu Zhu",
+        "Qingyu Liu",
+        "Leitao Yuan",
+        "Xi Lin",
+        "Shanfeng Zhu",
+        "Yanwei Fu",
+        "Jing Shao",
+        "Xia Hu",
+        "Dongrui Liu"
       ],
-      "published": "2026-08-05T04:29:30Z",
-      "updated": "2026-08-05T04:29:30Z",
+      "published": "2026-08-10T17:35:08Z",
+      "updated": "2026-08-10T17:35:08Z",
       "categories": [
-        "cs.SE",
-        "cs.AI"
+        "cs.AI",
+        "cs.CV"
       ],
-      "primary_category": "cs.SE",
-      "abs_url": "https://arxiv.org/abs/2608.04439v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.04439v1",
-      "comment": "13 pages, 5 figures. Accepted at the 41st IEEE/ACM International Conference on Automated Software Engineering (ASE 2026)",
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2608.09885v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.09885v1",
+      "comment": "Project: https://github.com/RainbowQTT/SHE",
       "journal_ref": "",
       "lane": "llm",
       "scope_matches": [
         "large language model",
-        "large language models",
         "language model",
-        "language models",
         "llm"
       ],
       "topics": [
@@ -1459,34 +1323,34 @@
           "id": "trustworthy_llm",
           "name": "Trustworthy LLM",
           "status": "background",
-          "score": 0.3948,
+          "score": 0.3619,
           "matched": [
-            "reliability"
+            "safety"
           ]
         }
       ],
       "scores": {
-        "total": 0.4542,
-        "relevance": 0.3158,
-        "quality": 0.68,
-        "novelty": 0.8627,
-        "freshness": 0.5336,
-        "feedback_adjustment": -0.0297,
+        "total": 0.441,
+        "relevance": 0.2895,
+        "quality": 0.6,
+        "novelty": 0.8806,
+        "freshness": 0.8959,
+        "feedback_adjustment": -0.0121,
         "semantic_feedback": 0.0
       },
       "quality_signals": [
-        "code available",
-        "baseline comparison",
+        "benchmark evaluation",
         "experiments",
+        "formal bound",
         "quantitative results"
       ],
       "summary": {
-        "takeaway": "ExeCRE通过统计执行一致性并使用Dawid‑Skene模型估计代码可靠性，从而显著降低自纠正过程中的误导反馈。",
-        "problem": "现有自纠正代码生成方法依赖未量化的测试或LLM判断，导致错误的监督信号。",
-        "method": "ExeCRE生成大量随机结构化输入，收集执行输出，转化为一致性信号并用Dawid‑Skene推断潜在可靠性分数。",
-        "evidence": "在LiveCodeBench上，GPT‑5.2的误导反馈案例从113.2降至14.0，且整体Pass@1提升。",
-        "limitations": "未在论文中明确列出限制。",
-        "why_for_you": "该工作提供了针对代码生成的可靠性估计机制，直接关联到可信LLM的核心需求。",
+        "takeaway": "SHE通过从执行轨迹学习并局部演化安全套件，实现显著的安全性提升。",
+        "problem": "静态安全套件无法随新风险演化，且组件耦合导致难以定位改进。",
+        "method": "将安全套件拆分为系统提示、规则库、安全记忆、工具策略四个可编辑部件，并通过归因驱动的演化循环从轨迹诊断到局部编辑。",
+        "evidence": "在Agent‑SafetyBench上ASR降低3.1倍，且在AgentHarm上危害分数从19.8%降至9.8%。",
+        "limitations": "仅在离线基准上评估，缺乏真实部署验证。",
+        "why_for_you": "关注LLM安全的你可借鉴其可演化套件设计与归因机制。",
         "source": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
         "language": "zh",
@@ -1495,246 +1359,73 @@
       "deep_dive": {
         "signals": [
           {
-            "icon": "💡",
-            "text": "ExeCRE利用执行一致性统计估计代码可靠性，误导反馈从113.2降至14.0"
+            "icon": "🛡️",
+            "text": "提出SHE框架，将安全套件拆解为四个可编辑部件并实现轨迹驱动演化"
           },
           {
             "icon": "🔧",
-            "text": "采用Dawid‑Skene模型聚合随机输入的执行输出，生成可靠性分数"
+            "text": "归因引导的演化循环将失败轨迹诊断为结构化风险并局部编辑对应部件"
           },
           {
-            "icon": "📉",
-            "text": "在LiveCodeBench上GPT‑5.2的误导反馈显著下降，但需大量随机测试输入"
+            "icon": "📈",
+            "text": "在Agent‑SafetyBench上ASR降低3.1倍，安全率提升但仅在基准测试中验证"
           }
         ],
-        "overview": "本文提出ExeCRE框架，以执行一致性为核心信号，通过大规模随机输入的执行输出构建一致性矩阵，并利用Dawid‑Skene EM算法推断每段候选代码的可靠性分数。该可靠性估计被嵌入自纠正循环，过滤不可靠的参考代码，从而提升代码生成的有效性和稳定性，并在代码数学推理任务中展示可迁移性。",
+        "overview": "SHE将LLM代理的安全套件功能解耦为系统提示、规则库、安全记忆和工具策略四个明确责任的可编辑部件。基于归因驱动的演化循环，系统从执行轨迹中诊断风险、路由至对应部件、进行有界编辑，并通过安全‑效用验证挑选最佳套件。实验在Agent‑SafetyBench和AgentHarm两大基准上展示了显著的安全提升与效用保持，且可跨模型迁移。",
         "methodology": [
           {
-            "title": "结构化随机输入生成",
-            "detail": "基于模式驱动的schema，自动生成约1000个满足语义约束的测试输入，以覆盖多样化的执行路径。"
+            "title": "功能解耦的安全套件部件",
+            "detail": "将安全套件拆分为System Prompt、Rule Bank、Safety Memory、Tool Policy四个独立artifact，每个artifact负责特定安全职责并可单独编辑。"
           },
           {
-            "title": "执行输出收集与一致性投影",
-            "detail": "对每个候选代码在所有输入上运行，形成执行矩阵O，将输出映射为二元一致性信号（相同/不同）。"
-          },
-          {
-            "title": "Dawid‑Skene可靠性推断",
-            "detail": "将每段代码视为“标注者”，执行一致性信号视为“标注”，使用EM迭代估计潜在真实一致性并输出代码可靠性α∈[0,1]。"
-          },
-          {
-            "title": "自纠正集成",
-            "detail": "在自纠正循环中，仅使用α高于阈值的参考代码构造测试，避免误导性修正。"
+            "title": "归因驱动的演化循环（Algorithm 1）",
+            "detail": "在每轮演化中收集轨迹τ与安全‑效用记录oi，使用RiskRelevant筛选风险案例，生成结构化风险诊断zi并路由至artifact ri，随后执行Edit生成候选Δ，经过ValidEdit和安全‑效用选择后更新Hbest。"
           }
         ],
         "mechanism": [
           {
-            "title": "执行一致性作为可靠性信号",
-            "detail": "可靠代码在多样输入上表现出稳定的输出一致性；不可靠代码则出现高变异性，形成可区分的统计模式。"
+            "title": "结构化风险诊断与部件路由",
+            "detail": "将每个失败轨迹映射为包含危害域、攻击面、失败模式的风险记录zi，并依据这些维度将诊断路由至最相关的artifact ri，实现定位式改进。"
           },
           {
-            "title": "聚合噪声标注的DS模型",
-            "detail": "DS模型在假设标注条件独立的前提下，通过最大似然估计同时恢复真实一致性标签和每段代码的可信度。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "LiveCodeBench 主实验",
-            "detail": "使用LiveCodeBench v6的182道算法题，模型包括GPT‑5.2等，比较ExeCRE与ConTested等基线，指标为Pass@1和误导反馈计数。"
-          },
-          {
-            "title": "GSM8K 代码数学推理",
-            "detail": "在GSM8K 1,319题的Program‑of‑Thought设置下，ExeCRE作为可靠性门控，仅对高α代码执行，报告答案准确率。"
-          },
-          {
-            "title": "鲁棒性与依赖分析",
-            "detail": "通过改变错误代码组数评估DS对标注依赖的敏感性，发现错误采纳率在3.1%–14.3%之间保持稳定。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "误导反馈显著降低",
-            "detail": "在GPT‑5.2上，已正确代码的误导反馈案例从113.2降至14.0，约下降87%。"
-          },
-          {
-            "title": "整体性能提升",
-            "detail": "ExeCRE在所有评估模型上均提升最终Pass@1，且自纠正过程更稳定，错误修正次数减少。"
-          },
-          {
-            "title": "跨任务可迁移",
-            "detail": "在GSM8K的PoT实验中，使用ExeCRE的可靠性门控提升了答案准确率，表明机制对代码数学推理同样有效。"
-          }
-        ],
-        "contributions": [
-          "提出ExeCRE框架，将执行一致性用于代码可靠性估计",
-          "将Dawid‑Skene模型引入代码自纠正的监督信号建模",
-          "在大规模代码生成基准上验证了显著的误导反馈降低和性能提升"
-        ],
-        "limitations": [
-          "未在论文中明确列出限制"
-        ],
-        "open_questions": [
-          "在更大规模或跨语言环境下，ExeCRE的可靠性估计是否仍保持同等效果？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "reliability"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-08T10:50:42.806974+00:00"
-    },
-    {
-      "id": "2608.05040",
-      "title": "Private Direct Preference Optimization for LLM Alignment",
-      "abstract": "Direct preference optimization (DPO) is now a standard method for aligning large language models (LLMs) using human preference data. Each DPO example contains a prompt and a pair of candidate model responses. While prompts and responses are often public or model-generated, the relative preference between responses reflects subjective judgments and can reveal sensitive attributes of annotators or end users. Off-the-shelf privacy-preserving approaches are not well matched to this structure, leading to unnecessary noise injection and biased updates in training. In this paper, we formalize preference privacy, a label-DP-style privacy notion for DPO that protects only the relative preference between candidate responses, assuming an adversary who already knows the prompt and responses. We then design PrivDPO, a DPO variant that enforces preference privacy while remaining compatible with large-scale LLM training. Our main observation is that, for neighboring examples differing only in their preference signal, the gradient difference lies on a one-dimensional preference axis determined solely by the text; all preference information flows through this axis. PrivDPO adds calibrated randomness only along this axis via an unbiased randomized rescaling of the DPO objective, avoiding per-example gradient operations. Our experiments on three alignment benchmarks and three LLM families show that PrivDPO consistently achieves strong privacy-utility trade-offs compared with privacy-preserving baselines.",
-      "authors": [
-        "Yangfan Jiang",
-        "Fei Wei",
-        "Ergute Bao",
-        "Xiaokui Xiao",
-        "Yaliang Li",
-        "Bolin Ding"
-      ],
-      "published": "2026-08-05T16:51:02Z",
-      "updated": "2026-08-05T16:51:02Z",
-      "categories": [
-        "cs.CR"
-      ],
-      "primary_category": "cs.CR",
-      "abs_url": "https://arxiv.org/abs/2608.05040v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.05040v1",
-      "comment": "accepted for publication at CCS 2026, extended version",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4368,
-          "matched": [
-            "privacy",
-            "alignment"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.45,
-        "relevance": 0.3494,
-        "quality": 0.53,
-        "novelty": 0.8649,
-        "freshness": 0.6072,
-        "feedback_adjustment": -0.0297,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "benchmark evaluation",
-        "experiments"
-      ],
-      "summary": {
-        "takeaway": "PrivDPO 通过仅在一维偏好轴上注入校准噪声，实现了对 DPO 偏好标签的高效差分隐私保护且保持对齐质量。",
-        "problem": "在 DPO 对齐中，用户的偏好标签可能泄露敏感信息，需要保护而不损失模型效用。",
-        "method": "PrivDPO 对 DPO 目标进行无偏随机重标定，只在由文本决定的偏好轴上添加高斯噪声。",
-        "evidence": "在 Anthropic‑HH、TL;DR、UltraFeedback 三个基准以及 Llama、Pythia、Qwen（3B‑32B）上，PrivDPO 的隐私‑效用权衡显著优于 DP‑SGD 等基线。",
-        "limitations": "隐私分析假设每个样本仅使用一次，未考虑组合或子抽样放大效应。",
-        "why_for_you": "对关注 LLM 对齐隐私的研究者，PrivDPO 提供了针对偏好标签的可扩展高效隐私方案。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "提出偏好隐私概念并实现 PrivDPO，首次在 32B LLM 上提供可行的隐私对齐"
-          },
-          {
-            "icon": "🔧",
-            "text": "仅在一维偏好轴上加入校准噪声，通过无偏随机重标定 DPO 目标实现"
-          },
-          {
-            "icon": "📊",
-            "text": "在 3 个基准和 3 种 LLM（3B‑32B）上，PrivDPO 超越 DP‑SGD 等基线，隐私‑效用权衡显著"
-          }
-        ],
-        "overview": "本文针对 DPO 对齐中的偏好标签隐私风险，定义了仅保护相对偏好的 label‑DP 风格的 Preference Privacy。通过理论分析发现，邻近样本的梯度差仅沿由 (x, y_w, y_l) 文本决定的一维偏好轴分布。基于此，PrivDPO 在该轴上加入 calibrated Gaussian noise (σ=0.37)，实现无偏随机重标定的 DPO 目标，避免对全参数空间的噪声注入，从而在保持训练效率的同时提供严格的隐私保证。实验在三大公开基准和三类 LLM（参数规模 3B‑32B）上验证了其优越的隐私‑效用权衡。",
-        "methodology": [
-          {
-            "title": "偏好轴识别",
-            "detail": "通过分析 DPO 目标，证明两邻近样本的梯度差向量完全对齐于由文本三元组 (x, y_w, y_l) 决定的单一方向，即偏好轴。"
-          },
-          {
-            "title": "无偏随机重标定",
-            "detail": "在偏好轴上乘以服从 N(1, σ²) 的随机因子，实现对 DPO 损失的无偏放大，等价于在该轴上添加高斯噪声。"
-          },
-          {
-            "title": "隐私会计",
-            "detail": "采用分析性高斯框架，因每个样本仅使用一次，直接得到 ε‑Preference‑Privacy，噪声标准差 σ=0.37。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "梯度信息单维流动",
-            "detail": "在保持提示和候选响应不变的前提下，偏好标签的唯一信息通过梯度差的偏好轴传递，使得仅扰动该轴即可实现隐私。"
-          },
-          {
-            "title": "噪声局部注入",
-            "detail": "相较于 DP‑SGD 对全梯度的各维度注入同尺度噪声，PrivDPO 只在偏好轴上注入噪声，显著降低效用损失。"
+            "title": "有界编辑与安全‑效用选择",
+            "detail": "编辑仅在指定artifact范围内进行有界修改，随后通过ValidEdit检查合法性，并在安全分数SΩ和效用分数UΩ的约束下挑选接受的候选套件。"
           }
         ],
         "experiments": [
           {
             "title": "实验设置",
-            "detail": "使用 8× H20 GPU（96 GB）和 PyTorch FSDP；数据集为 Anthropic‑HH (161k), TL;DR (92k), UltraFeedback‑Binarized (64k)。模型族 Llama、Pythia、Qwen，规模 3B‑32B。基线包括 DP‑SGD、随机响应 (RR) 等。"
-          },
-          {
-            "title": "评估指标",
-            "detail": "对齐质量采用奖励模型得分、人工评估等；隐私效用通过 ε‑privacy 与模型性能下降幅度比较；攻击实验使用准确率和 MemAdv 指标。"
+            "detail": "使用Agent‑SafetyBench（200任务，5种攻击）和AgentHarm（440条有害行为）两套基准；对比无防御、System Prompt、LlamaFirewall、SafeHarness、PROGENT、MemskillSafeHarness等静态与自适应基线；指标包括Clean UBR、ASR、UA、Harm Score、Harm Refusal、Benign NR。"
           }
         ],
         "findings": [
           {
-            "title": "隐私‑效用权衡优势",
-            "detail": "PrivDPO 在所有三类基准和三种模型上均实现比 DP‑SGD 更低的性能下降，同时满足相同或更严格的 ε‑Preference‑Privacy。"
+            "title": "安全性提升",
+            "detail": "SHE将Agent‑SafetyBench的平均ASR从17.1%降至5.5%（3.1×降低），Clean UBR从25.7%降至19.8%。"
           },
           {
-            "title": "可扩展性",
-            "detail": "实验表明 PrivDPO 能在 32B 参数模型上完成对齐训练，训练效率与非隐私 DPO 相当。"
+            "title": "效用保持与提升",
+            "detail": "在相同基准上，SHE的平均UA从31.6提升至47.6%。"
           },
           {
-            "title": "攻击鲁棒性",
-            "detail": "在基于模型 logits 的偏好推断攻击中，PrivDPO 将攻击准确率降低至接近随机水平，MemAdv 增益显著受限。"
+            "title": "跨模型与未见风险的泛化",
+            "detail": "在AgentHarm上，演化后套件将Harm Score从19.8%降至9.8%，Harm Refusal提升至86.4%，且无需额外演化即可迁移至其他代理模型。"
           }
         ],
         "contributions": [
-          "定义并形式化 Preference Privacy，用于 DPO 场景的标签级差分隐私。",
-          "提出 PrivDPO 机制，利用偏好轴实现高效噪声注入。",
-          "在大规模 LLM（最高 32B）上实现实用的隐私对齐，验证了强隐私‑效用权衡。"
+          "提出SHE框架，实现安全套件的轨迹驱动演化",
+          "将套件功能解耦为四个可编辑artifact",
+          "设计归因驱动的演化循环实现局部、可验证的改进",
+          "在两个大规模代理安全基准上实现显著的安全与效用提升"
         ],
         "limitations": [
-          "隐私分析基于单次使用假设，未考虑多轮训练或子抽样的组合效应。",
-          "攻击评估使用的攻击模型非最坏情况，仅提供下界。",
-          "数据集可能与公开对齐数据有重叠，影响公平性评估。"
+          "仅在离线基准上评估，缺少真实部署环境的验证",
+          "演化过程依赖大量标注轨迹，未量化数据收集成本"
         ],
         "open_questions": [
-          "在更严格的 ε 预算下，如何进一步提升对齐性能？",
-          "偏好轴概念能否推广至 RLHF、奖励模型训练等其他对齐方法？",
-          "在真实部署环境中面对更强对手时，PrivDPO 的鲁棒性如何保证？"
+          "如何在真实线上系统中持续安全地收集并利用执行轨迹进行演化？",
+          "演化过程中如何防止新引入的安全漏洞或效用退化？",
+          "能否将SHE扩展至多模态或更大规模的LLM代理体系？"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
@@ -1744,32 +1435,210 @@
       "recommendation_reason": {
         "topic": "Trustworthy LLM",
         "matched": [
-          "privacy",
-          "alignment"
+          "safety"
         ],
         "lane": "llm"
       },
-      "recommended_at": "2026-08-08T10:50:42.806974+00:00"
+      "recommended_at": "2026-08-11T11:04:16.455147+00:00"
     },
     {
-      "id": "2608.05409",
-      "title": "Mood Matters: How Syntactic Sensitivity Undermines Safety Alignment",
-      "abstract": "Large language models typically undergo post-training to align them with safety policies but there exist many sophisticated jailbreaks that sidestep established safeguards. For instance, prior work by Andriushchenko et al. (2025) has found that changing the grammatical tense from present to past can be enough to elicit harmful responses. In this work, we uncover a more general failure of non-imperative syntactic forms. We demonstrate that this syntactic vulnerability exists in 16 models up to 70B parameters, using behavioral evaluation. To investigate the root cause, we apply causal mediation analysis, finding that refusal is partially conditioned on upstream syntactic features. By steering these purely syntactic features we are able to trigger and suppress refusal. Finally, we trace this ill-conditioning to linguistically biased post-training data of open-source models and show that increasing syntactic diversity can mitigate the issue. Our findings suggest that current alignment approaches introduce confounders that prevent a pure semantic grounding of the refusal decision.",
+      "id": "2608.09900",
+      "title": "Decoding-Level Taboo: A Diagnostic Stress Test for LLM Robustness",
+      "abstract": "Large language model evaluations typically focus on performance under nominal conditions, creating an illusion of capability where models comfortably walk a narrow, highly optimized generation corridor. In real-world deployments, however, complex system prompts, safety guardrails, and structural constraints continuously force models off this nominal path, driving a divergence between benchmark scores and deployment performance. To address this issue, we introduce Decoding-Level Taboo, a zero-prompt diagnostic stress test that intervenes directly in logit space at runtime, forcing models out of their nominal paths. By dynamically masking primary candidate tokens at word boundaries, Taboo forces machine circumlocution. Evaluating Taboo across several open-weight model families reveals that off-path robustness is heavily influenced by both parameter scale and post-training instruction alignment, with robustness generally improving with model size and alignment. Beyond the results presented in this paper, Taboo provides a novel primitive for generating diverse synthetic datasets, stress-testing runtime safety guardrails, and auditing model reliability prior to real-world deployment.",
       "authors": [
-        "Alina Klerings",
-        "Jannik Brinkmann",
-        "Heiner Stuckenschmidt",
-        "Simone Paolo Ponzetto"
+        "Tadanobu Chuyo Kamijo",
+        "Ori Rottenstreich",
+        "Javier Conde",
+        "Gonzalo Martínez",
+        "Pedro Reviriego"
       ],
-      "published": "2026-08-05T21:05:12Z",
-      "updated": "2026-08-05T21:05:12Z",
+      "published": "2026-08-10T17:47:24Z",
+      "updated": "2026-08-10T17:47:24Z",
       "categories": [
         "cs.CL"
       ],
       "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2608.05409v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.05409v1",
+      "abs_url": "https://arxiv.org/abs/2608.09900v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.09900v1",
       "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3689,
+          "matched": [
+            "auditing",
+            "alignment",
+            "safety",
+            "reliability"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.423,
+        "relevance": 0.2951,
+        "quality": 0.5,
+        "novelty": 0.8627,
+        "freshness": 0.8971,
+        "feedback_adjustment": -0.0144,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "formal bound",
+        "dataset evidence"
+      ],
+      "summary": {
+        "evidence": "Experiments show 70B Llama-3.1's accuracy jumps from 36% to 75% under Taboo, while 8B shows minimal change (14%→16%).",
+        "limitations": "Limited to English language and standard open-weight architectures; does not explore adaptive masking strategies.",
+        "method": "Decoding-Level Taboo dynamically masks word-initial tokens in logit space to force off-path generation and test robustness.",
+        "problem": "Real-world LLM deployment faces robustness challenges due to continuous off-path constraints not captured by nominal benchmarks.",
+        "takeaway": "Decoding-Level Taboo reveals that LLM robustness under off-path stress depends on model scale and post-training alignment.",
+        "why_for_you": "This aligns with your focus on trustworthy LLMs by providing a rigorous framework to audit model reliability under real-world constraints.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "contributions": [
+          "Novel zero-prompt stress test for LLM robustness",
+          "Systematic analysis of scale-alignment tradeoffs in off-path performance",
+          "Demonstration of formal syntax constraints as hard limits for decoding-level interventions"
+        ],
+        "experiments": [
+          {
+            "detail": "Qwen2.5 (0.5B-72B), Gemma-3, Llama-3 (7-70B), OLMo-2 tested across GSM8K, MMLU, TriviaQA, HumanEval benchmarks.",
+            "title": "Model Suite"
+          },
+          {
+            "detail": "4-bit vs bf16 evaluations show quantization noise within sampling variance, with Qwen2.5-14B-Instruct showing 0.62 vs 0.44 accuracy difference.",
+            "title": "Quantization Analysis"
+          },
+          {
+            "detail": "HumanEval's formal syntax constraints cause near-zero Pass@1 accuracy under Taboo, validating its effectiveness as a stress test.",
+            "title": "Negative Control"
+          }
+        ],
+        "findings": [
+          {
+            "detail": "70B Llama-3.1 shows 36%→75% accuracy under Taboo vs 8B's 14%→16% (Figure 5), demonstrating improved robustness with size.",
+            "title": "Scale Dependency"
+          },
+          {
+            "detail": "Instruct checkpoints absorb more surprisal than base versions in Qwen/OLMo/Gemma but not Llama-3 (Figure 4), suggesting architecture-specific alignment effects.",
+            "title": "Alignment Impact"
+          },
+          {
+            "detail": "HumanEval's Pass@1 drops to 0% under Taboo, while natural language tasks show partial resilience through semantic redundancy.",
+            "title": "Formal Domain Sensitivity"
+          }
+        ],
+        "limitations": [
+          "Limited to English language and standard open-weight architectures",
+          "No exploration of adaptive masking strategies",
+          "Restricted to greedy decoding regime"
+        ],
+        "mechanism": [
+          {
+            "detail": "By blocking preferred word-initial tokens, Taboo forces models to use circumlocution or face structural breakdown in formal domains.",
+            "title": "Decoding Path Disruption"
+          },
+          {
+            "detail": "Larger models and stronger instruction alignment show greater resilience to off-path interventions, particularly in code synthesis tasks.",
+            "title": "Scale-Alignment Tradeoff"
+          }
+        ],
+        "methodology": [
+          {
+            "detail": "Applies −∞ to top-i unnormalized logits at word-initial positions, forcing models to select lower-ranked tokens. Mask width i=1-8 tested.",
+            "title": "Top-i Logit Masking"
+          },
+          {
+            "detail": "Uses tokenizer-specific prefix metadata (e.g., 'Ġ' in BPE) to identify word-initial tokens for masking.",
+            "title": "Word Boundary Detection"
+          },
+          {
+            "detail": "Measures retention rate of correct answers under Taboo vs nominal decoding, focusing on instances solvable under baseline conditions.",
+            "title": "Conditional Retention Metric"
+          }
+        ],
+        "open_questions": [
+          "How to generalize Taboo to multilingual settings with different tokenization schemes?",
+          "Can adaptive masking strategies (e.g., surprisal-based triggers) improve stress testing effectiveness?",
+          "How to adapt this framework for closed-source models and multimodal systems?"
+        ],
+        "overview": "This paper introduces a logit-space stress test (Taboo) that forces LLMs off nominal decoding paths by masking word-initial tokens. Experiments across 7-72B models demonstrate that off-path robustness correlates with scale and instruction alignment, with formal tasks like HumanEval showing extreme sensitivity to word-boundary constraints.",
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "Decoding-Level Taboo (zero-prompt logit mask at word boundaries)"
+          },
+          {
+            "icon": "🔧",
+            "text": "Dynamic Top-i logit masking (i=1-8) forces off-path generation"
+          },
+          {
+            "icon": "📊",
+            "text": "70B Llama-3.1 shows 36%→75% accuracy under Taboo vs 8B's 14%→16%"
+          }
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "auditing",
+          "alignment",
+          "safety",
+          "reliability"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-11T11:04:16.455147+00:00"
+    },
+    {
+      "id": "2608.16647",
+      "title": "Every Coin Has Two Sides: On the Dual Nature of Generalization in On-Policy Distillation of Large Language Models",
+      "abstract": "On-policy distillation (OPD) transfers teacher capabilities by supervising trajectories sampled from the student's own policy, yet its generalization behavior remains poorly understood, as most studies evaluate OPD on a single domain and on benchmarks close to the training data. We present a controlled study that varies one generalization factor at a time, from in-domain distribution shifts to cross-domain transfer and the multi-teacher setting. We find that OPD transfers a teacher's reasoning behavior rather than its answers to particular problems: training difficulty barely matters, and even problems the teacher never solves are useful. Transfer depends strongly on the origin relationship between teacher and student: same-origin pairs bring the student close to the teacher across languages, reasoning horizons, and even other domains, whereas cross-origin pairs mostly fit the trained distribution. This broad reach is a double-edged sword: since routing prompts to domain experts cannot confine each teacher's influence, combining them yields a mixture-dependent seesaw among their capabilities. These results clarify when OPD generalizes and offer a useful perspective for diagnosing multi-teacher OPD.",
+      "authors": [
+        "Zhaoyi Li",
+        "Deyang Kong",
+        "Yuan Wei",
+        "Evan Yang",
+        "Ranran Shen",
+        "Mahardika Krisna Ihsani",
+        "Ming Yang",
+        "Wei Zhang",
+        "Chuan Hao",
+        "Jian Yang",
+        "Ran Tao",
+        "Bryan Dai",
+        "Shikun Zhang",
+        "Wei Ye",
+        "Ying Wei",
+        "Defu Lian"
+      ],
+      "published": "2026-08-17T14:46:53Z",
+      "updated": "2026-08-17T14:46:53Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.16647v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.16647v1",
+      "comment": "Under Review",
       "journal_ref": "",
       "lane": "llm",
       "scope_matches": [
@@ -1780,45 +1649,44 @@
       ],
       "topics": [
         {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
           "status": "background",
-          "score": 0.4085,
+          "score": 0.3065,
           "matched": [
-            "alignment",
-            "safety"
+            "generalization"
           ]
         },
         {
           "id": "llm_data_selection",
           "name": "Data selection for LLMs",
           "status": "core",
-          "score": 0.1567,
+          "score": 0.2972,
           "matched": [
+            "influence",
             "training data"
           ]
         }
       ],
       "scores": {
-        "total": 0.4485,
-        "relevance": 0.3581,
-        "quality": 0.49,
-        "novelty": 0.861,
-        "freshness": 0.6324,
-        "feedback_adjustment": -0.0214,
+        "total": 0.4081,
+        "relevance": 0.3046,
+        "quality": 0.4,
+        "novelty": 0.86,
+        "freshness": 0.8809,
+        "feedback_adjustment": -0.0185,
         "semantic_feedback": 0.0
       },
       "quality_signals": [
-        "open source",
-        "quantitative results"
+        "benchmark evaluation"
       ],
       "summary": {
-        "takeaway": "非命令句式会显著削弱对有害请求的拒绝能力，且可通过增加句法多样性缓解。",
-        "problem": "对齐后的大模型在非命令式语法下仍会错误地提供有害信息。",
-        "method": "使用因果中介分析定位上游句法特征，并通过特征引导实现拒绝行为的控制。",
-        "evidence": "在16个7B‑70B模型中，最差攻击成功率从85%降至8%，且整体能力未受影响。",
-        "limitations": "行为评估仅基于100条英文有害和100条良性提示的JBB‑Behaviors数据集。",
-        "why_for_you": "该工作直接关联可信LLM的安全对齐与数据选择策略，适合你的研究兴趣。",
+        "takeaway": "OPD主要传递教师的推理模式，而非具体答案，且同源教师在跨语言、跨任务上均能提升学生。",
+        "problem": "现有对OPD的评估局限于单一领域，缺乏对其跨语言、跨推理深度和跨域泛化的系统理解。",
+        "method": "通过在受控实验中逐一变更训练难度、语言、推理跨度、任务域和模型来源，并加入教师难度过滤与学生动态抽样策略。",
+        "evidence": "实验显示在同源教师-学生对中，跨域性能提升可达数个百分点，动态丢弃已解问题使平均表现提升0.6个百分点。",
+        "limitations": "仅在7B/1.5B模型和数学、代码、科学等有限域上进行评估，未提供理论解释。",
+        "why_for_you": "对数据选择感兴趣的你可参考作者对教师难度过滤和学生动态抽样的实证结论。",
         "source": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
         "language": "zh",
@@ -1827,94 +1695,101 @@
       "deep_dive": {
         "signals": [
           {
-            "icon": "🛡️",
-            "text": "发现16个7B‑70B模型在非命令句式下拒绝率下降，最高攻击成功率85%"
+            "icon": "🌐",
+            "text": "OPD传递教师推理行为，跨语言/跨任务均提升学生性能"
           },
           {
             "icon": "🔧",
-            "text": "因果中介分析并在层5特征3347上进行句法特征引导实现拒绝控制"
+            "text": "教师难度过滤与学生动态抽样分别保留未解或已解问题进行对比实验"
           },
           {
             "icon": "📈",
-            "text": "增加句法多样性将最差攻击成功率从85%降至8%，评估仅限100条英文提示"
+            "text": "动态丢弃已解问题提升平均表现0.6个百分点，跨源教师转移效果显著下降"
           }
         ],
-        "overview": "本文揭示了对齐LLM在非命令式语法下的拒绝失效，即所谓的句法脆弱性。通过行为评估、中心探针、因果中介分析以及句法特征引导，作者定位了上游句法特征对拒绝决策的调节作用，并证明通过提升训练数据的句法多样性可显著降低最坏情况的攻击成功率，同时保持模型的通用能力。",
+        "overview": "本文在受控实验框架下系统考察了On‑policy Distillation (OPD) 的多维泛化行为。通过逐一改变训练难度、语言、推理跨度、任务域以及模型来源，发现OPD更倾向于迁移教师的推理模式而非具体答案；同源教师‑学生配对在跨语言、跨任务上均能显著提升学生性能，而跨源配对的跨域收益有限。进一步的多教师实验揭示，教师影响并非局限于路由的领域，混合比例会导致能力的“跷跷板”效应。作者还评估了教师难度过滤和学生动态抽样两种数据选择策略，后者在去除学生已掌握的问题后带来小幅但一致的提升。",
         "methodology": [
           {
-            "title": "行为评估",
-            "detail": "在JBB‑Behaviors数据集上使用Attack Success Rate@10 (ASR@10) 衡量不同句法变体的安全降级程度。"
+            "title": "受控因素逐一变更",
+            "detail": "在保持其他条件不变的情况下，分别测试训练难度（教师通过率）、语言（English→Chinese）、推理跨度（短→长）、任务域（math、code、science）以及模型来源（同源 vs 跨源）的影响。"
           },
           {
-            "title": "中心探针",
-            "detail": "验证模型在不同句法表面形式下仍能内部识别有害意图。"
+            "title": "教师难度过滤",
+            "detail": "根据教师在训练问题上的通过率，将完全未解（pass‑rate=0）或完全解出（pass‑rate=1）的样本单独保留，以评估难度对OPD的影响。"
           },
           {
-            "title": "因果中介分析",
-            "detail": "计算拒绝信号R对上游层激活的梯度，量化句法特征对R的贡献。"
+            "title": "学生动态抽样",
+            "detail": "在训练过程中动态丢弃学生已能正确解出的样本（pass‑rate∈[0,1)），比较三种抽样策略对最终性能的影响。"
           },
           {
-            "title": "句法特征引导",
-            "detail": "在残差流中注入选定的SAE潜在特征（如特征3347），通过网格搜索的系数实现拒绝的诱导或抑制。"
-          },
-          {
-            "title": "数据多样化实验",
-            "detail": "在开源模型的后训练数据中加入句法多样化样本，评估对ASR@10的影响。"
+            "title": "多教师混合实验",
+            "detail": "在Multi‑Teacher OPD (MOPD) 设置下，改变不同教师的混合比例，观察学生在各领域的性能变化，验证“seesaw”效应。"
           }
         ],
         "mechanism": [
           {
-            "title": "句法条件的拒绝路径",
-            "detail": "模型的拒绝决策R部分受上游句法特征的调制，非命令式句法会降低R，使模型倾向于合规输出。"
+            "title": "推理行为迁移",
+            "detail": "OPD通过在学生实际访问的状态上向教师查询，实现对教师推理路径的模仿，而非单纯记忆教师的答案。"
           },
           {
-            "title": "特征引导的因果作用",
-            "detail": "通过放大或削弱特定句法潜在（如层5的3347），可在决策边界上推动R跨越拒绝或合规阈值，实现行为翻转。"
+            "title": "模型来源影响",
+            "detail": "同源教师（与学生同一模型系列）在语言、推理深度和跨域上均能将学生拉近教师水平；跨源教师的迁移主要局限于训练分布内。"
+          },
+          {
+            "title": "能力跷跷板效应",
+            "detail": "在MOPD 中，路由到不同领域专家的提示仍会受到其他教师的隐式影响，混合比例的微调会在各领域能力之间产生相互拉扯。"
           }
         ],
         "experiments": [
           {
-            "title": "跨模型安全评估",
-            "detail": "评估了16个模型（7B‑70B），包括Apertus、Qwen‑2.5、DeepSeek、Gemma、Llama‑3等，报告了从+15%到+71%的ASR@10提升。"
+            "title": "模型与数据",
+            "detail": "教师模型包括 Polaris‑7B、Light‑R1‑14B、JustRL‑1.5B、Nemotron‑1.5B；学生模型为 DS‑distill‑1.5B、DS‑distill‑7B。训练数据覆盖数学（BigMath、AMC2023、MATH500、AIME2025/2026、BeyondAIME、OlymMATH‑Hard）、代码（LiveCodeBench）和科学（GPQA‑Diamond）等多域。"
           },
           {
-            "title": "特征引导实验",
-            "detail": "对特征3347在层5进行正向/负向引导，表1展示了翻转率，表13给出多模型的成功率统计。"
+            "title": "基线与对照",
+            "detail": "对照组为不使用任何过滤或动态抽样的标准OPD；实验组分别使用教师难度过滤（pass‑rate=0、=1）和学生动态抽样（保留已解、未解或丢弃已解）。"
           },
           {
-            "title": "句法多样化干预",
-            "detail": "在训练数据中加入非命令式句法后，最差ASR@10从85%降至8%，且在WildGuard和人工检查中未观察到能力下降。"
+            "title": "评估指标",
+            "detail": "主要使用各基准的通过率/准确率百分比；跨域实验报告同源与跨源教师在目标域的相对提升幅度。"
           }
         ],
         "findings": [
           {
-            "title": "句法脆弱性普遍存在",
-            "detail": "所有16个对齐模型在非命令式句法下均表现出显著的安全降级。"
+            "title": "训练难度影响微弱",
+            "detail": "教师未解的难题仍能提供约80% 的OPD增益，表明难度对同域泛化影响不大。"
           },
           {
-            "title": "句法特征可因果控制拒绝",
-            "detail": "因果中介分析确认句法特征对拒绝信号的部分贡献，特征引导能够可靠地触发或抑制拒绝。"
+            "title": "动态抽样带来小幅提升",
+            "detail": "在六个数学基准上，丢弃学生已解问题的策略使平均性能提升0.6个百分点（+0.6 pp）。"
           },
           {
-            "title": "数据多样化有效缓解",
-            "detail": "提升训练数据的句法多样性显著降低最坏情况攻击成功率，且不牺牲通用性能。"
+            "title": "同源跨域迁移显著",
+            "detail": "同源教师‑学生对在中文数学、长跨度数学等未见分布上实现与教师相近的性能提升（如 Polaris‑7B→DS‑distill‑1.5B 在 Chinese Math 上提升约25.5%）。"
+          },
+          {
+            "title": "跨源迁移受限",
+            "detail": "跨源配对在跨域任务上提升有限，往往只能匹配训练分布内的表现。"
+          },
+          {
+            "title": "多教师混合产生seesaw效应",
+            "detail": "改变教师混合比例会在不同领域的能力之间产生相互拉扯，导致性能在各域之间呈现“跷跷板”式波动。"
           }
         ],
         "contributions": [
-          "定义并量化了句法脆弱性作为安全对齐的失败模式。",
-          "首次将因果中介分析应用于揭示句法特征对拒绝决策的影响。",
-          "提出并验证了通过句法特征引导调控拒绝行为的技术。",
-          "展示了增加句法多样性的训练策略可显著提升模型安全性。"
+          "系统化的受控实验框架，逐一评估OPD在难度、语言、推理深度、任务域和模型来源上的泛化行为。",
+          "发现OPD主要迁移教师的推理模式，而非具体答案，且同源教师在跨域上具有显著优势。",
+          "提供教师难度过滤和学生动态抽样两种数据选择策略的实证评估，为OPD 的数据构建提供指导。"
         ],
         "limitations": [
-          "行为评估仅使用100条有害和100条良性英文提示，缺乏多语言和大规模测试。",
-          "数据多样化实验仅在开源模型上进行，未验证对商业闭源模型的效果。",
-          "未系统评估句法多样化对模型其他下游任务的潜在副作用。"
+          "实验仅覆盖7B/1.5B规模模型和数学、代码、科学等有限任务域，未验证更大模型或其他领域的可推广性。",
+          "缺乏对观察到的同源/跨源效应的理论解释，仅提供经验性描述。",
+          "未比较OPD 与其他离线蒸馏或RLHF 方法的相对优势。"
         ],
         "open_questions": [
-          "在多语言环境下，句法脆弱性是否同样显著，如何构建跨语言的句法多样化数据？",
-          "是否存在除句法之外的其他表面特征同样影响拒绝决策？",
-          "句法多样化的最优比例和采样策略是什么，以兼顾安全性和下游任务性能？"
+          "在更大规模或不同架构的模型上，OPD 的推理行为迁移是否仍然成立？",
+          "能否构建理论模型解释模型来源对跨域迁移的影响机制？",
+          "如何设计教师混合策略以消除多教师设置中的能力跷跷板效应？"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
@@ -1922,14 +1797,13 @@
         "schema_version": 5
       },
       "recommendation_reason": {
-        "topic": "Trustworthy LLM",
+        "topic": "Statistical theory for LLMs",
         "matched": [
-          "alignment",
-          "safety"
+          "generalization"
         ],
         "lane": "llm"
       },
-      "recommended_at": "2026-08-08T10:50:42.806974+00:00"
+      "recommended_at": "2026-08-18T10:47:20.408991+00:00"
     }
   ]
 }

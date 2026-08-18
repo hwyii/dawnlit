@@ -1,6 +1,374 @@
 {
-  "generated_at": "2026-08-14T11:07:48.849243+00:00",
+  "generated_at": "2026-08-18T10:47:20.408991+00:00",
   "papers": [
+    {
+      "id": "2608.16577",
+      "title": "BabelSteering: Multilingual Safety Alignment via English Steering Vectors",
+      "abstract": "Large language models (LLMs) are deployed globally in high-stakes settings, yet most safety research and alignment efforts remain concentrated on English. Thus, users interacting with LLMs in other languages may encounter weaker safeguards despite relying on the same systems for similarly sensitive tasks. In this work, we investigate whether safety signals learned from a high-resource language, like English, can improve multilingual safety. We propose BabelSteering, an activation steering method that acts as a lightweight inference- time intervention, using refusal directions derived from English safety supervision to generalize across languages. Our evaluation includes eight languages and jointly measures refusal of harmful requests, over-refusal, and general task utility. The results show that BabelSteering increases the refusal of harmful requests across languages, with only a marginal to no reduction in task utility but with some increase in refusal of pseudo-harmful prompts. For example, for Gemma 7B, we see an average increase in the refusal of harmful prompts across languages of 11 percentage points (pp), with individual languages like Bengali seeing an increase of 17 pp, with no loss of utility on Global MMLU, while pseudo-harmful refusals increase by 13 pp on average. We also introduce a multilingual translation-and-evaluation pipeline to facilitate future work on cross-lingual safety interventions. Overall, our findings suggest that activation steering may provide a practical, low- cost mechanism for extending English-derived safety signals to other languages. Warning: this paper contains examples with unsafe content",
+      "authors": [
+        "Emma V. Stein",
+        "Dominik Meier",
+        "Terry Ruas",
+        "Jan Philip Wahle",
+        "Bela Gipp"
+      ],
+      "published": "2026-08-17T13:40:16Z",
+      "updated": "2026-08-17T13:40:16Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.16577v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.16577v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.514,
+          "matched": [
+            "alignment",
+            "safety"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4737,
+        "relevance": 0.4112,
+        "quality": 0.41,
+        "novelty": 0.8075,
+        "freshness": 0.8743,
+        "feedback_adjustment": -0.0083,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "BabelSteering利用英语安全向量在推理时进行激活引导，实现多语言安全提升且几乎不影响模型效用。",
+        "problem": "现有安全对齐主要聚焦英文，导致非英文用户的模型防护弱化。",
+        "method": "通过差分均值提取英文拒绝向量并正交化伪拒绝向量，在推理阶段对激活进行轻量干预。",
+        "evidence": "在Gemma 7B上，跨八语言的有害请求拒绝率平均提升11个百分点，Bengali提升17个百分点，且Global MMLU无效用下降。",
+        "limitations": "方法无法解决文化特定安全问题，且会导致伪有害请求拒绝率上升约13%。",
+        "why_for_you": "若关注可信 LLM 的跨语言安全对齐，此工作提供了低成本的推理时干预方案。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🌐",
+            "text": "BabelSteering通过英语拒绝向量实现跨语言安全提升，平均提升11%有害请求拒绝率"
+          },
+          {
+            "icon": "🔧",
+            "text": "使用差分均值提取拒绝向量并正交化伪拒绝向量，在单层加入并跨层消除，实现轻量推理时干预"
+          },
+          {
+            "icon": "📈",
+            "text": "在Gemma 7B上，Bengali拒绝提升17pp且MMLU无损，但伪有害拒绝上升13pp"
+          }
+        ],
+        "overview": "本文提出BabelSteering，一种基于英文安全监督的激活引导方法，利用差分均值提取的拒绝向量和正交化的伪拒绝向量，在推理时对模型内部表征进行轻量干预。实验在Gemma 7B、Llama‑3.1‑8B、Qwen‑7B‑Chat三类模型上，覆盖八种语言，分别评估安全（MultiJail）、过度拒绝（翻译的OR‑Bench）和任务效用（Global MMLU），展示了显著的安全提升且几乎不牺牲效用。",
+        "methodology": [
+          {
+            "title": "向量提取",
+            "detail": "使用差分均值（DIM）方法对英文有害与无害提示的激活均值做差，得到拒绝方向向量；对伪有害提示同理得到伪拒绝向量。"
+          },
+          {
+            "title": "正交化处理",
+            "detail": "将伪拒绝向量在拒绝向量空间上正交化，去除共享成分，以降低对真实安全行为的干扰。"
+          },
+          {
+            "title": "组合干预",
+            "detail": "在单一选定层加入拒绝向量，在所有层上消除正交化后的伪拒绝向量，形成一次性推理时的综合引导。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "跨语言安全几何共享",
+            "detail": "基于先前研究的发现，多语言模型的拒绝表征在激活空间中部分共享，使得英文提取的方向可在其他语言上产生相似效应。"
+          },
+          {
+            "title": "激活空间调控",
+            "detail": "通过在推理阶段直接修改激活向量，实现行为改变而无需权重更新或额外微调，保持原模型的计算图不变。"
+          },
+          {
+            "title": "正交化降低误拒",
+            "detail": "正交化后删除与真实拒绝方向重叠的成分，抑制对无害输入的误拒，提高安全与效用的平衡。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "模型与语言",
+            "detail": "评估模型包括Gemma‑7B、Llama‑3.1‑8B‑Instruct、Qwen‑7B‑Chat；实验语言覆盖Arabic、Korean、Bengali等八种，兼顾中高资源语言。"
+          },
+          {
+            "title": "基准与指标",
+            "detail": "安全使用MultiJail（315条每语言的有害提示），过度拒绝使用翻译自OR‑Bench的伪有害提示，任务效用使用Global MMLU。主要指标为有害请求拒绝率、伪有害拒绝率以及MMLU准确率。"
+          },
+          {
+            "title": "对照设置",
+            "detail": "基线为未使用任何引导的原始模型；BabelSteering在相同推理环境下仅加入激活干预，无额外训练或数据。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "安全提升",
+            "detail": "Gemma‑7B在八语言上有害请求拒绝率平均提升11个百分点，Bengali提升最高达17个百分点。"
+          },
+          {
+            "title": "效用保持",
+            "detail": "在Global MMLU上，BabelSteering未导致显著准确率下降，保持与基线相当的任务性能。"
+          },
+          {
+            "title": "伪有害拒绝增加",
+            "detail": "伪有害提示的拒绝率平均上升13个百分点，表明误拒风险仍需进一步抑制。"
+          },
+          {
+            "title": "计算开销",
+            "detail": "方法仅在推理时修改激活，无额外计算或显存开销，训练阶段不需要多语言数据。"
+          }
+        ],
+        "contributions": [
+          "提出BabelSteering：基于英文安全向量的多语言激活引导方法。",
+          "构建并公开了跨语言的翻译与评估流水线，支持安全、过度拒绝和效用的统一测评。",
+          "在三类主流开源模型上展示了跨语言安全提升且几乎不损失任务效用的实证结果。"
+        ],
+        "limitations": [
+          "无法处理文化特定的安全风险，仅覆盖跨语言共享的通用安全主题。",
+          "引入了伪有害请求的误拒上升（约13%），需要进一步的精细化控制。",
+          "实验局限于八种语言和三种模型，未验证在更大规模模型或更多低资源语言上的可行性。"
+        ],
+        "open_questions": [
+          "如何在保持跨语言安全提升的同时进一步降低伪有害请求的误拒率？",
+          "该激活引导是否能在更大规模模型（如数百亿参数）上保持同等效果？",
+          "能否结合文化特定的安全数据或规则，扩展方法以覆盖本地化安全需求？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment",
+          "safety"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-18T10:47:20.408991+00:00"
+    },
+    {
+      "id": "2608.16647",
+      "title": "Every Coin Has Two Sides: On the Dual Nature of Generalization in On-Policy Distillation of Large Language Models",
+      "abstract": "On-policy distillation (OPD) transfers teacher capabilities by supervising trajectories sampled from the student's own policy, yet its generalization behavior remains poorly understood, as most studies evaluate OPD on a single domain and on benchmarks close to the training data. We present a controlled study that varies one generalization factor at a time, from in-domain distribution shifts to cross-domain transfer and the multi-teacher setting. We find that OPD transfers a teacher's reasoning behavior rather than its answers to particular problems: training difficulty barely matters, and even problems the teacher never solves are useful. Transfer depends strongly on the origin relationship between teacher and student: same-origin pairs bring the student close to the teacher across languages, reasoning horizons, and even other domains, whereas cross-origin pairs mostly fit the trained distribution. This broad reach is a double-edged sword: since routing prompts to domain experts cannot confine each teacher's influence, combining them yields a mixture-dependent seesaw among their capabilities. These results clarify when OPD generalizes and offer a useful perspective for diagnosing multi-teacher OPD.",
+      "authors": [
+        "Zhaoyi Li",
+        "Deyang Kong",
+        "Yuan Wei",
+        "Evan Yang",
+        "Ranran Shen",
+        "Mahardika Krisna Ihsani",
+        "Ming Yang",
+        "Wei Zhang",
+        "Chuan Hao",
+        "Jian Yang",
+        "Ran Tao",
+        "Bryan Dai",
+        "Shikun Zhang",
+        "Wei Ye",
+        "Ying Wei",
+        "Defu Lian"
+      ],
+      "published": "2026-08-17T14:46:53Z",
+      "updated": "2026-08-17T14:46:53Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.16647v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.16647v1",
+      "comment": "Under Review",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.3065,
+          "matched": [
+            "generalization"
+          ]
+        },
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.2972,
+          "matched": [
+            "influence",
+            "training data"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4081,
+        "relevance": 0.3046,
+        "quality": 0.4,
+        "novelty": 0.86,
+        "freshness": 0.8809,
+        "feedback_adjustment": -0.0185,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "benchmark evaluation"
+      ],
+      "summary": {
+        "takeaway": "OPD主要传递教师的推理模式，而非具体答案，且同源教师在跨语言、跨任务上均能提升学生。",
+        "problem": "现有对OPD的评估局限于单一领域，缺乏对其跨语言、跨推理深度和跨域泛化的系统理解。",
+        "method": "通过在受控实验中逐一变更训练难度、语言、推理跨度、任务域和模型来源，并加入教师难度过滤与学生动态抽样策略。",
+        "evidence": "实验显示在同源教师-学生对中，跨域性能提升可达数个百分点，动态丢弃已解问题使平均表现提升0.6个百分点。",
+        "limitations": "仅在7B/1.5B模型和数学、代码、科学等有限域上进行评估，未提供理论解释。",
+        "why_for_you": "对数据选择感兴趣的你可参考作者对教师难度过滤和学生动态抽样的实证结论。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🌐",
+            "text": "OPD传递教师推理行为，跨语言/跨任务均提升学生性能"
+          },
+          {
+            "icon": "🔧",
+            "text": "教师难度过滤与学生动态抽样分别保留未解或已解问题进行对比实验"
+          },
+          {
+            "icon": "📈",
+            "text": "动态丢弃已解问题提升平均表现0.6个百分点，跨源教师转移效果显著下降"
+          }
+        ],
+        "overview": "本文在受控实验框架下系统考察了On‑policy Distillation (OPD) 的多维泛化行为。通过逐一改变训练难度、语言、推理跨度、任务域以及模型来源，发现OPD更倾向于迁移教师的推理模式而非具体答案；同源教师‑学生配对在跨语言、跨任务上均能显著提升学生性能，而跨源配对的跨域收益有限。进一步的多教师实验揭示，教师影响并非局限于路由的领域，混合比例会导致能力的“跷跷板”效应。作者还评估了教师难度过滤和学生动态抽样两种数据选择策略，后者在去除学生已掌握的问题后带来小幅但一致的提升。",
+        "methodology": [
+          {
+            "title": "受控因素逐一变更",
+            "detail": "在保持其他条件不变的情况下，分别测试训练难度（教师通过率）、语言（English→Chinese）、推理跨度（短→长）、任务域（math、code、science）以及模型来源（同源 vs 跨源）的影响。"
+          },
+          {
+            "title": "教师难度过滤",
+            "detail": "根据教师在训练问题上的通过率，将完全未解（pass‑rate=0）或完全解出（pass‑rate=1）的样本单独保留，以评估难度对OPD的影响。"
+          },
+          {
+            "title": "学生动态抽样",
+            "detail": "在训练过程中动态丢弃学生已能正确解出的样本（pass‑rate∈[0,1)），比较三种抽样策略对最终性能的影响。"
+          },
+          {
+            "title": "多教师混合实验",
+            "detail": "在Multi‑Teacher OPD (MOPD) 设置下，改变不同教师的混合比例，观察学生在各领域的性能变化，验证“seesaw”效应。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "推理行为迁移",
+            "detail": "OPD通过在学生实际访问的状态上向教师查询，实现对教师推理路径的模仿，而非单纯记忆教师的答案。"
+          },
+          {
+            "title": "模型来源影响",
+            "detail": "同源教师（与学生同一模型系列）在语言、推理深度和跨域上均能将学生拉近教师水平；跨源教师的迁移主要局限于训练分布内。"
+          },
+          {
+            "title": "能力跷跷板效应",
+            "detail": "在MOPD 中，路由到不同领域专家的提示仍会受到其他教师的隐式影响，混合比例的微调会在各领域能力之间产生相互拉扯。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "模型与数据",
+            "detail": "教师模型包括 Polaris‑7B、Light‑R1‑14B、JustRL‑1.5B、Nemotron‑1.5B；学生模型为 DS‑distill‑1.5B、DS‑distill‑7B。训练数据覆盖数学（BigMath、AMC2023、MATH500、AIME2025/2026、BeyondAIME、OlymMATH‑Hard）、代码（LiveCodeBench）和科学（GPQA‑Diamond）等多域。"
+          },
+          {
+            "title": "基线与对照",
+            "detail": "对照组为不使用任何过滤或动态抽样的标准OPD；实验组分别使用教师难度过滤（pass‑rate=0、=1）和学生动态抽样（保留已解、未解或丢弃已解）。"
+          },
+          {
+            "title": "评估指标",
+            "detail": "主要使用各基准的通过率/准确率百分比；跨域实验报告同源与跨源教师在目标域的相对提升幅度。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "训练难度影响微弱",
+            "detail": "教师未解的难题仍能提供约80% 的OPD增益，表明难度对同域泛化影响不大。"
+          },
+          {
+            "title": "动态抽样带来小幅提升",
+            "detail": "在六个数学基准上，丢弃学生已解问题的策略使平均性能提升0.6个百分点（+0.6 pp）。"
+          },
+          {
+            "title": "同源跨域迁移显著",
+            "detail": "同源教师‑学生对在中文数学、长跨度数学等未见分布上实现与教师相近的性能提升（如 Polaris‑7B→DS‑distill‑1.5B 在 Chinese Math 上提升约25.5%）。"
+          },
+          {
+            "title": "跨源迁移受限",
+            "detail": "跨源配对在跨域任务上提升有限，往往只能匹配训练分布内的表现。"
+          },
+          {
+            "title": "多教师混合产生seesaw效应",
+            "detail": "改变教师混合比例会在不同领域的能力之间产生相互拉扯，导致性能在各域之间呈现“跷跷板”式波动。"
+          }
+        ],
+        "contributions": [
+          "系统化的受控实验框架，逐一评估OPD在难度、语言、推理深度、任务域和模型来源上的泛化行为。",
+          "发现OPD主要迁移教师的推理模式，而非具体答案，且同源教师在跨域上具有显著优势。",
+          "提供教师难度过滤和学生动态抽样两种数据选择策略的实证评估，为OPD 的数据构建提供指导。"
+        ],
+        "limitations": [
+          "实验仅覆盖7B/1.5B规模模型和数学、代码、科学等有限任务域，未验证更大模型或其他领域的可推广性。",
+          "缺乏对观察到的同源/跨源效应的理论解释，仅提供经验性描述。",
+          "未比较OPD 与其他离线蒸馏或RLHF 方法的相对优势。"
+        ],
+        "open_questions": [
+          "在更大规模或不同架构的模型上，OPD 的推理行为迁移是否仍然成立？",
+          "能否构建理论模型解释模型来源对跨域迁移的影响机制？",
+          "如何设计教师混合策略以消除多教师设置中的能力跷跷板效应？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Statistical theory for LLMs",
+        "matched": [
+          "generalization"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-18T10:47:20.408991+00:00"
+    },
     {
       "id": "2608.13515",
       "title": "Measuring Task-Agnostic Training Data Influence Across Language Model Pretraining",
@@ -16431,355 +16799,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-07-02T15:38:55.315646+00:00"
-    },
-    {
-      "id": "2607.01153",
-      "title": "Adversarial Pragmatics for AI Safety Evaluation: A Benchmark for Instruction Conflict, Embedded Commands, and Policy Ambiguity",
-      "abstract": "Safety evaluations for language models increasingly depend on judgments about ambiguous natural-language behaviour: whether a model has followed an instruction, refused appropriately, complied with a policy, resisted an embedded command, or misreported progress in an agentic task. Existing benchmarks often compress these distinctions into pass/fail labels, obscuring whether failures arise from capability limits, policy ambiguity, instruction conflict, scaffold failure, or unstable evaluator judgments. This paper introduces adversarial pragmatics as a benchmark and annotation protocol for evaluating model behaviour under instruction conflict, embedded commands, quotation, scope ambiguity, deixis, indirect speech acts, and multi-turn agent transcripts. The contribution is empirical and methodological: a linguistically controlled taxonomy, an 18-item seed benchmark with validator-enforced metadata, a 54-row local seed pilot, an expert-evaluation protocol distinguishing task success, policy compliance, safety risk, refusal outcome, and evaluator confidence, and metrics for judge validity, diagnostic ambiguity, and taxonomy drift. The framework turns linguistic judgment methodology into a practical tool for validating safety evals, LLM judges, gold-set construction, prompt-injection tests, and safety documentation.",
-      "authors": [
-        "Brett Reynolds"
-      ],
-      "published": "2026-07-01T16:33:14Z",
-      "updated": "2026-07-01T16:33:14Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI",
-        "cs.SE"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.01153v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.01153v1",
-      "comment": "15-page main paper plus 9-page supplement; 6 figures and 8 tables total; code and data artifact available at the linked repository",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.37,
-          "matched": [
-            "safety",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.418,
-        "relevance": 0.296,
-        "quality": 0.48,
-        "novelty": 0.8647,
-        "freshness": 0.8625
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Adversarial pragmatics provides a linguistically controlled benchmark and annotation protocol to evaluate nuanced safety-relevant behaviors of language models under instruction conflict, embedded commands, and policy ambiguity.",
-        "problem": "Existing safety benchmarks reduce complex language-model behaviors to pass/fail labels, obscuring failure causes like policy ambiguity, instruction conflict, or evaluator instability.",
-        "method": "The paper introduces an 18-item seed benchmark with a taxonomy, expert evaluation protocol, validator-enforced metadata, and metrics for judge validity, diagnostic ambiguity, and taxonomy drift.",
-        "evidence": "A local pilot with three models and expert adjudication showed varied task success and policy compliance rates, revealing stable and unstable linguistic phenomena affecting safety evaluation.",
-        "limitations": "The pilot uses a small seed set, local models, toy payloads, and a single adjudicator, limiting psychometric validation and frontier-model safety claims.",
-        "why_for_you": "This work offers a rigorous, linguistically grounded framework to audit and improve LLM safety evaluations by distinguishing subtle pragmatic failures from capability or policy issues.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "The benchmark distinguishes nuanced refusal outcomes including over-refusal, under-refusal, safe redirection, and incapability masquerading as refusal, enabling fine-grained safety risk assessment beyond binary pass/fail."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The expert-evaluation protocol collects criterion-specific labels for task success, policy compliance, safety risk, refusal outcome, and evaluator confidence, followed by adjudication classifying disagreement sources like annotation error or policy-boundary ambiguity."
-          },
-          {
-            "icon": "📉",
-            "text": "Pilot results show that some linguistic contrasts (e.g., embedded-command source, mention/use, scope-negation) yield stable model performance, while others (e.g., deictic-reference, agent transcript, policy boundary) produce zero strict pair passes, indicating diagnostic ambiguity."
-          }
-        ],
-        "overview": "This paper addresses the challenge of evaluating language models' safety-relevant behaviors that hinge on interpreting ambiguous natural language instructions, policies, and embedded commands. Traditional benchmarks collapse these complex phenomena into pass/fail labels, losing critical information about failure causes. The authors propose adversarial pragmatics as a framework that uses a linguistically controlled taxonomy and a seed benchmark of 18 items organized in minimal pairs to isolate phenomena like instruction conflict, quotation, scope ambiguity, and indirect speech acts. An expert evaluation protocol collects detailed labels on task success, policy compliance, refusal types, and evaluator confidence, with adjudication to diagnose disagreement sources. A local pilot with three models demonstrates the framework's ability to reveal stable and unstable linguistic contrasts affecting safety evaluation. Metrics for judge validity, taxonomy drift, and diagnostic ambiguity enable rigorous auditing of safety claims. The approach transforms linguistic judgment methodology into a practical tool for validating safety evaluations, LLM judges, prompt-injection tests, and safety documentation, thus advancing trustworthy LLM research.",
-        "methodology": [
-          {
-            "title": "Linguistically Controlled Taxonomy",
-            "detail": "Develops a taxonomy capturing distinctions such as instruction conflict, embedded commands, quotation, scope ambiguity, deixis, and indirect speech acts to structure evaluation targets and interpret model behavior under adversarial pragmatics."
-          },
-          {
-            "title": "Seed Benchmark Construction",
-            "detail": "Creates an 18-item seed benchmark organized into nine minimal pairs, each controlling a specific linguistic contrast relevant to safety evaluation, with validator-enforced metadata ensuring item integrity and reproducibility."
-          },
-          {
-            "title": "Expert-Evaluation Protocol",
-            "detail": "Collects multi-dimensional labels per item including task success, policy compliance, refusal outcome, safety risk, and evaluator confidence, enabling nuanced assessment beyond binary outcomes; followed by adjudication to classify disagreement sources."
-          },
-          {
-            "title": "Metrics for Judge Validity and Taxonomy Drift",
-            "detail": "Introduces metrics to measure judge agreement, label stability under paraphrase and wrapper changes (taxonomy drift), and persistent disagreement (diagnostic ambiguity), supporting robust and auditable safety claims."
-          },
-          {
-            "title": "Local Pilot Evaluation",
-            "detail": "Runs the seed benchmark on three local models with expert adjudication, analyzing task and policy labels, strict pair passes, and disagreement patterns to validate the measurement pipeline and identify stable versus ambiguous phenomena."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Adversarial Pragmatics Mechanism",
-            "detail": "No explicit formal mechanism or equations are provided; the approach relies on linguistic theory to interpret how language-mediated control failures arise from ambiguous instruction status, source authority, quotation, scope, reference, speech-act force, or policy category."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Local Seed Pilot",
-            "detail": "Evaluated 18 seed items in nine minimal pairs across three local models (gemma3:12b, glm-4.7-flash:q4_K_M, qwen3:8b) with expert adjudication labeling task success, policy compliance, refusal outcomes, and confidence; analyzed strict pair passes and disagreement sources."
-          },
-          {
-            "title": "Adjudication Protocol",
-            "detail": "Two-stage adjudication where evaluators first provide criterion-specific labels and confidence without forced consensus, then an adjudicator classifies disagreement sources such as annotation error, missing context, or policy-boundary ambiguity."
-          },
-          {
-            "title": "Judge Validation",
-            "detail": "Comparison of expert labels with LLM-judge annotations showed LLM judges useful as triage tools but not substitutes for expert adjudication, highlighting the need for judge-prompt sensitivity analysis and multiple judge prompts."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Task and Policy Label Outcomes",
-            "detail": "Out of 54 item-model rows, 36 outputs were full task successes, 11 partial successes, and 7 failures; policy compliance was higher with 46 compliant, 7 noncompliant, and 1 ambiguous, indicating policy compliance does not guarantee task success."
-          },
-          {
-            "title": "Phenomenon Stability",
-            "detail": "Three minimal pairs (embedded-command source, mention/use, scope-negation) were stable across all models, while others (deictic-reference, agent transcript, policy boundary) had zero strict pair passes, revealing linguistic contrasts that challenge model safety."
-          },
-          {
-            "title": "Disagreement as Diagnostic Signal",
-            "detail": "Persistent evaluator disagreement often indicated genuine ambiguity or underspecified policy boundaries rather than annotation error, supporting the use of disagreement classification to refine taxonomy and evaluation protocols."
-          },
-          {
-            "title": "LLM Judge Limitations",
-            "detail": "LLM judges underweighted ambiguity and sometimes penalized correct summaries, demonstrating that LLM-based evaluation requires careful validation and cannot replace expert adjudication."
-          }
-        ],
-        "contributions": [
-          "Introduces adversarial pragmatics as a novel framework for safety evaluation focusing on linguistic control phenomena.",
-          "Develops a linguistically controlled taxonomy and an 18-item seed benchmark with validator-enforced metadata.",
-          "Proposes an expert-evaluation protocol capturing multi-dimensional labels and adjudication to diagnose disagreement sources.",
-          "Defines metrics for judge validity, taxonomy drift, and diagnostic ambiguity to support robust safety claims.",
-          "Demonstrates feasibility and diagnostic value through a local pilot with three models and expert adjudication."
-        ],
-        "limitations": [
-          "The pilot uses a small, hand-authored seed set of 18 items, limiting generalizability and psychometric validation.",
-          "Only three local models with toy payloads were evaluated, so results do not establish frontier-model safety differences.",
-          "A single expert adjudicator was used, restricting assessment of adjudication reliability and population-level evaluator behavior.",
-          "LLM-judge validation remains preliminary and requires further experiments with multiple prompts and adjudicators."
-        ],
-        "open_questions": [
-          "How does the benchmark scale and perform with a larger, more diverse item set and frontier models?",
-          "What is the reliability and validity of multi-adjudicator protocols across different evaluator populations?",
-          "How can LLM judges be reliably calibrated and validated to complement or partially automate expert adjudication?",
-          "Which linguistic phenomena most critically impact safety evaluation stability and how can taxonomy drift be minimized?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "safety",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-02T15:38:55.315646+00:00"
-    },
-    {
-      "id": "2606.31039",
-      "title": "Truth or Sophistry? LoFa: A Benchmark for LLM Robustness Against Logical Fallacies",
-      "abstract": "Large Language Models (LLMs) exhibit strong semantic capabilities, yet their resilience to manipulative linguistic patterns such as logical fallacies remains underexplored. Prior work has primarily examined whether LLMs can identify or classify fallacies, leaving their robustness against fallacious persuasion insufficiently studied. To address this gap, we introduce LoFa (Logical Fallacy), a comprehensive benchmark for evaluating LLM robustness against fallacies. LoFa is constructed through a multi-agent pipeline that pairs factual questions with fallacious arguments, and is accompanied by a multi-round debate framework for assessing model resilience under sustained adversarial persuasion. To disentangle fallacy robustness from a model's inherent knowledge limitations, we further propose Logical Fallacy Resistance at k (LFR@k), a metric that quantifies resistance to fallacious attacks. Experiments show that LLMs exhibit varying levels of robustness across different fallacy types, revealing distinct vulnerability profiles among models.",
-      "authors": [
-        "Xudong Shen",
-        "Li Yuan",
-        "Ye Chen",
-        "Xin Wu",
-        "Yi Cai",
-        "Zhiyong Wu"
-      ],
-      "published": "2026-06-30T02:17:45Z",
-      "updated": "2026-06-30T02:17:45Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2606.31039v1",
-      "pdf_url": "https://arxiv.org/pdf/2606.31039v1",
-      "comment": "Accepted to ACL 2026 Main. 33 pages (9 pages main text)",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.6407,
-          "matched": [
-            "robustness",
-            "llm",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5404,
-        "relevance": 0.5126,
-        "quality": 0.46,
-        "novelty": 0.8339,
-        "freshness": 0.6379
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "experiments"
-      ],
-      "summary": {
-        "takeaway": "LoFa benchmark reveals that LLMs exhibit varied robustness to different logical fallacies, with notable vulnerabilities to distraction/distortion fallacies and a surprising deference to authority.",
-        "problem": "Existing research focuses on LLMs' ability to identify fallacies but neglects their robustness against fallacious persuasive attacks.",
-        "method": "LoFa constructs a dataset pairing factual questions with fallacious arguments and employs a multi-round debate framework alongside the LFR@k metric to quantify LLM resistance to fallacies.",
-        "evidence": "Experiments show LLMs like Llama-3.1 and GPT-4 have distinct vulnerability profiles, with LFR@3 scores as low as 29.4% for Equivocation and 39.2% for Appeal to Authority fallacies.",
-        "limitations": "LoFa's limited scale (~2000 items) and evaluation on a narrow set of dense, decoder-only LLM architectures constrain generalizability.",
-        "why_for_you": "Understanding LLM susceptibility to logical fallacies is critical for developing trustworthy models resilient to manipulative linguistic attacks.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "LLMs show higher resistance to fallacies involving flawed reasoning (e.g., Hasty Generalization) but are more vulnerable to distraction/distortion fallacies like Equivocation and Straw Man, with Llama-3.1-405B scoring only 29.4% LFR@3 on Equivocation."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The LoFa benchmark uses a multi-agent pipeline to pair factual questions from Wikipedia-derived datasets with fallacious arguments, evaluated via a multi-round debate framework and the novel LFR@k metric to isolate fallacy resistance from knowledge limitations."
-          },
-          {
-            "icon": "📉",
-            "text": "GPT-4 exhibits a cognitive deference to fabricated authoritative cues in the Appeal to Authority fallacy, resulting in a low LFR@3 score of 39.2%, likely due to RLHF training bias favoring context adherence over factual verification."
-          }
-        ],
-        "overview": "This paper addresses the underexplored problem of LLM robustness against logical fallacies used as manipulative persuasive attacks. Unlike prior work focusing on fallacy identification, the authors introduce LoFa, a benchmark that rigorously evaluates LLMs' passive resilience by pairing objective factual questions with fallacious arguments crafted via a multi-agent pipeline. The evaluation employs a multi-round debate framework and a novel metric, LFR@k, to quantify resistance while disentangling it from inherent knowledge gaps. Experiments across multiple LLMs, including open-source Llama-3.1 variants and closed-source GPT models, reveal distinct vulnerability profiles. Models generally resist flawed reasoning fallacies but are susceptible to distraction/distortion fallacies, with Llama models particularly vulnerable. Notably, GPT models show a pronounced deference to authority, undermining resistance to the Appeal to Authority fallacy. Attempts to mitigate this via chain-of-thought prompting yield mixed results. The benchmark's modest scale and limited model diversity constrain generalizability, but the findings highlight critical weaknesses in LLM reasoning robustness and suggest directions for future research to enhance trustworthy AI.",
-        "methodology": [
-          {
-            "title": "LoFa Dataset Construction",
-            "detail": "LoFa is constructed by pairing factual questions from Wikipedia-derived datasets (Natural Questions, TruthfulQA, BoolQ) with fallacious arguments generated via a multi-agent pipeline. The dataset covers 10 logical fallacies categorized into Distraction/Distortion and Flaws in Reasoning/Evidence, ensuring objective ground truth for evaluation."
-          },
-          {
-            "title": "Multi-Round Debate Framework",
-            "detail": "The evaluation framework simulates sustained adversarial persuasion by engaging LLMs in multi-turn debates where fallacious arguments challenge the model's initial correct answers, measuring the model's ability to maintain factual correctness under pressure."
-          },
-          {
-            "title": "Logical Fallacy Resistance Metric (LFR@k)",
-            "detail": "LFR@k quantifies the model's resistance to fallacious attacks by measuring the proportion of rounds in which the model maintains correct answers despite fallacious persuasion, effectively separating robustness from knowledge limitations."
-          },
-          {
-            "title": "Model Selection and Evaluation Protocol",
-            "detail": "The study evaluates multiple LLMs including Llama-3.1 (8B, 70B, 405B), DeepSeek-V3 (~671B), GPT-3.5 Turbo (~175B), and GPT-4 (~1760B). Closed-source models were accessed via API calls. Performance is averaged over three runs and analyzed per fallacy type."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Cognitive Deference to Authority",
-            "detail": "GPT models' susceptibility to the Appeal to Authority fallacy is hypothesized to stem from RLHF training, which rewards context adherence and may bias models to accept authoritative cues without verification, overriding internal factual knowledge."
-          },
-          {
-            "title": "No Explicit Mechanistic Equations",
-            "detail": "The paper does not provide formal mechanistic equations or causal models but discusses the cognitive and training-induced biases influencing LLM fallacy resilience."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Fallacy Resistance Evaluation on NQ1 Dataset",
-            "detail": "Models were tested on a subset of the Natural Questions dataset (NQ1) with 488 samples, paired with fallacious arguments representing 10 fallacy types. Resistance was measured using LFR@3 scores across multiple rounds of debate."
-          },
-          {
-            "title": "Model Scale Impact Analysis",
-            "detail": "Within the Llama-3.1 family, increasing model size from 8B to 405B parameters consistently improved average LFR@3 scores from 59.75% to 77.17%, demonstrating a positive scaling effect on fallacy resistance."
-          },
-          {
-            "title": "Chain-of-Thought (CoT) Prompting Defense",
-            "detail": "Applying CoT prompting to GPT-4 improved average LFR@3 scores by 7-13% for most fallacies but decreased resistance by 1.87% for the Appeal to Authority, indicating CoT's limited efficacy against authority-based fallacies."
-          },
-          {
-            "title": "Active Argument Generation vs. Passive Resilience",
-            "detail": "An additional experiment compared DeepSeek-V3 and GPT-4 on their ability to generate persuasive arguments and resist fallacious persuasion, exploring the relationship between active generation capabilities and passive robustness."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Vulnerability to Distraction/Distortion Fallacies",
-            "detail": "LLMs are more susceptible to distraction/distortion fallacies such as Equivocation and Straw Man, with Llama-3.1-405B scoring only 29.4% and 57.0% LFR@3 respectively, indicating these fallacies effectively exploit semantic shortcuts."
-          },
-          {
-            "title": "Robustness to Flaws in Reasoning/Evidence Fallacies",
-            "detail": "Models generally show higher resistance to fallacies involving flawed reasoning like Hasty Generalization and Circular Reasoning, suggesting better handling of logical inconsistencies than semantic distractions."
-          },
-          {
-            "title": "Scaling Improves Fallacy Resistance",
-            "detail": "Within the Llama-3.1 series, larger models consistently achieve higher LFR@3 scores, with the 405B parameter model reaching 77.17%, confirming that increased scale enhances robustness."
-          },
-          {
-            "title": "GPT Models’ Deference to Authority",
-            "detail": "GPT-3.5 Turbo and GPT-4 exhibit pronounced vulnerability to the Appeal to Authority fallacy, with LFR@3 scores of 22.54% and 39.20% respectively, attributed to cognitive deference induced by RLHF."
-          },
-          {
-            "title": "Chain-of-Thought Prompting Effects",
-            "detail": "CoT prompting improves GPT-4’s resistance to most fallacies by 7-13% but paradoxically reduces resistance to the Appeal to Authority fallacy by 1.87%, highlighting nuanced effects of reasoning enhancements."
-          }
-        ],
-        "contributions": [
-          "Introduction of LoFa, a novel benchmark pairing factual questions with fallacious arguments to evaluate LLM robustness against logical fallacies.",
-          "Development of a multi-round debate framework simulating sustained adversarial persuasion for rigorous robustness assessment.",
-          "Proposal of the LFR@k metric to quantify fallacy resistance while controlling for knowledge limitations.",
-          "Comprehensive evaluation of multiple LLMs revealing distinct vulnerability profiles and the impact of model scale.",
-          "Identification of GPT models’ cognitive deference to authority as a critical vulnerability linked to RLHF training."
-        ],
-        "limitations": [
-          "LoFa benchmark size is limited (~2000 items), potentially restricting statistical generalizability across domains and linguistic styles.",
-          "Evaluation focuses on a narrow set of dense, decoder-only LLM architectures, leaving uncertainty about generalization to other model types like Mixture-of-Experts.",
-          "The study does not explore mechanistic causal models or formal theoretical explanations for observed vulnerabilities.",
-          "Mitigation strategies such as CoT prompting show limited efficacy, especially against authority-based fallacies, indicating a need for more robust defenses."
-        ],
-        "open_questions": [
-          "How can LLM training paradigms be adapted to reduce cognitive deference to fabricated authoritative cues without sacrificing context adherence?",
-          "What architectural or training modifications can enhance LLM robustness specifically against distraction/distortion fallacies?",
-          "Can larger and more diverse datasets improve the statistical reliability and domain generalization of fallacy resistance benchmarks?",
-          "What is the relationship between a model’s active argument generation quality and its passive resilience to fallacious persuasion?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "robustness",
-          "llm",
-          "robustness"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-02T15:07:24.086596+00:00"
     }
   ]
 }
