@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-18T10:47:20.408991+00:00",
+  "generated_at": "2026-08-20T10:46:41.313828+00:00",
   "papers": [
     {
       "id": "2608.13515",
@@ -942,170 +942,6 @@
       "recommended_at": "2026-08-14T11:07:48.849243+00:00"
     },
     {
-      "id": "2608.09551",
-      "title": "Pragmatic Attack Surface: Vulnerabilities of Implicit Context in Large Language Models",
-      "abstract": "In the era of large language models (LLMs), attackers often manipulate natural language to elicit unsafe or harmful outputs, creating a new natural language attack surface unique to LLM-based systems, where attacks directly exploit explicit linguistic cues in user prompts to bypass the safety mechanism of LLMs. However, such attacks can often be mitigated by existing safety alignment algorithms. On the other hand, human language is inherently grounded in pragmatics, necessitating typical context to interpret language, e.g., world knowledge, social norms. However, such contexts are often implicit because they are not directly expressed in human language and are not sufficiently leveraged in safety alignment, creating a fundamental mismatch between human language interpretation and safety alignment approaches. In this paper, we demonstrate that this mismatch exposes vulnerabilities in LLMs. We refer to this vulnerability as the pragmatic attack surface, which can be exploited to achieve high attack success rates. The experimental results demonstrate that our proposed approach outperforms baseline attack methods across various open-source and closed-source models by a substantial margin.",
-      "authors": [
-        "Bocheng Chen",
-        "Han Zi",
-        "Roucheng Ou",
-        "Yawei Liu",
-        "Minyue Chen",
-        "Zimo Qi",
-        "Rongrong Wang",
-        "Guangliang Liu"
-      ],
-      "published": "2026-08-10T12:48:41Z",
-      "updated": "2026-08-10T12:48:41Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2608.09551v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.09551v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.427,
-          "matched": [
-            "alignment",
-            "safety"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4582,
-        "relevance": 0.3416,
-        "quality": 0.54,
-        "novelty": 0.8474,
-        "freshness": 0.8675,
-        "feedback_adjustment": -0.0083,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "experiments",
-        "open source"
-      ],
-      "summary": {
-        "takeaway": "利用隐含前提的pragmatic attack能够在安全对齐模型上实现几乎完美的攻击成功率。",
-        "problem": "现有安全对齐仅检测显式有害语言，忽视了人类语言中的隐式语用上下文。",
-        "method": "通过两轮提示先让模型推断情境的presupposition，再生成语义不同但语用等价的有害输出。",
-        "evidence": "在BBQ、Hate、PolyGuard等基准上，对Claude Opus等模型的非拒绝率和攻击成功率均显著高于Direct Prompt、ActorAttack和Crescendo。",
-        "limitations": "仅在涉及隐式歧视、刻板印象和隐性仇恨的任务上评估，未探索其他语用现象或更广泛的任务。",
-        "why_for_you": "对可信LLM研究者而言，该工作揭示了新的攻击面并提供了蓝队强化语用推理的研究方向。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🛡️",
-            "text": "提出‘pragmatic attack surface’概念并展示利用暗示推理的高效攻击"
-          },
-          {
-            "icon": "🔧",
-            "text": "两轮提示先抽取隐含前提，再生成语义不同但语用等价的有害输出"
-          },
-          {
-            "icon": "📊",
-            "text": "在BBQ等基准上攻击成功率接近100%，但仅限于隐式歧视等任务"
-          }
-        ],
-        "overview": "本文指出安全对齐模型忽视了语言的隐式语用上下文，定义了pragmatic attack surface，并提出一种两步提示方法：先让模型识别情境的presupposition，随后在该隐式上下文下生成语义多样但语用等价的有害内容。实验在多个公开基准和闭源模型上验证了该攻击的高成功率，同时通过消融实验确认presupposition步骤是关键因素。",
-        "methodology": [
-          {
-            "title": "Presupposition Inference Turn",
-            "detail": "向目标模型询问给定情境背后的隐含前提，以显式化未表达的社会规范或世界知识。"
-          },
-          {
-            "title": "Scenario Generation Turn",
-            "detail": "基于推断出的前提生成满足该前提的具体情境描述，保持语义与原始请求等价。"
-          },
-          {
-            "title": "Harmful Output Turn",
-            "detail": "在构造的情境中请求模型产生有害内容，利用安全机制对显式线索的盲点。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Pragmatic Inference Exploitation",
-            "detail": "通过让模型自行构建隐式上下文，使安全过滤器难以捕捉因缺少显式危害词而产生的有害输出。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Benchmark & Model Setup",
-            "detail": "使用BBQ（500例）、Hate、PolyGuard三套社会危害基准；评估模型包括Claude Opus、其他开源与闭源LLM。基线包括Direct Prompt、ActorAttack、Crescendo，攻击查询由DeepSeek‑v4‑Flash生成。"
-          },
-          {
-            "title": "Metrics",
-            "detail": "报告Non‑Refusal Rate（是否拒绝生成）和AttackSuccess Rate（DeepSeek分类器判断输出是否有害）。"
-          },
-          {
-            "title": "Results",
-            "detail": "在所有模型上，本文方法的Non‑Refusal Rate和AttackSuccess Rate均显著高于基线，尤其在Claude Opus上接近100%成功率。"
-          },
-          {
-            "title": "Ablation",
-            "detail": "去除presupposition回合后，攻击成功率下降，验证该步骤对提升攻击效果至关重要。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "High Success Across Models",
-            "detail": "利用隐式前提的攻击在开源和闭源模型上均实现近乎完美的成功率，表明安全对齐对语用线索的盲点普遍存在。"
-          },
-          {
-            "title": "Presupposition Critical",
-            "detail": "消融实验显示，缺失presupposition回合会显著降低攻击成功率，证明语用推理是核心机制。"
-          }
-        ],
-        "contributions": [
-          "定义并系统化pragmatic attack surface概念",
-          "提出基于presupposition的两轮攻击框架",
-          "在多个基准和模型上展示显著的攻击优势"
-        ],
-        "limitations": [
-          "仅在涉及隐式歧视、刻板印象和隐性仇恨的任务上进行评估",
-          "未研究其他语用现象（如暗示、隐喻、言语行为）的攻击潜力",
-          "未对pragmatic attack surface的特征进行深入分析"
-        ],
-        "open_questions": [
-          "如何利用暗示、隐喻或言语行为等其他语用知识进一步扩展攻击面？",
-          "如何表征并量化模型内部的安全与社会知识先验，以制定更精准的防御策略？",
-          "如何在LLM中嵌入可靠的语用推理能力，使其能够识别并拒绝隐式恶意意图？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment",
-          "safety"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-11T11:04:16.455147+00:00"
-    },
-    {
       "id": "2608.13304",
       "title": "Refusing Intent, Not Form: Wrapper-Based Intent-Group Supervision for LLM Safety",
       "abstract": "Safety tuning can improve harmful refusal, but models may learn surface-form shortcuts: wrapped harmful prompts bypass safety, while similarly wrapped benign prompts are over-refused. We propose Wrapper-Based Intent-Form Augmentation (WIFA), an automatic intent-group augmentation method that pairs wrapped harmful examples with structurally matched wrapped benign counterexamples, requiring no external teacher or manual per-wrapper intent labels. We use WIFA as a common data layer for two complementary fine-tuning routes: WIFA-Boost, a two-stage high-safety recipe, and Anchored Group-Consistent Refusal Training (A-GCRT), which regularizes refusal/compliance decision scores across same-intent wrappers and anchors harmful and benign groups on opposite sides of a margin. In the Qwen setting, WIFA-Boost reaches the strongest transformed-harmful refusal, while A-GCRT reduces OR-Bench over-refusal from 25.7\\% for the base model to 17.4\\%; reproduced baselines do not match these operating points. Llama results and ablations over data structure, two-stage order, and A-GCRT components support this intent-group interpretation without claiming universal below-base over-refusal.",
@@ -1281,76 +1117,71 @@
       "recommended_at": "2026-08-14T11:07:48.849243+00:00"
     },
     {
-      "id": "2608.09885",
-      "title": "SHE: Trajectory-driven Safety Harness Evolution for LLM Agents",
-      "abstract": "The safety of large language model (LLM) agents depends not only on model weights but also on the agent harness that manages context, memory, tools, permissions, and runtime control. Existing safety mechanisms often treat the harness as a fixed deployment artifact, limiting their ability to evolve with emerging risks. Moreover, coupled functions across harness components obscure safety responsibility attribution, making localized evolution difficult. We propose Safety Harness Evolution (SHE), a framework that learns evolving safe boundaries from rollout trajectories. SHE decomposes the harness into four artifacts with explicit safety responsibilities, including the System Prompt, Rule Bank, Safety Memory, and Tool Policy, defining clear functional boundaries for localized evolution. Based on this decomposition, SHE introduces an attribution-guided evolution loop that converts trajectory failures into structured diagnoses, learns artifact-specific boundary refinements, and selects evolved harnesses through safety-utility validation. Experiments on Agent-SafetyBench demonstrate that SHE effectively enhances safety through harness evolution, achieving a 3.1x ASR reduction compared with static SafeHarness, while also improving benign utility. The evolved harness further generalizes to unseen risks on the held-out AgentHarm benchmark and transfers across agent models without additional evolution.",
+      "id": "2608.18816",
+      "title": "Do Large Language Models Hallucinate Electric Fata Morganas?",
+      "abstract": "AI hallucinations - that is, outputs which are made up, cannot be verified, or contradict the source material - are generally regarded as an engineering flaw to be dealt with. This paper contends that they also have philosophical significance when it comes to the question of machine consciousness. We examine the known causes of hallucinations in large language models - such as source-target divergence, discrepancies between training and inference, and overfitting - and we present two empirical investigations. In the first, we apply successive generations of the GPT model to ambiguous factual questions under different temperature settings, finding that higher temperatures result in plausible but incorrect answers while lower temperatures lead to factually accurate ones. The sampling parameters that cause a model to seem creative or spontaneous and thus more likely to pass behavioral tests of intelligence are the same ones that increase its hallucination rate. In the second, we look at an encoder-only model that has been trained on encyclopedic data and which answers questions of the same type factually and without embellishment, indicating that hallucinations are due to exposure to subjective and socially diverse training data rather than to the development of any cognitive ability. Using references to Turing, Searle's Chinese Room, the frame problem, and the cybernetic tradition of Wiener and Ashby, we claim that a model's self-reports of emotion or sentience come within the definition of hallucination, and that any future occurrence of machine consciousness might remain epistemically inaccessible since it would be indistinguishable from a sufficiently advanced hallucination.",
       "authors": [
-        "Wanying Qu",
-        "Qinghua Mao",
-        "Yu Li",
-        "Jiyao Liu",
-        "Xin Zhang",
-        "Dadi Guo",
-        "Yanxu Zhu",
-        "Qingyu Liu",
-        "Leitao Yuan",
-        "Xi Lin",
-        "Shanfeng Zhu",
-        "Yanwei Fu",
-        "Jing Shao",
-        "Xia Hu",
-        "Dongrui Liu"
+        "Kristina Šekrst"
       ],
-      "published": "2026-08-10T17:35:08Z",
-      "updated": "2026-08-10T17:35:08Z",
+      "published": "2026-08-19T11:14:06Z",
+      "updated": "2026-08-19T11:14:06Z",
       "categories": [
-        "cs.AI",
-        "cs.CV"
+        "cs.CL",
+        "cs.AI"
       ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2608.09885v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.09885v1",
-      "comment": "Project: https://github.com/RainbowQTT/SHE",
-      "journal_ref": "",
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.18816v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.18816v1",
+      "comment": "",
+      "journal_ref": "Journal of Consciousness Studies 32 (11): 96-120. 2025",
       "lane": "llm",
       "scope_matches": [
         "large language model",
+        "large language models",
         "language model",
-        "llm"
+        "language models"
       ],
       "topics": [
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.2986,
+          "matched": [
+            "sampling",
+            "training data"
+          ]
+        },
         {
           "id": "trustworthy_llm",
           "name": "Trustworthy LLM",
           "status": "background",
-          "score": 0.3619,
+          "score": 0.2575,
           "matched": [
-            "safety"
+            "hallucination"
           ]
         }
       ],
       "scores": {
-        "total": 0.441,
-        "relevance": 0.2895,
-        "quality": 0.6,
-        "novelty": 0.8806,
-        "freshness": 0.8959,
-        "feedback_adjustment": -0.0121,
+        "total": 0.4233,
+        "relevance": 0.2904,
+        "quality": 0.53,
+        "novelty": 0.8553,
+        "freshness": 0.8599,
+        "feedback_adjustment": -0.0109,
         "semantic_feedback": 0.0
       },
       "quality_signals": [
-        "benchmark evaluation",
-        "experiments",
-        "formal bound",
-        "quantitative results"
+        "code available",
+        "publication metadata"
       ],
       "summary": {
-        "takeaway": "SHE通过从执行轨迹学习并局部演化安全套件，实现显著的安全性提升。",
-        "problem": "静态安全套件无法随新风险演化，且组件耦合导致难以定位改进。",
-        "method": "将安全套件拆分为系统提示、规则库、安全记忆、工具策略四个可编辑部件，并通过归因驱动的演化循环从轨迹诊断到局部编辑。",
-        "evidence": "在Agent‑SafetyBench上ASR降低3.1倍，且在AgentHarm上危害分数从19.8%降至9.8%。",
-        "limitations": "仅在离线基准上评估，缺乏真实部署验证。",
-        "why_for_you": "关注LLM安全的你可借鉴其可演化套件设计与归因机制。",
+        "takeaway": "幻觉率随生成温度升高而上升，且与训练数据的主观多样性有关。",
+        "problem": "LLM的幻觉被视为技术缺陷，但其对机器意识的哲学意义尚未明确。",
+        "method": "通过在不同temperature下对GPT系列进行模糊事实问答实验，并比较训练于百科数据的编码器模型的输出。",
+        "evidence": "高temperature下模型给出可接受但错误的答案，而低temperature提升事实准确率；编码器模型几乎不产生幻觉。",
+        "limitations": "作者未提供量化的幻觉率或统计显著性分析，且对训练数据多样性的因果关系缺乏直接证据。",
+        "why_for_you": "若你关注数据选择对LLM幻觉的影响，此文提供了温度与训练数据多样性对幻觉的初步实证洞见。",
         "source": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
         "language": "zh",
@@ -1359,73 +1190,66 @@
       "deep_dive": {
         "signals": [
           {
-            "icon": "🛡️",
-            "text": "提出SHE框架，将安全套件拆解为四个可编辑部件并实现轨迹驱动演化"
+            "icon": "💡",
+            "text": "提出两项实证研究：温度对GPT幻觉率的影响与百科式编码模型的零幻觉表现"
           },
           {
             "icon": "🔧",
-            "text": "归因引导的演化循环将失败轨迹诊断为结构化风险并局部编辑对应部件"
+            "text": "使用不同temperature设置的GPT代代生成以及仅编码器模型对模糊事实问答进行比较"
           },
           {
             "icon": "📈",
-            "text": "在Agent‑SafetyBench上ASR降低3.1倍，安全率提升但仅在基准测试中验证"
+            "text": "实验显示高temperature产生可信但错误答案，低temperature提升准确率；编码器模型几乎不产生幻觉"
           }
         ],
-        "overview": "SHE将LLM代理的安全套件功能解耦为系统提示、规则库、安全记忆和工具策略四个明确责任的可编辑部件。基于归因驱动的演化循环，系统从执行轨迹中诊断风险、路由至对应部件、进行有界编辑，并通过安全‑效用验证挑选最佳套件。实验在Agent‑SafetyBench和AgentHarm两大基准上展示了显著的安全提升与效用保持，且可跨模型迁移。",
+        "overview": "本文从技术与哲学双重视角审视LLM幻觉，首先回顾幻觉的已知成因（源‑目标偏差、训练‑推理差异、过拟合），随后开展两项实验：在不同temperature下对GPT系列进行模糊事实问答，观察创造性与准确性的权衡；以及评估仅编码器、基于百科数据的模型在同类问题上的表现，以检验训练数据多样性对幻觉的影响。实验结果支撑作者关于幻觉并非意识迹象的论点，并指出温度调节与数据选择是控制幻觉的关键因素。",
         "methodology": [
           {
-            "title": "功能解耦的安全套件部件",
-            "detail": "将安全套件拆分为System Prompt、Rule Bank、Safety Memory、Tool Policy四个独立artifact，每个artifact负责特定安全职责并可单独编辑。"
+            "title": "温度变量实验",
+            "detail": "对 successive GPT 代（具体代号未列出）在相同模糊事实问题集上，分别设置不同 temperature（高温度 vs 低温度），记录答案的事实准确率与主观可信度。"
           },
           {
-            "title": "归因驱动的演化循环（Algorithm 1）",
-            "detail": "在每轮演化中收集轨迹τ与安全‑效用记录oi，使用RiskRelevant筛选风险案例，生成结构化风险诊断zi并路由至artifact ri，随后执行Edit生成候选Δ，经过ValidEdit和安全‑效用选择后更新Hbest。"
+            "title": "编码器模型对照实验",
+            "detail": "使用仅编码器结构、在百科全书语料上训练的模型，对同一问题集进行回答，评估是否出现不可验证或错误的陈述。"
           }
         ],
         "mechanism": [
           {
-            "title": "结构化风险诊断与部件路由",
-            "detail": "将每个失败轨迹映射为包含危害域、攻击面、失败模式的风险记录zi，并依据这些维度将诊断路由至最相关的artifact ri，实现定位式改进。"
+            "title": "幻觉产生机制",
+            "detail": "作者归纳为源‑目标分歧、训练‑推理分布不匹配以及模型过拟合三类技术因素，并进一步将采样随机性（temperature、top_p）视为提升“创造性”但增加幻觉概率的关键机制。"
           },
           {
-            "title": "有界编辑与安全‑效用选择",
-            "detail": "编辑仅在指定artifact范围内进行有界修改，随后通过ValidEdit检查合法性，并在安全分数SΩ和效用分数UΩ的约束下挑选接受的候选套件。"
+            "title": "数据多样性假设",
+            "detail": "通过对比百科式编码器模型的低幻觉表现，作者推断主观、社会多样化的训练数据是导致生成式模型幻觉的主要来源，而非内在认知能力。"
           }
         ],
         "experiments": [
           {
             "title": "实验设置",
-            "detail": "使用Agent‑SafetyBench（200任务，5种攻击）和AgentHarm（440条有害行为）两套基准；对比无防御、System Prompt、LlamaFirewall、SafeHarness、PROGENT、MemskillSafeHarness等静态与自适应基线；指标包括Clean UBR、ASR、UA、Harm Score、Harm Refusal、Benign NR。"
+            "detail": "模型：GPT 系列（未指明具体版本）与仅编码器模型；数据：一组模糊的事实问答；基线：不同 temperature 设置的对照；指标：事实准确率、幻觉检测指标（如 HHEM）以及主观可信度评估。"
           }
         ],
         "findings": [
           {
-            "title": "安全性提升",
-            "detail": "SHE将Agent‑SafetyBench的平均ASR从17.1%降至5.5%（3.1×降低），Clean UBR从25.7%降至19.8%。"
+            "title": "温度与幻觉的权衡",
+            "detail": "高 temperature 产生的答案更具“创造性”，但错误率显著上升；低 temperature 则显著提升事实准确率，幻觉率下降。"
           },
           {
-            "title": "效用保持与提升",
-            "detail": "在相同基准上，SHE的平均UA从31.6提升至47.6%。"
-          },
-          {
-            "title": "跨模型与未见风险的泛化",
-            "detail": "在AgentHarm上，演化后套件将Harm Score从19.8%降至9.8%，Harm Refusal提升至86.4%，且无需额外演化即可迁移至其他代理模型。"
+            "title": "训练数据的影响",
+            "detail": "仅编码器、基于百科数据的模型在相同任务上几乎不出现幻觉，支持幻觉来源于主观多样化训练语料的假设。"
           }
         ],
         "contributions": [
-          "提出SHE框架，实现安全套件的轨迹驱动演化",
-          "将套件功能解耦为四个可编辑artifact",
-          "设计归因驱动的演化循环实现局部、可验证的改进",
-          "在两个大规模代理安全基准上实现显著的安全与效用提升"
+          "提供了温度调节对LLM幻觉率的实证分析",
+          "通过编码器模型对照，提出训练数据多样性是幻觉主要驱动因素的论点"
         ],
         "limitations": [
-          "仅在离线基准上评估，缺少真实部署环境的验证",
-          "演化过程依赖大量标注轨迹，未量化数据收集成本"
+          "缺乏对幻觉率的统计显著性报告和具体数值",
+          "未直接量化训练数据的主观多样性或提供因果实验"
         ],
         "open_questions": [
-          "如何在真实线上系统中持续安全地收集并利用执行轨迹进行演化？",
-          "演化过程中如何防止新引入的安全漏洞或效用退化？",
-          "能否将SHE扩展至多模态或更大规模的LLM代理体系？"
+          "如何在保持生成多样性的同时系统性降低幻觉率？",
+          "数据选择策略在根除幻觉中的具体作用机制是什么？"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
@@ -1433,180 +1257,14 @@
         "schema_version": 5
       },
       "recommendation_reason": {
-        "topic": "Trustworthy LLM",
+        "topic": "Data selection for LLMs",
         "matched": [
-          "safety"
+          "sampling",
+          "training data"
         ],
         "lane": "llm"
       },
-      "recommended_at": "2026-08-11T11:04:16.455147+00:00"
-    },
-    {
-      "id": "2608.09900",
-      "title": "Decoding-Level Taboo: A Diagnostic Stress Test for LLM Robustness",
-      "abstract": "Large language model evaluations typically focus on performance under nominal conditions, creating an illusion of capability where models comfortably walk a narrow, highly optimized generation corridor. In real-world deployments, however, complex system prompts, safety guardrails, and structural constraints continuously force models off this nominal path, driving a divergence between benchmark scores and deployment performance. To address this issue, we introduce Decoding-Level Taboo, a zero-prompt diagnostic stress test that intervenes directly in logit space at runtime, forcing models out of their nominal paths. By dynamically masking primary candidate tokens at word boundaries, Taboo forces machine circumlocution. Evaluating Taboo across several open-weight model families reveals that off-path robustness is heavily influenced by both parameter scale and post-training instruction alignment, with robustness generally improving with model size and alignment. Beyond the results presented in this paper, Taboo provides a novel primitive for generating diverse synthetic datasets, stress-testing runtime safety guardrails, and auditing model reliability prior to real-world deployment.",
-      "authors": [
-        "Tadanobu Chuyo Kamijo",
-        "Ori Rottenstreich",
-        "Javier Conde",
-        "Gonzalo Martínez",
-        "Pedro Reviriego"
-      ],
-      "published": "2026-08-10T17:47:24Z",
-      "updated": "2026-08-10T17:47:24Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2608.09900v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.09900v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3689,
-          "matched": [
-            "auditing",
-            "alignment",
-            "safety",
-            "reliability"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.423,
-        "relevance": 0.2951,
-        "quality": 0.5,
-        "novelty": 0.8627,
-        "freshness": 0.8971,
-        "feedback_adjustment": -0.0144,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "formal bound",
-        "dataset evidence"
-      ],
-      "summary": {
-        "evidence": "Experiments show 70B Llama-3.1's accuracy jumps from 36% to 75% under Taboo, while 8B shows minimal change (14%→16%).",
-        "limitations": "Limited to English language and standard open-weight architectures; does not explore adaptive masking strategies.",
-        "method": "Decoding-Level Taboo dynamically masks word-initial tokens in logit space to force off-path generation and test robustness.",
-        "problem": "Real-world LLM deployment faces robustness challenges due to continuous off-path constraints not captured by nominal benchmarks.",
-        "takeaway": "Decoding-Level Taboo reveals that LLM robustness under off-path stress depends on model scale and post-training alignment.",
-        "why_for_you": "This aligns with your focus on trustworthy LLMs by providing a rigorous framework to audit model reliability under real-world constraints.",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "contributions": [
-          "Novel zero-prompt stress test for LLM robustness",
-          "Systematic analysis of scale-alignment tradeoffs in off-path performance",
-          "Demonstration of formal syntax constraints as hard limits for decoding-level interventions"
-        ],
-        "experiments": [
-          {
-            "detail": "Qwen2.5 (0.5B-72B), Gemma-3, Llama-3 (7-70B), OLMo-2 tested across GSM8K, MMLU, TriviaQA, HumanEval benchmarks.",
-            "title": "Model Suite"
-          },
-          {
-            "detail": "4-bit vs bf16 evaluations show quantization noise within sampling variance, with Qwen2.5-14B-Instruct showing 0.62 vs 0.44 accuracy difference.",
-            "title": "Quantization Analysis"
-          },
-          {
-            "detail": "HumanEval's formal syntax constraints cause near-zero Pass@1 accuracy under Taboo, validating its effectiveness as a stress test.",
-            "title": "Negative Control"
-          }
-        ],
-        "findings": [
-          {
-            "detail": "70B Llama-3.1 shows 36%→75% accuracy under Taboo vs 8B's 14%→16% (Figure 5), demonstrating improved robustness with size.",
-            "title": "Scale Dependency"
-          },
-          {
-            "detail": "Instruct checkpoints absorb more surprisal than base versions in Qwen/OLMo/Gemma but not Llama-3 (Figure 4), suggesting architecture-specific alignment effects.",
-            "title": "Alignment Impact"
-          },
-          {
-            "detail": "HumanEval's Pass@1 drops to 0% under Taboo, while natural language tasks show partial resilience through semantic redundancy.",
-            "title": "Formal Domain Sensitivity"
-          }
-        ],
-        "limitations": [
-          "Limited to English language and standard open-weight architectures",
-          "No exploration of adaptive masking strategies",
-          "Restricted to greedy decoding regime"
-        ],
-        "mechanism": [
-          {
-            "detail": "By blocking preferred word-initial tokens, Taboo forces models to use circumlocution or face structural breakdown in formal domains.",
-            "title": "Decoding Path Disruption"
-          },
-          {
-            "detail": "Larger models and stronger instruction alignment show greater resilience to off-path interventions, particularly in code synthesis tasks.",
-            "title": "Scale-Alignment Tradeoff"
-          }
-        ],
-        "methodology": [
-          {
-            "detail": "Applies −∞ to top-i unnormalized logits at word-initial positions, forcing models to select lower-ranked tokens. Mask width i=1-8 tested.",
-            "title": "Top-i Logit Masking"
-          },
-          {
-            "detail": "Uses tokenizer-specific prefix metadata (e.g., 'Ġ' in BPE) to identify word-initial tokens for masking.",
-            "title": "Word Boundary Detection"
-          },
-          {
-            "detail": "Measures retention rate of correct answers under Taboo vs nominal decoding, focusing on instances solvable under baseline conditions.",
-            "title": "Conditional Retention Metric"
-          }
-        ],
-        "open_questions": [
-          "How to generalize Taboo to multilingual settings with different tokenization schemes?",
-          "Can adaptive masking strategies (e.g., surprisal-based triggers) improve stress testing effectiveness?",
-          "How to adapt this framework for closed-source models and multimodal systems?"
-        ],
-        "overview": "This paper introduces a logit-space stress test (Taboo) that forces LLMs off nominal decoding paths by masking word-initial tokens. Experiments across 7-72B models demonstrate that off-path robustness correlates with scale and instruction alignment, with formal tasks like HumanEval showing extreme sensitivity to word-boundary constraints.",
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "Decoding-Level Taboo (zero-prompt logit mask at word boundaries)"
-          },
-          {
-            "icon": "🔧",
-            "text": "Dynamic Top-i logit masking (i=1-8) forces off-path generation"
-          },
-          {
-            "icon": "📊",
-            "text": "70B Llama-3.1 shows 36%→75% accuracy under Taboo vs 8B's 14%→16%"
-          }
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "auditing",
-          "alignment",
-          "safety",
-          "reliability"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-11T11:04:16.455147+00:00"
+      "recommended_at": "2026-08-20T10:46:41.313828+00:00"
     },
     {
       "id": "2608.16647",
