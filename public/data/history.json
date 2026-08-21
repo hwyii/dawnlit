@@ -1,6 +1,156 @@
 {
-  "generated_at": "2026-08-20T10:46:41.313828+00:00",
+  "generated_at": "2026-08-21T10:46:58.431457+00:00",
   "papers": [
+    {
+      "id": "2608.20314",
+      "title": "MidTool: Mid-training Data Synthesis for Agentic Tool Use",
+      "abstract": "Mid-training is increasingly recognized as a critical stage for shaping the capabilities of large language models. Recent work has shown that targeted mid-training can strengthen reasoning-intensive abilities such as math and science, and can also improve agentic capabilities in software-engineering settings. In this work, we study the parallel but less explored agentic capability: general tool use. We present MidTool, an open corpus construction pipeline for agentic tool-use mid-training that combines large-scale web, PDF, and code data with synthesized supervision from real-world tool APIs, MCP skills, and document-grounded workflows. MidTool is designed to teach models how to recognize tool affordances, ground arguments from context, compose tool call workflow, and recover from incomplete information. We mid-train Qwen3-4B-Base and Qwen3-8B-Base on MidTool-Mix, and then apply follow-up post-training with both supervised fine-tuning and reinforcement learning. Compared with baselines, MidTool-Mix consistently improves downstream performance under both SFT and RL on BFCL, tau2-Bench, and MCP Universe. These results suggest that general tool use, like other important LLM capabilities, benefits from dedicated mid-training rather than being left entirely to post-training.",
+      "authors": [
+        "Fengqing Jiang",
+        "Yite Wang",
+        "Boyi Liu",
+        "Zhaoyang Wang",
+        "Canwen Xu",
+        "Zhewei Yao",
+        "Radha Poovendran",
+        "Yuxiong He"
+      ],
+      "published": "2026-08-20T17:53:59Z",
+      "updated": "2026-08-20T17:53:59Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2608.20314v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.20314v1",
+      "comment": "Data & Model: https://hf.co/collections/MidTool/midtool-release",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.4077,
+          "matched": [
+            "training data"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.453,
+        "relevance": 0.3262,
+        "quality": 0.54,
+        "novelty": 0.8799,
+        "freshness": 0.8995,
+        "feedback_adjustment": -0.0187,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "baseline comparison"
+      ],
+      "summary": {
+        "evidence": "MidTool-Mix improves downstream performance on BFCL, tau2-Bench, and MCP Universe under SFT and RL.",
+        "limitations": "General tool use still struggles with deep-search-style exploratory tasks requiring dedicated trajectory data.",
+        "method": "MidTool combines web, PDF, code, and tool data with synthesized supervision for mid-training.",
+        "problem": "Improving general tool use in LLMs requires dedicated mid-training rather than post-training alone.",
+        "takeaway": "MidTool enhances agentic tool use via mid-training with synthesized data.",
+        "why_for_you": "Focus on data synthesis for tool use aligns with your interest in LLM training data optimization.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "contributions": [
+          "Scalable pipeline for agentic tool-use mid-training data synthesis",
+          "Demonstration of mid-training benefits for general tool use capabilities"
+        ],
+        "experiments": [
+          {
+            "detail": "Tests on BFCL, tau2-Bench, and MCP Universe with Qwen3-4B-Base/8B models using SFT and RL",
+            "title": "Benchmark Evaluation"
+          },
+          {
+            "detail": "Compares MidTool-Mix with processed raw data, native trajectories, and context-grounded trajectories under fixed SFT recipe",
+            "title": "Ablation Study"
+          }
+        ],
+        "findings": [
+          {
+            "detail": "MidTool-Mix achieves 7.6% higher BFCL pass@4 vs. baseline in ablation study",
+            "title": "Performance Gains"
+          },
+          {
+            "detail": "MidTool-Mix shows marginal improvement on deep-search tasks requiring exploratory trajectory data",
+            "title": "Generalization Limits"
+          }
+        ],
+        "limitations": [
+          "Limited effectiveness on deep-search-style exploratory tasks",
+          "Dependence on teacher models for trajectory synthesis"
+        ],
+        "mechanism": [
+          {
+            "detail": "Teaches models to extract tool arguments from context and compose multi-step workflows using structured schemas",
+            "title": "Schema Grounding"
+          },
+          {
+            "detail": "Generates agentic trajectories from real-world APIs, MCP skills, and document workflows to simulate tool-use scenarios",
+            "title": "Trajectory Synthesis"
+          }
+        ],
+        "methodology": [
+          {
+            "detail": "Combines 20.3B tokens from web, PDF, code, and tool sources with synthesized agentic trajectories, prioritizing document-grounded workflows and executable schemas",
+            "title": "Data Mixture Design"
+          },
+          {
+            "detail": "Qwen3-4B-Base/8B models trained on MidTool-Mix, followed by supervised fine-tuning (SFT) and reinforcement learning (RL) for agentic capabilities",
+            "title": "Mid-training Pipeline"
+          }
+        ],
+        "open_questions": [
+          "How to optimize mid-training for highly exploratory domains without trajectory data",
+          "What self-supervised methods could reduce reliance on teacher models for trajectory synthesis"
+        ],
+        "overview": "MidTool addresses agentic tool use by combining diverse data sources (web/PDF/code/tool) with synthesized supervision. It teaches models to recognize tool affordances, ground arguments, and compose workflows. Experiments show significant performance gains on benchmarks through mid-training followed by post-training, but struggles with exploratory tasks requiring trajectory data.",
+        "signals": [
+          {
+            "icon": "🤖",
+            "text": "MidTool-Mix (20.3B tokens) improves tool use via synthesized agentic trajectories"
+          },
+          {
+            "icon": "⚙️",
+            "text": "Mid-training + SFT/RL on Qwen3-4B-Base/8B with document-grounded workflows"
+          },
+          {
+            "icon": "📊",
+            "text": "BFCL pass@4 up 7.6% vs. baseline in MidTool-Mix ablation"
+          }
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Data selection for LLMs",
+        "matched": [
+          "training data"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-21T10:46:58.431457+00:00"
+    },
     {
       "id": "2608.18816",
       "title": "Do Large Language Models Hallucinate Electric Fata Morganas?",
@@ -16609,175 +16759,6 @@
         "lane": "transferable"
       },
       "recommended_at": "2026-07-07T15:11:18.490356+00:00"
-    },
-    {
-      "id": "2607.01103",
-      "title": "Clinician-Level Agreement Without Clinical Caution: LLM Evaluator Limits in Medical AI Benchmarking",
-      "abstract": "Open-response evaluation provides stronger clinical validity than multiple-choice benchmarks but creates a scoring bottleneck that motivates automated LLM-asa-Judge approaches. Whether such evaluators replicate clinical calibration and caution, however, remains untested. We introduce MedQADE, the first standardised open-response clinical benchmark for German, a major clinical language lacking native evaluation infrastructure, comprising 3,800 items annotated by ten practising physicians and nine Large Language Model (LLM) evaluators. The top-performing evaluator model, Gemini 3 Flash, reached alignment consistent with the physician ceiling (\\k{appa} = 0.694 vs. \\k{appa} = 0.709), though wide confidence intervals limit interpretation. Despite this statistical alignment, automated evaluators exhibited near-absent clinical metacognition: physicians scaled abstention with item difficulty, while frontier models assigned definitive scores in every case. We additionally quantified systematic lineage-dependent biases, where models preferentially scored architectural siblings, an effect independent of language. These results show that statistical alignment does not ensure clinical caution, and that evaluator independence requires explicit verification.",
-      "authors": [
-        "William Philipp",
-        "Finn Fassbender",
-        "Thorsten Langer",
-        "Martje Pauly",
-        "Rebecca Herzog",
-        "Alexander Baumann",
-        "Markus Hobert",
-        "Theresa Paulus",
-        "Ip Chi Wang",
-        "Lukas Goede",
-        "Johanna Reimer",
-        "Sebastian Löns",
-        "Ronald Böck",
-        "Sebastian Fudickar"
-      ],
-      "published": "2026-07-01T15:55:31Z",
-      "updated": "2026-07-01T15:55:31Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.01103v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.01103v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.517,
-          "matched": [
-            "alignment",
-            "calibration",
-            "alignment",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4954,
-        "relevance": 0.4136,
-        "quality": 0.48,
-        "novelty": 0.8766,
-        "freshness": 0.8588
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Automated LLM evaluators can statistically align with physician judgments on open-response clinical benchmarks but fail to exhibit clinical caution and metacognition.",
-        "problem": "Current medical LLM evaluation relies heavily on multiple-choice benchmarks that inadequately capture clinical reasoning and lack native evaluation resources for languages like German.",
-        "method": "The study introduces MedQADE, a standardized German open-response clinical benchmark with 3,800 items annotated by physicians and nine LLM evaluators, comparing their agreement and clinical metacognition.",
-        "evidence": "Gemini 3 Flash achieved a kappa agreement of 0.694 close to the physician ceiling of 0.709, yet LLM evaluators assigned definitive scores without abstention, unlike physicians who scaled abstention by item difficulty.",
-        "limitations": "Wide confidence intervals in agreement metrics limit interpretation, and the study identifies systematic lineage-dependent biases in LLM evaluators that require further investigation.",
-        "why_for_you": "This work highlights critical gaps in trusting LLM evaluators for clinical AI benchmarking, emphasizing the need to verify evaluator independence and clinical caution beyond statistical alignment.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Gemini 3 Flash, the top-performing LLM evaluator, reached a kappa agreement of 0.694 with physician annotations on MedQADE, nearly matching the physician inter-rater ceiling of 0.709, demonstrating strong statistical alignment."
-          },
-          {
-            "icon": "🛡️",
-            "text": "MedQADE was constructed from the Ankizin flashcard corpus, filtered to 26,598 single-cloze clinical questions, and annotated by ten practicing physicians and nine LLM evaluators, enabling open-response evaluation in German clinical NLP."
-          },
-          {
-            "icon": "📉",
-            "text": "Despite statistical agreement, LLM evaluators showed near-absent clinical metacognition by assigning definitive scores to all items, whereas physicians abstained more frequently on difficult items, indicating a lack of clinical caution in automated judgments."
-          }
-        ],
-        "overview": "This paper addresses the inadequacy of multiple-choice benchmarks in evaluating clinical reasoning of LLMs, especially in German where native resources are scarce. It introduces MedQADE, a large-scale open-response clinical benchmark derived from a peer-reviewed German medical flashcard corpus. The study compares annotations from ten physicians and nine LLM evaluators, including Gemini 3 Flash, across 3,800 items. While Gemini 3 Flash achieved near-physician-level statistical agreement (kappa 0.694 vs. 0.709), the LLMs failed to replicate clinical metacognition, as they never abstained from scoring regardless of item difficulty. Additionally, the study reveals lineage-dependent biases where LLM evaluators favor architectural siblings, independent of language. These findings demonstrate that statistical alignment alone is insufficient to ensure clinical caution or evaluator independence, underscoring the need for explicit verification of automated evaluators in medical AI benchmarking.",
-        "methodology": [
-          {
-            "title": "Dataset Formulation and Processing",
-            "detail": "MedQADE was created from the Ankizin project’s version 5 flashcard collection, a German medical study tool with peer-reviewed clinical validity. The dataset was filtered to 26,598 single-cloze deletion items to ensure open-response format, suitable for evaluating free recall clinical knowledge."
-          },
-          {
-            "title": "LLM Student Generation",
-            "detail": "Five LLMs (Gemini 2.5 Flash, GPT-5 Nano, Gemma 3 27B, Gemma 3 4B, Qwen3-4B) generated synthetic answers for all single-cloze items using a German-language system prompt simulating a high-stakes medical exam. Generation temperature was fixed at 0.2 to balance precision and variability."
-          },
-          {
-            "title": "Annotation Design and Evaluation",
-            "detail": "Ten practicing physicians and nine LLM evaluators independently scored 3,800 MedQADE items. Agreement was measured using Krippendorff’s alpha and Cohen’s kappa. Abstention behavior and scoring biases were analyzed to assess clinical metacognition and evaluator independence."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Clinical Metacognition Mechanism",
-            "detail": "No explicit mechanistic model is provided; however, the study operationalizes clinical metacognition as the ability to abstain from scoring on difficult items, a behavior observed in physicians but absent in LLM evaluators, indicating a qualitative difference in judgment calibration."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Evaluator Agreement Experiment",
-            "detail": "Nine LLM evaluators and ten physicians scored 3,800 MedQADE items. Agreement metrics (kappa) were computed, showing Gemini 3 Flash achieved 0.694, close to the physician ceiling of 0.709, with wide confidence intervals noted."
-          },
-          {
-            "title": "Abstention Behavior Analysis",
-            "detail": "Physician annotators scaled abstention rates with item difficulty, whereas LLM evaluators assigned definitive scores to all items, revealing a lack of clinical caution in automated evaluation."
-          },
-          {
-            "title": "Lineage-Dependent Bias Quantification",
-            "detail": "The study identified systematic biases where LLM evaluators preferentially scored outputs from architectural siblings, independent of language, suggesting evaluator dependence on model lineage."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Statistical Agreement",
-            "detail": "Gemini 3 Flash’s kappa agreement of 0.694 closely matches the physician inter-rater ceiling of 0.709, indicating strong statistical alignment between automated and human evaluators."
-          },
-          {
-            "title": "Absence of Clinical Metacognition",
-            "detail": "Unlike physicians who abstained more on difficult items, LLM evaluators assigned definitive scores in every case, demonstrating near-absent clinical metacognition."
-          },
-          {
-            "title": "Lineage-Dependent Bias",
-            "detail": "LLM evaluators showed systematic preference for scoring architectural sibling models, an effect independent of language, indicating evaluator bias linked to model lineage."
-          }
-        ],
-        "contributions": [
-          "Introduction of MedQADE, the first standardized open-response clinical benchmark for German with expert physician and LLM annotations.",
-          "Demonstration that statistical agreement metrics alone do not capture clinical caution or metacognition in LLM evaluators.",
-          "Identification of lineage-dependent biases in LLM evaluators, highlighting the need for explicit verification of evaluator independence.",
-          "Provision of a methodology combining open-response clinical questions with multi-annotator evaluation to better assess LLM clinical reasoning."
-        ],
-        "limitations": [
-          "Wide confidence intervals in kappa agreement metrics limit the robustness of statistical alignment claims.",
-          "Absence of mechanistic modeling for clinical metacognition restricts understanding of underlying evaluator behaviors.",
-          "Potential bias introduced by using synthetic LLM-generated student answers was not fully explored.",
-          "The study focuses on German clinical language, limiting immediate generalizability to other languages or clinical contexts."
-        ],
-        "open_questions": [
-          "How can clinical metacognition be explicitly modeled and integrated into LLM evaluators to improve clinical caution?",
-          "What methods can mitigate lineage-dependent biases in automated LLM evaluation to ensure evaluator independence?",
-          "Can open-response benchmarks like MedQADE be extended or adapted to other languages and clinical domains effectively?",
-          "How do synthetic LLM-generated student answers impact the evaluation of LLM evaluators compared to real human responses?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment",
-          "calibration",
-          "alignment",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-02T15:38:55.315646+00:00"
     }
   ]
 }
