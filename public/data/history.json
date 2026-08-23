@@ -1,6 +1,160 @@
 {
-  "generated_at": "2026-08-21T10:46:58.431457+00:00",
+  "generated_at": "2026-08-23T10:39:34.861608+00:00",
   "papers": [
+    {
+      "id": "2608.19579",
+      "title": "Enforcing LLM Safety through DMD-based Classification of Prompt-Response Embedding Dynamics",
+      "abstract": "Large Language Models (LLMs) are increasingly deployed in high-stakes applications, yet their tendency to generate toxic, harmful, or policy-violating content poses significant risks. Detecting these unsafe outputs efficiently in a black-box manner remains an open challenge. In this paper, we extend a recently proposed dynamical systems framework designed for hallucination detection to LLM safety classification. By projecting both prompts and responses into high-dimensional embedding spaces and fitting separate Koopman-based predictive models for safe and unsafe regimes, we classify new outputs using a new differential residual score that compares prediction errors of the safe and unsafe regimes. A key contribution is the incorporation of the prompt and response embedding dynamics, yielding fitted Koopman operators that capture crucial interaction patterns. We evaluate our black-box method across three safety benchmarks using three embedding models. Our results show that incorporating prompt embeddings yields consistent improvements, particularly for interaction-dependent violations when paired with causal decoders (e.g., in Llama-3), while response-only violations benefit more from dense semantic embedding representations. These findings opens the door for using dynamical systems to analyze AI systems rather than the dominant paradigm of using AI to model dynamical systems.",
+      "authors": [
+        "Mohamed Akrout",
+        "Olivera Kotevska",
+        "Dan Wilson"
+      ],
+      "published": "2026-08-20T02:50:44Z",
+      "updated": "2026-08-20T02:50:44Z",
+      "categories": [
+        "cs.AI",
+        "math.DS"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2608.19579v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.19579v1",
+      "comment": "",
+      "journal_ref": "",
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.558,
+          "matched": [
+            "llm safety",
+            "hallucination",
+            "safety"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5997,
+        "relevance": 0.5544,
+        "quality": 0.62,
+        "novelty": 0.891,
+        "freshness": 0.5249,
+        "feedback_adjustment": -0.0137,
+        "semantic_feedback": 0.7203
+      },
+      "quality_signals": [
+        "code available",
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "使用 DMD 与 Koopman 算子对提示‑响应嵌入动力学进行分类，可在黑盒条件下提升 LLM 安全检测。",
+        "problem": "需要一种无需访问模型内部或多次采样即可高效识别 LLM 有害输出的方法。",
+        "method": "将提示和响应的 token 嵌入投射至高维空间，分别拟合安全与不安全的 Koopman 预测模型，利用差分残差分数进行二分类。",
+        "evidence": "在三个安全基准上，加入提示嵌入始终提升检测效果，尤其对 Llama‑3 的交互依赖违规有显著增益。",
+        "limitations": "仅评估二分类且缺乏多类危害实验和理论可分性保证。",
+        "why_for_you": "对可信 LLM 研究者，这提供了无需内部访问的后部署安全监控方案，适合实际部署场景。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🛡️",
+            "text": "首次将提示嵌入动力学加入 Koopman 分类，实现交互依赖安全检测提升。"
+          },
+          {
+            "icon": "🔧",
+            "text": "基于扩展 DMD 拟合安全/不安全 Koopman 算子，比较预测误差得到差分残差分数。"
+          },
+          {
+            "icon": "📈",
+            "text": "在三项安全基准上，加入提示嵌入对 Llama‑3 的交互违规检测提升显著。"
+          }
+        ],
+        "overview": "本文将 LLM 的 token 生成视为离散动力系统，利用扩展 DMD 拟合安全与不安全两套 Koopman 算子，并引入提示嵌入动力学以捕获交互依赖的违规模式。通过差分残差分数实现黑盒二分类，在三个安全基准和三种不同规模的嵌入模型上验证了方法的有效性，揭示了嵌入模型与违规类型之间的细微关系。",
+        "methodology": [
+          {
+            "title": "嵌入投射",
+            "detail": "使用 Qwen3-Embed、Mistral、Llama‑3 等预训练模型将提示和响应的 token 转换为高维向量序列。"
+          },
+          {
+            "title": "Koopman 拟合",
+            "detail": "采用扩展 DMD（EDMD）对安全和不安全的嵌入轨迹分别进行最小二乘拟合，得到四个有限维 Koopman 算子。"
+          },
+          {
+            "title": "差分残差评分",
+            "detail": "在推理阶段计算安全与不安全模型的预测误差差异，作为二分类的决策分数。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "动力学视角",
+            "detail": "将 token 嵌入视为可观测的状态轨迹，安全与不安全行为对应不同的动力学流形。"
+          },
+          {
+            "title": "交互捕获",
+            "detail": "通过同时建模提示和响应的 Koopman 算子，捕获仅在两者交互时出现的违规模式。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "基准与模型",
+            "detail": "在三个公开安全基准上评估，使用三种嵌入模型（Qwen3-Embed 0.6B、Mistral 7.2B、Llama‑3 8.0B），采用二分类准确率等指标。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "提示嵌入提升",
+            "detail": "加入提示嵌入后，所有基准均出现一致的检测性能提升，尤其在交互依赖违规上对 Llama‑3 提升最明显。"
+          },
+          {
+            "title": "模型‑违规匹配",
+            "detail": "因果解码器（Llama‑3）适合捕获交互违规，紧凑语义编码器（Qwen‑Embed）更擅长检测仅响应中的不安全内容。"
+          }
+        ],
+        "contributions": [
+          "提出 Prompt‑aware Koopman 分类框架用于 LLM 安全检测",
+          "展示嵌入模型与违规类型之间的细粒度匹配关系",
+          "实现无需内部访问或多次采样的黑盒安全监控"
+        ],
+        "limitations": [
+          "仅实现二分类（安全/不安全），未覆盖多类别危害标签",
+          "实验局限于三种嵌入模型和特定安全基准，缺乏更广泛的评估",
+          "未提供安全可分性的理论保证"
+        ],
+        "open_questions": [
+          "如何将方法扩展到多类别安全标签（如暴力、仇恨、误导等）？",
+          "是否能建立 Koopman 动力学下安全/不安全轨迹可分性的理论界限？",
+          "在实时大规模部署环境中，计算开销与响应延迟如何进一步优化？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "zh",
+        "schema_version": 5
+      },
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "llm safety",
+          "hallucination",
+          "safety"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-23T10:39:34.861608+00:00"
+    },
     {
       "id": "2608.20314",
       "title": "MidTool: Mid-training Data Synthesis for Agentic Tool Use",
@@ -16588,177 +16742,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-07-08T11:57:23.024570+00:00"
-    },
-    {
-      "id": "2607.05394",
-      "title": "Weak-to-Strong Generalization via Direct On-Policy Distillation",
-      "abstract": "Reinforcement learning with verifiable rewards (RLVR) is a powerful recipe for improving language-model reasoning, but it is expensive to repeat on every new strong model because the target model must generate many rollouts during training. As models scale, post-training itself becomes a bottleneck. We study a weak-to-strong alternative: run RL on a smaller model where rollouts are cheaper, then reuse what that RL run learned to improve a stronger target model. Directly distilling the post-RL weak teacher is not enough, because the teacher's final policy mixes useful RL gains with the limitations of the smaller model. We propose Direct On-Policy Distillation (Direct-OPD), which transfers the teacher's RL-induced policy shift instead. Direct-OPD compares the post-RL teacher with its own pre-RL reference and treats their log-ratio as a dense implicit reward for the student. In plain terms, the checkpoint pair tells us which actions RL made the weak model more or less likely to take, and Direct-OPD applies that signal on the stronger student's own on-policy states. This directly reuses the weak model's RL supervision signal without training an explicit reward model or running sparse-reward RL on the target model. Empirically, Direct-OPD consistently leverages weaker teachers to improve stronger target models; notably, it boosts Qwen3-1.7B from 48.3% to 62.4% on AIME 2024 in just 4 hours on 8 A100 GPUs. It outperforms step-matched direct RL and enables the sequential composition of multiple policy shifts. Our results show that RL outcomes can be reused across model scales as implicit reward signals, not merely as final models to imitate.",
-      "authors": [
-        "Shiyuan Feng",
-        "Huan-ang Gao",
-        "Haohan Chi",
-        "Hanlin Wu",
-        "Zhilong Zhang",
-        "Zheng Jiang",
-        "Bingxiang He",
-        "Wei-Ying Ma",
-        "Ya-Qin Zhang",
-        "Hao Zhou"
-      ],
-      "published": "2026-07-06T17:59:58Z",
-      "updated": "2026-07-06T17:59:58Z",
-      "categories": [
-        "cs.LG",
-        "cs.AI",
-        "cs.CL"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2607.05394v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.05394v1",
-      "comment": "Project Page: https://bytedtsinghua-sia.github.io/Direct-OPD/",
-      "journal_ref": "",
-      "lane": "transferable",
-      "scope_matches": [
-        "on-policy distillation"
-      ],
-      "topics": [
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "watch",
-          "score": 0.3289,
-          "matched": [
-            "on-policy distillation",
-            "OPD",
-            "policy distillation",
-            "opd",
-            "distillation",
-            "on-policy"
-          ]
-        },
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.1715,
-          "matched": [
-            "generalization",
-            "generalization"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.374,
-        "relevance": 0.2974,
-        "quality": 0.41,
-        "novelty": 0.55,
-        "freshness": 0.8739
-      },
-      "quality_signals": [
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Direct On-Policy Distillation (Direct-OPD) effectively enhances stronger language models by leveraging the policy shifts from weaker models trained with reinforcement learning.",
-        "problem": "Reinforcement learning with verifiable rewards (RLVR) is computationally expensive for large models, creating a bottleneck in post-training.",
-        "method": "Direct-OPD transfers the RL-induced policy shift from a weaker model to a stronger model, treating the log-ratio of their policies as an implicit reward.",
-        "evidence": "Direct-OPD improved the Qwen3-1.7B model's performance from 48.3% to 62.4% on AIME 2024 in just 4 hours using 8 A100 GPUs.",
-        "limitations": "The effectiveness of Direct-OPD is conditional on the meaningfulness of the teacher/reference improvement on student-visited states.",
-        "why_for_you": "This research provides insights into efficient model training strategies, relevant for those focused on on-policy distillation and statistical theory for LLMs.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Direct-OPD enables the transfer of RL-induced policy shifts rather than the final policy of the teacher, allowing stronger models to benefit from weaker ones without direct imitation."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The method utilizes the log-ratio of the post-RL teacher's policy against its pre-RL reference as a dense implicit reward, circumventing the need for an explicit reward model."
-          },
-          {
-            "icon": "📉",
-            "text": "Empirical results demonstrate that Direct-OPD consistently improves stronger models across various teacher pairs and student families, indicating its robustness and generalizability."
-          }
-        ],
-        "overview": "The paper addresses the challenge of costly reinforcement learning (RL) processes in training large language models by proposing Direct On-Policy Distillation (Direct-OPD). This method allows for the efficient transfer of RL-induced policy shifts from a weaker model to a stronger one, effectively reusing the RL supervision signal without the need for extensive rollouts on the target model. The strongest evidence supporting this approach is the significant performance boost of the Qwen3-1.7B model, which increased from 48.3% to 62.4% accuracy on AIME 2024 in a short training period, showcasing the potential of Direct-OPD in enhancing model capabilities while reducing computational costs.",
-        "methodology": [
-          {
-            "title": "Direct On-Policy Distillation (Direct-OPD)",
-            "detail": "Direct-OPD involves running RL on a smaller, cheaper model and transferring the learned policy shift to a stronger model. The method compares the post-RL teacher's policy with its pre-RL reference, using their log-ratio as an implicit reward for the student."
-          },
-          {
-            "title": "Policy Shift Transfer",
-            "detail": "The transfer process focuses on the behavioral changes induced by the RL training of the weak model, rather than attempting to replicate the weak model's final policy, ensuring that stronger models can leverage useful RL insights."
-          },
-          {
-            "title": "Evaluation Protocol",
-            "detail": "The evaluation of model performance is conducted using the AIME benchmarks, with specific metrics such as accuracy averaged over multiple samples to assess the effectiveness of the Direct-OPD approach."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Policy-as-Reward Identity",
-            "detail": "Direct-OPD leverages the policy-as-reward identity, where the log-ratio of policies under KL-regularized RL can recover the reward signal, allowing for effective transfer of learned behaviors."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Improvement of Stronger Students",
-            "detail": "In experiments, the policy shift from R1-Distill-1.5B to JustRL-1.5B was transferred to stronger models like R1-Distill-7B and Qwen3-4B, showing consistent performance improvements across different model families."
-          },
-          {
-            "title": "Comparison with Direct RL",
-            "detail": "Direct-OPD was compared against step-matched direct RL, demonstrating superior performance in both accuracy and computational efficiency, validating the effectiveness of the proposed method."
-          },
-          {
-            "title": "Sequential Composition of Policy Shifts",
-            "detail": "The ability to compose multiple independently learned policy shifts was tested, confirming that Direct-OPD can accumulate gains in a single student model, enhancing its overall performance."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Effective Transfer Across Models",
-            "detail": "Direct-OPD successfully improved the performance of stronger models, such as Qwen3-1.7B, by utilizing policy shifts from weaker models, demonstrating the method's versatility."
-          },
-          {
-            "title": "Significant Performance Gains",
-            "detail": "The Qwen3-1.7B model achieved a notable accuracy increase from 48.3% to 62.4% on AIME 2024, showcasing the practical benefits of Direct-OPD."
-          },
-          {
-            "title": "Generalizability of Direct-OPD",
-            "detail": "The method proved effective across various teacher pairs and student families, indicating that Direct-OPD is not limited to specific model architectures or training data."
-          }
-        ],
-        "contributions": [
-          "Introduction of Direct On-Policy Distillation (Direct-OPD) as a novel approach for weak-to-strong model training.",
-          "Demonstration of the effectiveness of transferring RL-induced policy shifts rather than final policies.",
-          "Empirical validation of Direct-OPD's performance improvements across different model families and training setups."
-        ],
-        "limitations": [
-          "The signal's effectiveness is conditional on the meaningfulness of the teacher/reference improvement on student-visited states.",
-          "The best response length and KL strength remain dependent on the specific teacher-student pair."
-        ],
-        "open_questions": [
-          "How can the conditional nature of the signal be mitigated to ensure consistent performance across all model pairs?",
-          "What are the optimal configurations for KL strength and response length in various training scenarios?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4o-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "On-policy distillation",
-        "matched": [
-          "on-policy distillation",
-          "OPD",
-          "policy distillation",
-          "opd"
-        ],
-        "lane": "transferable"
-      },
-      "recommended_at": "2026-07-07T15:11:18.490356+00:00"
     }
   ]
 }
