@@ -1,6 +1,1078 @@
 {
-  "generated_at": "2026-08-23T10:39:34.861608+00:00",
+  "generated_at": "2026-08-24T02:55:19.024175+00:00",
   "papers": [
+    {
+      "id": "2608.20820",
+      "title": "Certified Multi-Turn Robustness for LLM Safety via Compositional Bounds and Safety Persistence",
+      "abstract": "Large language models (LLMs) are vulnerable to multi-turn jailbreak attacks that progressively manipulate conversation context. Existing certified robustness methods are limited to single-turn inputs; naive multi-turn composition yields bounds that degrade exponentially in the number of turns. We introduce Multi-Turn Certified Robustness (MTCR), a framework that models conversational safety via State-Adversarial MDPs and defines $k$-turn certified robustness as the worst-case safety probability across $k$ adversarial turns. MTCR comprises: (i) compositional certification via embedding-space mode decomposition, yielding tighter certified lower bounds than naive multiplication; (ii) $(α,β)$-safety persistence, improving the degradation rate from $\\underline{p}^{k}$ to $β^k$ (with $β> \\underline{p}$) and yielding interpretable horizon estimates; (iii) matching information-theoretic upper bounds establishing tightness; and (iv) a unified algorithm combining these results. Experiments on six LLMs under $ε$-bounded and Crescendo-style attacks confirm that empirical safety consistently exceeds the certified bounds.",
+      "authors": [
+        "Yang Liu",
+        "Bin Chong",
+        "Wenkai Yang",
+        "Shuai Zhang",
+        "Yancheng Chen",
+        "Feiyu Han",
+        "GuoZhen",
+        "Cheng Zhang",
+        "Huaibing Xie",
+        "Changze Lv",
+        "Shihan Dou",
+        "Pluto Zhou"
+      ],
+      "published": "2026-08-21T07:43:06Z",
+      "updated": "2026-08-21T07:43:06Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2608.20820v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.20820v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.7394,
+          "matched": [
+            "adversarial",
+            "jailbreak",
+            "robustness"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.6047,
+          "matched": [
+            "llm safety",
+            "LLM safety",
+            "robustness",
+            "safety",
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.4408,
+          "matched": [
+            "llm",
+            "mode"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.7204,
+        "relevance": 0.7915,
+        "quality": 0.45,
+        "novelty": 0.859,
+        "freshness": 0.6,
+        "feedback_adjustment": -0.016,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "experiments",
+        "formal bound"
+      ],
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "adversarial",
+          "jailbreak",
+          "robustness"
+        ],
+        "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "MTCR delivers certified multi‑turn safety guarantees that are substantially tighter than naive multiplicative bounds.",
+        "problem": "Existing certifications handle only single‑turn attacks, causing exponential safety degradation under multi‑turn jailbreaks.",
+        "method": "The authors model conversations as State‑Adversarial MDPs and combine embedding‑space mode decomposition with (α,β)-safety persistence to compute certified k‑turn robustness.",
+        "evidence": "Across six LLMs, MTCR’s certified lower bounds (e.g., 0.36 vs 0.13 at k=5 for LLaMA‑2‑7B‑Chat) are consistently below empirical safety, which exceeds the bounds by 0.18–0.30.",
+        "limitations": "Certification applies only to ε‑bounded (character‑level) perturbations, relies on heuristic clustering, and uses a binary safety predicate.",
+        "why_for_you": "If you seek efficient adversarial training or trustworthy LLM safety, MTCR offers a formal multi‑turn robustness framework that can guide safety‑aware training objectives.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🛡️",
+            "text": "MTCR yields certified multi‑turn safety bounds up to 0.23 higher than naive multiplicative bounds (e.g., 0.36 vs 0.13 at k=5 for LLaMA‑2‑7B‑Chat)."
+          },
+          {
+            "icon": "🔧",
+            "text": "Combines embedding‑space mode decomposition with (α,β)-safety persistence, improving degradation from p^k to β^k."
+          },
+          {
+            "icon": "✅",
+            "text": "Empirical safety exceeds certified bounds by 0.18–0.30 across six LLMs, but guarantees hold only for ε‑bounded perturbations."
+          }
+        ],
+        "overview": "The paper introduces Multi‑Turn Certified Robustness (MTCR), a framework that models conversational safety as a State‑Adversarial MDP and defines k‑turn certified robustness as the worst‑case safety probability over k adaptive adversarial turns. By decomposing dialogue embeddings into modes and exploiting (α,β)-safety persistence, MTCR derives compositional lower bounds that are tighter than naive multiplication and matches information‑theoretic upper bounds for non‑overlapping modes. Experiments on six production LLMs under both static ε‑ball and adaptive Crescendo attacks show certified guarantees that are consistently respected by empirical safety, though a gap remains.",
+        "methodology": [
+          {
+            "title": "State‑Adversarial MDP modeling",
+            "detail": "Conversation history is embedded into a state space S; an ε‑bounded adversary selects user messages within a perturbation ball, and safety is defined by a binary predicate over states."
+          },
+          {
+            "title": "Embedding‑space mode decomposition",
+            "detail": "Safe dialogue embeddings from 500 held‑out conversations are clustered via k‑means (M∈{2,4,8}); intra‑mode safety is certified separately from inter‑mode transitions, yielding a compositional bound (Corollary 3.2)."
+          },
+          {
+            "title": "(α,β)-safety persistence",
+            "detail": "Defines a structural property where the multi‑turn bound improves from p^k to β^k (β>p) with a linear horizon characterization 1−k(1−β) (Theorem 3.5)."
+          },
+          {
+            "title": "Unified certification algorithm",
+            "detail": "Algorithm 1 combines compositional and persistence bounds to compute the certified guarantee ρ̂_k for any horizon k."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Compositional certification",
+            "detail": "By certifying intra‑mode safety and transition costs separately, the lower bound avoids the exponential decay of naïve multiplication, achieving tighter guarantees for non‑overlapping mode partitions."
+          },
+          {
+            "title": "Safety persistence theory",
+            "detail": "The (α,β) property ensures that safety degrades geometrically with factor β rather than p, and the authors prove matching information‑theoretic upper bounds, establishing tightness under the stated structural assumptions."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Evaluation on six LLMs",
+            "detail": "Open‑source (LLaMA‑2‑7B‑Chat, Vicuna‑7B, Llama‑3.2‑3B, Qwen2.5‑7B‑Instruct) and closed‑source (GPT‑4o, Claude‑3.5‑Sonnet) models were certified at horizons k∈{5,10,15,20}. Attacks: ε‑bounded character edits (ε=5) and Crescendo‑style adaptive attacks. Metrics: certified lower bound ρ̂_k, empirical safety (fraction of safe trials over 100 runs), and gap = Empirical – ρ̂_k."
+          },
+          {
+            "title": "Baseline comparisons",
+            "detail": "Four variants were compared: naive multiplicative bound, optimistic reference (not certified), Persistence‑Only, Compositional‑Only, and the full MTCR (combined). MTCR consistently provided the highest certified bound per horizon."
+          },
+          {
+            "title": "Ablation and mode granularity",
+            "detail": "Ablation (Table 3) shows the combined formula outperforms each component alone. Varying M shows coarser modes (M=2) give higher ρ̂_5 (0.39) than finer modes (M=8, 0.25) due to increased overlap κ."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Tighter certified bounds",
+            "detail": "For LLaMA‑2‑7B‑Chat at k=5, MTCR achieves ρ̂_k=0.36 versus the naive bound 0.13, a 0.23 improvement."
+          },
+          {
+            "title": "Empirical safety exceeds certification",
+            "detail": "Across models, empirical safety under Crescendo exceeds MTCR bounds by 0.18–0.30, confirming that the bounds are not violated."
+          },
+          {
+            "title": "Computation cost",
+            "detail": "Full certification of a single open‑source model for four horizons requires ~2.5 hours on an A100 GPU, making the approach practical for offline pre‑deployment auditing."
+          }
+        ],
+        "contributions": [
+          "Multi‑Turn Certified Robustness (MTCR) framework for LLM safety.",
+          "Compositional certification via embedding‑space mode decomposition.",
+          "(α,β)-safety persistence theory improving degradation rates.",
+          "Matching information‑theoretic upper bounds establishing tightness.",
+          "Empirical evaluation on six production LLMs under static and adaptive attacks."
+        ],
+        "limitations": [
+          "Formal guarantees are limited to ε‑bounded (character‑level) perturbations; no provable safety for semantic attacks.",
+          "Mode decomposition relies on heuristic k‑means clustering; bound tightness depends on chosen M and overlap κ.",
+          "Safety predicate is binary and detector‑dependent; graded harmfulness scores are unsupported.",
+          "Randomized smoothing incurs significant sample cost, restricting real‑time applicability."
+        ],
+        "open_questions": [
+          "How can certification be extended to semantic or higher‑level perturbation models beyond ε‑balls?",
+          "Can mode discovery be automated with theoretical guarantees to reduce reliance on heuristic clustering?",
+          "What adaptations are needed to certify graded safety metrics rather than binary predicates?",
+          "How might the smoothing sample complexity be reduced while preserving tightness for real‑time safety auditing?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "recommended_at": "2026-08-24T02:55:19.024175+00:00"
+    },
+    {
+      "id": "2608.21172",
+      "title": "Thermo-FL: Thermal-Aware Robust Federated Fine-Tuning of Large Language Models for Edge AI",
+      "abstract": "Federated fine-tuning enables large language models to adapt on edge devices without centralizing private data, but practical deployments must address hardware instability and adversarial update corruption together. Thermally constrained clients may throttle, slow local training, or delay synchronous aggregation, while Byzantine clients and communication-layer adversaries can corrupt the updates used to form the global model. To address these challenges, we present Thermo-FL, a thermal-aware federated LoRA fine-tuning framework that uses device temperature as an active control signal for local adapter training and sparse update transmission. On the client side, Thermo-FL adjusts the active LoRA-layer fraction and transmitted update density as devices heat or cool, reducing workload under thermal stress. On the server side, Thermo-FL introduces TERRA, a robust aggregation pipeline for dynamically sparse LoRA updates that combines norm filtering, mask-aware directional validation, adaptive active-coordinate clipping, and mask-aware aggregation. We evaluate Thermo-FL using both a large-scale emulator and a Jetson-based physical testbed. In the emulator, Thermo-FL improves robustness under adversarial sparse aggregation and achieves the strongest BoolQ accuracy across clean and attack settings while remaining competitive on GSM8K. In the physical prototype, Thermo-FL stabilizes device temperature, reduces compressed upload size through bitmap sparse encoding, and preserves GSM8K utility under sign-flip/scale and MITM perturbations. These results show that secure edge LLM adaptation should jointly consider hardware behavior, workload regulation, sparse communication, and aggregation robustness.",
+      "authors": [
+        "Shiva Shrestha",
+        "Kazi Shaharair Sharif",
+        "Zongxing Xie",
+        "Jiajing Huang",
+        "Anhao Xiang",
+        "Honghui Xu"
+      ],
+      "published": "2026-08-21T14:41:54Z",
+      "updated": "2026-08-21T14:41:54Z",
+      "categories": [
+        "cs.LG",
+        "cs.DC"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2608.21172v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.21172v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.8837,
+          "matched": [
+            "adversarial",
+            "training",
+            "fine-tuning",
+            "robust",
+            "robustness"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.133,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6653,
+        "relevance": 0.7336,
+        "quality": 0.33,
+        "novelty": 0.9036,
+        "freshness": 0.6415,
+        "feedback_adjustment": -0.0191,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [],
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "adversarial",
+          "training",
+          "fine-tuning",
+          "robust"
+        ],
+        "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "Thermal-aware client adaptation combined with robust sparse aggregation enables resilient federated LoRA fine‑tuning of LLMs on edge devices.",
+        "problem": "Edge federated LLM fine‑tuning must cope with thermal‑induced performance throttling and adversarial update corruption simultaneously.",
+        "method": "Thermo‑FL uses device temperature to modulate LoRA layer participation and update sparsity, and introduces TERRA, a multi‑stage robust aggregation for sparse updates.",
+        "evidence": "In an 80‑client emulator Thermo‑FL achieved the highest BoolQ exact‑match (72.32% clean, 71.16% sign‑flip, 72.11% mixed) and improved GSM8K accuracy under attacks, while the Jetson prototype showed temperature stabilization and reduced upload size.",
+        "limitations": "Evaluation used only two physical clients and a narrow set of attacks; temperature thresholds are fixed and device‑specific, and TERRA does not replace cryptographic safeguards.",
+        "why_for_you": "Relevant if you seek methods that jointly address efficient adversarial training and edge‑device constraints in LLM fine‑tuning.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "Thermo‑FL introduces temperature‑driven LoRA layer selection and sparse update encoding for edge federated fine‑tuning."
+          },
+          {
+            "icon": "🔧",
+            "text": "TERRA aggregation combines norm filtering, mask‑aware directional validation, and adaptive clipping to robustly merge sparse updates."
+          },
+          {
+            "icon": "📈",
+            "text": "Thermo‑FL attained 72.32% BoolQ accuracy (clean) and outperformed baselines under sign‑flip and mixed attacks, but physical tests involved only two Jetson clients."
+          }
+        ],
+        "overview": "Thermo‑FL tackles the dual challenge of thermal constraints and adversarial updates in edge federated LLM fine‑tuning. Clients monitor device temperature and dynamically reduce the fraction of active LoRA layers and the density of transmitted updates, while the server applies TERRA, a robust aggregation pipeline that filters by norm, validates direction with mask awareness, clips adaptively, and aggregates sparsely. Experiments on an 80‑client emulator and a two‑Jetson physical testbed demonstrate improved robustness on BoolQ and competitive GSM8K performance, alongside temperature stabilization and communication compression.",
+        "methodology": [
+          {
+            "title": "Client‑side temperature control",
+            "detail": "Device temperature triggers adjustments of active LoRA‑layer fraction (κ) and update sparsity (ρ), reducing compute and bandwidth when T ≥ T_crit."
+          },
+          {
+            "title": "Sparse update encoding",
+            "detail": "Clients encode selected LoRA coordinates as bitmap masks, achieving compressed upload sizes."
+          },
+          {
+            "title": "Server‑side TERRA pipeline",
+            "detail": "TERRA sequentially applies magnitude (norm) filtering, mask‑aware directional validation, adaptive active‑coordinate clipping, and mask‑aware aggregation to sparse updates."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Thermal‑driven LoRA adaptation",
+            "detail": "When temperature exceeds a critical threshold, the system lowers κ (fewer LoRA layers trained) and increases sparsity ρ, directly linking hardware state to learning workload."
+          },
+          {
+            "title": "Mask‑aware directional validation",
+            "detail": "Updates are accepted only if the cosine similarity of their support‑restricted vectors exceeds a threshold τ_dir, rejecting sign‑flipped or misaligned sparse updates."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Emulator study",
+            "detail": "80 logical clients (10 per round, 12.5% participation) fine‑tuned Qwen2.5‑0.5B with LoRA rank 16 on BoolQ and GSM8K; attacks: sign‑flip, mixed (random masking, scaling, noise); metrics: exact‑match accuracy."
+          },
+          {
+            "title": "Physical Jetson prototype",
+            "detail": "Two Jetson Orin Nano clients fine‑tuned the same model; measured device temperature, compressed upload size via bitmap encoding, and utility under sign‑flip/scale and MITM noise attacks."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Robustness on BoolQ",
+            "detail": "Thermo‑FL achieved 72.32% clean accuracy, 71.16% under sign‑flip, and 72.11% under mixed attacks, outperforming all baselines."
+          },
+          {
+            "title": "GSM8K utility",
+            "detail": "Thermo‑FL remained competitive (33.74% clean) and improved over sparse FedAvg under attacks (31.09% sign‑flip, 31.67% mixed)."
+          },
+          {
+            "title": "Hardware benefits",
+            "detail": "Physical tests showed stabilized device temperature and reduced upload payloads through bitmap sparse encoding while preserving task performance."
+          }
+        ],
+        "contributions": [
+          "Temperature‑aware client control for LoRA fine‑tuning",
+          "TERRA robust aggregation pipeline for dynamically sparse updates",
+          "Empirical validation on large‑scale emulator and Jetson physical testbed"
+        ],
+        "limitations": [
+          "Physical testbed limited to two Jetson clients",
+          "Hardware experiments covered only one sign‑flip/scale and one MITM noise attack",
+          "Temperature policy uses fixed thresholds and device‑specific parameters",
+          "TERRA does not replace cryptographic transport, authentication, or secure boot"
+        ],
+        "open_questions": [
+          "How to automatically adapt temperature thresholds and κ/ρ parameters across heterogeneous edge devices?",
+          "What is the scalability of Thermo‑FL and TERRA with larger, more diverse client populations and richer attack spectra?",
+          "Can Thermo‑FL be combined with cryptographic defenses to provide end‑to‑end security without sacrificing efficiency?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "recommended_at": "2026-08-24T02:55:19.024175+00:00"
+    },
+    {
+      "id": "2608.21019",
+      "title": "Target-Aware Calibration Data Selection for Preserving Uncertainty in Quantized Language Models",
+      "abstract": "Quantization is widely used to deploy large language models, but its effect on uncertainty behavior, such as confidence, margins, and abstention, is rarely treated as a primary objective. We frame calibration-data selection for quantization as a target-dependent uncertainty-preservation problem. Different deployments emphasize different regions of the input distribution, yet prior work mainly optimizes accuracy-oriented compression metrics or adjusts scores after quantization. We formalize this goal with distributional and boundary preservation risks, and provide a simple mixture-mismatch argument explaining why no single calibration recipe should be expected to fit all targets. We introduce Doubt-Preserving Quantization (DPQ), a lightweight pre-quantization recipe family that uses full-precision predictions to construct target-aligned calibration mixtures of high-doubt examples and generic anchors. Across 8 language models, 9 NLP benchmarks, and 22 comparison methods, the leading fixed recipe changes with the preservation target: DPQ-r75 leads on SQuAD2 answerability-boundary preservation, while milder or single-signal variants, including DPQ-r50, confidence-only, and entropy-only, better preserve broad multiple-choice QA behavior. These results show that calibration data should be selected for the specific full-precision score behavior a deployment needs to preserve, rather than treated as a fixed quantization detail.",
+      "authors": [
+        "Zhen Yang",
+        "Sizai Hou",
+        "Kaiwen Zheng",
+        "Yaofang Liu",
+        "Liang He",
+        "Yixuan Chen",
+        "Kangning Cui"
+      ],
+      "published": "2026-08-21T12:07:49Z",
+      "updated": "2026-08-21T12:07:49Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.21019v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.21019v1",
+      "comment": "20 pages, 5 figures. Accepted to EMNLP Findings 2026",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.7088,
+          "matched": [
+            "data selection",
+            "data",
+            "mixture",
+            "selection"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4991,
+          "matched": [
+            "uncertainty",
+            "calibration"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6608,
+        "relevance": 0.6669,
+        "quality": 0.54,
+        "novelty": 0.8806,
+        "freshness": 0.6262,
+        "feedback_adjustment": -0.0117,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "formal bound",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "DPQ 通过调整校准数据，保持量化 LLM 中的目标特定不确定性指标。",
+        "method": "DPQ 利用全精度预测，挑选高疑问样本和通用锚点，构建目标对齐的校准混合。",
+        "limitations": "校准数据的选择仍依赖目标，需要针对不同部署优先级重新配置。",
+        "evidence": "DPQ 变体在 8 种模型和 9 项 NLP 基准上超越 22 种基线，DPQ-r75 在 SQ UAD2 上表现突出，较温和的变体在 MCQA 上表现良好。",
+        "why_for_you": "通过自适应校准展示目标感知的不确定性保持，契合您对可信 LLM 数据选择的关注。",
+        "problem": "量化常导致不确定性指标（如 confidence margins 和 answerability）下降，若缺乏目标特定校准。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "DPQ 通过 mixture-mismatch 论证实现不确定性保持。"
+          },
+          {
+            "icon": "🔧",
+            "text": "基于疑问的选择使用 1−p0,(1)−p0,(2) 优先低 margin 示例。"
+          },
+          {
+            "icon": "📊",
+            "text": "DPQ-r75 在 SQ UAD2 上超越 22 种基线，DPQ-r50 在 MCQA 上表现出色。"
+          }
+        ],
+        "overview": "本文通过将校准数据选择形式化为目标依赖问题，解决量化 LLM 中的不确定性退化。DPQ 使用全精度预测构建校准混合，优先高疑问样本和通用锚点。8 种模型、9 项基准的实验显示目标特定的性能提升，DPQ-r75 在 answerability-boundary 任务上表现突出，较温和的变体在广泛 QA 任务上表现良好。该方法不修改 quantizer 参数，而是侧重校准数据的组成。",
+        "methodology": [
+          {
+            "detail": "形式化目标依赖的不确定性保持为分布式和边界风险最小化，认为没有单一的校准方案能满足所有部署需求。",
+            "title": "Mixture-mismatch framework"
+          },
+          {
+            "detail": "将可回答的 QA 示例 (ARC-Challenge) 与 SQ UAD2 边界案例相结合，平衡可回答/不可回答样本以进行目标特定训练。",
+            "title": "校准池构建"
+          },
+          {
+            "detail": "使用确定性过程选择前 ⌊sr⌋ 个高疑惑候选，并用来自 WikiText/RandomQA 的通用锚点填补剩余名额。",
+            "title": "固定预算选择"
+          }
+        ],
+        "mechanism": [
+          {
+            "detail": "定义 b(x) = 1−p0,(1)−p0,(2) 用于识别低边际示例，隔离脆弱区域以进行针对性校准。",
+            "title": "疑惑分数公式"
+          },
+          {
+            "detail": "评估将 b(x) 替换为 confidence、entropy 或 answerability 指标的变体，以剥离选择信号的影响。",
+            "title": "信号隔离实验"
+          }
+        ],
+        "experiments": [
+          {
+            "detail": "8 个语言模型（Qwen、Llama、Mistral）在 9 项 NLP 任务（SQ UAD2、ARC-Challenge、OpenBookQA）上进行实验，使用 22 种对比方法，包括 GPTQ、BNB-NF4 和后置校准。",
+            "title": "模型与基准覆盖"
+          },
+          {
+            "detail": "固定 4 位量化，使用 128 个校准样本，依据 FP 预测进行选择，且不修改量化器参数。",
+            "title": "校准设置"
+          },
+          {
+            "detail": "包括 accuracy、ECE、NLL、Brier score，以及针对 answerability（SQ UAD2）和 distributional preservation（MCQA）的任务特定度量。",
+            "title": "评估指标"
+          }
+        ],
+        "findings": [
+          {
+            "detail": "DPQ-r75 在 SQ UAD2 上达到 80.6% accuracy，较 FP 的 84.7%；DPQ-r50 达到 79.2% 对比 FP 的 83.3%，展示了校准适配能力。",
+            "title": "目标特定性能"
+          },
+          {
+            "detail": "DPQ 变体在保持 confidence margins 方面优于基线，在 SQ UAD2 上的 ECE 为 62.5%，而 BNB-NF4 为 66.7%。",
+            "title": "不确定性保持"
+          },
+          {
+            "detail": "DPQ 不需要更改量化器，仅重新配置校准数据，且不增加推理成本。",
+            "title": "轻量级适配"
+          }
+        ],
+        "contributions": [
+          "对 quantized LLMs 的分布和边界保持风险进行形式化",
+          "介绍 DPQ，一种使用 full-precision predictions 的 target-aware 校准框架",
+          "实证展示 target-dependent 校准在 8 种模型和 9 项基准上的有效性"
+        ],
+        "limitations": [
+          "校准数据选择仍然依赖部署，需要为新目标重新配置",
+          "未分析 DPQ 在非英语或代码专用 LLMs 上的行为"
+        ],
+        "open_questions": [
+          "如何将 DPQ 的 target-aware 方法推广到多语言或代码聚焦的 LLMs？",
+          "DPQ 能否在资源受限的部署中适配实时校准？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Data selection for LLMs",
+        "matched": [
+          "data selection",
+          "data",
+          "mixture",
+          "selection"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-24T02:55:19.024175+00:00"
+    },
+    {
+      "id": "2608.20554",
+      "title": "aiXamine: Unified Black-Box Evaluation of Cross-Dimensional Trade-offs in LLM Safety, Security, and Privacy",
+      "abstract": "The critical failure modes in deployed large language models (LLMs) are cross-dimensional: a model can score 99.3 in safety alignment while refusing one in three benign queries, or improve across every capability metric while losing 21 points in privacy. Existing evaluation frameworks that assess safety, security, and privacy independently cannot detect these patterns. We introduce aiXamine, a unified black-box platform that evaluates LLM trustworthiness across safety, security, and privacy as interdependent properties. aiXamine orchestrates 46 tests across nine services through an automated red-teaming pipeline, producing hierarchical risk profiles, from prompt-level diagnostics to cross-service trade-off analytics, that enable reproducible comparison of proprietary and open-weight systems under identical conditions. Applying aiXamine to over 120 LLMs through more than 5,000 test runs, we conduct the largest joint safety, security, and privacy study to date and uncover three cross-dimensional phenomena invisible to single-axis evaluation. First, safety enforcement incurs a quantifiable safety tax: stronger alignment systematically increases over-refusal, forcing providers to choose between protection and utility. Second, privacy is near-orthogonal to other trustworthiness dimensions and not captured by standard alignment. Third, we identify and formally characterize distillation-induced robustness collapse: off-policy distillation without on-policy correction causes entropy collapse, catastrophically destroying robustness (56.9$\\to$2.6) on the same base architecture. These findings, compounded by diminishing returns from scale and category-dependent safety behaviors, demonstrate that trustworthiness is inherently multi-dimensional: progress along one axis does not guarantee, and can actively undermine, progress along others, yet current alignment methods treat it as a single objective.",
+      "authors": [
+        "Fatih Deniz",
+        "Yazan Boshmaf",
+        "Dorde Popovic",
+        "Issa Khalil"
+      ],
+      "published": "2026-08-20T20:33:35Z",
+      "updated": "2026-08-20T20:33:35Z",
+      "categories": [
+        "cs.CR",
+        "cs.LG"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2608.20554v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.20554v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.6165,
+          "matched": [
+            "llm safety",
+            "LLM safety",
+            "robustness",
+            "privacy",
+            "alignment",
+            "safety"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.4466,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.2652,
+          "matched": [
+            "robustness"
+          ]
+        },
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "emerging",
+          "score": 0.2624,
+          "matched": [
+            "distillation",
+            "on-policy"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6233,
+        "relevance": 0.6356,
+        "quality": 0.49,
+        "novelty": 0.8556,
+        "freshness": 0.5336,
+        "feedback_adjustment": -0.008,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "reproducibility",
+        "quantitative results"
+      ],
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "llm safety",
+          "LLM safety",
+          "robustness",
+          "privacy"
+        ],
+        "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "aiXamine provides the first unified black‑box platform to evaluate safety, security, and privacy of LLMs jointly, exposing cross‑dimensional trade‑offs.",
+        "problem": "Existing benchmarks assess trustworthiness dimensions in isolation, missing interactions such as safety‑utility trade‑offs and privacy independence.",
+        "method": "The system orchestrates 46 standardized tests across nine services via an automated red‑team pipeline, generating hierarchical risk profiles and stakeholder‑weighted rankings.",
+        "evidence": "Applying aiXamine to 121 models over 5,000 runs revealed a safety tax, privacy orthogonality, and a distillation‑induced robustness collapse from 56.9 to 2.6.",
+        "limitations": "The evaluation is confined to predefined black‑box tests and does not incorporate white‑box analyses.",
+        "why_for_you": "It directly addresses trustworthy LLM evaluation, loss‑landscape effects of alignment, and efficient adversarial testing relevant to your interests.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🛡️",
+            "text": "aiXamine unifies 46 black‑box tests across safety, security, and privacy, revealing cross‑dimensional trade‑offs."
+          },
+          {
+            "icon": "⚙️",
+            "text": "The platform orchestrates an automated red‑team pipeline with hierarchical risk profiles and stakeholder‑weighting."
+          },
+          {
+            "icon": "📊",
+            "text": "Evaluation of 121 models over 5,000 runs shows a safety tax and a 56.9→2.6 robustness collapse."
+          }
+        ],
+        "overview": "aiXamine introduces a black‑box evaluation framework that jointly measures safety, security, and privacy of LLMs through 46 tests spanning nine services. By automating red‑team attacks and producing hierarchical risk profiles, it enables reproducible, stakeholder‑aware comparisons across 121 proprietary and open‑weight models. The study uncovers three cross‑dimensional phenomena: a quantifiable safety tax manifested as over‑refusal, near‑orthogonal privacy behavior, and a dramatic robustness collapse in off‑policy distillation. Ranking analyses demonstrate stability at coarse tiers but sensitivity within top tiers, highlighting the need for context‑specific weighting.",
+        "methodology": [
+          {
+            "title": "Test Suite Integration",
+            "detail": "46 standardized tests covering adversarial robustness, code security, bias, hallucination, jailbreak resistance, privacy leakage, OOD robustness, over‑refusal, and safety alignment are organized into nine services."
+          },
+          {
+            "title": "Automated Red‑Team Orchestration",
+            "detail": "An end‑to‑end pipeline executes the tests on each model via API or containerized deployment, collecting responses for hierarchical risk scoring."
+          },
+          {
+            "title": "Stakeholder‑Weighted Ranking",
+            "detail": "Risk scores are aggregated using configurable weight vectors; robustness is validated by sampling 10,000 Dirichlet‑distributed weightings."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Safety Tax Mechanism",
+            "detail": "Stronger alignment increases the rate of over‑refusal on benign queries, creating a trade‑off between protection and utility."
+          },
+          {
+            "title": "Distillation‑Induced Robustness Collapse",
+            "detail": "Off‑policy distillation without on‑policy correction leads to entropy collapse, reducing robustness scores from 56.9 to 2.6 on the same architecture."
+          },
+          {
+            "title": "Privacy Orthogonality",
+            "detail": "Privacy leakage metrics show little correlation with safety or security scores, indicating independence from standard alignment objectives."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Model Evaluation",
+            "detail": "121 LLMs (proprietary and open‑weight, 0.8B–120B parameters) were evaluated under identical inference conditions, yielding >5,000 black‑box test runs."
+          },
+          {
+            "title": "Ranking Stability Analysis",
+            "detail": "Kendall’s τ between uniform ranking and 10,000 random weightings was 0.775; top‑four models held #1 in 82% of samples, while fine‑grained ordering varied."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Safety Tax",
+            "detail": "Models with higher safety alignment scores exhibit a systematic increase in over‑refusal, quantified as a trade‑off between safety and utility."
+          },
+          {
+            "title": "Privacy Independence",
+            "detail": "Privacy scores are near‑orthogonal to safety and security dimensions, remaining unchanged across alignment improvements."
+          },
+          {
+            "title": "Robustness Collapse",
+            "detail": "Distilled models experience a catastrophic drop in robustness entropy from 56.9 to 2.6, confirming the collapse phenomenon."
+          },
+          {
+            "title": "Ranking Sensitivity",
+            "detail": "Coarse tier rankings are stable across stakeholder weightings, but within‑tier positions shift markedly, underscoring the need for context‑specific evaluation."
+          }
+        ],
+        "contributions": [
+          "Unified black‑box SSP evaluation platform exposing cross‑dimensional trade‑offs and enabling stakeholder‑aware ranking."
+        ],
+        "limitations": [],
+        "open_questions": [
+          "How can alignment methods reduce the safety tax without sacrificing protection?",
+          "What techniques can improve privacy guarantees while maintaining model utility?",
+          "How can distillation processes be modified to prevent entropy‑driven robustness collapse?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "recommended_at": "2026-08-24T02:55:19.024175+00:00"
+    },
+    {
+      "id": "2608.20518",
+      "title": "FL-MAESTRO: Multi-Agent LLM Orchestration for Resource-Constrained Federated Learning",
+      "abstract": "In Federated Learning (FL), the communication topology is a runtime variable rather than a fixed design choice, since links and edge devices drop in and out during training. Each round, the server must commit three coupled decisions, namely the communication topology, per-client resource allocation, and the aggregation rule for combining local updates. Recent agentic systems have begun bringing large language models (LLM) into FL, but the existing line of work either operates at setup time or handles a single runtime dimension such as client selection. We propose FL-MAESTRO, a multi-agent orchestrator that makes the joint runtime FL decision directly through three specialist LLM agents, one per decision dimension. A coordinator combines their analyses into a single decision, and a non-LLM feasibility check confirms it before the round executes. Because the orchestrator consumes the server's predicted-failure list, it withholds clients whose updates would never be aggregated, which removes the dominant source of wasted round energy in classical FL on volatile edge networks. Because client state is read as natural-text profiles, the same orchestrator extends to heterogeneous device classes without per-class energy models. On a non-IID CIFAR-10 benchmark, FL-MAESTRO matches the accuracy of the strongest energy-aware baseline while cutting wasted round energy from over a third to near zero. Code is available at https://github.com/denoslab/FL-MAESTRO.",
+      "authors": [
+        "Jiajun Wu",
+        "Zirui Wang",
+        "Jiayu Zhou",
+        "Qiang Ye",
+        "Steve Drew"
+      ],
+      "published": "2026-08-20T19:27:52Z",
+      "updated": "2026-08-20T19:27:52Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2608.20518v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.20518v1",
+      "comment": "Accepted at IEEE GLOBECOM 2026",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5866,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.1349,
+          "matched": [
+            "training"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6081,
+        "relevance": 0.4963,
+        "quality": 0.85,
+        "novelty": 0.8918,
+        "freshness": 0.527,
+        "feedback_adjustment": -0.0172,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "baseline comparison",
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "FL-MAESTRO uses three specialist LLM agents to jointly decide topology, resources, and aggregation each FL round, eliminating most wasted energy.",
+        "problem": "Federated learning suffers from wasted round energy due to volatile client availability and fixed topology/resource decisions.",
+        "method": "A multi-agent orchestrator employs a TopologyAgent, ResourceAgent, and AggregationAgent whose outputs are synthesized by an LLM coordinator and validated by a non-LLM feasibility check.",
+        "evidence": "On non-IID CIFAR-10 with 30 clients, FL-MAESTRO reduces wasted round energy from >33% to near zero while matching the strongest energy-aware baseline’s accuracy.",
+        "limitations": "Evaluation is limited to simulated CIFAR-10 scenarios and does not assess real-world deployments or larger model scales.",
+        "why_for_you": "If you seek efficient adversarial training, the paper’s resource-aware LLM orchestration may inspire low-energy FL strategies.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🤖",
+            "text": "FL‑MAESTRO jointly orchestrates topology, per‑client resources, and aggregation each round via three specialist LLM agents."
+          },
+          {
+            "icon": "🔧",
+            "text": "Coordinator synthesizes agents’ analyses into a feasible joint decision, iterating up to Dmax ∈ {2, 3} and validated by a non‑LLM feasibility check."
+          },
+          {
+            "icon": "📊",
+            "text": "On non‑IID CIFAR‑10, FL‑MAESTRO cuts wasted round energy from >33% to near zero while preserving baseline accuracy."
+          }
+        ],
+        "overview": "FL-MAESTRO introduces a runtime orchestrator for federated learning that couples three decision dimensions—communication topology, per-client resource allocation, and aggregation weighting—through specialist LLM agents. Each agent reasons over natural‑text client profiles and domain tools, then a central LLM coordinator merges their proposals into a joint decision that a non‑LLM validator enforces for feasibility. In simulated non‑IID CIFAR‑10 experiments with heterogeneous edge clients, the system eliminates most wasted energy without sacrificing model accuracy, demonstrating the practicality of open‑weight LLMs for on‑premise FL control.",
+        "methodology": [
+          {
+            "title": "Specialist LLM agents",
+            "detail": "TopologyAgent, ResourceAgent, and AggregationAgent each receive typed constraint analyses and query tools for communication cost, energy cost, label diversity, and battery feasibility."
+          },
+          {
+            "title": "Coordinator and Validator",
+            "detail": "A synthesis‑only LLM prompt combines the three analyses into a JSON decision (C+, τ, {ri}, σ); a Python validator enforces battery eligibility, aggregator capability, weight normalization, and clipping of infeasible values."
+          },
+          {
+            "title": "Collaboration protocol",
+            "detail": "Agents iterate up to Dmax ∈ {2, 3} times, revising proposals after seeing the other dimensions to enforce coupling before final synthesis."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Predicted‑failure filtering",
+            "detail": "The orchestrator consumes the server’s predicted‑failure list, withholding low‑battery clients whose updates would be dropped, thereby removing the dominant source of wasted round energy."
+          },
+          {
+            "title": "Natural‑text client profiles",
+            "detail": "Client state is encoded as textual profiles, allowing the same LLM orchestration to handle heterogeneous device classes without per‑class energy models."
+          },
+          {
+            "title": "Feasibility clipping",
+            "detail": "Infeasible joint decisions are clipped to feasibility boundaries by the validator, turning LLM errors into repairs rather than runtime crashes."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Setup",
+            "detail": "CIFAR‑10 with Dirichlet non‑IID partitions (α = 0.1, 0.3), CNN (545k parameters), 30 clients, battery ∈[0.5,0.9] (hard/ extreme low‑battery subsets), bandwidth bimodal, compute sampled from exp distribution."
+          },
+          {
+            "title": "Scenarios and baselines",
+            "detail": "Two heterogeneous edge scenarios (hard α=0.3, extreme α=0.1) compared against the strongest energy‑aware baseline (e.g., Oort) and classical FL methods (FedAvg, FedProx)."
+          },
+          {
+            "title": "Metrics",
+            "detail": "Model accuracy, wasted round energy (percentage of energy spent on clients that drop out before aggregation), and feasibility violation rates."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Energy efficiency",
+            "detail": "FL‑MAESTRO reduces wasted round energy from over a third to near zero across both hard and extreme scenarios."
+          },
+          {
+            "title": "Accuracy preservation",
+            "detail": "The method matches the accuracy of the strongest energy‑aware baseline despite aggressive client withholding."
+          },
+          {
+            "title": "Feasibility enforcement",
+            "detail": "The non‑LLM validator successfully clips infeasible decisions, preventing runtime crashes and maintaining stable training."
+          }
+        ],
+        "contributions": [
+          "Joint runtime FL decision making with multi‑agent LLMs",
+          "Energy‑aware orchestration that eliminates wasted round energy",
+          "Open‑weight LLM implementation removing cloud dependency"
+        ],
+        "limitations": [
+          "Only simulated CIFAR‑10 experiments; no real‑world edge deployment",
+          "Evaluation limited to a single model size and 30 clients",
+          "No analysis of LLM loss‑landscape behavior or adversarial robustness"
+        ],
+        "open_questions": [
+          "How does multi‑agent LLM orchestration affect loss‑landscape dynamics in federated training?",
+          "Can the approach be extended to efficient adversarial training under resource constraints?",
+          "What scalability challenges arise when increasing client count and model size beyond the presented experiments?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-24T02:55:19.024175+00:00"
+    },
+    {
+      "id": "2608.21278",
+      "title": "CLEAR: Continuous Latent Adapter Routing for Utility-Preserving LLM Safety Alignment",
+      "abstract": "Improving the safety of large language models (LLMs) often comes at the expense of utility, as globally applied safety tuning may affect model responses to both harmful and benign inputs. We propose \\textbf{C}ontinuous \\textbf{L}at\\textbf{E}nt \\textbf{A}dapter \\textbf{R}outing (CLEAR), a conditional safety adaptation framework that uses a lightweight hidden-state gate to continuously control the activation strength of a safety low-rank adapter. CLEAR aims to reduce harmful completions while avoiding unnecessary changes to the frozen backbone that could degrade performance on benign prompts. Experiments on widely used safety and utility benchmarks show that CLEAR improves robustness on HarmBench while reducing the utility degradation observed with globally applied safety tuning such as SFT or standard low-rank adaptation (LoRA). On Llama-3-8B-Instruct, CLEAR reduces HarmBench ASR from 32.3\\% to 0.5\\%, while retaining most of the base model's utility and achieving up to 7.1 percentage points higher GSM8K accuracy than globally applied SFT or LoRA. These results suggest that CLEAR is a promising mechanism for improving the safety--utility trade-off in LLM alignment.",
+      "authors": [
+        "Chengxiao Wang",
+        "Enyi Jiang",
+        "Xiaojing Liao",
+        "Sanmi Koyejo"
+      ],
+      "published": "2026-08-21T16:36:10Z",
+      "updated": "2026-08-21T16:36:10Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2608.21278v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.21278v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.591,
+          "matched": [
+            "llm safety",
+            "LLM safety",
+            "robustness",
+            "alignment",
+            "safety",
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.4309,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.1221,
+          "matched": [
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6054,
+        "relevance": 0.5834,
+        "quality": 0.54,
+        "novelty": 0.8551,
+        "freshness": 0.6529,
+        "feedback_adjustment": -0.0254,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "evidence": "在HarmBench上提升鲁棒性，Llama-3-8B-Instruct的ASR从32.3%降至0.5%，GSM8K准确率比全局SFT或LoRA高7.1个百分点。",
+        "limitations": "Not stated in the abstract",
+        "method": "使用轻量级隐状态门控连续调节安全低秩适配器的激活强度。",
+        "problem": "大型语言模型的安全调优常导致效用下降，需平衡安全与效用。",
+        "takeaway": "CLEAR通过连续潜变量适配器路由实现安全对齐，同时保持模型效用。",
+        "why_for_you": "安全-效用权衡问题的高效对抗训练机制",
+        "source": "abstract",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "llm safety",
+          "LLM safety",
+          "robustness",
+          "alignment"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-24T02:55:19.024175+00:00"
+    },
     {
       "id": "2608.19579",
       "title": "Enforcing LLM Safety through DMD-based Classification of Prompt-Response Embedding Dynamics",
@@ -154,177 +1226,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-08-23T10:39:34.861608+00:00"
-    },
-    {
-      "id": "2608.16577",
-      "title": "BabelSteering: Multilingual Safety Alignment via English Steering Vectors",
-      "abstract": "Large language models (LLMs) are deployed globally in high-stakes settings, yet most safety research and alignment efforts remain concentrated on English. Thus, users interacting with LLMs in other languages may encounter weaker safeguards despite relying on the same systems for similarly sensitive tasks. In this work, we investigate whether safety signals learned from a high-resource language, like English, can improve multilingual safety. We propose BabelSteering, an activation steering method that acts as a lightweight inference- time intervention, using refusal directions derived from English safety supervision to generalize across languages. Our evaluation includes eight languages and jointly measures refusal of harmful requests, over-refusal, and general task utility. The results show that BabelSteering increases the refusal of harmful requests across languages, with only a marginal to no reduction in task utility but with some increase in refusal of pseudo-harmful prompts. For example, for Gemma 7B, we see an average increase in the refusal of harmful prompts across languages of 11 percentage points (pp), with individual languages like Bengali seeing an increase of 17 pp, with no loss of utility on Global MMLU, while pseudo-harmful refusals increase by 13 pp on average. We also introduce a multilingual translation-and-evaluation pipeline to facilitate future work on cross-lingual safety interventions. Overall, our findings suggest that activation steering may provide a practical, low- cost mechanism for extending English-derived safety signals to other languages. Warning: this paper contains examples with unsafe content",
-      "authors": [
-        "Emma V. Stein",
-        "Dominik Meier",
-        "Terry Ruas",
-        "Jan Philip Wahle",
-        "Bela Gipp"
-      ],
-      "published": "2026-08-17T13:40:16Z",
-      "updated": "2026-08-17T13:40:16Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2608.16577v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.16577v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.514,
-          "matched": [
-            "alignment",
-            "safety"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4737,
-        "relevance": 0.4112,
-        "quality": 0.41,
-        "novelty": 0.8075,
-        "freshness": 0.8743,
-        "feedback_adjustment": -0.0083,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "BabelSteering利用英语安全向量在推理时进行激活引导，实现多语言安全提升且几乎不影响模型效用。",
-        "problem": "现有安全对齐主要聚焦英文，导致非英文用户的模型防护弱化。",
-        "method": "通过差分均值提取英文拒绝向量并正交化伪拒绝向量，在推理阶段对激活进行轻量干预。",
-        "evidence": "在Gemma 7B上，跨八语言的有害请求拒绝率平均提升11个百分点，Bengali提升17个百分点，且Global MMLU无效用下降。",
-        "limitations": "方法无法解决文化特定安全问题，且会导致伪有害请求拒绝率上升约13%。",
-        "why_for_you": "若关注可信 LLM 的跨语言安全对齐，此工作提供了低成本的推理时干预方案。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🌐",
-            "text": "BabelSteering通过英语拒绝向量实现跨语言安全提升，平均提升11%有害请求拒绝率"
-          },
-          {
-            "icon": "🔧",
-            "text": "使用差分均值提取拒绝向量并正交化伪拒绝向量，在单层加入并跨层消除，实现轻量推理时干预"
-          },
-          {
-            "icon": "📈",
-            "text": "在Gemma 7B上，Bengali拒绝提升17pp且MMLU无损，但伪有害拒绝上升13pp"
-          }
-        ],
-        "overview": "本文提出BabelSteering，一种基于英文安全监督的激活引导方法，利用差分均值提取的拒绝向量和正交化的伪拒绝向量，在推理时对模型内部表征进行轻量干预。实验在Gemma 7B、Llama‑3.1‑8B、Qwen‑7B‑Chat三类模型上，覆盖八种语言，分别评估安全（MultiJail）、过度拒绝（翻译的OR‑Bench）和任务效用（Global MMLU），展示了显著的安全提升且几乎不牺牲效用。",
-        "methodology": [
-          {
-            "title": "向量提取",
-            "detail": "使用差分均值（DIM）方法对英文有害与无害提示的激活均值做差，得到拒绝方向向量；对伪有害提示同理得到伪拒绝向量。"
-          },
-          {
-            "title": "正交化处理",
-            "detail": "将伪拒绝向量在拒绝向量空间上正交化，去除共享成分，以降低对真实安全行为的干扰。"
-          },
-          {
-            "title": "组合干预",
-            "detail": "在单一选定层加入拒绝向量，在所有层上消除正交化后的伪拒绝向量，形成一次性推理时的综合引导。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "跨语言安全几何共享",
-            "detail": "基于先前研究的发现，多语言模型的拒绝表征在激活空间中部分共享，使得英文提取的方向可在其他语言上产生相似效应。"
-          },
-          {
-            "title": "激活空间调控",
-            "detail": "通过在推理阶段直接修改激活向量，实现行为改变而无需权重更新或额外微调，保持原模型的计算图不变。"
-          },
-          {
-            "title": "正交化降低误拒",
-            "detail": "正交化后删除与真实拒绝方向重叠的成分，抑制对无害输入的误拒，提高安全与效用的平衡。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "模型与语言",
-            "detail": "评估模型包括Gemma‑7B、Llama‑3.1‑8B‑Instruct、Qwen‑7B‑Chat；实验语言覆盖Arabic、Korean、Bengali等八种，兼顾中高资源语言。"
-          },
-          {
-            "title": "基准与指标",
-            "detail": "安全使用MultiJail（315条每语言的有害提示），过度拒绝使用翻译自OR‑Bench的伪有害提示，任务效用使用Global MMLU。主要指标为有害请求拒绝率、伪有害拒绝率以及MMLU准确率。"
-          },
-          {
-            "title": "对照设置",
-            "detail": "基线为未使用任何引导的原始模型；BabelSteering在相同推理环境下仅加入激活干预，无额外训练或数据。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "安全提升",
-            "detail": "Gemma‑7B在八语言上有害请求拒绝率平均提升11个百分点，Bengali提升最高达17个百分点。"
-          },
-          {
-            "title": "效用保持",
-            "detail": "在Global MMLU上，BabelSteering未导致显著准确率下降，保持与基线相当的任务性能。"
-          },
-          {
-            "title": "伪有害拒绝增加",
-            "detail": "伪有害提示的拒绝率平均上升13个百分点，表明误拒风险仍需进一步抑制。"
-          },
-          {
-            "title": "计算开销",
-            "detail": "方法仅在推理时修改激活，无额外计算或显存开销，训练阶段不需要多语言数据。"
-          }
-        ],
-        "contributions": [
-          "提出BabelSteering：基于英文安全向量的多语言激活引导方法。",
-          "构建并公开了跨语言的翻译与评估流水线，支持安全、过度拒绝和效用的统一测评。",
-          "在三类主流开源模型上展示了跨语言安全提升且几乎不损失任务效用的实证结果。"
-        ],
-        "limitations": [
-          "无法处理文化特定的安全风险，仅覆盖跨语言共享的通用安全主题。",
-          "引入了伪有害请求的误拒上升（约13%），需要进一步的精细化控制。",
-          "实验局限于八种语言和三种模型，未验证在更大规模模型或更多低资源语言上的可行性。"
-        ],
-        "open_questions": [
-          "如何在保持跨语言安全提升的同时进一步降低伪有害请求的误拒率？",
-          "该激活引导是否能在更大规模模型（如数百亿参数）上保持同等效果？",
-          "能否结合文化特定的安全数据或规则，扩展方法以覆盖本地化安全需求？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment",
-          "safety"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-18T10:47:20.408991+00:00"
     },
     {
       "id": "2608.20314",

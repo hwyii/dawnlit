@@ -1,6 +1,1078 @@
 {
-  "generated_at": "2026-08-23T10:39:34.861608+00:00",
+  "generated_at": "2026-08-24T02:55:19.024175+00:00",
   "papers": [
+    {
+      "id": "2608.20820",
+      "title": "Certified Multi-Turn Robustness for LLM Safety via Compositional Bounds and Safety Persistence",
+      "abstract": "Large language models (LLMs) are vulnerable to multi-turn jailbreak attacks that progressively manipulate conversation context. Existing certified robustness methods are limited to single-turn inputs; naive multi-turn composition yields bounds that degrade exponentially in the number of turns. We introduce Multi-Turn Certified Robustness (MTCR), a framework that models conversational safety via State-Adversarial MDPs and defines $k$-turn certified robustness as the worst-case safety probability across $k$ adversarial turns. MTCR comprises: (i) compositional certification via embedding-space mode decomposition, yielding tighter certified lower bounds than naive multiplication; (ii) $(α,β)$-safety persistence, improving the degradation rate from $\\underline{p}^{k}$ to $β^k$ (with $β> \\underline{p}$) and yielding interpretable horizon estimates; (iii) matching information-theoretic upper bounds establishing tightness; and (iv) a unified algorithm combining these results. Experiments on six LLMs under $ε$-bounded and Crescendo-style attacks confirm that empirical safety consistently exceeds the certified bounds.",
+      "authors": [
+        "Yang Liu",
+        "Bin Chong",
+        "Wenkai Yang",
+        "Shuai Zhang",
+        "Yancheng Chen",
+        "Feiyu Han",
+        "GuoZhen",
+        "Cheng Zhang",
+        "Huaibing Xie",
+        "Changze Lv",
+        "Shihan Dou",
+        "Pluto Zhou"
+      ],
+      "published": "2026-08-21T07:43:06Z",
+      "updated": "2026-08-21T07:43:06Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2608.20820v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.20820v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.7394,
+          "matched": [
+            "adversarial",
+            "jailbreak",
+            "robustness"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.6047,
+          "matched": [
+            "llm safety",
+            "LLM safety",
+            "robustness",
+            "safety",
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.4408,
+          "matched": [
+            "llm",
+            "mode"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.7204,
+        "relevance": 0.7915,
+        "quality": 0.45,
+        "novelty": 0.859,
+        "freshness": 0.6,
+        "feedback_adjustment": -0.016,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "experiments",
+        "formal bound"
+      ],
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "adversarial",
+          "jailbreak",
+          "robustness"
+        ],
+        "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "MTCR delivers certified multi‑turn safety guarantees that are substantially tighter than naive multiplicative bounds.",
+        "problem": "Existing certifications handle only single‑turn attacks, causing exponential safety degradation under multi‑turn jailbreaks.",
+        "method": "The authors model conversations as State‑Adversarial MDPs and combine embedding‑space mode decomposition with (α,β)-safety persistence to compute certified k‑turn robustness.",
+        "evidence": "Across six LLMs, MTCR’s certified lower bounds (e.g., 0.36 vs 0.13 at k=5 for LLaMA‑2‑7B‑Chat) are consistently below empirical safety, which exceeds the bounds by 0.18–0.30.",
+        "limitations": "Certification applies only to ε‑bounded (character‑level) perturbations, relies on heuristic clustering, and uses a binary safety predicate.",
+        "why_for_you": "If you seek efficient adversarial training or trustworthy LLM safety, MTCR offers a formal multi‑turn robustness framework that can guide safety‑aware training objectives.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🛡️",
+            "text": "MTCR yields certified multi‑turn safety bounds up to 0.23 higher than naive multiplicative bounds (e.g., 0.36 vs 0.13 at k=5 for LLaMA‑2‑7B‑Chat)."
+          },
+          {
+            "icon": "🔧",
+            "text": "Combines embedding‑space mode decomposition with (α,β)-safety persistence, improving degradation from p^k to β^k."
+          },
+          {
+            "icon": "✅",
+            "text": "Empirical safety exceeds certified bounds by 0.18–0.30 across six LLMs, but guarantees hold only for ε‑bounded perturbations."
+          }
+        ],
+        "overview": "The paper introduces Multi‑Turn Certified Robustness (MTCR), a framework that models conversational safety as a State‑Adversarial MDP and defines k‑turn certified robustness as the worst‑case safety probability over k adaptive adversarial turns. By decomposing dialogue embeddings into modes and exploiting (α,β)-safety persistence, MTCR derives compositional lower bounds that are tighter than naive multiplication and matches information‑theoretic upper bounds for non‑overlapping modes. Experiments on six production LLMs under both static ε‑ball and adaptive Crescendo attacks show certified guarantees that are consistently respected by empirical safety, though a gap remains.",
+        "methodology": [
+          {
+            "title": "State‑Adversarial MDP modeling",
+            "detail": "Conversation history is embedded into a state space S; an ε‑bounded adversary selects user messages within a perturbation ball, and safety is defined by a binary predicate over states."
+          },
+          {
+            "title": "Embedding‑space mode decomposition",
+            "detail": "Safe dialogue embeddings from 500 held‑out conversations are clustered via k‑means (M∈{2,4,8}); intra‑mode safety is certified separately from inter‑mode transitions, yielding a compositional bound (Corollary 3.2)."
+          },
+          {
+            "title": "(α,β)-safety persistence",
+            "detail": "Defines a structural property where the multi‑turn bound improves from p^k to β^k (β>p) with a linear horizon characterization 1−k(1−β) (Theorem 3.5)."
+          },
+          {
+            "title": "Unified certification algorithm",
+            "detail": "Algorithm 1 combines compositional and persistence bounds to compute the certified guarantee ρ̂_k for any horizon k."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Compositional certification",
+            "detail": "By certifying intra‑mode safety and transition costs separately, the lower bound avoids the exponential decay of naïve multiplication, achieving tighter guarantees for non‑overlapping mode partitions."
+          },
+          {
+            "title": "Safety persistence theory",
+            "detail": "The (α,β) property ensures that safety degrades geometrically with factor β rather than p, and the authors prove matching information‑theoretic upper bounds, establishing tightness under the stated structural assumptions."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Evaluation on six LLMs",
+            "detail": "Open‑source (LLaMA‑2‑7B‑Chat, Vicuna‑7B, Llama‑3.2‑3B, Qwen2.5‑7B‑Instruct) and closed‑source (GPT‑4o, Claude‑3.5‑Sonnet) models were certified at horizons k∈{5,10,15,20}. Attacks: ε‑bounded character edits (ε=5) and Crescendo‑style adaptive attacks. Metrics: certified lower bound ρ̂_k, empirical safety (fraction of safe trials over 100 runs), and gap = Empirical – ρ̂_k."
+          },
+          {
+            "title": "Baseline comparisons",
+            "detail": "Four variants were compared: naive multiplicative bound, optimistic reference (not certified), Persistence‑Only, Compositional‑Only, and the full MTCR (combined). MTCR consistently provided the highest certified bound per horizon."
+          },
+          {
+            "title": "Ablation and mode granularity",
+            "detail": "Ablation (Table 3) shows the combined formula outperforms each component alone. Varying M shows coarser modes (M=2) give higher ρ̂_5 (0.39) than finer modes (M=8, 0.25) due to increased overlap κ."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Tighter certified bounds",
+            "detail": "For LLaMA‑2‑7B‑Chat at k=5, MTCR achieves ρ̂_k=0.36 versus the naive bound 0.13, a 0.23 improvement."
+          },
+          {
+            "title": "Empirical safety exceeds certification",
+            "detail": "Across models, empirical safety under Crescendo exceeds MTCR bounds by 0.18–0.30, confirming that the bounds are not violated."
+          },
+          {
+            "title": "Computation cost",
+            "detail": "Full certification of a single open‑source model for four horizons requires ~2.5 hours on an A100 GPU, making the approach practical for offline pre‑deployment auditing."
+          }
+        ],
+        "contributions": [
+          "Multi‑Turn Certified Robustness (MTCR) framework for LLM safety.",
+          "Compositional certification via embedding‑space mode decomposition.",
+          "(α,β)-safety persistence theory improving degradation rates.",
+          "Matching information‑theoretic upper bounds establishing tightness.",
+          "Empirical evaluation on six production LLMs under static and adaptive attacks."
+        ],
+        "limitations": [
+          "Formal guarantees are limited to ε‑bounded (character‑level) perturbations; no provable safety for semantic attacks.",
+          "Mode decomposition relies on heuristic k‑means clustering; bound tightness depends on chosen M and overlap κ.",
+          "Safety predicate is binary and detector‑dependent; graded harmfulness scores are unsupported.",
+          "Randomized smoothing incurs significant sample cost, restricting real‑time applicability."
+        ],
+        "open_questions": [
+          "How can certification be extended to semantic or higher‑level perturbation models beyond ε‑balls?",
+          "Can mode discovery be automated with theoretical guarantees to reduce reliance on heuristic clustering?",
+          "What adaptations are needed to certify graded safety metrics rather than binary predicates?",
+          "How might the smoothing sample complexity be reduced while preserving tightness for real‑time safety auditing?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "recommended_at": "2026-08-24T02:55:19.024175+00:00"
+    },
+    {
+      "id": "2608.21172",
+      "title": "Thermo-FL: Thermal-Aware Robust Federated Fine-Tuning of Large Language Models for Edge AI",
+      "abstract": "Federated fine-tuning enables large language models to adapt on edge devices without centralizing private data, but practical deployments must address hardware instability and adversarial update corruption together. Thermally constrained clients may throttle, slow local training, or delay synchronous aggregation, while Byzantine clients and communication-layer adversaries can corrupt the updates used to form the global model. To address these challenges, we present Thermo-FL, a thermal-aware federated LoRA fine-tuning framework that uses device temperature as an active control signal for local adapter training and sparse update transmission. On the client side, Thermo-FL adjusts the active LoRA-layer fraction and transmitted update density as devices heat or cool, reducing workload under thermal stress. On the server side, Thermo-FL introduces TERRA, a robust aggregation pipeline for dynamically sparse LoRA updates that combines norm filtering, mask-aware directional validation, adaptive active-coordinate clipping, and mask-aware aggregation. We evaluate Thermo-FL using both a large-scale emulator and a Jetson-based physical testbed. In the emulator, Thermo-FL improves robustness under adversarial sparse aggregation and achieves the strongest BoolQ accuracy across clean and attack settings while remaining competitive on GSM8K. In the physical prototype, Thermo-FL stabilizes device temperature, reduces compressed upload size through bitmap sparse encoding, and preserves GSM8K utility under sign-flip/scale and MITM perturbations. These results show that secure edge LLM adaptation should jointly consider hardware behavior, workload regulation, sparse communication, and aggregation robustness.",
+      "authors": [
+        "Shiva Shrestha",
+        "Kazi Shaharair Sharif",
+        "Zongxing Xie",
+        "Jiajing Huang",
+        "Anhao Xiang",
+        "Honghui Xu"
+      ],
+      "published": "2026-08-21T14:41:54Z",
+      "updated": "2026-08-21T14:41:54Z",
+      "categories": [
+        "cs.LG",
+        "cs.DC"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2608.21172v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.21172v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.8837,
+          "matched": [
+            "adversarial",
+            "training",
+            "fine-tuning",
+            "robust",
+            "robustness"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.133,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6653,
+        "relevance": 0.7336,
+        "quality": 0.33,
+        "novelty": 0.9036,
+        "freshness": 0.6415,
+        "feedback_adjustment": -0.0191,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [],
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "adversarial",
+          "training",
+          "fine-tuning",
+          "robust"
+        ],
+        "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "Thermal-aware client adaptation combined with robust sparse aggregation enables resilient federated LoRA fine‑tuning of LLMs on edge devices.",
+        "problem": "Edge federated LLM fine‑tuning must cope with thermal‑induced performance throttling and adversarial update corruption simultaneously.",
+        "method": "Thermo‑FL uses device temperature to modulate LoRA layer participation and update sparsity, and introduces TERRA, a multi‑stage robust aggregation for sparse updates.",
+        "evidence": "In an 80‑client emulator Thermo‑FL achieved the highest BoolQ exact‑match (72.32% clean, 71.16% sign‑flip, 72.11% mixed) and improved GSM8K accuracy under attacks, while the Jetson prototype showed temperature stabilization and reduced upload size.",
+        "limitations": "Evaluation used only two physical clients and a narrow set of attacks; temperature thresholds are fixed and device‑specific, and TERRA does not replace cryptographic safeguards.",
+        "why_for_you": "Relevant if you seek methods that jointly address efficient adversarial training and edge‑device constraints in LLM fine‑tuning.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "Thermo‑FL introduces temperature‑driven LoRA layer selection and sparse update encoding for edge federated fine‑tuning."
+          },
+          {
+            "icon": "🔧",
+            "text": "TERRA aggregation combines norm filtering, mask‑aware directional validation, and adaptive clipping to robustly merge sparse updates."
+          },
+          {
+            "icon": "📈",
+            "text": "Thermo‑FL attained 72.32% BoolQ accuracy (clean) and outperformed baselines under sign‑flip and mixed attacks, but physical tests involved only two Jetson clients."
+          }
+        ],
+        "overview": "Thermo‑FL tackles the dual challenge of thermal constraints and adversarial updates in edge federated LLM fine‑tuning. Clients monitor device temperature and dynamically reduce the fraction of active LoRA layers and the density of transmitted updates, while the server applies TERRA, a robust aggregation pipeline that filters by norm, validates direction with mask awareness, clips adaptively, and aggregates sparsely. Experiments on an 80‑client emulator and a two‑Jetson physical testbed demonstrate improved robustness on BoolQ and competitive GSM8K performance, alongside temperature stabilization and communication compression.",
+        "methodology": [
+          {
+            "title": "Client‑side temperature control",
+            "detail": "Device temperature triggers adjustments of active LoRA‑layer fraction (κ) and update sparsity (ρ), reducing compute and bandwidth when T ≥ T_crit."
+          },
+          {
+            "title": "Sparse update encoding",
+            "detail": "Clients encode selected LoRA coordinates as bitmap masks, achieving compressed upload sizes."
+          },
+          {
+            "title": "Server‑side TERRA pipeline",
+            "detail": "TERRA sequentially applies magnitude (norm) filtering, mask‑aware directional validation, adaptive active‑coordinate clipping, and mask‑aware aggregation to sparse updates."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Thermal‑driven LoRA adaptation",
+            "detail": "When temperature exceeds a critical threshold, the system lowers κ (fewer LoRA layers trained) and increases sparsity ρ, directly linking hardware state to learning workload."
+          },
+          {
+            "title": "Mask‑aware directional validation",
+            "detail": "Updates are accepted only if the cosine similarity of their support‑restricted vectors exceeds a threshold τ_dir, rejecting sign‑flipped or misaligned sparse updates."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Emulator study",
+            "detail": "80 logical clients (10 per round, 12.5% participation) fine‑tuned Qwen2.5‑0.5B with LoRA rank 16 on BoolQ and GSM8K; attacks: sign‑flip, mixed (random masking, scaling, noise); metrics: exact‑match accuracy."
+          },
+          {
+            "title": "Physical Jetson prototype",
+            "detail": "Two Jetson Orin Nano clients fine‑tuned the same model; measured device temperature, compressed upload size via bitmap encoding, and utility under sign‑flip/scale and MITM noise attacks."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Robustness on BoolQ",
+            "detail": "Thermo‑FL achieved 72.32% clean accuracy, 71.16% under sign‑flip, and 72.11% under mixed attacks, outperforming all baselines."
+          },
+          {
+            "title": "GSM8K utility",
+            "detail": "Thermo‑FL remained competitive (33.74% clean) and improved over sparse FedAvg under attacks (31.09% sign‑flip, 31.67% mixed)."
+          },
+          {
+            "title": "Hardware benefits",
+            "detail": "Physical tests showed stabilized device temperature and reduced upload payloads through bitmap sparse encoding while preserving task performance."
+          }
+        ],
+        "contributions": [
+          "Temperature‑aware client control for LoRA fine‑tuning",
+          "TERRA robust aggregation pipeline for dynamically sparse updates",
+          "Empirical validation on large‑scale emulator and Jetson physical testbed"
+        ],
+        "limitations": [
+          "Physical testbed limited to two Jetson clients",
+          "Hardware experiments covered only one sign‑flip/scale and one MITM noise attack",
+          "Temperature policy uses fixed thresholds and device‑specific parameters",
+          "TERRA does not replace cryptographic transport, authentication, or secure boot"
+        ],
+        "open_questions": [
+          "How to automatically adapt temperature thresholds and κ/ρ parameters across heterogeneous edge devices?",
+          "What is the scalability of Thermo‑FL and TERRA with larger, more diverse client populations and richer attack spectra?",
+          "Can Thermo‑FL be combined with cryptographic defenses to provide end‑to‑end security without sacrificing efficiency?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "recommended_at": "2026-08-24T02:55:19.024175+00:00"
+    },
+    {
+      "id": "2608.21019",
+      "title": "Target-Aware Calibration Data Selection for Preserving Uncertainty in Quantized Language Models",
+      "abstract": "Quantization is widely used to deploy large language models, but its effect on uncertainty behavior, such as confidence, margins, and abstention, is rarely treated as a primary objective. We frame calibration-data selection for quantization as a target-dependent uncertainty-preservation problem. Different deployments emphasize different regions of the input distribution, yet prior work mainly optimizes accuracy-oriented compression metrics or adjusts scores after quantization. We formalize this goal with distributional and boundary preservation risks, and provide a simple mixture-mismatch argument explaining why no single calibration recipe should be expected to fit all targets. We introduce Doubt-Preserving Quantization (DPQ), a lightweight pre-quantization recipe family that uses full-precision predictions to construct target-aligned calibration mixtures of high-doubt examples and generic anchors. Across 8 language models, 9 NLP benchmarks, and 22 comparison methods, the leading fixed recipe changes with the preservation target: DPQ-r75 leads on SQuAD2 answerability-boundary preservation, while milder or single-signal variants, including DPQ-r50, confidence-only, and entropy-only, better preserve broad multiple-choice QA behavior. These results show that calibration data should be selected for the specific full-precision score behavior a deployment needs to preserve, rather than treated as a fixed quantization detail.",
+      "authors": [
+        "Zhen Yang",
+        "Sizai Hou",
+        "Kaiwen Zheng",
+        "Yaofang Liu",
+        "Liang He",
+        "Yixuan Chen",
+        "Kangning Cui"
+      ],
+      "published": "2026-08-21T12:07:49Z",
+      "updated": "2026-08-21T12:07:49Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.21019v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.21019v1",
+      "comment": "20 pages, 5 figures. Accepted to EMNLP Findings 2026",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.7088,
+          "matched": [
+            "data selection",
+            "data",
+            "mixture",
+            "selection"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4991,
+          "matched": [
+            "uncertainty",
+            "calibration"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6608,
+        "relevance": 0.6669,
+        "quality": 0.54,
+        "novelty": 0.8806,
+        "freshness": 0.6262,
+        "feedback_adjustment": -0.0117,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "formal bound",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "DPQ 通过调整校准数据，保持量化 LLM 中的目标特定不确定性指标。",
+        "method": "DPQ 利用全精度预测，挑选高疑问样本和通用锚点，构建目标对齐的校准混合。",
+        "limitations": "校准数据的选择仍依赖目标，需要针对不同部署优先级重新配置。",
+        "evidence": "DPQ 变体在 8 种模型和 9 项 NLP 基准上超越 22 种基线，DPQ-r75 在 SQ UAD2 上表现突出，较温和的变体在 MCQA 上表现良好。",
+        "why_for_you": "通过自适应校准展示目标感知的不确定性保持，契合您对可信 LLM 数据选择的关注。",
+        "problem": "量化常导致不确定性指标（如 confidence margins 和 answerability）下降，若缺乏目标特定校准。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "DPQ 通过 mixture-mismatch 论证实现不确定性保持。"
+          },
+          {
+            "icon": "🔧",
+            "text": "基于疑问的选择使用 1−p0,(1)−p0,(2) 优先低 margin 示例。"
+          },
+          {
+            "icon": "📊",
+            "text": "DPQ-r75 在 SQ UAD2 上超越 22 种基线，DPQ-r50 在 MCQA 上表现出色。"
+          }
+        ],
+        "overview": "本文通过将校准数据选择形式化为目标依赖问题，解决量化 LLM 中的不确定性退化。DPQ 使用全精度预测构建校准混合，优先高疑问样本和通用锚点。8 种模型、9 项基准的实验显示目标特定的性能提升，DPQ-r75 在 answerability-boundary 任务上表现突出，较温和的变体在广泛 QA 任务上表现良好。该方法不修改 quantizer 参数，而是侧重校准数据的组成。",
+        "methodology": [
+          {
+            "detail": "形式化目标依赖的不确定性保持为分布式和边界风险最小化，认为没有单一的校准方案能满足所有部署需求。",
+            "title": "Mixture-mismatch framework"
+          },
+          {
+            "detail": "将可回答的 QA 示例 (ARC-Challenge) 与 SQ UAD2 边界案例相结合，平衡可回答/不可回答样本以进行目标特定训练。",
+            "title": "校准池构建"
+          },
+          {
+            "detail": "使用确定性过程选择前 ⌊sr⌋ 个高疑惑候选，并用来自 WikiText/RandomQA 的通用锚点填补剩余名额。",
+            "title": "固定预算选择"
+          }
+        ],
+        "mechanism": [
+          {
+            "detail": "定义 b(x) = 1−p0,(1)−p0,(2) 用于识别低边际示例，隔离脆弱区域以进行针对性校准。",
+            "title": "疑惑分数公式"
+          },
+          {
+            "detail": "评估将 b(x) 替换为 confidence、entropy 或 answerability 指标的变体，以剥离选择信号的影响。",
+            "title": "信号隔离实验"
+          }
+        ],
+        "experiments": [
+          {
+            "detail": "8 个语言模型（Qwen、Llama、Mistral）在 9 项 NLP 任务（SQ UAD2、ARC-Challenge、OpenBookQA）上进行实验，使用 22 种对比方法，包括 GPTQ、BNB-NF4 和后置校准。",
+            "title": "模型与基准覆盖"
+          },
+          {
+            "detail": "固定 4 位量化，使用 128 个校准样本，依据 FP 预测进行选择，且不修改量化器参数。",
+            "title": "校准设置"
+          },
+          {
+            "detail": "包括 accuracy、ECE、NLL、Brier score，以及针对 answerability（SQ UAD2）和 distributional preservation（MCQA）的任务特定度量。",
+            "title": "评估指标"
+          }
+        ],
+        "findings": [
+          {
+            "detail": "DPQ-r75 在 SQ UAD2 上达到 80.6% accuracy，较 FP 的 84.7%；DPQ-r50 达到 79.2% 对比 FP 的 83.3%，展示了校准适配能力。",
+            "title": "目标特定性能"
+          },
+          {
+            "detail": "DPQ 变体在保持 confidence margins 方面优于基线，在 SQ UAD2 上的 ECE 为 62.5%，而 BNB-NF4 为 66.7%。",
+            "title": "不确定性保持"
+          },
+          {
+            "detail": "DPQ 不需要更改量化器，仅重新配置校准数据，且不增加推理成本。",
+            "title": "轻量级适配"
+          }
+        ],
+        "contributions": [
+          "对 quantized LLMs 的分布和边界保持风险进行形式化",
+          "介绍 DPQ，一种使用 full-precision predictions 的 target-aware 校准框架",
+          "实证展示 target-dependent 校准在 8 种模型和 9 项基准上的有效性"
+        ],
+        "limitations": [
+          "校准数据选择仍然依赖部署，需要为新目标重新配置",
+          "未分析 DPQ 在非英语或代码专用 LLMs 上的行为"
+        ],
+        "open_questions": [
+          "如何将 DPQ 的 target-aware 方法推广到多语言或代码聚焦的 LLMs？",
+          "DPQ 能否在资源受限的部署中适配实时校准？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Data selection for LLMs",
+        "matched": [
+          "data selection",
+          "data",
+          "mixture",
+          "selection"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-24T02:55:19.024175+00:00"
+    },
+    {
+      "id": "2608.20554",
+      "title": "aiXamine: Unified Black-Box Evaluation of Cross-Dimensional Trade-offs in LLM Safety, Security, and Privacy",
+      "abstract": "The critical failure modes in deployed large language models (LLMs) are cross-dimensional: a model can score 99.3 in safety alignment while refusing one in three benign queries, or improve across every capability metric while losing 21 points in privacy. Existing evaluation frameworks that assess safety, security, and privacy independently cannot detect these patterns. We introduce aiXamine, a unified black-box platform that evaluates LLM trustworthiness across safety, security, and privacy as interdependent properties. aiXamine orchestrates 46 tests across nine services through an automated red-teaming pipeline, producing hierarchical risk profiles, from prompt-level diagnostics to cross-service trade-off analytics, that enable reproducible comparison of proprietary and open-weight systems under identical conditions. Applying aiXamine to over 120 LLMs through more than 5,000 test runs, we conduct the largest joint safety, security, and privacy study to date and uncover three cross-dimensional phenomena invisible to single-axis evaluation. First, safety enforcement incurs a quantifiable safety tax: stronger alignment systematically increases over-refusal, forcing providers to choose between protection and utility. Second, privacy is near-orthogonal to other trustworthiness dimensions and not captured by standard alignment. Third, we identify and formally characterize distillation-induced robustness collapse: off-policy distillation without on-policy correction causes entropy collapse, catastrophically destroying robustness (56.9$\\to$2.6) on the same base architecture. These findings, compounded by diminishing returns from scale and category-dependent safety behaviors, demonstrate that trustworthiness is inherently multi-dimensional: progress along one axis does not guarantee, and can actively undermine, progress along others, yet current alignment methods treat it as a single objective.",
+      "authors": [
+        "Fatih Deniz",
+        "Yazan Boshmaf",
+        "Dorde Popovic",
+        "Issa Khalil"
+      ],
+      "published": "2026-08-20T20:33:35Z",
+      "updated": "2026-08-20T20:33:35Z",
+      "categories": [
+        "cs.CR",
+        "cs.LG"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2608.20554v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.20554v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.6165,
+          "matched": [
+            "llm safety",
+            "LLM safety",
+            "robustness",
+            "privacy",
+            "alignment",
+            "safety"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.4466,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.2652,
+          "matched": [
+            "robustness"
+          ]
+        },
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "emerging",
+          "score": 0.2624,
+          "matched": [
+            "distillation",
+            "on-policy"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6233,
+        "relevance": 0.6356,
+        "quality": 0.49,
+        "novelty": 0.8556,
+        "freshness": 0.5336,
+        "feedback_adjustment": -0.008,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "reproducibility",
+        "quantitative results"
+      ],
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "llm safety",
+          "LLM safety",
+          "robustness",
+          "privacy"
+        ],
+        "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "aiXamine provides the first unified black‑box platform to evaluate safety, security, and privacy of LLMs jointly, exposing cross‑dimensional trade‑offs.",
+        "problem": "Existing benchmarks assess trustworthiness dimensions in isolation, missing interactions such as safety‑utility trade‑offs and privacy independence.",
+        "method": "The system orchestrates 46 standardized tests across nine services via an automated red‑team pipeline, generating hierarchical risk profiles and stakeholder‑weighted rankings.",
+        "evidence": "Applying aiXamine to 121 models over 5,000 runs revealed a safety tax, privacy orthogonality, and a distillation‑induced robustness collapse from 56.9 to 2.6.",
+        "limitations": "The evaluation is confined to predefined black‑box tests and does not incorporate white‑box analyses.",
+        "why_for_you": "It directly addresses trustworthy LLM evaluation, loss‑landscape effects of alignment, and efficient adversarial testing relevant to your interests.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🛡️",
+            "text": "aiXamine unifies 46 black‑box tests across safety, security, and privacy, revealing cross‑dimensional trade‑offs."
+          },
+          {
+            "icon": "⚙️",
+            "text": "The platform orchestrates an automated red‑team pipeline with hierarchical risk profiles and stakeholder‑weighting."
+          },
+          {
+            "icon": "📊",
+            "text": "Evaluation of 121 models over 5,000 runs shows a safety tax and a 56.9→2.6 robustness collapse."
+          }
+        ],
+        "overview": "aiXamine introduces a black‑box evaluation framework that jointly measures safety, security, and privacy of LLMs through 46 tests spanning nine services. By automating red‑team attacks and producing hierarchical risk profiles, it enables reproducible, stakeholder‑aware comparisons across 121 proprietary and open‑weight models. The study uncovers three cross‑dimensional phenomena: a quantifiable safety tax manifested as over‑refusal, near‑orthogonal privacy behavior, and a dramatic robustness collapse in off‑policy distillation. Ranking analyses demonstrate stability at coarse tiers but sensitivity within top tiers, highlighting the need for context‑specific weighting.",
+        "methodology": [
+          {
+            "title": "Test Suite Integration",
+            "detail": "46 standardized tests covering adversarial robustness, code security, bias, hallucination, jailbreak resistance, privacy leakage, OOD robustness, over‑refusal, and safety alignment are organized into nine services."
+          },
+          {
+            "title": "Automated Red‑Team Orchestration",
+            "detail": "An end‑to‑end pipeline executes the tests on each model via API or containerized deployment, collecting responses for hierarchical risk scoring."
+          },
+          {
+            "title": "Stakeholder‑Weighted Ranking",
+            "detail": "Risk scores are aggregated using configurable weight vectors; robustness is validated by sampling 10,000 Dirichlet‑distributed weightings."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Safety Tax Mechanism",
+            "detail": "Stronger alignment increases the rate of over‑refusal on benign queries, creating a trade‑off between protection and utility."
+          },
+          {
+            "title": "Distillation‑Induced Robustness Collapse",
+            "detail": "Off‑policy distillation without on‑policy correction leads to entropy collapse, reducing robustness scores from 56.9 to 2.6 on the same architecture."
+          },
+          {
+            "title": "Privacy Orthogonality",
+            "detail": "Privacy leakage metrics show little correlation with safety or security scores, indicating independence from standard alignment objectives."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Model Evaluation",
+            "detail": "121 LLMs (proprietary and open‑weight, 0.8B–120B parameters) were evaluated under identical inference conditions, yielding >5,000 black‑box test runs."
+          },
+          {
+            "title": "Ranking Stability Analysis",
+            "detail": "Kendall’s τ between uniform ranking and 10,000 random weightings was 0.775; top‑four models held #1 in 82% of samples, while fine‑grained ordering varied."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Safety Tax",
+            "detail": "Models with higher safety alignment scores exhibit a systematic increase in over‑refusal, quantified as a trade‑off between safety and utility."
+          },
+          {
+            "title": "Privacy Independence",
+            "detail": "Privacy scores are near‑orthogonal to safety and security dimensions, remaining unchanged across alignment improvements."
+          },
+          {
+            "title": "Robustness Collapse",
+            "detail": "Distilled models experience a catastrophic drop in robustness entropy from 56.9 to 2.6, confirming the collapse phenomenon."
+          },
+          {
+            "title": "Ranking Sensitivity",
+            "detail": "Coarse tier rankings are stable across stakeholder weightings, but within‑tier positions shift markedly, underscoring the need for context‑specific evaluation."
+          }
+        ],
+        "contributions": [
+          "Unified black‑box SSP evaluation platform exposing cross‑dimensional trade‑offs and enabling stakeholder‑aware ranking."
+        ],
+        "limitations": [],
+        "open_questions": [
+          "How can alignment methods reduce the safety tax without sacrificing protection?",
+          "What techniques can improve privacy guarantees while maintaining model utility?",
+          "How can distillation processes be modified to prevent entropy‑driven robustness collapse?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "recommended_at": "2026-08-24T02:55:19.024175+00:00"
+    },
+    {
+      "id": "2608.20518",
+      "title": "FL-MAESTRO: Multi-Agent LLM Orchestration for Resource-Constrained Federated Learning",
+      "abstract": "In Federated Learning (FL), the communication topology is a runtime variable rather than a fixed design choice, since links and edge devices drop in and out during training. Each round, the server must commit three coupled decisions, namely the communication topology, per-client resource allocation, and the aggregation rule for combining local updates. Recent agentic systems have begun bringing large language models (LLM) into FL, but the existing line of work either operates at setup time or handles a single runtime dimension such as client selection. We propose FL-MAESTRO, a multi-agent orchestrator that makes the joint runtime FL decision directly through three specialist LLM agents, one per decision dimension. A coordinator combines their analyses into a single decision, and a non-LLM feasibility check confirms it before the round executes. Because the orchestrator consumes the server's predicted-failure list, it withholds clients whose updates would never be aggregated, which removes the dominant source of wasted round energy in classical FL on volatile edge networks. Because client state is read as natural-text profiles, the same orchestrator extends to heterogeneous device classes without per-class energy models. On a non-IID CIFAR-10 benchmark, FL-MAESTRO matches the accuracy of the strongest energy-aware baseline while cutting wasted round energy from over a third to near zero. Code is available at https://github.com/denoslab/FL-MAESTRO.",
+      "authors": [
+        "Jiajun Wu",
+        "Zirui Wang",
+        "Jiayu Zhou",
+        "Qiang Ye",
+        "Steve Drew"
+      ],
+      "published": "2026-08-20T19:27:52Z",
+      "updated": "2026-08-20T19:27:52Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2608.20518v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.20518v1",
+      "comment": "Accepted at IEEE GLOBECOM 2026",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5866,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.1349,
+          "matched": [
+            "training"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6081,
+        "relevance": 0.4963,
+        "quality": 0.85,
+        "novelty": 0.8918,
+        "freshness": 0.527,
+        "feedback_adjustment": -0.0172,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "baseline comparison",
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "FL-MAESTRO uses three specialist LLM agents to jointly decide topology, resources, and aggregation each FL round, eliminating most wasted energy.",
+        "problem": "Federated learning suffers from wasted round energy due to volatile client availability and fixed topology/resource decisions.",
+        "method": "A multi-agent orchestrator employs a TopologyAgent, ResourceAgent, and AggregationAgent whose outputs are synthesized by an LLM coordinator and validated by a non-LLM feasibility check.",
+        "evidence": "On non-IID CIFAR-10 with 30 clients, FL-MAESTRO reduces wasted round energy from >33% to near zero while matching the strongest energy-aware baseline’s accuracy.",
+        "limitations": "Evaluation is limited to simulated CIFAR-10 scenarios and does not assess real-world deployments or larger model scales.",
+        "why_for_you": "If you seek efficient adversarial training, the paper’s resource-aware LLM orchestration may inspire low-energy FL strategies.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🤖",
+            "text": "FL‑MAESTRO jointly orchestrates topology, per‑client resources, and aggregation each round via three specialist LLM agents."
+          },
+          {
+            "icon": "🔧",
+            "text": "Coordinator synthesizes agents’ analyses into a feasible joint decision, iterating up to Dmax ∈ {2, 3} and validated by a non‑LLM feasibility check."
+          },
+          {
+            "icon": "📊",
+            "text": "On non‑IID CIFAR‑10, FL‑MAESTRO cuts wasted round energy from >33% to near zero while preserving baseline accuracy."
+          }
+        ],
+        "overview": "FL-MAESTRO introduces a runtime orchestrator for federated learning that couples three decision dimensions—communication topology, per-client resource allocation, and aggregation weighting—through specialist LLM agents. Each agent reasons over natural‑text client profiles and domain tools, then a central LLM coordinator merges their proposals into a joint decision that a non‑LLM validator enforces for feasibility. In simulated non‑IID CIFAR‑10 experiments with heterogeneous edge clients, the system eliminates most wasted energy without sacrificing model accuracy, demonstrating the practicality of open‑weight LLMs for on‑premise FL control.",
+        "methodology": [
+          {
+            "title": "Specialist LLM agents",
+            "detail": "TopologyAgent, ResourceAgent, and AggregationAgent each receive typed constraint analyses and query tools for communication cost, energy cost, label diversity, and battery feasibility."
+          },
+          {
+            "title": "Coordinator and Validator",
+            "detail": "A synthesis‑only LLM prompt combines the three analyses into a JSON decision (C+, τ, {ri}, σ); a Python validator enforces battery eligibility, aggregator capability, weight normalization, and clipping of infeasible values."
+          },
+          {
+            "title": "Collaboration protocol",
+            "detail": "Agents iterate up to Dmax ∈ {2, 3} times, revising proposals after seeing the other dimensions to enforce coupling before final synthesis."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Predicted‑failure filtering",
+            "detail": "The orchestrator consumes the server’s predicted‑failure list, withholding low‑battery clients whose updates would be dropped, thereby removing the dominant source of wasted round energy."
+          },
+          {
+            "title": "Natural‑text client profiles",
+            "detail": "Client state is encoded as textual profiles, allowing the same LLM orchestration to handle heterogeneous device classes without per‑class energy models."
+          },
+          {
+            "title": "Feasibility clipping",
+            "detail": "Infeasible joint decisions are clipped to feasibility boundaries by the validator, turning LLM errors into repairs rather than runtime crashes."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Setup",
+            "detail": "CIFAR‑10 with Dirichlet non‑IID partitions (α = 0.1, 0.3), CNN (545k parameters), 30 clients, battery ∈[0.5,0.9] (hard/ extreme low‑battery subsets), bandwidth bimodal, compute sampled from exp distribution."
+          },
+          {
+            "title": "Scenarios and baselines",
+            "detail": "Two heterogeneous edge scenarios (hard α=0.3, extreme α=0.1) compared against the strongest energy‑aware baseline (e.g., Oort) and classical FL methods (FedAvg, FedProx)."
+          },
+          {
+            "title": "Metrics",
+            "detail": "Model accuracy, wasted round energy (percentage of energy spent on clients that drop out before aggregation), and feasibility violation rates."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Energy efficiency",
+            "detail": "FL‑MAESTRO reduces wasted round energy from over a third to near zero across both hard and extreme scenarios."
+          },
+          {
+            "title": "Accuracy preservation",
+            "detail": "The method matches the accuracy of the strongest energy‑aware baseline despite aggressive client withholding."
+          },
+          {
+            "title": "Feasibility enforcement",
+            "detail": "The non‑LLM validator successfully clips infeasible decisions, preventing runtime crashes and maintaining stable training."
+          }
+        ],
+        "contributions": [
+          "Joint runtime FL decision making with multi‑agent LLMs",
+          "Energy‑aware orchestration that eliminates wasted round energy",
+          "Open‑weight LLM implementation removing cloud dependency"
+        ],
+        "limitations": [
+          "Only simulated CIFAR‑10 experiments; no real‑world edge deployment",
+          "Evaluation limited to a single model size and 30 clients",
+          "No analysis of LLM loss‑landscape behavior or adversarial robustness"
+        ],
+        "open_questions": [
+          "How does multi‑agent LLM orchestration affect loss‑landscape dynamics in federated training?",
+          "Can the approach be extended to efficient adversarial training under resource constraints?",
+          "What scalability challenges arise when increasing client count and model size beyond the presented experiments?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-24T02:55:19.024175+00:00"
+    },
+    {
+      "id": "2608.21278",
+      "title": "CLEAR: Continuous Latent Adapter Routing for Utility-Preserving LLM Safety Alignment",
+      "abstract": "Improving the safety of large language models (LLMs) often comes at the expense of utility, as globally applied safety tuning may affect model responses to both harmful and benign inputs. We propose \\textbf{C}ontinuous \\textbf{L}at\\textbf{E}nt \\textbf{A}dapter \\textbf{R}outing (CLEAR), a conditional safety adaptation framework that uses a lightweight hidden-state gate to continuously control the activation strength of a safety low-rank adapter. CLEAR aims to reduce harmful completions while avoiding unnecessary changes to the frozen backbone that could degrade performance on benign prompts. Experiments on widely used safety and utility benchmarks show that CLEAR improves robustness on HarmBench while reducing the utility degradation observed with globally applied safety tuning such as SFT or standard low-rank adaptation (LoRA). On Llama-3-8B-Instruct, CLEAR reduces HarmBench ASR from 32.3\\% to 0.5\\%, while retaining most of the base model's utility and achieving up to 7.1 percentage points higher GSM8K accuracy than globally applied SFT or LoRA. These results suggest that CLEAR is a promising mechanism for improving the safety--utility trade-off in LLM alignment.",
+      "authors": [
+        "Chengxiao Wang",
+        "Enyi Jiang",
+        "Xiaojing Liao",
+        "Sanmi Koyejo"
+      ],
+      "published": "2026-08-21T16:36:10Z",
+      "updated": "2026-08-21T16:36:10Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2608.21278v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.21278v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.591,
+          "matched": [
+            "llm safety",
+            "LLM safety",
+            "robustness",
+            "alignment",
+            "safety",
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.4309,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.1221,
+          "matched": [
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6054,
+        "relevance": 0.5834,
+        "quality": 0.54,
+        "novelty": 0.8551,
+        "freshness": 0.6529,
+        "feedback_adjustment": -0.0254,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "evidence": "在HarmBench上提升鲁棒性，Llama-3-8B-Instruct的ASR从32.3%降至0.5%，GSM8K准确率比全局SFT或LoRA高7.1个百分点。",
+        "limitations": "Not stated in the abstract",
+        "method": "使用轻量级隐状态门控连续调节安全低秩适配器的激活强度。",
+        "problem": "大型语言模型的安全调优常导致效用下降，需平衡安全与效用。",
+        "takeaway": "CLEAR通过连续潜变量适配器路由实现安全对齐，同时保持模型效用。",
+        "why_for_you": "安全-效用权衡问题的高效对抗训练机制",
+        "source": "abstract",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "llm safety",
+          "LLM safety",
+          "robustness",
+          "alignment"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-24T02:55:19.024175+00:00"
+    },
     {
       "id": "2608.19579",
       "title": "Enforcing LLM Safety through DMD-based Classification of Prompt-Response Embedding Dynamics",
@@ -456,177 +1528,6 @@
       "recommended_at": "2026-08-20T10:46:41.313828+00:00"
     },
     {
-      "id": "2608.16577",
-      "title": "BabelSteering: Multilingual Safety Alignment via English Steering Vectors",
-      "abstract": "Large language models (LLMs) are deployed globally in high-stakes settings, yet most safety research and alignment efforts remain concentrated on English. Thus, users interacting with LLMs in other languages may encounter weaker safeguards despite relying on the same systems for similarly sensitive tasks. In this work, we investigate whether safety signals learned from a high-resource language, like English, can improve multilingual safety. We propose BabelSteering, an activation steering method that acts as a lightweight inference- time intervention, using refusal directions derived from English safety supervision to generalize across languages. Our evaluation includes eight languages and jointly measures refusal of harmful requests, over-refusal, and general task utility. The results show that BabelSteering increases the refusal of harmful requests across languages, with only a marginal to no reduction in task utility but with some increase in refusal of pseudo-harmful prompts. For example, for Gemma 7B, we see an average increase in the refusal of harmful prompts across languages of 11 percentage points (pp), with individual languages like Bengali seeing an increase of 17 pp, with no loss of utility on Global MMLU, while pseudo-harmful refusals increase by 13 pp on average. We also introduce a multilingual translation-and-evaluation pipeline to facilitate future work on cross-lingual safety interventions. Overall, our findings suggest that activation steering may provide a practical, low- cost mechanism for extending English-derived safety signals to other languages. Warning: this paper contains examples with unsafe content",
-      "authors": [
-        "Emma V. Stein",
-        "Dominik Meier",
-        "Terry Ruas",
-        "Jan Philip Wahle",
-        "Bela Gipp"
-      ],
-      "published": "2026-08-17T13:40:16Z",
-      "updated": "2026-08-17T13:40:16Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2608.16577v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.16577v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.514,
-          "matched": [
-            "alignment",
-            "safety"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4737,
-        "relevance": 0.4112,
-        "quality": 0.41,
-        "novelty": 0.8075,
-        "freshness": 0.8743,
-        "feedback_adjustment": -0.0083,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "BabelSteering利用英语安全向量在推理时进行激活引导，实现多语言安全提升且几乎不影响模型效用。",
-        "problem": "现有安全对齐主要聚焦英文，导致非英文用户的模型防护弱化。",
-        "method": "通过差分均值提取英文拒绝向量并正交化伪拒绝向量，在推理阶段对激活进行轻量干预。",
-        "evidence": "在Gemma 7B上，跨八语言的有害请求拒绝率平均提升11个百分点，Bengali提升17个百分点，且Global MMLU无效用下降。",
-        "limitations": "方法无法解决文化特定安全问题，且会导致伪有害请求拒绝率上升约13%。",
-        "why_for_you": "若关注可信 LLM 的跨语言安全对齐，此工作提供了低成本的推理时干预方案。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🌐",
-            "text": "BabelSteering通过英语拒绝向量实现跨语言安全提升，平均提升11%有害请求拒绝率"
-          },
-          {
-            "icon": "🔧",
-            "text": "使用差分均值提取拒绝向量并正交化伪拒绝向量，在单层加入并跨层消除，实现轻量推理时干预"
-          },
-          {
-            "icon": "📈",
-            "text": "在Gemma 7B上，Bengali拒绝提升17pp且MMLU无损，但伪有害拒绝上升13pp"
-          }
-        ],
-        "overview": "本文提出BabelSteering，一种基于英文安全监督的激活引导方法，利用差分均值提取的拒绝向量和正交化的伪拒绝向量，在推理时对模型内部表征进行轻量干预。实验在Gemma 7B、Llama‑3.1‑8B、Qwen‑7B‑Chat三类模型上，覆盖八种语言，分别评估安全（MultiJail）、过度拒绝（翻译的OR‑Bench）和任务效用（Global MMLU），展示了显著的安全提升且几乎不牺牲效用。",
-        "methodology": [
-          {
-            "title": "向量提取",
-            "detail": "使用差分均值（DIM）方法对英文有害与无害提示的激活均值做差，得到拒绝方向向量；对伪有害提示同理得到伪拒绝向量。"
-          },
-          {
-            "title": "正交化处理",
-            "detail": "将伪拒绝向量在拒绝向量空间上正交化，去除共享成分，以降低对真实安全行为的干扰。"
-          },
-          {
-            "title": "组合干预",
-            "detail": "在单一选定层加入拒绝向量，在所有层上消除正交化后的伪拒绝向量，形成一次性推理时的综合引导。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "跨语言安全几何共享",
-            "detail": "基于先前研究的发现，多语言模型的拒绝表征在激活空间中部分共享，使得英文提取的方向可在其他语言上产生相似效应。"
-          },
-          {
-            "title": "激活空间调控",
-            "detail": "通过在推理阶段直接修改激活向量，实现行为改变而无需权重更新或额外微调，保持原模型的计算图不变。"
-          },
-          {
-            "title": "正交化降低误拒",
-            "detail": "正交化后删除与真实拒绝方向重叠的成分，抑制对无害输入的误拒，提高安全与效用的平衡。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "模型与语言",
-            "detail": "评估模型包括Gemma‑7B、Llama‑3.1‑8B‑Instruct、Qwen‑7B‑Chat；实验语言覆盖Arabic、Korean、Bengali等八种，兼顾中高资源语言。"
-          },
-          {
-            "title": "基准与指标",
-            "detail": "安全使用MultiJail（315条每语言的有害提示），过度拒绝使用翻译自OR‑Bench的伪有害提示，任务效用使用Global MMLU。主要指标为有害请求拒绝率、伪有害拒绝率以及MMLU准确率。"
-          },
-          {
-            "title": "对照设置",
-            "detail": "基线为未使用任何引导的原始模型；BabelSteering在相同推理环境下仅加入激活干预，无额外训练或数据。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "安全提升",
-            "detail": "Gemma‑7B在八语言上有害请求拒绝率平均提升11个百分点，Bengali提升最高达17个百分点。"
-          },
-          {
-            "title": "效用保持",
-            "detail": "在Global MMLU上，BabelSteering未导致显著准确率下降，保持与基线相当的任务性能。"
-          },
-          {
-            "title": "伪有害拒绝增加",
-            "detail": "伪有害提示的拒绝率平均上升13个百分点，表明误拒风险仍需进一步抑制。"
-          },
-          {
-            "title": "计算开销",
-            "detail": "方法仅在推理时修改激活，无额外计算或显存开销，训练阶段不需要多语言数据。"
-          }
-        ],
-        "contributions": [
-          "提出BabelSteering：基于英文安全向量的多语言激活引导方法。",
-          "构建并公开了跨语言的翻译与评估流水线，支持安全、过度拒绝和效用的统一测评。",
-          "在三类主流开源模型上展示了跨语言安全提升且几乎不损失任务效用的实证结果。"
-        ],
-        "limitations": [
-          "无法处理文化特定的安全风险，仅覆盖跨语言共享的通用安全主题。",
-          "引入了伪有害请求的误拒上升（约13%），需要进一步的精细化控制。",
-          "实验局限于八种语言和三种模型，未验证在更大规模模型或更多低资源语言上的可行性。"
-        ],
-        "open_questions": [
-          "如何在保持跨语言安全提升的同时进一步降低伪有害请求的误拒率？",
-          "该激活引导是否能在更大规模模型（如数百亿参数）上保持同等效果？",
-          "能否结合文化特定的安全数据或规则，扩展方法以覆盖本地化安全需求？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment",
-          "safety"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-18T10:47:20.408991+00:00"
-    },
-    {
       "id": "2608.16647",
       "title": "Every Coin Has Two Sides: On the Dual Nature of Generalization in On-Policy Distillation of Large Language Models",
       "abstract": "On-policy distillation (OPD) transfers teacher capabilities by supervising trajectories sampled from the student's own policy, yet its generalization behavior remains poorly understood, as most studies evaluate OPD on a single domain and on benchmarks close to the training data. We present a controlled study that varies one generalization factor at a time, from in-domain distribution shifts to cross-domain transfer and the multi-teacher setting. We find that OPD transfers a teacher's reasoning behavior rather than its answers to particular problems: training difficulty barely matters, and even problems the teacher never solves are useful. Transfer depends strongly on the origin relationship between teacher and student: same-origin pairs bring the student close to the teacher across languages, reasoning horizons, and even other domains, whereas cross-origin pairs mostly fit the trained distribution. This broad reach is a double-edged sword: since routing prompts to domain experts cannot confine each teacher's influence, combining them yields a mixture-dependent seesaw among their capabilities. These results clarify when OPD generalizes and offer a useful perspective for diagnosing multi-teacher OPD.",
@@ -978,148 +1879,6 @@
         "topic": "Data selection for LLMs",
         "matched": [
           "influence",
-          "training data"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-14T11:07:48.849243+00:00"
-    },
-    {
-      "id": "2608.13517",
-      "title": "DFM Mimir v1: An Open HRM Delivering Frontier Performance at 1B Parameters Using Only Permissible Post-Training Data",
-      "abstract": "Current large language model development relies on massive, often non-permissible datasets, creating a high barrier for researchers committed to open-source and ethically sourced data. We introduce Mimir v1, a 1-billion-parameter language model based on the Hierarchical Reasoning Model (HRM) architecture, that is trained from scratch and delivers highly competitive performance for English and sets a new state of the art for Danish using only permissible post-training data. Trained on a mixture of 161 datasets, Mimir v1 outperforms the original HRM-Text 1B and competes with larger frontier models like Qwen 3.5 4B and Gemma 4 E2B, tested across 20 benchmarks for English, Math & Code and Danish. The model is available on the Hugging Face Hub: https://huggingface.co/danish-foundation-models/DFM-Mimir",
-      "authors": [
-        "Peter Schneider-Kamp",
-        "Jacob Nielsen",
-        "Gianluca Barmina",
-        "Kenneth Enevoldsen",
-        "Lukas Galke Poech"
-      ],
-      "published": "2026-08-13T17:37:53Z",
-      "updated": "2026-08-13T17:37:53Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2608.13517v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.13517v1",
-      "comment": "Technical Report, 20 Pages, 1 Model, Hierarchical Reasoning Model",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model"
-      ],
-      "topics": [
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "core",
-          "score": 0.3764,
-          "matched": [
-            "training data"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4667,
-        "relevance": 0.3011,
-        "quality": 0.69,
-        "novelty": 0.8821,
-        "freshness": 0.8958,
-        "feedback_adjustment": -0.013,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "benchmark evaluation",
-        "dataset evidence",
-        "open source",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "DFM Mimir v1 在仅使用可许可后训练数据的情况下，以1B参数实现丹麦语SOTA并在20个基准上与更大模型竞争。",
-        "problem": "缺乏可公开、合规的数据集导致开源LLM研发门槛高。",
-        "method": "采用HRM-Text架构，使用161个可许可数据集（约70.5B tokens/epoch）并通过合成“移植数据集”替代不可许可数据进行从头训练。",
-        "evidence": "在20个评测基准上，Mimir v1 超越 HRM-Text 1B，且与 Qwen 3.5 4B、Gemma 4 E2B 等更大模型表现相当。",
-        "limitations": "训练语料高度集中，前10数据占66.5%，且部分数据多次重复。",
-        "why_for_you": "对数据选择感兴趣的你可参考其合成数据替代与高效数据混合策略。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "1B参数HRM模型仅用可许可后训练数据实现丹麦语SOTA。"
-          },
-          {
-            "icon": "🗂️",
-            "text": "使用161个数据集（70.5B tokens/epoch）并引入合成“移植数据集”替代不可许可数据。"
-          },
-          {
-            "icon": "📊",
-            "text": "在20基准上超越HRM-Text 1B，且与Qwen 3.5 4B、Gemma 4 E2B竞争，语料前10占66.5%。"
-          }
-        ],
-        "overview": "本文提出的DFM Mimir v1 是首个仅依赖可许可后训练数据的1B参数HRM模型，利用161个公开数据集（总计约70.5B tokens/epoch）并通过合成“移植数据集”替代不可许可内容，实现了丹麦语的最新状态（SOTA），并在20项英语、数学/代码及丹麦语基准上与更大模型相匹配。实验显示模型显著优于原HRM-Text 1B，且数据集中前十大来源占比66.5%，表明数据集中度高。",
-        "methodology": [
-          {
-            "title": "数据构建",
-            "detail": "从HuggingFace Hub 收集161个数据集，按功能划分为八类，累计70,479,308,606 tokens/epoch；对不可许可数据使用合成“移植数据集”进行替代。"
-          },
-          {
-            "title": "训练配置",
-            "detail": "使用Gemma‑4 tokenizer，Fully Sharded Data Parallelism (FSDP)，bfloat16 计算、fp32 聚合；AdamW 学习率峰值3×10⁻⁴，线性热身2000步后保持不变；全局批大小262,144 tokens，梯度累积2，8块加速器。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "HRM‑Text 架构",
-            "detail": "隐藏层大小1,536，12个注意力头，前馈扩展因子4；层数32（半层 true），层级推理配置为2个H‑cycle、3个L‑cycle，截断反向传播最多5步，热身比例0.2；位置编码采用RoPE (θ=10,000)，预归一化层归一化 ε=10⁻⁶。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "基准评估",
-            "detail": "在20个公开基准（包括English BoolQ、MMLU、ARC‑C、GSM8K、MATH、HumanEval以及10个丹麦语任务）上，以temperature=0、固定seed进行评测；对比模型包括HRM‑Text 1B、Qwen 3.5 2B/4B、Gemma 4 E2B。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "性能提升",
-            "detail": "Mimir v1 在所有基准上均超越HRM‑Text 1B，并在多数指标上与Qwen 3.5 4B、Gemma 4 E2B相当，尤其在丹麦语任务上实现新SOTA。"
-          },
-          {
-            "title": "合成数据有效性",
-            "detail": "使用合成“移植数据集”替代不可许可数据后，模型性能不降反升，证明合成数据可在保持数据合规性的同时提供高质量训练信号。"
-          }
-        ],
-        "contributions": [
-          "公开发布仅用可许可后训练数据的1B参数HRM模型",
-          "提出合成“移植数据集”替代不可许可数据的技术路线",
-          "提供涵盖英语、数学/代码和丹麦语的20项基准全面评估"
-        ],
-        "limitations": [
-          "训练语料高度集中：前10数据占66.5%，部分数据多次重复",
-          "缺少对合成数据与原始数据的细粒度对比实验"
-        ],
-        "open_questions": [
-          "在更低资源语言上，合成数据能否同样实现性能提升？",
-          "不同数据选择与重复策略对模型能力的具体影响如何量化？",
-          "是否可以在保持性能的前提下降低数据重复度或总量？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Data selection for LLMs",
-        "matched": [
           "training data"
         ],
         "lane": "llm"
@@ -3372,315 +4131,6 @@
       "recommended_at": "2026-08-07T11:07:09.814314+00:00"
     },
     {
-      "id": "2608.06179",
-      "title": "SAGA: Score-Weighted Adaptive Generation Alignment for Low-Resource Nordic Language Models",
-      "abstract": "Preference optimisation has proven effective for improving large language models but typically relies on costly human preference annotations. Extending these methods to morphologically rich, low-resource languages remains challenging because such annotations are scarce. We present SAGA (Score-weighted Adaptive Generation Alignment), a parser-guided preference optimisation framework that replaces human labels with dependency-parser supervision. SAGA converts parser judgements into preference pairs for delta-DPO, combines parser quality with lexical diversity in a composite reward, filters low-information pairs using a reward-gap criterion, and monitors reward hacking to maintain reliable supervision. Across Danish, Icelandic, and Norwegian Bokmål using GPT-SW3-1.3B, SAGA consistently improves grammatical quality without requiring human preference labels. Danish parse success increases from 69.0% to 93.8%, Icelandic achieves a +4.5 percentage-point improvement on an independent Stanza evaluation (three-run mean +3.3 percentage points) while native speakers prefer SAGA outputs in 80% of pairwise comparisons, and Norwegian Bokmål improves by +28 percentage points. These results demonstrate that parser-derived supervision is a practical alternative to human preference annotation for grammatical alignment in low-resource languages where high-quality dependency parsers are available.",
-      "authors": [
-        "Hoda Fakharzadehjahromy",
-        "Emil Wiman",
-        "Andreas Bueff",
-        "Hafsteinn Einarsson",
-        "Fredrik Heintz"
-      ],
-      "published": "2026-08-06T15:41:02Z",
-      "updated": "2026-08-06T15:41:02Z",
-      "categories": [
-        "cs.LG"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2608.06179v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.06179v1",
-      "comment": "18 pages, 7 figures",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.354,
-          "matched": [
-            "alignment"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.397,
-        "relevance": 0.2832,
-        "quality": 0.41,
-        "novelty": 0.8668,
-        "freshness": 0.8843,
-        "feedback_adjustment": -0.0234,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "SAGA 通过解析器监督实现了在低资源北欧语言模型上无需人工偏好标签的显著语法提升。",
-        "problem": "低资源、形态丰富语言缺乏大规模人类偏好标注，阻碍了语言模型的对齐与语法改进。",
-        "method": "SAGA 将依存解析器判断转化为 Δ‑DPO 偏好对，使用解析器得分与词汇多样性加权的复合奖励并通过 Δ‑gap 过滤低信息对，同时监控奖励黑客。",
-        "evidence": "丹麦 PSR 从 69% 提升至 93.8%（两轮）再至 99.5%（四轮），冰岛语提升 4.5 个百分点且 80% 本族语者偏好其输出，挪威 Bokmål 提升 28 个百分点。",
-        "limitations": "评估使用相同的持出提示进行模型选择，可能导致轻微选择偏差，且方法依赖高质量的依存解析器。",
-        "why_for_you": "对可信 LLM 研究者而言，SAGA 提供了一种低成本、解析器驱动的语法对齐方案，适用于缺乏人类偏好数据的语言。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "SAGA实现无需人工偏好标签的解析器监督，丹麦PSR提升至99.5%"
-          },
-          {
-            "icon": "🔧",
-            "text": "采用Δ‑DPO复合奖励（解析器得分+词汇多样性）并用Δ‑gap过滤，抑制奖励黑客"
-          },
-          {
-            "icon": "📈",
-            "text": "在三种北欧语言上分别提升PSR至93.8%/+4.5pp/+28pp，且80%本族语者偏好SAGA输出"
-          }
-        ],
-        "overview": "SAGA 提出一种解析器引导的偏好优化框架，利用依存解析器对生成文本的语法判定生成偏好对，结合解析器得分与词汇多样性构成复合奖励，并通过 Δ‑gap 阈值过滤信息量低的对，配合轻量正则化防止奖励黑客。实验在 GPT‑SW3‑1.3B 上的丹麦、冰岛语和挪威 Bokmål 三种低资源北欧语言验证，显著提升解析成功率且保持或提升文本多样性，展示了解析器监督作为人类偏好替代的可行性。",
-        "methodology": [
-          {
-            "title": "解析器生成偏好对",
-            "detail": "对每个提示采样 K 条续写（DA K=8，IS/NB K=16），使用依存解析器评估每条的解析得分 r_parse，依据得分高低形成偏好对。"
-          },
-          {
-            "title": "复合奖励设计",
-            "detail": "奖励 R = α·r_parse + β·r_div，其中 r_div 为基于 MATTR 的词汇多样性得分，α、β 为语言特定超参数。"
-          },
-          {
-            "title": "Δ‑gap 过滤",
-            "detail": "仅保留奖励差 Δr ≥ δ 的对（DA/IS δ=0.15，NB δ=0.10），剔除信息量不足的样本，降低噪声。"
-          },
-          {
-            "title": "Δ‑DPO 更新",
-            "detail": "在保留的对上执行 Δ‑DPO（Rafailov 等 2023）进行策略梯度更新，支持可选的 BAPO（流畅性约束）和 KL‑SFT 正则化。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "解析器作为偏好信号",
-            "detail": "解析器对正确形态的句子给出可解析的依存树，错误形态导致解析失败或低得分，形成自然的二元偏好信号，无需人工标注。"
-          },
-          {
-            "title": "奖励黑客检测",
-            "detail": "通过监控 oracle‑parser 差距（阈值 0.20）和词汇多样性下降（MATTR、4‑gram 重复）来识别模型学习仅骗取解析器的行为。"
-          },
-          {
-            "title": "语法‑多样性 Pareto 前沿",
-            "detail": "复合奖励使模型在每轮训练中同时提升解析成功率和 MATTR，形成语法与多样性的共同提升曲线。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "实验设置",
-            "detail": "基模型为 GPT‑SW3‑1.3B；训练数据分别为丹麦 Wikipedia、冰岛 MIM‑GOLD、挪威 HPLT（各 20k 条）；评估指标包括 Parse Success Rate (PSR)、Stanza PSR、Oracle PS、MATTR、困惑度 (PPL)。"
-          },
-          {
-            "title": "对照基线",
-            "detail": "包括基模型、Vanilla DPO（离线偏好对）、二元标签 DPO、在线方法 GRPO、sDPO，以及 SAGA 的各组件消融（去除多样性奖励、去除 Δ‑gap 过滤、去除 BAPO、去除 KL‑SFT）。"
-          },
-          {
-            "title": "主要结果",
-            "detail": "丹麦 PSR 由 69% 提升至 87.3%（单轮）→93.8%（两轮）→99.5%（四轮）；冰岛语 Stanza PSR 提升 4.5pp，原始解析器得分提升至 88.7%；挪威 Bokmål PSR 提升 28pp；80% 本族语者在配对比较中偏好 SAGA 输出。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "复合奖励防止语法‑多样性权衡",
-            "detail": "去除多样性项虽可将 PSR 提至 98.5%（丹麦），但 oracle‑parser 差距扩大至 0.22 并出现重复；保留复合奖励则保持低差距（≈0.10）且 MATTR 提升。"
-          },
-          {
-            "title": "奖励黑客诊断有效",
-            "detail": "所有去除安全组件的消融配置均跨入差距 >0.20 的黑客区间，验证了奖励黑客检测的敏感性。"
-          },
-          {
-            "title": "语言特定正则化的影响",
-            "detail": "BAPO 对丹麦和挪威有正向作用（λB=0.05），但对冰岛语去除 BAPO 可提升 Oracle PS 与 Stanza PSR；KL‑SFT 在后期迭代提升稳定性，但对挪威在首次训练时有负面影响。"
-          }
-        ],
-        "contributions": [
-          "提出 SAGA 框架，实现解析器监督的 Δ‑DPO 偏好优化，无需人工偏好标签。",
-          "在三种低资源北欧语言上展示显著的语法改进，兼顾词汇多样性。",
-          "设计奖励黑客诊断并通过复合奖励与过滤机制有效抑制模型骗取解析器的行为。"
-        ],
-        "limitations": [
-          "评估使用相同的持出提示进行模型选择，可能导致轻微选择偏差。",
-          "方法依赖高质量的依存解析器，无法直接推广到缺乏解析资源的语言。",
-          "部分正则化（如 BAPO、KL‑SFT）需针对每种语言调参，增加实现复杂度。"
-        ],
-        "open_questions": [
-          "在缺乏高质量解析器的语言上，是否可以使用弱监督或跨语言迁移的解析器实现类似效果？",
-          "复合奖励对模型长期语言理解能力（如推理、常识）有何影响？",
-          "将 SAGA 扩展到更大规模模型或多语言统一模型时，奖励设计和过滤阈值是否仍然有效？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-07T11:07:09.814314+00:00"
-    },
-    {
-      "id": "2608.03966",
-      "title": "HalluTruthQA-4K: A Fine-Grained Corpus and Annotation Process for Arabic Hallucination Detection and Truth Verification",
-      "abstract": "Large language models can generate fluent Arabic answers while introducing factual errors that are difficult to identify and verify. Existing Arabic hallucination resources often assign a binary label to an entire response, indicating whether it is hallucinated or non-hallucinated, but provide limited information about the exact erroneous content, the reason for the error, or the correct factual answer. We present HalluTruthQA-4K, an expanded version of the HalluTruthQA resource containing 4,000 expert-curated Arabic question-answering instances across four knowledge-intensive domains: Islamic knowledge, history, science, and geography. Serving as the official dataset for Track 2 of the HalluScoring 2026 shared task, HalluTruthQA-4K extends our original corpus to 4,000 instances. Each instance pairs an Arabic question with a model-generated response, a verified reference answer, and five plausible distractors. Hallucinated responses are additionally annotated with character-level erroneous spans, human-written explanations, and hierarchical hallucination types. The corpus contains 1,643 hallucinated and 2,357 non-hallucinated responses, with 1,843 annotated erroneous spans. We describe the resource construction and annotation methodology, including question selection, controlled answer generation, candidate construction, expert annotation, independent verification, adjudication, and quality control. We also document the annotation guidelines, taxonomy, data format, inter-annotator agreement, and corpus statistics. HalluTruthQA-4K provides a reusable resource for hallucination detection, span-level error localization, explanation generation, factual verification, and the broader evaluation of factual reliability in Arabic language models.",
-      "authors": [
-        "Salah Eddine Bekhouche",
-        "Abdessalam Bouchekif",
-        "Hichem Telli",
-        "Mohammed-En-Nadhir Zighem",
-        "Abdenour Hadid"
-      ],
-      "published": "2026-08-04T17:33:38Z",
-      "updated": "2026-08-04T17:33:38Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2608.03966v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.03966v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3856,
-          "matched": [
-            "hallucination",
-            "reliability"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4233,
-        "relevance": 0.3085,
-        "quality": 0.45,
-        "novelty": 0.8834,
-        "freshness": 0.8886,
-        "feedback_adjustment": -0.0189,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "evidence": "包含1,643个幻觉样本和1,843个标注错误跨度的阿拉伯语问答数据集",
-        "limitations": "数据由单一阿拉伯语生成器创建，四个领域未覆盖全部阿拉伯语使用场景",
-        "method": "专家标注的四领域问答数据集，包含错误跨度、解释和分层幻觉类型标注",
-        "problem": "现有阿拉伯语幻觉资源仅提供二分类标签，缺乏错误内容、原因和正确答案的详细信息",
-        "takeaway": "HalluTruthQA-4K提供4,000个阿拉伯语问答实例的细粒度标注数据集，支持事实错误定位与验证",
-        "why_for_you": "适用于研究阿拉伯语大模型的事实可靠性评估与幻觉检测",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "contributions": [
-          "构建首个阿拉伯语幻觉检测的细粒度标注数据集",
-          "建立包含错误跨度和解释的多维度标注框架",
-          "提供跨领域事实验证的基准数据"
-        ],
-        "experiments": [
-          {
-            "detail": "4,000个问答实例，包含模型生成回答、验证参考答案、六个候选答案和错误标注",
-            "title": "数据集构成"
-          }
-        ],
-        "findings": [
-          {
-            "detail": "专家标注在二分类标签上具有高一致性（55%精确匹配选项）",
-            "title": "标注一致性"
-          }
-        ],
-        "limitations": [
-          "数据来源于单一阿拉伯语生成器",
-          "四个领域未覆盖全部阿拉伯语变体"
-        ],
-        "mechanism": [
-          {
-            "detail": "宏观类型（Factual Contradiction等5类）与微观类型（实体错误等22类）的分层标注机制",
-            "title": "两层分类体系"
-          }
-        ],
-        "methodology": [
-          {
-            "detail": "通过控制响应生成和专家标注构建问答对，包含验证参考答案和六个候选答案",
-            "title": "问答对生成"
-          },
-          {
-            "detail": "包含独立验证、仲裁和质量控制的多阶段标注流程",
-            "title": "质量控制流程"
-          },
-          {
-            "detail": "定义了5大类22小类的幻觉类型分类体系",
-            "title": "标注指南"
-          }
-        ],
-        "open_questions": [
-          "如何扩展多模型生成的幻觉数据",
-          "如何提升跨领域和跨模型的泛化能力"
-        ],
-        "overview": "本文构建了包含4,000个阿拉伯语问答实例的细粒度数据集，覆盖伊斯兰知识、历史、科学和地理领域，提供错误跨度标注、人类解释和分层幻觉类型，支持幻觉检测、错误定位和事实验证的多维度研究",
-        "signals": [
-          {
-            "icon": "🌐",
-            "text": "HalluTruthQA-4K: 4,000实例阿拉伯语问答数据集"
-          },
-          {
-            "icon": "🔧",
-            "text": "两层幻觉类型分类体系（5大类22小类）"
-          },
-          {
-            "icon": "📊",
-            "text": "1,843个标注错误跨度的细粒度错误定位数据"
-          }
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "hallucination",
-          "reliability"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-05T12:16:07.216104+00:00"
-    },
-    {
       "id": "2608.02171",
       "title": "From Profiling to Synthesis: Benchmarking Implicit Behavioral Alignment in Personalized LLM Agents",
       "abstract": "Large Language Models have enabled increasingly capable autonomous agents, yet personalization remains critical for making such agents practically useful. Recent benchmarks have begun evaluating personalization in agents, but they largely rely on static preference snapshots, fixed interaction logs, or question answering over predefined user profiles. Such designs fail to capture the complexity of evolving user preferences and neglect preference-conditioned task execution-a discrepancy we term as the knowledge-to-action gap. To address this challenge, we introduce IBA-Bench, a benchmark for implicit behavioral alignment constructed from longitudinal interaction histories that contain noise, implicit cues, and temporal inconsistencies. Unlike prior work, IBA-Bench evaluates whether an agent can execute tasks while satisfying implicit user constraints inferred from historical interactions. We further propose IBA-Agent, an agent framework that reconciles conflicting priorities through broad retrieval and trajectory-level alignment. Experiment results on IBA-Bench show that effective personalization remains a significant challenge for state-of-the-art LLM agents, and the proposed IBA-Agent substantially improves behavioral alignment in complex scenarios across nine application domains.",
@@ -5128,163 +5578,6 @@
       "recommended_at": "2026-07-31T12:16:26.321275+00:00"
     },
     {
-      "id": "2607.28432",
-      "title": "A foundation model of numerical intelligence with cross-disciplinary generalization",
-      "abstract": "Intelligence is commonly understood as the ability to acquire and apply knowledge, adapt to unfamiliar situations and solve new problems. Large language models exhibit this capacity by inferring task-relevant knowledge from textual context and applying it to new tasks. Yet intelligence need not be confined to language. For scientific and social systems, we need models that acquire and apply knowledge from numerical context-an ability we call numerical intelligence. Here we introduce UNified In-Context Operator Networks (UNICON), a foundation model that exhibits numerical intelligence across disciplines. Using graph-based examples from a system as context, UNICON infers the predictive relation shared across them and applies it to queries from the same system. Across scientific and social systems, including those from disciplines absent from training, the same model approaches specialist performance without retraining. Combining UNICON with language-model agents yields further gains, enabling it to surpass state-of-the-art specialists in a discipline unseen in training. We further show that training-corpus diversity improves generalization to unseen disciplines. Together, these results establish UNICON as a foundation model of numerical intelligence and position it as a building block for a broader ecosystem of artificial intelligence.",
-      "authors": [
-        "Chenghan Wu",
-        "Zongmin Yu",
-        "Liu Yang"
-      ],
-      "published": "2026-07-30T16:09:45Z",
-      "updated": "2026-07-30T16:09:45Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2607.28432v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.28432v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "foundation model"
-      ],
-      "topics": [
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.4252,
-          "matched": [
-            "generalization",
-            "generalization"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4178,
-        "relevance": 0.3402,
-        "quality": 0.33,
-        "novelty": 0.8665,
-        "freshness": 0.8803
-      },
-      "quality_signals": [],
-      "recommendation_reason": {
-        "topic": "Statistical theory for LLMs",
-        "matched": [
-          "generalization",
-          "generalization"
-        ],
-        "lane": "llm"
-      },
-      "summary": {
-        "takeaway": "UNICON展示了冻结模型通过数值上下文实现跨学科预测，接近甚至超越专用模型。",
-        "problem": "需要能够从数值观测中获取并应用知识的模型，以实现跨科学和社会系统的智能。",
-        "method": "通过在统一图结构上训练的UNICON，使用键值对上下文进行原位推断，并可由LLM代理优化示例检索。",
-        "evidence": "在包括未见学科的九个系统上，UNICON在预测任务中显著优于kNN并接近或超越专用模型。",
-        "limitations": "仅在预测任务上评估，未验证对填补、异常检测、仿真或控制等任务的适用性。",
-        "why_for_you": "对统计理论感兴趣的你可利用UNICON的冻结模型和上下文学习机制研究数值LLM的统计行为。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "UNICON实现跨学科数值智能的统一模型，覆盖九个系统并在未见学科上接近专家水平"
-          },
-          {
-            "icon": "🔎",
-            "text": "使用图结构的键值对序列进行原位上下文学习，冻结模型权重并通过LLM代理优化示例检索"
-          },
-          {
-            "icon": "📈",
-            "text": "在WikiMaths等未见数据集上，UNICON直接推断达专家水平，且代理辅助提升至超越专家；但仅评估预测任务"
-          }
-        ],
-        "overview": "本文提出UNICON，一种在统一图结构上训练的数值基础模型，利用键‑值对序列实现原位上下文学习，权重保持冻结。通过在水文、交通、能源、气象等多学科数据上训练，模型在九个测试系统（含三类未见学科）上显著优于kNN基线，并在多数任务上接近或超过专用模型。进一步引入LLM代理构造多样化上下文，可进一步提升性能，展示了数值智能与语言智能协同的潜力。",
-        "methodology": [
-          {
-            "title": "统一图结构表示",
-            "detail": "将每个系统表示为节点为实体、边为关系的图；节点携带时间序列变量，统一跨学科的输入格式。"
-          },
-          {
-            "title": "键‑值对上下文学习",
-            "detail": "模型接收序列[K1,V1,…,KD,VD,Kq]，其中Ki为观测历史，Vi为对应的预测目标，直接在上下文中推断预测关系。"
-          },
-          {
-            "title": "冻结模型训练",
-            "detail": "在多学科数据集上统一训练，训练后模型权重保持不变，所有适配通过上下文示例实现。"
-          },
-          {
-            "title": "LLM‑agent 辅助推断",
-            "detail": "语言模型代理利用任务描述和全部观测构造多套数值提示，重复调用UNICON并融合预测，以改进上下文选择。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "原位关系推断",
-            "detail": "UNICON在自回归方式下，将当前键与先前键‑值对映射到目标值，实现对同一图上新查询的预测，无需参数更新。"
-          },
-          {
-            "title": "代理驱动示例检索",
-            "detail": "代理根据相似度、领域规则等多种检索策略挑选上下文示例，并利用不同预测的差异调节最终输出。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "跨学科评估设置",
-            "detail": "在九个系统上测试：两段未见时期、四个未见数据集（同学科）以及三类完全未见学科（空气质量、网页活动、空间天气），比较UNICON、kNN基线和任务专用专家模型。"
-          },
-          {
-            "title": "指标与结果",
-            "detail": "使用归一化得分（0‑kNN，1‑专家）以及MSE、NSE等；UNICON在多数任务上显著高于kNN，且在WikiMaths等未见学科上直接达到专家水平；代理辅助后在CAMELS‑CL和WikiMaths上超越专家。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "跨学科泛化能力",
-            "detail": "UNICON在未见学科的预测误差与专用模型相当，尤其在最长预测时段表现更佳。"
-          },
-          {
-            "title": "代理提升效果",
-            "detail": "LLM‑agent 辅助的上下文构造在多数任务上提升性能，并在两个基准上超过最先进的专用模型。"
-          },
-          {
-            "title": "数据多样性益处",
-            "detail": "训练语料的学科多样性显著提升了对全新学科的迁移性能，表明跨域数据有助于数值智能的通用化。"
-          }
-        ],
-        "contributions": [
-          "提出UNICON，统一的数值基础模型，实现跨学科预测。",
-          "设计基于图结构的键‑值对上下文学习框架，保持模型冻结。",
-          "展示语言模型代理与数值模型协同提升性能的实例。"
-        ],
-        "limitations": [
-          "仅在时间序列预测任务上评估，未验证填补、异常检测、仿真或控制等任务的适用性。",
-          "语料多样性实验在固定训练预算下进行，未给出数据量、模型规模与计算的通用扩展规律。",
-          "缺乏系统化的上下文示例选择与组织方法，需要进一步研究。"
-        ],
-        "open_questions": [
-          "在更大规模模型和数据下，数值上下文学习的性能是否遵循可预测的缩放律？",
-          "UNICON的框架能否推广到非预测任务，如缺失值填补或控制策略学习？",
-          "如何从统计理论层面解释冻结模型在多学科数值上下文中的泛化机制？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommended_at": "2026-07-31T12:16:26.321275+00:00"
-    },
-    {
       "id": "2607.28272",
       "title": "MemHarness: Memory Is Reconstructed, Not Replayed",
       "abstract": "Retrieving past experiences has become a common strategy to enhance large language model agents. However, most existing memory-augmented agents treat retrieved experiences as static records to be replayed verbatim, injecting them into the context regardless of whether they align with the agent's current situation. This ``replay'' paradigm ignores the gap between the abstract, general nature of stored experience and the concrete, ever-changing states encountered at decision time, frequently causing negative transfer. In contrast, humans rarely recall past experiences verbatim; instead, they reorganize and adapt retrieved memories to fit the present context. Inspired by this, we propose MemHarness, a framework that equips LLM agents to actively harness and reconstruct past experiences based on the present context. At each decision step, a unified policy model critiques and reconstructs the retrieved experience conditioned on the current state, producing context-grounded guidance before acting. This reconstructive ability emerges naturally through end-to-end training with GRPO. Experiments on ALFWorld and WebShop show that MemHarness substantially outperforms pure RL and static memory-augmented baselines, demonstrating strong robustness in out-of-distribution (OOD) scenarios. Furthermore, our analyses reveal that this reconstruction objective not only prevents negative transfer but also serves as latent guidance during training, fundamentally improving the agent's intrinsic reasoning capabilities.",
@@ -6417,170 +6710,6 @@
       "recommended_at": "2026-07-30T12:03:36.063766+00:00"
     },
     {
-      "id": "2607.25814",
-      "title": "Evaluation of Adversarial Robustness in Arabic Language Models",
-      "abstract": "The emergence of the recent outstanding capabilities of Arabic Language Models has opened doors for exposing their vulnerabilities. One of the major security risks associated with such Natural Language Processing models is adversarial attacks. These attacks can deceive the model into the wrong prediction, raising critical model security and safety concerns. This study aims to assess the robustness of five state-of-the-art Arabic Language Models under a distinct set of Arabic adversarial attacks applied at various levels of granularity and using different example generation strategies. We also explore a defense technique based on adversarial training to enhance model robustness. The results show that insertion of diacritics can reduce the accuracy of some models by 92% while maintaining a low perturbation distance. For word-level attacks, manipulating Arabic conjunctions preserves high semantic similarity scores, low perturbation distance, and leads to an accuracy degradation of up to 58%. For sentence-level attacks, paraphrasing proves its effectiveness by an average reduction of 76% in the victim models' performance. While adversarial training improves overall resilience, with MARBERT being the most robust and AraBERT showing the greatest relative gains, challenges persist, particularly against character-level noise. These findings highlight both the potential and limitations of current defense strategies in morphologically rich languages like Arabic.",
-      "authors": [
-        "Anwar Alajmi",
-        "Ayed Salman",
-        "Imtiaz Ahmad"
-      ],
-      "published": "2026-07-28T14:58:28Z",
-      "updated": "2026-07-28T14:58:28Z",
-      "categories": [
-        "cs.CL",
-        "cs.CR"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.25814v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.25814v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.8228,
-          "matched": [
-            "adversarial training",
-            "adversarial",
-            "robustness",
-            "robust",
-            "perturbation",
-            "training"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4986,
-          "matched": [
-            "robustness",
-            "safety",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.7047,
-        "relevance": 0.758,
-        "quality": 0.41,
-        "novelty": 0.8634,
-        "freshness": 0.8728
-      },
-      "quality_signals": [
-        "quantitative results"
-      ],
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "adversarial training",
-          "adversarial",
-          "robustness",
-          "robust"
-        ],
-        "lane": "llm"
-      },
-      "summary": {
-        "method": "作者生成字符级变音符插入、词级连词操作和句子级改写，然后对五个 Arabic LMs 进行对抗训练。",
-        "evidence": "变音符攻击使 AraBERT 准确率下降 92%，词级攻击导致最高 58% 的损失，句子级改写平均降低性能 76%，对抗训练后 MARBERT 最为稳健。",
-        "why_for_you": "如果你在探索高效的 LLM 对抗训练并需要在形态丰富语言上的具体鲁棒性基准，此研究相关。",
-        "takeaway": "阿拉伯语模型在简单的变音符插入下准确率可下降至 92%，对抗训练只能部分恢复鲁棒性。",
-        "problem": "评估并提升阿拉伯语模型在多粒度层面的对抗鲁棒性。",
-        "limitations": "即使经过对抗训练，模型仍对字符级噪声高度脆弱，且评估仅限于五个模型和特定攻击类型。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "contributions": [
-          "对阿拉伯语 LMs 进行多粒度对抗攻击的全面基准。",
-          "对字符、词和句子级攻击的准确率下降进行实证量化。",
-          "在多个阿拉伯语模型上评估简单的对抗训练 (A2T) 防御。"
-        ],
-        "signals": [
-          {
-            "icon": "🌐",
-            "text": "提供对五个 Arabic LMs 在字符、词和句子级攻击下的量化评估，暴露最高 92% 的准确率下降。"
-          },
-          {
-            "icon": "⚙️",
-            "text": "应用针对性对抗训练 (A2T)，并通过变音符插入、连词操作和改写构造攻击，以测试模型韧性。"
-          },
-          {
-            "icon": "📉",
-            "text": "显示字符级变音符攻击在保持高语义相似度的同时，使 AraBERT 准确率下降 92%，凸显检测难度。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "对变音符的脆弱性",
-            "detail": "Arabic diacritics 改变元音标记但不改变 token 长度，导致预测大幅偏移，同时保持低 Levenshtein distance 和高 semantic similarity，使基于语法的检测器难以捕捉。"
-          }
-        ],
-        "overview": "本文系统评估五个最先进的 Arabic language models（MARBERT、CaMeLBERT、AraBERT、XLM‑T、mBERT）针对三类粒度攻击：字符级变音符插入、词级连词操作和句子级改写。评估指标包括攻击后准确率、攻击成功率、扰动率（Levenshtein distance）、cosine similarity 和 Universal Sentence Encoder 相似度。随后使用对抗训练流水线（A2T），发现 MARBERT 最为稳健，AraBERT 获得最大提升，但字符级脆弱性仍然存在。",
-        "methodology": [
-          {
-            "title": "攻击生成",
-            "detail": "采用三种策略：(1) 在字符级插入 diacritics，(2) 在词级替换 Arabic conjunctions 并保持语义相似度，(3) 使用 paraphrasing model 对整句进行改写。"
-          },
-          {
-            "title": "对抗训练",
-            "detail": "A vanilla adversarial training process (A2T) 将生成的对抗样本加入训练集，并微调每个模型以提升鲁棒性。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "模型评估",
-            "detail": "在干净测试集上的基线准确率：MARBERT 99%、CaMeLBERT 95%、AraBERT 94%、XLM‑T 94%、mBERT 87%。各粒度攻击后的准确率、扰动率、cosine similarity 和 USE 分数均有报告。"
-          },
-          {
-            "title": "防御评估",
-            "detail": "对抗训练后，MARBERT 在所有攻击上保持最高鲁棒性；AraBERT 相对准确率提升最大，但字符级攻击仍导致严重下降。"
-          }
-        ],
-        "open_questions": [
-          "如何设计防御专门缓解形态丰富语言中的字符级变音符攻击？",
-          "更高效的对抗训练方法能否在降低计算开销的同时实现相当的鲁棒性？"
-        ],
-        "findings": [
-          {
-            "title": "字符级影响",
-            "detail": "Diacritic insertion 将 AraBERT 准确率降低 92%，而 MARBERT 仅降至 94%，显示易感性差异。"
-          },
-          {
-            "title": "词级影响",
-            "detail": "Manipulating Arabic conjunctions 导致最高 58% 的准确率下降，且扰动距离低、语义相似度高。"
-          },
-          {
-            "title": "句级影响",
-            "detail": "Paraphrasing attacks 使五个 LMs 的模型性能平均下降 76%。"
-          },
-          {
-            "title": "对抗训练效果",
-            "detail": "对抗训练提升整体韧性；MARBERT 成为最稳健模型，但字符级噪声仍是关键弱点。"
-          }
-        ],
-        "limitations": [
-          "尽管进行对抗训练，模型对字符级变音符噪声仍持续脆弱。",
-          "评估仅限于五个预训练 Arabic models 和三类特定攻击。"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommended_at": "2026-07-29T12:20:20.242360+00:00"
-    },
-    {
       "id": "2607.25877",
       "title": "Runtime Uncertainty Monitoring for LLM-Based Multi-Agent Systems Using Bayesian Networks",
       "abstract": "This paper investigates how multi-agent systems (MAS)-based on large language models (LLMs) can support actuarial risk modelling, with a particular focus on uncertainty quantification. Actuarial workflows represent a high-stakes decision-support setting where unreliable outputs may lead to incorrect risk assessment, unfair pricing, and regulatory non-compliance. To address uncertainty introduced by the probabilistic nature of LLMs and dependencies between agents, a multi-agent framework is proposed in which specialised agents perform data preparation, modelling, review, and explanation tasks under a central hub. The main contribution is a novel approach to uncertainty propagation using token-level log-probabilities and a Bayesian Network. Importantly, log probabilities are not treated as direct probabilities of correctness or task success. Instead, length-normalised log-probability summaries are transformed into calibrated task-level confidence estimates before incorporation into the Bayesian Network. Results show that the framework reproduces baseline actuarial performance while providing additional insight into workflow stability and runtime uncertainty propagation.",
@@ -7226,185 +7355,6 @@
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommended_at": "2026-07-29T12:20:20.242360+00:00"
-    },
-    {
-      "id": "2607.26000",
-      "title": "Empirical Evaluation of Out-Of-Distribution Performance of Tabular Foundation Models",
-      "abstract": "Tabular Foundation Models (TFMs) have emerged as novel approaches for tabular predictive tasks, demonstrating competitive predictive performance to ensemble tree-based models. Most TFMs are trained and evaluated on independent and identically distributed data, but this assumption changes in real-world scenarios due to distribution shifts, which compromise the robustness of models. Limited research has been conducted of TFMs under distribution shifts. We present an empirical evaluation of Out-Of-Distribution (OOD) performance of nine TFMs, spanning diverse pre-training strategies and architectures: TabPFNv2, TabPFNv2.5, TabPFNv2.6, TabPFNv3, TabICL, TabICLv2, Mitra, LimiX and TabFM. Three real-world datasets from the TableShift study were considered (HELOC, Voting, Childhood Lead), covering label, socioeconomic, and geographic shift types. Our results show that all evaluated TFMs degrade systematically under distribution shift regardless of pre-training strategy, with shift gaps ranging from 0.003 to 0.060 depending on shift type. The relationship between in-distribution and OOD predictive performance documented for classical tabular models extends into TFMs. We also identified a scalability gap, as high-performing models demand significant memory and computational resources beyond what standard deployment infrastructure can support. This study extends existing benchmarks for OOD in tabular data, providing evidence to support their adoption in high-stakes domains characterized by structural distribution shifts.",
-      "authors": [
-        "Malena Loza",
-        "David Chushig-Muzo",
-        "Eva Milara",
-        "Luis Bote-Curiel",
-        "Luis Estrada-Petrocelli",
-        "Felipe Grijalva"
-      ],
-      "published": "2026-07-28T17:16:01Z",
-      "updated": "2026-07-28T17:16:01Z",
-      "categories": [
-        "cs.LG",
-        "cs.AI"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2607.26000v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.26000v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "foundation model",
-        "foundation models"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.3405,
-          "matched": [
-            "robustness",
-            "training"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.1771,
-          "matched": [
-            "robustness",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4332,
-        "relevance": 0.3078,
-        "quality": 0.52,
-        "novelty": 0.848,
-        "freshness": 0.8865
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "robustness",
-          "training"
-        ],
-        "lane": "llm"
-      },
-      "summary": {
-        "limitations": "研究未对 TFMs 在目标任务上进行微调，且因计算资源限制排除了一些结果，导致对适应能力和可扩展性的洞察受限。",
-        "evidence": "所有 TFMs 在分布漂移下表现出一致的性能下降，shift gap 在 0.003 至 0.060 ROC-AUC 之间，且无模型实现 OOD 与 ID 性能持平。",
-        "why_for_you": "了解 TFMs 的 OOD 鲁棒性和可扩展性限制，对在高风险真实环境中部署可信的表格模型至关重要，尤其面对结构性分布漂移。",
-        "problem": "尽管 TFMs 在表格预测任务中应用日增，但其对 OOD 场景的鲁棒性仍未得到充分研究。",
-        "takeaway": "Tabular Foundation Models (TFMs) 在不同数据集和预训练策略下，面对分布漂移时预测性能系统性下降。",
-        "method": "对九种采用不同预训练策略的 TFMs 在三个人真实数据集（包含标签、社会经济和地理分布漂移）进行实证评估。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🛡️",
-            "text": "在真实数据上预训练的 TFMs（如 TabPFN 变体）获得更高的 ID 与 OOD ROC-AUC 分数，但其 shift gap 与合成先验模型相似，表明其更擅长 ID 拟合而非固有的 OOD 鲁棒性。"
-          },
-          {
-            "icon": "🗂️",
-            "text": "评估使用默认推理配置且未进行任务特定微调，采用 ROC-AUC 作为指标，在三个 TableShift 数据集（HELOC、Childhood Lead、Voting）上衡量 OOD 性能下降。"
-          },
-          {
-            "icon": "📉",
-            "text": "性能下降随漂移类型而异：社会经济漂移（Childhood Lead）导致最大下降，标签漂移（HELOC）中等，地理漂移（Voting）最小，进一步确认 TFMs 对分布漂移的系统性脆弱性。"
-          }
-        ],
-        "overview": "本研究评估了九种 Tabular Foundation Models (TFMs) 在三个人真实数据集（分别呈现标签、社会经济和地理分布漂移）上的 OOD 表现。核心问题是已展示竞争性 ID 性能的 TFMs 能否在真实分布变化下保持鲁棒性。作者使用 TableShift 基准数据集，覆盖真实、合成及混合预训练策略的模型，在未微调的情况下测量 ID 与 OOD 测试集的 ROC-AUC，并以差值定义 shift gap。结果显示所有 TFMs 在 OOD 条件下均出现系统性性能下降，且无模型实现 ID 与 OOD 性能持平。值得注意的是，真实数据预训练的模型在绝对分数上领先，但并未缩小相对 shift gap，表明预训练语料更有利于 ID 拟合而非 OOD 泛化。研究还指出高性能 TFMs 在资源受限环境下的可扩展性挑战，限制其部署。上述发现扩展了现有表格基准，为在结构性分布漂移的高风险应用中部署 TFMs 提供关键洞见。",
-        "methodology": [
-          {
-            "title": "数据集选择与偏移类型",
-            "detail": "从 TableShift 中选择了三个数据集，以代表多样的分布偏移：HELOC（标签偏移）、Childhood Lead（社会经济偏移）和 Voting（地理偏移）。每个数据集包括由领域特定变量定义的训练、分布内测试和 OOD 测试划分。"
-          },
-          {
-            "title": "模型选择与预训练策略",
-            "detail": "评估了九种 TFM，包括 TabPFN 变体（v2、v2.5、v2.6、v3）、TabICL 变体、Mitra、LimiX 和 TabFM，涵盖真实数据预训练、结构因果模型的合成先验以及混合方法。"
-          },
-          {
-            "title": "评估协议",
-            "detail": "模型在默认推理模式下使用，未进行微调。对 ID 和 OOD 测试划分计算 ROC-AUC，shift gap 定义为两者分数的差值。实验在五个随机种子上重复，以报告均值和标准差。"
-          },
-          {
-            "title": "性能指标与报告",
-            "detail": "由于数据集存在类别不平衡，选择了 ROC-AUC。由于资源限制，省略了在大规模 Voting 数据集上计算成本高的模型（TabFM、LimiX）的结果。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "未提供明确机制",
-            "detail": "论文未提出解释分布偏移下性能下降的正式机制或理论模型；而是提供了跨 TFM 系统性性能下降的实证证据。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "TableShift 数据集上的 OOD 性能评估",
-            "detail": "在 HELOC、Childhood Lead 和 Voting 数据集上评估了九个 TFM，数据集呈现不同的分布漂移。使用 ROC-AUC 在 ID 和 OOD 划分上评估模型，结果取五个随机种子平均。"
-          },
-          {
-            "title": "不同预训练策略的比较",
-            "detail": "比较了在真实数据、合成先验和混合先验上预训练的模型，以评估预训练语料对 OOD 鲁棒性的影响。"
-          },
-          {
-            "title": "资源与可扩展性评估",
-            "detail": "研究指出高性能 TFM（尤其是 TabFM 和 LimiX）的计算和内存需求，限制了在更大数据集上的评估，凸显了可扩展性差距。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "系统性的 OOD 性能下降",
-            "detail": "所有九个 TFM 在 OOD 测试划分上的 ROC-AUC 均低于 ID 划分，漂移差距在 0.003 至 0.060 之间，证实了对分布漂移的脆弱性。"
-          },
-          {
-            "title": "预训练语料影响 ID 而不影响 OOD 鲁棒性",
-            "detail": "真实数据预训练的 TFM 取得更高的绝对性能，但相较于合成先验模型并未降低相对漂移差距，表明其固有 OOD 泛化能力有限。"
-          },
-          {
-            "title": "漂移类型影响性能下降幅度",
-            "detail": "社会经济漂移（Childhood Lead）导致最大性能下降，标签漂移（HELOC）适中，地理漂移（Voting）最小，展示了对漂移类型的依赖性鲁棒性。"
-          },
-          {
-            "title": "可扩展性限制实际部署",
-            "detail": "高性能 TFM 需要大量计算资源，超出标准部署基础设施能力，限制了其在资源受限环境中的适用性。"
-          }
-        ],
-        "contributions": [
-          "首次对九种不同TFM进行OOD性能的全面实证评估。",
-          "展示了尽管采用多样的pre-training策略，TFM仍缺乏对distribution shifts的内在鲁棒性。",
-          "扩展了针对表格数据的OOD基准，使用覆盖多种shift类型的真实数据集。",
-          "识别出限制高性能TFM在实际环境中部署的scalability差距。"
-        ],
-        "limitations": [
-          "评估使用默认推理且未进行fine-tuning，可能低估了适应能力。",
-          "计算资源限制导致部分模型在大数据集上的结果未报告，限制了完整性。",
-          "未提供对观察到的OOD退化的理论或机制解释。",
-          "研究聚焦于分类任务，未评估回归或其他表格任务。"
-        ],
-        "open_questions": [
-          "fine-tuning或适应策略能否提升TFM在默认推理之外的OOD鲁棒性？",
-          "哪些架构或训练修改能增强TFM的内在OOD泛化能力？",
-          "TFM在其他类型的distribution shifts或回归任务中的表现如何？",
-          "哪些方法能解决scalability挑战，以实现TFM在资源受限环境中的部署？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
         "language": "zh",
         "schema_version": 5
       },
@@ -9261,357 +9211,6 @@
       "recommended_at": "2026-07-23T12:02:13.960325+00:00"
     },
     {
-      "id": "2607.20410",
-      "title": "LKValues: Aligning Large Language Models with Sri Lankan Societal Values",
-      "abstract": "Value alignment of Large Language Models (LLMs) has been shown to be culturally biased toward Western norms. This results in the mishandling of local values in multilingual societies such as Sri Lanka that have their unique cultural dynamics. Existing benchmarks overlook Sri Lankan-contextualized values in its official language Sinhala, hindering culturally sensitive evaluation and fine-tuning. To bridge this gap, we propose LKValues, the first survey-grounded resource suite for Sri Lankan value alignment. From a trilingual survey of 205 respondents, blending adapted global frameworks and LLM-elicited local constructs, we derive 40 majority-endorsed societal values. Using these values, we construct LKvaluesIT, a Sinhala-English news-derived instruction corpus containing 150k scenario-based instances, and LKvaluesBench, a value-sensitive evaluation benchmark of 1,000 instances. We evaluate a set of proprietary and open-weight LLMs with LKvaluesBench. We fine-tune three open-weight base models (Qwen3.5-4B-Base, Qwen3.5-9B-Base, and Aya-Expanse-8B-Base). Our experiments show that newer and larger LLMs still exhibit low-resource and cultural value-alignment gaps. LKValues fine-tuning improves Qwen-family models in English and Sinhala, reducing invalid outputs and cross-lingual disparities, though gains remain model-family dependent. These highlight LKValues efficacy in embedding Sri Lankan values, offering a replicable pipeline for low-resource, country-specific pluralist value alignment. The dataset is publicly available at https://github.com/NextME14/LKValues.",
-      "authors": [
-        "Nethmi Muthugala",
-        "Supryadi",
-        "Surangika Ranathunga",
-        "Nisansa de Silva",
-        "Ruijie Tao",
-        "Ovindu Gunatunga",
-        "Pengyun Zhu",
-        "Shaowei Zhang",
-        "Jingting Zheng",
-        "Deyi Xiong"
-      ],
-      "published": "2026-07-22T17:49:37Z",
-      "updated": "2026-07-22T17:49:37Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.20410v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.20410v1",
-      "comment": "37 pages, 10 figures, and 15 tables. Includes appendices. Datasets are available at the project repository",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4736,
-          "matched": [
-            "alignment",
-            "alignment",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5237,
-        "relevance": 0.3789,
-        "quality": 0.74,
-        "novelty": 0.8484,
-        "freshness": 0.8916
-      },
-      "quality_signals": [
-        "GitHub link",
-        "benchmark evaluation",
-        "experiments",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "LKValues introduces a trilingual, survey-grounded resource suite that significantly improves Sri Lankan societal value alignment in LLMs, especially for Sinhala-English bilingual contexts.",
-        "problem": "Existing LLM value alignment benchmarks are culturally biased toward Western norms and overlook Sri Lankan-specific societal values, particularly in Sinhala, limiting culturally sensitive evaluation and fine-tuning.",
-        "method": "The authors develop LKValues by combining a trilingual survey of 205 respondents with LLM-assisted elicitation to derive 40 Sri Lankan societal values, then construct bilingual instruction and benchmark datasets for fine-tuning and evaluation of LLMs.",
-        "evidence": "Fine-tuning Qwen-family models on LKvaluesIT reduces invalid outputs and cross-lingual disparities, improving value-sensitive judgment in both English and Sinhala, though improvements vary by model family.",
-        "limitations": "The survey sample size is limited and imbalanced across ethnic and religious groups, and the current LKValues resources cover only Sinhala and English, excluding Tamil despite its inclusion in the survey.",
-        "why_for_you": "This work provides a replicable pipeline and publicly available datasets for culturally grounded, low-resource, multilingual value alignment, addressing a critical gap in trustworthy LLM deployment in Sri Lanka.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "The trilingual survey combined international frameworks with LLM-elicited local constructs to finalize 40 majority-endorsed Sri Lankan societal values, enabling culturally specific value operationalization."
-          },
-          {
-            "icon": "🛡️",
-            "text": "LKvaluesIT, a bilingual Sinhala-English instruction dataset with 150k scenario-based instances derived from Sri Lankan news, supports supervised fine-tuning to embed local values in LLMs."
-          },
-          {
-            "icon": "📉",
-            "text": "Evaluation on LKvaluesBench shows that larger and newer LLMs still exhibit low-resource and cultural value-alignment gaps, with LKValues fine-tuning reducing invalid output rates and improving accuracy, especially in Sinhala."
-          }
-        ],
-        "overview": "This paper addresses the cultural bias in LLM value alignment by focusing on Sri Lanka, a multilingual, multiethnic society lacking a national value framework. The authors conduct a trilingual survey (Sinhala, Tamil, English) of 205 respondents, integrating global value frameworks with LLM-assisted elicitation to identify 40 Sri Lankan societal values. These values underpin the construction of LKvaluesIT, a large bilingual instruction dataset from Sri Lankan news, and LKvaluesBench, a 1,000-instance bilingual benchmark for value-sensitive evaluation. The authors fine-tune three open-weight base models (Qwen3.5-4B, Qwen3.5-9B, Aya-Expanse-8B) using LKvaluesIT mixed with general Sinhala instructions. Experiments reveal persistent value-alignment gaps in newer and larger models, especially in Sinhala. LKValues fine-tuning improves Qwen-family models by reducing invalid outputs and cross-lingual disparities, demonstrating the efficacy of the survey-driven, culturally grounded approach. Limitations include survey sample imbalance and exclusion of Tamil in current datasets, highlighting directions for future work.",
-        "methodology": [
-          {
-            "title": "Trilingual Survey Design and Value Elicitation",
-            "detail": "A 41-question survey in Sinhala, Tamil, and English was administered to 205 respondents, combining manually selected items from international value frameworks with LLM-assisted elicitation to identify 40 majority-endorsed Sri Lankan societal values."
-          },
-          {
-            "title": "LLM-Assisted Value Elicitation",
-            "detail": "Multiple LLM chatbots (e.g., ChatGPT, Microsoft Copilot) were queried to generate Sri Lanka-salient value constructs and keywords, which were aggregated and consolidated with human discussion to supplement the survey with 15 additional candidate values."
-          },
-          {
-            "title": "Dataset Construction: LKvaluesIT and LKvaluesBench",
-            "detail": "Using the 40 values, LKvaluesIT was created by tagging Sri Lankan news articles (2009-2023) with value-specific keywords and extracting neutralized, culturally grounded scenarios for supervised fine-tuning; LKvaluesBench was constructed as a bilingual benchmark with 1,000 value-sensitive judgment instances."
-          },
-          {
-            "title": "Model Fine-tuning and Evaluation",
-            "detail": "Three open-weight base models (Qwen3.5-4B, Qwen3.5-9B, Aya-Expanse-8B) were fine-tuned on LKvaluesIT mixed with general Sinhala instruction data; evaluation used LKvaluesBench to measure value-sensitive behavior across languages, model families, sizes, and prompt framings."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "No Explicit Mechanism Provided",
-            "detail": "The paper does not present formal equations or causal mechanisms but relies on a survey-driven, human-in-the-loop pipeline combining international frameworks and LLM elicitation to operationalize Sri Lankan societal values for dataset construction and model fine-tuning."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Model Evaluation on LKvaluesBench",
-            "detail": "A set of proprietary and open-weight LLMs were evaluated on the 1,000-instance bilingual benchmark to assess Sri Lankan value-sensitive judgment, measuring accuracy, invalid output rates, and cross-lingual disparities."
-          },
-          {
-            "title": "Fine-tuning Open-weight Base Models",
-            "detail": "Qwen3.5-4B-Base, Qwen3.5-9B-Base, and Aya-Expanse-8B-Base models were fine-tuned on LKvaluesIT combined with 50K general Sinhala instruction examples to improve value alignment in English and Sinhala."
-          },
-          {
-            "title": "Prompt Framing Sensitivity Analysis",
-            "detail": "The evaluation protocol included analysis of prompt framing effects on model performance, comparing Sri Lankan-specific prompts against universal prompts to diagnose improvements in value-sensitive reasoning."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Persistent Value-Alignment Gaps",
-            "detail": "Despite model scale and recency, newer and larger LLMs still show low-resource and cultural value-alignment gaps, especially in Sinhala, indicating that multilingual capability alone does not ensure culturally sensitive reasoning."
-          },
-          {
-            "title": "Fine-tuning Benefits",
-            "detail": "Fine-tuning Qwen-family models on LKvaluesIT reduces invalid outputs and cross-lingual disparities, substantially improving Sinhala accuracy and value-sensitive judgment, though gains vary by model family."
-          },
-          {
-            "title": "Survey-Driven Value Operationalization",
-            "detail": "The trilingual survey combined with LLM-assisted elicitation successfully identified 40 majority-endorsed Sri Lankan societal values, enabling the construction of culturally grounded datasets and benchmarks."
-          }
-        ],
-        "contributions": [
-          "A novel trilingual survey-driven methodology combining international frameworks and LLM elicitation to operationalize Sri Lankan societal values.",
-          "Creation of LKvaluesIT, a large bilingual instruction dataset, and LKvaluesBench, a bilingual value-sensitive evaluation benchmark.",
-          "An evaluation protocol analyzing value-sensitive behavior across languages, model families, sizes, and prompt framings.",
-          "Demonstration that LKValues fine-tuning improves Sri Lankan value alignment in open-weight LLMs, especially for Sinhala-English bilingual contexts.",
-          "Public release of datasets and resources to support low-resource, country-specific pluralist value alignment."
-        ],
-        "limitations": [
-          "Survey sample size (n=205) is limited and imbalanced across ethnic and religious subgroups, restricting coverage of group-specific value preferences.",
-          "Majority-endorsement criterion (>50%) may exclude important but less widely shared or polarizing values.",
-          "Current LKValues resources cover only Sinhala and English, excluding Tamil despite its inclusion in the survey.",
-          "No formal mechanism or causal model is provided to explain how value alignment is operationalized within LLMs."
-        ],
-        "open_questions": [
-          "How can LKValues be extended to fully support Tamil language and Tamil-speaking Sri Lankan communities?",
-          "What methods can better capture minority or polarizing values that are underrepresented by majority-endorsement criteria?",
-          "How do different model architectures and training regimes affect the embedding and generalization of culturally specific values?",
-          "Can reinforcement learning or modular alignment approaches complement supervised fine-tuning to improve dynamic cultural value alignment?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment",
-          "alignment",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-23T12:02:13.960325+00:00"
-    },
-    {
-      "id": "2607.20219",
-      "title": "HalluTruthQA: A Fine-Grained Benchmark for Hallucination Detection, Localization, and Explanation in Arabic Question Answering",
-      "abstract": "Large language models (LLMs) can generate fluent Arabic answers, yet factual errors remain difficult to detect, localize, explain, and verify. Existing hallucination benchmarks often provide response-level labels, with limited support for identifying the exact erroneous content, explaining why it is incorrect, or selecting the correct factual answer. We introduce \\textsc{HalluTruthQA}, a fine-grained benchmark for hallucination evaluation in Arabic question answering. The benchmark contains 2,400 expert-curated examples across four knowledge-intensive domains: Islamic knowledge, history, science, and geography. Each example pairs an Arabic question and a model-generated answer with a verified reference answer, a binary hallucination label, six candidate answers for factual verification, and, for hallucinated answers, character-level erroneous spans, human-written explanations, and macro and micro hallucination types. We evaluate four open-source LLMs, \\textsc{Allam}, \\textsc{Falcon-H1}, \\textsc{Qwen32}, and \\textsc{Silma}, in a zero-shot setting across hallucination detection, span-level localization, factual verification, and explanation evaluation. Results show that these tasks capture different abilities: no single model achieves the strongest performance across all tasks, with best scores of 0.880 Macro-F1 for detection, 0.516 F1-Sp for localization, 0.852 LO-Score for factual verification, and 0.644 final score for explanation evaluation. Our taxonomy shows that hallucination evaluation should move beyond detection toward localizing, verifying, and explaining factual errors. The code, dataset, prompts, and evaluation scripts are available at https://gitlab.com/nlpresearcher/HalluTruthQA.",
-      "authors": [
-        "Abdessalam Bouchekif",
-        "Mohammed-En-Nadhir Zighem",
-        "Salah Eddine Bekhouche",
-        "Hichem Telli",
-        "Somaya Eltanbouly",
-        "Shahd Gaben",
-        "Heba Sbahi",
-        "Samer Rashwani",
-        "Mutaz Al-Khatib",
-        "Emad Mohamed",
-        "Mohammed Ghaly",
-        "Abdenour Hadid"
-      ],
-      "published": "2026-07-22T14:37:25Z",
-      "updated": "2026-07-22T14:37:25Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.20219v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.20219v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4031,
-          "matched": [
-            "hallucination"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4834,
-        "relevance": 0.3225,
-        "quality": 0.74,
-        "novelty": 0.8214,
-        "freshness": 0.8725
-      },
-      "quality_signals": [
-        "code available",
-        "benchmark evaluation",
-        "dataset evidence",
-        "open source",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "HalluTruthQA provides a fine-grained Arabic QA benchmark enabling detection, localization, explanation, and verification of hallucinations across four knowledge-intensive domains.",
-        "problem": "Existing Arabic hallucination benchmarks lack fine-grained annotations for exact error spans, explanations, and factual verification in knowledge-intensive QA.",
-        "method": "The authors curate 2,400 expert-annotated Arabic QA examples with binary hallucination labels, character-level erroneous spans, human-written explanations, and multiple-choice factual verification candidates.",
-        "evidence": "Evaluation of four open-source LLMs shows varied performance across detection (0.880 Macro-F1), localization (0.516 F1-Sp), verification (0.852 LO-Score), and explanation (0.644 final score), demonstrating task-specific challenges.",
-        "limitations": "The benchmark covers only four domains, uses answers from a single LLM limiting hallucination diversity, and relies on automatic explanation evaluation with potential bias.",
-        "why_for_you": "This benchmark enables rigorous, multi-layered hallucination evaluation for Arabic LLMs, critical for trustworthy factual QA in sensitive domains like Islamic knowledge.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Factual Contradiction is the dominant hallucination macro-type (59.3%), especially prevalent in History (80.4%) and Science (93.3%), highlighting frequent errors in entities, dates, and numerical values."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The benchmark includes span-level annotations of hallucinated content at the character level, supported by human-written explanations and six candidate answers for factual verification, enabling multi-task evaluation."
-          },
-          {
-            "icon": "📉",
-            "text": "No single evaluated model (Allam, Falcon-H1, Qwen32, Silma) excels across all tasks, with best scores ranging from 0.516 F1 for localization to 0.880 Macro-F1 for detection, indicating distinct challenges per hallucination aspect."
-          }
-        ],
-        "overview": "HalluTruthQA addresses the critical gap in Arabic hallucination evaluation by providing a comprehensive benchmark that goes beyond binary detection to include span-level localization, explanation, and factual verification. The dataset comprises 2,400 expert-curated QA pairs across Islamic knowledge, history, science, and geography, domains where factual precision is paramount. Each example contains a question, a model-generated answer, a verified reference, a binary hallucination label, erroneous spans, human explanations, and multiple-choice candidates for verification. The authors evaluate four open-source Arabic LLMs in zero-shot settings, revealing that hallucination detection, localization, verification, and explanation are distinct tasks with no single model dominating all. The taxonomy of hallucination types shows domain-specific error patterns, such as context inconsistency in Islamic knowledge and factual fabrication in geography. This fine-grained approach enables nuanced analysis of hallucination phenomena and supports the development of more trustworthy Arabic LLMs.",
-        "methodology": [
-          {
-            "title": "Dataset Construction",
-            "detail": "2,400 Arabic QA examples were expert-curated across four domains: Islamic knowledge, history, science, and geography. Each example includes a question, a model-generated answer from Fanar, a verified reference answer, and a binary hallucination label."
-          },
-          {
-            "title": "Multi-layer Annotation Scheme",
-            "detail": "Annotations include character-level erroneous spans for hallucinated answers, human-written explanations describing the error, and six candidate answers for multiple-choice factual verification, enabling detection, localization, explanation, and verification tasks."
-          },
-          {
-            "title": "Evaluation Tasks",
-            "detail": "Four tasks were defined: binary hallucination detection, span-level localization of errors, explanation generation evaluated by an LLM-as-a-judge protocol, and multiple-choice factual verification selecting the correct answer among six candidates."
-          },
-          {
-            "title": "Model Evaluation Protocol",
-            "detail": "Four open-source Arabic LLMs (Allam, Falcon-H1, Qwen32, Silma) were evaluated in zero-shot settings on all tasks. Fanar-generated answers were used as input for hallucination assessment, with metrics including Macro-F1, F1-Sp, LO-Score, and explanation scores."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Hallucination Taxonomy",
-            "detail": "Hallucinations are categorized into macro-types: Factual Contradiction, Context Inconsistency, Factual Fabrication, Nonsensical/Irrelevant Response, and Logical Inconsistency. This taxonomy guides annotation and analysis but no formal causal or geometric mechanism is provided."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Hallucination Detection",
-            "detail": "Models predict binary hallucination labels on 2,400 QA pairs, achieving up to 0.880 Macro-F1, demonstrating strong but imperfect detection capability."
-          },
-          {
-            "title": "Span-level Localization",
-            "detail": "For hallucinated answers, models localize erroneous spans at the character level, evaluated by F1-Sp score, with best performance at 0.516, indicating difficulty in precise error localization."
-          },
-          {
-            "title": "Explanation Evaluation",
-            "detail": "Models generate explanations for hallucinated content, scored by an LLM-as-a-judge protocol normalized to [0,1], with best final score of 0.644, reflecting partial success in faithful explanation generation."
-          },
-          {
-            "title": "Multiple-Choice Factual Verification",
-            "detail": "Models select the correct factual answer from six candidates, achieving up to 0.852 LO-Score, showing reasonable ability to identify correct facts among distractors."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Domain-Specific Hallucination Patterns",
-            "detail": "Islamic knowledge exhibits high Context Inconsistency (61.6%) due to incorrect source attributions, while History and Science are dominated by Factual Contradictions (80.4% and 93.3%), highlighting domain-dependent hallucination characteristics."
-          },
-          {
-            "title": "Task-Specific Model Performance",
-            "detail": "No single model excels across all hallucination tasks; for example, the best detection Macro-F1 is 0.880, but localization F1-Sp peaks at 0.516, indicating distinct challenges in detection versus precise error span identification."
-          },
-          {
-            "title": "Explanation Evaluation Challenges",
-            "detail": "Explanation quality assessed via LLM-as-a-judge shows moderate scores (best 0.644), suggesting that generating faithful, complete explanations remains difficult for current Arabic LLMs."
-          },
-          {
-            "title": "Factual Verification Effectiveness",
-            "detail": "Models achieve up to 0.852 LO-Score in multiple-choice factual verification, demonstrating capability to select correct answers among plausible alternatives, an important step beyond binary detection."
-          }
-        ],
-        "contributions": [
-          "Introduction of HalluTruthQA, a fine-grained Arabic QA hallucination benchmark with 2,400 expert-curated examples across four knowledge-intensive domains.",
-          "Provision of a multi-layer annotation scheme including binary hallucination labels, character-level erroneous spans, human-written explanations, and multiple-choice factual verification candidates.",
-          "Comprehensive evaluation of four open-source Arabic LLMs on detection, localization, explanation, and verification tasks in zero-shot settings.",
-          "Development of a hallucination taxonomy highlighting domain-specific error types and motivating evaluation beyond binary detection."
-        ],
-        "limitations": [
-          "Benchmark covers only four domains, excluding legal, medical, financial, or conversational Arabic QA contexts.",
-          "Answers are generated by a single LLM (Fanar), potentially limiting hallucination diversity and generalizability.",
-          "Span-level hallucination annotation is challenging due to implicit reasoning errors and boundary ambiguity despite expert validation.",
-          "Explanation evaluation relies on an LLM-as-a-judge protocol with limited human validation, which may introduce bias or inconsistency."
-        ],
-        "open_questions": [
-          "How can hallucination evaluation be extended to cover additional Arabic QA domains such as legal or medical contexts?",
-          "What methods can improve span-level hallucination annotation accuracy, especially for implicit or attribution errors?",
-          "How can explanation generation and evaluation be enhanced to produce more faithful and comprehensive justifications for hallucinations?",
-          "Can integrating multiple LLM-generated answers increase hallucination pattern diversity and robustness of evaluation benchmarks?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "hallucination"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-23T12:02:13.960325+00:00"
-    },
-    {
       "id": "2607.20327",
       "title": "PyroDash: Cost-Efficient Token-Level Small-Large Language Model Collaborative Inference",
       "abstract": "Large language models (LLMs) provide strong reasoning capabilities but are expensive to serve at scale, whereas small language models (SLMs) are cheaper but less reliable on difficult problems. We introduce PyroDash, a cost-aware framework for token-level SLM-LLM collaborative inference. During generation, the SLM decides whether to request assistance by emitting a control token. A Collaborate Engine then sends the query and partial reasoning trace to a frozen LLM for completion through a single handoff. The policy is internalized in the SLM, requiring neither a separate router, LLM retraining, nor access to LLM logits. PyroDash trains the SLM in three stages: control-token embedding learning, offloading-oriented supervised fine-tuning, and cost-aware alignment with Group Relative Policy Optimization. Its reward balances answer accuracy against inference cost normalized by LLM-only inference. Across five mathematical reasoning benchmarks, PyroDash supports different accuracy-cost operating points. With $λ=0.05$, it achieves 64.04 percent average accuracy, 6.36 percentage points above the LLM-only baseline, while reducing cost by 20.4 percent. With $λ=0.6$, it achieves 54.55 percent accuracy with a 1.90 percent LLM token ratio and 0.012 LLM calls per example, reducing total cost from USD 49.36 to USD 1.78. These results show that learned token-level handoffs can reduce LLM use while preserving strong reasoning performance.",
@@ -10266,186 +9865,6 @@
         "matched": [
           "calibration",
           "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-22T12:03:09.506272+00:00"
-    },
-    {
-      "id": "2607.19243",
-      "title": "Inference-Time Steering for Cross-Lingual Factual Consistency in LLMs",
-      "abstract": "Although Large Language Models (LLMs) demonstrate remarkable multilingual fluency, their internal knowledge representations remain disproportionately biased toward high-resource languages. This leads to cross-lingual factual inconsistency, where they shift their empirical answer distributions based solely on the prompt language. We investigate whether these biases can be mitigated at inference time, forcing an English-prompted model to answer as if it were queried in target languages (German, Spanish, Bulgarian), and evaluate four intervention strategies: zero-shot contextual steering (persona prompting), internal representation manipulation via Contrastive Activation Addition (CAA), and lightweight weight modification via Direct Preference Optimization (DPO) trained on benchmark-derived factual data as well as conceptual generalization data. To assess alignment, we curate a multilingual factual dataset alongside a novel generalization benchmark comprising culturally rooted queries to determine whether factual interventions transfer to broader target-centric preferences. Experiments on Gemma 3 12B Instruct reveal persona prompting to be the strongest overall intervention, balancing efficacy, safety, and out-of-domain generalization. While CAA yields sharp inconsistency benchmark shifts, it is configuration-sensitive and risks knowledge degradation. DPO-based adapters offer permanent, yet narrower and less transferable gains. These findings suggest that cross-lingual inconsistency is at least partly a selection problem, and that simple contextual interventions may outperform more invasive methods for robust, transferable alignment.",
-      "authors": [
-        "Alexander Manev"
-      ],
-      "published": "2026-07-21T16:15:05Z",
-      "updated": "2026-07-21T16:15:05Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.19243v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.19243v1",
-      "comment": "8 pages (21 in total), 2 figures, 4 tables. Original manuscript for a Guided Research project conducted at the Technical University of Munich, detailing the complete methodology, full data pipeline, and comprehensive experimental results. A related, condensed subset of this work was subsequently adapted and published at the StereACuLT 2026 workshop",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.4067,
-          "matched": [
-            "generalization",
-            "generalization",
-            "optimization"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3897,
-          "matched": [
-            "alignment",
-            "alignment",
-            "safety"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.1607,
-          "matched": [
-            "robust"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5292,
-        "relevance": 0.4354,
-        "quality": 0.58,
-        "novelty": 0.8604,
-        "freshness": 0.8821
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "experiments",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Zero-shot persona prompting effectively mitigates cross-lingual factual inconsistency in LLMs at inference time, outperforming deeper mechanistic and parameter-based interventions in robustness and transferability.",
-        "problem": "Large Language Models exhibit cross-lingual factual inconsistency due to biased internal knowledge representations favoring high-resource languages, leading to unreliable multilingual factual recall.",
-        "method": "The paper evaluates four inference-time interventions—persona prompting, Contrastive Activation Addition (CAA), and Direct Preference Optimization (DPO) adapters trained on benchmark and generalization data—to steer English-prompted LLMs toward target language factual preferences.",
-        "evidence": "Experiments on Gemma 3 12B Instruct show persona prompting consistently improves Jensen–Shannon distance and target preference metrics across German, Spanish, and Bulgarian, with statistically significant gains and superior safety and generalization compared to CAA and DPO.",
-        "limitations": "CAA steering is highly sensitive to hyperparameter tuning and risks knowledge degradation, while DPO adapters yield narrower, less transferable improvements; the study is limited to Gemma 3 12B and three target languages.",
-        "why_for_you": "This work provides a rigorous comparative analysis of inference-time steering methods for cross-lingual factual alignment, offering practical, lightweight interventions relevant for trustworthy and efficient multilingual LLM deployment.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Persona prompting significantly reduces cross-lingual Jensen–Shannon distance (JSD) in German and Bulgarian, achieving p < 0.05 and p < 0.01 respectively, indicating effective alignment of English-prompted model outputs with target language factual distributions."
-          },
-          {
-            "icon": "🛡️",
-            "text": "Contrastive Activation Addition (CAA) manipulates the model’s residual stream by adding a steering vector derived from contrast pairs of English-preferred and target-preferred completions, enabling mechanistic preference realignment during inference."
-          },
-          {
-            "icon": "📉",
-            "text": "CAA’s effectiveness depends on precise layer selection and multiplier scaling, with optimal configurations varying by language; misconfiguration can degrade performance, as seen with Spanish under broad contrast pair settings where JSD worsened."
-          }
-        ],
-        "overview": "The paper addresses the problem of cross-lingual factual inconsistency in LLMs, where models biased toward English produce divergent factual answers when prompted in different languages. It hypothesizes that such biases can be mitigated at inference time by steering the model’s output distribution to reflect target language preferences without costly retraining. To test this, the authors curate a multilingual factual dataset and a novel cultural generalization benchmark, then evaluate four intervention strategies on Gemma 3 12B Instruct: zero-shot persona prompting, Contrastive Activation Addition (CAA), and Direct Preference Optimization (DPO) adapters trained on benchmark and generalization data. Persona prompting, a shallow contextual intervention, consistently improves alignment metrics and generalizes well, suggesting the model already encodes target knowledge but defaults to English-centric answers. CAA, a mechanistic activation manipulation, achieves strong but fragile improvements sensitive to hyperparameters. DPO adapters provide permanent but narrower gains. These results support the view that cross-lingual inconsistency is partly a selection problem and that simple contextual cues can outperform more invasive methods for robust, transferable alignment.",
-        "methodology": [
-          {
-            "title": "Persona Prompting",
-            "detail": "A zero-shot contextual steering method that augments English prompts with natural language instructions to adopt the perspective of a target language demographic, leveraging in-context learning to shift output distributions without modifying model parameters or activations."
-          },
-          {
-            "title": "Contrastive Activation Addition (CAA)",
-            "detail": "An inference-time intervention that adds a directional steering vector to the model’s residual stream activations, computed from contrast pairs of English-preferred and target-preferred completions, to mechanistically realign the model’s internal representations toward target language preferences."
-          },
-          {
-            "title": "Direct Preference Optimization (DPO) Adapters",
-            "detail": "Lightweight parameter-efficient fine-tuning adapters trained on preference triples derived from benchmark or generalization datasets, optimizing the model to prefer target language completions over English-centric ones, enabling permanent but narrower alignment shifts."
-          },
-          {
-            "title": "Multilingual Factual Dataset and Generalization Benchmark",
-            "detail": "A curated dataset of atomic factual triples across six languages designed for repeated-sampling evaluation of answer distributions, and a culturally rooted generalization benchmark with 50 second-person multiple-choice queries per target language to test transfer of interventions beyond benchmark facts."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Cross-Lingual Factual Inconsistency as a Selection Problem",
-            "detail": "The paper posits that LLMs share a common semantic space for multilingual inputs but exhibit biased output distributions due to the final language transition step favoring English-centric knowledge; thus, inference-time interventions can steer output selection without altering underlying representations."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Baseline Cross-Lingual Inconsistency Measurement",
-            "detail": "Evaluated four state-of-the-art LLMs (Gemma 3 12B, gpt-oss-20b, Qwen 3 30B-A3B, Llama 4 Maverick) on a multilingual factual benchmark using repeated open-ended sampling and Jensen–Shannon distance to quantify answer distribution shifts across English, German, Spanish, Bulgarian, Korean, and Swedish."
-          },
-          {
-            "title": "Intervention Evaluation on Gemma 3 12B Instruct",
-            "detail": "Compared persona prompting, CAA steering, and DPO adapters trained on benchmark and generalization data across three contrast pair strategies (v0, v1, v2), measuring improvements in JSD and target preference metrics, statistical significance, and transfer to a novel cultural generalization benchmark."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Effectiveness of Persona Prompting",
-            "detail": "Persona prompting improved cross-lingual alignment in 8 of 9 cases, with statistically significant JSD reductions for German (p < 0.05, CLES=0.705) and Bulgarian (p < 0.01, CLES=0.672–0.690), demonstrating that simple contextual cues can induce substantial preference shifts without parameter changes."
-          },
-          {
-            "title": "CAA Steering Performance and Fragility",
-            "detail": "CAA improved JSD in 8 of 9 cases with large effect sizes for Bulgarian (p < 0.01, CLES=0.741) and German (p < 0.01, CLES=0.705), but required careful tuning of intervention layer and multiplier; broader contrast sets (v2) sometimes degraded performance, indicating sensitivity and risk of knowledge degradation."
-          },
-          {
-            "title": "DPO Adapter Gains and Transfer",
-            "detail": "DPO adapters trained on benchmark-derived data provided permanent alignment improvements but with narrower scope and less transfer to out-of-benchmark cultural generalization compared to prompting, highlighting trade-offs between permanence and generality."
-          }
-        ],
-        "contributions": [
-          "Curated a high-quality multilingual factual dataset spanning six languages for distributional evaluation of cross-lingual factual consistency.",
-          "Developed a novel culturally rooted generalization benchmark to test transfer of alignment interventions beyond benchmark-specific facts.",
-          "Conducted a rigorous comparative study of four inference-time steering methods—persona prompting, CAA, and two DPO adapter variants—on Gemma 3 12B Instruct.",
-          "Demonstrated that zero-shot persona prompting is the strongest overall intervention balancing efficacy, safety, and out-of-domain generalization.",
-          "Provided evidence that cross-lingual inconsistency is partly a selection problem addressable by simple contextual interventions rather than invasive parameter updates."
-        ],
-        "limitations": [
-          "CAA steering is highly sensitive to hyperparameter choices and can degrade model knowledge if misconfigured.",
-          "DPO adapters yield narrower and less transferable gains compared to prompting, limiting their generalization to broader cultural contexts.",
-          "Experiments are limited to the Gemma 3 12B Instruct model and three target languages, restricting generalizability to other architectures or languages.",
-          "The study does not provide mechanistic explanations beyond the steering vector concept, leaving deeper causal understanding of cross-lingual bias unaddressed."
-        ],
-        "open_questions": [
-          "Can inference-time steering methods be effectively generalized to larger or different LLM architectures beyond Gemma 3 12B?",
-          "How can the fragility and hyperparameter sensitivity of CAA be mitigated to ensure safe and robust mechanistic interventions?",
-          "What are the underlying representational mechanisms causing cross-lingual factual inconsistency beyond selection bias?",
-          "Can permanent parameter updates be designed to combine the transferability of prompting with the permanence of DPO adapters?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Statistical theory for LLMs",
-        "matched": [
-          "generalization",
-          "generalization",
-          "optimization"
         ],
         "lane": "llm"
       },
@@ -11802,168 +11221,6 @@
       "recommended_at": "2026-07-21T11:59:54.359328+00:00"
     },
     {
-      "id": "2607.18066",
-      "title": "Pancasila-Dilemmas: Evaluating Large Language Models on Indonesian Human Value Dilemmas Grounded in Pancasila",
-      "abstract": "The value alignment of large language models (LLMs) is crucial for ensuring responses align with human intention and value preferences. However, most evaluations of value alignment focus on Western or universal values, while assessments grounded in the value systems of specific countries remain scarce. In this paper, we introduce Pancasila-Dilemmas, an evaluation dataset of 1,834 questions derived from Indonesian news, classified by 5 values of Pancasila: Religion, Humanity, Unity, Democracy, and Social Justice. This dataset reflects daily life in Indonesia, making it suitable for measuring the value alignment of LLMs deployed for Indonesia. To ensure a more rigorous evaluation, we choose scenarios containing dilemmas. The dataset is proofread by native speakers and answered by 5 diverse Indonesian citizens. We evaluate 50 closed- and open-source LLMs on our dataset. Results reveal that all evaluated LLMs achieves less than 0.5 Probability Match Score (PMS) and 0.72 Max-Vote Agreement Score (MVAS). Compared by each values, LLMs mostly struggle in Religion and Unity dilemma cases. This highlights a significant gap in capturing Indonesian values. The dataset is publicly available at https://github.com/tjunlp-lab/Pancasila-Dilemmas.",
-      "authors": [
-        "Supryadi",
-        "Irfan",
-        "Julianti",
-        "Darren Keanly Martin",
-        "Jayvin Fernando",
-        "Yuqi Ren",
-        "Deyi Xiong"
-      ],
-      "published": "2026-07-20T15:33:24Z",
-      "updated": "2026-07-20T15:33:24Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.18066v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.18066v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.435,
-          "matched": [
-            "alignment",
-            "alignment"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4631,
-        "relevance": 0.348,
-        "quality": 0.69,
-        "novelty": 0.55,
-        "freshness": 0.8783
-      },
-      "quality_signals": [
-        "GitHub link",
-        "dataset evidence",
-        "open source",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Current large language models exhibit significant misalignment with Indonesian human values, especially in dilemmas related to Religion and Unity, as measured by the novel Pancasila-Dilemmas dataset.",
-        "problem": "Existing value alignment evaluations focus on Western or universal values, lacking assessments grounded in Indonesia's culturally specific Pancasila value system.",
-        "method": "The authors construct Pancasila-Dilemmas, a dataset of 1,834 multiple-choice dilemma questions derived from Indonesian news, classified by five Pancasila values, and evaluate 50 LLMs using prompts that incorporate these values.",
-        "evidence": "All evaluated LLMs scored below 0.5 on the Probability Match Score and 0.72 on Max-Vote Agreement Score, with the lowest performance on Religion and Unity dilemmas, demonstrating a gap in capturing Indonesian values.",
-        "limitations": "The dataset generation relies heavily on LLMs for question creation and is evaluated by only five respondents per question, limiting representativeness despite efforts to ensure diversity.",
-        "why_for_you": "This work provides a culturally grounded benchmark exposing critical gaps in LLM value alignment for Indonesia, highlighting the need for trustworthy models respecting local human values.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "The Pancasila-Dilemmas dataset contains 1,834 multiple-choice questions derived from Indonesian news, categorized by five core Pancasila values: Religion, Humanity, Unity, Democracy, and Social Justice."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The Pancasila Prompt instructs LLMs to roleplay as Indonesian citizens guided by Pancasila values, contrasting with a Universal Prompt baseline that omits cultural context, to evaluate value alignment."
-          },
-          {
-            "icon": "📉",
-            "text": "Evaluation metrics include the Probability Match Score (PMS), which measures alignment with the distribution of human responses, and Max-Vote Agreement Score (MVAS), revealing LLMs achieve PMS < 0.5 and MVAS < 0.72 overall."
-          }
-        ],
-        "overview": "This paper addresses the gap in evaluating large language models' alignment with culturally specific human values by introducing Pancasila-Dilemmas, a dataset reflecting Indonesian societal dilemmas grounded in the five core values of Pancasila. The authors collect real-world dilemma scenarios from Indonesian news, generate multiple-choice questions using GPT-4o, and classify them by Pancasila values. They ensure quality through native speaker proofreading and diverse human annotations from 185 Indonesians across multiple demographics. Two prompting strategies are used to evaluate 50 LLMs: the Pancasila Prompt embedding cultural context and a Universal Prompt baseline. The evaluation employs novel metrics that consider the distribution of human responses rather than a single ground truth, capturing normative complexity. Results show all LLMs underperform, especially on Religion and Unity dilemmas, indicating a significant misalignment with Indonesian values. This work highlights the urgent need for culturally aware value alignment in LLMs deployed in Indonesia.",
-        "methodology": [
-          {
-            "title": "Dataset Construction",
-            "detail": "The authors crawl Indonesian news articles identified as containing dilemmas related to Pancasila values, extract main content, and use GPT-4o to generate multiple-choice questions with four options reflecting different conflict resolution modes based on the Thomas-Kilmann Conflict Mode Instrument."
-          },
-          {
-            "title": "Question Labeling and Quality Assurance",
-            "detail": "Each question is labeled with one of five Pancasila values using GPT-4o with in-context learning. Two native Indonesian PhD students proofread questions for label accuracy, clarity, neutrality, and plausibility, resulting in 1,834 validated questions after revisions."
-          },
-          {
-            "title": "Evaluation Prompting",
-            "detail": "Two prompts are designed: the Pancasila Prompt instructs LLMs to roleplay as Indonesian citizens guided by Pancasila values, while the Universal Prompt provides only the scenario and options. LLMs output a single-letter answer (A-D) per question."
-          },
-          {
-            "title": "Evaluation Metrics",
-            "detail": "The Probability Match Score (PMS) measures the proportion of human annotators selecting the same answer as the LLM, rewarding partial alignment with minority views. The Max-Vote Agreement Score (MVAS) measures agreement with the majority human vote."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "No Explicit Mechanism Provided",
-            "detail": "The paper does not provide formal equations or causal mechanisms explaining LLM misalignment; instead, it focuses on empirical evaluation using human response distributions and conflict mode theory to interpret dilemma responses."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "LLM Evaluation",
-            "detail": "Fifty closed- and open-source LLMs, including Claude, Gemini, GLM, GPT-4o, Kimi, Qwen, Llama, and Gemma variants, are evaluated on the Pancasila-Dilemmas dataset using both Pancasila and Universal Prompts, with results reported via PMS and MVAS metrics."
-          },
-          {
-            "title": "Human Annotation and Diversity",
-            "detail": "185 Indonesian participants from diverse regions, ethnicities, ages, religions, and occupations provide responses to dilemmas, ensuring a broad representation of Indonesian perspectives to serve as ground truth distributions."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Overall LLM Performance",
-            "detail": "All evaluated LLMs achieve less than 0.5 Probability Match Score and 0.72 Max-Vote Agreement Score, indicating poor alignment with Indonesian human values across dilemmas."
-          },
-          {
-            "title": "Value-Specific Performance",
-            "detail": "LLMs struggle most with dilemmas related to Religion and Unity values, highlighting challenges in capturing sensitive cultural and national identity issues."
-          },
-          {
-            "title": "Prompting Effect",
-            "detail": "The Pancasila Prompt yields slightly better alignment scores than the Universal Prompt, demonstrating the benefit of embedding cultural context in evaluation."
-          }
-        ],
-        "contributions": [
-          "Introduction of Pancasila-Dilemmas, a culturally grounded Indonesian value alignment benchmark with 1,834 dilemma questions.",
-          "Development of a novel evaluation framework using probabilistic metrics that capture normative complexity via human response distributions.",
-          "Comprehensive evaluation of 50 diverse LLMs revealing significant misalignment with Indonesian values, especially on Religion and Unity dilemmas.",
-          "Provision of a publicly available dataset and evaluation code to facilitate further research on culturally specific value alignment."
-        ],
-        "limitations": [
-          "Dataset generation relies heavily on LLMs for question and option generation, introducing potential bias despite native speaker proofreading.",
-          "Limited number of human respondents (five per question) restricts the representativeness of the human response distribution.",
-          "No exploration of fine-tuning or adaptation methods to improve LLM alignment with Pancasila values.",
-          "Absence of formal mechanistic or causal explanations for LLM misalignment beyond empirical evaluation."
-        ],
-        "open_questions": [
-          "How can LLMs be effectively fine-tuned or adapted to better capture culturally specific values such as those in Pancasila?",
-          "What are the underlying causes of LLM failures on sensitive values like Religion and Unity, and how can these be mitigated?",
-          "Can probabilistic evaluation metrics be extended or refined to better capture normative complexity in other cultural contexts?",
-          "How does the diversity and number of human annotators impact the reliability of value alignment benchmarks in culturally specific settings?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment",
-          "alignment"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-21T11:59:54.359328+00:00"
-    },
-    {
       "id": "2607.15081",
       "title": "DataShield: Uncovering Risky Fine-Tuning Data Across LLMs Through Consensus Subspace Alignment",
       "abstract": "Fine-tuning large language models (LLMs) on domain-specific datasets has become a standard paradigm for adapting LLMs to specialized applications. However, recent work has shown that even fine-tuning on benign task-specific data can substantially weaken the safety capabilities of LLMs. While existing efforts have made progress in identifying data responsible for safety degradation, they usually rely on a single mean vector computed over a specific model with its tokenizer to represent the safety direction, which limits both the effectiveness and transferability of their risk assessment measures. To address these limitations, we propose DataShield, a data assessment framework that identifies risky fine-tuning samples and response segments through consensus subspace alignment over joint safety-critical semantic spaces derived from multiple safety-aligned LLMs. Within these spaces, DataShield extracts consensus safe and unsafe subspaces using semantic spectral decomposition over safe and unsafe data representations. The risk of a data sample or segment is then estimated by measuring its relative alignment with the unsafe and safe subspaces, enabling both sample-level filtering and fine-grained segment-level masking. Compared with state-of-the-art filtering and masking baselines, DataShield reduces ASR by 14.6\\% with sample filtering and 32.3\\% with segment masking, while preserving downstream utility and avoiding target-model-specific risk computation.",
@@ -12652,196 +11909,6 @@
           "robustness",
           "llm",
           "robustness"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-17T11:40:30.308849+00:00"
-    },
-    {
-      "id": "2607.15163",
-      "title": "Scaling Behavior Foundation Model for Humanoid Robots",
-      "abstract": "Humanoid control requires natural whole-body coordination, precise real-time responses to control signals, and robust generalization across diverse environmental contexts, making it a cornerstone for generalist embodied agents. Behavior Foundation Models (BFMs) have recently emerged as a promising solution to address these challenges by leveraging large-scale behavioral data to achieve superior expressiveness, versatility and generalization. However, despite growing interest in scaling BFMs to further improve their capabilities, it remains unclear how key factors, including the learning paradigm, behavioral data and model architecture should be coordinated to enable effective scaling. In this work, we revisit the scaling recipe for BFMs and demonstrate that substantial performance gains can be achieved through the coordination of three core components: 1) the learning paradigm of motion tracking that reformulates diverse humanoid control problems as the reproduction of integrated whole-body behaviors in the global frame; 2) the strategic synergy between on-policy rollout quantity and reference motion diversity; and 3) the expressive and scalable model architecture termed Humanoid Transformer that facilitates the natural emergence of structured behavioral representations. Through extensive experiments in both simulation and real-world deployment, we demonstrate that our approach yields significant improvements in control fidelity and task generalization, reducing Mean Per-Keypoint Position Error (MPKPE) on the test set by over 10% in local mode and 82% in global mode compared with existing humanoid controllers. These results establish BFM as a principled and effective foundation for scalable and general-purpose humanoid control.",
-      "authors": [
-        "Weishuai Zeng",
-        "Kangning Yin",
-        "Xiaojie Niu",
-        "Shunlin Lu",
-        "Weixiang Zhong",
-        "Jiahe Chen",
-        "Feiyu Jia",
-        "Xiao Chen",
-        "Zirui Wang",
-        "Furui Xu",
-        "Ming Zhou",
-        "Kailin Li",
-        "Weinan Zhang",
-        "He Wang",
-        "Li Yi",
-        "Dahua Lin",
-        "Jiangmiao Pang",
-        "Jingbo Wang"
-      ],
-      "published": "2026-07-16T16:08:27Z",
-      "updated": "2026-07-16T16:08:27Z",
-      "categories": [
-        "cs.RO",
-        "cs.AI"
-      ],
-      "primary_category": "cs.RO",
-      "abs_url": "https://arxiv.org/abs/2607.15163v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.15163v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "foundation model",
-        "foundation models",
-        "transformer"
-      ],
-      "topics": [
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.4439,
-          "matched": [
-            "generalization",
-            "generalization",
-            "scaling"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4731,
-        "relevance": 0.3551,
-        "quality": 0.55,
-        "novelty": 0.8805,
-        "freshness": 0.8837
-      },
-      "quality_signals": [
-        "experiments",
-        "reproducibility",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Coordinating motion tracking learning paradigm, on-policy rollout quantity with reference motion diversity, and the Humanoid Transformer architecture significantly improves humanoid control fidelity and generalization.",
-        "problem": "Existing humanoid whole-body controllers are task-specific and lack versatility and generalization across diverse control scenarios.",
-        "method": "The paper proposes a scaling recipe for Behavior Foundation Models combining motion tracking as a learning paradigm, synergistic data scaling, and a scalable Humanoid Transformer architecture.",
-        "evidence": "Experiments show over 10% MPKPE reduction in local mode and 82% in global mode on test sets compared to prior humanoid controllers.",
-        "limitations": "Scaling the Humanoid Transformer yields diminishing returns and inconsistent improvements across control modes, indicating optimization trade-offs and learning difficulty imbalances.",
-        "why_for_you": "The paper provides a principled, scalable framework and empirical insights into behavior foundation model scaling, relevant for statistical theory and design of large-scale humanoid control LLMs.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "The Humanoid Transformer architecture achieves higher success rates and lower tracking errors than MLP baselines, with medium-sized models matching or exceeding larger MLPs, demonstrating superior capacity utilization for behavior representation."
-          },
-          {
-            "icon": "🛡️",
-            "text": "Motion tracking reformulates humanoid control as reproducing integrated whole-body behaviors in the global frame, enabling a unified goal-conditioned reinforcement learning objective that decouples behavior from task-specific control modes."
-          },
-          {
-            "icon": "📉",
-            "text": "Scaling on-policy data collection by increasing parallel environments and rollout horizon synergizes with expanding reference motion diversity, effectively improving training data quantity and behavioral distribution diversity."
-          }
-        ],
-        "overview": "The paper addresses the challenge of scaling Behavior Foundation Models (BFMs) for humanoid robots to achieve versatile, robust whole-body control beyond task-specific solutions. It identifies three core components for effective scaling: a motion tracking learning paradigm that treats control as integrated whole-body behavior reproduction in a global frame; a data scaling strategy balancing on-policy rollout quantity and reference motion diversity to enrich training data; and a novel Humanoid Transformer architecture that naturally induces structured latent behavioral representations. The approach is formulated as a goal-conditioned reinforcement learning problem maximizing expected return over behavior trajectories. Extensive experiments in simulation and real-world settings demonstrate significant improvements in control fidelity and generalization, with MPKPE reductions exceeding 10% locally and 82% globally compared to prior controllers. The Humanoid Transformer outperforms MLP baselines, achieving better success rates and tracking errors. However, scaling benefits saturate unevenly across control modes, suggesting optimization trade-offs. These findings establish a principled, scalable foundation for general-purpose humanoid control leveraging large-scale behavior data and expressive architectures.",
-        "methodology": [
-          {
-            "title": "Motion Tracking Learning Paradigm",
-            "detail": "Reformulates humanoid control as reproducing integrated whole-body behaviors in the global frame, defining behavior as trajectories over proprioceptive states and actions, excluding goal states. This enables a unified goal-conditioned reinforcement learning objective maximizing expected return over behavior trajectories, decoupling behavior learning from task-specific control modes."
-          },
-          {
-            "title": "Behavioral Data Scaling",
-            "detail": "Training data scaling is achieved by synergizing on-policy rollout quantity and reference motion diversity. Quantity is increased by scaling parallel environment count and rollout horizon, while diversity is enhanced by expanding the curated reference motion corpus, enriching behavioral distribution for robust learning."
-          },
-          {
-            "title": "Humanoid Transformer Architecture",
-            "detail": "An expressive and scalable transformer-based model architecture designed to facilitate the natural emergence of structured latent behavioral representations without auxiliary objectives. It outperforms MLP backbones by better utilizing model capacity under fixed optimization budgets, supporting diverse control modes."
-          },
-          {
-            "title": "Unified Goal-Conditioned Reinforcement Learning Objective",
-            "detail": "Formulates BFM pretraining as maximizing expected discounted return over trajectories induced by the policy, with reward functions and goal states designed to generalize across diverse humanoid control tasks, enabling scalable and versatile behavior learning."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "No Explicit Mechanism Provided",
-            "detail": "The paper does not provide explicit equations or causal mechanisms beyond the MDP formulation and goal-conditioned reinforcement learning objective; it focuses on empirical scaling behavior and architectural design."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Scaling Model Architectures",
-            "detail": "Evaluated Humanoid Transformer versus MLP backbones on a test set under whole-body control modes, measuring success rates and tracking errors. Medium-sized Transformers matched or exceeded larger MLPs, with diminishing returns observed at larger scales."
-          },
-          {
-            "title": "Latent Space Robustness Evaluation",
-            "detail": "Assessed structured latent representations by perturbing latent commands on the hypersphere and measuring robustness metrics such as success rate and MPKPE under noise, demonstrating the Transformer’s ability to maintain performance under perturbations."
-          },
-          {
-            "title": "Control Fidelity and Generalization",
-            "detail": "Compared the proposed BFM approach to existing humanoid controllers on test sets, reporting over 10% MPKPE reduction in local mode and 82% in global mode, indicating significant improvements in control accuracy and task generalization."
-          },
-          {
-            "title": "Data Scaling Ablations",
-            "detail": "Investigated the effects of scaling on-policy rollout quantity and reference motion diversity independently and jointly, confirming that their synergy is critical for effective BFM pretraining and improved performance."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Superior Performance of Humanoid Transformer",
-            "detail": "The Humanoid Transformer achieves higher success rates and lower tracking errors than MLP baselines, with medium-sized models performing comparably or better than larger MLPs, indicating more effective capacity utilization."
-          },
-          {
-            "title": "Significant MPKPE Reduction",
-            "detail": "The proposed BFM reduces Mean Per-Keypoint Position Error by over 10% in local mode and 82% in global mode compared to existing humanoid controllers, demonstrating enhanced control fidelity and generalization."
-          },
-          {
-            "title": "Synergistic Data Scaling",
-            "detail": "Scaling on-policy rollout quantity combined with increasing reference motion diversity yields better training data quality and behavioral coverage, leading to improved model performance."
-          },
-          {
-            "title": "Diminishing Returns and Mode-Specific Saturation",
-            "detail": "Increasing Humanoid Transformer size does not uniformly improve all control modes; some modes saturate early due to learning difficulty imbalances and optimization trade-offs."
-          },
-          {
-            "title": "Emergence of Structured Latent Representations",
-            "detail": "Structured latent spaces emerge naturally in the Humanoid Transformer without auxiliary objectives, supporting locality and robustness to perturbations in behavioral commands."
-          }
-        ],
-        "contributions": [
-          "Identification of motion tracking as a principled learning paradigm for scalable humanoid behavior modeling.",
-          "Demonstration of the synergy between on-policy rollout quantity and reference motion diversity for effective data scaling.",
-          "Design and validation of the Humanoid Transformer architecture enabling structured behavioral representations and superior performance.",
-          "Comprehensive empirical evaluation showing significant improvements in control fidelity and generalization over prior humanoid controllers.",
-          "Provision of a unified scaling recipe coordinating learning paradigm, data, and architecture for Behavior Foundation Models."
-        ],
-        "limitations": [
-          "Scaling the Humanoid Transformer yields diminishing returns and inconsistent improvements across different control modes.",
-          "Optimization trade-offs between control modes may cause performance degradation in some modes as others improve.",
-          "The paper lacks explicit mechanistic or theoretical explanations beyond empirical observations and MDP formulation.",
-          "Details on real-world deployment scenarios and robustness under diverse environmental perturbations are limited."
-        ],
-        "open_questions": [
-          "How can optimization trade-offs between control modes be mitigated to achieve uniformly improved performance?",
-          "What theoretical frameworks can explain the emergence of structured latent behavioral representations in transformer architectures?",
-          "How does the approach generalize to more complex or unseen environmental contexts beyond the tested scenarios?",
-          "Can auxiliary objectives or architectural modifications further enhance scaling behavior and latent space structure?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Statistical theory for LLMs",
-        "matched": [
-          "generalization",
-          "generalization",
-          "scaling"
         ],
         "lane": "llm"
       },
@@ -16427,165 +15494,6 @@
         "matched": [
           "alignment",
           "alignment",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-08T11:57:23.024570+00:00"
-    },
-    {
-      "id": "2607.06327",
-      "title": "Estimating Uncertainty from Reasoning: A Large-Scale Study of Multi- and Crosslingual MCQA Performance in LLMs",
-      "abstract": "Uncertainty estimation (UE) enables LLM-powered systems to recognize when to abstain, yet existing research has predominantly focused on English. We present the first large-scale evaluation of UE methods across 22 languages, spanning high-, mid-, and low-resource settings. Using two human-curated Q\\&A datasets, we compare open and closed box UE methods (nine in total) across different model sizes and architectures while eliciting long-form reasoning, avoiding LLM-as-a-judge and embedding-based scoring, which can introduce evaluation noise. We report three main actionable findings. First, we find that prompting models to reason in English while keeping questions in low-resource languages substantially improves UE performance, suggesting that comprehension of low-resource languages is largely intact, and that the reliability bottleneck lies in generation rather than understanding. Second, prompting models to reason in English closes the UE performance gap between low and high-resource languages, demonstrating that generation language matters more than the question language. Third, the choice of UE method should depend on model scale: at smaller scales, open-box probability-based methods outperform alternatives; at larger scales, closed-box self-verbalized uncertainty becomes superior. Finally, we provide an analysis of threshold selection for selective prediction, offering guidance on calibrating abstention in multilingual settings.",
-      "authors": [
-        "Andrea Alfarano",
-        "Andrea Bacciu",
-        "Saab Mansour",
-        "Amin Mantrach",
-        "Marcello Federico"
-      ],
-      "published": "2026-07-07T14:25:09Z",
-      "updated": "2026-07-07T14:25:09Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.06327v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.06327v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "llm",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4613,
-          "matched": [
-            "llm-as-a-judge",
-            "uncertainty",
-            "reliability",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4605,
-        "relevance": 0.369,
-        "quality": 0.45,
-        "novelty": 0.8703,
-        "freshness": 0.8718
-      },
-      "quality_signals": [
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "The study reveals that reasoning in English significantly enhances uncertainty estimation (UE) performance across multiple languages.",
-        "problem": "Existing research on uncertainty estimation has primarily focused on English, neglecting multilingual contexts.",
-        "method": "The authors evaluate nine UE methods across 22 languages using two human-curated Q&A datasets.",
-        "evidence": "Prompting models to reason in English while using low-resource languages improves UE performance, closing the gap between resource levels.",
-        "limitations": "The study is limited to two MCQA datasets, which may not fully capture the diversity of real-world NLP applications.",
-        "why_for_you": "This research is crucial for developing trustworthy LLMs capable of effective multilingual uncertainty estimation.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Prompting models to reason in English while using low-resource languages significantly improves UE performance, indicating that comprehension is intact but generation is the bottleneck."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The study evaluates nine UE methods, including open-box methods like Token Entropy and closed-box methods like Self Verbalized uncertainty, across various model sizes."
-          },
-          {
-            "icon": "📉",
-            "text": "The closed-box Self Verbalized method achieves an average AUROC of 0.72, outperforming other methods, particularly in high-resource languages."
-          }
-        ],
-        "overview": "This research addresses the gap in uncertainty estimation (UE) methods for multilingual large language models (LLMs), focusing on the performance of nine UE methods across 22 languages. The study finds that reasoning in English while using low-resource languages enhances UE performance, suggesting that generation language is more critical than question language. The results indicate that the choice of UE method should be model-scale dependent, with open-box methods performing better at smaller scales and closed-box methods excelling at larger scales. This comprehensive evaluation provides actionable insights for improving multilingual LLM reliability.",
-        "methodology": [
-          {
-            "title": "Open-Box Methods",
-            "detail": "These methods utilize internal model representations to derive uncertainty, including Token Entropy and Maximum-Sequence-Probability, which aggregate token-level logits into sequence-level scores."
-          },
-          {
-            "title": "Closed-Box Methods",
-            "detail": "Closed-box techniques, such as Self Verbalized uncertainty, rely solely on generated text, prompting the model to express its confidence, although they may struggle with calibration."
-          },
-          {
-            "title": "Evaluation Protocol",
-            "detail": "The study employs exact matching against human-curated labels for evaluation, avoiding automated ground truth matching to reduce noise and bias in UE performance assessment."
-          },
-          {
-            "title": "Data Sources",
-            "detail": "Two human-curated Q&A datasets are used, covering high-, mid-, and low-resource languages, ensuring a diverse representation of linguistic contexts."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Uncertainty Estimation Mechanism",
-            "detail": "The study does not provide a specific mechanism for how uncertainty is estimated but categorizes methods into open-box and closed-box approaches based on model access."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Evaluation of UE Methods",
-            "detail": "Nine UE methods are evaluated across 22 languages using two models, Gemma327B and Qwen3-235B, with performance measured by AUROC."
-          },
-          {
-            "title": "Impact of Reasoning Language",
-            "detail": "The experiments demonstrate that reasoning in English while using low-resource languages significantly improves UE performance, with the Self Verbalized method achieving an AUROC of 0.72."
-          },
-          {
-            "title": "Model Scaling Effects",
-            "detail": "The study analyzes how UE performance varies with model scale, showing that open-box methods outperform at smaller scales while closed-box methods excel at larger scales."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Improved UE with English Reasoning",
-            "detail": "Prompting models to reason in English while using low-resource languages improves UE performance, indicating a generation bottleneck."
-          },
-          {
-            "title": "Language Generation Matters",
-            "detail": "The performance gap in UE between low and high-resource languages is closed when models reason in English, highlighting the importance of generation language."
-          },
-          {
-            "title": "Model Scale Dependency",
-            "detail": "At smaller model scales, open-box methods like Token Entropy outperform closed-box methods, while at larger scales, closed-box methods like Self Verbalized uncertainty become superior."
-          }
-        ],
-        "contributions": [
-          "First large-scale evaluation of UE methods across 22 languages.",
-          "Identification of the importance of reasoning language over question language in UE performance.",
-          "Guidance on selecting UE methods based on model scale."
-        ],
-        "limitations": [
-          "Focus on only two MCQA datasets may not represent the full diversity of NLP applications.",
-          "Exclusion of training-based UE methods limits the scope of the analysis."
-        ],
-        "open_questions": [
-          "How can UE methods be further improved for low-resource languages?",
-          "What are the implications of different UE methods in real-world applications?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4o-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "llm-as-a-judge",
-          "uncertainty",
-          "reliability",
           "llm"
         ],
         "lane": "llm"
