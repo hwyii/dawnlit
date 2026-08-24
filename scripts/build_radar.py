@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build a personalized, explainable daily arXiv paper feed.
+"""Build a personalized, explainable daily research-paper feed.
 
 The default pipeline uses only the Python standard library.  Optional remote
 profile/feedback sync and Cloudflare Workers AI summaries are enabled through
@@ -10,9 +10,11 @@ from __future__ import annotations
 
 import argparse
 import copy
+import csv
 import dataclasses
 import datetime as dt
 import html
+import io
 import json
 import math
 import os
@@ -26,6 +28,7 @@ import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from collections import Counter
+from html.parser import HTMLParser
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -36,6 +39,14 @@ DEFAULT_INTERESTS = ROOT / "config" / "interests.txt"
 DEFAULT_OUTPUT = ROOT / "public" / "data" / "papers.json"
 DEFAULT_PROFILE_OUTPUT = ROOT / "public" / "data" / "profile.json"
 ARXIV_ENDPOINT = "https://export.arxiv.org/api/query"
+CONFERENCE_CACHE_SCHEMA_VERSION = 1
+CONFERENCE_VIRTUAL_HOSTS = {
+    "ICLR": "https://iclr.cc",
+    "ICML": "https://icml.cc",
+    "NeurIPS": "https://neurips.cc",
+}
+CONFERENCE_FETCH_TIMEOUT_SECONDS = 35
+CONFERENCE_MAX_RESPONSE_BYTES = 16_000_000
 USER_AGENT = "dawnlit/0.1 (personal research discovery; contact: hwyii.github.io)"
 ARXIV_MAX_ATTEMPTS = 6
 ARXIV_HTTP_BACKOFF_SECONDS = (30, 60, 120, 240, 300)
@@ -49,8 +60,61 @@ OPENSEARCH = {"opensearch": "http://a9.com/-/spec/opensearch/1.1/"}
 TOKEN_RE = re.compile(r"[a-z][a-z0-9+\-]{2,}")
 SENTENCE_RE = re.compile(r"(?<=[.!?])\s+(?=[A-Z0-9])")
 NUMBER_RE = re.compile(r"\b\d+(?:\.\d+)?%?\b")
-ANALYSIS_SCHEMA_VERSION = 5
-SUMMARY_SCHEMA_VERSION = 2
+ANALYSIS_SCHEMA_VERSION = 6
+SUMMARY_SCHEMA_VERSION = 3
+ANALYSIS_PROMPT_VERSION = 2
+SUMMARY_PROMPT_VERSION = 2
+
+# Language-focused work is outside this radar even when it uses LLM safety,
+# robustness, distillation, or data-selection terminology. Match these only in
+# the title and opening abstract sentences so incidental benchmark mentions do
+# not hide an otherwise relevant paper.
+DEFAULT_EXCLUDED_LANGUAGE_FOCUS = (
+    "multilingual",
+    "multilinguality",
+    "multi-lingual",
+    "cross-lingual",
+    "crosslingual",
+    "cross-language",
+    "bilingual",
+    "code-switching",
+    "code switching",
+    "machine translation",
+    "translation model",
+    "translation models",
+    "low-resource language",
+    "low-resource languages",
+    "low-resource nlp",
+    "language-specific",
+    "language-agnostic",
+    "language diversity",
+    "linguistic diversity",
+    "arabic",
+    "chinese",
+    "english",
+    "bengali",
+    "dutch",
+    "french",
+    "german",
+    "hindi",
+    "hebrew",
+    "indonesian",
+    "japanese",
+    "korean",
+    "italian",
+    "persian",
+    "polish",
+    "portuguese",
+    "russian",
+    "spanish",
+    "swahili",
+    "tamil",
+    "telugu",
+    "thai",
+    "turkish",
+    "urdu",
+    "vietnamese",
+)
 
 STOPWORDS = {
     "about",
@@ -100,6 +164,10 @@ class Paper:
     pdf_url: str
     comment: str = ""
     journal_ref: str = ""
+    source: str = "arxiv"
+    venue: str = ""
+    presentation: str = ""
+    conference_year: int | None = None
 
     def text(self) -> str:
         return f"{self.title}. {self.abstract}".strip()
@@ -163,6 +231,30 @@ def jaccard(left: set[str], right: set[str]) -> float:
 
 def clamp(value: float, low: float = 0.0, high: float = 1.0) -> float:
     return max(low, min(high, value))
+
+
+def write_json_atomic(path: Path, payload: Any) -> None:
+    """Write generated state atomically so interrupted builds keep the last good file."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary_path: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            dir=path.parent,
+            prefix=f".{path.name}.",
+            suffix=".tmp",
+            delete=False,
+        ) as handle:
+            json.dump(payload, handle, ensure_ascii=False, indent=2)
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+            temporary_path = Path(handle.name)
+        temporary_path.replace(path)
+    finally:
+        if temporary_path is not None and temporary_path.exists():
+            temporary_path.unlink()
 
 
 def request_json(
@@ -248,17 +340,18 @@ def cloudflare_inference_with_retry(
     timeout: int,
 ) -> dict[str, Any]:
     """Retry transient Workers AI failures before degrading generated content."""
+    last_error: Exception | None = None
     for attempt in range(len(CLOUDFLARE_RETRY_DELAYS) + 1):
         try:
             return cloudflare_inference(model, body, timeout)
         except urllib.error.HTTPError as error:
             if error.code not in {408, 429, 500, 502, 503, 504}:
                 raise
-            last_error: Exception = error
+            last_error = error
         except (OSError, TimeoutError, urllib.error.URLError) as error:
             last_error = error
         if attempt == len(CLOUDFLARE_RETRY_DELAYS):
-            raise last_error
+            break
         delay = CLOUDFLARE_RETRY_DELAYS[attempt]
         print(
             f"Cloudflare AI request failed for {model}; retrying in {delay}s: "
@@ -266,7 +359,8 @@ def cloudflare_inference_with_retry(
             file=sys.stderr,
         )
         time.sleep(delay)
-    raise RuntimeError("Cloudflare AI retry loop exited unexpectedly")
+    assert last_error is not None
+    raise last_error
 
 
 def cloudflare_response_text(response: dict[str, Any]) -> str:
@@ -390,15 +484,48 @@ def apply_interests(
 def load_profile(
     path: Path, interests_path: Path | None = DEFAULT_INTERESTS
 ) -> dict[str, Any]:
-    profile = json.loads(path.read_text(encoding="utf-8"))
-    profile = apply_interests(profile, parse_interests(interests_path))
+    local_profile = json.loads(path.read_text(encoding="utf-8"))
+    interests = parse_interests(interests_path)
+    profile = apply_interests(local_profile, interests)
     api_url = os.getenv("RADAR_API_URL", "").rstrip("/")
     api_token = os.getenv("RADAR_ADMIN_TOKEN")
     if api_url and api_token:
         try:
             remote = request_json(f"{api_url}/api/profile", api_token)
             if isinstance(remote, dict) and remote.get("topics"):
-                profile = remote
+                profile = copy.deepcopy(remote)
+                # Repository guardrails and the simple interest list remain
+                # authoritative for scheduled builds. Remote preferences still
+                # provide UI/content language, ranking, and other settings.
+                profile.setdefault("scope", {})["excluded_language_focus"] = list(
+                    local_profile.get("scope", {}).get(
+                        "excluded_language_focus",
+                        DEFAULT_EXCLUDED_LANGUAGE_FOCUS,
+                    )
+                )
+                profile["conference_fallback"] = copy.deepcopy(
+                    local_profile.get("conference_fallback", {})
+                )
+                profile["feedback_tuning"] = copy.deepcopy(
+                    local_profile.get("feedback_tuning", {})
+                )
+                local_topics = {
+                    topic.get("id"): topic
+                    for topic in local_profile.get("topics", [])
+                    if topic.get("id")
+                }
+                guardrail_fields = {
+                    "required_any",
+                    "required_central_any",
+                    "required_all_groups",
+                    "exclude",
+                }
+                for topic in profile.get("topics", []):
+                    local_topic = local_topics.get(topic.get("id"), {})
+                    for field in guardrail_fields:
+                        if field in local_topic:
+                            topic[field] = copy.deepcopy(local_topic[field])
+                profile = apply_interests(profile, interests)
                 print("Loaded profile from RADAR_API_URL", file=sys.stderr)
         except (OSError, ValueError, urllib.error.URLError) as error:
             print(f"Profile sync unavailable; using local profile: {error}", file=sys.stderr)
@@ -411,7 +538,7 @@ def load_feedback() -> list[dict[str, Any]]:
     if not api_url or not api_token:
         return []
     try:
-        result = request_json(f"{api_url}/api/feedback?limit=500", api_token)
+        result = request_json(f"{api_url}/api/feedback?limit=1000", api_token)
         return result.get("items", []) if isinstance(result, dict) else []
     except (OSError, ValueError, urllib.error.URLError) as error:
         print(f"Feedback sync unavailable: {error}", file=sys.stderr)
@@ -568,11 +695,479 @@ def parse_atom(payload: bytes) -> list[Paper]:
     return papers
 
 
+class ConferenceEventParser(HTMLParser):
+    """Parse official virtual-conference event cards without third-party packages."""
+
+    def __init__(self, base_url: str, venue: str, year: int, presentation: str):
+        super().__init__(convert_charrefs=True)
+        self.base_url = base_url
+        self.venue = venue
+        self.year = year
+        self.presentation = presentation.title()
+        self.papers: list[Paper] = []
+        self.event: dict[str, Any] | None = None
+        self.event_depth = 0
+        self.capture_field: str | None = None
+        self.capture_depth = 0
+
+    @staticmethod
+    def _classes(attrs: dict[str, str | None]) -> set[str]:
+        return set((attrs.get("class") or "").split())
+
+    def handle_starttag(self, tag: str, attributes: list[tuple[str, str | None]]) -> None:
+        attrs = dict(attributes)
+        classes = self._classes(attrs)
+        if self.event is None:
+            if tag == "div" and "event-card" in classes:
+                event_id = normalize_space(attrs.get("data-event-id"))
+                if not event_id:
+                    event_id = normalize_space(attrs.get("id")).removeprefix("event-")
+                if event_id:
+                    self.event = {
+                        "event_id": event_id,
+                        "title": [],
+                        "authors": [],
+                        "abstract": [],
+                        "href": "",
+                    }
+                    self.event_depth = 1
+            return
+
+        if tag == "div":
+            self.event_depth += 1
+        if self.capture_field is not None:
+            self.capture_depth += 1
+        elif tag == "h3" and "event-title" in classes:
+            self.capture_field = "title"
+            self.capture_depth = 1
+        elif tag == "div" and "event-speakers" in classes:
+            self.capture_field = "authors"
+            self.capture_depth = 1
+        elif tag == "div" and "abstract-text" in classes:
+            self.capture_field = "abstract"
+            self.capture_depth = 1
+        if tag == "a" and self.capture_field == "title" and attrs.get("href"):
+            self.event["href"] = attrs["href"]
+
+    def handle_data(self, data: str) -> None:
+        if self.event is not None and self.capture_field is not None:
+            self.event[self.capture_field].append(data)
+
+    def handle_endtag(self, tag: str) -> None:
+        if self.event is None:
+            return
+        if self.capture_field is not None:
+            self.capture_depth -= 1
+            if self.capture_depth == 0:
+                self.capture_field = None
+        if tag == "div":
+            self.event_depth -= 1
+            if self.event_depth == 0:
+                self._finish_event()
+
+    def _finish_event(self) -> None:
+        assert self.event is not None
+        title = normalize_space(" ".join(self.event["title"]))
+        abstract = normalize_space(" ".join(self.event["abstract"]))
+        author_text = normalize_space(" ".join(self.event["authors"]))
+        if title and abstract:
+            event_id = self.event["event_id"]
+            href = urllib.parse.urljoin(self.base_url, self.event["href"])
+            authors = [
+                normalize_space(author)
+                for author in re.split(r"\s*[⋅·]\s*", author_text)
+                if normalize_space(author)
+            ]
+            published = f"{self.year}-01-01T00:00:00Z"
+            self.papers.append(
+                Paper(
+                    id=f"conf:{self.venue.lower()}:{self.year}:{event_id}",
+                    title=title,
+                    abstract=abstract,
+                    authors=authors,
+                    published=published,
+                    updated=published,
+                    categories=[f"{self.venue} {self.year}", self.presentation],
+                    primary_category=f"{self.venue} {self.year}",
+                    abs_url=href,
+                    pdf_url=href,
+                    journal_ref=f"{self.venue} {self.year} {self.presentation}",
+                    source="conference",
+                    venue=self.venue,
+                    presentation=self.presentation,
+                    conference_year=self.year,
+                )
+            )
+        self.event = None
+        self.event_depth = 0
+        self.capture_field = None
+        self.capture_depth = 0
+
+
+def parse_conference_event_page(
+    payload: bytes,
+    base_url: str,
+    venue: str,
+    year: int,
+    presentation: str,
+) -> list[Paper]:
+    parser = ConferenceEventParser(base_url, venue, year, presentation)
+    parser.feed(payload.decode("utf-8", errors="replace"))
+    parser.close()
+    return parser.papers
+
+
+def discover_conference_event_urls(
+    payload: bytes,
+    base_url: str,
+    allowed_presentations: set[str],
+) -> list[tuple[str, str]]:
+    """Find the conference's own Oral/Spotlight navigation targets."""
+    source = payload.decode("utf-8", errors="replace")
+    discovered: list[tuple[str, str]] = []
+    seen: set[str] = set()
+    for href, inner in re.findall(
+        r"<a\b[^>]*href=[\"']([^\"']+)[\"'][^>]*>(.*?)</a>",
+        source,
+        flags=re.IGNORECASE | re.DOTALL,
+    ):
+        label = normalize_space(re.sub(r"<[^>]+>", " ", inner)).lower()
+        presentation = ""
+        if "oral" in label:
+            presentation = "oral"
+        elif "spotlight" in label:
+            presentation = "spotlight"
+        if (
+            not presentation
+            or presentation not in allowed_presentations
+            or "/events/" not in href
+        ):
+            continue
+        url = urllib.parse.urljoin(base_url, html.unescape(href))
+        key = f"{presentation}:{url}"
+        if key not in seen:
+            seen.add(key)
+            discovered.append((presentation, url))
+    return discovered
+
+
+def parse_acl_schedule_csv(
+    payload: bytes,
+    venue: str,
+    year: int,
+    landing_url: str,
+) -> list[Paper]:
+    """Parse an ACL-family schedule export, accepting explicit Oral sessions only."""
+    rows = list(csv.reader(io.StringIO(payload.decode("utf-8-sig", errors="replace"))))
+    header_index = next(
+        (
+            index
+            for index, row in enumerate(rows)
+            if row and normalize_space(row[0]).lower() == "paper number"
+        ),
+        None,
+    )
+    if header_index is None:
+        raise ValueError("No ACL schedule header found")
+    headers = [normalize_space(value).lower() for value in rows[header_index]]
+    papers: list[Paper] = []
+    for values in rows[header_index + 1 :]:
+        row = {
+            header: normalize_space(values[index] if index < len(values) else "")
+            for index, header in enumerate(headers)
+        }
+        session_name = row.get("underline/whova session name", "")
+        if not session_name.lower().startswith("oral session"):
+            continue
+        paper_number = row.get("paper number", "")
+        title = row.get("title", "")
+        abstract = row.get("abstract", "")
+        if not paper_number or not title or not abstract:
+            continue
+        author_text = row.get("authors names", "").rstrip(";")
+        authors = [normalize_space(value) for value in author_text.split(",") if value.strip()]
+        published = f"{year}-01-01T00:00:00Z"
+        stable_number = re.sub(r"[^a-z0-9.-]+", "-", paper_number.lower()).strip("-")
+        papers.append(
+            Paper(
+                id=f"conf:{venue.lower()}:{year}:{stable_number}",
+                title=title,
+                abstract=abstract,
+                authors=authors,
+                published=published,
+                updated=published,
+                categories=[f"{venue} {year}", "Oral"],
+                primary_category=f"{venue} {year}",
+                abs_url=landing_url,
+                pdf_url=landing_url,
+                journal_ref=f"{venue} {year} Oral",
+                source="conference",
+                venue=venue,
+                presentation="Oral",
+                conference_year=year,
+            )
+        )
+    return papers
+
+
+def fetch_conference_url(url: str) -> tuple[bytes, str]:
+    request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+    with urllib.request.urlopen(
+        request,
+        timeout=CONFERENCE_FETCH_TIMEOUT_SECONDS,
+    ) as response:
+        payload = response.read(CONFERENCE_MAX_RESPONSE_BYTES + 1)
+        if len(payload) > CONFERENCE_MAX_RESPONSE_BYTES:
+            raise ValueError(f"Conference response exceeds size limit: {url}")
+        return payload, response.geturl()
+
+
+def paper_from_dict(item: dict[str, Any]) -> Paper:
+    fields = {field.name for field in dataclasses.fields(Paper)}
+    values: dict[str, Any] = {
+        "id": "",
+        "title": "",
+        "abstract": "",
+        "authors": [],
+        "published": "",
+        "updated": "",
+        "categories": [],
+        "primary_category": "",
+        "abs_url": "",
+        "pdf_url": "",
+    }
+    values.update({key: value for key, value in item.items() if key in fields})
+    return Paper(**values)
+
+
+def load_conference_cache(path: Path) -> dict[str, Any]:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        if payload.get("schema_version") == CONFERENCE_CACHE_SCHEMA_VERSION:
+            return payload
+    except (OSError, ValueError, TypeError):
+        pass
+    return {
+        "schema_version": CONFERENCE_CACHE_SCHEMA_VERSION,
+        "updated_at": "",
+        "profile_updated_at": "",
+        "scanned_years": [],
+        "source_status": {},
+        "papers": [],
+    }
+
+
+def cached_conference_papers(cache: dict[str, Any]) -> list[Paper]:
+    papers: list[Paper] = []
+    for item in cache.get("papers", []):
+        if not isinstance(item, dict):
+            continue
+        try:
+            paper = paper_from_dict(item)
+        except (TypeError, ValueError):
+            continue
+        if paper.source == "conference" and paper.id:
+            papers.append(paper)
+    return papers
+
+
+def conference_candidate_matches_profile(paper: Paper, profile: dict[str, Any]) -> bool:
+    lane, scope_score, _ = scope_lane(paper, profile)
+    if not lane:
+        return False
+    topics = topic_scores(paper, profile, scope_score, [], [])
+    if not topics:
+        return False
+    relevance = clamp(
+        topics[0]["score"] * 0.8
+        + min(sum(item["score"] for item in topics[1:3]), 1) * 0.2
+    )
+    return relevance >= float(profile["ranking"].get("min_relevance", 0.0))
+
+
+def fetch_conference_year(
+    profile: dict[str, Any],
+    year: int,
+) -> tuple[list[Paper], dict[str, str]]:
+    settings = profile.get("conference_fallback", {})
+    allowed_venues = set(settings.get("venues", []))
+    allowed_presentations = {
+        str(value).lower() for value in settings.get("presentation_types", ["oral", "spotlight"])
+    }
+    papers: list[Paper] = []
+    status: dict[str, str] = {}
+
+    for venue, host in CONFERENCE_VIRTUAL_HOSTS.items():
+        if venue not in allowed_venues:
+            continue
+        source_key = f"{venue}:{year}"
+        index_url = f"{host}/virtual/{year}/papers.html"
+        try:
+            index_payload, final_url = fetch_conference_url(index_url)
+            event_urls = discover_conference_event_urls(
+                index_payload,
+                final_url,
+                allowed_presentations,
+            )
+            count = 0
+            for presentation, event_url in event_urls:
+                event_payload, event_final_url = fetch_conference_url(event_url)
+                parsed = parse_conference_event_page(
+                    event_payload,
+                    event_final_url,
+                    venue,
+                    year,
+                    presentation,
+                )
+                papers.extend(parsed)
+                count += len(parsed)
+            status[source_key] = f"ok:{count}"
+        except (OSError, ValueError, urllib.error.URLError, TimeoutError) as error:
+            status[source_key] = f"unavailable:{type(error).__name__}"
+            print(f"Conference source unavailable ({source_key}): {error}", file=sys.stderr)
+
+    for source in settings.get("verified_schedule_csv", []):
+        if not isinstance(source, dict):
+            continue
+        venue = str(source.get("venue", ""))
+        source_year = int(source.get("year", 0) or 0)
+        if venue not in allowed_venues or source_year != year:
+            continue
+        source_key = f"{venue}:{year}"
+        try:
+            payload, _ = fetch_conference_url(str(source["url"]))
+            parsed = parse_acl_schedule_csv(
+                payload,
+                venue,
+                year,
+                str(source.get("landing_url") or source["url"]),
+            )
+            papers.extend(parsed)
+            status[source_key] = f"ok:{len(parsed)}"
+        except (KeyError, OSError, ValueError, urllib.error.URLError, TimeoutError) as error:
+            status[source_key] = f"unavailable:{type(error).__name__}"
+            print(f"Conference source unavailable ({source_key}): {error}", file=sys.stderr)
+
+    for venue in allowed_venues:
+        status.setdefault(f"{venue}:{year}", "awaiting_verified_schedule")
+
+    unique = {paper.id: paper for paper in papers if conference_candidate_matches_profile(paper, profile)}
+    return list(unique.values()), status
+
+
+def sync_conference_cache(
+    path: Path,
+    profile: dict[str, Any],
+    now: dt.datetime,
+    seen_ids: set[str],
+    reserve_target: int,
+) -> dict[str, Any]:
+    settings = profile.get("conference_fallback", {})
+    cache = load_conference_cache(path)
+    cached = {paper.id: paper for paper in cached_conference_papers(cache)}
+    configured_start_year = settings.get("start_year", "current")
+    start_year = (
+        now.year
+        if str(configured_start_year).lower() == "current"
+        else min(int(configured_start_year), now.year)
+    )
+    min_year = min(start_year, int(settings.get("min_year", start_year - 4)))
+    scanned = {int(year) for year in cache.get("scanned_years", [])}
+    profile_changed = cache.get("profile_updated_at") != profile.get("updated_at")
+    try:
+        cache_age = now - parse_date(cache.get("updated_at", ""))
+        stale = cache_age > dt.timedelta(days=int(settings.get("cache_ttl_days", 7)))
+    except (TypeError, ValueError):
+        stale = True
+
+    currently_available = sum(
+        paper.id not in seen_ids
+        and conference_candidate_matches_profile(paper, profile)
+        for paper in cached.values()
+    )
+    if not stale and not profile_changed and currently_available >= reserve_target:
+        return cache
+
+    years: list[int] = []
+    if stale or profile_changed:
+        years.append(start_year)
+    years.extend(
+        year
+        for year in range(start_year, min_year - 1, -1)
+        if year not in scanned and year not in years
+    )
+    source_status = dict(cache.get("source_status", {}))
+    successful_scan = False
+    for year in years:
+        fetched, status = fetch_conference_year(profile, year)
+        source_status.update(status)
+        if any(value.startswith("ok:") for value in status.values()):
+            successful_scan = True
+            if stale or profile_changed:
+                refreshed_venues = {
+                    key.rsplit(":", 1)[0]
+                    for key, value in status.items()
+                    if value.startswith("ok:")
+                }
+                cached = {
+                    paper_id: paper
+                    for paper_id, paper in cached.items()
+                    if not (
+                        paper.conference_year == year
+                        and paper.venue in refreshed_venues
+                    )
+                }
+            cached.update({paper.id: paper for paper in fetched})
+            scanned.add(year)
+        available = sum(
+            paper.id not in seen_ids
+            and conference_candidate_matches_profile(paper, profile)
+            for paper in cached.values()
+        )
+        if available >= reserve_target:
+            break
+
+    if successful_scan or not path.exists():
+        cache = {
+            "schema_version": CONFERENCE_CACHE_SCHEMA_VERSION,
+            "updated_at": now.isoformat(),
+            "profile_updated_at": profile.get("updated_at"),
+            "scanned_years": sorted(scanned, reverse=True),
+            "source_status": source_status,
+            "papers": [
+                dataclasses.asdict(paper)
+                for paper in sorted(
+                    cached.values(),
+                    key=lambda paper: (
+                        paper.conference_year or 0,
+                        paper.presentation.lower() == "oral",
+                        paper.title.lower(),
+                    ),
+                    reverse=True,
+                )
+            ],
+        }
+        write_json_atomic(path, cache)
+    return cache
+
+
 def scope_lane(paper: Paper, profile: dict[str, Any]) -> tuple[str | None, float, list[str]]:
     scope = profile["scope"]
     title = paper.title.lower()
     text = paper.text().lower()
+    abstract_opening = " ".join(split_sentences(paper.abstract)[:2]).lower()
+    central_text = f"{title}. {abstract_opening}"
+    language_focus_terms = scope.get(
+        "excluded_language_focus",
+        DEFAULT_EXCLUDED_LANGUAGE_FOCUS,
+    )
+    language_focus_hits = [
+        term for term in language_focus_terms if contains_term(central_text, term)
+    ]
+    if language_focus_hits:
+        return None, 0.0, language_focus_hits[:5]
     excluded = [term for term in scope.get("excluded_concepts", []) if contains_term(text, term)]
+    central_excluded = [term for term in excluded if contains_term(central_text, term)]
     modality_hits = [
         term for term in scope.get("non_llm_modalities", []) if contains_term(text, term)
     ]
@@ -586,12 +1181,15 @@ def scope_lane(paper: Paper, profile: dict[str, Any]) -> tuple[str | None, float
         if term.startswith("large language")
         or term in {"llm", "llms", "foundation model", "foundation models", "instruction tuning"}
     ]
-    title_llm_hits = [
-        term for term in scope.get("required_concepts", []) if contains_term(title, term)
+    strong_title_terms = [
+        term
+        for term in scope.get("required_concepts", [])
+        if term not in {"foundation model", "foundation models", "transformer", "transformers"}
     ]
+    title_llm_hits = [term for term in strong_title_terms if contains_term(title, term)]
     direct_llm_mentions = len(
         re.findall(
-            r"(?<![a-z0-9])(?:llms?|large[- ]language models?|foundation models?)(?![a-z0-9])",
+            r"(?<![a-z0-9])(?:llms?|large[- ]language models?)(?![a-z0-9])",
             text,
         )
     )
@@ -599,7 +1197,7 @@ def scope_lane(paper: Paper, profile: dict[str, Any]) -> tuple[str | None, float
         paper.primary_category in {"cs.CL", "cs.LG"} and direct_llm_mentions >= 1
     )
 
-    if excluded and not strong_llm_hits:
+    if central_excluded or (excluded and not strong_llm_hits):
         return None, 0.0, excluded
     if modality_hits:
         title_transfer_hits = [
@@ -674,6 +1272,191 @@ def feedback_corpora(
         elif strength < 0:
             negatives.append((tokens, weighted_strength))
     return positives, negatives
+
+
+def feedback_topic_ids(item: dict[str, Any]) -> list[str]:
+    raw_topics = item.get("topics", [])
+    if isinstance(raw_topics, str):
+        try:
+            raw_topics = json.loads(raw_topics)
+        except ValueError:
+            raw_topics = []
+    if not isinstance(raw_topics, list):
+        return []
+    return list(
+        dict.fromkeys(
+            str(topic_id).strip()
+            for topic_id in raw_topics
+            if str(topic_id).strip()
+        )
+    )
+
+
+def apply_topic_feedback_tuning(
+    profile: dict[str, Any],
+    feedback: list[dict[str, Any]],
+    now: dt.datetime | None = None,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Derive bounded topic weights from each paper's latest explicit label.
+
+    Manual ``weight`` remains the stable baseline. The derived
+    ``effective_weight`` is rebuilt from scratch on every run, so an unchanged
+    feedback set cannot compound adjustments across daily builds.
+    """
+    result = copy.deepcopy(profile)
+    settings = result.get("feedback_tuning", {})
+    enabled = bool(settings.get("enabled", False))
+    reference_time = now or utc_now()
+    if reference_time.tzinfo is None:
+        reference_time = reference_time.replace(tzinfo=dt.timezone.utc)
+    positive_actions = {
+        str(action) for action in settings.get("positive_actions", ["useful", "save"])
+    }
+    negative_actions = {
+        str(action) for action in settings.get("negative_actions", ["irrelevant"])
+    }
+    half_life_days = max(1.0, float(settings.get("half_life_days", 120)))
+    minimum_samples = max(
+        0.0,
+        float(settings.get("minimum_effective_samples", 4)),
+    )
+    full_confidence_samples = max(
+        minimum_samples or 1.0,
+        float(settings.get("full_confidence_samples", 12)),
+    )
+    secondary_credit = clamp(float(settings.get("secondary_topic_credit", 0.5)))
+    prior_strength = max(0.0, float(settings.get("prior_strength", 4)))
+    target_hit_rate = clamp(float(settings.get("target_hit_rate", 0.5)))
+    learning_rate = max(0.0, float(settings.get("learning_rate", 0.8)))
+    max_adjustment = max(0.0, float(settings.get("max_adjustment", 0.15)))
+    minimum_weight = clamp(float(settings.get("minimum_weight", 0.2)))
+    maximum_weight = clamp(float(settings.get("maximum_weight", 1.0)))
+    if minimum_weight > maximum_weight:
+        minimum_weight, maximum_weight = maximum_weight, minimum_weight
+
+    topic_ids = {
+        str(topic.get("id"))
+        for topic in result.get("topics", [])
+        if topic.get("id")
+    }
+    accumulated = {
+        topic_id: {
+            "useful": 0.0,
+            "irrelevant": 0.0,
+            "effective_useful": 0.0,
+            "effective_irrelevant": 0.0,
+        }
+        for topic_id in topic_ids
+    }
+    latest_seen: set[str] = set()
+    labeled_papers = 0
+    ordered = sorted(feedback, key=lambda item: item.get("created_at", ""), reverse=True)
+    for item in ordered:
+        paper_id = str(item.get("paper_id", "")).strip()
+        if not paper_id or paper_id in latest_seen:
+            continue
+        latest_seen.add(paper_id)
+        action = str(item.get("action", ""))
+        if action not in positive_actions and action not in negative_actions:
+            continue
+        matched_topics = [
+            topic_id for topic_id in feedback_topic_ids(item) if topic_id in accumulated
+        ]
+        if not matched_topics:
+            continue
+        try:
+            created_at = parse_date(str(item.get("created_at", "")))
+            if created_at.tzinfo is None:
+                created_at = created_at.replace(tzinfo=dt.timezone.utc)
+            age_days = max(
+                0.0,
+                (reference_time - created_at).total_seconds() / 86400,
+            )
+        except (TypeError, ValueError):
+            age_days = 0.0
+        decay = 0.5 ** (age_days / half_life_days)
+        labeled_papers += 1
+        for index, topic_id in enumerate(matched_topics):
+            credit = 1.0 if index == 0 else secondary_credit
+            label = "useful" if action in positive_actions else "irrelevant"
+            accumulated[topic_id][label] += credit
+            accumulated[topic_id][f"effective_{label}"] += credit * decay
+
+    topic_diagnostics: list[dict[str, Any]] = []
+    adjusted_topics = 0
+    for topic in result.get("topics", []):
+        topic_id = str(topic.get("id", ""))
+        stats = accumulated.get(
+            topic_id,
+            {
+                "useful": 0.0,
+                "irrelevant": 0.0,
+                "effective_useful": 0.0,
+                "effective_irrelevant": 0.0,
+            },
+        )
+        base_weight = clamp(float(topic.get("weight", 0.0)))
+        raw_samples = stats["useful"] + stats["irrelevant"]
+        effective_samples = stats["effective_useful"] + stats["effective_irrelevant"]
+        hit_rate = stats["useful"] / raw_samples if raw_samples else None
+        smoothed_hit_rate = (
+            (stats["effective_useful"] + prior_strength * target_hit_rate)
+            / (effective_samples + prior_strength)
+            if effective_samples + prior_strength > 0
+            else target_hit_rate
+        )
+        active = bool(
+            enabled
+            and topic.get("enabled", True)
+            and base_weight > 0
+            and effective_samples >= minimum_samples
+        )
+        confidence = min(1.0, effective_samples / full_confidence_samples)
+        adjustment = (
+            clamp(
+                (smoothed_hit_rate - target_hit_rate) * learning_rate * confidence,
+                -max_adjustment,
+                max_adjustment,
+            )
+            if active
+            else 0.0
+        )
+        effective_weight = (
+            clamp(base_weight + adjustment, minimum_weight, maximum_weight)
+            if active
+            else base_weight
+        )
+        if active and abs(effective_weight - base_weight) >= 0.0005:
+            adjusted_topics += 1
+        feedback_stats = {
+            "useful": round(stats["useful"], 2),
+            "irrelevant": round(stats["irrelevant"], 2),
+            "samples": round(raw_samples, 2),
+            "effective_samples": round(effective_samples, 2),
+            "hit_rate": round(hit_rate, 4) if hit_rate is not None else None,
+            "smoothed_hit_rate": round(smoothed_hit_rate, 4),
+            "confidence": round(confidence, 4),
+            "base_weight": round(base_weight, 4),
+            "effective_weight": round(effective_weight, 4),
+            "adjustment": round(effective_weight - base_weight, 4),
+            "active": active,
+        }
+        topic["effective_weight"] = round(effective_weight, 4)
+        topic["feedback_stats"] = feedback_stats
+        topic_diagnostics.append({"id": topic_id, **feedback_stats})
+
+    diagnostics = {
+        "enabled": enabled,
+        "generated_at": reference_time.isoformat(),
+        "feedback_records": len(feedback),
+        "latest_feedback_papers": len(latest_seen),
+        "labeled_papers": labeled_papers,
+        "adjusted_topics": adjusted_topics,
+        "minimum_effective_samples": minimum_samples,
+        "topics": topic_diagnostics,
+    }
+    result["feedback_tuning_state"] = diagnostics
+    return result, diagnostics
 
 
 def feedback_adjustment(
@@ -804,7 +1587,9 @@ def topic_scores(
                 if contains_term(paper.text(), term)
             )
         )[:6]
-        weighted = normalized * float(topic.get("weight", 1.0))
+        weighted = normalized * float(
+            topic.get("effective_weight", topic.get("weight", 1.0))
+        )
         if weighted > 0.04 and (matched or description_overlap >= 0.18):
             scored.append(
                 {
@@ -853,6 +1638,13 @@ def quality_score(paper: Paper) -> tuple[float, list[str]]:
     if paper.journal_ref:
         score += 0.06
         reasons.append("publication metadata")
+    if paper.source == "conference":
+        if paper.presentation.lower() == "oral":
+            score += 0.18
+            reasons.append("conference oral")
+        elif paper.presentation.lower() == "spotlight":
+            score += 0.14
+            reasons.append("conference spotlight")
     return clamp(score), reasons[:5]
 
 
@@ -894,7 +1686,7 @@ def load_seen_paper_ids(
     output_path: Path,
     current_date: dt.date | None = None,
 ) -> set[str]:
-    """Load previously recommended arXiv IDs, including pre-index archives.
+    """Load previously recommended stable paper IDs, including pre-index archives.
 
     Same-day recommendations are excluded from the returned set so maintenance
     reruns remain idempotent: today's current feed can be regenerated without
@@ -949,6 +1741,8 @@ def novelty_score(paper: Paper, previous: list[set[str]]) -> float:
 
 
 def freshness_score(paper: Paper, now: dt.datetime) -> float:
+    if paper.source == "conference" and paper.conference_year:
+        return clamp(1.0 - max(0, now.year - paper.conference_year) * 0.18, 0.25, 1.0)
     age_days = max(0.0, (now - parse_date(paper.published)).total_seconds() / 86400)
     return clamp(1.0 - age_days / 7.0, 0.2, 1.0)
 
@@ -1005,11 +1799,54 @@ def extractive_summary(paper: Paper, topics: list[dict[str, Any]]) -> dict[str, 
         "generated_by": "extractive",
         "language": "en",
         "schema_version": SUMMARY_SCHEMA_VERSION,
+        "prompt_version": 0,
     }
 
 
 def normalize_language(language: str) -> str:
     return "zh" if str(language).lower().startswith("zh") else "en"
+
+
+def reader_facing_strings(value: Any) -> list[str]:
+    """Flatten generated prose while ignoring icons and generation metadata."""
+    if isinstance(value, str):
+        normalized = normalize_space(value)
+        return [normalized] if len(normalized) >= 4 else []
+    if isinstance(value, list):
+        return [text for item in value for text in reader_facing_strings(item)]
+    if isinstance(value, dict):
+        ignored = {
+            "icon",
+            "generated_by",
+            "language",
+            "prompt_version",
+            "schema_version",
+            "source",
+            "source_scope",
+        }
+        return [
+            text
+            for key, item in value.items()
+            if key not in ignored
+            for text in reader_facing_strings(item)
+        ]
+    return []
+
+
+def language_content_matches(value: Any, language: str) -> bool:
+    """Verify the actual generated prose instead of trusting its language tag."""
+    strings = reader_facing_strings(value)
+    if not strings:
+        return False
+    target = normalize_language(language)
+    if target == "zh":
+        cjk_counts = [len(re.findall(r"[\u3400-\u9fff]", text)) for text in strings]
+        localized = sum(count >= 2 for count in cjk_counts)
+        return sum(cjk_counts) >= 12 and localized / len(strings) >= 0.6
+    combined = " ".join(strings)
+    latin_words = len(re.findall(r"\b[A-Za-z]{2,}\b", combined))
+    cjk_count = len(re.findall(r"[\u3400-\u9fff]", combined))
+    return latin_words >= 2 and cjk_count <= max(2, latin_words // 5)
 
 
 def output_language_instruction(language: str) -> str:
@@ -1056,10 +1893,13 @@ def parse_model_summary(
         for field in required
     ):
         return None
+    if not language_content_matches({field: result[field] for field in required}, language):
+        return None
     result["source"] = "abstract"
     result["generated_by"] = generated_by
     result["language"] = normalize_language(language)
     result["schema_version"] = SUMMARY_SCHEMA_VERSION
+    result["prompt_version"] = SUMMARY_PROMPT_VERSION
     return result
 
 
@@ -1231,11 +2071,12 @@ Content priorities:
    most decision-relevant number when one is available. Put supporting detail in
    the deep-dive fields, not in signals.
 4. Choose each signal icon by meaning instead of repeating a fixed trio. Useful
-   choices include 💡 contribution, 🌐 multilingual, 🛡️ safety, 🤖 agents,
+   choices include 💡 contribution, 🛡️ safety, 🤖 agents,
    ⚡ efficiency, ⚙️ method, 🔬 mechanism, 🧮 theory, 🗂️ data, 📈 gain,
    📉 degradation, 📊 evaluation, and ⚠️ limitation.
-5. overview is {overview_length_instruction(language)}. Use 1-3 focused items in each detailed section;
-   prefer one well-grounded item over several vague ones.
+5. overview is {overview_length_instruction(language)}. Use 0-3 focused items in each detailed section.
+   Return an empty list when the source does not support that section; never add
+   a placeholder item merely to fill the schema.
 6. Findings connect claims to experiments, metrics, theorem statements, or
    ablations. Limitations distinguish author-stated limits from missing evidence.
 
@@ -1309,7 +2150,6 @@ def prepare_deep_dive(
     if (
         not all(isinstance(deep_dive.get(field), list) for field in required_lists)
         or len(deep_dive["signals"]) != 3
-        or any(not deep_dive[field] for field in required_lists - {"signals"})
     ):
         return None
     for field in {"signals", "methodology", "mechanism", "experiments", "findings"}:
@@ -1325,6 +2165,8 @@ def prepare_deep_dive(
         for item in deep_dive[field]
     ):
         return None
+    if not language_content_matches(deep_dive, language):
+        return None
     result = copy.deepcopy(deep_dive)
     for role, signal in enumerate(result["signals"]):
         signal["icon"] = choose_signal_icon(signal.get("text", ""), role)
@@ -1332,6 +2174,7 @@ def prepare_deep_dive(
     result["generated_by"] = generated_by
     result["language"] = normalize_language(language)
     result["schema_version"] = ANALYSIS_SCHEMA_VERSION
+    result["prompt_version"] = ANALYSIS_PROMPT_VERSION
     return result
 
 
@@ -1407,6 +2250,7 @@ def cloudflare_analysis(
         os.getenv("CLOUDFLARE_FALLBACK_MODEL") or "@cf/qwen/qwen3-30b-a3b-fp8"
     )
     paper_text, source_scope = extract_pdf_text(paper)
+    analysis_language = "en"
     for model in dict.fromkeys([primary_model, fallback_model]):
         attempts = 2 if model == primary_model else 1
         for attempt in range(attempts):
@@ -1423,7 +2267,7 @@ def cloudflare_analysis(
                             topics,
                             paper_text,
                             source_scope,
-                            language,
+                            analysis_language,
                         ),
                     },
                 ],
@@ -1439,9 +2283,21 @@ def cloudflare_analysis(
                 )
                 raw = cloudflare_response_text(response)
                 analysis = parse_model_analysis(
-                    raw, model, source_scope, paper_text, language
+                    raw, model, source_scope, paper_text, analysis_language
                 )
                 if analysis:
+                    if normalize_language(language) == analysis_language:
+                        return analysis
+                    translated = cloudflare_translate_analysis(
+                        analysis[0], analysis[1], language
+                    )
+                    if translated:
+                        return translated
+                    print(
+                        f"Localization remains pending for {paper.id}; "
+                        "keeping the grounded English analysis.",
+                        file=sys.stderr,
+                    )
                     return analysis
                 print(
                     f"{model} returned an invalid analysis schema for {paper.id} "
@@ -1627,10 +2483,8 @@ JSON:
                 raise ValueError("Translation chunk changed the JSON shape")
             if output_numbers - source_numbers:
                 raise ValueError("Translation chunk introduced unsupported numbers")
-            if normalize_language(language) == "zh" and not re.search(
-                r"[\u3400-\u9fff]", json.dumps(translated, ensure_ascii=False)
-            ):
-                raise ValueError("Translation chunk contains no Chinese text")
+            if not language_content_matches(translated, language):
+                raise ValueError("Translation chunk does not match the target language")
             return translated, model
         except (
             OSError,
@@ -1680,17 +2534,20 @@ def cloudflare_translate_analysis_chunks(
     combined: dict[str, Any] = {"brief": {}, "deep_dive": {}}
     models: list[str] = []
     for chunk in chunks:
-        result = cloudflare_translate_json_chunk(chunk, language)
-        if not result:
-            return None
-        translated, model = result
-        models.append(model)
+        if reader_facing_strings(chunk):
+            result = cloudflare_translate_json_chunk(chunk, language)
+            if not result:
+                return None
+            translated, model = result
+            models.append(model)
+        else:
+            translated = copy.deepcopy(chunk)
         if "brief" in translated:
             combined["brief"].update(translated["brief"])
         combined["deep_dive"].update(translated.get("deep_dive", {}))
     return parse_model_analysis(
         json.dumps(combined, ensure_ascii=False),
-        f"{'+'.join(dict.fromkeys(models))} chunked translation",
+        f"{'+'.join(dict.fromkeys(models)) or 'cached'} chunked translation",
         source_scope,
         json.dumps(payload, ensure_ascii=False),
         language,
@@ -1752,6 +2609,10 @@ def score_papers(
                 "pdf_url": paper.pdf_url,
                 "comment": paper.comment,
                 "journal_ref": paper.journal_ref,
+                "source": paper.source,
+                "venue": paper.venue,
+                "presentation": paper.presentation,
+                "conference_year": paper.conference_year,
                 "lane": lane,
                 "scope_matches": scope_matches,
                 "topics": topics,
@@ -1817,6 +2678,91 @@ def diversify(scored: list[dict[str, Any]], profile: dict[str, Any]) -> list[dic
     return selected
 
 
+def load_recommended_title_tokens(output_path: Path) -> list[set[str]]:
+    """Load title-only fingerprints to deduplicate arXiv and conference versions."""
+    data_dir = output_path.parent
+    tokens: list[set[str]] = []
+    for path in [output_path, data_dir / "history.json", *sorted((data_dir / "archive").glob("*.json"))]:
+        if not path.exists():
+            continue
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        for item in payload.get("papers", []):
+            if isinstance(item, dict) and item.get("title"):
+                fingerprint = title_tokens(str(item["title"]))
+                if fingerprint:
+                    tokens.append(fingerprint)
+    return tokens
+
+
+def title_tokens(title: str) -> set[str]:
+    return tokenize(re.sub(r"[-–—]", " ", title))
+
+
+def title_is_duplicate(title: str, fingerprints: list[set[str]]) -> bool:
+    candidate = title_tokens(title)
+    return bool(
+        candidate
+        and max((jaccard(candidate, existing) for existing in fingerprints), default=0.0)
+        >= 0.92
+    )
+
+
+def select_conference_supplements(
+    scored: list[dict[str, Any]],
+    selected: list[dict[str, Any]],
+    needed: int,
+    profile: dict[str, Any],
+) -> list[dict[str, Any]]:
+    """Prefer newer years, then oral/spotlight quality, while preserving diversity."""
+    if needed <= 0:
+        return []
+    transfer_limit = int(profile["scope"].get("transferable_daily_limit", 1))
+    transfer_count = sum(item["lane"] == "transferable" for item in selected)
+    penalty = float(profile["ranking"].get("diversity_penalty", 0.18))
+    chosen: list[dict[str, Any]] = []
+    remaining = list(scored)
+    seen_titles: list[set[str]] = [title_tokens(item["title"]) for item in selected]
+    while remaining and len(chosen) < needed:
+        allowed = [
+            item
+            for item in remaining
+            if (
+                item["lane"] != "transferable"
+                or transfer_count < transfer_limit
+            )
+            and not title_is_duplicate(item["title"], seen_titles)
+        ]
+        if not allowed:
+            break
+
+        def supplement_key(item: dict[str, Any]) -> tuple[int, float]:
+            paper: Paper = item["_paper"]
+            diversity = penalty * max(
+                (
+                    jaccard(item["_tokens"], other["_tokens"])
+                    for other in [*selected, *chosen]
+                ),
+                default=0.0,
+            )
+            return (
+                paper.conference_year or 0,
+                item["scores"]["total"]
+                - diversity
+                + (0.03 if paper.presentation.lower() == "oral" else 0.0),
+            )
+
+        best = max(allowed, key=supplement_key)
+        chosen.append(best)
+        remaining.remove(best)
+        seen_titles.append(title_tokens(best["title"]))
+        if best["lane"] == "transferable":
+            transfer_count += 1
+    return chosen
+
+
 def serialize_item(
     item: dict[str, Any],
     use_ai: bool,
@@ -1833,6 +2779,7 @@ def serialize_item(
             previous_item
             and previous_item.get("title") == paper.title
             and previous_item.get("abstract") == paper.abstract
+            and previous_item.get("updated") == paper.updated
         )
         cached_deep_dive = (
             (previous_item or {}).get("deep_dive") if unchanged else None
@@ -1868,7 +2815,14 @@ def serialize_item(
             if isinstance(cached_deep_dive, dict)
             else "en"
         )
-        if cache_is_complete and cache_language != language:
+        cache_is_localized = bool(
+            cache_is_complete
+            and language_content_matches(cached_summary, language)
+            and language_content_matches(cached_deep_dive, language)
+        )
+        if cache_is_complete and (
+            cache_language != language or not cache_is_localized
+        ):
             try:
                 translated = cloudflare_translate_analysis(
                     cached_summary,
@@ -1881,13 +2835,19 @@ def serialize_item(
                     file=sys.stderr,
                 )
                 translated = None
-            if translated:
+            if (
+                translated
+                and language_content_matches(translated[0], language)
+                and language_content_matches(translated[1], language)
+            ):
                 summary, deep_dive = translated
         if (
             not deep_dive
             and cached_deep_dive
             and cached_deep_dive.get("schema_version") == ANALYSIS_SCHEMA_VERSION
+            and cached_deep_dive.get("prompt_version") == ANALYSIS_PROMPT_VERSION
             and cached_deep_dive.get("language", "en") == language
+            and language_content_matches(cached_deep_dive, language)
         ):
             deep_dive = prepare_deep_dive(
                 cached_deep_dive,
@@ -1903,7 +2863,10 @@ def serialize_item(
                 ):
                     if (
                         cached_summary.get("schema_version") == SUMMARY_SCHEMA_VERSION
+                        and cached_summary.get("prompt_version")
+                        == SUMMARY_PROMPT_VERSION
                         and cached_summary.get("language", "en") == language
+                        and language_content_matches(cached_summary, language)
                     ):
                         if summary is None:
                             summary = copy.deepcopy(cached_summary)
@@ -1929,12 +2892,28 @@ def serialize_item(
     item["summary"] = summary or extractive_summary(paper, item["topics"])
     if deep_dive:
         item["deep_dive"] = deep_dive
+    item["analysis_status"] = (
+        "complete"
+        if deep_dive
+        and language_content_matches(item["summary"], language)
+        and language_content_matches(deep_dive, language)
+        else "pending"
+    )
     item["recommendation_reason"] = {
         "topic": item["topics"][0]["name"],
         "matched": item["topics"][0]["matched"][:4],
         "lane": item["lane"],
     }
     return item
+
+
+def stored_item_matches_scope(item: dict[str, Any], profile: dict[str, Any]) -> bool:
+    """Reapply hard scope guardrails when carrying history into a new build."""
+    if not isinstance(item, dict) or not item.get("id"):
+        return False
+    paper = paper_from_dict(item)
+    lane, _, _ = scope_lane(paper, profile)
+    return lane is not None
 
 
 def refresh_stale_weekly_analyses(
@@ -1961,44 +2940,36 @@ def refresh_stale_weekly_analyses(
         reverse=True,
     )
     target_language = normalize_language(language)
-    language_transition = any(
-        item.get("deep_dive", {}).get("schema_version")
-        == ANALYSIS_SCHEMA_VERSION
-        and item.get("deep_dive", {}).get("language", "en")
-        != target_language
-        for item in candidates
+    limit = max(0, int(os.getenv("AI_CACHE_REFRESH_LIMIT", "3")))
+    time_budget = max(
+        0,
+        int(os.getenv("AI_CACHE_REFRESH_TIME_BUDGET_SECONDS", "420")),
     )
-    default_limit = "12" if language_transition else "3"
-    limit = max(0, int(os.getenv("AI_CACHE_REFRESH_LIMIT", default_limit)))
+    started_at = time.monotonic()
+    attempted = 0
     refreshed = 0
     for item in candidates:
-        if refreshed >= limit:
+        if attempted >= limit or time.monotonic() - started_at >= time_budget:
             break
         if (
             item.get("deep_dive", {}).get("schema_version")
             == ANALYSIS_SCHEMA_VERSION
             and item.get("deep_dive", {}).get("language", "en")
-            == normalize_language(language)
+            == target_language
+            and item.get("deep_dive", {}).get("prompt_version")
+            == ANALYSIS_PROMPT_VERSION
+            and language_content_matches(item.get("deep_dive", {}), target_language)
             and item.get("summary", {}).get("schema_version")
             == SUMMARY_SCHEMA_VERSION
             and item.get("summary", {}).get("language", "en")
-            == normalize_language(language)
+            == target_language
+            and item.get("summary", {}).get("prompt_version")
+            == SUMMARY_PROMPT_VERSION
+            and language_content_matches(item.get("summary", {}), target_language)
         ):
             continue
-        paper = Paper(
-            id=item.get("id", ""),
-            title=item.get("title", ""),
-            abstract=item.get("abstract", ""),
-            authors=item.get("authors", []),
-            published=item.get("published", ""),
-            updated=item.get("updated", ""),
-            categories=item.get("categories", []),
-            primary_category=item.get("primary_category", ""),
-            abs_url=item.get("abs_url", ""),
-            pdf_url=item.get("pdf_url", ""),
-            comment=item.get("comment", ""),
-            journal_ref=item.get("journal_ref", ""),
-        )
+        attempted += 1
+        paper = paper_from_dict(item)
         working = copy.deepcopy(item)
         working.pop("summary", None)
         working.pop("deep_dive", None)
@@ -2012,9 +2983,14 @@ def refresh_stale_weekly_analyses(
             result["recommended_at"] = recommended_at
         item.clear()
         item.update(result)
-        refreshed += 1
-    if refreshed:
-        print(f"Refreshed {refreshed} stale weekly AI analyses.", file=sys.stderr)
+        if result.get("analysis_status") == "complete":
+            refreshed += 1
+    if attempted:
+        print(
+            f"Attempted {attempted} stale weekly AI analyses; "
+            f"completed {refreshed}.",
+            file=sys.stderr,
+        )
     return refreshed
 
 
@@ -2038,30 +3014,14 @@ def rewrite_existing(
             continue
         payload = json.loads(path.read_text(encoding="utf-8"))
         for item in payload.get("papers", []):
-            paper = Paper(
-                id=item.get("id", ""),
-                title=item.get("title", ""),
-                abstract=item.get("abstract", ""),
-                authors=item.get("authors", []),
-                published=item.get("published", ""),
-                updated=item.get("updated", ""),
-                categories=item.get("categories", []),
-                primary_category=item.get("primary_category", ""),
-                abs_url=item.get("abs_url", ""),
-                pdf_url=item.get("pdf_url", ""),
-                comment=item.get("comment", ""),
-                journal_ref=item.get("journal_ref", ""),
-            )
+            paper = paper_from_dict(item)
             item["summary"] = extractive_summary(paper, item.get("topics", []))
             rewritten += 1
-        path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        write_json_atomic(path, payload)
 
     public_profile = dict(profile)
     public_profile.pop("owner", None)
-    (data_dir / "profile.json").write_text(
-        json.dumps(public_profile, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-    )
+    write_json_atomic(data_dir / "profile.json", public_profile)
     return rewritten
 
 
@@ -2077,6 +3037,11 @@ def build(
     now = now or utc_now()
     profile = load_profile(profile_path, interests_path)
     feedback = load_feedback()
+    profile, topic_feedback = apply_topic_feedback_tuning(
+        profile,
+        feedback,
+        now,
+    )
     semantic_feedback = semantic_scholar_feedback_scores(feedback)
     if atom_fixture:
         payload = atom_fixture.read_bytes()
@@ -2097,6 +3062,60 @@ def build(
         semantic_feedback,
     )
     selected = diversify(scored, profile)
+    conference_settings = profile.get("conference_fallback", {})
+    minimum_daily = max(0, int(conference_settings.get("minimum_daily", 0)))
+    conference_cache: dict[str, Any] = {}
+    conference_eligible_count = 0
+    if (
+        not atom_fixture
+        and conference_settings.get("enabled", True)
+        and len(selected) < minimum_daily
+    ):
+        conference_cache_path = output_path.parent / "conference_pool.json"
+        conference_cache = sync_conference_cache(
+            conference_cache_path,
+            profile,
+            now,
+            seen_ids,
+            max(
+                minimum_daily - len(selected),
+                int(conference_settings.get("reserve_target", 24)),
+            ),
+        )
+        allowed_venues = set(conference_settings.get("venues", []))
+        allowed_presentations = {
+            str(value).lower()
+            for value in conference_settings.get("presentation_types", ["oral", "spotlight"])
+        }
+        historical_titles = load_recommended_title_tokens(output_path)
+        historical_titles.extend(title_tokens(item["title"]) for item in selected)
+        conference_papers = [
+            paper
+            for paper in cached_conference_papers(conference_cache)
+            if paper.id not in seen_ids
+            and paper.venue in allowed_venues
+            and paper.presentation.lower() in allowed_presentations
+            and not title_is_duplicate(paper.title, historical_titles)
+        ]
+        conference_scored = score_papers(
+            conference_papers,
+            profile,
+            feedback,
+            previous,
+            now,
+        )
+        conference_eligible_count = len(conference_scored)
+        selected.extend(
+            select_conference_supplements(
+                conference_scored,
+                selected,
+                minimum_daily - len(selected),
+                profile,
+            )
+        )
+    conference_supplement_count = sum(
+        item["_paper"].source == "conference" for item in selected
+    )
     serialized = [
         serialize_item(
             item,
@@ -2122,25 +3141,26 @@ def build(
         "previously_recommended_count": len(seen_ids),
         "eligible_count": len(scored),
         "feedback_count": len(feedback),
+        "topic_feedback": topic_feedback,
         "semantic_feedback_count": len(semantic_feedback),
+        "minimum_daily_target": minimum_daily,
+        "minimum_daily_met": len(serialized) >= minimum_daily,
+        "conference_supplement_count": conference_supplement_count,
+        "conference_eligible_count": conference_eligible_count,
+        "conference_pool_updated_at": conference_cache.get("updated_at"),
+        "conference_source_status": conference_cache.get("source_status", {}),
         "papers": serialized,
     }
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(json.dumps(feed, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    write_json_atomic(output_path, feed)
 
     seen_ids.update(item["id"] for item in serialized)
     seen_path = output_path.parent / "seen.json"
-    seen_path.write_text(
-        json.dumps(
-            {
-                "updated_at": now.isoformat(),
-                "paper_ids": sorted(seen_ids),
-            },
-            ensure_ascii=False,
-            indent=2,
-        )
-        + "\n",
-        encoding="utf-8",
+    write_json_atomic(
+        seen_path,
+        {
+            "updated_at": now.isoformat(),
+            "paper_ids": sorted(seen_ids),
+        },
     )
 
     history_path = output_path.parent / "history.json"
@@ -2151,6 +3171,9 @@ def build(
             old_history = json.loads(history_path.read_text(encoding="utf-8")).get("papers", [])
         except (OSError, ValueError):
             old_history = []
+    old_history = [
+        item for item in old_history if stored_item_matches_scope(item, profile)
+    ]
     merged_history: dict[str, dict[str, Any]] = {
         item["id"]: item for item in old_history if item.get("id")
     }
@@ -2170,7 +3193,7 @@ def build(
         profile.get("content_language", profile.get("language", "en")),
     )
     history = {"generated_at": now.isoformat(), "papers": history_items}
-    history_path.write_text(json.dumps(history, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    write_json_atomic(history_path, history)
 
     week_start = now - dt.timedelta(days=7)
     weekly_items = [
@@ -2183,23 +3206,17 @@ def build(
         "generated_at": now.isoformat(),
         "papers": weekly_items[: int(profile.get("weekly_size", 12))],
     }
-    (output_path.parent / "weekly.json").write_text(
-        json.dumps(weekly, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-    )
+    write_json_atomic(output_path.parent / "weekly.json", weekly)
 
     public_profile = dict(profile)
     public_profile.pop("owner", None)
     profile_output = output_path.parent / "profile.json"
-    profile_output.write_text(
-        json.dumps(public_profile, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-    )
+    write_json_atomic(profile_output, public_profile)
 
     archive_dir = output_path.parent / "archive"
     archive_dir.mkdir(parents=True, exist_ok=True)
     archive_path = archive_dir / f"{now.date().isoformat()}.json"
-    archive_path.write_text(json.dumps(feed, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    write_json_atomic(archive_path, feed)
     return feed
 
 
@@ -2232,6 +3249,8 @@ def translate_existing_ai_content(
         if (
             summary.get("language", "en") == language
             and deep_dive.get("language", "en") == language
+            and language_content_matches(summary, language)
+            and language_content_matches(deep_dive, language)
         ):
             continue
         translated = cloudflare_translate_analysis(summary, deep_dive, language)
@@ -2248,19 +3267,14 @@ def translate_existing_ai_content(
                 if not translated:
                     continue
                 item["summary"], item["deep_dive"] = copy.deepcopy(translated)
+                item["analysis_status"] = "complete"
                 changed = True
             if changed:
-                path.write_text(
-                    json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
-                    encoding="utf-8",
-                )
+                write_json_atomic(path, payload)
 
     public_profile = dict(profile)
     public_profile.pop("owner", None)
-    (data_dir / "profile.json").write_text(
-        json.dumps(public_profile, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-    )
+    write_json_atomic(data_dir / "profile.json", public_profile)
     return len(translated_by_id), pending
 
 
@@ -2327,12 +3341,10 @@ def main() -> int:
         f"{feed['previously_recommended_count']} previously recommended)."
     )
     if os.getenv("AI_REQUIRED") == "1" and feed["papers"]:
-        target_language = feed["content_language"]
         incomplete = [
             item["id"]
             for item in feed["papers"]
-            if item.get("summary", {}).get("language") != target_language
-            or item.get("deep_dive", {}).get("language") != target_language
+            if item.get("analysis_status") != "complete"
         ]
         if incomplete:
             print(

@@ -8,6 +8,14 @@ const STORAGE = {
 };
 
 const ARCHIVE_DAYS = 7;
+const TOPIC_NAMES_ZH = {
+  efficient_adversarial_training: "高效对抗训练",
+  llm_loss_landscape: "大语言模型损失景观",
+  llm_data_selection: "大语言模型数据选择",
+  on_policy_distillation: "同策略蒸馏",
+  trustworthy_llm: "可信大语言模型",
+  llm_statistical_theory: "大语言模型统计理论",
+};
 const COPY = {
   en: {
     brandTagline: "your morning research signal",
@@ -29,7 +37,7 @@ const COPY = {
     swipeHint: "Swipe for previous / next",
     dailySignal: "DAILY SIGNAL",
     todaysRadar: "Today’s radar",
-    todaySubtitle: "New, never-before-recommended LLM papers; quiet days stay intentionally short.",
+    todaySubtitle: "New, never-before-recommended LLM papers; verified conference oral/spotlight papers fill days with fewer than three matches.",
     weeklyDigest: "WEEKLY DIGEST",
     thisWeek: "This week",
     weeklySubtitle: "The strongest signals from the last seven days, reranked as a weekly digest.",
@@ -44,6 +52,22 @@ const COPY = {
     aiBrief: "AI brief",
     abstractExtract: "Abstract extract",
     threeLineBrief: "Three-line paper brief",
+    signalsLabel: "Signals",
+    transferLabel: "Transfer",
+    problemLabel: "Problem",
+    methodLabel: "Method",
+    evidenceLabel: "Evidence",
+    limitationsLabel: "Limitations",
+    whyForYouLabel: "Why for you",
+    summarySourceLabel: "Summary source",
+    abstractLabel: "Abstract",
+    officialPage: "Official page",
+    conferenceSupplement: "Conference pick",
+    generatedFrom: "Generated from {source} by {model}.",
+    closeAnalysis: "Close analysis",
+    openAnalysis: "Open the full-text AI analysis",
+    analysisUnavailable: "Deep analysis is pending for this paper",
+    overallScore: "Overall score {score}",
     researchQuestion: "Research question & thesis",
     methodPipeline: "Method pipeline",
     mechanismTheory: "Mechanism & theory",
@@ -77,6 +101,9 @@ const COPY = {
     apply: "Apply",
     topicLanes: "Topic lanes",
     topicHint: "Each direction stays independent instead of collapsing into one seed centroid.",
+    topicFeedbackNone: "No Useful/Irrelevant feedback for this topic yet.",
+    topicFeedbackPending: "{useful} useful / {irrelevant} irrelevant · {rate}% hit · tuning starts at {minimum} effective samples.",
+    topicFeedbackActive: "{useful} useful / {irrelevant} irrelevant · {rate}% hit · effective weight {base} → {effective}.",
     saveChanges: "Save changes",
     addDirection: "Add a direction",
     addDirectionHint: "The description participates in matching; keywords can be refined later.",
@@ -120,7 +147,7 @@ const COPY = {
     swipeHint: "左右滑动切换论文",
     dailySignal: "今日精选",
     todaysRadar: "今日论文",
-    todaySubtitle: "只推荐尚未出现过的 LLM 论文；没有合适内容时宁缺毋滥。",
+    todaySubtitle: "只推荐未出现过的同领域论文；不足 3 篇时，由官方可验证的会议 Oral/Spotlight 论文补足。",
     weeklyDigest: "每周精选",
     thisWeek: "本周论文",
     weeklySubtitle: "将最近七天最强的研究信号重新排序。",
@@ -135,6 +162,22 @@ const COPY = {
     aiBrief: "AI 摘要",
     abstractExtract: "摘要提取",
     threeLineBrief: "三条论文速览",
+    signalsLabel: "匹配信号",
+    transferLabel: "可迁移方法",
+    problemLabel: "研究问题",
+    methodLabel: "方法",
+    evidenceLabel: "证据",
+    limitationsLabel: "局限",
+    whyForYouLabel: "推荐理由",
+    summarySourceLabel: "总结来源",
+    abstractLabel: "摘要",
+    officialPage: "官方页面",
+    conferenceSupplement: "会议补位",
+    generatedFrom: "基于 {source} 生成，模型：{model}。",
+    closeAnalysis: "关闭解析",
+    openAnalysis: "打开全文 AI 解析",
+    analysisUnavailable: "这篇论文的深度解析仍在生成中",
+    overallScore: "综合评分 {score}",
     researchQuestion: "研究问题与核心观点",
     methodPipeline: "方法流程",
     mechanismTheory: "机制与理论",
@@ -168,6 +211,9 @@ const COPY = {
     apply: "应用",
     topicLanes: "研究方向",
     topicHint: "每个方向独立计分，不会全部压成一个种子论文中心。",
+    topicFeedbackNone: "这个方向还没有 Useful/Irrelevant 反馈。",
+    topicFeedbackPending: "有用 {useful} / 不相关 {irrelevant} · 命中率 {rate}% · 累积到 {minimum} 个有效样本后开始调权。",
+    topicFeedbackActive: "有用 {useful} / 不相关 {irrelevant} · 命中率 {rate}% · 有效权重 {base} → {effective}。",
     saveChanges: "保存修改",
     addDirection: "添加方向",
     addDirectionHint: "描述会参与匹配，关键词之后还可以继续调整。",
@@ -229,6 +275,12 @@ function t(key, replacements = {}) {
     value = value.replaceAll(`{${name}}`, replacement);
   });
   return value;
+}
+
+function displayTopicName(topic = {}) {
+  return state.language === "zh" && TOPIC_NAMES_ZH[topic.id]
+    ? TOPIC_NAMES_ZH[topic.id]
+    : topic.name || "Exploration";
 }
 
 function resolvedTheme(theme = state.theme) {
@@ -513,8 +565,9 @@ function updateChrome() {
   document.querySelector("#weeklyCount").textContent = visiblePapers(
     state.weekly.papers,
   ).length;
+  const availablePaperIds = new Set(allPapers().map((paper) => paper.id));
   document.querySelector("#savedCount").textContent = [...state.saved].filter(
-    (paperId) => !isDismissed(paperId),
+    (paperId) => availablePaperIds.has(paperId) && !isDismissed(paperId),
   ).length;
   document.querySelector("#lastUpdated").textContent = t("updated", {
     date: prettyDate(state.feed.generated_at),
@@ -537,7 +590,7 @@ function renderFocus() {
       (topic) => `
         <div class="focus-item">
           <i></i>
-          <span>${escapeHTML(topic.name)}</span>
+          <span>${escapeHTML(displayTopicName(topic))}</span>
           <b>${Number(topic.weight).toFixed(1)}</b>
         </div>`,
     )
@@ -588,7 +641,7 @@ function renderPaperView(papers) {
   }[state.view];
 
   const topics = new Set(
-    papers.map((paper) => paper.topics?.[0]?.name).filter(Boolean),
+    papers.map((paper) => paper.topics?.[0]?.id).filter(Boolean),
   );
   const deckIndex = Math.min(
     state.deckIndex[state.view] || 0,
@@ -696,6 +749,25 @@ function paperCard(paper) {
   const saved = state.saved.has(paper.id);
   const signals = (paper.quality_signals || []).slice(0, 4);
   const summary = paper.summary || {};
+  const analysisReady = Boolean(
+    paper.deep_dive && paper.analysis_status !== "pending",
+  );
+  const isConference = paper.source === "conference";
+  const sourceMeta = isConference
+    ? `${paper.venue || "Conference"} ${paper.conference_year || ""} · ${paper.presentation || ""}`
+    : `arXiv:${paper.id}`;
+  const publicationDate = isConference
+    ? String(paper.conference_year || "")
+    : prettyDate(paper.published);
+  const categoryLabel = isConference
+    ? paper.presentation || paper.primary_category
+    : paper.primary_category;
+  const pdfLink =
+    paper.pdf_url && paper.pdf_url !== paper.abs_url
+      ? `<a class="link-button" href="${escapeHTML(
+          paper.pdf_url,
+        )}" target="_blank" rel="noreferrer">PDF ↗</a>`
+      : "";
   return `
     <article class="paper-card" data-paper-id="${escapeHTML(paper.id)}">
       <div class="paper-topline">
@@ -703,13 +775,14 @@ function paperCard(paper) {
           <span class="topic-chip ${
             paper.lane === "transferable" ? "transferable" : ""
           }">
-            ${paper.lane === "transferable" ? "Transfer · " : ""}${escapeHTML(
-              topic.name,
+            ${paper.lane === "transferable" ? `${t("transferLabel")} · ` : ""}${escapeHTML(
+              displayTopicName(topic),
             )}
           </span>
           <span class="topic-chip category-chip">${escapeHTML(
-            paper.primary_category,
+            categoryLabel,
           )}</span>
+          ${isConference ? `<span class="topic-chip category-chip">${t("conferenceSupplement")}</span>` : ""}
           <span class="topic-chip brief-source-chip">${
             summary.generated_by === "extractive"
               ? t("abstractExtract")
@@ -718,15 +791,15 @@ function paperCard(paper) {
         </div>
         <span class="score" style="--score-angle: ${
           score * 3.6
-        }deg" title="Overall score ${score}">${score}</span>
+        }deg" title="${t("overallScore", { score: String(score) })}">${score}</span>
       </div>
       <h2>${escapeHTML(paper.title)}</h2>
-      <p class="paper-meta">${escapeHTML(authors)}${moreAuthors} · ${prettyDate(
-        paper.published,
-      )} · arXiv:${escapeHTML(paper.id)}</p>
+      <p class="paper-meta">${escapeHTML(authors)}${moreAuthors} · ${escapeHTML(
+        publicationDate,
+      )} · ${escapeHTML(sourceMeta)}</p>
       ${threeLineBrief(paper)}
       <div class="match-line">
-        <span>Signals:</span>
+        <span>${t("signalsLabel")}:</span>
         ${(topic.matched || [])
           .slice(0, 4)
           .map((item) => `<span class="signal-chip">${escapeHTML(item)}</span>`)
@@ -746,34 +819,32 @@ function paperCard(paper) {
         <button class="action-button" data-action="not-useful">${t("notUseful")}</button>
         <button class="action-button" data-action="irrelevant">${t("irrelevant")}</button>
         <button class="action-button deep-dive-button" data-action="deep-dive" ${
-          paper.deep_dive ? "" : "disabled"
+          analysisReady ? "" : "disabled"
         } title="${
-          paper.deep_dive
-            ? "Open the full-text AI analysis"
-            : "Deep analysis is unavailable for this paper"
+          analysisReady
+            ? t("openAnalysis")
+            : t("analysisUnavailable")
         }">${t("deepDive")}</button>
         <a class="link-button" href="${escapeHTML(
           paper.abs_url,
-        )}" target="_blank" rel="noreferrer">arXiv ↗</a>
-        <a class="link-button" href="${escapeHTML(
-          paper.pdf_url,
-        )}" target="_blank" rel="noreferrer">PDF ↗</a>
+        )}" target="_blank" rel="noreferrer">${isConference ? t("officialPage") : "arXiv"} ↗</a>
+        ${pdfLink}
       </div>
       <div class="paper-details">
         <div class="summary-grid">
-          ${summaryCell("Problem", summary.problem)}
-          ${summaryCell("Method", summary.method)}
-          ${summaryCell("Evidence", summary.evidence)}
-          ${summaryCell("Limitations", summary.limitations)}
-          ${summaryCell("Why for you", summary.why_for_you)}
+          ${summaryCell(t("problemLabel"), summary.problem)}
+          ${summaryCell(t("methodLabel"), summary.method)}
+          ${summaryCell(t("evidenceLabel"), summary.evidence)}
+          ${summaryCell(t("limitationsLabel"), summary.limitations)}
+          ${summaryCell(t("whyForYouLabel"), summary.why_for_you)}
           ${summaryCell(
-            "Summary source",
+            t("summarySourceLabel"),
             `${summary.source || "abstract"} · ${
               summary.generated_by || "unknown"
             }`,
           )}
         </div>
-        <p class="abstract"><strong>Abstract.</strong> ${escapeHTML(
+        <p class="abstract"><strong>${t("abstractLabel")}.</strong> ${escapeHTML(
           paper.abstract,
         )}</p>
       </div>
@@ -783,7 +854,8 @@ function paperCard(paper) {
 
 function threeLineBrief(paper) {
   const summary = paper.summary || {};
-  const analysis = paper.deep_dive;
+  const analysis =
+    paper.analysis_status === "pending" ? null : paper.deep_dive;
   const signals =
     Array.isArray(analysis?.signals) && analysis.signals.length === 3
       ? analysis.signals
@@ -893,9 +965,10 @@ function textList(items = []) {
 }
 
 function openDeepDive(paper) {
-  const analysis = paper.deep_dive;
+  const analysis =
+    paper.analysis_status === "pending" ? null : paper.deep_dive;
   if (!analysis) {
-    showToast("Deep analysis is unavailable for this paper.");
+    showToast(t("analysisUnavailable"));
     return;
   }
   elements.deepDive.innerHTML = `
@@ -906,7 +979,7 @@ function openDeepDive(paper) {
           <h2 id="deepDiveTitle">${escapeHTML(paper.title)}</h2>
           <p>${escapeHTML((paper.authors || []).join(", "))}</p>
         </div>
-        <button type="button" class="dialog-close" data-dialog-close aria-label="Close analysis">×</button>
+        <button type="button" class="dialog-close" data-dialog-close aria-label="${t("closeAnalysis")}">×</button>
       </header>
       <div class="deep-dive-content">
         ${threeLineBrief(paper)}
@@ -946,12 +1019,12 @@ function openDeepDive(paper) {
           <h3>${t("openQuestions")}</h3>
           ${textList(analysis.open_questions)}
         </section>
-        <footer>
-          Generated from
-          ${escapeHTML(analysis.source_scope || "the available source")}
-          by ${escapeHTML(analysis.generated_by || "an AI model")}.
-          ${t("verifyClaims")}
-        </footer>
+        <footer>${escapeHTML(
+          t("generatedFrom", {
+            source: analysis.source_scope || "the available source",
+            model: analysis.generated_by || "an AI model",
+          }),
+        )} ${t("verifyClaims")}</footer>
       </div>
     </div>
   `;
@@ -1169,6 +1242,33 @@ function renderPreferences() {
   `;
 }
 
+function feedbackCount(value) {
+  const number = Number(value || 0);
+  return Number.isInteger(number) ? String(number) : number.toFixed(1);
+}
+
+function topicFeedbackSummary(topic) {
+  const stats = topic.feedback_stats;
+  if (!stats || !stats.samples) return t("topicFeedbackNone");
+  const replacements = {
+    useful: feedbackCount(stats.useful),
+    irrelevant: feedbackCount(stats.irrelevant),
+    rate:
+      stats.hit_rate == null ? "—" : String(Math.round(stats.hit_rate * 100)),
+    minimum: feedbackCount(
+      state.profile?.feedback_tuning?.minimum_effective_samples || 4,
+    ),
+    base: Number(stats.base_weight || topic.weight || 0).toFixed(2),
+    effective: Number(
+      stats.effective_weight || topic.effective_weight || topic.weight || 0,
+    ).toFixed(2),
+  };
+  return t(
+    stats.active ? "topicFeedbackActive" : "topicFeedbackPending",
+    replacements,
+  );
+}
+
 function topicEditor(topic, index) {
   return `
     <div class="topic-editor" data-topic-index="${index}">
@@ -1202,6 +1302,9 @@ function topicEditor(topic, index) {
           .join("")}
       </select>
       <button class="remove-topic" data-pref-action="remove-topic" title="Remove topic">×</button>
+      <p class="topic-feedback ${topic.feedback_stats?.active ? "active" : ""}">${escapeHTML(
+        topicFeedbackSummary(topic),
+      )}</p>
     </div>
   `;
 }
@@ -1363,7 +1466,10 @@ function syncEditorsToProfile() {
             ? Number(input.value)
             : input.value;
     });
+    delete topic.effective_weight;
+    delete topic.feedback_stats;
   });
+  delete state.profile.feedback_tuning_state;
   state.profile.updated_at = new Date().toISOString().slice(0, 10);
 }
 

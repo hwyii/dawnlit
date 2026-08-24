@@ -13,10 +13,15 @@ configured.
 - Uses extended backoff for temporary arXiv rate limits instead of failing after
   a short retry burst.
 - Paginates the configured arXiv query and reports if its safety limit truncates results.
-- Keeps a durable index of recommended arXiv IDs, so Today never repeats a
-  paper, never fills an empty Today view from Weekly, and may contain fewer than
-  the configured feed size.
+- Keeps a durable cross-source paper index and title fingerprint, so Today
+  never repeats either an arXiv paper or its later conference version, and
+  never fills an empty Today view from Weekly.
+- If fewer than three recent arXiv papers qualify, fills only the missing slots
+  from preference-matched NeurIPS, ICLR, ICML, ACL, or EMNLP oral/spotlight
+  papers, scanning 2026 first and then earlier years.
 - Applies an LLM scope gate, with a small separate lane for transferable methods.
+- Excludes multilingual, cross-lingual, and language-specific research such as
+  Arabic-language evaluation before ranking.
 - Scores each topic independently instead of using one seed-paper centroid.
 - Separates relevance, evidence-quality, novelty, and freshness scores.
 - Diversifies the final feed and limits non-LLM transfer papers.
@@ -33,6 +38,8 @@ configured.
   cached access to the latest successfully loaded feed.
 - Uses explicit Useful/Irrelevant feedback as positive and negative examples
   for an optional Semantic Scholar recommendation signal.
+- Reports per-topic Useful/Irrelevant hit rates and derives bounded,
+  non-compounding effective topic weights after enough feedback accumulates.
 
 The checked-in feed contains the latest successful live build. A deterministic
 fixture remains available for tests and offline UI development.
@@ -84,13 +91,14 @@ a different premise: a researcher should own and understand the filter.
   desktop keeps the full vertical list.
 - **Explainable selection.** Relevance, evidence quality, novelty, and freshness
   remain separate, and every card shows why it matched.
-- **A willingness to return nothing.** A paper must clear the relevance
-  threshold; the feed does not fill a quota with weak matches.
+- **A strict relevance floor.** A paper must clear the same scope, topic,
+  language-focus, and relevance rules whether it came from arXiv or a
+  conference fallback pool.
 - **Local-first and open.** The baseline needs no paid AI API, and optional cloud
   services can be replaced without changing the feed format.
 
 The current version is intentionally not a claim to beat mature products
-everywhere. It is arXiv-only and uses transparent lexical/topic gates augmented
+everywhere. It uses transparent lexical/topic gates augmented
 by optional Semantic Scholar feedback recommendations, rather than its own
 production semantic index. Long-term ranking evaluation and a local scientific
 embedding index remain the next technical milestones.
@@ -240,8 +248,11 @@ existing `RADAR_API_URL` and `RADAR_ADMIN_TOKEN`; separate Cloudflare AI secrets
 in GitHub are optional direct-call fallbacks.
 
 Each brief is grounded in the extracted paper text when available, or the title
-and abstract as a fallback. The card turns the analysis into a dense three-line
-scan covering the central finding, method, and strongest available evidence.
+and abstract as a fallback. Grounding and synthesis are produced first in a
+canonical English fact layer; reader-facing Chinese is localized and validated
+separately. A failed localization can therefore retry without downloading or
+re-analyzing the PDF. The card turns the analysis into a dense three-line scan
+covering the central finding, method, and strongest available evidence.
 
 For each selected paper, the workflow also downloads up to the first 30 PDF
 pages, extracts high-signal regions from the introduction, method, experiments,
@@ -255,15 +266,19 @@ and asks the model for a grounded deep dive. The **Deep dive** dialog includes:
 - results tied to concrete evidence;
 - contributions, limitations, and open questions.
 
-Successful analyses are cached by arXiv ID and prompt/schema version. An
-unchanged paper reuses its validated deep dive, while stale weekly analyses are
-refreshed gradually (three per build by default) so a prompt upgrade does not
-create a cost spike. Set `AI_CACHE_REFRESH_LIMIT` to change that limit.
+Successful analyses are cached by stable paper ID, paper update time, prompt version,
+and schema version. An unchanged paper reuses its validated deep dive, while
+stale weekly analyses are attempted gradually (three per build by default) so a
+prompt upgrade or provider outage does not create an unbounded retry loop. Set
+`AI_CACHE_REFRESH_LIMIT` to change the attempt limit and
+`AI_CACHE_REFRESH_TIME_BUDGET_SECONDS` to bound background refresh time.
 
 PDFs are capped at 25 MB. If full-text extraction fails, the analysis is
 explicitly marked as abstract-based. Missing evidence must be stated rather
-than invented. If model inference is unavailable or invalid, Dawnlit falls back
-to an extractive brief and disables the deep-dive button.
+than invented, and unsupported detailed sections remain empty instead of being
+filled with placeholders. If model inference or localization is unavailable,
+Dawnlit marks the analysis pending, falls back to an extractive brief when
+needed, and retries later without failing the scheduled feed deployment.
 
 Add these repository secrets to use AI analysis:
 
@@ -294,9 +309,19 @@ The update workflow runs every day at 06:17 in `America/Detroit`. It avoids the
 start of the hour because scheduled GitHub workflows can be delayed under heavy
 load. Changes to `config/**` or `scripts/**` also trigger an immediate update.
 
-The arXiv query covers only the previous 24 hours. IDs already present in
-`public/data/seen.json` are excluded before ranking, and Today stays short—even
-empty—when fewer than six unseen papers clear the relevance threshold.
+The arXiv query uses the configured lookback (and widens over arXiv's quiet
+weekend). IDs already present in `public/data/seen.json` are excluded before
+ranking. When fewer than `conference_fallback.minimum_daily` papers qualify,
+the build reads its cached conference pool and fills only the missing slots.
+The pool is refreshed from official ICLR/ICML/NeurIPS virtual Oral/Spotlight
+pages and explicitly verified ACL-family schedule exports. It scans from the
+current year (2026 today) back through 2022 and stores only candidates
+that pass the repository preference rules. A failed conference source is
+non-fatal: the last successful pool remains usable and source health is exposed
+in `conference_source_status`. ACL/EMNLP accepted-paper lists are not treated as
+oral lists; those venues enter the pool only when an official detailed schedule
+explicitly identifies the presentation type. The start year advances
+automatically, so the fallback does not need a yearly config edit.
 
 ## Optional preference and feedback sync
 
@@ -346,6 +371,17 @@ The lexical preference model uses the most recent label for each paper and a
 the feed into early feedback. Similar papers are reranked before the daily
 relevance threshold and diversity pass.
 
+Useful and Irrelevant labels also maintain a per-topic precision estimate. The
+scheduled build attributes full credit to the paper's primary topic and reduced
+credit to secondary matches, uses only the latest action for each paper, and
+applies the same 120-day decay. Automatic tuning starts after four effective
+samples. A Bayesian prior, confidence ramp, ±0.15 adjustment cap, and 0.2–1.0
+weight bounds keep sparse feedback from causing abrupt preference changes.
+Manual `weight` remains unchanged; every build derives a fresh
+`effective_weight`, so the same labels never compound day after day. The
+generated feed exposes `topic_feedback`, and Preferences shows Useful,
+Irrelevant, hit rate, and the resulting effective weight for each topic.
+
 Feedback is posted to D1 immediately. If the phone is offline or the Worker is
 temporarily unavailable, the feedback remains in a local pending queue and is
 retried when the app next starts, reconnects, or returns online. The next
@@ -367,15 +403,17 @@ it, or add the optional `SEMANTIC_SCHOLAR_API_KEY` repository secret for an
 authenticated request. A failed request is non-fatal and falls back to the
 local ranking pipeline.
 
-## Data and arXiv use
+## Data and source use
 
 The project stores descriptive metadata and generated notes, and links users to
-the arXiv abstract/PDF pages. It does not redistribute PDFs. Requests use one
-paginated query per build, with a three-second pause between pages. The default
-scope is `cs.LG`, `cs.AI`, `cs.CL`, `cs.CR`, and `stat.ML` over the previous
-24 hours, with a 2,000-result safety limit. Generated feeds expose
-`source_total` and `source_truncated`, so incomplete retrieval is visible rather
-than silently presented as complete.
+official arXiv or conference pages. It does not redistribute PDFs. arXiv
+requests use a paginated query with a three-second pause between pages. The
+default scope is `cs.LG`, `cs.AI`, `cs.CL`, `cs.CR`, and `stat.ML`, with a
+2,000-result safety limit. Conference pages are requested only when the daily
+minimum is not met or the on-disk pool needs refresh. Generated feeds expose
+arXiv truncation, conference supplement counts, minimum status, and per-source
+conference health rather than silently presenting incomplete retrieval as
+complete.
 
 Thank you to arXiv for use of its open access interoperability.
 
