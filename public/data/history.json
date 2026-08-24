@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-24T02:55:19.024175+00:00",
+  "generated_at": "2026-08-24T10:53:02.352651+00:00",
   "papers": [
     {
       "id": "2608.20820",
@@ -57,7 +57,7 @@
           "id": "trustworthy_llm",
           "name": "Trustworthy LLM",
           "status": "background",
-          "score": 0.6047,
+          "score": 0.6049,
           "matched": [
             "llm safety",
             "LLM safety",
@@ -78,11 +78,11 @@
         }
       ],
       "scores": {
-        "total": 0.7204,
+        "total": 0.6521,
         "relevance": 0.7915,
         "quality": 0.45,
-        "novelty": 0.859,
-        "freshness": 0.6,
+        "novelty": 0.2,
+        "freshness": 0.5526,
         "feedback_adjustment": -0.016,
         "semantic_feedback": 0.0
       },
@@ -90,6 +90,19 @@
         "experiments",
         "formal bound"
       ],
+      "summary": {
+        "evidence": "实验在六种LLM上验证，显示实证安全超过认证界限，但未提供具体数值。",
+        "limitations": "未在摘要中提及具体限制。",
+        "method": "作者通过状态对抗MDP建模对话安全，并提出组合认证和(α,β)-安全持续性机制。",
+        "problem": "现有方法无法处理多轮越狱攻击，导致认证界限随轮数指数级退化。",
+        "takeaway": "MTCR框架通过组合认证和安全持续性机制，实现了比传统方法更优的多轮鲁棒性认证。",
+        "why_for_you": "高效对抗训练中的多轮鲁棒性认证问题。",
+        "source": "abstract",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
       "analysis_status": "pending",
       "recommendation_reason": {
         "topic": "Efficient adversarial training",
@@ -100,117 +113,7 @@
         ],
         "lane": "llm"
       },
-      "summary": {
-        "takeaway": "MTCR delivers certified multi‑turn safety guarantees that are substantially tighter than naive multiplicative bounds.",
-        "problem": "Existing certifications handle only single‑turn attacks, causing exponential safety degradation under multi‑turn jailbreaks.",
-        "method": "The authors model conversations as State‑Adversarial MDPs and combine embedding‑space mode decomposition with (α,β)-safety persistence to compute certified k‑turn robustness.",
-        "evidence": "Across six LLMs, MTCR’s certified lower bounds (e.g., 0.36 vs 0.13 at k=5 for LLaMA‑2‑7B‑Chat) are consistently below empirical safety, which exceeds the bounds by 0.18–0.30.",
-        "limitations": "Certification applies only to ε‑bounded (character‑level) perturbations, relies on heuristic clustering, and uses a binary safety predicate.",
-        "why_for_you": "If you seek efficient adversarial training or trustworthy LLM safety, MTCR offers a formal multi‑turn robustness framework that can guide safety‑aware training objectives.",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🛡️",
-            "text": "MTCR yields certified multi‑turn safety bounds up to 0.23 higher than naive multiplicative bounds (e.g., 0.36 vs 0.13 at k=5 for LLaMA‑2‑7B‑Chat)."
-          },
-          {
-            "icon": "🔧",
-            "text": "Combines embedding‑space mode decomposition with (α,β)-safety persistence, improving degradation from p^k to β^k."
-          },
-          {
-            "icon": "✅",
-            "text": "Empirical safety exceeds certified bounds by 0.18–0.30 across six LLMs, but guarantees hold only for ε‑bounded perturbations."
-          }
-        ],
-        "overview": "The paper introduces Multi‑Turn Certified Robustness (MTCR), a framework that models conversational safety as a State‑Adversarial MDP and defines k‑turn certified robustness as the worst‑case safety probability over k adaptive adversarial turns. By decomposing dialogue embeddings into modes and exploiting (α,β)-safety persistence, MTCR derives compositional lower bounds that are tighter than naive multiplication and matches information‑theoretic upper bounds for non‑overlapping modes. Experiments on six production LLMs under both static ε‑ball and adaptive Crescendo attacks show certified guarantees that are consistently respected by empirical safety, though a gap remains.",
-        "methodology": [
-          {
-            "title": "State‑Adversarial MDP modeling",
-            "detail": "Conversation history is embedded into a state space S; an ε‑bounded adversary selects user messages within a perturbation ball, and safety is defined by a binary predicate over states."
-          },
-          {
-            "title": "Embedding‑space mode decomposition",
-            "detail": "Safe dialogue embeddings from 500 held‑out conversations are clustered via k‑means (M∈{2,4,8}); intra‑mode safety is certified separately from inter‑mode transitions, yielding a compositional bound (Corollary 3.2)."
-          },
-          {
-            "title": "(α,β)-safety persistence",
-            "detail": "Defines a structural property where the multi‑turn bound improves from p^k to β^k (β>p) with a linear horizon characterization 1−k(1−β) (Theorem 3.5)."
-          },
-          {
-            "title": "Unified certification algorithm",
-            "detail": "Algorithm 1 combines compositional and persistence bounds to compute the certified guarantee ρ̂_k for any horizon k."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Compositional certification",
-            "detail": "By certifying intra‑mode safety and transition costs separately, the lower bound avoids the exponential decay of naïve multiplication, achieving tighter guarantees for non‑overlapping mode partitions."
-          },
-          {
-            "title": "Safety persistence theory",
-            "detail": "The (α,β) property ensures that safety degrades geometrically with factor β rather than p, and the authors prove matching information‑theoretic upper bounds, establishing tightness under the stated structural assumptions."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Evaluation on six LLMs",
-            "detail": "Open‑source (LLaMA‑2‑7B‑Chat, Vicuna‑7B, Llama‑3.2‑3B, Qwen2.5‑7B‑Instruct) and closed‑source (GPT‑4o, Claude‑3.5‑Sonnet) models were certified at horizons k∈{5,10,15,20}. Attacks: ε‑bounded character edits (ε=5) and Crescendo‑style adaptive attacks. Metrics: certified lower bound ρ̂_k, empirical safety (fraction of safe trials over 100 runs), and gap = Empirical – ρ̂_k."
-          },
-          {
-            "title": "Baseline comparisons",
-            "detail": "Four variants were compared: naive multiplicative bound, optimistic reference (not certified), Persistence‑Only, Compositional‑Only, and the full MTCR (combined). MTCR consistently provided the highest certified bound per horizon."
-          },
-          {
-            "title": "Ablation and mode granularity",
-            "detail": "Ablation (Table 3) shows the combined formula outperforms each component alone. Varying M shows coarser modes (M=2) give higher ρ̂_5 (0.39) than finer modes (M=8, 0.25) due to increased overlap κ."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Tighter certified bounds",
-            "detail": "For LLaMA‑2‑7B‑Chat at k=5, MTCR achieves ρ̂_k=0.36 versus the naive bound 0.13, a 0.23 improvement."
-          },
-          {
-            "title": "Empirical safety exceeds certification",
-            "detail": "Across models, empirical safety under Crescendo exceeds MTCR bounds by 0.18–0.30, confirming that the bounds are not violated."
-          },
-          {
-            "title": "Computation cost",
-            "detail": "Full certification of a single open‑source model for four horizons requires ~2.5 hours on an A100 GPU, making the approach practical for offline pre‑deployment auditing."
-          }
-        ],
-        "contributions": [
-          "Multi‑Turn Certified Robustness (MTCR) framework for LLM safety.",
-          "Compositional certification via embedding‑space mode decomposition.",
-          "(α,β)-safety persistence theory improving degradation rates.",
-          "Matching information‑theoretic upper bounds establishing tightness.",
-          "Empirical evaluation on six production LLMs under static and adaptive attacks."
-        ],
-        "limitations": [
-          "Formal guarantees are limited to ε‑bounded (character‑level) perturbations; no provable safety for semantic attacks.",
-          "Mode decomposition relies on heuristic k‑means clustering; bound tightness depends on chosen M and overlap κ.",
-          "Safety predicate is binary and detector‑dependent; graded harmfulness scores are unsupported.",
-          "Randomized smoothing incurs significant sample cost, restricting real‑time applicability."
-        ],
-        "open_questions": [
-          "How can certification be extended to semantic or higher‑level perturbation models beyond ε‑balls?",
-          "Can mode discovery be automated with theoretical guarantees to reduce reliance on heuristic clustering?",
-          "What adaptations are needed to certify graded safety metrics rather than binary predicates?",
-          "How might the smoothing sample complexity be reduced while preserving tightness for real‑time safety auditing?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "recommended_at": "2026-08-24T02:55:19.024175+00:00"
+      "recommended_at": "2026-08-24T10:53:02.352651+00:00"
     },
     {
       "id": "2608.21172",
@@ -272,15 +175,115 @@
         }
       ],
       "scores": {
-        "total": 0.6653,
+        "total": 0.5925,
         "relevance": 0.7336,
         "quality": 0.33,
-        "novelty": 0.9036,
-        "freshness": 0.6415,
+        "novelty": 0.2,
+        "freshness": 0.5941,
         "feedback_adjustment": -0.0191,
         "semantic_feedback": 0.0
       },
       "quality_signals": [],
+      "summary": {
+        "takeaway": "Thermal-aware client adaptation combined with robust sparse aggregation enables resilient edge LLM fine‑tuning under thermal stress and adversarial updates.",
+        "problem": "Edge federated fine‑tuning must simultaneously handle device thermal constraints and malicious update corruption.",
+        "method": "Thermo‑FL uses device temperature to modulate LoRA layer participation and update sparsity, and introduces TERRA aggregation with norm filtering, mask‑aware directional validation, adaptive clipping, and mask‑aware aggregation.",
+        "evidence": "In an 80‑client emulator, Thermo‑FL achieved the highest BoolQ exact‑match accuracy (72.32% clean) and improved GSM8K robustness versus sparse FedAvg.",
+        "limitations": "Evaluation uses only two Jetson clients physically and limited attack scenarios; temperature policy is fixed and device‑specific.",
+        "why_for_you": "Matches your interest in efficient adversarial training by jointly reducing compute/communication load and defending against update attacks.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🛡️",
+            "text": "Thermo-FL integrates temperature-driven LoRA sparsity control with TERRA robust aggregation, achieving top BoolQ accuracy (72.32% clean)."
+          },
+          {
+            "icon": "🔧",
+            "text": "Thermo-FL adjusts LoRA-layer fraction and update density by temperature, while TERRA applies norm filtering and mask-aware directional validation."
+          },
+          {
+            "icon": "📊",
+            "text": "Emulator shows Thermo-FL raises FedAvg accuracy from 26.69% to 31.09% under sign‑flip attacks, yet physical tests use only two clients."
+          }
+        ],
+        "overview": "Thermo-FL addresses the dual challenge of thermal instability and adversarial updates in edge federated LLM fine‑tuning. Clients monitor device temperature and dynamically reduce the fraction of LoRA layers trained and the sparsity of transmitted updates, easing compute and bandwidth under heat stress. The server employs TERRA, a multi‑stage robust aggregator that filters by norm, validates direction with mask awareness, clips active coordinates adaptively, and aggregates sparsely. Experiments on an 80‑client emulator and a two‑Jetson testbed show superior BoolQ accuracy and improved GSM8K robustness, while also stabilizing temperature and shrinking upload size.",
+        "methodology": [
+          {
+            "title": "Temperature‑Driven LoRA Control",
+            "detail": "Device temperature triggers a policy that lowers the active LoRA‑layer fraction and the top‑k sparsification rate when T ≥ T_crit, reducing local compute and communication."
+          },
+          {
+            "title": "TERRA Robust Aggregation",
+            "detail": "Server‑side pipeline combines norm filtering, mask‑aware directional validation, adaptive active‑coordinate clipping, and mask‑aware aggregation for dynamically sparse updates."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Thermal Threshold Policy",
+            "detail": "A fixed temperature threshold T_crit and hardware‑specific parameters κ, ρ determine when to switch from full‑frequency (f_max) to throttled frequency (f_th) and adjust LoRA activity."
+          },
+          {
+            "title": "Mask‑Aware Directional Validation",
+            "detail": "Updates are accepted only if the cosine similarity of their support‑restricted vectors exceeds a directional threshold τ_dir, rejecting sign‑flipped or misaligned updates."
+          },
+          {
+            "title": "Adaptive Coordinate Clipping",
+            "detail": "For surviving updates, each coordinate is clipped to a bound m_{k,j}·q_t, ensuring that at most ρ_max·d coordinates dominate the aggregation."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Large‑Scale Emulator",
+            "detail": "80 logical clients (10 per round, 12.5% participation) fine‑tune Qwen2.5‑0.5B on BoolQ and GSM8K using LoRA rank 16; attacks include sign‑flip and mixed poisoning; metrics: exact‑match accuracy."
+          },
+          {
+            "title": "Physical Jetson Testbed",
+            "detail": "Two Jetson Orin Nano clients and a laptop server evaluate temperature stabilization, bitmap sparse encoding compression, and robustness against sign‑flip/scale and MITM noise attacks."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Superior BoolQ Performance",
+            "detail": "Thermo-FL achieved 72.32% clean, 71.16% sign‑flip, and 72.11% mixed attack accuracy, outperforming all baselines."
+          },
+          {
+            "title": "GSM8K Robustness",
+            "detail": "Thermo-FL remained competitive (33.74% clean) and improved over sparse FedAvg under attacks (31.09% sign‑flip, 31.67% mixed)."
+          },
+          {
+            "title": "System Benefits",
+            "detail": "Physical prototype showed stabilized device temperature, reduced upload size via bitmap sparse encoding, and preserved utility under adversarial perturbations."
+          }
+        ],
+        "contributions": [
+          "Thermal‑aware client control that modulates LoRA training and sparsity based on temperature.",
+          "TERRA aggregation pipeline integrating norm filtering, mask‑aware directional validation, adaptive clipping, and mask‑aware aggregation.",
+          "Empirical demonstration of joint hardware‑aware and robust federated fine‑tuning on LLMs."
+        ],
+        "limitations": [
+          "Physical testbed limited to two Jetson clients, not reflecting large‑scale deployments.",
+          "Attack evaluation on hardware covered only one sign‑flip/scale and one MITM noise injection scenario.",
+          "Temperature control uses fixed thresholds and device‑specific parameters, requiring recalibration for other hardware.",
+          "TERRA does not replace cryptographic transport protection or secure boot mechanisms."
+        ],
+        "open_questions": [
+          "How can temperature thresholds and adaptation parameters be learned automatically for heterogeneous devices?",
+          "Can Thermo-FL scale to dozens or hundreds of diverse edge clients while maintaining robustness?",
+          "What is the impact of Thermo-FL on other LLM tasks beyond BoolQ and GSM8K?",
+          "How does Thermo-FL interact with secure aggregation or differential privacy mechanisms?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
       "analysis_status": "pending",
       "recommendation_reason": {
         "topic": "Efficient adversarial training",
@@ -292,106 +295,7 @@
         ],
         "lane": "llm"
       },
-      "summary": {
-        "takeaway": "Thermal-aware client adaptation combined with robust sparse aggregation enables resilient federated LoRA fine‑tuning of LLMs on edge devices.",
-        "problem": "Edge federated LLM fine‑tuning must cope with thermal‑induced performance throttling and adversarial update corruption simultaneously.",
-        "method": "Thermo‑FL uses device temperature to modulate LoRA layer participation and update sparsity, and introduces TERRA, a multi‑stage robust aggregation for sparse updates.",
-        "evidence": "In an 80‑client emulator Thermo‑FL achieved the highest BoolQ exact‑match (72.32% clean, 71.16% sign‑flip, 72.11% mixed) and improved GSM8K accuracy under attacks, while the Jetson prototype showed temperature stabilization and reduced upload size.",
-        "limitations": "Evaluation used only two physical clients and a narrow set of attacks; temperature thresholds are fixed and device‑specific, and TERRA does not replace cryptographic safeguards.",
-        "why_for_you": "Relevant if you seek methods that jointly address efficient adversarial training and edge‑device constraints in LLM fine‑tuning.",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "Thermo‑FL introduces temperature‑driven LoRA layer selection and sparse update encoding for edge federated fine‑tuning."
-          },
-          {
-            "icon": "🔧",
-            "text": "TERRA aggregation combines norm filtering, mask‑aware directional validation, and adaptive clipping to robustly merge sparse updates."
-          },
-          {
-            "icon": "📈",
-            "text": "Thermo‑FL attained 72.32% BoolQ accuracy (clean) and outperformed baselines under sign‑flip and mixed attacks, but physical tests involved only two Jetson clients."
-          }
-        ],
-        "overview": "Thermo‑FL tackles the dual challenge of thermal constraints and adversarial updates in edge federated LLM fine‑tuning. Clients monitor device temperature and dynamically reduce the fraction of active LoRA layers and the density of transmitted updates, while the server applies TERRA, a robust aggregation pipeline that filters by norm, validates direction with mask awareness, clips adaptively, and aggregates sparsely. Experiments on an 80‑client emulator and a two‑Jetson physical testbed demonstrate improved robustness on BoolQ and competitive GSM8K performance, alongside temperature stabilization and communication compression.",
-        "methodology": [
-          {
-            "title": "Client‑side temperature control",
-            "detail": "Device temperature triggers adjustments of active LoRA‑layer fraction (κ) and update sparsity (ρ), reducing compute and bandwidth when T ≥ T_crit."
-          },
-          {
-            "title": "Sparse update encoding",
-            "detail": "Clients encode selected LoRA coordinates as bitmap masks, achieving compressed upload sizes."
-          },
-          {
-            "title": "Server‑side TERRA pipeline",
-            "detail": "TERRA sequentially applies magnitude (norm) filtering, mask‑aware directional validation, adaptive active‑coordinate clipping, and mask‑aware aggregation to sparse updates."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Thermal‑driven LoRA adaptation",
-            "detail": "When temperature exceeds a critical threshold, the system lowers κ (fewer LoRA layers trained) and increases sparsity ρ, directly linking hardware state to learning workload."
-          },
-          {
-            "title": "Mask‑aware directional validation",
-            "detail": "Updates are accepted only if the cosine similarity of their support‑restricted vectors exceeds a threshold τ_dir, rejecting sign‑flipped or misaligned sparse updates."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Emulator study",
-            "detail": "80 logical clients (10 per round, 12.5% participation) fine‑tuned Qwen2.5‑0.5B with LoRA rank 16 on BoolQ and GSM8K; attacks: sign‑flip, mixed (random masking, scaling, noise); metrics: exact‑match accuracy."
-          },
-          {
-            "title": "Physical Jetson prototype",
-            "detail": "Two Jetson Orin Nano clients fine‑tuned the same model; measured device temperature, compressed upload size via bitmap encoding, and utility under sign‑flip/scale and MITM noise attacks."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Robustness on BoolQ",
-            "detail": "Thermo‑FL achieved 72.32% clean accuracy, 71.16% under sign‑flip, and 72.11% under mixed attacks, outperforming all baselines."
-          },
-          {
-            "title": "GSM8K utility",
-            "detail": "Thermo‑FL remained competitive (33.74% clean) and improved over sparse FedAvg under attacks (31.09% sign‑flip, 31.67% mixed)."
-          },
-          {
-            "title": "Hardware benefits",
-            "detail": "Physical tests showed stabilized device temperature and reduced upload payloads through bitmap sparse encoding while preserving task performance."
-          }
-        ],
-        "contributions": [
-          "Temperature‑aware client control for LoRA fine‑tuning",
-          "TERRA robust aggregation pipeline for dynamically sparse updates",
-          "Empirical validation on large‑scale emulator and Jetson physical testbed"
-        ],
-        "limitations": [
-          "Physical testbed limited to two Jetson clients",
-          "Hardware experiments covered only one sign‑flip/scale and one MITM noise attack",
-          "Temperature policy uses fixed thresholds and device‑specific parameters",
-          "TERRA does not replace cryptographic transport, authentication, or secure boot"
-        ],
-        "open_questions": [
-          "How to automatically adapt temperature thresholds and κ/ρ parameters across heterogeneous edge devices?",
-          "What is the scalability of Thermo‑FL and TERRA with larger, more diverse client populations and richer attack spectra?",
-          "Can Thermo‑FL be combined with cryptographic defenses to provide end‑to‑end security without sacrificing efficiency?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "recommended_at": "2026-08-24T02:55:19.024175+00:00"
+      "recommended_at": "2026-08-24T10:53:02.352651+00:00"
     },
     {
       "id": "2608.21019",
@@ -445,7 +349,7 @@
           "id": "trustworthy_llm",
           "name": "Trustworthy LLM",
           "status": "background",
-          "score": 0.4991,
+          "score": 0.4993,
           "matched": [
             "uncertainty",
             "calibration"
@@ -453,11 +357,11 @@
         }
       ],
       "scores": {
-        "total": 0.6608,
+        "total": 0.5904,
         "relevance": 0.6669,
         "quality": 0.54,
-        "novelty": 0.8806,
-        "freshness": 0.6262,
+        "novelty": 0.2,
+        "freshness": 0.5788,
         "feedback_adjustment": -0.0117,
         "semantic_feedback": 0.0
       },
@@ -577,7 +481,7 @@
         ],
         "lane": "llm"
       },
-      "recommended_at": "2026-08-24T02:55:19.024175+00:00"
+      "recommended_at": "2026-08-24T10:53:02.352651+00:00"
     },
     {
       "id": "2608.20554",
@@ -617,7 +521,7 @@
           "id": "trustworthy_llm",
           "name": "Trustworthy LLM",
           "status": "background",
-          "score": 0.6165,
+          "score": 0.6167,
           "matched": [
             "llm safety",
             "LLM safety",
@@ -657,11 +561,11 @@
         }
       ],
       "scores": {
-        "total": 0.6233,
-        "relevance": 0.6356,
+        "total": 0.5555,
+        "relevance": 0.6357,
         "quality": 0.49,
-        "novelty": 0.8556,
-        "freshness": 0.5336,
+        "novelty": 0.2,
+        "freshness": 0.4862,
         "feedback_adjustment": -0.008,
         "semantic_feedback": 0.0
       },
@@ -669,6 +573,82 @@
         "reproducibility",
         "quantitative results"
       ],
+      "summary": {
+        "evidence": "Distillation-induced robustness collapse shows entropy collapse from 56.9 to 2.6 on the same base architecture.",
+        "limitations": "Black-box evaluation limits direct insight into internal model mechanisms.",
+        "method": "aiXamine orchestrates 46 tests across nine services via an automated red-teaming pipeline to produce hierarchical risk profiles.",
+        "problem": "Existing frameworks fail to detect cross-dimensional failure modes where improvements in one trustworthiness dimension harm others.",
+        "takeaway": "aiXamine introduces a unified black-box platform to evaluate cross-dimensional trade-offs in LLM safety, security, and privacy.",
+        "why_for_you": "Researchers studying LLM loss landscapes and adversarial training will find the distillation-induced robustness collapse mechanism and cross-dimensional trade-off analysis directly relevant.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "contributions": [
+          "Unified black-box evaluation framework for LLM safety, security, and privacy",
+          "Identification of three cross-dimensional phenomena invisible to single-axis evaluation",
+          "Formal characterization of distillation-induced robustness collapse"
+        ],
+        "experiments": [
+          {
+            "detail": "121 LLMs (proprietary and open-weight) tested across 46 services with 5,000+ test runs, including frontier models (GPT-5, Gemini 3, Claude-4.5) and open-weight families (Llama-3.x, Qwen3.5, Gemma4)",
+            "title": "Large-scale LLM evaluation"
+          }
+        ],
+        "findings": [
+          {
+            "detail": "Safety enforcement increases over-refusal (99.3 safety score with 1/3 benign query rejections); privacy is orthogonal to other dimensions; distillation causes 56.9→2.6 robustness collapse",
+            "title": "Cross-dimensional trade-offs"
+          }
+        ],
+        "limitations": [
+          "Black-box approach limits insight into internal model mechanisms",
+          "Coverage of nine services may not capture all trustworthiness dimensions"
+        ],
+        "mechanism": [
+          {
+            "detail": "Off-policy distillation without on-policy correction causes entropy collapse, reducing robustness from 56.9 to 2.6 on the same base architecture",
+            "title": "Distillation-induced robustness collapse"
+          }
+        ],
+        "methodology": [
+          {
+            "detail": "Coordinates 46 tests across nine services (adversarial robustness, code security, fairness, hallucination, jailbreak resistance, model/data privacy, OOD robustness, over-refusal, safety alignment) to generate hierarchical risk profiles",
+            "title": "Automated red-teaming pipeline"
+          },
+          {
+            "detail": "Standardized tests applied to both proprietary (API access) and open-weight (containerized deployments) models under identical inference conditions",
+            "title": "Black-box evaluation framework"
+          }
+        ],
+        "open_questions": [
+          "How to mitigate distillation-induced robustness collapse while maintaining alignment",
+          "What alignment strategies can address cross-dimensional trade-offs without compromising multiple trustworthiness dimensions"
+        ],
+        "overview": "This paper presents aiXamine, a black-box platform that reveals cross-dimensional trade-offs in LLM trustworthiness through 46 tests across nine services. It identifies three key phenomena: safety enforcement causing over-refusal (safety tax), privacy's near-orthogonality to other dimensions, and distillation-induced robustness collapse. The study evaluates 120 LLMs with 5,000 test runs, demonstrating that trustworthiness is inherently multi-dimensional and current alignment methods inadequately address this complexity.",
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "aiXamine's unified black-box evaluation of 46 tests across nine services"
+          },
+          {
+            "icon": "⚙️",
+            "text": "Automated red-teaming pipeline with hierarchical risk profiles"
+          },
+          {
+            "icon": "📊",
+            "text": "56.9→2.6 robustness collapse from distillation-induced entropy collapse"
+          }
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
       "analysis_status": "pending",
       "recommendation_reason": {
         "topic": "Trustworthy LLM",
@@ -680,107 +660,192 @@
         ],
         "lane": "llm"
       },
+      "recommended_at": "2026-08-24T10:53:02.352651+00:00"
+    },
+    {
+      "id": "2608.20988",
+      "title": "Jacobian-guided Noise Injection for Quantization Robustness in Large Language Models",
+      "abstract": "Quantization of Large Language Models (LLMs) is often hindered by the sensitivity of the self-attention mechanism to discretization errors. We identify the softmax operator as a bottleneck for quantization stability due to its sensitivity to outliers and state-dependent Jacobian. We theoretically establish that suppressing the norm of this Jacobian helps in bounding quantization-induced performance degradation. Based on this, we propose Jacobian-Guided Noise Injection, a training strategy that injects zero-mean Gaussian noise into pre-attention logits, with variance derived directly from the Jacobian Frobenius norm. Unlike prior approaches that rely on heuristic or penalise jacobian directly, our method provides a way to identify the optimal noise variance based on the local attention sensitivity. We evaluate the method on SOTA LLM architectures, where it demonstrates improved robustness over popular PTQ methods. Empirical analysis reveals that the proposed method gives up to +37% relative gains on Top-1 accuracy on ImageNet-1K for SigLIP and improves relative perplexity by upto 40% on WikiText for language models in low bit quantisation settings, proving the efficacy of the approach.",
+      "authors": [
+        "Deepanshu Pandey",
+        "Arnav Chavan",
+        "Nahush Lele",
+        "Sankalp Dayal",
+        "Deepak Gupta"
+      ],
+      "published": "2026-08-21T11:16:40Z",
+      "updated": "2026-08-21T11:16:40Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2608.20988v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.20988v1",
+      "comment": "Accepted at AdaptFM: Resource-Adaptive Foundation Model Inference, ICML 2026",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5179,
+          "matched": [
+            "training",
+            "robustness"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4508,
+          "matched": [
+            "robustness",
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.1355,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5527,
+        "relevance": 0.5316,
+        "quality": 0.47,
+        "novelty": 0.8449,
+        "freshness": 0.5738,
+        "feedback_adjustment": -0.0185,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "formal bound",
+        "quantitative results"
+      ],
       "summary": {
-        "takeaway": "aiXamine provides the first unified black‑box platform to evaluate safety, security, and privacy of LLMs jointly, exposing cross‑dimensional trade‑offs.",
-        "problem": "Existing benchmarks assess trustworthiness dimensions in isolation, missing interactions such as safety‑utility trade‑offs and privacy independence.",
-        "method": "The system orchestrates 46 standardized tests across nine services via an automated red‑team pipeline, generating hierarchical risk profiles and stakeholder‑weighted rankings.",
-        "evidence": "Applying aiXamine to 121 models over 5,000 runs revealed a safety tax, privacy orthogonality, and a distillation‑induced robustness collapse from 56.9 to 2.6.",
-        "limitations": "The evaluation is confined to predefined black‑box tests and does not incorporate white‑box analyses.",
-        "why_for_you": "It directly addresses trustworthy LLM evaluation, loss‑landscape effects of alignment, and efficient adversarial testing relevant to your interests.",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
+        "takeaway": "Based on this, we propose Jacobian-Guided Noise Injection, a training strategy that injects zero-mean Gaussian noise into pre-attention logits, with variance derived directly from the Jacobian Frobenius norm.",
+        "problem": "Quantization of Large Language Models (LLMs) is often hindered by the sensitivity of the self-attention mechanism to discretization errors.",
+        "method": "Based on this, we propose Jacobian-Guided Noise Injection, a training strategy that injects zero-mean Gaussian noise into pre-attention logits, with variance derived directly from the Jacobian Frobenius norm.",
+        "evidence": "We evaluate the method on SOTA LLM architectures, where it demonstrates improved robustness over popular PTQ methods.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Efficient adversarial training, Trustworthy LLM.",
+        "source": "abstract",
+        "generated_by": "extractive",
         "language": "en",
         "schema_version": 3,
-        "prompt_version": 2
+        "prompt_version": 0
       },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🛡️",
-            "text": "aiXamine unifies 46 black‑box tests across safety, security, and privacy, revealing cross‑dimensional trade‑offs."
-          },
-          {
-            "icon": "⚙️",
-            "text": "The platform orchestrates an automated red‑team pipeline with hierarchical risk profiles and stakeholder‑weighting."
-          },
-          {
-            "icon": "📊",
-            "text": "Evaluation of 121 models over 5,000 runs shows a safety tax and a 56.9→2.6 robustness collapse."
-          }
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training",
+          "robustness"
         ],
-        "overview": "aiXamine introduces a black‑box evaluation framework that jointly measures safety, security, and privacy of LLMs through 46 tests spanning nine services. By automating red‑team attacks and producing hierarchical risk profiles, it enables reproducible, stakeholder‑aware comparisons across 121 proprietary and open‑weight models. The study uncovers three cross‑dimensional phenomena: a quantifiable safety tax manifested as over‑refusal, near‑orthogonal privacy behavior, and a dramatic robustness collapse in off‑policy distillation. Ranking analyses demonstrate stability at coarse tiers but sensitivity within top tiers, highlighting the need for context‑specific weighting.",
-        "methodology": [
-          {
-            "title": "Test Suite Integration",
-            "detail": "46 standardized tests covering adversarial robustness, code security, bias, hallucination, jailbreak resistance, privacy leakage, OOD robustness, over‑refusal, and safety alignment are organized into nine services."
-          },
-          {
-            "title": "Automated Red‑Team Orchestration",
-            "detail": "An end‑to‑end pipeline executes the tests on each model via API or containerized deployment, collecting responses for hierarchical risk scoring."
-          },
-          {
-            "title": "Stakeholder‑Weighted Ranking",
-            "detail": "Risk scores are aggregated using configurable weight vectors; robustness is validated by sampling 10,000 Dirichlet‑distributed weightings."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Safety Tax Mechanism",
-            "detail": "Stronger alignment increases the rate of over‑refusal on benign queries, creating a trade‑off between protection and utility."
-          },
-          {
-            "title": "Distillation‑Induced Robustness Collapse",
-            "detail": "Off‑policy distillation without on‑policy correction leads to entropy collapse, reducing robustness scores from 56.9 to 2.6 on the same architecture."
-          },
-          {
-            "title": "Privacy Orthogonality",
-            "detail": "Privacy leakage metrics show little correlation with safety or security scores, indicating independence from standard alignment objectives."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Model Evaluation",
-            "detail": "121 LLMs (proprietary and open‑weight, 0.8B–120B parameters) were evaluated under identical inference conditions, yielding >5,000 black‑box test runs."
-          },
-          {
-            "title": "Ranking Stability Analysis",
-            "detail": "Kendall’s τ between uniform ranking and 10,000 random weightings was 0.775; top‑four models held #1 in 82% of samples, while fine‑grained ordering varied."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Safety Tax",
-            "detail": "Models with higher safety alignment scores exhibit a systematic increase in over‑refusal, quantified as a trade‑off between safety and utility."
-          },
-          {
-            "title": "Privacy Independence",
-            "detail": "Privacy scores are near‑orthogonal to safety and security dimensions, remaining unchanged across alignment improvements."
-          },
-          {
-            "title": "Robustness Collapse",
-            "detail": "Distilled models experience a catastrophic drop in robustness entropy from 56.9 to 2.6, confirming the collapse phenomenon."
-          },
-          {
-            "title": "Ranking Sensitivity",
-            "detail": "Coarse tier rankings are stable across stakeholder weightings, but within‑tier positions shift markedly, underscoring the need for context‑specific evaluation."
-          }
-        ],
-        "contributions": [
-          "Unified black‑box SSP evaluation platform exposing cross‑dimensional trade‑offs and enabling stakeholder‑aware ranking."
-        ],
-        "limitations": [],
-        "open_questions": [
-          "How can alignment methods reduce the safety tax without sacrificing protection?",
-          "What techniques can improve privacy guarantees while maintaining model utility?",
-          "How can distillation processes be modified to prevent entropy‑driven robustness collapse?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-24T10:53:02.352651+00:00"
+    },
+    {
+      "id": "2608.21074",
+      "title": "PromptResponse: Optimizing Prompts for LLM Coding Tasks",
+      "abstract": "Large language models (LLMs) are increasingly used in research workflows and software development pipelines, yet their output remains sensitive to input prompt variations. This paper presents $\\unicode{x00AB}$PromptResponse$\\unicode{x00BB}$, a controlled study examining how formatting and LLM-based tuning of coding task prompts affect the resulting code's performance, efficiency, and stability. Using five semantically identical yet syntactically distinct variants of the HumanEval dataset$\\unicode{x2014}$baseline, JSON, Markdown, YAML, and an LLM-tuned version$\\unicode{x2014}$we had GPT-4o solve its coding problems over 8200$\\unicode{x00A0}$executions. Our results show that consistent formatting$\\unicode{x2014}$especially JSON$\\unicode{x2014}$improves generation efficiency and syntactic stability, with minor gains in task performance. Conversely, the LLM-tuned prompts resulted in significantly degraded task performance without significant improvements in any other dimension. These findings suggest that low-effort reformatting alone can yield measurable improvements, while tuning must account for model alignment. We conclude our work with providing a set of practical recommendations informed by our results as well as releasing our dataset variants and evaluation pipeline for future work.",
+      "authors": [
+        "Erik Thureck",
+        "Robert Kühnen",
+        "Tim Jacobowitz"
+      ],
+      "published": "2026-08-21T13:16:48Z",
+      "updated": "2026-08-21T13:16:48Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.HC",
+        "cs.SE"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.21074v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.21074v1",
+      "comment": "22 pages, 7 figures, 10 listings",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5829,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.549,
+        "relevance": 0.4663,
+        "quality": 0.66,
+        "novelty": 0.8462,
+        "freshness": 0.5857,
+        "feedback_adjustment": -0.0214,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "baseline comparison",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Large language models (LLMs) are increasingly used in research workflows and software development pipelines, yet their output remains sensitive to input prompt variations.",
+        "problem": "Large language models (LLMs) are increasingly used in research workflows and software development pipelines, yet their output remains sensitive to input prompt variations.",
+        "method": "This paper presents $\\unicode{x00AB}$PromptResponse$\\unicode{x00BB}$, a controlled study examining how formatting and LLM-based tuning of coding task prompts affect the resulting code's performance, efficiency, and stability.",
+        "evidence": "Our results show that consistent formatting$\\unicode{x2014}$especially JSON$\\unicode{x2014}$improves generation efficiency and syntactic stability, with minor gains in task performance.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: LLM loss landscape.",
+        "source": "abstract",
+        "generated_by": "extractive",
         "language": "en",
-        "schema_version": 6,
-        "prompt_version": 2
+        "schema_version": 3,
+        "prompt_version": 0
       },
-      "recommended_at": "2026-08-24T02:55:19.024175+00:00"
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-24T10:53:02.352651+00:00"
     },
     {
       "id": "2608.20518",
