@@ -1,6 +1,1080 @@
 {
-  "generated_at": "2026-08-24T10:53:02.352651+00:00",
+  "generated_at": "2026-08-25T10:49:06.180385+00:00",
   "papers": [
+    {
+      "id": "2608.23391",
+      "title": "Cross-Domain, Multi-Task Data-to-Text Generation without In-Domain Training Data",
+      "abstract": "Structured data exists in many forms (tables, knowledge graphs, charts, and time series), and converting it into text may involve different generation tasks. However, most prior work on data-to-text (D2T) generation has focused on specific tasks and datasets, relying either on task-specific training data or on the zero-shot capabilities of large language models. We study cross-domain D2T generation in a setting where neither in-domain training text nor test references are available, and where domains, generation goals, and input structures vary substantially. We compare data-driven knowledge distillation (DDKD) against zero-shot inference and fine-tuning on out-of-domain D2T data, and introduce structure-preserving augmentation via structural subsampling and perturbation. Experiments on five benchmarks show that, at constant model size (1.7B parameters), DDKD consistently outperforms both fine-tuning and zero-shot inference. Moreover, the resulting small models outperform a much larger finetuned model on two of the five domains, achieving comparable performance on the remaining three. We further construct QUINTD-5, a fivefold extension of QUINTD-1, and show that simply scaling real target-domain inputs yields only modest gains, whereas our augmentation strategy remains more effective and more cost-efficient for cross-domain distillation.",
+      "authors": [
+        "Yifei Song",
+        "Kun Efimov-Zhang",
+        "Claire Gardent"
+      ],
+      "published": "2026-08-24T15:37:19Z",
+      "updated": "2026-08-24T15:37:19Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.23391v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.23391v1",
+      "comment": "Accepted by EMNLP Findings 2026",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.6024,
+          "matched": [
+            "efficient",
+            "training",
+            "fine-tuning"
+          ]
+        },
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.5966,
+          "matched": [
+            "training data",
+            "data"
+          ]
+        },
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "emerging",
+          "score": 0.1519,
+          "matched": [
+            "distillation"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6552,
+        "relevance": 0.6316,
+        "quality": 0.58,
+        "novelty": 0.8436,
+        "freshness": 0.8857,
+        "feedback_adjustment": -0.0173,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "experiments",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "method": "大型教师模型（zero‑shot 或 WebNLG‑fine‑tuned）生成合成目标域文本，经过增强后通过最大似然训练紧凑学生模型。",
+        "evidence": "在五个基准上，1.7B 学生模型始终比 zero‑shot 与 WebNLG‑fine‑tuned 模型错误率更低，并在两个领域超越更大的 fine‑tuned 模型。",
+        "takeaway": "基于数据的知识蒸馏结合结构保持增强，使小模型在跨域 data‑to‑text 生成中无需目标域文本即可超越更大的 fine‑tuned 基线。",
+        "why_for_you": "本文提出高效的 on‑policy 蒸馏流水线和数据选择增强，符合您对高效对抗训练和 LLM 数据选择的兴趣。",
+        "limitations": "结果仅在 1B‑2B Qwen3/Gemma3 模型上展示，使用启发式增强和闭源 LLM 评审。",
+        "problem": "在缺乏领域内训练文本或参考的情况下，从跨域异构结构化输入生成文本。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "DDKD 结合结构保持增强在五个领域始终实现更低错误率，优于 zero‑shot 与 fine‑tuning。"
+          },
+          {
+            "icon": "⚙️",
+            "text": "来自 zero‑shot 或 WebNLG‑SFT 教师的合成 (x, ŷ) 对通过标准最大似然训练 1.7B 学生模型。"
+          },
+          {
+            "icon": "📊",
+            "text": "DDKD 学生在两个领域超越更大的 fine‑tuned 模型，但仅限于 1B‑2B Qwen3/Gemma3 系列。"
+          }
+        ],
+        "overview": "作者通过将大型教师的知识蒸馏至小学生模型，解决无目标域监督的跨域 data‑to‑text 生成。合成目标域示例由 zero‑shot LLM 或 WebNLG‑fine‑tuned LLM 生成，再经结构保持增强（子抽样与扰动）扩展。基于这些示例训练的 1.7B 学生模型在五个异构基准上始终降低错误率，相比 zero‑shot 与跨域 fine‑tuned 基线，并在两个领域超越更大的 fine‑tuned 模型。",
+        "methodology": [
+          {
+            "title": "教师生成",
+            "detail": "一个大型 LLM（零样本或在 WebNLG 上微调）为每个目标域结构化输入 x 生成合成文本 ŷ̃。"
+          },
+          {
+            "title": "合成数据增强",
+            "detail": "结构子抽样和受控扰动在教师生成前产生多样且保持 schema 的 x 变体。"
+          },
+          {
+            "title": "学生模型训练",
+            "detail": "学生模型（1.7B Qwen3 或 Gemma3）使用标准最大似然损失 L_DDKD = −log pθ(ŷ̃|x) 在 (x, ŷ̃) 对上进行训练。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "数据驱动知识蒸馏",
+            "detail": "蒸馏仅依赖教师生成的文本，避免基于 logits 或置信度的方法，使过程与模型无关。"
+          },
+          {
+            "title": "结构保持增强",
+            "detail": "增强通过定义原子单元并强制可交换性来遵循输入 schema，提升对格式异构性的鲁棒性。"
+          }
+        ],
+        "experiments": [
+          {
+            "detail": "五个QUINTD-1目标领域（Wikidata、冰球、天气、GSM Arena、OWID）在Qwen3-1.7B和Gemma3-1B主干网络上，使用三个小型模型（零样本、WebNLG-SFT、DDKD）进行评估；更大规模的微调模型用于比较。",
+            "title": "基准与基线"
+          },
+          {
+            "detail": "错误率（LLM作为评判者，越低越好）和内容覆盖分数（越高越好）由两位独立评判者（GPT-5.1、Gemini-2.5-Pro）及人工验证评估。",
+            "title": "指标"
+          }
+        ],
+        "findings": [
+          {
+            "detail": "DDKD在所有五个领域中始终比零样本和WebNLG微调基线模型取得更低的错误率。",
+            "title": "错误率降低"
+          },
+          {
+            "detail": "1.7B参数的DDKD学生模型在两个领域中优于更大规模的微调模型，并在其余三个领域表现相当。",
+            "title": "小型模型优势"
+          },
+          {
+            "detail": "结构保持增强相比单纯扩展真实目标领域输入产生更大收益，且计算成本更低。",
+            "title": "增强效果"
+          },
+          {
+            "detail": "与零样本、E2E或KELM-Q1教师相比，WebNLG-SFT教师在忠实度-覆盖度权衡上表现最佳。",
+            "title": "教师选择影响"
+          }
+        ],
+        "contributions": [
+          "引入数据驱动的知识蒸馏用于跨域 D2T，无需目标域参考。",
+          "提出保持结构的增强（子抽样、扰动），以应对模式和格式的异构性。",
+          "创建 QUINTD‑5，作为 QUINTD‑1 的五倍扩展，用于评估规模与增强的关系。",
+          "提供基于 LLM 评审、人类验证和覆盖率检查的无参考评估框架。"
+        ],
+        "limitations": [
+          "仅在小规模 (1B‑2B) Qwen3/Gemma3 模型上评估，未验证对更大架构的迁移性。",
+          "增强启发式依赖手工定义的原子单元和可交换性约束，可能不适用于所有领域。",
+          "评估依赖闭源 LLM 评审，导致成本并可能产生领域偏差。"
+        ],
+        "open_questions": [
+          "当扩展到更大学生模型或不同架构族时，DDKD 的表现如何？",
+          "更原理化或学习式的增强策略能否进一步提升跨域迁移？",
+          "使用完全开源评估器替代专有 LLM 评审对评估可靠性有何影响？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "efficient",
+          "training",
+          "fine-tuning"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-25T10:49:06.180385+00:00"
+    },
+    {
+      "id": "2608.23353",
+      "title": "FormuEvo: LLM-Guided Evolution for Discovering Solver-Efficient Mixed-Integer Programming Formulations",
+      "abstract": "Mixed-integer programming (MIP) lies at the core of operations research and industrial optimization. While large language models (LLMs) have recently shown promise in automated MIP modeling from natural language, they prioritize semantic correctness but overlook formulation strength, severely bottlenecking the efficiency of downstream solvers. We propose FormuEvo, an LLM-guided evolutionary framework for automated discovery of solver-efficient MIP formulations. FormuEvo frames MIP formulation design as evolutionary optimization over the symbolic space of MIP formulations, represented as executable modeling programs, by iteratively generating, evaluating, and selecting stronger candidates via LLM-driven crossover, mutation, and repair operations. To move beyond blind exploration, FormuEvo introduces a solver-informed diagnosis mechanism that exploits fine-grained solver statistics as verbal gradients for targeted refinement. Additionally, a structured memory abstracts prior experience into reusable modeling strategies, avoiding redundant exploration while enabling zero-shot transfer to unseen problems and bootstrapping smaller LLMs. Experiments across diverse linear and non-linear problems demonstrate that FormuEvo discovers formulations that significantly outperform both expert-designed formulations and existing LLM-based approaches, accelerating solvers by up to 5.5$\\times$, with distilled knowledge transferring effectively across problems and model scales.",
+      "authors": [
+        "Haofeng Yuan",
+        "Jianing Peng",
+        "Jieyi Bi",
+        "Ni Zhang",
+        "Shiji Song",
+        "Zhiguang Cao"
+      ],
+      "published": "2026-08-24T15:01:28Z",
+      "updated": "2026-08-24T15:01:28Z",
+      "categories": [
+        "cs.CL",
+        "cs.NE"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.23353v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.23353v1",
+      "comment": "27 pages, 6 figures, and 9 tables. To appear in the Proceedings of EMNLP 2026",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5781,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.4283,
+          "matched": [
+            "efficient"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5824,
+        "relevance": 0.5481,
+        "quality": 0.47,
+        "novelty": 0.88,
+        "freshness": 0.8822,
+        "feedback_adjustment": -0.0236,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "FormuEvo uses LLM-driven evolutionary search with solver-informed feedback to automatically discover MIP formulations that run up to 5.5× faster than expert or prior LLM baselines.",
+        "problem": "Existing LLM-based MIP modeling generates semantically correct formulations but ignores formulation strength, leading to poor solver performance.",
+        "method": "The system iteratively evolves executable formulation programs via LLM-powered crossover, mutation, and repair, guided by verbalized solver statistics and a memory of past successful strategies.",
+        "evidence": "Across classical MILP/MINLP benchmarks, FormuEvo achieves the best runtime on most instances and up to 5.5× speedup over the strongest baselines.",
+        "limitations": "Ablations show that removing the solver-informed diagnosis or memory components noticeably worsens runtime, indicating dependence on these modules.",
+        "why_for_you": "If you study LLM loss landscapes, the paper’s use of solver feedback as verbal gradients offers a novel signal for guiding LLM generation, relevant to efficient adversarial training.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "⚡",
+            "text": "FormuEvo discovers solver‑efficient MIP formulations, attaining up to 5.5× runtime acceleration over expert and LLM baselines."
+          },
+          {
+            "icon": "🔧",
+            "text": "It converts fine‑grained solver statistics into verbal gradients that steer LLM‑driven crossover, mutation, and repair."
+          },
+          {
+            "icon": "📊",
+            "text": "Ablation on TSP hard instances shows runtime rising from 0.1410 to 0.3079 without diagnosis, highlighting the importance of the feedback loop."
+          }
+        ],
+        "overview": "FormuEvo frames MIP formulation design as an evolutionary optimization over executable modeling programs. LLMs act as generators for crossover, mutation, and repair, while a solver‑informed diagnosis module extracts runtime, presolve, root‑gap, and branch‑and‑bound statistics and translates them into verbal gradients that guide the search. A structured memory stores reusable modeling strategies distilled from previous problems, enabling zero‑shot transfer to new instances and bootstrapping smaller LLMs. Experiments on diverse MILP and MINLP benchmarks demonstrate consistent runtime reductions and superior solved‑instance counts compared to expert and prior LLM approaches.",
+        "methodology": [
+          {
+            "title": "Evolutionary Search with LLM Operators",
+            "detail": "FormuEvo maintains a population of executable formulation programs; each generation applies LLM‑driven crossover, mutation, and repair to produce offspring, which are evaluated by a MIP solver."
+          },
+          {
+            "title": "Solver‑Informed Diagnosis",
+            "detail": "Fine‑grained solver statistics (runtime, presolve info, root node gap, B&B node count) are converted into natural‑language gradients that bias the LLM’s generation toward stronger formulations."
+          },
+          {
+            "title": "Structured Memory & Distillation",
+            "detail": "Prior successful formulation patterns are abstracted into a memory store; during generation, the LLM retrieves and adapts these patterns, allowing transfer to unseen problems and smaller LLMs."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Verbal Gradient Feedback",
+            "detail": "The diagnosis LLM interprets quantitative solver metrics as textual instructions (e.g., “tighten LP relaxation”, “reduce symmetry”), which are fed back into the generator LLM to steer mutation and crossover decisions."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Benchmark Evaluation",
+            "detail": "Evaluated on classical MILP/MINLP problems (TSP, JSSP, BPP, CFLP, QAP) and two novel instances; compared against expert formulations (MTZ, SCF, MCF‑RLT), LLM baselines (ORLM, StepORLM, EvoCut), and multiple backbone LLMs (GPT‑5.4‑nano, GPT‑5.4‑mini, Claude‑Sonnet‑4.6, DeepSeek‑V4‑Flash). Metrics: runtime, wins, solved instances."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Runtime Acceleration",
+            "detail": "FormuEvo achieves up to 5.5× faster solving than the best baseline, with the best discovered formulation often attaining the lowest runtime and highest solved count across benchmarks."
+          },
+          {
+            "title": "Component Importance",
+            "detail": "Ablation removing memory or diagnosis degrades performance (e.g., TSP hard runtime increases from 0.1410 to 0.3079), confirming their critical role."
+          },
+          {
+            "title": "Transferability",
+            "detail": "Distilled knowledge enables smaller LLMs (GPT‑5.4‑nano) to converge near the performance of larger models, reducing computational cost."
+          }
+        ],
+        "contributions": [
+          "LLM‑guided evolutionary framework for automated discovery of solver‑efficient MIP formulations.",
+          "Solver‑informed diagnosis that translates fine‑grained solver statistics into verbal gradients for targeted formulation refinement.",
+          "Structured memory that abstracts and transfers modeling strategies across problems and LLM scales."
+        ],
+        "limitations": [
+          "Performance drops noticeably when the solver‑informed diagnosis or memory components are omitted.",
+          "Experiments are limited to a selected set of MILP/MINLP benchmarks; scalability to larger or more complex instances is not demonstrated.",
+          "The approach relies on external LLM APIs and may incur additional latency or cost in practice."
+        ],
+        "open_questions": [
+          "How does FormuEvo scale to very large‑scale MIP instances with thousands of variables and constraints?",
+          "Can the verbal gradient feedback be formalized to provide theoretical guarantees on convergence or formulation strength?",
+          "What impact do different LLM architectures or training regimes have on the quality and diversity of discovered formulations?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-25T10:49:06.180385+00:00"
+    },
+    {
+      "id": "2608.23179",
+      "title": "NetConfArena: An Executable Benchmark for LLM Agents in Closed-Loop Network Configuration",
+      "abstract": "Large language model (LLM) agents are increasingly attractive for automating network configuration, yet their reliability and failure patterns are poorly understood. An essential prerequisite is to assess such agents in a realistic but risk-free environment. Existing benchmarks, however, fall short: they often treat configuration as static command generation or rely on overly simplified settings. Such evaluations understate the core challenges of network configuration, where correctness requires reasoning about protocol complexity and topology dependence. We present NetConfArena, an executable benchmark for evaluating LLM agents in closed-loop network configuration. NetConfArena places agents in emulated multi-device networks, provides a standardized and compact action interface for task execution, and evaluates the resulting network behavior with hidden task-specific executable test cases. The benchmark relies on an LLM-assisted, emulation-grounded pipeline, which converts human-oriented network materials into reusable parameterized task templates. We evaluate representative LLM agents on 480 task instances instantiated from 96 protocol-focused task templates, yielding 3840 execution trajectories, and show that failures are not limited to command errors. The failures also reveal gaps in task-specification adherence and robust planning and execution. These findings suggest two future directions: using validated trajectories as supervision signals to improve foundation models, and designing harness mechanisms that make agent execution more reliable and accountable.",
+      "authors": [
+        "Chang Liu",
+        "Xiaohui Xie",
+        "Xinyi Chen",
+        "Yong Cui"
+      ],
+      "published": "2026-08-24T12:26:37Z",
+      "updated": "2026-08-24T12:26:37Z",
+      "categories": [
+        "cs.NI",
+        "cs.AI"
+      ],
+      "primary_category": "cs.NI",
+      "abs_url": "https://arxiv.org/abs/2608.23179v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.23179v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm",
+        "foundation model",
+        "foundation models"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5754,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.1189,
+          "matched": [
+            "robust"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5402,
+        "relevance": 0.4841,
+        "quality": 0.48,
+        "novelty": 0.8621,
+        "freshness": 0.8668,
+        "feedback_adjustment": -0.0286,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "method": "作者构建了基于仿真的流水线，将面向人的网络材料转化为参数化任务模板，并通过 GNS3 中的紧凑五动作接口执行。",
+        "evidence": "在 480 项任务（3840 条轨迹）上评估八种 LLM model–thinking‑mode 设置，发现任务规范遵循和规划方面的失败，而非仅仅命令语法错误。",
+        "takeaway": "NetConfArena 提供了真实的闭环基准，揭示了 LLM 代理超出简单命令错误的失败情况。",
+        "why_for_you": "该基准提供系统化的失败轨迹，可用于探查 LLM 损失曲面并设计高效的对抗训练。",
+        "limitations": "参数化模板未能生成全新的操作场景，限制了失败模式的多样性。",
+        "problem": "现有网络配置基准静态或过于简化，缺乏协议复杂性和拓扑依赖性。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🗂️",
+            "text": "NetConfArena 引入了一个闭环仿真基准，包含 480 项任务和 3840 条轨迹，供 LLM 代理使用。"
+          },
+          {
+            "icon": "🔧",
+            "text": "它使用 LLM 辅助的流水线，将参数化任务模板实例化为一致的网络拓扑和动作。"
+          },
+          {
+            "icon": "⚠️",
+            "text": "实验显示出超出命令错误的失败，凸显了规范遵循和规划的缺口，但模板缺乏全新的场景。"
+          }
+        ],
+        "overview": "NetConfArena 通过将人工编写的材料转化为 96 个覆盖 IP 路由、MPLS 和 overlay 协议的参数化模板，构建真实的网络配置任务。LLM 辅助的实例化算法解析逻辑参数和物理接口，生成一致的拓扑、初始与参考配置以及隐藏测试用例。代理通过五个抽象动作（get_running_config、apply_config、execute_validation、wait、submit）与基于 GNS3 的仿真器交互，并在每步获取设备反馈。双视角评估通过测试用例得分衡量结果正确性，通过回合数、动作质量和完成模式衡量过程质量。对八种 model–thinking‑mode 设置在 480 个实例（3840 条轨迹）上的实验揭示了任务规范遵循和规划方面的失败，而非仅是语法错误。",
+        "methodology": [
+          {
+            "title": "参数化任务模板实例化",
+            "detail": "Algorithm 1 将模板模式与值注册表和设备能力进行匹配，确保满足依赖并在渲染产物前保持接口命名一致。"
+          },
+          {
+            "title": "仿真器支持的执行环境",
+            "detail": "在 GNS3 上使用厂商路由器镜像实现，提供真实的 CLI 语法、反馈和协议动态，同时保持评估的可复现性。"
+          },
+          {
+            "title": "Agent‑Network 接口",
+            "detail": "定义了五个抽象动作；每个动作返回观测（配置文本、命令回显、诊断输出），为 agent 的下一步决策提供依据。"
+          },
+          {
+            "title": "双视角评估",
+            "detail": "结果指标：test‑case score（通过的隐藏测试比例）和 Configuration F1。过程指标：回合数、动作比例、错误动作率、重复动作率以及完成模式。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "任务生成一致性",
+            "detail": "已解析的参数保证生成的拓扑、初始配置和参考配置相互兼容，防止对片段的简单记忆。"
+          },
+          {
+            "title": "闭环交互循环",
+            "detail": "Agents 迭代获取状态、应用配置、通过诊断进行验证，并决定何时提交；环境强制执行厂商特定的命令接受并提供即时反馈。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "模型思考模式评估",
+            "detail": "在基准上运行了八种设置，结合 qwen3‑8B、qwen3‑32B、deepseek‑v4‑fla（等）与 ReAct 风格推理。"
+          },
+          {
+            "title": "任务与轨迹规模",
+            "detail": "从 96 个模板生成的 480 个任务实例产生了 3840 条执行轨迹，分别记录了结果和过程分析。"
+          },
+          {
+            "title": "收集的指标",
+            "detail": "每条轨迹报告了 Test‑case score、Configuration F1、回合计数、动作类型分布、error‑action rate、repeat‑action rate 和 completion mode。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "超出语法的失败模式",
+            "detail": "尽管命令语法正确，但由于 Agents 常未遵守任务规范或规划纠正措施，导致 test‑case scores 低下。"
+          },
+          {
+            "title": "过程低效",
+            "detail": "高 error‑action rate 和 repeat‑action rate 表明 agents 经常发出被拒绝或重复的指令，反映出反馈利用受限。"
+          }
+        ],
+        "contributions": [
+          "Executable closed-loop benchmark (NetConfArena) 用于网络配置中的 LLM 代理。",
+          "LLM‑assisted pipeline 将面向人类的材料转换为可重用、参数化的任务模板。",
+          "Dual‑perspective evaluation framework 展示结果正确性和过程质量。"
+        ],
+        "limitations": [
+          "Parameterized templates 并未产生根本新的操作场景，限制了评估失效的多样性。",
+          "Benchmark 依赖 GNS3 仿真和特定厂商镜像，可能无法捕获所有真实设备行为。"
+        ],
+        "open_questions": [
+          "如何利用已验证的成功轨迹作为监督信号，以提升 LLM 的鲁棒性和 loss‑landscape 特性？",
+          "可以设计哪些 harness 机制，使 LLM 代理在闭环网络环境中的执行更可靠且可追溯？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-25T10:49:06.180385+00:00"
+    },
+    {
+      "id": "2608.23311",
+      "title": "Beyond the Stability-Exploration Dilemma: Environmental Regularization for LLM Policy Optimization",
+      "abstract": "Policy optimization (PO) for Large Language Models faces a stability--exploration trade-off, currently mediated by an action-side Policy-KL regularizer. This puts practitioners in a double bind: keeping Policy-KL constrains response behavior and consumes the action-side exploration budget, while dropping it leaves the optimization without an explicit drift control. We argue for an alternative that breaks the dilemma by moving regularization to the input side. As training progresses, the distribution over training queries induced by the current policy drifts unchecked from its pre-RL reference distribution. Concretely, Environment-Regularized Policy Optimization (ERPO) introduces a Query-KL (QKL) term that bounds this query distribution shift, together with a dataset-static reference-derived per-query weight that biases each per-query update toward queries typical under the reference. The QKL gradient flows strictly through the query likelihood; the response score function used by policy-gradient estimators does not appear in the QKL term, so QKL exerts no direct gradient pressure on the response distribution---exploration is preserved. ERPO plugs into GRPO/PPO/REINFORCE-style pipelines without additional forward passes. On six mathematical reasoning benchmarks, ERPO replaces the standard Policy-KL regularizer while achieving effective control over query distribution drift, delivering stronger accuracy and substantially more stable behavior under high-temperature decoding and long-horizon training.Our source code are available at https://github.com/alibaba/ERPO",
+      "authors": [
+        "Xianlei Zhou",
+        "Xiangdi Meng",
+        "Yu He",
+        "Tianyu Qi",
+        "Shuyan Guan",
+        "Xianli Zhang",
+        "Jian Zhang",
+        "Xin Li",
+        "Qika Lin",
+        "Jun Liu"
+      ],
+      "published": "2026-08-24T14:30:59Z",
+      "updated": "2026-08-24T14:30:59Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.23311v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.23311v1",
+      "comment": "Accepted to EMNLP 2026 main conference",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.3749,
+          "matched": [
+            "training"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.3518,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5307,
+        "relevance": 0.3703,
+        "quality": 0.8,
+        "novelty": 0.8604,
+        "freshness": 0.8792,
+        "feedback_adjustment": -0.009,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "benchmark evaluation",
+        "formal bound",
+        "dataset evidence"
+      ],
+      "summary": {
+        "takeaway": "ERPO replaces the action‑side Policy‑KL with a query‑side KL regularizer, yielding more stable and accurate LLM policy optimization.",
+        "problem": "LLM policy optimization faces a stability–exploration dilemma because the model‑induced query distribution drifts unchecked during training.",
+        "method": "ERPO adds a Query‑KL penalty between the current policy’s query distribution and a pre‑RL reference, plus a static per‑query weight, without influencing response‑side gradients.",
+        "evidence": "On six mathematical reasoning benchmarks ERPO improves Avg@32 by up to 14.9% (6.2% average) and shows reduced query‑KL growth, indicating greater stability.",
+        "limitations": "The alignment‑preserving assumption is only empirically validated on mathematical reasoning tasks, and broader applicability is not demonstrated.",
+        "why_for_you": "The query‑distribution regularization directly addresses loss‑landscape instability, which is relevant to efficient adversarial training.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "ERPO introduces Query‑KL regularization to bound policy‑induced query distribution drift, replacing Policy‑KL."
+          },
+          {
+            "icon": "🔧",
+            "text": "QKL gradients only through query likelihood while a reference‑derived per‑query weight reweights updates, preserving exploration."
+          },
+          {
+            "icon": "📈",
+            "text": "Experiments on six math reasoning benchmarks show up to 14.9% absolute accuracy gain (6.2% average) and reduced query‑KL growth, but only within this domain."
+          }
+        ],
+        "overview": "The paper identifies uncontrolled drift of the model‑induced query distribution as a key source of instability in LLM policy optimization. ERPO mitigates this by penalizing the KL divergence between the current query distribution and a static pre‑RL reference (Query‑KL) and by reweighting per‑query updates using reference‑derived probabilities. Integrated seamlessly into GRPO/PPO/REINFORCE pipelines, ERPO preserves exploration because the response‑side gradient remains untouched. Empirical evaluation on six mathematical reasoning benchmarks demonstrates notable accuracy improvements and more stable training dynamics, though the study is limited to this task family.",
+        "methodology": [
+          {
+            "title": "Query‑KL regularization",
+            "detail": "Adds a KL penalty KL(ρθ‖ρθ0) where ρθ is the policy‑induced query distribution and ρθ0 is the pre‑RL reference, computed from cached query log‑probabilities."
+          },
+          {
+            "title": "Reference‑derived per‑query weighting",
+            "detail": "Computes a static weight for each query proportional to the inverse normalized negative log‑probability under the reference model, reducing variance and stabilizing high‑temperature decoding."
+          },
+          {
+            "title": "Estimator‑agnostic integration",
+            "detail": "The QKL term and per‑query weights are inserted into existing GRPO/PPO/REINFORCE updates without extra forward passes."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Decoupling regularization from exploration",
+            "detail": "QKL gradients flow only through the query likelihood ℓθ(q), leaving the response‑side score function untouched, so exploration in the action space is not constrained."
+          },
+          {
+            "title": "Environment drift control",
+            "detail": "By bounding EnvShift(θ)=KL(ρθ‖ρθ0), ERPO limits the non‑stationarity of the training environment, which empirically reduces gradient variance and prevents policy collapse."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Benchmark suite and baselines",
+            "detail": "Six mathematical reasoning datasets derived from MATH Level 3–5 (~8.5K examples) compared ERPO against vanilla GRPO; metrics include Avg@32, Pass@1, Pass@32 across temperature 0.1–1.5."
+          },
+          {
+            "title": "Training dynamics analysis",
+            "detail": "Tracked Query‑KL and Policy‑KL during training; ERPO showed limited Query‑KL growth while GRPO’s Query‑KL rose an order of magnitude higher than its Policy‑KL."
+          },
+          {
+            "title": "Performance gains",
+            "detail": "ERPO achieved up to 14.9% absolute improvement on individual benchmarks, with average gains of 6.2% (Avg@32), 3.64% (Pass@32), and 5.69% (Pass@1)."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Improved accuracy and stability",
+            "detail": "Replacing Policy‑KL with Query‑KL yields higher reasoning accuracy and more stable behavior under high‑temperature decoding and long‑horizon training."
+          },
+          {
+            "title": "Reduced query distribution drift",
+            "detail": "Empirical KL measurements confirm that ERPO curtails the drift of ρθ relative to ρθ0, unlike GRPO where query‑level KL grows substantially."
+          }
+        ],
+        "contributions": [
+          "Query‑environment regularization via Query‑KL to bound policy‑induced query drift",
+          "Static reference‑derived per‑query weighting scheme to reduce variance",
+          "Estimator‑agnostic integration into GRPO/PPO/REINFORCE pipelines"
+        ],
+        "limitations": [
+          "The alignment‑preserving assumption (A1) is empirically validated only on mathematical reasoning tasks",
+          "Evaluation is confined to a single domain; generalization to other LLM applications is not shown"
+        ],
+        "open_questions": [
+          "How does Query‑KL regularization affect adversarial robustness and loss‑landscape geometry in broader LLM tasks?",
+          "Can ERPO be combined with other regularizers (e.g., reward shaping) without interfering with exploration?",
+          "What is the computational trade‑off of caching reference query probabilities for very large corpora?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-25T10:49:06.180385+00:00"
+    },
+    {
+      "id": "2608.23493",
+      "title": "SRPO: Self-Reflective Policy Optimization for Long-Horizon Reasoning",
+      "abstract": "Self-reflection is a powerful mechanism for credit assignment in human learning, converting sparse outcome feedback into actionable guidance. However, its potential for post-training Large Language Models (LLMs) remains underexplored. We propose Self-Reflective Policy Optimization (SRPO), a framework that internalizes this capability. SRPO enables LLMs to analyze their own completed trajectories, synthesize errors into concise \"reflection patches,\" and use reflection-conditioned teacher scores on student on-policy rollouts as dense token-level training signals. This process effectively transforms sparse terminal supervision into dense, token-level learning signals without requiring external critics, separate reward models, or larger teacher models. We demonstrate that SRPO achieves state-of-the-art performance across mathematical reasoning and long-horizon agentic benchmarks with exceptional data efficiency. Using a Qwen3-8B base model, SRPO attains 73.3% on AIME'24 using only 8% (0.08x) of the training FLOPs required by scaled supervised fine-tuning, while significantly improving success rates on WebShop (64.7%), ALFWorld (76.8%), and SWE-Bench-Lite (31.2%). Code is available at https://github.com/Galleons2029/SRPO",
+      "authors": [
+        "Jialong Liu",
+        "Yuling Shi",
+        "Ning Yang",
+        "Xiaodong Gu",
+        "Zuchao Li"
+      ],
+      "published": "2026-08-24T16:55:09Z",
+      "updated": "2026-08-24T16:55:09Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2608.23493v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.23493v1",
+      "comment": "Accepted to ICML 2026",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.4205,
+          "matched": [
+            "training",
+            "fine-tuning"
+          ]
+        },
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "emerging",
+          "score": 0.0709,
+          "matched": [
+            "on-policy"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5153,
+        "relevance": 0.3506,
+        "quality": 0.78,
+        "novelty": 0.8678,
+        "freshness": 0.8935,
+        "feedback_adjustment": -0.0313,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "evidence": "SRPO 仅使用标准监督微调 0.08× 的训练 FLOPs 即在 AIME’24 上达到 73.3%，并在 WebShop、ALFWorld 和 SWE-Bench-Lite 上超越基线。",
+        "limitations": "作者指出需要通过外部验证和校准来改进反思质量。",
+        "method": "SRPO 通过从已完成的轨迹中迭代生成简洁的反思补丁，将其添加到提示中，并使用修补后的模型作为教师，通过反KL token 奖励和 PPO 截断对策略内 rollout 进行评分。",
+        "problem": "稀疏的终端奖励会阻碍长时序推理任务的样本高效学习。",
+        "takeaway": "SRPO 通过自生成的反思补丁将稀疏的结果反馈转化为密集的 token 级监督，以高数据效率实现了最先进的结果。",
+        "why_for_you": "SRPO 提供了一种高效的策略内蒸馏方法，符合您对高效对抗训练和策略内蒸馏的兴趣。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8+@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "overview": "SRPO 通过让 LLM 对其已完成的轨迹进行反思，合成简洁的错误补丁，并利用这些补丁条件化教师模型，为策略内 rollout 提供密集的 token 级奖励，从而解决长时序推理中的信用分配瓶颈。该方法结合自蒸馏与 PPO 风格的截断目标，在数学和代理基准测试中实现卓越准确性，同时显著减少 FLOPs。未来工作旨在通过外部验证提升反思保真度。",
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "SRPO 通过自生成的反思补丁将稀疏的终端反馈转换为密集的 token 级监督，实现 AIME’24 73.3% 的成绩。"
+          },
+          {
+            "icon": "🔧",
+            "text": "两阶段循环：反思增强的教师使用反KL token 奖励和 PPO 风格的截断对策略内 rollout 进行评分。"
+          },
+          {
+            "icon": "📈",
+            "text": "以仅 0.08× 训练 FLOPs（约 5.4×10¹⁸ vs GRPO 的 20.8×10¹⁸）达到最先进性能，但反思质量仍需改进。"
+          }
+        ],
+        "mechanism": [
+          {
+            "detail": "模型的回顾分析创建包含结果信息的教师分布，将每轮 O(1) 位信息转化为 O(T) 令牌级位信息。",
+            "title": "自我反思作为密集奖励生成器"
+          },
+          {
+            "detail": "教师（带有反思补丁的模型）可访问回顾信息，而学生通过在线策略样本学习，促使策略内化修正指导。",
+            "title": "教师-学生动态的非对称性"
+          },
+          {
+            "detail": "使用反向KL作为令牌奖励，促使学生将概率质量集中在教师偏好的令牌上，而非分散到次优选择。",
+            "title": "反向KL模式搜索"
+          }
+        ],
+        "methodology": [
+          {
+            "detail": "在采样初始轨迹 y~πθ 后，模型执行轨迹 τ，获得结果 o，并生成简洁的文本补丁 p = Reflectπθ(x, τ, o)。",
+            "title": "反思补丁生成"
+          },
+          {
+            "detail": "通过将提示 x̃ = [p; x] 作为条件，定义基于 πθ 的反射增强教师策略 πT(·|x)，在当前迭代中保持教师参数冻结。",
+            "title": "教师定义"
+          },
+          {
+            "detail": "对于新策略轨迹中的每个令牌 at，计算缓存奖励 rt = log πT(at|st) − log πθold(at|st)，形成基于反向KL的密集信号。",
+            "title": "令牌奖励计算"
+          },
+          {
+            "detail": "通过减去轨迹级平均奖励获得优势 At，并通过 PPO 风格的裁剪目标 L = −E_t[min(ρt At, clip(ρt,1±ϵ) At)] 更新 θ。",
+            "title": "优势估计与更新"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "基准与基线",
+            "detail": "在 AIME’24、MATH‑500、GSM8K、DeepScaleR（数学）以及 WebShop、ALFWorld、SWE‑Bench‑Lite（代理）上进行评估。基线包括 SFT‑400K、PPO、GRPO、on‑policy distillation、Reflexion、Self‑Refine 和 larger‑teacher distillation。"
+          },
+          {
+            "title": "模型与计算",
+            "detail": "主要模型：Qwen3‑8B。SRPO 使用 5.4×10¹⁸ FLOPs，而 GRPO 为 20.8×10¹⁸（约少 3.8 倍）。"
+          },
+          {
+            "title": "指标与结果",
+            "detail": "在 AIME’24 上达到 73.3%（比 on‑policy distillation 高 3.3 分，比 GRPO 高 5.3 分），WebShop 为 64.7%，ALFWorld 为 76.8%，SWE‑Bench‑Lite 成功率为 31.2%，并在持续学习后保持 95.2% 的数学能力。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "数据高效性能",
+            "detail": "在所有基准上实现最先进的准确率，同时仅使用规模化监督微调所需训练 FLOPs 的 8%。"
+          },
+          {
+            "title": "降低熵坍缩",
+            "detail": "使用密集 token 奖励的 on‑policy 采样可缓解标准 RL 微调中观察到的 entropy collapse。"
+          },
+          {
+            "title": "持续学习保持率",
+            "detail": "在从数学任务适配到代码任务时，SRPO 保持了 95.2% 的原始数学推理性能。"
+          }
+        ],
+        "contributions": [
+          "Self‑reflective framework 从稀疏结果生成密集 token‑level 监督。",
+          "Two‑stage training loop 将 reflection‑augmented teacher scoring 与 PPO‑style on‑policy distillation 结合。",
+          "在数学推理和长时程 agentic 任务上实现 state‑of‑the‑art 结果，并显著节省 FLOP。"
+        ],
+        "limitations": [
+          "Reflection quality 可能受限；作者建议通过 external verification 或更好 calibration 进行后续改进。",
+          "评估仅限于选定的 math 与 agentic benchmarks；更广泛任务的泛化尚未测试。"
+        ],
+        "open_questions": [
+          "SRPO 的 self‑reflection mechanism 能否提升对 prompts 或 environments 中 adversarial perturbations 的鲁棒性？",
+          "该方法在更大模型（如 >70B）和更广泛 domains 上的可扩展性如何？",
+          "可以集成哪些 external verification signals 来进一步提升 reflection patch quality？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8+@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training",
+          "fine-tuning"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-25T10:49:06.180385+00:00"
+    },
+    {
+      "id": "2608.23181",
+      "title": "CyberFactory: Scaling Cyber Security Capabilities with Instances from the Wild",
+      "abstract": "As large language models (LLMs) continue to advance in coding capabilities, their potential in cybersecurity has drawn increasing research attention, with closed-source LLMs (e.g., Mythos) delivering advanced cybersecurity capabilities. However, existing open-source efforts remain limited: frontier open-weight models do not provide reproducible cybersecurity training solutions, open-source training solutions focus on isolated tasks and lack scalable agentic data, and scaling agentic rollouts requires strong domain priors. In this work, we introduce \\textbf{CyberFactory}, a unified open-source framework that connects data construction, trajectory synthesis, and model training across proof-of-concept (PoC) generation, vulnerability patching, and cybersecurity question answering (CyberQA). CyberFactory transforms public vulnerability artifacts, including CVEs from the wild, into executable and verifiable task instances. It further uses a reusable vulnerability-analysis skill to guide the teacher through source inspection, problem solving with domain prior, and evidence-based validation. The resulting supervision is agentic: the model interacts with tools and target environments and revises its solutions according to execution feedback. Using these trajectories, we train and release \\modelname\\footnote{\\emph{Aegis} is, in Greek mythology, the protective shield of Zeus and Athena; the name reflects the model's defensive, security-oriented purpose.}, which internalizes the skill-guided procedure without requiring the skill at inference time. On CyberGym, \\modelname reaches 52.4% Pass@1 under a one-hour budget, improving over its Qwen~3.5 base model by +22.8 points and outperforming the evaluated general-purpose backbones under the same scaffold.",
+      "authors": [
+        "Jian Yang",
+        "Haau-Sing Li",
+        "Shawn Guo",
+        "Zixi Zhao",
+        "Yibo Tan",
+        "Jiajun Wu",
+        "Aishan Liu",
+        "Xianglong Liu",
+        "Tianyu Zheng",
+        "Bryan Dai",
+        "Chengran Yang"
+      ],
+      "published": "2026-08-24T12:30:10Z",
+      "updated": "2026-08-24T12:30:10Z",
+      "categories": [
+        "cs.CR",
+        "cs.CL"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2608.23181v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.23181v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.3391,
+          "matched": [
+            "training"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.2797,
+          "matched": [
+            "proof",
+            "scaling"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4567,
+        "relevance": 0.3272,
+        "quality": 0.57,
+        "novelty": 0.8668,
+        "freshness": 0.8672,
+        "feedback_adjustment": -0.0252,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "open source",
+        "reproducibility",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "CyberFactory enables open-source, scalable training of cybersecurity LLMs by converting real-world CVEs into agentic supervision, yielding a model that outperforms larger baselines.",
+        "problem": "Open-source cybersecurity LLMs lack reproducible training pipelines and scalable agentic data, relying on strong domain priors.",
+        "method": "The framework transforms CVE artifacts into executable tasks and uses a reusable vulnerability‑analysis skill to generate tool‑interactive trajectories for supervised fine‑tuning.",
+        "evidence": "OpenAegis achieves 52.4% Pass@1 on CyberGym within one hour, a 22.8‑point improvement over its Qwen 3.5 base model.",
+        "limitations": "Not stated in the available source.",
+        "why_for_you": "Matches your interest in efficient adversarial training by providing a data‑efficient, skill‑guided pipeline for LLM security tasks.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "CyberFactory converts wild CVE artifacts into executable, difficulty‑calibrated supervision for multi‑task cybersecurity training."
+          },
+          {
+            "icon": "🔧",
+            "text": "Uses a reusable vulnerability‑analysis skill to guide teacher agents through tool‑interactive trajectory synthesis with domain priors."
+          },
+          {
+            "icon": "⚠️",
+            "text": "OpenAegis reaches 52.4% Pass@1 on CyberGym (one‑hour budget), a +22.8‑point gain over Qwen 3.5, but limitations are not reported."
+          }
+        ],
+        "overview": "CyberFactory is an open-source framework that turns public CVE records into executable, verifiable instances spanning PoC generation, patching, and CyberQA. A reusable vulnerability‑analysis skill guides a teacher model to inspect code, invoke tools, and iteratively refine solutions based on execution feedback, producing agentic trajectories. These trajectories are used to fine‑tune OpenAegis, a multi‑task cybersecurity model that internalizes the skill without needing it at inference. Evaluations on the CyberGym benchmark show substantial performance gains over strong baselines, demonstrating the efficacy of skill‑guided data synthesis.",
+        "methodology": [
+          {
+            "title": "Data construction from CVE artifacts",
+            "detail": "Public vulnerability reports are parsed, code snippets extracted, and transformed into executable tasks with calibrated difficulty."
+          },
+          {
+            "title": "Skill‑guided trajectory synthesis",
+            "detail": "A reusable vulnerability‑analysis skill directs a teacher agent to perform source inspection, tool calls, and evidence‑based validation, generating step‑by‑step execution logs."
+          },
+          {
+            "title": "Supervised fine‑tuning of OpenAegis",
+            "detail": "The collected trajectories serve as supervision to fine‑tune a Qwen 3.5‑based backbone, producing a model that reproduces the skill‑driven workflow at inference."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Agentic supervision via tool interaction",
+            "detail": "During synthesis the teacher model interacts with external tools and target environments, revising its outputs based on real execution feedback, which embeds domain priors into the training signal."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "CyberGym evaluation",
+            "detail": "OpenAegis is evaluated on the CyberGym benchmark using Pass@1 under a one‑hour compute budget; comparisons include the Qwen 3.5 base model and other general‑purpose backbones."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Performance improvement",
+            "detail": "OpenAegis attains 52.4% Pass@1, a +22.8‑point gain over its Qwen 3.5 base, and surpasses evaluated backbones under identical scaffolds."
+          },
+          {
+            "title": "Skill‑guided data efficiency",
+            "detail": "Ablations show that skill‑guided trajectory generation yields higher Pass@1 despite using only a quarter of the compute time compared to non‑skill runs."
+          }
+        ],
+        "contributions": [
+          "CyberFactory framework linking data construction, trajectory synthesis, and model training for cybersecurity tasks.",
+          "Scalable agentic‑data pipeline that converts wild CVEs into executable, verifiable instances using a reusable vulnerability‑analysis skill.",
+          "Release of OpenAegis, a multi‑task cybersecurity model that internalizes the skill‑guided procedure without inference‑time dependencies."
+        ],
+        "limitations": [
+          "Not stated in the available source."
+        ],
+        "open_questions": [
+          "How does agentic data generation affect the robustness of cybersecurity LLMs against adversarial attacks and distribution shifts?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-25T10:49:06.180385+00:00"
+    },
     {
       "id": "2608.20820",
       "title": "Certified Multi-Turn Robustness for LLM Safety via Compositional Bounds and Safety Persistence",
@@ -916,89 +1990,97 @@
         "benchmark evaluation",
         "quantitative results"
       ],
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
       "summary": {
-        "takeaway": "FL-MAESTRO uses three specialist LLM agents to jointly decide topology, resources, and aggregation each FL round, eliminating most wasted energy.",
-        "problem": "Federated learning suffers from wasted round energy due to volatile client availability and fixed topology/resource decisions.",
-        "method": "A multi-agent orchestrator employs a TopologyAgent, ResourceAgent, and AggregationAgent whose outputs are synthesized by an LLM coordinator and validated by a non-LLM feasibility check.",
-        "evidence": "On non-IID CIFAR-10 with 30 clients, FL-MAESTRO reduces wasted round energy from >33% to near zero while matching the strongest energy-aware baseline’s accuracy.",
-        "limitations": "Evaluation is limited to simulated CIFAR-10 scenarios and does not assess real-world deployments or larger model scales.",
-        "why_for_you": "If you seek efficient adversarial training, the paper’s resource-aware LLM orchestration may inspire low-energy FL strategies.",
+        "method": "多代理编排器使用 TopologyAgent、ResourceAgent 和 AggregationAgent，其输出由 LLM 协调器合成，并通过非 LLM 可行性检查进行验证。",
+        "evidence": "在 30 客户端的 non‑IID CIFAR‑10 上，FL‑MAESTRO 将浪费的轮次能耗从 >33% 降至接近零，同时保持最强能耗感知基线的准确率。",
+        "takeaway": "FL‑MAESTRO 使用三个专用 LLM 代理在每轮 FL 中共同决定拓扑、资源和聚合，消除大部分浪费能量。",
+        "why_for_you": "如果您关注高效对抗训练，本文的资源感知 LLM 编排或能为低能耗 FL 策略提供灵感。",
+        "limitations": "评估仅限于模拟 CIFAR‑10 场景，未考察真实部署或更大模型规模。",
+        "problem": "联邦学习因客户端可用性波动以及固定的拓扑/资源决策而导致轮次能量浪费。",
         "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
+        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
+        "language": "zh",
         "schema_version": 3,
         "prompt_version": 2
       },
       "deep_dive": {
         "signals": [
           {
-            "icon": "🤖",
-            "text": "FL‑MAESTRO jointly orchestrates topology, per‑client resources, and aggregation each round via three specialist LLM agents."
+            "icon": "💡",
+            "text": "FL‑MAESTRO 通过三个专用 LLM 代理在每轮共同编排拓扑、每客户端资源和聚合。"
           },
           {
             "icon": "🔧",
-            "text": "Coordinator synthesizes agents’ analyses into a feasible joint decision, iterating up to Dmax ∈ {2, 3} and validated by a non‑LLM feasibility check."
+            "text": "协调器将各代理的分析合成为可行的联合决策，迭代至 Dmax ∈ {2, 3}，并通过非 LLM 可行性检查进行验证。"
           },
           {
             "icon": "📊",
-            "text": "On non‑IID CIFAR‑10, FL‑MAESTRO cuts wasted round energy from >33% to near zero while preserving baseline accuracy."
+            "text": "在 non‑IID CIFAR‑10 上，FL‑MAESTRO 将浪费的轮次能量从 >33% 降至接近零，同时保持基线准确率。"
           }
         ],
-        "overview": "FL-MAESTRO introduces a runtime orchestrator for federated learning that couples three decision dimensions—communication topology, per-client resource allocation, and aggregation weighting—through specialist LLM agents. Each agent reasons over natural‑text client profiles and domain tools, then a central LLM coordinator merges their proposals into a joint decision that a non‑LLM validator enforces for feasibility. In simulated non‑IID CIFAR‑10 experiments with heterogeneous edge clients, the system eliminates most wasted energy without sacrificing model accuracy, demonstrating the practicality of open‑weight LLMs for on‑premise FL control.",
+        "overview": "FL‑MAESTRO 为联邦学习引入运行时编排器，通过专用 LLM 代理耦合通信拓扑、每客户端资源分配和聚合权重三大决策维度。每个代理基于自然文本客户端概况和领域工具进行推理，中心 LLM 协调器将其提案合并为联合决策，由非 LLM 验证器确保可行性。 在模拟的 non‑IID CIFAR‑10 异构边缘客户端实验中，系统在不牺牲模型准确率的前提下消除大部分能量浪费，展示了 open‑weight LLM 在本地 FL 控制中的实用性。",
         "methodology": [
           {
-            "title": "Specialist LLM agents",
-            "detail": "TopologyAgent, ResourceAgent, and AggregationAgent each receive typed constraint analyses and query tools for communication cost, energy cost, label diversity, and battery feasibility."
+            "title": "专用 LLM 代理",
+            "detail": "TopologyAgent、ResourceAgent 和 AggregationAgent 各自接收针对通信成本、能量成本、标签多样性和电池可行性的类型化约束分析和查询工具。"
           },
           {
-            "title": "Coordinator and Validator",
-            "detail": "A synthesis‑only LLM prompt combines the three analyses into a JSON decision (C+, τ, {ri}, σ); a Python validator enforces battery eligibility, aggregator capability, weight normalization, and clipping of infeasible values."
+            "title": "协调器和验证器",
+            "detail": "仅合成的 LLM 提示将三项分析合并为 JSON 决策 (C+, τ, {ri}, σ)；Python 验证器强制执行电池合格性、聚合器能力、权重归一化以及对不可行值的裁剪。"
           },
           {
-            "title": "Collaboration protocol",
-            "detail": "Agents iterate up to Dmax ∈ {2, 3} times, revising proposals after seeing the other dimensions to enforce coupling before final synthesis."
+            "title": "协作协议",
+            "detail": "代理在 Dmax ∈ {2, 3} 次迭代内运行，在观察其他维度后修订提案，以在最终合成前强制耦合。"
           }
         ],
         "mechanism": [
           {
-            "title": "Predicted‑failure filtering",
-            "detail": "The orchestrator consumes the server’s predicted‑failure list, withholding low‑battery clients whose updates would be dropped, thereby removing the dominant source of wasted round energy."
+            "title": "预测失效过滤",
+            "detail": "编排器读取服务器的预测失效列表，屏蔽电池电量低且其更新将被丢弃的客户端，从而消除浪费回合能量的主要来源。"
           },
           {
-            "title": "Natural‑text client profiles",
-            "detail": "Client state is encoded as textual profiles, allowing the same LLM orchestration to handle heterogeneous device classes without per‑class energy models."
+            "title": "自然文本客户端配置文件",
+            "detail": "客户端状态被编码为文本配置文件，使同一 LLM 编排能够在无需每类能量模型的情况下处理异构设备类别。"
           },
           {
-            "title": "Feasibility clipping",
-            "detail": "Infeasible joint decisions are clipped to feasibility boundaries by the validator, turning LLM errors into repairs rather than runtime crashes."
+            "title": "可行性裁剪",
+            "detail": "验证器将不可行的联合决策裁剪至可行性边界，将 LLM 错误转化为修复而非运行时崩溃。"
           }
         ],
         "experiments": [
           {
-            "title": "Setup",
-            "detail": "CIFAR‑10 with Dirichlet non‑IID partitions (α = 0.1, 0.3), CNN (545k parameters), 30 clients, battery ∈[0.5,0.9] (hard/ extreme low‑battery subsets), bandwidth bimodal, compute sampled from exp distribution."
+            "detail": "CIFAR‑10 与 Dirichlet 非独立同分布划分（α=0.1, 0.3），CNN（545k 参数），30 个客户端，电池电量 ∈[0.5,0.9]（硬/极端低电量子集），带宽双峰分布，计算资源从指数分布中采样。",
+            "title": "设置"
           },
           {
-            "title": "Scenarios and baselines",
-            "detail": "Two heterogeneous edge scenarios (hard α=0.3, extreme α=0.1) compared against the strongest energy‑aware baseline (e.g., Oort) and classical FL methods (FedAvg, FedProx)."
+            "detail": "两种异构边缘场景（硬 α=0.3，极端 α=0.1）与最强节能基线（如 Oort）及经典 FL 方法（FedAvg，FedProx）进行对比。",
+            "title": "场景与基线"
           },
           {
-            "title": "Metrics",
-            "detail": "Model accuracy, wasted round energy (percentage of energy spent on clients that drop out before aggregation), and feasibility violation rates."
+            "detail": "模型准确率，浪费的轮次能量（客户端在聚合前掉线所消耗能量的百分比），可行性违反率。",
+            "title": "指标"
           }
         ],
         "findings": [
           {
-            "title": "Energy efficiency",
-            "detail": "FL‑MAESTRO reduces wasted round energy from over a third to near zero across both hard and extreme scenarios."
+            "detail": "FL‑MAESTRO 在硬场景和极端场景下将浪费的轮次能量从超过三分之一减少到接近零。",
+            "title": "能耗效率"
           },
           {
-            "title": "Accuracy preservation",
-            "detail": "The method matches the accuracy of the strongest energy‑aware baseline despite aggressive client withholding."
+            "detail": "该方法在激进客户端屏蔽情况下仍能保持与最强节能基线相当的准确率。",
+            "title": "准确率保持"
           },
           {
-            "title": "Feasibility enforcement",
-            "detail": "The non‑LLM validator successfully clips infeasible decisions, preventing runtime crashes and maintaining stable training."
+            "detail": "非 LLM 验证器成功限制不可行决策，防止运行时崩溃并维持稳定训练。",
+            "title": "可行性执行"
           }
         ],
         "contributions": [
@@ -1007,28 +2089,20 @@
           "Open‑weight LLM implementation removing cloud dependency"
         ],
         "limitations": [
-          "Only simulated CIFAR‑10 experiments; no real‑world edge deployment",
-          "Evaluation limited to a single model size and 30 clients",
-          "No analysis of LLM loss‑landscape behavior or adversarial robustness"
+          "仅在 CIFAR‑10 上进行模拟实验；未在真实边缘环境部署",
+          "评估仅限于单一模型规模和 30 个客户端",
+          "未分析 LLM loss‑landscape 行为或对抗鲁棒性"
         ],
         "open_questions": [
-          "How does multi‑agent LLM orchestration affect loss‑landscape dynamics in federated training?",
-          "Can the approach be extended to efficient adversarial training under resource constraints?",
-          "What scalability challenges arise when increasing client count and model size beyond the presented experiments?"
+          "多代理 LLM 编排如何影响联邦训练中的 loss‑landscape 动态？",
+          "该方法能否在资源受限下扩展至高效的对抗训练？",
+          "在将客户端数量和模型规模超出所示实验时，会出现哪些可扩展性挑战？"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
+        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
+        "language": "zh",
         "schema_version": 6,
         "prompt_version": 2
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "llm"
-        ],
-        "lane": "llm"
       },
       "recommended_at": "2026-08-24T02:55:19.024175+00:00"
     },
@@ -15560,157 +16634,6 @@
           "alignment",
           "alignment",
           "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-08T11:57:23.024570+00:00"
-    },
-    {
-      "id": "2607.06452",
-      "title": "From Voting to Agent Collaboration: Answer-Type-Aware LLM Pipelines for BioASQ 14b",
-      "abstract": "Biomedical question answering requires not only accurate extraction of information from scientific literature but also reliable integration of evidence across multiple documents. This study presents a question-type-specific large language model (LLM) framework for BioASQ 14b Task B, designed to improve answer robustness and evidence grounding in biomedical question answering. Rather than applying a single prompting strategy to all questions, the framework selects different inference procedures for yes/no, factoid, and list questions according to their distinct reasoning and evaluation requirements. For yes/no questions, snippet shuffling and self-reflection are used to reduce sensitivity to evidence ordering and improve decision stability. For factoid questions, full-snippet input is combined with chain-of-thought-based in-context learning to support accurate biomedical entity identification. For list questions, a multi-agent architecture is employed, in which evidence extraction, candidate generation, answer verification, and final aggregation are handled collaboratively. Preliminary experiments on BioASQ 13b were used to identify effective inference strategies for each question type, and the resulting framework was subsequently evaluated in the official BioASQ 14b Task B challenge. In the official evaluation, our framework showed competitive performance across multiple batches and achieved first place in the factoid subtask of Batch 4. These results demonstrate the effectiveness of combining question-type-specific inference, ensemble prediction, and agent-based verification for reliable biomedical question answering.",
-      "authors": [
-        "Taeyun Roh",
-        "Eunha Lee",
-        "Wonjune Jang",
-        "Sohyun Chung",
-        "Junha Jung",
-        "Jaewoo Kang"
-      ],
-      "published": "2026-07-07T16:12:51Z",
-      "updated": "2026-07-07T16:12:51Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.06452v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.06452v1",
-      "comment": "15 pages",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3721,
-          "matched": [
-            "robustness",
-            "llm",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4179,
-        "relevance": 0.2977,
-        "quality": 0.47,
-        "novelty": 0.8631,
-        "freshness": 0.8825
-      },
-      "quality_signals": [
-        "experiments",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "The proposed LLM framework enhances biomedical question answering by tailoring inference strategies to specific question types.",
-        "problem": "Biomedical question answering faces challenges in accurately integrating evidence from diverse sources.",
-        "method": "The framework employs question-type-specific inference procedures, including snippet shuffling and multi-agent collaboration.",
-        "evidence": "In the BioASQ 14b Task B challenge, the framework achieved first place in the factoid subtask of Batch 4, demonstrating its effectiveness.",
-        "limitations": "The study does not provide detailed performance metrics for all question types across all batches.",
-        "why_for_you": "This research offers insights into improving LLM performance in specialized domains, relevant for trustworthy AI applications.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "The framework achieved a macro F1 score of 0.9110 for yes/no questions, indicating strong decision-making capabilities."
-          },
-          {
-            "icon": "🛡️",
-            "text": "Utilizing a multi-agent architecture for list questions allows for collaborative evidence extraction and verification, enhancing answer reliability."
-          },
-          {
-            "icon": "📉",
-            "text": "The use of snippet shuffling in yes/no questions reduced sensitivity to evidence ordering, improving decision stability and consistency."
-          }
-        ],
-        "overview": "This research addresses the complexities of biomedical question answering by introducing a question-type-specific LLM framework for the BioASQ 14b Task B challenge. The framework adapts inference strategies for yes/no, factoid, and list questions, enhancing answer robustness and evidence grounding. Preliminary experiments on BioASQ 13b informed the selection of effective strategies, leading to competitive performance in the official evaluation, particularly achieving first place in the factoid subtask of Batch 4. This demonstrates the potential of tailored inference methods in improving LLM capabilities in biomedical contexts.",
-        "methodology": [
-          {
-            "title": "Yes/No Question Processing",
-            "detail": "The yes/no subsystem employs snippet shuffling and self-reflection to enhance decision stability. It utilizes an ensemble of four LLM configurations, querying each with varied snippet orders and aggregating results through majority voting."
-          },
-          {
-            "title": "Factoid Question Processing",
-            "detail": "For factoid questions, the framework combines full-snippet input with chain-of-thought-based in-context learning to accurately identify biomedical entities, ensuring precise responses."
-          },
-          {
-            "title": "List Question Processing",
-            "detail": "A multi-agent architecture is implemented for list questions, where evidence extraction, candidate generation, and answer verification are conducted collaboratively, improving overall answer quality."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Ensemble Voting Mechanism",
-            "detail": "The yes/no subsystem utilizes a majority voting mechanism among multiple LLM outputs, with a verification agent employed when outputs conflict, ensuring robust decision-making."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "BioASQ 13b Development Benchmark",
-            "detail": "Preliminary experiments on the BioASQ 13b test set were conducted to evaluate various prompting strategies and model configurations, informing the final system design for BioASQ 14b."
-          },
-          {
-            "title": "Official BioASQ 14b Evaluation",
-            "detail": "The framework was evaluated across four batches in the BioASQ 14b challenge, achieving an average score of 0.9110 for yes/no macro F1 and first place in the factoid subtask of Batch 4."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Performance in Yes/No Questions",
-            "detail": "The framework achieved a macro F1 score of 0.9110 for yes/no questions, indicating effective handling of binary decisions."
-          },
-          {
-            "title": "Factoid Question Success",
-            "detail": "The system ranked first in the factoid subtask of Batch 4, demonstrating superior performance in identifying specific biomedical entities."
-          },
-          {
-            "title": "List Question Challenges",
-            "detail": "The multi-agent architecture for list questions improved evidence integration, although specific performance metrics for this category were not detailed."
-          }
-        ],
-        "contributions": [
-          "Introduction of a question-type-specific LLM framework for biomedical question answering.",
-          "Demonstration of effective ensemble strategies for improving answer robustness.",
-          "Implementation of a multi-agent architecture for collaborative evidence processing."
-        ],
-        "limitations": [
-          "Lack of detailed performance metrics for list questions across all batches.",
-          "No comprehensive analysis of the impact of individual LLM configurations on overall performance."
-        ],
-        "open_questions": [
-          "How can the framework be adapted for other domains beyond biomedical question answering?",
-          "What are the implications of varying LLM configurations on performance across different question types?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4o-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "robustness",
-          "llm",
-          "robustness"
         ],
         "lane": "llm"
       },

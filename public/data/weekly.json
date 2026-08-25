@@ -1,6 +1,199 @@
 {
-  "generated_at": "2026-08-24T10:53:02.352651+00:00",
+  "generated_at": "2026-08-25T10:49:06.180385+00:00",
   "papers": [
+    {
+      "id": "2608.23391",
+      "title": "Cross-Domain, Multi-Task Data-to-Text Generation without In-Domain Training Data",
+      "abstract": "Structured data exists in many forms (tables, knowledge graphs, charts, and time series), and converting it into text may involve different generation tasks. However, most prior work on data-to-text (D2T) generation has focused on specific tasks and datasets, relying either on task-specific training data or on the zero-shot capabilities of large language models. We study cross-domain D2T generation in a setting where neither in-domain training text nor test references are available, and where domains, generation goals, and input structures vary substantially. We compare data-driven knowledge distillation (DDKD) against zero-shot inference and fine-tuning on out-of-domain D2T data, and introduce structure-preserving augmentation via structural subsampling and perturbation. Experiments on five benchmarks show that, at constant model size (1.7B parameters), DDKD consistently outperforms both fine-tuning and zero-shot inference. Moreover, the resulting small models outperform a much larger finetuned model on two of the five domains, achieving comparable performance on the remaining three. We further construct QUINTD-5, a fivefold extension of QUINTD-1, and show that simply scaling real target-domain inputs yields only modest gains, whereas our augmentation strategy remains more effective and more cost-efficient for cross-domain distillation.",
+      "authors": [
+        "Yifei Song",
+        "Kun Efimov-Zhang",
+        "Claire Gardent"
+      ],
+      "published": "2026-08-24T15:37:19Z",
+      "updated": "2026-08-24T15:37:19Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.23391v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.23391v1",
+      "comment": "Accepted by EMNLP Findings 2026",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.6024,
+          "matched": [
+            "efficient",
+            "training",
+            "fine-tuning"
+          ]
+        },
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.5966,
+          "matched": [
+            "training data",
+            "data"
+          ]
+        },
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "emerging",
+          "score": 0.1519,
+          "matched": [
+            "distillation"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6552,
+        "relevance": 0.6316,
+        "quality": 0.58,
+        "novelty": 0.8436,
+        "freshness": 0.8857,
+        "feedback_adjustment": -0.0173,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "experiments",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "method": "大型教师模型（zero‑shot 或 WebNLG‑fine‑tuned）生成合成目标域文本，经过增强后通过最大似然训练紧凑学生模型。",
+        "evidence": "在五个基准上，1.7B 学生模型始终比 zero‑shot 与 WebNLG‑fine‑tuned 模型错误率更低，并在两个领域超越更大的 fine‑tuned 模型。",
+        "takeaway": "基于数据的知识蒸馏结合结构保持增强，使小模型在跨域 data‑to‑text 生成中无需目标域文本即可超越更大的 fine‑tuned 基线。",
+        "why_for_you": "本文提出高效的 on‑policy 蒸馏流水线和数据选择增强，符合您对高效对抗训练和 LLM 数据选择的兴趣。",
+        "limitations": "结果仅在 1B‑2B Qwen3/Gemma3 模型上展示，使用启发式增强和闭源 LLM 评审。",
+        "problem": "在缺乏领域内训练文本或参考的情况下，从跨域异构结构化输入生成文本。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "DDKD 结合结构保持增强在五个领域始终实现更低错误率，优于 zero‑shot 与 fine‑tuning。"
+          },
+          {
+            "icon": "⚙️",
+            "text": "来自 zero‑shot 或 WebNLG‑SFT 教师的合成 (x, ŷ) 对通过标准最大似然训练 1.7B 学生模型。"
+          },
+          {
+            "icon": "📊",
+            "text": "DDKD 学生在两个领域超越更大的 fine‑tuned 模型，但仅限于 1B‑2B Qwen3/Gemma3 系列。"
+          }
+        ],
+        "overview": "作者通过将大型教师的知识蒸馏至小学生模型，解决无目标域监督的跨域 data‑to‑text 生成。合成目标域示例由 zero‑shot LLM 或 WebNLG‑fine‑tuned LLM 生成，再经结构保持增强（子抽样与扰动）扩展。基于这些示例训练的 1.7B 学生模型在五个异构基准上始终降低错误率，相比 zero‑shot 与跨域 fine‑tuned 基线，并在两个领域超越更大的 fine‑tuned 模型。",
+        "methodology": [
+          {
+            "title": "教师生成",
+            "detail": "一个大型 LLM（零样本或在 WebNLG 上微调）为每个目标域结构化输入 x 生成合成文本 ŷ̃。"
+          },
+          {
+            "title": "合成数据增强",
+            "detail": "结构子抽样和受控扰动在教师生成前产生多样且保持 schema 的 x 变体。"
+          },
+          {
+            "title": "学生模型训练",
+            "detail": "学生模型（1.7B Qwen3 或 Gemma3）使用标准最大似然损失 L_DDKD = −log pθ(ŷ̃|x) 在 (x, ŷ̃) 对上进行训练。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "数据驱动知识蒸馏",
+            "detail": "蒸馏仅依赖教师生成的文本，避免基于 logits 或置信度的方法，使过程与模型无关。"
+          },
+          {
+            "title": "结构保持增强",
+            "detail": "增强通过定义原子单元并强制可交换性来遵循输入 schema，提升对格式异构性的鲁棒性。"
+          }
+        ],
+        "experiments": [
+          {
+            "detail": "五个QUINTD-1目标领域（Wikidata、冰球、天气、GSM Arena、OWID）在Qwen3-1.7B和Gemma3-1B主干网络上，使用三个小型模型（零样本、WebNLG-SFT、DDKD）进行评估；更大规模的微调模型用于比较。",
+            "title": "基准与基线"
+          },
+          {
+            "detail": "错误率（LLM作为评判者，越低越好）和内容覆盖分数（越高越好）由两位独立评判者（GPT-5.1、Gemini-2.5-Pro）及人工验证评估。",
+            "title": "指标"
+          }
+        ],
+        "findings": [
+          {
+            "detail": "DDKD在所有五个领域中始终比零样本和WebNLG微调基线模型取得更低的错误率。",
+            "title": "错误率降低"
+          },
+          {
+            "detail": "1.7B参数的DDKD学生模型在两个领域中优于更大规模的微调模型，并在其余三个领域表现相当。",
+            "title": "小型模型优势"
+          },
+          {
+            "detail": "结构保持增强相比单纯扩展真实目标领域输入产生更大收益，且计算成本更低。",
+            "title": "增强效果"
+          },
+          {
+            "detail": "与零样本、E2E或KELM-Q1教师相比，WebNLG-SFT教师在忠实度-覆盖度权衡上表现最佳。",
+            "title": "教师选择影响"
+          }
+        ],
+        "contributions": [
+          "引入数据驱动的知识蒸馏用于跨域 D2T，无需目标域参考。",
+          "提出保持结构的增强（子抽样、扰动），以应对模式和格式的异构性。",
+          "创建 QUINTD‑5，作为 QUINTD‑1 的五倍扩展，用于评估规模与增强的关系。",
+          "提供基于 LLM 评审、人类验证和覆盖率检查的无参考评估框架。"
+        ],
+        "limitations": [
+          "仅在小规模 (1B‑2B) Qwen3/Gemma3 模型上评估，未验证对更大架构的迁移性。",
+          "增强启发式依赖手工定义的原子单元和可交换性约束，可能不适用于所有领域。",
+          "评估依赖闭源 LLM 评审，导致成本并可能产生领域偏差。"
+        ],
+        "open_questions": [
+          "当扩展到更大学生模型或不同架构族时，DDKD 的表现如何？",
+          "更原理化或学习式的增强策略能否进一步提升跨域迁移？",
+          "使用完全开源评估器替代专有 LLM 评审对评估可靠性有何影响？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "efficient",
+          "training",
+          "fine-tuning"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-25T10:49:06.180385+00:00"
+    },
     {
       "id": "2608.20820",
       "title": "Certified Multi-Turn Robustness for LLM Safety via Compositional Bounds and Safety Persistence",
@@ -184,89 +377,97 @@
         "benchmark evaluation",
         "quantitative results"
       ],
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
       "summary": {
-        "takeaway": "FL-MAESTRO uses three specialist LLM agents to jointly decide topology, resources, and aggregation each FL round, eliminating most wasted energy.",
-        "problem": "Federated learning suffers from wasted round energy due to volatile client availability and fixed topology/resource decisions.",
-        "method": "A multi-agent orchestrator employs a TopologyAgent, ResourceAgent, and AggregationAgent whose outputs are synthesized by an LLM coordinator and validated by a non-LLM feasibility check.",
-        "evidence": "On non-IID CIFAR-10 with 30 clients, FL-MAESTRO reduces wasted round energy from >33% to near zero while matching the strongest energy-aware baseline’s accuracy.",
-        "limitations": "Evaluation is limited to simulated CIFAR-10 scenarios and does not assess real-world deployments or larger model scales.",
-        "why_for_you": "If you seek efficient adversarial training, the paper’s resource-aware LLM orchestration may inspire low-energy FL strategies.",
+        "method": "多代理编排器使用 TopologyAgent、ResourceAgent 和 AggregationAgent，其输出由 LLM 协调器合成，并通过非 LLM 可行性检查进行验证。",
+        "evidence": "在 30 客户端的 non‑IID CIFAR‑10 上，FL‑MAESTRO 将浪费的轮次能耗从 >33% 降至接近零，同时保持最强能耗感知基线的准确率。",
+        "takeaway": "FL‑MAESTRO 使用三个专用 LLM 代理在每轮 FL 中共同决定拓扑、资源和聚合，消除大部分浪费能量。",
+        "why_for_you": "如果您关注高效对抗训练，本文的资源感知 LLM 编排或能为低能耗 FL 策略提供灵感。",
+        "limitations": "评估仅限于模拟 CIFAR‑10 场景，未考察真实部署或更大模型规模。",
+        "problem": "联邦学习因客户端可用性波动以及固定的拓扑/资源决策而导致轮次能量浪费。",
         "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
+        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
+        "language": "zh",
         "schema_version": 3,
         "prompt_version": 2
       },
       "deep_dive": {
         "signals": [
           {
-            "icon": "🤖",
-            "text": "FL‑MAESTRO jointly orchestrates topology, per‑client resources, and aggregation each round via three specialist LLM agents."
+            "icon": "💡",
+            "text": "FL‑MAESTRO 通过三个专用 LLM 代理在每轮共同编排拓扑、每客户端资源和聚合。"
           },
           {
             "icon": "🔧",
-            "text": "Coordinator synthesizes agents’ analyses into a feasible joint decision, iterating up to Dmax ∈ {2, 3} and validated by a non‑LLM feasibility check."
+            "text": "协调器将各代理的分析合成为可行的联合决策，迭代至 Dmax ∈ {2, 3}，并通过非 LLM 可行性检查进行验证。"
           },
           {
             "icon": "📊",
-            "text": "On non‑IID CIFAR‑10, FL‑MAESTRO cuts wasted round energy from >33% to near zero while preserving baseline accuracy."
+            "text": "在 non‑IID CIFAR‑10 上，FL‑MAESTRO 将浪费的轮次能量从 >33% 降至接近零，同时保持基线准确率。"
           }
         ],
-        "overview": "FL-MAESTRO introduces a runtime orchestrator for federated learning that couples three decision dimensions—communication topology, per-client resource allocation, and aggregation weighting—through specialist LLM agents. Each agent reasons over natural‑text client profiles and domain tools, then a central LLM coordinator merges their proposals into a joint decision that a non‑LLM validator enforces for feasibility. In simulated non‑IID CIFAR‑10 experiments with heterogeneous edge clients, the system eliminates most wasted energy without sacrificing model accuracy, demonstrating the practicality of open‑weight LLMs for on‑premise FL control.",
+        "overview": "FL‑MAESTRO 为联邦学习引入运行时编排器，通过专用 LLM 代理耦合通信拓扑、每客户端资源分配和聚合权重三大决策维度。每个代理基于自然文本客户端概况和领域工具进行推理，中心 LLM 协调器将其提案合并为联合决策，由非 LLM 验证器确保可行性。 在模拟的 non‑IID CIFAR‑10 异构边缘客户端实验中，系统在不牺牲模型准确率的前提下消除大部分能量浪费，展示了 open‑weight LLM 在本地 FL 控制中的实用性。",
         "methodology": [
           {
-            "title": "Specialist LLM agents",
-            "detail": "TopologyAgent, ResourceAgent, and AggregationAgent each receive typed constraint analyses and query tools for communication cost, energy cost, label diversity, and battery feasibility."
+            "title": "专用 LLM 代理",
+            "detail": "TopologyAgent、ResourceAgent 和 AggregationAgent 各自接收针对通信成本、能量成本、标签多样性和电池可行性的类型化约束分析和查询工具。"
           },
           {
-            "title": "Coordinator and Validator",
-            "detail": "A synthesis‑only LLM prompt combines the three analyses into a JSON decision (C+, τ, {ri}, σ); a Python validator enforces battery eligibility, aggregator capability, weight normalization, and clipping of infeasible values."
+            "title": "协调器和验证器",
+            "detail": "仅合成的 LLM 提示将三项分析合并为 JSON 决策 (C+, τ, {ri}, σ)；Python 验证器强制执行电池合格性、聚合器能力、权重归一化以及对不可行值的裁剪。"
           },
           {
-            "title": "Collaboration protocol",
-            "detail": "Agents iterate up to Dmax ∈ {2, 3} times, revising proposals after seeing the other dimensions to enforce coupling before final synthesis."
+            "title": "协作协议",
+            "detail": "代理在 Dmax ∈ {2, 3} 次迭代内运行，在观察其他维度后修订提案，以在最终合成前强制耦合。"
           }
         ],
         "mechanism": [
           {
-            "title": "Predicted‑failure filtering",
-            "detail": "The orchestrator consumes the server’s predicted‑failure list, withholding low‑battery clients whose updates would be dropped, thereby removing the dominant source of wasted round energy."
+            "title": "预测失效过滤",
+            "detail": "编排器读取服务器的预测失效列表，屏蔽电池电量低且其更新将被丢弃的客户端，从而消除浪费回合能量的主要来源。"
           },
           {
-            "title": "Natural‑text client profiles",
-            "detail": "Client state is encoded as textual profiles, allowing the same LLM orchestration to handle heterogeneous device classes without per‑class energy models."
+            "title": "自然文本客户端配置文件",
+            "detail": "客户端状态被编码为文本配置文件，使同一 LLM 编排能够在无需每类能量模型的情况下处理异构设备类别。"
           },
           {
-            "title": "Feasibility clipping",
-            "detail": "Infeasible joint decisions are clipped to feasibility boundaries by the validator, turning LLM errors into repairs rather than runtime crashes."
+            "title": "可行性裁剪",
+            "detail": "验证器将不可行的联合决策裁剪至可行性边界，将 LLM 错误转化为修复而非运行时崩溃。"
           }
         ],
         "experiments": [
           {
-            "title": "Setup",
-            "detail": "CIFAR‑10 with Dirichlet non‑IID partitions (α = 0.1, 0.3), CNN (545k parameters), 30 clients, battery ∈[0.5,0.9] (hard/ extreme low‑battery subsets), bandwidth bimodal, compute sampled from exp distribution."
+            "detail": "CIFAR‑10 与 Dirichlet 非独立同分布划分（α=0.1, 0.3），CNN（545k 参数），30 个客户端，电池电量 ∈[0.5,0.9]（硬/极端低电量子集），带宽双峰分布，计算资源从指数分布中采样。",
+            "title": "设置"
           },
           {
-            "title": "Scenarios and baselines",
-            "detail": "Two heterogeneous edge scenarios (hard α=0.3, extreme α=0.1) compared against the strongest energy‑aware baseline (e.g., Oort) and classical FL methods (FedAvg, FedProx)."
+            "detail": "两种异构边缘场景（硬 α=0.3，极端 α=0.1）与最强节能基线（如 Oort）及经典 FL 方法（FedAvg，FedProx）进行对比。",
+            "title": "场景与基线"
           },
           {
-            "title": "Metrics",
-            "detail": "Model accuracy, wasted round energy (percentage of energy spent on clients that drop out before aggregation), and feasibility violation rates."
+            "detail": "模型准确率，浪费的轮次能量（客户端在聚合前掉线所消耗能量的百分比），可行性违反率。",
+            "title": "指标"
           }
         ],
         "findings": [
           {
-            "title": "Energy efficiency",
-            "detail": "FL‑MAESTRO reduces wasted round energy from over a third to near zero across both hard and extreme scenarios."
+            "detail": "FL‑MAESTRO 在硬场景和极端场景下将浪费的轮次能量从超过三分之一减少到接近零。",
+            "title": "能耗效率"
           },
           {
-            "title": "Accuracy preservation",
-            "detail": "The method matches the accuracy of the strongest energy‑aware baseline despite aggressive client withholding."
+            "detail": "该方法在激进客户端屏蔽情况下仍能保持与最强节能基线相当的准确率。",
+            "title": "准确率保持"
           },
           {
-            "title": "Feasibility enforcement",
-            "detail": "The non‑LLM validator successfully clips infeasible decisions, preventing runtime crashes and maintaining stable training."
+            "detail": "非 LLM 验证器成功限制不可行决策，防止运行时崩溃并维持稳定训练。",
+            "title": "可行性执行"
           }
         ],
         "contributions": [
@@ -275,28 +476,20 @@
           "Open‑weight LLM implementation removing cloud dependency"
         ],
         "limitations": [
-          "Only simulated CIFAR‑10 experiments; no real‑world edge deployment",
-          "Evaluation limited to a single model size and 30 clients",
-          "No analysis of LLM loss‑landscape behavior or adversarial robustness"
+          "仅在 CIFAR‑10 上进行模拟实验；未在真实边缘环境部署",
+          "评估仅限于单一模型规模和 30 个客户端",
+          "未分析 LLM loss‑landscape 行为或对抗鲁棒性"
         ],
         "open_questions": [
-          "How does multi‑agent LLM orchestration affect loss‑landscape dynamics in federated training?",
-          "Can the approach be extended to efficient adversarial training under resource constraints?",
-          "What scalability challenges arise when increasing client count and model size beyond the presented experiments?"
+          "多代理 LLM 编排如何影响联邦训练中的 loss‑landscape 动态？",
+          "该方法能否在资源受限下扩展至高效的对抗训练？",
+          "在将客户端数量和模型规模超出所示实验时，会出现哪些可扩展性挑战？"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
+        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
+        "language": "zh",
         "schema_version": 6,
         "prompt_version": 2
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "llm"
-        ],
-        "lane": "llm"
       },
       "recommended_at": "2026-08-24T02:55:19.024175+00:00"
     },
@@ -929,6 +1122,174 @@
       "recommended_at": "2026-08-24T10:53:02.352651+00:00"
     },
     {
+      "id": "2608.23353",
+      "title": "FormuEvo: LLM-Guided Evolution for Discovering Solver-Efficient Mixed-Integer Programming Formulations",
+      "abstract": "Mixed-integer programming (MIP) lies at the core of operations research and industrial optimization. While large language models (LLMs) have recently shown promise in automated MIP modeling from natural language, they prioritize semantic correctness but overlook formulation strength, severely bottlenecking the efficiency of downstream solvers. We propose FormuEvo, an LLM-guided evolutionary framework for automated discovery of solver-efficient MIP formulations. FormuEvo frames MIP formulation design as evolutionary optimization over the symbolic space of MIP formulations, represented as executable modeling programs, by iteratively generating, evaluating, and selecting stronger candidates via LLM-driven crossover, mutation, and repair operations. To move beyond blind exploration, FormuEvo introduces a solver-informed diagnosis mechanism that exploits fine-grained solver statistics as verbal gradients for targeted refinement. Additionally, a structured memory abstracts prior experience into reusable modeling strategies, avoiding redundant exploration while enabling zero-shot transfer to unseen problems and bootstrapping smaller LLMs. Experiments across diverse linear and non-linear problems demonstrate that FormuEvo discovers formulations that significantly outperform both expert-designed formulations and existing LLM-based approaches, accelerating solvers by up to 5.5$\\times$, with distilled knowledge transferring effectively across problems and model scales.",
+      "authors": [
+        "Haofeng Yuan",
+        "Jianing Peng",
+        "Jieyi Bi",
+        "Ni Zhang",
+        "Shiji Song",
+        "Zhiguang Cao"
+      ],
+      "published": "2026-08-24T15:01:28Z",
+      "updated": "2026-08-24T15:01:28Z",
+      "categories": [
+        "cs.CL",
+        "cs.NE"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.23353v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.23353v1",
+      "comment": "27 pages, 6 figures, and 9 tables. To appear in the Proceedings of EMNLP 2026",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5781,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.4283,
+          "matched": [
+            "efficient"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5824,
+        "relevance": 0.5481,
+        "quality": 0.47,
+        "novelty": 0.88,
+        "freshness": 0.8822,
+        "feedback_adjustment": -0.0236,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "FormuEvo uses LLM-driven evolutionary search with solver-informed feedback to automatically discover MIP formulations that run up to 5.5× faster than expert or prior LLM baselines.",
+        "problem": "Existing LLM-based MIP modeling generates semantically correct formulations but ignores formulation strength, leading to poor solver performance.",
+        "method": "The system iteratively evolves executable formulation programs via LLM-powered crossover, mutation, and repair, guided by verbalized solver statistics and a memory of past successful strategies.",
+        "evidence": "Across classical MILP/MINLP benchmarks, FormuEvo achieves the best runtime on most instances and up to 5.5× speedup over the strongest baselines.",
+        "limitations": "Ablations show that removing the solver-informed diagnosis or memory components noticeably worsens runtime, indicating dependence on these modules.",
+        "why_for_you": "If you study LLM loss landscapes, the paper’s use of solver feedback as verbal gradients offers a novel signal for guiding LLM generation, relevant to efficient adversarial training.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "⚡",
+            "text": "FormuEvo discovers solver‑efficient MIP formulations, attaining up to 5.5× runtime acceleration over expert and LLM baselines."
+          },
+          {
+            "icon": "🔧",
+            "text": "It converts fine‑grained solver statistics into verbal gradients that steer LLM‑driven crossover, mutation, and repair."
+          },
+          {
+            "icon": "📊",
+            "text": "Ablation on TSP hard instances shows runtime rising from 0.1410 to 0.3079 without diagnosis, highlighting the importance of the feedback loop."
+          }
+        ],
+        "overview": "FormuEvo frames MIP formulation design as an evolutionary optimization over executable modeling programs. LLMs act as generators for crossover, mutation, and repair, while a solver‑informed diagnosis module extracts runtime, presolve, root‑gap, and branch‑and‑bound statistics and translates them into verbal gradients that guide the search. A structured memory stores reusable modeling strategies distilled from previous problems, enabling zero‑shot transfer to new instances and bootstrapping smaller LLMs. Experiments on diverse MILP and MINLP benchmarks demonstrate consistent runtime reductions and superior solved‑instance counts compared to expert and prior LLM approaches.",
+        "methodology": [
+          {
+            "title": "Evolutionary Search with LLM Operators",
+            "detail": "FormuEvo maintains a population of executable formulation programs; each generation applies LLM‑driven crossover, mutation, and repair to produce offspring, which are evaluated by a MIP solver."
+          },
+          {
+            "title": "Solver‑Informed Diagnosis",
+            "detail": "Fine‑grained solver statistics (runtime, presolve info, root node gap, B&B node count) are converted into natural‑language gradients that bias the LLM’s generation toward stronger formulations."
+          },
+          {
+            "title": "Structured Memory & Distillation",
+            "detail": "Prior successful formulation patterns are abstracted into a memory store; during generation, the LLM retrieves and adapts these patterns, allowing transfer to unseen problems and smaller LLMs."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Verbal Gradient Feedback",
+            "detail": "The diagnosis LLM interprets quantitative solver metrics as textual instructions (e.g., “tighten LP relaxation”, “reduce symmetry”), which are fed back into the generator LLM to steer mutation and crossover decisions."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Benchmark Evaluation",
+            "detail": "Evaluated on classical MILP/MINLP problems (TSP, JSSP, BPP, CFLP, QAP) and two novel instances; compared against expert formulations (MTZ, SCF, MCF‑RLT), LLM baselines (ORLM, StepORLM, EvoCut), and multiple backbone LLMs (GPT‑5.4‑nano, GPT‑5.4‑mini, Claude‑Sonnet‑4.6, DeepSeek‑V4‑Flash). Metrics: runtime, wins, solved instances."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Runtime Acceleration",
+            "detail": "FormuEvo achieves up to 5.5× faster solving than the best baseline, with the best discovered formulation often attaining the lowest runtime and highest solved count across benchmarks."
+          },
+          {
+            "title": "Component Importance",
+            "detail": "Ablation removing memory or diagnosis degrades performance (e.g., TSP hard runtime increases from 0.1410 to 0.3079), confirming their critical role."
+          },
+          {
+            "title": "Transferability",
+            "detail": "Distilled knowledge enables smaller LLMs (GPT‑5.4‑nano) to converge near the performance of larger models, reducing computational cost."
+          }
+        ],
+        "contributions": [
+          "LLM‑guided evolutionary framework for automated discovery of solver‑efficient MIP formulations.",
+          "Solver‑informed diagnosis that translates fine‑grained solver statistics into verbal gradients for targeted formulation refinement.",
+          "Structured memory that abstracts and transfers modeling strategies across problems and LLM scales."
+        ],
+        "limitations": [
+          "Performance drops noticeably when the solver‑informed diagnosis or memory components are omitted.",
+          "Experiments are limited to a selected set of MILP/MINLP benchmarks; scalability to larger or more complex instances is not demonstrated.",
+          "The approach relies on external LLM APIs and may incur additional latency or cost in practice."
+        ],
+        "open_questions": [
+          "How does FormuEvo scale to very large‑scale MIP instances with thousands of variables and constraints?",
+          "Can the verbal gradient feedback be formalized to provide theoretical guarantees on convergence or formulation strength?",
+          "What impact do different LLM architectures or training regimes have on the quality and diversity of discovered formulations?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-25T10:49:06.180385+00:00"
+    },
+    {
       "id": "2608.20554",
       "title": "aiXamine: Unified Black-Box Evaluation of Cross-Dimensional Trade-offs in LLM Safety, Security, and Privacy",
       "abstract": "The critical failure modes in deployed large language models (LLMs) are cross-dimensional: a model can score 99.3 in safety alignment while refusing one in three benign queries, or improve across every capability metric while losing 21 points in privacy. Existing evaluation frameworks that assess safety, security, and privacy independently cannot detect these patterns. We introduce aiXamine, a unified black-box platform that evaluates LLM trustworthiness across safety, security, and privacy as interdependent properties. aiXamine orchestrates 46 tests across nine services through an automated red-teaming pipeline, producing hierarchical risk profiles, from prompt-level diagnostics to cross-service trade-off analytics, that enable reproducible comparison of proprietary and open-weight systems under identical conditions. Applying aiXamine to over 120 LLMs through more than 5,000 test runs, we conduct the largest joint safety, security, and privacy study to date and uncover three cross-dimensional phenomena invisible to single-axis evaluation. First, safety enforcement incurs a quantifiable safety tax: stronger alignment systematically increases over-refusal, forcing providers to choose between protection and utility. Second, privacy is near-orthogonal to other trustworthiness dimensions and not captured by standard alignment. Third, we identify and formally characterize distillation-induced robustness collapse: off-policy distillation without on-policy correction causes entropy collapse, catastrophically destroying robustness (56.9$\\to$2.6) on the same base architecture. These findings, compounded by diminishing returns from scale and category-dependent safety behaviors, demonstrate that trustworthiness is inherently multi-dimensional: progress along one axis does not guarantee, and can actively undermine, progress along others, yet current alignment methods treat it as a single objective.",
@@ -1293,501 +1654,180 @@
       "recommended_at": "2026-08-24T10:53:02.352651+00:00"
     },
     {
-      "id": "2608.20314",
-      "title": "MidTool: Mid-training Data Synthesis for Agentic Tool Use",
-      "abstract": "Mid-training is increasingly recognized as a critical stage for shaping the capabilities of large language models. Recent work has shown that targeted mid-training can strengthen reasoning-intensive abilities such as math and science, and can also improve agentic capabilities in software-engineering settings. In this work, we study the parallel but less explored agentic capability: general tool use. We present MidTool, an open corpus construction pipeline for agentic tool-use mid-training that combines large-scale web, PDF, and code data with synthesized supervision from real-world tool APIs, MCP skills, and document-grounded workflows. MidTool is designed to teach models how to recognize tool affordances, ground arguments from context, compose tool call workflow, and recover from incomplete information. We mid-train Qwen3-4B-Base and Qwen3-8B-Base on MidTool-Mix, and then apply follow-up post-training with both supervised fine-tuning and reinforcement learning. Compared with baselines, MidTool-Mix consistently improves downstream performance under both SFT and RL on BFCL, tau2-Bench, and MCP Universe. These results suggest that general tool use, like other important LLM capabilities, benefits from dedicated mid-training rather than being left entirely to post-training.",
+      "id": "2608.23179",
+      "title": "NetConfArena: An Executable Benchmark for LLM Agents in Closed-Loop Network Configuration",
+      "abstract": "Large language model (LLM) agents are increasingly attractive for automating network configuration, yet their reliability and failure patterns are poorly understood. An essential prerequisite is to assess such agents in a realistic but risk-free environment. Existing benchmarks, however, fall short: they often treat configuration as static command generation or rely on overly simplified settings. Such evaluations understate the core challenges of network configuration, where correctness requires reasoning about protocol complexity and topology dependence. We present NetConfArena, an executable benchmark for evaluating LLM agents in closed-loop network configuration. NetConfArena places agents in emulated multi-device networks, provides a standardized and compact action interface for task execution, and evaluates the resulting network behavior with hidden task-specific executable test cases. The benchmark relies on an LLM-assisted, emulation-grounded pipeline, which converts human-oriented network materials into reusable parameterized task templates. We evaluate representative LLM agents on 480 task instances instantiated from 96 protocol-focused task templates, yielding 3840 execution trajectories, and show that failures are not limited to command errors. The failures also reveal gaps in task-specification adherence and robust planning and execution. These findings suggest two future directions: using validated trajectories as supervision signals to improve foundation models, and designing harness mechanisms that make agent execution more reliable and accountable.",
       "authors": [
-        "Fengqing Jiang",
-        "Yite Wang",
-        "Boyi Liu",
-        "Zhaoyang Wang",
-        "Canwen Xu",
-        "Zhewei Yao",
-        "Radha Poovendran",
-        "Yuxiong He"
+        "Chang Liu",
+        "Xiaohui Xie",
+        "Xinyi Chen",
+        "Yong Cui"
       ],
-      "published": "2026-08-20T17:53:59Z",
-      "updated": "2026-08-20T17:53:59Z",
+      "published": "2026-08-24T12:26:37Z",
+      "updated": "2026-08-24T12:26:37Z",
       "categories": [
+        "cs.NI",
         "cs.AI"
       ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2608.20314v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.20314v1",
-      "comment": "Data & Model: https://hf.co/collections/MidTool/midtool-release",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "core",
-          "score": 0.4077,
-          "matched": [
-            "training data"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.453,
-        "relevance": 0.3262,
-        "quality": 0.54,
-        "novelty": 0.8799,
-        "freshness": 0.8995,
-        "feedback_adjustment": -0.0187,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "baseline comparison"
-      ],
-      "summary": {
-        "evidence": "MidTool-Mix improves downstream performance on BFCL, tau2-Bench, and MCP Universe under SFT and RL.",
-        "limitations": "General tool use still struggles with deep-search-style exploratory tasks requiring dedicated trajectory data.",
-        "method": "MidTool combines web, PDF, code, and tool data with synthesized supervision for mid-training.",
-        "problem": "Improving general tool use in LLMs requires dedicated mid-training rather than post-training alone.",
-        "takeaway": "MidTool enhances agentic tool use via mid-training with synthesized data.",
-        "why_for_you": "Focus on data synthesis for tool use aligns with your interest in LLM training data optimization.",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "contributions": [
-          "Scalable pipeline for agentic tool-use mid-training data synthesis",
-          "Demonstration of mid-training benefits for general tool use capabilities"
-        ],
-        "experiments": [
-          {
-            "detail": "Tests on BFCL, tau2-Bench, and MCP Universe with Qwen3-4B-Base/8B models using SFT and RL",
-            "title": "Benchmark Evaluation"
-          },
-          {
-            "detail": "Compares MidTool-Mix with processed raw data, native trajectories, and context-grounded trajectories under fixed SFT recipe",
-            "title": "Ablation Study"
-          }
-        ],
-        "findings": [
-          {
-            "detail": "MidTool-Mix achieves 7.6% higher BFCL pass@4 vs. baseline in ablation study",
-            "title": "Performance Gains"
-          },
-          {
-            "detail": "MidTool-Mix shows marginal improvement on deep-search tasks requiring exploratory trajectory data",
-            "title": "Generalization Limits"
-          }
-        ],
-        "limitations": [
-          "Limited effectiveness on deep-search-style exploratory tasks",
-          "Dependence on teacher models for trajectory synthesis"
-        ],
-        "mechanism": [
-          {
-            "detail": "Teaches models to extract tool arguments from context and compose multi-step workflows using structured schemas",
-            "title": "Schema Grounding"
-          },
-          {
-            "detail": "Generates agentic trajectories from real-world APIs, MCP skills, and document workflows to simulate tool-use scenarios",
-            "title": "Trajectory Synthesis"
-          }
-        ],
-        "methodology": [
-          {
-            "detail": "Combines 20.3B tokens from web, PDF, code, and tool sources with synthesized agentic trajectories, prioritizing document-grounded workflows and executable schemas",
-            "title": "Data Mixture Design"
-          },
-          {
-            "detail": "Qwen3-4B-Base/8B models trained on MidTool-Mix, followed by supervised fine-tuning (SFT) and reinforcement learning (RL) for agentic capabilities",
-            "title": "Mid-training Pipeline"
-          }
-        ],
-        "open_questions": [
-          "How to optimize mid-training for highly exploratory domains without trajectory data",
-          "What self-supervised methods could reduce reliance on teacher models for trajectory synthesis"
-        ],
-        "overview": "MidTool addresses agentic tool use by combining diverse data sources (web/PDF/code/tool) with synthesized supervision. It teaches models to recognize tool affordances, ground arguments, and compose workflows. Experiments show significant performance gains on benchmarks through mid-training followed by post-training, but struggles with exploratory tasks requiring trajectory data.",
-        "signals": [
-          {
-            "icon": "🤖",
-            "text": "MidTool-Mix (20.3B tokens) improves tool use via synthesized agentic trajectories"
-          },
-          {
-            "icon": "⚙️",
-            "text": "Mid-training + SFT/RL on Qwen3-4B-Base/8B with document-grounded workflows"
-          },
-          {
-            "icon": "📊",
-            "text": "BFCL pass@4 up 7.6% vs. baseline in MidTool-Mix ablation"
-          }
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Data selection for LLMs",
-        "matched": [
-          "training data"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-21T10:46:58.431457+00:00"
-    },
-    {
-      "id": "2608.18816",
-      "title": "Do Large Language Models Hallucinate Electric Fata Morganas?",
-      "abstract": "AI hallucinations - that is, outputs which are made up, cannot be verified, or contradict the source material - are generally regarded as an engineering flaw to be dealt with. This paper contends that they also have philosophical significance when it comes to the question of machine consciousness. We examine the known causes of hallucinations in large language models - such as source-target divergence, discrepancies between training and inference, and overfitting - and we present two empirical investigations. In the first, we apply successive generations of the GPT model to ambiguous factual questions under different temperature settings, finding that higher temperatures result in plausible but incorrect answers while lower temperatures lead to factually accurate ones. The sampling parameters that cause a model to seem creative or spontaneous and thus more likely to pass behavioral tests of intelligence are the same ones that increase its hallucination rate. In the second, we look at an encoder-only model that has been trained on encyclopedic data and which answers questions of the same type factually and without embellishment, indicating that hallucinations are due to exposure to subjective and socially diverse training data rather than to the development of any cognitive ability. Using references to Turing, Searle's Chinese Room, the frame problem, and the cybernetic tradition of Wiener and Ashby, we claim that a model's self-reports of emotion or sentience come within the definition of hallucination, and that any future occurrence of machine consciousness might remain epistemically inaccessible since it would be indistinguishable from a sufficiently advanced hallucination.",
-      "authors": [
-        "Kristina Šekrst"
-      ],
-      "published": "2026-08-19T11:14:06Z",
-      "updated": "2026-08-19T11:14:06Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2608.18816v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.18816v1",
+      "primary_category": "cs.NI",
+      "abs_url": "https://arxiv.org/abs/2608.23179v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.23179v1",
       "comment": "",
-      "journal_ref": "Journal of Consciousness Studies 32 (11): 96-120. 2025",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "core",
-          "score": 0.2986,
-          "matched": [
-            "sampling",
-            "training data"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.2575,
-          "matched": [
-            "hallucination"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4233,
-        "relevance": 0.2904,
-        "quality": 0.53,
-        "novelty": 0.8553,
-        "freshness": 0.8599,
-        "feedback_adjustment": -0.0109,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "publication metadata"
-      ],
-      "summary": {
-        "takeaway": "幻觉率随生成温度升高而上升，且与训练数据的主观多样性有关。",
-        "problem": "LLM的幻觉被视为技术缺陷，但其对机器意识的哲学意义尚未明确。",
-        "method": "通过在不同temperature下对GPT系列进行模糊事实问答实验，并比较训练于百科数据的编码器模型的输出。",
-        "evidence": "高temperature下模型给出可接受但错误的答案，而低temperature提升事实准确率；编码器模型几乎不产生幻觉。",
-        "limitations": "作者未提供量化的幻觉率或统计显著性分析，且对训练数据多样性的因果关系缺乏直接证据。",
-        "why_for_you": "若你关注数据选择对LLM幻觉的影响，此文提供了温度与训练数据多样性对幻觉的初步实证洞见。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "提出两项实证研究：温度对GPT幻觉率的影响与百科式编码模型的零幻觉表现"
-          },
-          {
-            "icon": "🔧",
-            "text": "使用不同temperature设置的GPT代代生成以及仅编码器模型对模糊事实问答进行比较"
-          },
-          {
-            "icon": "📈",
-            "text": "实验显示高temperature产生可信但错误答案，低temperature提升准确率；编码器模型几乎不产生幻觉"
-          }
-        ],
-        "overview": "本文从技术与哲学双重视角审视LLM幻觉，首先回顾幻觉的已知成因（源‑目标偏差、训练‑推理差异、过拟合），随后开展两项实验：在不同temperature下对GPT系列进行模糊事实问答，观察创造性与准确性的权衡；以及评估仅编码器、基于百科数据的模型在同类问题上的表现，以检验训练数据多样性对幻觉的影响。实验结果支撑作者关于幻觉并非意识迹象的论点，并指出温度调节与数据选择是控制幻觉的关键因素。",
-        "methodology": [
-          {
-            "title": "温度变量实验",
-            "detail": "对 successive GPT 代（具体代号未列出）在相同模糊事实问题集上，分别设置不同 temperature（高温度 vs 低温度），记录答案的事实准确率与主观可信度。"
-          },
-          {
-            "title": "编码器模型对照实验",
-            "detail": "使用仅编码器结构、在百科全书语料上训练的模型，对同一问题集进行回答，评估是否出现不可验证或错误的陈述。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "幻觉产生机制",
-            "detail": "作者归纳为源‑目标分歧、训练‑推理分布不匹配以及模型过拟合三类技术因素，并进一步将采样随机性（temperature、top_p）视为提升“创造性”但增加幻觉概率的关键机制。"
-          },
-          {
-            "title": "数据多样性假设",
-            "detail": "通过对比百科式编码器模型的低幻觉表现，作者推断主观、社会多样化的训练数据是导致生成式模型幻觉的主要来源，而非内在认知能力。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "实验设置",
-            "detail": "模型：GPT 系列（未指明具体版本）与仅编码器模型；数据：一组模糊的事实问答；基线：不同 temperature 设置的对照；指标：事实准确率、幻觉检测指标（如 HHEM）以及主观可信度评估。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "温度与幻觉的权衡",
-            "detail": "高 temperature 产生的答案更具“创造性”，但错误率显著上升；低 temperature 则显著提升事实准确率，幻觉率下降。"
-          },
-          {
-            "title": "训练数据的影响",
-            "detail": "仅编码器、基于百科数据的模型在相同任务上几乎不出现幻觉，支持幻觉来源于主观多样化训练语料的假设。"
-          }
-        ],
-        "contributions": [
-          "提供了温度调节对LLM幻觉率的实证分析",
-          "通过编码器模型对照，提出训练数据多样性是幻觉主要驱动因素的论点"
-        ],
-        "limitations": [
-          "缺乏对幻觉率的统计显著性报告和具体数值",
-          "未直接量化训练数据的主观多样性或提供因果实验"
-        ],
-        "open_questions": [
-          "如何在保持生成多样性的同时系统性降低幻觉率？",
-          "数据选择策略在根除幻觉中的具体作用机制是什么？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Data selection for LLMs",
-        "matched": [
-          "sampling",
-          "training data"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-20T10:46:41.313828+00:00"
-    },
-    {
-      "id": "2608.16647",
-      "title": "Every Coin Has Two Sides: On the Dual Nature of Generalization in On-Policy Distillation of Large Language Models",
-      "abstract": "On-policy distillation (OPD) transfers teacher capabilities by supervising trajectories sampled from the student's own policy, yet its generalization behavior remains poorly understood, as most studies evaluate OPD on a single domain and on benchmarks close to the training data. We present a controlled study that varies one generalization factor at a time, from in-domain distribution shifts to cross-domain transfer and the multi-teacher setting. We find that OPD transfers a teacher's reasoning behavior rather than its answers to particular problems: training difficulty barely matters, and even problems the teacher never solves are useful. Transfer depends strongly on the origin relationship between teacher and student: same-origin pairs bring the student close to the teacher across languages, reasoning horizons, and even other domains, whereas cross-origin pairs mostly fit the trained distribution. This broad reach is a double-edged sword: since routing prompts to domain experts cannot confine each teacher's influence, combining them yields a mixture-dependent seesaw among their capabilities. These results clarify when OPD generalizes and offer a useful perspective for diagnosing multi-teacher OPD.",
-      "authors": [
-        "Zhaoyi Li",
-        "Deyang Kong",
-        "Yuan Wei",
-        "Evan Yang",
-        "Ranran Shen",
-        "Mahardika Krisna Ihsani",
-        "Ming Yang",
-        "Wei Zhang",
-        "Chuan Hao",
-        "Jian Yang",
-        "Ran Tao",
-        "Bryan Dai",
-        "Shikun Zhang",
-        "Wei Ye",
-        "Ying Wei",
-        "Defu Lian"
-      ],
-      "published": "2026-08-17T14:46:53Z",
-      "updated": "2026-08-17T14:46:53Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2608.16647v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.16647v1",
-      "comment": "Under Review",
       "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
       "lane": "llm",
       "scope_matches": [
         "large language model",
-        "large language models",
         "language model",
-        "language models"
+        "llm",
+        "foundation model",
+        "foundation models"
       ],
       "topics": [
         {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.3065,
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5754,
           "matched": [
-            "generalization"
+            "llm"
           ]
         },
         {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "core",
-          "score": 0.2972,
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.1189,
           "matched": [
-            "influence",
-            "training data"
+            "robust"
           ]
         }
       ],
       "scores": {
-        "total": 0.4081,
-        "relevance": 0.3046,
-        "quality": 0.4,
-        "novelty": 0.86,
-        "freshness": 0.8809,
-        "feedback_adjustment": -0.0185,
+        "total": 0.5402,
+        "relevance": 0.4841,
+        "quality": 0.48,
+        "novelty": 0.8621,
+        "freshness": 0.8668,
+        "feedback_adjustment": -0.0286,
         "semantic_feedback": 0.0
       },
       "quality_signals": [
-        "benchmark evaluation"
+        "benchmark evaluation",
+        "quantitative results"
       ],
       "summary": {
-        "takeaway": "OPD主要传递教师的推理模式，而非具体答案，且同源教师在跨语言、跨任务上均能提升学生。",
-        "problem": "现有对OPD的评估局限于单一领域，缺乏对其跨语言、跨推理深度和跨域泛化的系统理解。",
-        "method": "通过在受控实验中逐一变更训练难度、语言、推理跨度、任务域和模型来源，并加入教师难度过滤与学生动态抽样策略。",
-        "evidence": "实验显示在同源教师-学生对中，跨域性能提升可达数个百分点，动态丢弃已解问题使平均表现提升0.6个百分点。",
-        "limitations": "仅在7B/1.5B模型和数学、代码、科学等有限域上进行评估，未提供理论解释。",
-        "why_for_you": "对数据选择感兴趣的你可参考作者对教师难度过滤和学生动态抽样的实证结论。",
+        "method": "作者构建了基于仿真的流水线，将面向人的网络材料转化为参数化任务模板，并通过 GNS3 中的紧凑五动作接口执行。",
+        "evidence": "在 480 项任务（3840 条轨迹）上评估八种 LLM model–thinking‑mode 设置，发现任务规范遵循和规划方面的失败，而非仅仅命令语法错误。",
+        "takeaway": "NetConfArena 提供了真实的闭环基准，揭示了 LLM 代理超出简单命令错误的失败情况。",
+        "why_for_you": "该基准提供系统化的失败轨迹，可用于探查 LLM 损失曲面并设计高效的对抗训练。",
+        "limitations": "参数化模板未能生成全新的操作场景，限制了失败模式的多样性。",
+        "problem": "现有网络配置基准静态或过于简化，缺乏协议复杂性和拓扑依赖性。",
         "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
         "language": "zh",
-        "schema_version": 2
+        "schema_version": 3,
+        "prompt_version": 2
       },
       "deep_dive": {
         "signals": [
           {
-            "icon": "🌐",
-            "text": "OPD传递教师推理行为，跨语言/跨任务均提升学生性能"
+            "icon": "🗂️",
+            "text": "NetConfArena 引入了一个闭环仿真基准，包含 480 项任务和 3840 条轨迹，供 LLM 代理使用。"
           },
           {
             "icon": "🔧",
-            "text": "教师难度过滤与学生动态抽样分别保留未解或已解问题进行对比实验"
+            "text": "它使用 LLM 辅助的流水线，将参数化任务模板实例化为一致的网络拓扑和动作。"
           },
           {
-            "icon": "📈",
-            "text": "动态丢弃已解问题提升平均表现0.6个百分点，跨源教师转移效果显著下降"
+            "icon": "⚠️",
+            "text": "实验显示出超出命令错误的失败，凸显了规范遵循和规划的缺口，但模板缺乏全新的场景。"
           }
         ],
-        "overview": "本文在受控实验框架下系统考察了On‑policy Distillation (OPD) 的多维泛化行为。通过逐一改变训练难度、语言、推理跨度、任务域以及模型来源，发现OPD更倾向于迁移教师的推理模式而非具体答案；同源教师‑学生配对在跨语言、跨任务上均能显著提升学生性能，而跨源配对的跨域收益有限。进一步的多教师实验揭示，教师影响并非局限于路由的领域，混合比例会导致能力的“跷跷板”效应。作者还评估了教师难度过滤和学生动态抽样两种数据选择策略，后者在去除学生已掌握的问题后带来小幅但一致的提升。",
+        "overview": "NetConfArena 通过将人工编写的材料转化为 96 个覆盖 IP 路由、MPLS 和 overlay 协议的参数化模板，构建真实的网络配置任务。LLM 辅助的实例化算法解析逻辑参数和物理接口，生成一致的拓扑、初始与参考配置以及隐藏测试用例。代理通过五个抽象动作（get_running_config、apply_config、execute_validation、wait、submit）与基于 GNS3 的仿真器交互，并在每步获取设备反馈。双视角评估通过测试用例得分衡量结果正确性，通过回合数、动作质量和完成模式衡量过程质量。对八种 model–thinking‑mode 设置在 480 个实例（3840 条轨迹）上的实验揭示了任务规范遵循和规划方面的失败，而非仅是语法错误。",
         "methodology": [
           {
-            "title": "受控因素逐一变更",
-            "detail": "在保持其他条件不变的情况下，分别测试训练难度（教师通过率）、语言（English→Chinese）、推理跨度（短→长）、任务域（math、code、science）以及模型来源（同源 vs 跨源）的影响。"
+            "title": "参数化任务模板实例化",
+            "detail": "Algorithm 1 将模板模式与值注册表和设备能力进行匹配，确保满足依赖并在渲染产物前保持接口命名一致。"
           },
           {
-            "title": "教师难度过滤",
-            "detail": "根据教师在训练问题上的通过率，将完全未解（pass‑rate=0）或完全解出（pass‑rate=1）的样本单独保留，以评估难度对OPD的影响。"
+            "title": "仿真器支持的执行环境",
+            "detail": "在 GNS3 上使用厂商路由器镜像实现，提供真实的 CLI 语法、反馈和协议动态，同时保持评估的可复现性。"
           },
           {
-            "title": "学生动态抽样",
-            "detail": "在训练过程中动态丢弃学生已能正确解出的样本（pass‑rate∈[0,1)），比较三种抽样策略对最终性能的影响。"
+            "title": "Agent‑Network 接口",
+            "detail": "定义了五个抽象动作；每个动作返回观测（配置文本、命令回显、诊断输出），为 agent 的下一步决策提供依据。"
           },
           {
-            "title": "多教师混合实验",
-            "detail": "在Multi‑Teacher OPD (MOPD) 设置下，改变不同教师的混合比例，观察学生在各领域的性能变化，验证“seesaw”效应。"
+            "title": "双视角评估",
+            "detail": "结果指标：test‑case score（通过的隐藏测试比例）和 Configuration F1。过程指标：回合数、动作比例、错误动作率、重复动作率以及完成模式。"
           }
         ],
         "mechanism": [
           {
-            "title": "推理行为迁移",
-            "detail": "OPD通过在学生实际访问的状态上向教师查询，实现对教师推理路径的模仿，而非单纯记忆教师的答案。"
+            "title": "任务生成一致性",
+            "detail": "已解析的参数保证生成的拓扑、初始配置和参考配置相互兼容，防止对片段的简单记忆。"
           },
           {
-            "title": "模型来源影响",
-            "detail": "同源教师（与学生同一模型系列）在语言、推理深度和跨域上均能将学生拉近教师水平；跨源教师的迁移主要局限于训练分布内。"
-          },
-          {
-            "title": "能力跷跷板效应",
-            "detail": "在MOPD 中，路由到不同领域专家的提示仍会受到其他教师的隐式影响，混合比例的微调会在各领域能力之间产生相互拉扯。"
+            "title": "闭环交互循环",
+            "detail": "Agents 迭代获取状态、应用配置、通过诊断进行验证，并决定何时提交；环境强制执行厂商特定的命令接受并提供即时反馈。"
           }
         ],
         "experiments": [
           {
-            "title": "模型与数据",
-            "detail": "教师模型包括 Polaris‑7B、Light‑R1‑14B、JustRL‑1.5B、Nemotron‑1.5B；学生模型为 DS‑distill‑1.5B、DS‑distill‑7B。训练数据覆盖数学（BigMath、AMC2023、MATH500、AIME2025/2026、BeyondAIME、OlymMATH‑Hard）、代码（LiveCodeBench）和科学（GPQA‑Diamond）等多域。"
+            "title": "模型思考模式评估",
+            "detail": "在基准上运行了八种设置，结合 qwen3‑8B、qwen3‑32B、deepseek‑v4‑fla（等）与 ReAct 风格推理。"
           },
           {
-            "title": "基线与对照",
-            "detail": "对照组为不使用任何过滤或动态抽样的标准OPD；实验组分别使用教师难度过滤（pass‑rate=0、=1）和学生动态抽样（保留已解、未解或丢弃已解）。"
+            "title": "任务与轨迹规模",
+            "detail": "从 96 个模板生成的 480 个任务实例产生了 3840 条执行轨迹，分别记录了结果和过程分析。"
           },
           {
-            "title": "评估指标",
-            "detail": "主要使用各基准的通过率/准确率百分比；跨域实验报告同源与跨源教师在目标域的相对提升幅度。"
+            "title": "收集的指标",
+            "detail": "每条轨迹报告了 Test‑case score、Configuration F1、回合计数、动作类型分布、error‑action rate、repeat‑action rate 和 completion mode。"
           }
         ],
         "findings": [
           {
-            "title": "训练难度影响微弱",
-            "detail": "教师未解的难题仍能提供约80% 的OPD增益，表明难度对同域泛化影响不大。"
+            "title": "超出语法的失败模式",
+            "detail": "尽管命令语法正确，但由于 Agents 常未遵守任务规范或规划纠正措施，导致 test‑case scores 低下。"
           },
           {
-            "title": "动态抽样带来小幅提升",
-            "detail": "在六个数学基准上，丢弃学生已解问题的策略使平均性能提升0.6个百分点（+0.6 pp）。"
-          },
-          {
-            "title": "同源跨域迁移显著",
-            "detail": "同源教师‑学生对在中文数学、长跨度数学等未见分布上实现与教师相近的性能提升（如 Polaris‑7B→DS‑distill‑1.5B 在 Chinese Math 上提升约25.5%）。"
-          },
-          {
-            "title": "跨源迁移受限",
-            "detail": "跨源配对在跨域任务上提升有限，往往只能匹配训练分布内的表现。"
-          },
-          {
-            "title": "多教师混合产生seesaw效应",
-            "detail": "改变教师混合比例会在不同领域的能力之间产生相互拉扯，导致性能在各域之间呈现“跷跷板”式波动。"
+            "title": "过程低效",
+            "detail": "高 error‑action rate 和 repeat‑action rate 表明 agents 经常发出被拒绝或重复的指令，反映出反馈利用受限。"
           }
         ],
         "contributions": [
-          "系统化的受控实验框架，逐一评估OPD在难度、语言、推理深度、任务域和模型来源上的泛化行为。",
-          "发现OPD主要迁移教师的推理模式，而非具体答案，且同源教师在跨域上具有显著优势。",
-          "提供教师难度过滤和学生动态抽样两种数据选择策略的实证评估，为OPD 的数据构建提供指导。"
+          "Executable closed-loop benchmark (NetConfArena) 用于网络配置中的 LLM 代理。",
+          "LLM‑assisted pipeline 将面向人类的材料转换为可重用、参数化的任务模板。",
+          "Dual‑perspective evaluation framework 展示结果正确性和过程质量。"
         ],
         "limitations": [
-          "实验仅覆盖7B/1.5B规模模型和数学、代码、科学等有限任务域，未验证更大模型或其他领域的可推广性。",
-          "缺乏对观察到的同源/跨源效应的理论解释，仅提供经验性描述。",
-          "未比较OPD 与其他离线蒸馏或RLHF 方法的相对优势。"
+          "Parameterized templates 并未产生根本新的操作场景，限制了评估失效的多样性。",
+          "Benchmark 依赖 GNS3 仿真和特定厂商镜像，可能无法捕获所有真实设备行为。"
         ],
         "open_questions": [
-          "在更大规模或不同架构的模型上，OPD 的推理行为迁移是否仍然成立？",
-          "能否构建理论模型解释模型来源对跨域迁移的影响机制？",
-          "如何设计教师混合策略以消除多教师设置中的能力跷跷板效应？"
+          "如何利用已验证的成功轨迹作为监督信号，以提升 LLM 的鲁棒性和 loss‑landscape 特性？",
+          "可以设计哪些 harness 机制，使 LLM 代理在闭环网络环境中的执行更可靠且可追溯？"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
         "language": "zh",
-        "schema_version": 5
+        "schema_version": 6,
+        "prompt_version": 2
       },
+      "analysis_status": "complete",
       "recommendation_reason": {
-        "topic": "Statistical theory for LLMs",
+        "topic": "LLM loss landscape",
         "matched": [
-          "generalization"
+          "llm"
         ],
         "lane": "llm"
       },
-      "recommended_at": "2026-08-18T10:47:20.408991+00:00"
+      "recommended_at": "2026-08-25T10:49:06.180385+00:00"
     }
   ]
 }
