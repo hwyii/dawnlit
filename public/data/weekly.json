@@ -1,6 +1,190 @@
 {
-  "generated_at": "2026-08-25T10:49:06.180385+00:00",
+  "generated_at": "2026-08-26T10:51:18.938084+00:00",
   "papers": [
+    {
+      "id": "2608.24492",
+      "title": "When Do Supervised UQ Ensembles Improve LLM Hallucination Detection? A Robustness Study",
+      "abstract": "Uncertainty quantification (UQ) methods are widely used for hallucination detection in large language models (LLMs) in closed-book settings where ground-truth evidence is unavailable at inference time. Prior work has proposed combining UQ signals via learned ensembles, but empirical investigations into the robustness of these ensembles are limited. We study a supervised ensembling framework that trains a classifier over heterogeneous UQ-based scorer outputs on a small, domain-specific dataset of labeled LLM responses, then applies it to out-of-sample hallucination classification without retrieval, tools, or reference documents. Across four LLMs, nine datasets, and three generation regimes (short-form QA, long-form generation, and code generation), we provide a systematic robustness analysis along three axes: sample efficiency, in-domain dataset transfer, and generation regime dependence. We find that supervised ensembles outperform the best individual scorer in 30 of 32 settings, with gains realized from as few as 100 labeled instances. Ensembles retain most of their advantage in cases of in-domain transfer under distribution shift, outperforming the best non-ensemble scorer in 23 of 28 transfer settings. Sampling-based black-box ensembles are nearly as effective as full ensembles, while single-generation white-box ensembles offer limited benefit.",
+      "authors": [
+        "Mohit Singh Chauhan",
+        "Vipin Gyanchandani",
+        "Dylan Bouchard"
+      ],
+      "published": "2026-08-25T12:43:07Z",
+      "updated": "2026-08-25T12:43:07Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2608.24492v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.24492v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.585,
+          "matched": [
+            "robustness",
+            "uncertainty",
+            "hallucination",
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5199,
+          "matched": [
+            "robustness"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.4426,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6715,
+        "relevance": 0.6605,
+        "quality": 0.59,
+        "novelty": 0.8075,
+        "freshness": 0.8682,
+        "feedback_adjustment": -0.0129,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "robustness",
+          "uncertainty",
+          "hallucination",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "Supervised ensembles of heterogeneous UQ scorers consistently improve closed‑book hallucination detection across LLMs and tasks, even with as few as 100 labeled examples.",
+        "problem": "Detecting hallucinations in LLM outputs without retrieval or reference documents requires reliable uncertainty signals.",
+        "method": "A classifier (logistic regression, random forest, or gradient boosting) is trained on a small, domain‑specific set of UQ scorer outputs and applied to out‑of‑sample responses.",
+        "evidence": "Ensembles outperform the best individual scorer in 30 of 32 settings by AUROC and retain advantage in 23 of 28 in‑domain transfer settings.",
+        "limitations": "Study is limited to four closed‑weight LLMs from two providers, three generation regimes, Python code only, and does not explore cross‑domain or cross‑LLM transfer.",
+        "why_for_you": "Matches your interest in trustworthy LLMs by showing a data‑efficient, robust detection method that could complement efficient adversarial training.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "Supervised UQ ensembles beat the best single scorer in 30/32 settings, with gains from just 100 labeled instances."
+          },
+          {
+            "icon": "🔧",
+            "text": "Ensemble classifier ingests 30+ black‑box, white‑box, and reflexive UQ scores (e.g., sequence probability, CodeBLEU, consistency) via logistic regression / random forest / gradient boosting."
+          },
+          {
+            "icon": "📈",
+            "text": "AUROC advantage persists under in‑domain distribution shift, outperforming the top scorer in 23/28 transfer cases; black‑box‑only ensembles are nearly as effective as full ensembles."
+          }
+        ],
+        "overview": "The paper introduces a supervised ensembling framework that learns to combine a broad suite of uncertainty quantification (UQ) scorers for hallucination detection in closed‑book LLM generation. Across four LLMs, nine benchmarks, and three generation regimes (short QA, long‑form, code), the authors evaluate sample efficiency, in‑domain transfer, and regime dependence. Ensembles consistently surpass the strongest individual scorer, achieving notable gains with as few as 100 labeled examples and retaining most of the benefit under distribution shift. Black‑box‑only ensembles approach full‑ensemble performance, while white‑box‑only ensembles add limited value.",
+        "methodology": [
+          {
+            "title": "Ensemble training",
+            "detail": "A binary classifier is trained on vectors of K∈[0,1]UQ scores per response; classifiers explored include logistic regression, random forest, and gradient boosting."
+          },
+          {
+            "title": "Scorer collection",
+            "detail": "Thirty‑plus scorers spanning token‑level probabilities, consistency metrics, semantic similarity, code‑specific measures (CodeBLEU), and reflexive confidence are computed; access flags indicate token‑probability requirements per generation regime."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Complementary uncertainty signals",
+            "detail": "Heterogeneous UQ scores capture distinct aspects of model confidence (e.g., likelihood, self‑consistency, semantic alignment); the learned classifier weights them to produce a more reliable hallucination probability."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Evaluation setup",
+            "detail": "Four LLMs (Gemini‑2.5‑Flash, Gemini‑2.5‑Pro, GPT‑4o, GPT‑4o‑mini) are tested on nine datasets covering math (OpenR1‑Math, BigMath), factual QA (HotpotQA, SimpleQA), reading comprehension (DROP), code generation (LiveCodeBench Python subsets), and long‑form factoid QA (rivers, mushrooms). Ensembles are compared to the best individual scorer (optimistic test‑set selection) using AUROC and Expected Calibration Error (ECE) across 25 stratified 70/30 splits."
+          }
+        ],
+        "findings": [
+          {
+            "title": "In‑distribution superiority",
+            "detail": "With the full training split (0.7N), ensembles beat the best scorer in 30/32 LLM‑dataset settings by AUROC; only BigMath/Gemini‑Flash and SimpleQA/GPT‑4o‑mini are exceptions."
+          },
+          {
+            "title": "Sample efficiency",
+            "detail": "Significant AUROC gains appear with as few as 100 labeled responses, and performance scales smoothly with training size."
+          },
+          {
+            "title": "Robustness to distribution shift",
+            "detail": "In‑domain transfer experiments show ensembles retain advantage in 23/28 settings, outperforming the top scorer despite shifted data distributions."
+          },
+          {
+            "title": "Black‑box vs. full ensembles",
+            "detail": "Sampling‑based black‑box ensembles achieve nearly identical AUROC to full ensembles, whereas white‑box‑only ensembles provide limited improvement."
+          }
+        ],
+        "contributions": [
+          "Systematic robustness analysis of supervised UQ ensembles across sample efficiency, in‑domain transfer, and generation regime axes.",
+          "Empirical demonstration that ensembles achieve strong performance with minimal labeled data.",
+          "Comparison of multiple combination strategies (weighted average, logistic regression, random forest, gradient boosting) beyond prior linear weighting."
+        ],
+        "limitations": [
+          "Evaluated only on four closed‑weight LLMs from Google and OpenAI; results may not generalize to open‑weight models with internal‑state access.",
+          "Long‑form evaluation limited to two factoid domains (rivers, mushrooms) and claim‑level grading; broader summarization or dialogue tasks are untested.",
+          "Code experiments restricted to Python competitive‑programming problems; other languages and larger codebases are not covered.",
+          "Cross‑domain, cross‑LLM, and cross‑language transfer scenarios remain unexplored."
+        ],
+        "open_questions": [
+          "How do ensembles that incorporate internal‑state scorers (e.g., attention maps) perform on open‑weight models?",
+          "What is the degradation pattern when transferring ensembles across domains (e.g., train on math, deploy on factual QA) or across different LLM families?",
+          "Can similar sample‑efficiency gains be achieved for more complex generation tasks such as open‑ended summarization or multi‑turn dialogue?",
+          "What is the optimal trade‑off between sampling‑based black‑box ensembles and potentially cheaper internal‑state methods in terms of inference cost and detection accuracy?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "recommended_at": "2026-08-26T10:51:18.938084+00:00"
+    },
     {
       "id": "2608.23391",
       "title": "Cross-Domain, Multi-Task Data-to-Text Generation without In-Domain Training Data",
@@ -573,20 +757,7 @@
         "experiments",
         "quantitative results"
       ],
-      "summary": {
-        "evidence": "在HarmBench上提升鲁棒性，Llama-3-8B-Instruct的ASR从32.3%降至0.5%，GSM8K准确率比全局SFT或LoRA高7.1个百分点。",
-        "limitations": "Not stated in the abstract",
-        "method": "使用轻量级隐状态门控连续调节安全低秩适配器的激活强度。",
-        "problem": "大型语言模型的安全调优常导致效用下降，需平衡安全与效用。",
-        "takeaway": "CLEAR通过连续潜变量适配器路由实现安全对齐，同时保持模型效用。",
-        "why_for_you": "安全-效用权衡问题的高效对抗训练机制",
-        "source": "abstract",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "analysis_status": "pending",
+      "analysis_status": "complete",
       "recommendation_reason": {
         "topic": "Trustworthy LLM",
         "matched": [
@@ -596,6 +767,99 @@
           "alignment"
         ],
         "lane": "llm"
+      },
+      "summary": {
+        "limitations": "在可获得的来源中未说明。",
+        "evidence": "在 Llama‑3‑8B‑Instruct 上，HarmBench ASR 从 32.3% 降至 0.5%，且相较于 SFT 或标准 LoRA，GSM8K 准确率提升最高 7.1 分。",
+        "method": "CLEAR 冻结主干，并学习一个隐藏状态门，对每个提示持续缩放 safety LoRA 适配器。",
+        "problem": "全局安全微调会通过改变模型在良性输入上的行为，降低实用性。",
+        "why_for_you": "通过提供参数高效、条件化的安全机制，降低对齐成本，契合您对高效对抗训练的兴趣。",
+        "takeaway": "CLEAR 通过潜在表示门控的条件低秩安全适配器，实现几乎为零的 HarmBench 攻击成功率，同时保持或提升实用性。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "experiments": [
+          {
+            "title": "基准与模型",
+            "detail": "在 HarmBench、XSTest（安全）以及 GSM8K、MMLU、TruthfulQA（实用）上评估，使用 Llama‑3‑8B‑Instruct 和 Gemma‑2‑2B‑it；基线包括 SFT 和标准 LoRA。"
+          },
+          {
+            "title": "指标",
+            "detail": "安全性通过 HarmBench 攻击成功率 (ASR) 和 XSTest 拒绝/过度拒绝衡量；实用性通过 GSM8K、MMLU 和 TruthfulQA (MC1/MC2) 的准确率衡量。"
+          }
+        ],
+        "overview": "CLEAR 引入轻量级隐藏状态门，为每个输入预测连续路由分数，并调节插入冻结 LLM 主干的安全专用 LoRA 适配器。该门使用子类型感知的二元交叉熵和硬对偶边距损失进行训练，以在潜在空间中区分有害与良性提示。Llama‑3‑8B‑Instruct 和 Gemma‑2‑2B‑it 的实验显示，显著降低 HarmBench 攻击成功率，同时在 GSM8K、MMLU、TruthfulQA 等实用基准上保持或提升性能。",
+        "methodology": [
+          {
+            "title": "潜在门",
+            "detail": "两层 MLP 从选定的 transformer 层聚合隐藏状态，经过 sigmoid 输出 g∈[0,1]。"
+          },
+          {
+            "title": "Safety LoRA 适配器",
+            "detail": "低秩更新 ΔW 插入 q_proj 和 v_proj 注意力矩阵；仅训练 ΔW 与门参数，主干保持冻结。"
+          },
+          {
+            "title": "训练目标",
+            "detail": "子类型感知的 BCE 损失对对抗性良性/有害示例赋予更高权重；硬对偶边距损失通过软加权强制 gu > gs。"
+          }
+        ],
+        "limitations": [
+          "规模效益仅在两种模型上展示，缺乏更广泛的模型规模分析。",
+          "提出了自适应鲁棒性 (Q4)，但在提供的摘录中未报告。"
+        ],
+        "findings": [
+          {
+            "title": "安全‑实用权衡",
+            "detail": "CLEAR 将 Llama‑3‑8B‑Instruct 上的 HarmBench ASR 从 32.3% 降至 0.5%，并相较于全局 SFT 或 LoRA，GSM8K 准确率提升最高 7.1%。"
+          },
+          {
+            "title": "门的训练动态",
+            "detail": "训练曲线显示 LM 损失、BCE 损失和边距损失下降，同时安全与不安全门分数分化，表明路由有效。"
+          }
+        ],
+        "contributions": [
+          "通过连续潜在门实现条件化安全适配。",
+          "子类型感知的门加权结合硬对偶边距损失。",
+          "在两种指令微调 LLM 上实证展示了改进的安全‑实用权衡。"
+        ],
+        "open_questions": [
+          "CLEAR 在针对门控机制的自适应对抗攻击下表现如何？",
+          "潜在门控方法能否与 RLHF 或其他基于强化学习的对齐流水线结合？",
+          "在大规模使用时，计算门并应用路由适配器的推理延迟开销是多少？"
+        ],
+        "mechanism": [
+          {
+            "title": "连续路由",
+            "detail": "生成过程中，隐藏状态 h 被转换为 h' = (W + gΔW)h，其中 g 连续控制安全干预的强度。"
+          },
+          {
+            "title": "潜在区分",
+            "detail": "门学习对良性提示赋予低分，对有害或对抗性提示赋予高分，实现选择性安全激活。"
+          }
+        ],
+        "signals": [
+          {
+            "icon": "🛡️",
+            "text": "CLEAR 添加了连续潜在门，为每个提示路由 safety LoRA 适配器，保持模型实用性。"
+          },
+          {
+            "icon": "⚙️",
+            "text": "门输出 g∈[0,1]，将 LoRA 适配器缩放为 h' = (W + gΔW)h，使用 BCE 与边距损失进行训练。"
+          },
+          {
+            "icon": "📊",
+            "text": "CLEAR 将 Llama‑3‑8B‑Instruct 上的 HarmBench ASR 从 32.3% 降至 0.5%，但两模型之外的规模结果未完整报告。"
+          }
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
       },
       "recommended_at": "2026-08-24T02:55:19.024175+00:00"
     },
@@ -752,6 +1016,199 @@
         "lane": "llm"
       },
       "recommended_at": "2026-08-23T10:39:34.861608+00:00"
+    },
+    {
+      "id": "2608.24568",
+      "title": "Across the Loss Landscape with Progressive Growth",
+      "abstract": "Deep neural networks generalize well despite their highly nonconvex, overparameterized loss landscapes, a phenomenon often associated with the geometry of the minima found by stochastic optimization. We study how incremental grow-and-optimize strategies bias training toward flatter regions by viewing growth as progressive constraint relaxation. Starting from a low-dimensional submodel, we iteratively expand the trainable parameters by unlocking nested random subspaces while freezing the orthogonal complement at the network initialization, re-optimizing after each expansion until the full architecture is reached. Under standard local regularity conditions around non-degenerate minima, we prove that local sublevel sets are well approximated by ellipsoids and that basin accessibility under frozen constraints can be characterized by an explicit effective curvature in the frozen directions. This leads to an explanation of the bias: progressive growth increases the relative weight of wide basins and suppresses sharp ones through a volume effect induced by the frozen constraints. We empirically validate these predictions in controlled toy landscapes and in a realistic ResNet/CIFAR-100 setting and confirm that although progressive subspace growth reliably produces flatter solutions, curvature reductions do not universally translate into improved test performance, highlighting subtleties in the flatness-generalization connection. The code is available at https://github.com/p0lcAi/Across-the-Loss-Landscape.",
+      "authors": [
+        "Paul Caillon",
+        "Christophe Cerisara",
+        "Alexandre Allauzen"
+      ],
+      "published": "2026-08-25T13:50:48Z",
+      "updated": "2026-08-25T13:50:48Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2608.24568v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.24568v1",
+      "comment": "Accepted at ECML PKDD 2026",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "transferable",
+      "scope_matches": [
+        "loss landscape",
+        "flatness"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5345,
+          "matched": [
+            "loss landscape",
+            "basin",
+            "flatness",
+            "landscape",
+            "loss"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.1244,
+          "matched": [
+            "generalization",
+            "optimization"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.0791,
+          "matched": [
+            "training"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5938,
+        "relevance": 0.4683,
+        "quality": 0.81,
+        "novelty": 0.8361,
+        "freshness": 0.8749,
+        "feedback_adjustment": -0.0091,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "proof",
+        "quantitative results"
+      ],
+      "summary": {
+        "limitations": "曲率降低并未始终提升测试准确率，凸显平坦性与泛化之间的细微关系。",
+        "evidence": "在 ResNet/CIFAR-100 上的实证验证表明得到更平坦的解，但未带来普遍的测试性能提升。",
+        "method": "通过嵌套随机子空间和冻结正交补的迭代参数扩展。",
+        "problem": "理解增量参数扩展如何影响损失景观几何及泛化。",
+        "why_for_you": "与 LLM 损失景观分析及通过几何偏置提升对抗训练效率密切相关。",
+        "takeaway": "渐进式增长通过冻结约束使训练倾向更平坦区域，解释平坦性与泛化的权衡。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "experiments": [
+          {
+            "detail": "使用 ResNet-18 进行渐进式增长阶段 (S=3,5,10)，并与未冻结的全模型基线进行比较。",
+            "title": "ResNet/CIFAR-100 设置"
+          },
+          {
+            "detail": "测量测试准确率、插值障碍、保持率以及基于 Hessian 的量 (λmax, trace, log-determinant)。",
+            "title": "指标"
+          },
+          {
+            "detail": "以全模型无增长训练作为对照，保持相同的网络结构和训练预算。",
+            "title": "基线"
+          }
+        ],
+        "overview": "本文分析增量参数扩展如何使优化偏向更平坦的损失景观。理论表明冻结约束导致有效曲率降低，实验证实在 ResNet/CIFAR-100 上得到更平坦的解。但曲率下降并未普遍提升泛化，揭示平坦性与泛化关系的复杂性。方法采用嵌套子空间解锁并在每阶段重新优化。",
+        "methodology": [
+          {
+            "detail": "从低维子模型开始，迭代解锁嵌套随机子空间，同时在初始化时冻结正交补，并在每次扩展后重新优化。",
+            "title": "增量参数扩展"
+          },
+          {
+            "detail": "利用局部 Hessian 特征值和 Schur 补来刻画冻结约束下的有效曲率。",
+            "title": "基于 Hessian 的曲率分析"
+          },
+          {
+            "detail": "证明在正则条件下，非退化极小点附近的局部子水平集可被椭圆良好近似。",
+            "title": "椭圆近似"
+          }
+        ],
+        "limitations": [
+          "曲率降低并未始终提升测试性能",
+          "实证结果仅限于 ResNet/CIFAR-100 设置",
+          "理论分析假设非退化极小点和局部正则性"
+        ],
+        "findings": [
+          {
+            "detail": "渐进子空间增长相较于固定结构模型始终产生更平坦的极小点 (λnewmax/λmax < 1)。",
+            "title": "通过增长获得更平坦的解"
+          },
+          {
+            "detail": "冻结约束通过椭圆近似和相容体积分析显示提升宽阱的相对权重。",
+            "title": "体积效应示例"
+          },
+          {
+            "detail": "曲率降低并未普遍提升测试准确率（例如 S=10 增长将准确率降至 73.37%，低于基线 76.25%）。",
+            "title": "平坦性与泛化的权衡"
+          }
+        ],
+        "contributions": [
+          "将渐进增长视为约束松弛的理论分析",
+          "损失子水平集的局部椭圆近似",
+          "冻结约束下的有效曲率刻画"
+        ],
+        "open_questions": [
+          "何种机制决定曲率降低何时转化为泛化提升",
+          "将基于体积的分析扩展至非椭圆形景观几何",
+          "渐进增长在更大规模 LLM 架构上的可扩展性"
+        ],
+        "mechanism": [
+          {
+            "detail": "冻结方向通过 Schur 补 Σi,t = Hi,bb − Hi,ba(Hi,aa)⁻¹Hi,ab 表现出降低的有效曲率，从而控制阱的可达性。",
+            "title": "冻结约束下的有效曲率"
+          },
+          {
+            "detail": "冻结约束产生体积效应，通过提升宽阱在参数空间中的相对权重而偏向更宽的阱。",
+            "title": "基于体积的偏置机制"
+          }
+        ],
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "渐进子空间增长通过冻结约束产生更平坦的解"
+          },
+          {
+            "icon": "🔧",
+            "text": "在冻结方向下通过 Hessian Schur 补计算有效曲率"
+          },
+          {
+            "icon": "📈",
+            "text": "ResNet/CIFAR-100 实验显示更平坦的极小点，但未带来一致的准确率提升"
+          }
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "loss landscape",
+          "basin",
+          "flatness",
+          "landscape"
+        ],
+        "lane": "transferable"
+      },
+      "recommended_at": "2026-08-26T10:51:18.938084+00:00"
     },
     {
       "id": "2608.21172",
@@ -1290,6 +1747,176 @@
       "recommended_at": "2026-08-25T10:49:06.180385+00:00"
     },
     {
+      "id": "2608.24696",
+      "title": "On-policy Distillation with Verifiable Reward",
+      "abstract": "Reinforcement Learning with Verifiable Rewards (RLVR) and on-policy distillation (OPD) have become two widely adopted paradigms for post-training large language models. However, RLVR suffers from sparse task-level feedback, while OPD provides dense token-level guidance but ignores trajectory correctness, limiting its performance to that of the teacher. Combining them is a promising direction: OPD supplies dense supervisory signals, while RLVR provides task-level correctness. Nevertheless, existing integrations often rely on weighted combination or heuristic switching, introducing extra hyperparameters and trade-offs. We propose On-policy Distillation with Verifiable Reward (OPDVR), a simple yet effective method that seamlessly combines OPD and RLVR without adding any hyperparameters. We first reformulate the implicit reward of sampled-token OPD based on trajectory correctness, then apply a ReLU gating mechanism to ensure that correct trajectories receive non-negative rewards and incorrect ones receive non-positive rewards---thereby aligning the distillation signal with task success while preserving the teacher's distributional guidance. Furthermore, our modification transforms sampled-token OPD into a proper RLVR method, making it readily combinable with any policy gradient algorithm, such as GRPO. Experiments on six reasoning benchmarks show that OPDVR consistently outperforms standard OPD. Our code is available at https://github.com/LeapLabTHU/OPDVR.",
+      "authors": [
+        "Wenze Lin",
+        "Jiale Zhao",
+        "Xitai Jiang",
+        "Songde Rao",
+        "Yining Li",
+        "Shenzhi Wang",
+        "Bingxiang He",
+        "Gao Huang"
+      ],
+      "published": "2026-08-25T15:21:17Z",
+      "updated": "2026-08-25T15:21:17Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2608.24696v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.24696v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "emerging",
+          "score": 0.577,
+          "matched": [
+            "On-policy distillation",
+            "on-policy distillation",
+            "OPD",
+            "distillation",
+            "on-policy",
+            "opd"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.1027,
+          "matched": [
+            "training"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5814,
+        "relevance": 0.4821,
+        "quality": 0.76,
+        "novelty": 0.7177,
+        "freshness": 0.8839,
+        "feedback_adjustment": -0.0256,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "benchmark evaluation",
+        "experiments"
+      ],
+      "summary": {
+        "limitations": "评估仅限于数学推理基准和单一学生‑教师配对。",
+        "evidence": "在六个推理基准上，OPDVR 的平均准确率为 49.1%，而标准 OPD 为 42.0%，逆向门控变体表现更差。",
+        "method": "OPDVR 重新表述采样‑token OPD 奖励，并使用 ReLU 门控，使正确轨迹的奖励非负，错误轨迹的奖励非正。",
+        "problem": "RLVR 提供稀疏的任务级奖励，而 OPD 给出密集的 token 引导但忽视轨迹正确性，限制了学生模型的表现。",
+        "why_for_you": "鉴于您关注 on‑policy 蒸馏，OPDVR 提供一种无需超参数的方式，在可验证奖励下提升 OPD。",
+        "takeaway": "OPDVR 在 on‑policy 蒸馏中加入简单的 ReLU 门，使其成为可验证奖励方法，并在推理性能上提升且无需额外超参数。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "experiments": [
+          {
+            "title": "基准评估",
+            "detail": "学生模型 Qwen3‑4B 从教师 Qwen3‑4B‑RL 蒸馏；六个推理基准 (AIME24, AIME25, AMC, MATH500, Minerva, OlympiadBench) 使用 avg@16 准确率衡量；基线：标准 OPD 与逆向门控变体；硬件：NVIDIA GeForce RTX 5090 GPU。"
+          }
+        ],
+        "overview": "本文指出采样‑token on‑policy 蒸馏 (OPD) 与可验证奖励强化学习 (RLVR) 之间的不匹配：OPD 的 token 级优势可能与轨迹正确性冲突。OPDVR 通过重新表述 OPD 奖励并加入 ReLU 门，使 token 优势与验证器的二元奖励对齐，从而消除有害的梯度成分。该修改无需额外超参数，可与任意策略梯度算法结合。六个数学推理数据集的实验显示，相比普通 OPD 均有一致提升，验证了门控机制的有效性。",
+        "methodology": [
+          {
+            "title": "奖励重构",
+            "detail": "采样‑token OPD 可表示为二元任务奖励 (+1 或 –1) 乘以教师‑学生对数概率比，暴露出符号不一致的无界问题。"
+          },
+          {
+            "title": "ReLU 门控机制",
+            "detail": "对验证器奖励 R 与 token‑级优势 rt 的乘积使用 ReLU，得到 reward = ReLU(R·rt)；这迫使正确轨迹的 token 奖励为非负，错误轨迹为非正。"
+          },
+          {
+            "title": "与策略梯度的集成",
+            "detail": "门控奖励可直接嵌入标准策略梯度更新（如 GRPO），使 OPDVR 能作为 OPD 的即插即用替代，无需额外的损失加权。"
+          }
+        ],
+        "limitations": [
+          "仅在数学推理基准上评估，缺乏对其他任务的通用性证据",
+          "未对计算开销或训练稳定性进行分析，除已报告的曲线外缺乏进一步评估"
+        ],
+        "findings": [
+          {
+            "title": "性能提升",
+            "detail": "OPDVR 的平均准确率为 49.1%，而 OPD 为 42.0%；逆向门控变体低于 OPD，证实门控的必要性。"
+          }
+        ],
+        "contributions": [
+          "通过 ReLU 门实现 OPD 与 RLVR 的无超参数组合",
+          "理论分析表明 OPDVR 消除与验证器冲突的梯度成分",
+          "在六个数学推理基准上进行实证验证"
+        ],
+        "open_questions": [
+          "OPDVR 在非推理或多模态任务上的表现如何？",
+          "门控机制能否适配二元正确性以外的奖励结构？",
+          "OPDVR 对训练效率和大模型可扩展性的影响是什么？"
+        ],
+        "mechanism": [
+          {
+            "title": "冲突消除",
+            "detail": "门控更新将原始 OPD 梯度分解为无冲突分量 (ΔOPDVR) 与冲突项，后者在投影到验证器梯度上时为非正，确保与可验证奖励对齐。"
+          }
+        ],
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "OPDVR 引入无超参数的 ReLU 门，将采样‑token OPD 转换为合规的 RLVR 方法。"
+          },
+          {
+            "icon": "🔧",
+            "text": "该门控通过对验证信号与 token‑级优势的乘积使用 ReLU，强制正确轨迹的 token 奖励为非负，错误轨迹为非正。"
+          },
+          {
+            "icon": "📈",
+            "text": "OPDVR 在六个推理基准上实现 49.1% 的平均准确率，优于 OPD 的 42.0%，并超越逆向门控变体。"
+          }
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "On-policy distillation",
+        "matched": [
+          "On-policy distillation",
+          "on-policy distillation",
+          "OPD",
+          "distillation"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-26T10:51:18.938084+00:00"
+    },
+    {
       "id": "2608.20554",
       "title": "aiXamine: Unified Black-Box Evaluation of Cross-Dimensional Trade-offs in LLM Safety, Security, and Privacy",
       "abstract": "The critical failure modes in deployed large language models (LLMs) are cross-dimensional: a model can score 99.3 in safety alignment while refusing one in three benign queries, or improve across every capability metric while losing 21 points in privacy. Existing evaluation frameworks that assess safety, security, and privacy independently cannot detect these patterns. We introduce aiXamine, a unified black-box platform that evaluates LLM trustworthiness across safety, security, and privacy as interdependent properties. aiXamine orchestrates 46 tests across nine services through an automated red-teaming pipeline, producing hierarchical risk profiles, from prompt-level diagnostics to cross-service trade-off analytics, that enable reproducible comparison of proprietary and open-weight systems under identical conditions. Applying aiXamine to over 120 LLMs through more than 5,000 test runs, we conduct the largest joint safety, security, and privacy study to date and uncover three cross-dimensional phenomena invisible to single-axis evaluation. First, safety enforcement incurs a quantifiable safety tax: stronger alignment systematically increases over-refusal, forcing providers to choose between protection and utility. Second, privacy is near-orthogonal to other trustworthiness dimensions and not captured by standard alignment. Third, we identify and formally characterize distillation-induced robustness collapse: off-policy distillation without on-policy correction causes entropy collapse, catastrophically destroying robustness (56.9$\\to$2.6) on the same base architecture. These findings, compounded by diminishing returns from scale and category-dependent safety behaviors, demonstrate that trustworthiness is inherently multi-dimensional: progress along one axis does not guarantee, and can actively undermine, progress along others, yet current alignment methods treat it as a single objective.",
@@ -1467,367 +2094,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-08-24T10:53:02.352651+00:00"
-    },
-    {
-      "id": "2608.20988",
-      "title": "Jacobian-guided Noise Injection for Quantization Robustness in Large Language Models",
-      "abstract": "Quantization of Large Language Models (LLMs) is often hindered by the sensitivity of the self-attention mechanism to discretization errors. We identify the softmax operator as a bottleneck for quantization stability due to its sensitivity to outliers and state-dependent Jacobian. We theoretically establish that suppressing the norm of this Jacobian helps in bounding quantization-induced performance degradation. Based on this, we propose Jacobian-Guided Noise Injection, a training strategy that injects zero-mean Gaussian noise into pre-attention logits, with variance derived directly from the Jacobian Frobenius norm. Unlike prior approaches that rely on heuristic or penalise jacobian directly, our method provides a way to identify the optimal noise variance based on the local attention sensitivity. We evaluate the method on SOTA LLM architectures, where it demonstrates improved robustness over popular PTQ methods. Empirical analysis reveals that the proposed method gives up to +37% relative gains on Top-1 accuracy on ImageNet-1K for SigLIP and improves relative perplexity by upto 40% on WikiText for language models in low bit quantisation settings, proving the efficacy of the approach.",
-      "authors": [
-        "Deepanshu Pandey",
-        "Arnav Chavan",
-        "Nahush Lele",
-        "Sankalp Dayal",
-        "Deepak Gupta"
-      ],
-      "published": "2026-08-21T11:16:40Z",
-      "updated": "2026-08-21T11:16:40Z",
-      "categories": [
-        "cs.LG",
-        "cs.AI"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2608.20988v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.20988v1",
-      "comment": "Accepted at AdaptFM: Resource-Adaptive Foundation Model Inference, ICML 2026",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.5179,
-          "matched": [
-            "training",
-            "robustness"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4508,
-          "matched": [
-            "robustness",
-            "llm"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.1355,
-          "matched": [
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5527,
-        "relevance": 0.5316,
-        "quality": 0.47,
-        "novelty": 0.8449,
-        "freshness": 0.5738,
-        "feedback_adjustment": -0.0185,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "formal bound",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Based on this, we propose Jacobian-Guided Noise Injection, a training strategy that injects zero-mean Gaussian noise into pre-attention logits, with variance derived directly from the Jacobian Frobenius norm.",
-        "problem": "Quantization of Large Language Models (LLMs) is often hindered by the sensitivity of the self-attention mechanism to discretization errors.",
-        "method": "Based on this, we propose Jacobian-Guided Noise Injection, a training strategy that injects zero-mean Gaussian noise into pre-attention logits, with variance derived directly from the Jacobian Frobenius norm.",
-        "evidence": "We evaluate the method on SOTA LLM architectures, where it demonstrates improved robustness over popular PTQ methods.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Efficient adversarial training, Trustworthy LLM.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "training",
-          "robustness"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-24T10:53:02.352651+00:00"
-    },
-    {
-      "id": "2608.21074",
-      "title": "PromptResponse: Optimizing Prompts for LLM Coding Tasks",
-      "abstract": "Large language models (LLMs) are increasingly used in research workflows and software development pipelines, yet their output remains sensitive to input prompt variations. This paper presents $\\unicode{x00AB}$PromptResponse$\\unicode{x00BB}$, a controlled study examining how formatting and LLM-based tuning of coding task prompts affect the resulting code's performance, efficiency, and stability. Using five semantically identical yet syntactically distinct variants of the HumanEval dataset$\\unicode{x2014}$baseline, JSON, Markdown, YAML, and an LLM-tuned version$\\unicode{x2014}$we had GPT-4o solve its coding problems over 8200$\\unicode{x00A0}$executions. Our results show that consistent formatting$\\unicode{x2014}$especially JSON$\\unicode{x2014}$improves generation efficiency and syntactic stability, with minor gains in task performance. Conversely, the LLM-tuned prompts resulted in significantly degraded task performance without significant improvements in any other dimension. These findings suggest that low-effort reformatting alone can yield measurable improvements, while tuning must account for model alignment. We conclude our work with providing a set of practical recommendations informed by our results as well as releasing our dataset variants and evaluation pipeline for future work.",
-      "authors": [
-        "Erik Thureck",
-        "Robert Kühnen",
-        "Tim Jacobowitz"
-      ],
-      "published": "2026-08-21T13:16:48Z",
-      "updated": "2026-08-21T13:16:48Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI",
-        "cs.HC",
-        "cs.SE"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2608.21074v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.21074v1",
-      "comment": "22 pages, 7 figures, 10 listings",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.5829,
-          "matched": [
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.549,
-        "relevance": 0.4663,
-        "quality": 0.66,
-        "novelty": 0.8462,
-        "freshness": 0.5857,
-        "feedback_adjustment": -0.0214,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "baseline comparison",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Large language models (LLMs) are increasingly used in research workflows and software development pipelines, yet their output remains sensitive to input prompt variations.",
-        "problem": "Large language models (LLMs) are increasingly used in research workflows and software development pipelines, yet their output remains sensitive to input prompt variations.",
-        "method": "This paper presents $\\unicode{x00AB}$PromptResponse$\\unicode{x00BB}$, a controlled study examining how formatting and LLM-based tuning of coding task prompts affect the resulting code's performance, efficiency, and stability.",
-        "evidence": "Our results show that consistent formatting$\\unicode{x2014}$especially JSON$\\unicode{x2014}$improves generation efficiency and syntactic stability, with minor gains in task performance.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: LLM loss landscape.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-24T10:53:02.352651+00:00"
-    },
-    {
-      "id": "2608.23179",
-      "title": "NetConfArena: An Executable Benchmark for LLM Agents in Closed-Loop Network Configuration",
-      "abstract": "Large language model (LLM) agents are increasingly attractive for automating network configuration, yet their reliability and failure patterns are poorly understood. An essential prerequisite is to assess such agents in a realistic but risk-free environment. Existing benchmarks, however, fall short: they often treat configuration as static command generation or rely on overly simplified settings. Such evaluations understate the core challenges of network configuration, where correctness requires reasoning about protocol complexity and topology dependence. We present NetConfArena, an executable benchmark for evaluating LLM agents in closed-loop network configuration. NetConfArena places agents in emulated multi-device networks, provides a standardized and compact action interface for task execution, and evaluates the resulting network behavior with hidden task-specific executable test cases. The benchmark relies on an LLM-assisted, emulation-grounded pipeline, which converts human-oriented network materials into reusable parameterized task templates. We evaluate representative LLM agents on 480 task instances instantiated from 96 protocol-focused task templates, yielding 3840 execution trajectories, and show that failures are not limited to command errors. The failures also reveal gaps in task-specification adherence and robust planning and execution. These findings suggest two future directions: using validated trajectories as supervision signals to improve foundation models, and designing harness mechanisms that make agent execution more reliable and accountable.",
-      "authors": [
-        "Chang Liu",
-        "Xiaohui Xie",
-        "Xinyi Chen",
-        "Yong Cui"
-      ],
-      "published": "2026-08-24T12:26:37Z",
-      "updated": "2026-08-24T12:26:37Z",
-      "categories": [
-        "cs.NI",
-        "cs.AI"
-      ],
-      "primary_category": "cs.NI",
-      "abs_url": "https://arxiv.org/abs/2608.23179v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.23179v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm",
-        "foundation model",
-        "foundation models"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.5754,
-          "matched": [
-            "llm"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.1189,
-          "matched": [
-            "robust"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5402,
-        "relevance": 0.4841,
-        "quality": 0.48,
-        "novelty": 0.8621,
-        "freshness": 0.8668,
-        "feedback_adjustment": -0.0286,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "method": "作者构建了基于仿真的流水线，将面向人的网络材料转化为参数化任务模板，并通过 GNS3 中的紧凑五动作接口执行。",
-        "evidence": "在 480 项任务（3840 条轨迹）上评估八种 LLM model–thinking‑mode 设置，发现任务规范遵循和规划方面的失败，而非仅仅命令语法错误。",
-        "takeaway": "NetConfArena 提供了真实的闭环基准，揭示了 LLM 代理超出简单命令错误的失败情况。",
-        "why_for_you": "该基准提供系统化的失败轨迹，可用于探查 LLM 损失曲面并设计高效的对抗训练。",
-        "limitations": "参数化模板未能生成全新的操作场景，限制了失败模式的多样性。",
-        "problem": "现有网络配置基准静态或过于简化，缺乏协议复杂性和拓扑依赖性。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🗂️",
-            "text": "NetConfArena 引入了一个闭环仿真基准，包含 480 项任务和 3840 条轨迹，供 LLM 代理使用。"
-          },
-          {
-            "icon": "🔧",
-            "text": "它使用 LLM 辅助的流水线，将参数化任务模板实例化为一致的网络拓扑和动作。"
-          },
-          {
-            "icon": "⚠️",
-            "text": "实验显示出超出命令错误的失败，凸显了规范遵循和规划的缺口，但模板缺乏全新的场景。"
-          }
-        ],
-        "overview": "NetConfArena 通过将人工编写的材料转化为 96 个覆盖 IP 路由、MPLS 和 overlay 协议的参数化模板，构建真实的网络配置任务。LLM 辅助的实例化算法解析逻辑参数和物理接口，生成一致的拓扑、初始与参考配置以及隐藏测试用例。代理通过五个抽象动作（get_running_config、apply_config、execute_validation、wait、submit）与基于 GNS3 的仿真器交互，并在每步获取设备反馈。双视角评估通过测试用例得分衡量结果正确性，通过回合数、动作质量和完成模式衡量过程质量。对八种 model–thinking‑mode 设置在 480 个实例（3840 条轨迹）上的实验揭示了任务规范遵循和规划方面的失败，而非仅是语法错误。",
-        "methodology": [
-          {
-            "title": "参数化任务模板实例化",
-            "detail": "Algorithm 1 将模板模式与值注册表和设备能力进行匹配，确保满足依赖并在渲染产物前保持接口命名一致。"
-          },
-          {
-            "title": "仿真器支持的执行环境",
-            "detail": "在 GNS3 上使用厂商路由器镜像实现，提供真实的 CLI 语法、反馈和协议动态，同时保持评估的可复现性。"
-          },
-          {
-            "title": "Agent‑Network 接口",
-            "detail": "定义了五个抽象动作；每个动作返回观测（配置文本、命令回显、诊断输出），为 agent 的下一步决策提供依据。"
-          },
-          {
-            "title": "双视角评估",
-            "detail": "结果指标：test‑case score（通过的隐藏测试比例）和 Configuration F1。过程指标：回合数、动作比例、错误动作率、重复动作率以及完成模式。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "任务生成一致性",
-            "detail": "已解析的参数保证生成的拓扑、初始配置和参考配置相互兼容，防止对片段的简单记忆。"
-          },
-          {
-            "title": "闭环交互循环",
-            "detail": "Agents 迭代获取状态、应用配置、通过诊断进行验证，并决定何时提交；环境强制执行厂商特定的命令接受并提供即时反馈。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "模型思考模式评估",
-            "detail": "在基准上运行了八种设置，结合 qwen3‑8B、qwen3‑32B、deepseek‑v4‑fla（等）与 ReAct 风格推理。"
-          },
-          {
-            "title": "任务与轨迹规模",
-            "detail": "从 96 个模板生成的 480 个任务实例产生了 3840 条执行轨迹，分别记录了结果和过程分析。"
-          },
-          {
-            "title": "收集的指标",
-            "detail": "每条轨迹报告了 Test‑case score、Configuration F1、回合计数、动作类型分布、error‑action rate、repeat‑action rate 和 completion mode。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "超出语法的失败模式",
-            "detail": "尽管命令语法正确，但由于 Agents 常未遵守任务规范或规划纠正措施，导致 test‑case scores 低下。"
-          },
-          {
-            "title": "过程低效",
-            "detail": "高 error‑action rate 和 repeat‑action rate 表明 agents 经常发出被拒绝或重复的指令，反映出反馈利用受限。"
-          }
-        ],
-        "contributions": [
-          "Executable closed-loop benchmark (NetConfArena) 用于网络配置中的 LLM 代理。",
-          "LLM‑assisted pipeline 将面向人类的材料转换为可重用、参数化的任务模板。",
-          "Dual‑perspective evaluation framework 展示结果正确性和过程质量。"
-        ],
-        "limitations": [
-          "Parameterized templates 并未产生根本新的操作场景，限制了评估失效的多样性。",
-          "Benchmark 依赖 GNS3 仿真和特定厂商镜像，可能无法捕获所有真实设备行为。"
-        ],
-        "open_questions": [
-          "如何利用已验证的成功轨迹作为监督信号，以提升 LLM 的鲁棒性和 loss‑landscape 特性？",
-          "可以设计哪些 harness 机制，使 LLM 代理在闭环网络环境中的执行更可靠且可追溯？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-25T10:49:06.180385+00:00"
     }
   ]
 }

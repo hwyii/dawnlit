@@ -1,6 +1,980 @@
 {
-  "generated_at": "2026-08-25T10:49:06.180385+00:00",
+  "generated_at": "2026-08-26T10:51:18.938084+00:00",
   "papers": [
+    {
+      "id": "2608.24492",
+      "title": "When Do Supervised UQ Ensembles Improve LLM Hallucination Detection? A Robustness Study",
+      "abstract": "Uncertainty quantification (UQ) methods are widely used for hallucination detection in large language models (LLMs) in closed-book settings where ground-truth evidence is unavailable at inference time. Prior work has proposed combining UQ signals via learned ensembles, but empirical investigations into the robustness of these ensembles are limited. We study a supervised ensembling framework that trains a classifier over heterogeneous UQ-based scorer outputs on a small, domain-specific dataset of labeled LLM responses, then applies it to out-of-sample hallucination classification without retrieval, tools, or reference documents. Across four LLMs, nine datasets, and three generation regimes (short-form QA, long-form generation, and code generation), we provide a systematic robustness analysis along three axes: sample efficiency, in-domain dataset transfer, and generation regime dependence. We find that supervised ensembles outperform the best individual scorer in 30 of 32 settings, with gains realized from as few as 100 labeled instances. Ensembles retain most of their advantage in cases of in-domain transfer under distribution shift, outperforming the best non-ensemble scorer in 23 of 28 transfer settings. Sampling-based black-box ensembles are nearly as effective as full ensembles, while single-generation white-box ensembles offer limited benefit.",
+      "authors": [
+        "Mohit Singh Chauhan",
+        "Vipin Gyanchandani",
+        "Dylan Bouchard"
+      ],
+      "published": "2026-08-25T12:43:07Z",
+      "updated": "2026-08-25T12:43:07Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2608.24492v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.24492v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.585,
+          "matched": [
+            "robustness",
+            "uncertainty",
+            "hallucination",
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5199,
+          "matched": [
+            "robustness"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.4426,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6715,
+        "relevance": 0.6605,
+        "quality": 0.59,
+        "novelty": 0.8075,
+        "freshness": 0.8682,
+        "feedback_adjustment": -0.0129,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "robustness",
+          "uncertainty",
+          "hallucination",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "Supervised ensembles of heterogeneous UQ scorers consistently improve closed‑book hallucination detection across LLMs and tasks, even with as few as 100 labeled examples.",
+        "problem": "Detecting hallucinations in LLM outputs without retrieval or reference documents requires reliable uncertainty signals.",
+        "method": "A classifier (logistic regression, random forest, or gradient boosting) is trained on a small, domain‑specific set of UQ scorer outputs and applied to out‑of‑sample responses.",
+        "evidence": "Ensembles outperform the best individual scorer in 30 of 32 settings by AUROC and retain advantage in 23 of 28 in‑domain transfer settings.",
+        "limitations": "Study is limited to four closed‑weight LLMs from two providers, three generation regimes, Python code only, and does not explore cross‑domain or cross‑LLM transfer.",
+        "why_for_you": "Matches your interest in trustworthy LLMs by showing a data‑efficient, robust detection method that could complement efficient adversarial training.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "Supervised UQ ensembles beat the best single scorer in 30/32 settings, with gains from just 100 labeled instances."
+          },
+          {
+            "icon": "🔧",
+            "text": "Ensemble classifier ingests 30+ black‑box, white‑box, and reflexive UQ scores (e.g., sequence probability, CodeBLEU, consistency) via logistic regression / random forest / gradient boosting."
+          },
+          {
+            "icon": "📈",
+            "text": "AUROC advantage persists under in‑domain distribution shift, outperforming the top scorer in 23/28 transfer cases; black‑box‑only ensembles are nearly as effective as full ensembles."
+          }
+        ],
+        "overview": "The paper introduces a supervised ensembling framework that learns to combine a broad suite of uncertainty quantification (UQ) scorers for hallucination detection in closed‑book LLM generation. Across four LLMs, nine benchmarks, and three generation regimes (short QA, long‑form, code), the authors evaluate sample efficiency, in‑domain transfer, and regime dependence. Ensembles consistently surpass the strongest individual scorer, achieving notable gains with as few as 100 labeled examples and retaining most of the benefit under distribution shift. Black‑box‑only ensembles approach full‑ensemble performance, while white‑box‑only ensembles add limited value.",
+        "methodology": [
+          {
+            "title": "Ensemble training",
+            "detail": "A binary classifier is trained on vectors of K∈[0,1]UQ scores per response; classifiers explored include logistic regression, random forest, and gradient boosting."
+          },
+          {
+            "title": "Scorer collection",
+            "detail": "Thirty‑plus scorers spanning token‑level probabilities, consistency metrics, semantic similarity, code‑specific measures (CodeBLEU), and reflexive confidence are computed; access flags indicate token‑probability requirements per generation regime."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Complementary uncertainty signals",
+            "detail": "Heterogeneous UQ scores capture distinct aspects of model confidence (e.g., likelihood, self‑consistency, semantic alignment); the learned classifier weights them to produce a more reliable hallucination probability."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Evaluation setup",
+            "detail": "Four LLMs (Gemini‑2.5‑Flash, Gemini‑2.5‑Pro, GPT‑4o, GPT‑4o‑mini) are tested on nine datasets covering math (OpenR1‑Math, BigMath), factual QA (HotpotQA, SimpleQA), reading comprehension (DROP), code generation (LiveCodeBench Python subsets), and long‑form factoid QA (rivers, mushrooms). Ensembles are compared to the best individual scorer (optimistic test‑set selection) using AUROC and Expected Calibration Error (ECE) across 25 stratified 70/30 splits."
+          }
+        ],
+        "findings": [
+          {
+            "title": "In‑distribution superiority",
+            "detail": "With the full training split (0.7N), ensembles beat the best scorer in 30/32 LLM‑dataset settings by AUROC; only BigMath/Gemini‑Flash and SimpleQA/GPT‑4o‑mini are exceptions."
+          },
+          {
+            "title": "Sample efficiency",
+            "detail": "Significant AUROC gains appear with as few as 100 labeled responses, and performance scales smoothly with training size."
+          },
+          {
+            "title": "Robustness to distribution shift",
+            "detail": "In‑domain transfer experiments show ensembles retain advantage in 23/28 settings, outperforming the top scorer despite shifted data distributions."
+          },
+          {
+            "title": "Black‑box vs. full ensembles",
+            "detail": "Sampling‑based black‑box ensembles achieve nearly identical AUROC to full ensembles, whereas white‑box‑only ensembles provide limited improvement."
+          }
+        ],
+        "contributions": [
+          "Systematic robustness analysis of supervised UQ ensembles across sample efficiency, in‑domain transfer, and generation regime axes.",
+          "Empirical demonstration that ensembles achieve strong performance with minimal labeled data.",
+          "Comparison of multiple combination strategies (weighted average, logistic regression, random forest, gradient boosting) beyond prior linear weighting."
+        ],
+        "limitations": [
+          "Evaluated only on four closed‑weight LLMs from Google and OpenAI; results may not generalize to open‑weight models with internal‑state access.",
+          "Long‑form evaluation limited to two factoid domains (rivers, mushrooms) and claim‑level grading; broader summarization or dialogue tasks are untested.",
+          "Code experiments restricted to Python competitive‑programming problems; other languages and larger codebases are not covered.",
+          "Cross‑domain, cross‑LLM, and cross‑language transfer scenarios remain unexplored."
+        ],
+        "open_questions": [
+          "How do ensembles that incorporate internal‑state scorers (e.g., attention maps) perform on open‑weight models?",
+          "What is the degradation pattern when transferring ensembles across domains (e.g., train on math, deploy on factual QA) or across different LLM families?",
+          "Can similar sample‑efficiency gains be achieved for more complex generation tasks such as open‑ended summarization or multi‑turn dialogue?",
+          "What is the optimal trade‑off between sampling‑based black‑box ensembles and potentially cheaper internal‑state methods in terms of inference cost and detection accuracy?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "recommended_at": "2026-08-26T10:51:18.938084+00:00"
+    },
+    {
+      "id": "2608.24568",
+      "title": "Across the Loss Landscape with Progressive Growth",
+      "abstract": "Deep neural networks generalize well despite their highly nonconvex, overparameterized loss landscapes, a phenomenon often associated with the geometry of the minima found by stochastic optimization. We study how incremental grow-and-optimize strategies bias training toward flatter regions by viewing growth as progressive constraint relaxation. Starting from a low-dimensional submodel, we iteratively expand the trainable parameters by unlocking nested random subspaces while freezing the orthogonal complement at the network initialization, re-optimizing after each expansion until the full architecture is reached. Under standard local regularity conditions around non-degenerate minima, we prove that local sublevel sets are well approximated by ellipsoids and that basin accessibility under frozen constraints can be characterized by an explicit effective curvature in the frozen directions. This leads to an explanation of the bias: progressive growth increases the relative weight of wide basins and suppresses sharp ones through a volume effect induced by the frozen constraints. We empirically validate these predictions in controlled toy landscapes and in a realistic ResNet/CIFAR-100 setting and confirm that although progressive subspace growth reliably produces flatter solutions, curvature reductions do not universally translate into improved test performance, highlighting subtleties in the flatness-generalization connection. The code is available at https://github.com/p0lcAi/Across-the-Loss-Landscape.",
+      "authors": [
+        "Paul Caillon",
+        "Christophe Cerisara",
+        "Alexandre Allauzen"
+      ],
+      "published": "2026-08-25T13:50:48Z",
+      "updated": "2026-08-25T13:50:48Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2608.24568v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.24568v1",
+      "comment": "Accepted at ECML PKDD 2026",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "transferable",
+      "scope_matches": [
+        "loss landscape",
+        "flatness"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5345,
+          "matched": [
+            "loss landscape",
+            "basin",
+            "flatness",
+            "landscape",
+            "loss"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.1244,
+          "matched": [
+            "generalization",
+            "optimization"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.0791,
+          "matched": [
+            "training"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5938,
+        "relevance": 0.4683,
+        "quality": 0.81,
+        "novelty": 0.8361,
+        "freshness": 0.8749,
+        "feedback_adjustment": -0.0091,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "proof",
+        "quantitative results"
+      ],
+      "summary": {
+        "limitations": "曲率降低并未始终提升测试准确率，凸显平坦性与泛化之间的细微关系。",
+        "evidence": "在 ResNet/CIFAR-100 上的实证验证表明得到更平坦的解，但未带来普遍的测试性能提升。",
+        "method": "通过嵌套随机子空间和冻结正交补的迭代参数扩展。",
+        "problem": "理解增量参数扩展如何影响损失景观几何及泛化。",
+        "why_for_you": "与 LLM 损失景观分析及通过几何偏置提升对抗训练效率密切相关。",
+        "takeaway": "渐进式增长通过冻结约束使训练倾向更平坦区域，解释平坦性与泛化的权衡。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "experiments": [
+          {
+            "detail": "使用 ResNet-18 进行渐进式增长阶段 (S=3,5,10)，并与未冻结的全模型基线进行比较。",
+            "title": "ResNet/CIFAR-100 设置"
+          },
+          {
+            "detail": "测量测试准确率、插值障碍、保持率以及基于 Hessian 的量 (λmax, trace, log-determinant)。",
+            "title": "指标"
+          },
+          {
+            "detail": "以全模型无增长训练作为对照，保持相同的网络结构和训练预算。",
+            "title": "基线"
+          }
+        ],
+        "overview": "本文分析增量参数扩展如何使优化偏向更平坦的损失景观。理论表明冻结约束导致有效曲率降低，实验证实在 ResNet/CIFAR-100 上得到更平坦的解。但曲率下降并未普遍提升泛化，揭示平坦性与泛化关系的复杂性。方法采用嵌套子空间解锁并在每阶段重新优化。",
+        "methodology": [
+          {
+            "detail": "从低维子模型开始，迭代解锁嵌套随机子空间，同时在初始化时冻结正交补，并在每次扩展后重新优化。",
+            "title": "增量参数扩展"
+          },
+          {
+            "detail": "利用局部 Hessian 特征值和 Schur 补来刻画冻结约束下的有效曲率。",
+            "title": "基于 Hessian 的曲率分析"
+          },
+          {
+            "detail": "证明在正则条件下，非退化极小点附近的局部子水平集可被椭圆良好近似。",
+            "title": "椭圆近似"
+          }
+        ],
+        "limitations": [
+          "曲率降低并未始终提升测试性能",
+          "实证结果仅限于 ResNet/CIFAR-100 设置",
+          "理论分析假设非退化极小点和局部正则性"
+        ],
+        "findings": [
+          {
+            "detail": "渐进子空间增长相较于固定结构模型始终产生更平坦的极小点 (λnewmax/λmax < 1)。",
+            "title": "通过增长获得更平坦的解"
+          },
+          {
+            "detail": "冻结约束通过椭圆近似和相容体积分析显示提升宽阱的相对权重。",
+            "title": "体积效应示例"
+          },
+          {
+            "detail": "曲率降低并未普遍提升测试准确率（例如 S=10 增长将准确率降至 73.37%，低于基线 76.25%）。",
+            "title": "平坦性与泛化的权衡"
+          }
+        ],
+        "contributions": [
+          "将渐进增长视为约束松弛的理论分析",
+          "损失子水平集的局部椭圆近似",
+          "冻结约束下的有效曲率刻画"
+        ],
+        "open_questions": [
+          "何种机制决定曲率降低何时转化为泛化提升",
+          "将基于体积的分析扩展至非椭圆形景观几何",
+          "渐进增长在更大规模 LLM 架构上的可扩展性"
+        ],
+        "mechanism": [
+          {
+            "detail": "冻结方向通过 Schur 补 Σi,t = Hi,bb − Hi,ba(Hi,aa)⁻¹Hi,ab 表现出降低的有效曲率，从而控制阱的可达性。",
+            "title": "冻结约束下的有效曲率"
+          },
+          {
+            "detail": "冻结约束产生体积效应，通过提升宽阱在参数空间中的相对权重而偏向更宽的阱。",
+            "title": "基于体积的偏置机制"
+          }
+        ],
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "渐进子空间增长通过冻结约束产生更平坦的解"
+          },
+          {
+            "icon": "🔧",
+            "text": "在冻结方向下通过 Hessian Schur 补计算有效曲率"
+          },
+          {
+            "icon": "📈",
+            "text": "ResNet/CIFAR-100 实验显示更平坦的极小点，但未带来一致的准确率提升"
+          }
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "loss landscape",
+          "basin",
+          "flatness",
+          "landscape"
+        ],
+        "lane": "transferable"
+      },
+      "recommended_at": "2026-08-26T10:51:18.938084+00:00"
+    },
+    {
+      "id": "2608.24696",
+      "title": "On-policy Distillation with Verifiable Reward",
+      "abstract": "Reinforcement Learning with Verifiable Rewards (RLVR) and on-policy distillation (OPD) have become two widely adopted paradigms for post-training large language models. However, RLVR suffers from sparse task-level feedback, while OPD provides dense token-level guidance but ignores trajectory correctness, limiting its performance to that of the teacher. Combining them is a promising direction: OPD supplies dense supervisory signals, while RLVR provides task-level correctness. Nevertheless, existing integrations often rely on weighted combination or heuristic switching, introducing extra hyperparameters and trade-offs. We propose On-policy Distillation with Verifiable Reward (OPDVR), a simple yet effective method that seamlessly combines OPD and RLVR without adding any hyperparameters. We first reformulate the implicit reward of sampled-token OPD based on trajectory correctness, then apply a ReLU gating mechanism to ensure that correct trajectories receive non-negative rewards and incorrect ones receive non-positive rewards---thereby aligning the distillation signal with task success while preserving the teacher's distributional guidance. Furthermore, our modification transforms sampled-token OPD into a proper RLVR method, making it readily combinable with any policy gradient algorithm, such as GRPO. Experiments on six reasoning benchmarks show that OPDVR consistently outperforms standard OPD. Our code is available at https://github.com/LeapLabTHU/OPDVR.",
+      "authors": [
+        "Wenze Lin",
+        "Jiale Zhao",
+        "Xitai Jiang",
+        "Songde Rao",
+        "Yining Li",
+        "Shenzhi Wang",
+        "Bingxiang He",
+        "Gao Huang"
+      ],
+      "published": "2026-08-25T15:21:17Z",
+      "updated": "2026-08-25T15:21:17Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2608.24696v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.24696v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "emerging",
+          "score": 0.577,
+          "matched": [
+            "On-policy distillation",
+            "on-policy distillation",
+            "OPD",
+            "distillation",
+            "on-policy",
+            "opd"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.1027,
+          "matched": [
+            "training"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5814,
+        "relevance": 0.4821,
+        "quality": 0.76,
+        "novelty": 0.7177,
+        "freshness": 0.8839,
+        "feedback_adjustment": -0.0256,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "benchmark evaluation",
+        "experiments"
+      ],
+      "summary": {
+        "limitations": "评估仅限于数学推理基准和单一学生‑教师配对。",
+        "evidence": "在六个推理基准上，OPDVR 的平均准确率为 49.1%，而标准 OPD 为 42.0%，逆向门控变体表现更差。",
+        "method": "OPDVR 重新表述采样‑token OPD 奖励，并使用 ReLU 门控，使正确轨迹的奖励非负，错误轨迹的奖励非正。",
+        "problem": "RLVR 提供稀疏的任务级奖励，而 OPD 给出密集的 token 引导但忽视轨迹正确性，限制了学生模型的表现。",
+        "why_for_you": "鉴于您关注 on‑policy 蒸馏，OPDVR 提供一种无需超参数的方式，在可验证奖励下提升 OPD。",
+        "takeaway": "OPDVR 在 on‑policy 蒸馏中加入简单的 ReLU 门，使其成为可验证奖励方法，并在推理性能上提升且无需额外超参数。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "experiments": [
+          {
+            "title": "基准评估",
+            "detail": "学生模型 Qwen3‑4B 从教师 Qwen3‑4B‑RL 蒸馏；六个推理基准 (AIME24, AIME25, AMC, MATH500, Minerva, OlympiadBench) 使用 avg@16 准确率衡量；基线：标准 OPD 与逆向门控变体；硬件：NVIDIA GeForce RTX 5090 GPU。"
+          }
+        ],
+        "overview": "本文指出采样‑token on‑policy 蒸馏 (OPD) 与可验证奖励强化学习 (RLVR) 之间的不匹配：OPD 的 token 级优势可能与轨迹正确性冲突。OPDVR 通过重新表述 OPD 奖励并加入 ReLU 门，使 token 优势与验证器的二元奖励对齐，从而消除有害的梯度成分。该修改无需额外超参数，可与任意策略梯度算法结合。六个数学推理数据集的实验显示，相比普通 OPD 均有一致提升，验证了门控机制的有效性。",
+        "methodology": [
+          {
+            "title": "奖励重构",
+            "detail": "采样‑token OPD 可表示为二元任务奖励 (+1 或 –1) 乘以教师‑学生对数概率比，暴露出符号不一致的无界问题。"
+          },
+          {
+            "title": "ReLU 门控机制",
+            "detail": "对验证器奖励 R 与 token‑级优势 rt 的乘积使用 ReLU，得到 reward = ReLU(R·rt)；这迫使正确轨迹的 token 奖励为非负，错误轨迹为非正。"
+          },
+          {
+            "title": "与策略梯度的集成",
+            "detail": "门控奖励可直接嵌入标准策略梯度更新（如 GRPO），使 OPDVR 能作为 OPD 的即插即用替代，无需额外的损失加权。"
+          }
+        ],
+        "limitations": [
+          "仅在数学推理基准上评估，缺乏对其他任务的通用性证据",
+          "未对计算开销或训练稳定性进行分析，除已报告的曲线外缺乏进一步评估"
+        ],
+        "findings": [
+          {
+            "title": "性能提升",
+            "detail": "OPDVR 的平均准确率为 49.1%，而 OPD 为 42.0%；逆向门控变体低于 OPD，证实门控的必要性。"
+          }
+        ],
+        "contributions": [
+          "通过 ReLU 门实现 OPD 与 RLVR 的无超参数组合",
+          "理论分析表明 OPDVR 消除与验证器冲突的梯度成分",
+          "在六个数学推理基准上进行实证验证"
+        ],
+        "open_questions": [
+          "OPDVR 在非推理或多模态任务上的表现如何？",
+          "门控机制能否适配二元正确性以外的奖励结构？",
+          "OPDVR 对训练效率和大模型可扩展性的影响是什么？"
+        ],
+        "mechanism": [
+          {
+            "title": "冲突消除",
+            "detail": "门控更新将原始 OPD 梯度分解为无冲突分量 (ΔOPDVR) 与冲突项，后者在投影到验证器梯度上时为非正，确保与可验证奖励对齐。"
+          }
+        ],
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "OPDVR 引入无超参数的 ReLU 门，将采样‑token OPD 转换为合规的 RLVR 方法。"
+          },
+          {
+            "icon": "🔧",
+            "text": "该门控通过对验证信号与 token‑级优势的乘积使用 ReLU，强制正确轨迹的 token 奖励为非负，错误轨迹为非正。"
+          },
+          {
+            "icon": "📈",
+            "text": "OPDVR 在六个推理基准上实现 49.1% 的平均准确率，优于 OPD 的 42.0%，并超越逆向门控变体。"
+          }
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "On-policy distillation",
+        "matched": [
+          "On-policy distillation",
+          "on-policy distillation",
+          "OPD",
+          "distillation"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-26T10:51:18.938084+00:00"
+    },
+    {
+      "id": "2608.24824",
+      "title": "Constrained Entity Selection under Partial Knowledge for LLM-Based Knowledge Graph QA",
+      "abstract": "Large language models are increasingly used for knowledge graph question answering (KGQA), but can fail to correctly ground answers in the underlying graph. Current approaches to LLM-based KGQA either rely on full semantic parsing into executable queries such as SPARQL, which is brittle in practice due to complex schemas or incompleteness of real-world KGs, or on LLM-reasoning and answer generation over KGs, which can be more robust but lacks formal guarantees. In this work, we study a complementary setting in which \\emph{candidate} answers are generated by an LLM-based system and subsequently verified using lightweight symbolic constraints derived from the question. We introduce \\emph{Constrained Entity Selection under Partial Knowledge (CES-PK)}, a problem formulation that focuses on eliminating invalid answers and providing symbolic support for valid ones without requiring construction of executable logical forms. To account for incomplete KGs, we employ a three-valued constraint semantics (\\emph{satisfied, violated, unknown}) that avoids incorrect rejections under open-world assumptions. To demonstrate the effects of our method, we instantiate this framework over the Hetionet biomedical knowledge graph and evaluate the impact of type, relation, and exclusion constraints. Experiments show that precision improves by filtering invalid candidates, while recall is preserved due to retaining candidates whose constraints are not explicitly violated. Satisfied constraints provide additional positive symbolic evidence to rank remaining candidates.",
+      "authors": [
+        "Emanuel Kitzelmann"
+      ],
+      "published": "2026-08-25T17:04:32Z",
+      "updated": "2026-08-25T17:04:32Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2608.24824v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.24824v1",
+      "comment": "8 pages, 2 tables. Submitted manuscript. Revised version published in KI 2026: Advances in Artificial Intelligence, LNCS 16830",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5737,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.1195,
+          "matched": [
+            "robust"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5213,
+        "relevance": 0.4829,
+        "quality": 0.39,
+        "novelty": 0.8478,
+        "freshness": 0.8942,
+        "feedback_adjustment": -0.028,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "experiments"
+      ],
+      "summary": {
+        "takeaway": "Lightweight constraint verification can substantially raise precision of LLM‑generated KGQA answers while keeping recall intact.",
+        "problem": "LLM‑based KGQA often produces answers that are not grounded in the underlying knowledge graph, especially when the graph is incomplete.",
+        "method": "The paper proposes post‑hoc verification using extracted type, relation, and exclusion constraints evaluated with a three‑valued semantics.",
+        "evidence": "Precision improves from 0.41 to 0.66 overall (Q2 precision jumps from 0.17 to 0.62) with recall unchanged at 1.0 on Hetionet.",
+        "limitations": "Evaluation relies on simulated candidate sets and assumes the KG is factually correct but incomplete.",
+        "why_for_you": "Provides a symbolic, efficient filtering layer that aligns with interests in robust, low‑overhead methods for LLM output verification.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "Introduces CES-PK, a post‑hoc verification formulation that eliminates invalid LLM answers without full logical forms."
+          },
+          {
+            "icon": "⚙️",
+            "text": "Applies three‑valued constraint semantics (satisfied, violated, unknown) to filter candidates and assign support scores."
+          },
+          {
+            "icon": "📈",
+            "text": "Achieves precision rise from 0.41 to 0.66 (Q2 up to 0.62) with unchanged recall, on simulated data."
+          }
+        ],
+        "overview": "The authors address the grounding gap in LLM‑driven KGQA by introducing Constrained Entity Selection under Partial Knowledge (CES‑PK), a verification stage that uses lightweight constraints derived from the question. Constraints are evaluated with a three‑valued semantics to either discard clearly invalid candidates or award positive support when satisfied, preserving recall under open‑world assumptions. Experiments on the Hetionet biomedical KG with two query templates show notable precision gains, especially when exclusion constraints are present, while recall remains perfect. Limitations stem from the controlled simulation setting and reliance on a correct but incomplete KG.",
+        "methodology": [
+          {
+            "title": "Constraint extraction",
+            "detail": "From each natural‑language question, the system derives type constraints (C1), positive relation constraints (C2), and exclusion constraints (C3) that are necessary for a correct answer."
+          },
+          {
+            "title": "Three‑valued semantics evaluation",
+            "detail": "Each constraint is classified as satisfied, violated, or unknown based on the KG; violations trigger candidate removal, satisfied constraints contribute a support score, and unknowns are ignored."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Filtering vs. support",
+            "detail": "Violations (negative signal) cause hard filtering, while satisfied constraints (positive signal) increase a candidate's support value used for ranking."
+          },
+          {
+            "title": "Open‑world handling",
+            "detail": "The unknown category prevents false negatives when KG edges are missing, ensuring recall is not harmed."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Controlled Hetionet study",
+            "detail": "Using the Hetionet biomedical KG, two query types (Q1: compounds treating disease; Q2: compounds treating disease but not causing side effect) were sampled. Gold answer sets were combined with distractors to simulate LLM output. Metrics: precision before/after filtering, recall (always 1.0), and mean support for gold vs. non‑gold candidates."
+          },
+          {
+            "title": "KG incompleteness analysis",
+            "detail": "A second experiment removed 10 % of relevant edges, measuring the drop in precision and support while confirming recall stability."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Precision gains",
+            "detail": "Overall precision rose from 0.41 to 0.66; Q2 precision increased by +0.45 (0.17 → 0.62) due to exclusion constraints."
+          },
+          {
+            "title": "Constraint role differentiation",
+            "detail": "Type constraints consistently filter type‑incorrect candidates; exclusion constraints provide the strongest negative signal; relation constraints rarely cause violations but boost support for gold answers."
+          },
+          {
+            "title": "Impact of incompleteness",
+            "detail": "Removing 10 % of edges lowered post‑filter precision (e.g., Q1 to 0.70) and support scores, yet recall remained at 1.0."
+          }
+        ],
+        "contributions": [
+          "Formulation of CES‑PK for post‑hoc verification without full semantic parsing",
+          "Three‑valued constraint semantics to handle incomplete knowledge graphs",
+          "Empirical demonstration of precision improvement on a biomedical KG"
+        ],
+        "limitations": [
+          "Evaluation uses simulated candidate sets rather than a full end‑to‑end KGQA pipeline",
+          "Assumes the underlying KG is factually correct; noisy or erroneous triples could cause false rejections",
+          "All candidate entities are presumed present in the KG"
+        ],
+        "open_questions": [
+          "How does CES‑PK integrate with real‑world LLM‑based KGQA systems and affect overall end‑to‑end performance?",
+          "Can constraint extraction be automated for more complex query structures and larger schema vocabularies?",
+          "What is the robustness of the three‑valued semantics when the KG contains systematic noise or contradictory facts?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-26T10:51:18.938084+00:00"
+    },
+    {
+      "id": "2608.24825",
+      "title": "A Dual-Dimensional LLM Framework for Automated Item Incidental Content Similarity Analysis in Large-Scale Assessments",
+      "abstract": "The rapid expansion of large-scale assessments and the growing adoption of automatic item generation have intensified concerns about incidental content redundancy, where construct-irrelevant elements such as wording or contextual framing become unintentionally repetitive across items. Traditional similarity metrics like BLEU or cosine similarity, often fail to capture the nuanced structural and semantic layers that drive perceived redundancy simultaneously. This study proposes a dual-dimensional framework for Automated Item Similarity Analysis (AISA) powered by Large Language Models (LLMs), operationalizing similarity through Structured Decomposition and Semantic Relatedness. Psychometric validation indicates that LLM-derived metrics align more closely with indicators of construct-irrelevant local dependence and yield more coherent item parameter groupings than traditional text-based measures. The framework is further evaluated through its application in Computerized Adaptive Testing (CAT). Simulations reveal that incorporating LLM-based similarity constraints into item selection improves estimation stability and reduces bias with minimal efficiency trade-offs, outperforming constraints based on conventional metrics. These findings highlight the potential of LLM-powered AISA to support scalable bank curation, content-aware test assembly, and experience-sensitive adaptive testing across diverse assessment contexts.",
+      "authors": [
+        "Jing Huang",
+        "Jihong Zhang",
+        "Hua-Hua Chang"
+      ],
+      "published": "2026-08-25T17:07:16Z",
+      "updated": "2026-08-25T17:07:16Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2608.24825v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.24825v1",
+      "comment": "26 pages, 6 figures",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5875,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5038,
+        "relevance": 0.47,
+        "quality": 0.33,
+        "novelty": 0.8753,
+        "freshness": 0.8944,
+        "feedback_adjustment": -0.0167,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [],
+      "summary": {
+        "takeaway": "A dual‑dimensional LLM similarity framework better captures incidental item redundancy than traditional text metrics.",
+        "problem": "Incidental content redundancy in large item banks is poorly detected by existing lexical or embedding similarity measures.",
+        "method": "The authors prompt LLMs to output separate structural and semantic similarity scores for item pairs and use these in psychometric clustering and CAT constraints.",
+        "evidence": "Empirical results show moderate correlation between dimensions (r=0.66), weak alignment with BLEU (r=0.30) and cosine (r=0.43), and CAT simulations that reduce bias and improve estimation stability with minimal efficiency loss.",
+        "limitations": "Authors do not report real‑world deployment or runtime costs, and no explicit limitation is stated.",
+        "why_for_you": "Relevant if you study LLM loss landscapes affecting multi‑dimensional similarity scoring mechanisms.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "Introduces a dual‑dimensional LLM framework (structured decomposition + semantic relatedness) for incidental item similarity."
+          },
+          {
+            "icon": "⚙️",
+            "text": "Uses LLM prompts to produce separate structural and semantic similarity scores, then clusters items for CAT constraints."
+          },
+          {
+            "icon": "📈",
+            "text": "Reports r=0.66 between dimensions, BLEU r=0.30, cosine r=0.43, and CAT simulations improve stability with minimal efficiency loss."
+          }
+        ],
+        "overview": "The paper presents AISA, a dual‑dimensional framework that leverages large language models to quantify incidental item similarity along structural and semantic axes. Structured prompts elicit separate similarity scores, which are then used to form psychometrically coherent clusters and to impose content‑diversity constraints in computerized adaptive testing. Validation shows the scores capture information beyond BLEU and cosine similarity, aligning with construct‑irrelevant local dependence, and simulations demonstrate improved estimation stability and reduced bias with negligible efficiency trade‑offs.",
+        "methodology": [
+          {
+            "title": "Structured Decomposition Prompt",
+            "detail": "A prompt asks the LLM to assess surface‑level structural similarity (e.g., scenario, phrasing) between two items, returning a normalized score."
+          },
+          {
+            "title": "Semantic Relatedness Prompt",
+            "detail": "A separate prompt requests the LLM to evaluate deeper semantic coherence (logical flow, meaning) between the same item pair, also yielding a normalized score."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Dual‑dimensional Scoring",
+            "detail": "The two scores are treated as orthogonal dimensions (correlation r=0.66) to represent incidental content more comprehensively than single‑metric approaches."
+          },
+          {
+            "title": "Cluster‑constrained Item Selection",
+            "detail": "Items are clustered based on combined scores; during CAT, selection is restricted to maintain cluster diversity, reducing local dependence."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Psychometric Correlation Study",
+            "detail": "Computed Pearson correlations between LLM scores and traditional metrics (BLEU r=0.30, cosine r=0.43) and with residual correlations indicating construct‑irrelevant local dependence."
+          },
+          {
+            "title": "Clustering Evaluation",
+            "detail": "Compared item clusters derived from LLM scores versus BLEU/cosine clusters on discrimination and threshold parameter coherence."
+          },
+          {
+            "title": "CAT Simulation",
+            "detail": "Simulated adaptive testing with and without LLM‑based similarity constraints, measuring estimation stability, bias, and test length efficiency."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Dimensional Alignment",
+            "detail": "Structural and semantic similarity scores show a moderate positive correlation (r=0.66), indicating related but distinct information."
+          },
+          {
+            "title": "Added Information Over Traditional Metrics",
+            "detail": "LLM scores correlate weakly with BLEU and cosine, suggesting they capture additional aspects of incidental content."
+          },
+          {
+            "title": "Psychometric Coherence",
+            "detail": "Clusters based on LLM scores exhibit clearer discrimination and threshold structures than those based on BLEU or cosine."
+          },
+          {
+            "title": "CAT Performance Gains",
+            "detail": "In simulations, LLM‑based constraints improve estimation stability and reduce bias with minimal increase in test length, outperforming conventional constraints."
+          }
+        ],
+        "contributions": [
+          "Dual‑dimensional similarity framework distinguishing structural and semantic incidental content",
+          "Prompt design enabling separate LLM‑derived similarity scores",
+          "Empirical demonstration of psychometric and CAT benefits over traditional text metrics"
+        ],
+        "limitations": [
+          "No real‑world deployment or runtime cost analysis reported",
+          "Author‑stated limitation not provided in the paper"
+        ],
+        "open_questions": [
+          "How does the framework perform with different LLM architectures or scales?",
+          "What are the computational and latency costs when applied to large operational item banks?",
+          "Can the dual‑dimensional scores be integrated into other adaptive testing algorithms beyond the simulated CAT?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-26T10:51:18.938084+00:00"
+    },
+    {
+      "id": "2608.24419",
+      "title": "A Judge Should Know What Changed:Construct Validity for LLM-as-a-Judge Evaluation",
+      "abstract": "LLM-as-a-judge evaluation is usually assessed by agreement and robustness to surface perturbations, but reliability does not establish construct validity. We formalize construct validity for an evaluator as a two-dimensional profile: invariance S, the probability that a verdict is unchanged under construct-preserving edits, and construct sensitivity R, the probability that it changes under minimal construct-changing edits. We show that S and R are independent and that no scalar summary preserves all relevant comparisons. We measure the profile across 7 judges and 4 domains using 7 construct-changing intervention types and 5 register-only controls, with intervention direction determined by human annotators and generation, verification, and judging assigned to disjoint model families. At matched invariance S >= 0.90, judges average S = 0.945 but R = 0.319. Sensitivity also differs between scope and strength edits: R_scope = 0.383 versus R_strength = 0.262, a +0.121 gap with the same sign for all 7 judges. We further audit five public label sets and find that surface-only predictors reproduce 55%-67% of labels in paired mode, including 67.4% of MT-Bench human votes. These results show that high judge agreement can coexist with weak sensitivity to changes in the construct being evaluated, motivating joint reporting of invariance and sensitivity and auditing the validation set itself.",
+      "authors": [
+        "Jianlin Chen",
+        "Wenhui Chen",
+        "Ziyao Lin",
+        "Chi Man Vong"
+      ],
+      "published": "2026-08-25T11:32:54Z",
+      "updated": "2026-08-25T11:32:54Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2608.24419v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.24419v1",
+      "comment": "39 pages, 10 figures, 11 tables",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.3692,
+          "matched": [
+            "llm",
+            "mode"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3679,
+          "matched": [
+            "llm-as-a-judge",
+            "robustness",
+            "auditing",
+            "reliability",
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.0956,
+          "matched": [
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4813,
+        "relevance": 0.3881,
+        "quality": 0.49,
+        "novelty": 0.8802,
+        "freshness": 0.8613,
+        "feedback_adjustment": -0.0091,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "reproducibility",
+        "quantitative results"
+      ],
+      "summary": {
+        "evidence": "在S≥0.90条件下，裁判平均S=0.945但R=0.319，不同编辑类型敏感性差异达+0.121，表面预测器可复现55%-67%标签",
+        "limitations": "未提及具体方法局限性，仅说明单一标量无法完整表征比较",
+        "method": "定义S为构念保持编辑下的判决不变概率，R为最小构念改变编辑下的判决变化概率，通过7个裁判和4个领域实验测量双维指标",
+        "problem": "现有LLM评估方法仅关注一致性与鲁棒性，未验证评估过程是否真正捕捉目标构念",
+        "takeaway": "提出LLM-as-a-judge评估的构念效度双维指标S（不变性）和R（构念敏感性），证明其独立性并揭示高一致率下敏感性不足的矛盾现象",
+        "why_for_you": "构念效度验证直接关联LLM可信性评估，双维指标为对抗训练中的鲁棒性与敏感性平衡提供新视角",
+        "source": "abstract",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm",
+          "mode"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-26T10:51:18.938084+00:00"
+    },
     {
       "id": "2608.23391",
       "title": "Cross-Domain, Multi-Task Data-to-Text Generation without In-Domain Training Data",
@@ -2186,20 +3160,7 @@
         "experiments",
         "quantitative results"
       ],
-      "summary": {
-        "evidence": "在HarmBench上提升鲁棒性，Llama-3-8B-Instruct的ASR从32.3%降至0.5%，GSM8K准确率比全局SFT或LoRA高7.1个百分点。",
-        "limitations": "Not stated in the abstract",
-        "method": "使用轻量级隐状态门控连续调节安全低秩适配器的激活强度。",
-        "problem": "大型语言模型的安全调优常导致效用下降，需平衡安全与效用。",
-        "takeaway": "CLEAR通过连续潜变量适配器路由实现安全对齐，同时保持模型效用。",
-        "why_for_you": "安全-效用权衡问题的高效对抗训练机制",
-        "source": "abstract",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "analysis_status": "pending",
+      "analysis_status": "complete",
       "recommendation_reason": {
         "topic": "Trustworthy LLM",
         "matched": [
@@ -2209,6 +3170,99 @@
           "alignment"
         ],
         "lane": "llm"
+      },
+      "summary": {
+        "limitations": "在可获得的来源中未说明。",
+        "evidence": "在 Llama‑3‑8B‑Instruct 上，HarmBench ASR 从 32.3% 降至 0.5%，且相较于 SFT 或标准 LoRA，GSM8K 准确率提升最高 7.1 分。",
+        "method": "CLEAR 冻结主干，并学习一个隐藏状态门，对每个提示持续缩放 safety LoRA 适配器。",
+        "problem": "全局安全微调会通过改变模型在良性输入上的行为，降低实用性。",
+        "why_for_you": "通过提供参数高效、条件化的安全机制，降低对齐成本，契合您对高效对抗训练的兴趣。",
+        "takeaway": "CLEAR 通过潜在表示门控的条件低秩安全适配器，实现几乎为零的 HarmBench 攻击成功率，同时保持或提升实用性。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "experiments": [
+          {
+            "title": "基准与模型",
+            "detail": "在 HarmBench、XSTest（安全）以及 GSM8K、MMLU、TruthfulQA（实用）上评估，使用 Llama‑3‑8B‑Instruct 和 Gemma‑2‑2B‑it；基线包括 SFT 和标准 LoRA。"
+          },
+          {
+            "title": "指标",
+            "detail": "安全性通过 HarmBench 攻击成功率 (ASR) 和 XSTest 拒绝/过度拒绝衡量；实用性通过 GSM8K、MMLU 和 TruthfulQA (MC1/MC2) 的准确率衡量。"
+          }
+        ],
+        "overview": "CLEAR 引入轻量级隐藏状态门，为每个输入预测连续路由分数，并调节插入冻结 LLM 主干的安全专用 LoRA 适配器。该门使用子类型感知的二元交叉熵和硬对偶边距损失进行训练，以在潜在空间中区分有害与良性提示。Llama‑3‑8B‑Instruct 和 Gemma‑2‑2B‑it 的实验显示，显著降低 HarmBench 攻击成功率，同时在 GSM8K、MMLU、TruthfulQA 等实用基准上保持或提升性能。",
+        "methodology": [
+          {
+            "title": "潜在门",
+            "detail": "两层 MLP 从选定的 transformer 层聚合隐藏状态，经过 sigmoid 输出 g∈[0,1]。"
+          },
+          {
+            "title": "Safety LoRA 适配器",
+            "detail": "低秩更新 ΔW 插入 q_proj 和 v_proj 注意力矩阵；仅训练 ΔW 与门参数，主干保持冻结。"
+          },
+          {
+            "title": "训练目标",
+            "detail": "子类型感知的 BCE 损失对对抗性良性/有害示例赋予更高权重；硬对偶边距损失通过软加权强制 gu > gs。"
+          }
+        ],
+        "limitations": [
+          "规模效益仅在两种模型上展示，缺乏更广泛的模型规模分析。",
+          "提出了自适应鲁棒性 (Q4)，但在提供的摘录中未报告。"
+        ],
+        "findings": [
+          {
+            "title": "安全‑实用权衡",
+            "detail": "CLEAR 将 Llama‑3‑8B‑Instruct 上的 HarmBench ASR 从 32.3% 降至 0.5%，并相较于全局 SFT 或 LoRA，GSM8K 准确率提升最高 7.1%。"
+          },
+          {
+            "title": "门的训练动态",
+            "detail": "训练曲线显示 LM 损失、BCE 损失和边距损失下降，同时安全与不安全门分数分化，表明路由有效。"
+          }
+        ],
+        "contributions": [
+          "通过连续潜在门实现条件化安全适配。",
+          "子类型感知的门加权结合硬对偶边距损失。",
+          "在两种指令微调 LLM 上实证展示了改进的安全‑实用权衡。"
+        ],
+        "open_questions": [
+          "CLEAR 在针对门控机制的自适应对抗攻击下表现如何？",
+          "潜在门控方法能否与 RLHF 或其他基于强化学习的对齐流水线结合？",
+          "在大规模使用时，计算门并应用路由适配器的推理延迟开销是多少？"
+        ],
+        "mechanism": [
+          {
+            "title": "连续路由",
+            "detail": "生成过程中，隐藏状态 h 被转换为 h' = (W + gΔW)h，其中 g 连续控制安全干预的强度。"
+          },
+          {
+            "title": "潜在区分",
+            "detail": "门学习对良性提示赋予低分，对有害或对抗性提示赋予高分，实现选择性安全激活。"
+          }
+        ],
+        "signals": [
+          {
+            "icon": "🛡️",
+            "text": "CLEAR 添加了连续潜在门，为每个提示路由 safety LoRA 适配器，保持模型实用性。"
+          },
+          {
+            "icon": "⚙️",
+            "text": "门输出 g∈[0,1]，将 LoRA 适配器缩放为 h' = (W + gΔW)h，使用 BCE 与边距损失进行训练。"
+          },
+          {
+            "icon": "📊",
+            "text": "CLEAR 将 Llama‑3‑8B‑Instruct 上的 HarmBench ASR 从 32.3% 降至 0.5%，但两模型之外的规模结果未完整报告。"
+          }
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
       },
       "recommended_at": "2026-08-24T02:55:19.024175+00:00"
     },
@@ -15528,1116 +16582,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-07-14T11:44:02.688717+00:00"
-    },
-    {
-      "id": "2607.11706",
-      "title": "VoxENES 2026: Benchmarking Generalization of Speech Spoofing Detectors Against LLM-Era TTS and Voice Conversion",
-      "abstract": "Modern LLM-driven text-to-speech (TTS) and voice conversion (VC) systems produce synthetic speech that differs from the generators represented in many legacy spoofing benchmarks. This mismatch creates a temporal generalization gap that can overestimate detector robustness under real-world post-processing conditions. We bridge this gap by introducing VoxENES 2026, a bilingual (English and Spanish) benchmark of 53,628 audio samples generated using 10 contemporary speech synthesis methods and evaluated under 10 standardized post-processing conditions. Using VoxENES 2026, we benchmark eight pretrained detectors without fine-tuning and observe substantial performance degradation: the best model achieves 28.98\\% EER overall, while most perform near or below random chance across modern generators and perturbations. Our results highlight the reliance on brittle artifacts in current detectors and establish VoxENES 2026 as a practical testbed for developing robust audio spoofing countermeasures.",
-      "authors": [
-        "Aastha Sharma",
-        "Guangjing Wang"
-      ],
-      "published": "2026-07-13T15:35:29Z",
-      "updated": "2026-07-13T15:35:29Z",
-      "categories": [
-        "cs.SD",
-        "cs.AI"
-      ],
-      "primary_category": "cs.SD",
-      "abs_url": "https://arxiv.org/abs/2607.11706v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.11706v1",
-      "comment": "Accepted in InterSpeech 2026",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3038,
-          "matched": [
-            "robustness",
-            "llm",
-            "robustness"
-          ]
-        },
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.3022,
-          "matched": [
-            "generalization",
-            "generalization"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.2839,
-          "matched": [
-            "robustness",
-            "robust",
-            "fine-tuning"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4292,
-        "relevance": 0.3603,
-        "quality": 0.48,
-        "novelty": 0.55,
-        "freshness": 0.8801
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "VoxENES 2026 reveals that current pretrained speech spoofing detectors degrade significantly against modern LLM-driven TTS and VC systems, achieving at best 28.98% EER and often near random chance.",
-        "problem": "Legacy spoofing benchmarks fail to capture the acoustic characteristics of synthetic speech generated by contemporary LLM-driven TTS and VC systems, causing overestimated detector robustness.",
-        "method": "The authors introduce VoxENES 2026, a bilingual benchmark with 53,628 audio samples from 10 modern LLM-driven speech synthesis methods, augmented by 10 standardized post-processing conditions, to evaluate pretrained detectors without fine-tuning.",
-        "evidence": "Evaluation of eight pretrained detectors on VoxENES 2026 shows substantial performance degradation compared to legacy benchmarks, with the best model achieving only 28.98% EER overall and most near or below random chance.",
-        "limitations": "The paper does not provide fine-tuning or adaptation experiments to improve detector robustness on the new benchmark, nor mechanistic explanations for why detectors fail on modern generators.",
-        "why_for_you": "This benchmark exposes critical generalization failures of current spoofing detectors against LLM-era synthetic speech, highlighting the need for robust countermeasures aligned with evolving generative models.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "The best pretrained detector evaluated on VoxENES 2026 achieves only 28.98% equal error rate (EER), indicating severe degradation compared to legacy benchmarks."
-          },
-          {
-            "icon": "🛡️",
-            "text": "VoxENES 2026 includes 53,628 audio samples generated by 10 state-of-the-art LLM-driven TTS and VC methods, covering English and Spanish, and applies 10 standardized post-processing augmentations to simulate real-world conditions."
-          },
-          {
-            "icon": "📉",
-            "text": "Performance degradation is attributed to detectors relying on brittle artifact cues tied to older synthesis methods, which are progressively suppressed or concealed by modern LLM-driven generators and post-processing."
-          }
-        ],
-        "overview": "The paper addresses the temporal generalization gap in speech spoofing detection caused by the rapid evolution of LLM-driven text-to-speech (TTS) and voice conversion (VC) systems. Legacy benchmarks predominantly contain synthetic speech from pre-2024 generators, which differ acoustically from modern LLM-based methods such as autoregressive, flow-matching, diffusion, and hybrid architectures. This mismatch leads to overestimated robustness of detectors when deployed in real-world scenarios involving new generation pipelines and common audio post-processing like compression and noise. To bridge this gap, the authors introduce VoxENES 2026, a bilingual benchmark dataset with over 53,000 samples generated from 10 contemporary LLM-driven TTS and VC systems, augmented by 10 standardized post-processing conditions. Evaluating eight pretrained detectors without fine-tuning reveals substantial performance degradation, with the best model achieving only 28.98% EER and most detectors performing near or below random chance. These results demonstrate that current detectors rely on fragile artifact cues that do not generalize to modern synthetic speech, establishing VoxENES 2026 as a critical testbed for developing robust spoofing countermeasures aligned with the evolving synthesis frontier.",
-        "methodology": [
-          {
-            "title": "Dataset Construction",
-            "detail": "VoxENES 2026 comprises 53,628 audio samples generated from 10 modern LLM-driven speech synthesis methods, including 7 TTS and 3 VC systems, covering English and Spanish languages. Real speech samples from LibriSpeech and VoxPopuli corpora are included for reference."
-          },
-          {
-            "title": "Post-Processing Augmentation",
-            "detail": "To simulate real-world transmission and manipulation effects, the dataset applies 10 standardized audio augmentations such as codec compression, additive noise, resampling, speed perturbation, and loudness normalization, modeling common distortions that affect detector performance."
-          },
-          {
-            "title": "Evaluation Protocol",
-            "detail": "Eight pretrained speech spoofing detectors are evaluated on VoxENES 2026 without any fine-tuning to measure out-of-distribution generalization. Performance is quantified primarily using equal error rate (EER) across all synthetic and augmented samples."
-          },
-          {
-            "title": "Benchmarking Modern Generators",
-            "detail": "The benchmark explicitly includes state-of-the-art LLM-driven TTS architectures such as VoxCPM, Qwen3-TTS, GLM-TTS, CosyVoice 3, Chatterbox, FlashLabs Chroma, and VibeVoice, as well as VC methods like Seed-VC, OpenVoice v2, and RVC v2, representing the current synthesis frontier."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Data Drift and Artifact Reliance",
-            "detail": "No explicit mechanistic equations are provided; however, the paper theorizes that detectors trained on legacy datasets learn brittle artifact cues specific to older synthesis methods. Modern LLM-driven generators and post-processing steps suppress or conceal these cues, causing detectors to fail due to distributional shifts and data drift."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Pretrained Detector Evaluation",
-            "detail": "Eight pretrained speech spoofing detectors are benchmarked on VoxENES 2026 without fine-tuning. The evaluation covers synthetic speech from 10 modern generators and 10 post-processing conditions, measuring equal error rate (EER) to assess robustness and generalization."
-          },
-          {
-            "title": "Dataset Composition",
-            "detail": "The dataset includes 3,028 real speech samples, 4,600 original synthetic samples, and 46,000 augmented synthetic samples, sourced from LibriSpeech and VoxPopuli corpora for real speech, and 10 LLM-driven TTS and VC systems for synthetic speech."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Severe Performance Degradation",
-            "detail": "The best performing pretrained detector achieves only 28.98% EER on VoxENES 2026, a substantial drop from reported results on legacy benchmarks, indicating poor generalization to modern LLM-driven synthetic speech."
-          },
-          {
-            "title": "Near Random Chance Performance",
-            "detail": "Most evaluated detectors perform near or below random chance levels across modern generators and post-processing augmentations, demonstrating reliance on brittle artifact cues that do not generalize."
-          },
-          {
-            "title": "Impact of Post-Processing",
-            "detail": "Standardized post-processing augmentations such as compression, noise, and resampling further degrade detector performance, highlighting the importance of modeling real-world audio transformations."
-          }
-        ],
-        "contributions": [
-          "Introduction of VoxENES 2026, a large-scale bilingual benchmark dataset with 53,628 samples from 10 modern LLM-driven TTS and VC systems.",
-          "Inclusion of 10 standardized post-processing augmentations to simulate real-world audio transmission and manipulation effects.",
-          "Comprehensive evaluation of eight pretrained speech spoofing detectors without fine-tuning, revealing significant generalization failures.",
-          "Demonstration that current detectors rely on brittle artifact cues tied to legacy synthesis methods, motivating development of robust countermeasures.",
-          "Provision of a practical testbed for advancing speech spoofing detection aligned with the evolving LLM-driven synthesis frontier."
-        ],
-        "limitations": [
-          "Lack of experiments involving fine-tuning or adaptation of detectors on VoxENES 2026 to improve robustness.",
-          "Absence of mechanistic or theoretical analysis explaining why detectors fail on modern LLM-driven synthetic speech.",
-          "No exploration of new detector architectures or training strategies to address the identified generalization gap.",
-          "Limited discussion on multilingual performance differences beyond English and Spanish inclusion."
-        ],
-        "open_questions": [
-          "How can speech spoofing detectors be adapted or retrained to generalize effectively to LLM-driven TTS and VC systems?",
-          "What novel artifact cues or features can be leveraged to detect synthetic speech generated by modern LLM-based architectures?",
-          "How do different post-processing augmentations individually and jointly affect detector robustness, and can detectors be made invariant to them?",
-          "Can theoretical frameworks be developed to model the data drift and distributional shifts caused by evolving speech synthesis methods?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "robustness",
-          "llm",
-          "robustness"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-14T11:44:02.688717+00:00"
-    },
-    {
-      "id": "2607.08646",
-      "title": "UltraX: Refining Pre-Training Data at Scale with Adaptive Programmatic Editing",
-      "abstract": "As available training data approaches its physical limit, gains from Scaling Laws have begun to diminish. Consequently, improving Large Language Models (LLMs) now depends less on data expansion and more on higher-quality data utilization. However, in the context of large-scale corpora, existing refinement methodologies face significant limitations in quality, efficiency, and reliability: Rule-based approaches are constrained by fixed heuristics and struggle with instance-level variations; LLM-based approaches improve quality but fail to meet the efficiency and reliability requirements of large-scale data processing. To address these challenges, we propose UltraX, a function-calling refinement framework for large-scale pre-training data that completes the editing function space by introducing insertion in addition to deletion and modification, enabling fine-grained instance-level editing. Specifically, UltraX builds a reliable program-supervision generation pipeline. In this pipeline, dataset-adaptive prompt optimization first guides an expert LLM to produce high-quality end-to-end refined texts, and Line Alignment Mapping and Dynamic Context Replacement then convert original-refined text pairs into structured program supervision. Meanwhile, UltraX improves supervision quality and stabilizes the training distribution with low-confidence example filtering and ratio-controlled sampling by operation combination. During inference and execution, it normalizes and validates model outputs through sliding-window prediction, global operation aggregation, and systematic post-processing, improving the stability and reliability of large-scale execution. Experiments show that UltraX achieves the highest average performance across all corpora and also matches or surpasses baselines with fewer training tokens, demonstrating stronger data efficiency and refinement reliability.",
-      "authors": [
-        "Xinlong Zhao",
-        "Dongsheng Liu",
-        "Hengyu Zhao",
-        "Zixuan Fu",
-        "Zheng Wang",
-        "Jie Cai",
-        "Jie Zhou",
-        "Qiang Ma",
-        "Xuanhe Zhou",
-        "Xu Han",
-        "Yudong Wang",
-        "Zhiyuan Liu"
-      ],
-      "published": "2026-07-09T16:18:07Z",
-      "updated": "2026-07-09T16:18:07Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.08646v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.08646v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "emerging",
-          "score": 0.7137,
-          "matched": [
-            "filtering",
-            "sampling",
-            "training data",
-            "data"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4731,
-          "matched": [
-            "alignment",
-            "alignment",
-            "reliability",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6584,
-        "relevance": 0.6656,
-        "quality": 0.5,
-        "novelty": 0.8178,
-        "freshness": 0.879
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "experiments",
-        "dataset evidence"
-      ],
-      "summary": {
-        "takeaway": "UltraX introduces a function-calling refinement framework with insertion, deletion, and modification operations, achieving superior data refinement quality and efficiency for large-scale LLM pre-training.",
-        "problem": "Existing large-scale pre-training data refinement methods either lack fine-grained editing capabilities or fail to scale efficiently and reliably to massive corpora.",
-        "method": "UltraX constructs a program-supervision pipeline using dataset-adaptive prompt optimization, line alignment mapping, dynamic context replacement, and robust execution with sliding-window prediction and post-processing.",
-        "evidence": "Experiments with 1B parameter models pretrained on multiple corpora show UltraX surpasses baselines by over 2% relative improvement on multiple datasets while using fewer training tokens.",
-        "limitations": "The paper does not provide detailed analysis of UltraX’s performance on extremely long documents beyond sliding-window segmentation nor does it address potential biases inherited from expert LLMs used in supervision generation.",
-        "why_for_you": "UltraX offers a scalable, reliable, and fine-grained data refinement approach that improves pre-training data quality and efficiency, directly addressing challenges in trustworthy and efficient LLM data utilization.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "UltraX achieves over 2% relative improvement on multiple datasets in downstream tasks using 1B parameter models pretrained from scratch, demonstrating stronger data efficiency and refinement reliability compared to baselines."
-          },
-          {
-            "icon": "🛡️",
-            "text": "UltraX’s program-supervision pipeline includes dataset-adaptive prompt optimization guiding an expert LLM to generate high-quality refined texts, followed by line alignment mapping and dynamic context replacement to convert text pairs into structured editing programs."
-          },
-          {
-            "icon": "📉",
-            "text": "UltraX stabilizes training distribution and improves supervision quality via low-confidence example filtering and ratio-controlled sampling by operation combination, while inference uses sliding-window prediction and global operation aggregation to ensure stable large-scale execution."
-          }
-        ],
-        "overview": "UltraX addresses the diminishing returns of scaling LLM training data by focusing on improving data quality through fine-grained, programmatic editing of pre-training corpora. Unlike prior rule-based or LLM-based refinement methods limited by fixed heuristics or computational inefficiency, UltraX completes the editing function space by adding insertion to deletion and modification, enabling nuanced instance-level edits. It constructs a reliable program supervision pipeline where an expert LLM, guided by dataset-adaptive prompts, produces end-to-end refined texts. These are converted into structured editing operations via line alignment mapping and dynamic context replacement. To ensure training stability and quality, UltraX filters low-confidence examples and controls sampling ratios of operation types. During inference, it segments long documents with sliding windows, predicts local operations, aggregates them globally, and applies systematic post-processing to produce stable, executable refinement programs. Experiments with 1B models pretrained on multiple corpora demonstrate UltraX’s superior average performance and data efficiency, with relative improvements exceeding 2% on several datasets, validating its approach to scalable, reliable, and fine-grained data refinement for LLM pre-training.",
-        "methodology": [
-          {
-            "title": "Dataset-Adaptive Prompt Optimization",
-            "detail": "UltraX first optimizes prompts tailored to each dataset to guide an expert LLM in generating high-quality, end-to-end refined texts from raw inputs, ensuring that the refinement captures dataset-specific nuances and semantic improvements."
-          },
-          {
-            "title": "Line Alignment Mapping and Dynamic Context Replacement",
-            "detail": "These techniques convert original and refined text pairs into structured program supervision by aligning lines between versions and replacing context dynamically, enabling the extraction of precise editing operations such as insertion, deletion, and modification."
-          },
-          {
-            "title": "Low-Confidence Example Filtering and Ratio-Controlled Sampling",
-            "detail": "To improve supervision quality and stabilize training, UltraX filters out examples with low confidence scores and controls the sampling ratio of different operation combinations, balancing the training distribution across insertion, deletion, and modification operations."
-          },
-          {
-            "title": "Sliding-Window Segment-wise Operation Prediction",
-            "detail": "During inference, UltraX segments long documents using a sliding-window approach, normalizes line numbers, and independently predicts editing operation sequences for each segment to handle length constraints and maintain local context."
-          },
-          {
-            "title": "Global Operation Aggregation and Systematic Post-Processing",
-            "detail": "Local operation sequences from segments are merged into a global program by mapping operations to global line numbers, filtering duplicates, merging adjacent or interfering operations, and applying fallback mechanisms to ensure stable, executable refinement programs."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Programmatic Editing with Complete Operation Space",
-            "detail": "UltraX extends the editing function space by including insertion alongside deletion and modification, enabling fine-grained instance-level edits that preserve semantic coherence and restore missing information, overcoming limitations of prior deletion-only or replacement-only frameworks."
-          },
-          {
-            "title": "No Explicit Theoretical Equations Provided",
-            "detail": "The paper does not present formal equations or causal models but describes a deterministic function executor that applies predicted editing operations to original texts, ensuring auditable and interpretable refinement."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Pretraining 1B Parameter Models on Multiple Corpora",
-            "detail": "UltraX was evaluated by pretraining 1B parameter language models from scratch on multiple large-scale corpora, comparing downstream task performance against baselines including raw data and ProX refinement, measuring average accuracy improvements and data efficiency."
-          },
-          {
-            "title": "Downstream Task Evaluation Across Ten Tasks",
-            "detail": "Performance was assessed on ten downstream tasks including ARC-C, ARC-E, CSQA, HellaS, MMLU, OBQA, PIQA, SIQA, WinoG, and SciQ, with varying numbers of training tokens, demonstrating consistent gains and surpassing baselines with fewer tokens."
-          },
-          {
-            "title": "Ablation on Operation Combination Sampling",
-            "detail": "The effect of ratio-controlled sampling by operation combination was analyzed to understand its impact on training stability and refinement quality, showing that balanced sampling improves model performance."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Superior Average Performance",
-            "detail": "UltraX achieves the highest average performance across all evaluated corpora, with relative improvements exceeding 2% on multiple datasets compared to baseline methods."
-          },
-          {
-            "title": "Improved Data Efficiency",
-            "detail": "UltraX matches or surpasses baseline refinement methods while using fewer training tokens, indicating stronger data efficiency in pre-training."
-          },
-          {
-            "title": "Fine-Grained Refinement Balances Noise Removal and Preservation",
-            "detail": "Analyses suggest UltraX’s inclusion of insertion operations alongside deletion and modification enables better balance between removing noise and preserving useful information, reducing semantic fragmentation."
-          },
-          {
-            "title": "Stable Large-Scale Execution",
-            "detail": "The sliding-window prediction, global aggregation, and systematic post-processing pipeline improve the stability and reliability of large-scale data refinement execution."
-          }
-        ],
-        "contributions": [
-          "Proposed UltraX, a function-calling refinement framework introducing insertion to complete the editing function space for fine-grained instance-level editing.",
-          "Developed a reliable seed-supervision pipeline using dataset-adaptive prompt optimization, line alignment mapping, and dynamic context replacement to generate structured program supervision.",
-          "Designed a robust large-scale execution pipeline with systematic post-processing to handle duplicate matching, ambiguous replacements, and operation interference.",
-          "Demonstrated consistent downstream performance improvements and stronger data efficiency across multiple large-scale pre-training corpora."
-        ],
-        "limitations": [
-          "Lack of detailed evaluation on extremely long documents beyond sliding-window segmentation and its impact on refinement quality.",
-          "Potential biases and errors inherited from expert LLMs used in generating seed supervision are not explicitly analyzed.",
-          "No formal theoretical or causal mechanism is provided to explain the editing operation interactions or their effect on model performance.",
-          "Limited discussion on the computational cost and scalability trade-offs compared to other LLM-based refinement methods."
-        ],
-        "open_questions": [
-          "How does UltraX perform on extremely long documents or streaming data beyond the sliding-window segmentation approach?",
-          "What are the effects of expert LLM biases on the quality and reliability of generated program supervision?",
-          "Can the programmatic editing framework be extended to incorporate semantic or syntactic constraints to further improve refinement quality?",
-          "How does UltraX compare in computational efficiency and cost to other state-of-the-art LLM-based refinement methods at larger model scales?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Data selection for LLMs",
-        "matched": [
-          "filtering",
-          "sampling",
-          "training data",
-          "data"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-10T12:37:21.836532+00:00"
-    },
-    {
-      "id": "2607.08700",
-      "title": "Do You Need a Frontier Model as a Citation Verifier? Benchmarking Rubric LLMs for Deep-Research Source Attribution",
-      "abstract": "Reinforcement learning increasingly relies on an LLM judge to score each rubric criterion, and that judge acts as the reward model during training. Before such a signal can be trusted, we need to know how capable the judge must be and how biased it is. We study this calibration question for citation quality in deep-research systems, where a search-grounded LLM must support each claim it writes with a cited source. Citation quality is a structured rubric task in which each attribution-citation pair is judged along two dimensions that require an LLM, source relevance and factual support. On an adversarial long-form benchmark, we score 8 off-the-shelf LLM judges from 3 model families against gold labels over 1,248 rubric decisions, all of which were human-reviewed and 378 of which were hard cases adjudicated from judge disagreements. Cheaper judges remain competitive across both dimensions, with GPT-5-mini attaining the strongest source-relevance pass-class F1 at 0.908 ($κ$=0.636), while on factual support the judges are statistically indistinguishable (overlapping confidence intervals), so no single model dominates. At comparable F1, the judges still differ substantially in pass-rate drift, false positive rate, and false negative rate. Scalar F1 obscures this directional bias, yet it is exactly what a downstream reinforcement learning loop would reinforce. Calibrating the judge is therefore a prerequisite for using citation rubrics as reward signals, and our results show that this calibration does not require the most expensive available model.",
-      "authors": [
-        "Ethan Leung",
-        "Elias Lumer",
-        "Corey Feld",
-        "Austin Huber",
-        "Vamse Kumar Subbiah",
-        "Kevin Paul"
-      ],
-      "published": "2026-07-09T17:01:40Z",
-      "updated": "2026-07-09T17:01:40Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.08700v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.08700v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "llm",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3377,
-          "matched": [
-            "calibration",
-            "llm"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.2513,
-          "matched": [
-            "adversarial",
-            "training"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.432,
-        "relevance": 0.3204,
-        "quality": 0.48,
-        "novelty": 0.836,
-        "freshness": 0.8834
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Cheaper off-the-shelf LLM judges can reliably evaluate citation quality for source relevance and factual support without requiring the most expensive frontier models.",
-        "problem": "Determining how capable and unbiased an LLM judge must be to serve as a trustworthy reward model for citation quality in deep-research systems.",
-        "method": "Benchmarking 8 off-the-shelf LLM judges from 3 model families on an adversarial long-form citation quality task with human-reviewed gold labels across source relevance and factual support dimensions.",
-        "evidence": "GPT-5-mini achieved the highest source-relevance pass-class F1 of 0.908 (κ=0.636), and judges were statistically indistinguishable on factual support, with detailed bias metrics revealing differences in pass-rate drift, false positive, and false negative rates.",
-        "limitations": "The study does not provide evidence on how judge calibration impacts downstream reinforcement learning training quality or explore mechanisms to correct directional biases in judges.",
-        "why_for_you": "Understanding judge calibration and bias in citation verification enables efficient and trustworthy reward modeling for RL training in deep-research LLM applications.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "GPT-5-mini attained the strongest source-relevance pass-class F1 at 0.908 with Cohen’s κ=0.636, outperforming more expensive models on this dimension."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The evaluation framework uses a rubric with two LLM-judged criteria—source relevance and factual support—each scored binarily with rationale, enabling structured and interpretable judge assessments."
-          },
-          {
-            "icon": "📉",
-            "text": "Despite comparable F1 scores, judges differ substantially in pass-rate drift, false positive rate, and false negative rate, indicating that scalar F1 metrics obscure directional biases critical for reinforcement learning reward signals."
-          }
-        ],
-        "overview": "This work addresses the calibration of LLM judges used as reward models in reinforcement learning for citation quality in deep-research systems. The authors construct an adversarial benchmark spanning 25 diverse topics with 1,248 human-reviewed rubric decisions on source relevance and factual support. They evaluate 8 off-the-shelf LLM judges from Anthropic, Google, and OpenAI families, measuring pass-class F1, Cohen’s κ, and bias metrics such as pass-rate drift, false positive rate, and false negative rate. Results show that smaller, cheaper models like GPT-5-mini can match or exceed the performance of larger frontier models on source relevance, while factual support judgments are statistically indistinguishable across judges. However, differences in directional bias metrics reveal that scalar accuracy metrics alone are insufficient to characterize judge reliability for downstream RL training. The study concludes that careful calibration of judges is essential but does not require the most expensive models, enabling more cost-effective and trustworthy citation verification in RL pipelines.",
-        "methodology": [
-          {
-            "title": "Benchmark Construction",
-            "detail": "The Deep-Research Citation Benchmark includes 25 diverse topics with long-form summaries and adversarially edited claims using 19 strategies. Attribution-citation pairs are parsed and scored on three criteria: link accessibility (deterministic), source relevance, and factual support (both LLM-judged). A council of 6 LLM judges independently labels pairs, with human review validating all 1,248 decisions and adjudicating 378 hard cases."
-          },
-          {
-            "title": "Judge Evaluation Metrics",
-            "detail": "Judges produce binary pass/fail scores per criterion with free-text rationales. Metrics include pass-class F1, Cohen’s κ for agreement, pass-rate drift (judge vs. gold pass rate), false positive rate (accepting bad citations), and false negative rate (rejecting good citations). These metrics characterize both accuracy and directional bias relevant for RL reward signals."
-          },
-          {
-            "title": "Judge Models and Setup",
-            "detail": "Eight LLM judges from Anthropic, Google, and OpenAI families are evaluated via cloud inference APIs. Each judge scores all 624 source relevance and 624 factual support pairs. Two judges (GPT-5-mini and Claude Opus 4.6) also contributed to gold labels, enabling council-independent comparisons."
-          },
-          {
-            "title": "Prompt Design",
-            "detail": "Prompts instruct judges to provide binary scores and rationales for source relevance and factual support, emphasizing expert evaluation criteria such as topical relevance, claim support, factual consistency, and contradiction detection. The same prompts are applied uniformly across all judges."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "No Explicit Mechanism Provided",
-            "detail": "The paper does not present formal equations or causal models explaining judge behavior or bias mechanisms, focusing instead on empirical benchmarking and metric analysis."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Adversarial Long-Form Citation Benchmark",
-            "detail": "The benchmark contains 1,248 rubric decisions over 624 attribution-citation pairs, with 378 hard cases adjudicated by humans. Judges are evaluated on source relevance and factual support dimensions using pass-class F1, Cohen’s κ, pass-rate drift, false positive rate, and false negative rate."
-          },
-          {
-            "title": "Judge Cost-Quality Tradeoff Analysis",
-            "detail": "The study compares judge accuracy metrics against estimated cost per decision on a logarithmic scale, showing that cheaper judges like GPT-5-mini achieve competitive or superior performance relative to more expensive models."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Cheaper Judges Competitive on Source Relevance",
-            "detail": "GPT-5-mini achieves the highest source-relevance pass-class F1 of 0.908 and Cohen’s κ of 0.636, outperforming larger models, demonstrating that smaller judges can reliably assess topical relevance."
-          },
-          {
-            "title": "No Single Judge Dominates Factual Support",
-            "detail": "On factual support, judges’ performance overlaps within confidence intervals, indicating no statistically significant difference in accuracy among the evaluated models."
-          },
-          {
-            "title": "Directional Biases Vary Across Judges",
-            "detail": "Despite similar F1 scores, judges differ substantially in pass-rate drift, false positive rate, and false negative rate, revealing biases that scalar metrics like F1 fail to capture but that affect RL reward signals."
-          }
-        ],
-        "contributions": [
-          "Introduces a large adversarial benchmark for citation quality evaluation with human-reviewed gold labels across diverse topics.",
-          "Comprehensively evaluates 8 off-the-shelf LLM judges on source relevance and factual support, including bias metrics critical for RL reward modeling.",
-          "Demonstrates that smaller, cheaper LLM judges can match or exceed frontier models in citation verification tasks.",
-          "Highlights the importance of calibrating judges to account for directional biases that scalar accuracy metrics obscure."
-        ],
-        "limitations": [
-          "Does not analyze the impact of judge calibration on downstream reinforcement learning training outcomes.",
-          "Lacks exploration of methods to mitigate or correct directional biases in judge models.",
-          "No mechanistic or theoretical explanation is provided for observed judge biases or performance differences.",
-          "Evaluation is limited to off-the-shelf models accessed via APIs, without fine-tuning or adaptation experiments."
-        ],
-        "open_questions": [
-          "How do directional biases in LLM judges affect the stability and quality of reinforcement learning with verifiable rewards?",
-          "What calibration or debiasing techniques can effectively reduce false positive and false negative rates in LLM judges?",
-          "Can smaller LLM judges be fine-tuned or adapted to further close gaps in factual support evaluation?",
-          "How does retrieval quality interact with judge performance and bias in citation verification pipelines?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "calibration",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-10T12:37:21.836532+00:00"
-    },
-    {
-      "id": "2607.08535",
-      "title": "When the Judge Changes, So Does the Measurement: Auditing LLM-as-Judge Reliability",
-      "abstract": "An LLM-as-judge score can move even when the candidate responses stay fixed, simply because the evaluator has changed. We treat this evaluator-replacement ambiguity as a measurement-validity problem. Across four judgment datasets, we compare two upgrade paths available in practice: scaling Qwen3 dense judges from 1.7B to 32B parameters and moving across MiniMax M2-M2.7 released APIs. The main pattern is that judge upgrades are not interchangeable: only Qwen3 1.7B to 4B gives a robust adjacent gain, while MiniMax adjacent releases do not. Stronger judges reduce but do not remove position and verbosity bias. Repeated-sample juries add little when errors are correlated. Structured debate can move decisions substantially, but without parser and fallback logs those shifts cannot be attributed to deliberation. We argue that LLM-as-judge reports should include dataset slices, bias probes, error-dependence estimates, and protocol audit trails.",
-      "authors": [
-        "Zongyou Yang",
-        "Yinghan Hou",
-        "Xiaokun Yang"
-      ],
-      "published": "2026-07-09T14:31:05Z",
-      "updated": "2026-07-09T14:31:05Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.08535v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.08535v1",
-      "comment": "6 pages, 6 figures, 4 tables",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4024,
-          "matched": [
-            "auditing",
-            "reliability",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4285,
-        "relevance": 0.3219,
-        "quality": 0.45,
-        "novelty": 0.8583,
-        "freshness": 0.8684
-      },
-      "quality_signals": [
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "LLM-as-judge reliability varies with evaluator changes, showing that judge upgrades are not interchangeable and that stronger judges reduce but do not eliminate biases or correlated errors.",
-        "problem": "Replacing an LLM evaluator changes measured scores even with fixed candidate responses, creating evaluator-replacement ambiguity that challenges measurement validity.",
-        "method": "The study compares two evaluator upgrade paths—Qwen3 parameter scaling (1.7B to 32B) and MiniMax M2–M2.7 API releases—across four judgment datasets, analyzing accuracy, bias, error correlation, and protocol auditability.",
-        "evidence": "Empirical results show only Qwen3 1.7B→4B scaling yields robust adjacent gains, MiniMax releases lack consistent gains, stronger judges reduce position and verbosity bias but do not remove them, and jury aggregation gains are limited by high error correlation.",
-        "limitations": "The study does not establish causal claims about MiniMax internals and lacks parser and fallback logs to fully attribute debate-induced decision shifts.",
-        "why_for_you": "Understanding evaluator-replacement ambiguity and multi-dimensional reliability components is critical for trustworthy LLM evaluation and designing robust LLM-as-judge protocols.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Only the Qwen3 parameter scaling from 1.7B to 4B parameters produces a robust adjacent gain in judge reliability, while MiniMax M2 to M2.7 API upgrades do not yield consistent improvements across datasets."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The study operationalizes LLM-as-judge reliability into four components—judgment validity, bias robustness, aggregation independence, and protocol auditability—measured via accuracy, Cohen’s κ, position flip rates, error correlation ρ, and parse status."
-          },
-          {
-            "icon": "📉",
-            "text": "High intra-class error correlations (ρ up to 0.972 for Qwen3 juries) limit jury aggregation gains, as majority voting fails to amplify reliability when errors are dependent rather than independent."
-          }
-        ],
-        "overview": "This paper addresses the evaluator-replacement ambiguity in LLM-as-judge evaluation, where changing the evaluator model alters measured scores despite fixed candidate responses. It investigates whether improvements in judge reliability arise from increased evaluator capability or other factors like bias and protocol design. The authors compare two upgrade paths: parameter scaling of Qwen3 judges (1.7B to 32B parameters) and released-model upgrades of MiniMax M2 to M2.7 APIs, across four diverse judgment datasets. They decompose reliability into four operational components—accuracy, bias robustness, error correlation, and auditability—and analyze how these interact with evaluator scaling and aggregation protocols. Results show that only Qwen3 scaling from 1.7B to 4B yields robust gains, while MiniMax upgrades do not consistently improve reliability. Stronger judges reduce but do not eliminate position and verbosity biases. Jury aggregation gains are limited by high correlated errors, and debate protocols require audit trails to attribute decision shifts properly. The study advocates for comprehensive reporting standards including dataset slices, bias probes, error-dependence estimates, and protocol logs to improve measurement validity in LLM-as-judge evaluations.",
-        "methodology": [
-          {
-            "title": "Evaluator Upgrade Comparison",
-            "detail": "Two evaluator upgrade paths are compared: Qwen3 dense judges scaled from 1.7B to 32B parameters, and MiniMax M2 to M2.7 released APIs. This comparison isolates parameter scaling effects from released-model changes without causal claims about MiniMax internals."
-          },
-          {
-            "title": "Reliability Operationalization",
-            "detail": "LLM-as-judge reliability is decomposed into four constructs: judgment validity (accuracy, Cohen’s κ, Spearman correlation), bias robustness (position flip, verbosity bias, granularity sensitivity), aggregation independence (error correlation ρ, jury gain), and protocol auditability (parse status, fallback behavior, intermediate verdicts)."
-          },
-          {
-            "title": "Datasets and Judges",
-            "detail": "Eight judges (Qwen3-1.7B, 4B, 14B, 32B; MiniMax M2, M2.1, M2.5, M2.7) are evaluated on four datasets: LLMBar (419 adversarial pairs), PandaLM testset-v1 (894 pairwise examples), Chatbot Arena seed-42 (1,997 pairwise examples), and Judge’s Verdict (200 TechQA-derived examples with pointwise labels)."
-          },
-          {
-            "title": "Aggregation and Debate Protocols",
-            "detail": "Jury aggregation experiments estimate intra-class error correlation ρ to assess independence assumptions. Debate experiments analyze decision shifts but highlight the need for parser and fallback logs to attribute changes to deliberation."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Evaluator-Replacement Ambiguity",
-            "detail": "The paper conceptualizes the measurement pipeline as comprising candidate responses, benchmark slice, judge model, prompt/decoding, parser, and aggregation/debate. Changes in any component, especially the judge model, can alter reported scores, creating ambiguity about the source of score changes."
-          },
-          {
-            "title": "Error Correlation and Jury Aggregation",
-            "detail": "High intra-class error correlation ρ among jurors violates independence assumptions of Condorcet-style majority voting, limiting jury accuracy gains. The beta-binomial model corrected by ρ accurately predicts jury accuracy, showing that correlated errors constrain aggregation benefits."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Judge Upgrade Evaluation",
-            "detail": "Evaluated eight judges across four datasets using fixed main prompts. Metrics include accuracy, Cohen’s κ, and Spearman correlation. The study compares adjacent judge upgrades along parameter scaling and released-model axes to assess reliability gains."
-          },
-          {
-            "title": "Bias Probing",
-            "detail": "Position-flip rates, verbosity bias, and granularity sensitivity are measured to assess bias robustness. Results show stronger judges reduce but do not eliminate these biases, with position-flip rates decreasing from 0.320 (Qwen3-1.7B) to 0.117–0.147 (MiniMax releases)."
-          },
-          {
-            "title": "Jury Aggregation Experiment",
-            "detail": "Homogeneous and heterogeneous juries are formed to test aggregation gains. Error correlation ρ is estimated from vote matrices, showing high correlation (up to 0.972) that limits majority voting improvements. Beta-binomial models corrected by ρ closely predict observed jury accuracy."
-          },
-          {
-            "title": "Debate Protocol Case Study",
-            "detail": "Structured debate experiments reveal substantial decision shifts, but lack of parser and fallback logs prevents attribution of these shifts to deliberation, highlighting the need for audit trails in debate protocols."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Non-Interchangeability of Judge Upgrades",
-            "detail": "Only Qwen3 parameter scaling from 1.7B to 4B parameters yields a robust adjacent gain in judge reliability; MiniMax M2 to M2.7 API upgrades do not show consistent improvements across datasets."
-          },
-          {
-            "title": "Bias Reduction but Persistence",
-            "detail": "Stronger judges reduce position-flip rates from 0.320 to approximately 0.117–0.147 and verbosity bias from 0.547 to about 0.13, but biases remain nonzero, indicating capability improves but does not eliminate bias."
-          },
-          {
-            "title": "Limited Jury Gains Due to Correlated Errors",
-            "detail": "High intra-class error correlations (ρ = 0.944–0.972 for Qwen3 juries) cause majority voting to yield minimal accuracy improvements, with jury size increases from 1 to 5 only marginally improving accuracy (e.g., 0.463 to 0.482 on LLMBar)."
-          },
-          {
-            "title": "Debate Shifts Require Audit Trails",
-            "detail": "Structured debate can substantially change decisions, but without parser and fallback logs, these shifts cannot be confidently attributed to deliberation processes."
-          },
-          {
-            "title": "Dataset-Specific Evaluator Strength",
-            "detail": "No single judge dominates all datasets: GLM-5.1 leads on LLMBar, MiniMax-M2.7 leads on PandaLM, and mimo-v2-pro leads on Chatbot Arena, emphasizing slice-specific measurement validity."
-          }
-        ],
-        "contributions": [
-          "Formulation of evaluator-replacement ambiguity as a measurement-validity problem in LLM-as-judge evaluation.",
-          "A two-axis empirical study comparing parameter scaling and released-model upgrades across multiple datasets and judges.",
-          "Decomposition of LLM-as-judge reliability into judgment validity, bias robustness, aggregation independence, and protocol auditability.",
-          "Demonstration that stronger judges reduce but do not eliminate biases and that jury aggregation gains are limited by correlated errors.",
-          "Proposal of a reporting standard including dataset slices, bias probes, error-dependence estimates, and protocol audit trails."
-        ],
-        "limitations": [
-          "No causal claims are made about MiniMax internal model changes due to lack of controlled ablation.",
-          "Absence of parser and fallback logs limits attribution of debate-induced decision shifts to actual deliberation.",
-          "Bias and reliability analyses are limited to the evaluated datasets and judge panels, restricting generalizability.",
-          "Prompt sensitivity is treated as a robustness check but not systematically explored, leaving prompt effects under-specified."
-        ],
-        "open_questions": [
-          "How can audit trails be designed to reliably attribute decision shifts in multi-agent debate protocols?",
-          "What mechanisms underlie the persistence of bias despite increased evaluator capability?",
-          "Can error correlation among heterogeneous juries be reduced to improve aggregation gains?",
-          "How do prompt variations interact with evaluator scaling to affect measurement validity?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "auditing",
-          "reliability",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-10T12:37:21.836532+00:00"
-    },
-    {
-      "id": "2607.06326",
-      "title": "DT-Guard: Intent-Driven Reasoning-Active Training for Reasoning-Free LLM Safety Guardrail",
-      "abstract": "Large language models deployed in open-world applications require safety guardrails that are both robust to complex risks and efficient enough for low-latency runtime moderation. Existing guardrails face a practical trade-off between lightweight classification-based models, which are efficient but often struggle with concealed intent, ambiguous semantics, and borderline safety decisions, and reasoning-based guards, which improve judgment quality but introduce additional token generation and inference latency. We present DT-Guard, a content safety guardrail model based on a Reasoning-Active Training, Reasoning-Free Inference paradigm. The key idea is to use reasoning supervision during training while emitting only structured safety labels at inference time. DT-Guard formulates safety judgment as a progressive decision process, Intent - Category - Safety, and constructs an intent-driven dataset with intent labels, risk categories, safety labels, and structured reasoning trajectories. To further improve hard-case robustness, we propose Rollout-Guided Progressive Hard-Case Optimization (RG-PHO), which uses multi-rollout consistency to identify stably mastered, persistently failed, and preference-unstable samples, and applies targeted supervised and preference optimization accordingly. At inference time, DT-Guard directly generates structured labels without explicit reasoning traces, preserving deployment efficiency. Experiments on prompt-side and response-side safety benchmarks show that DT-Guard achieves average F1 scores of 0.886 and 0.870, respectively. With only a 4B backbone, it reaches a dual-side average F1 of 0.878, outperforming strong 8B guardrail baselines. These results demonstrate that reasoning supervision can be effectively internalized into low-latency safety discrimination.",
-      "authors": [
-        "He Liu",
-        "Changtao Miao",
-        "Xinjie Yang",
-        "Tianle Song",
-        "Yin Wu",
-        "Junchi Chen",
-        "Bintao He",
-        "Xinyuan Zhang",
-        "Bo Zhang",
-        "Shi Yan",
-        "Wei Lu",
-        "Wei Wang",
-        "Danyang Xu",
-        "Jiansheng Cai",
-        "Zhe Li"
-      ],
-      "published": "2026-07-07T14:25:05Z",
-      "updated": "2026-07-07T14:25:05Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2607.06326v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.06326v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.6714,
-          "matched": [
-            "robustness",
-            "robust",
-            "training"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.6581,
-          "matched": [
-            "llm safety",
-            "LLM safety",
-            "robustness",
-            "safety",
-            "llm",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6924,
-        "relevance": 0.6687,
-        "quality": 0.65,
-        "novelty": 0.8418,
-        "freshness": 0.8718
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "benchmark evaluation",
-        "experiments",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "DT-Guard internalizes reasoning supervision during training to achieve efficient, reasoning-free inference for robust LLM safety guardrails.",
-        "problem": "Existing LLM safety guardrails trade off between efficient but shallow classification and robust but slow reasoning-based methods.",
-        "method": "DT-Guard uses a progressive Intent → Category → Safety decision process with reasoning-active training and rollout-guided hard-case optimization, emitting only structured labels at inference.",
-        "evidence": "DT-Guard achieves average F1 scores of 0.886 on prompt-side and 0.870 on response-side benchmarks, outperforming 8B baselines with a 4B backbone.",
-        "limitations": "The paper does not provide detailed analysis of failure modes or generalization beyond tested benchmarks.",
-        "why_for_you": "DT-Guard offers a novel training paradigm that leverages reasoning supervision to improve adversarial robustness and efficiency in LLM safety guardrails.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "DT-Guard formulates safety judgment as a progressive decision process: Intent recognition, risk Category attribution, and final Safety prediction, enabling clearer intermediate supervision for complex cases."
-          },
-          {
-            "icon": "🛡️",
-            "text": "Rollout-Guided Progressive Hard-Case Optimization (RG-PHO) stratifies samples by multi-rollout consistency into mastered, persistently failed, and preference-unstable, applying targeted supervised fine-tuning and contrastive preference optimization."
-          },
-          {
-            "icon": "📉",
-            "text": "Selective Chain-of-Thought (CoT) training on borderline samples improves average F1 from 0.828 (full CoT) to 0.860, showing that uniform CoT supervision mismatches reasoning-free inference."
-          }
-        ],
-        "overview": "DT-Guard addresses the challenge of deploying LLM safety guardrails that are both robust to complex, concealed intents and efficient for low-latency inference. Existing methods either rely on lightweight classification models that struggle with ambiguous or adversarial inputs or on reasoning-based models that incur high inference latency due to token generation of reasoning chains. DT-Guard introduces a Reasoning-Active Training, Reasoning-Free Inference paradigm, where explicit reasoning supervision is used only during training to internalize complex safety judgments. The model predicts structured safety labels through a progressive decision process: identifying user intent, attributing risk categories, and adjudicating safety levels. To enhance robustness on hard cases, DT-Guard employs RG-PHO, which uses multi-rollout consistency to identify sample difficulty and applies tailored supervised and preference-based optimization. Experiments on multiple prompt-side and response-side safety benchmarks demonstrate that DT-Guard outperforms larger 8B parameter baselines with only a 4B backbone, achieving average F1 scores of 0.886 and 0.870 respectively, validating the effectiveness of reasoning supervision internalization for efficient safety discrimination.",
-        "methodology": [
-          {
-            "title": "Intent-Driven Progressive Safety Judgment",
-            "detail": "Safety judgment is decomposed into a three-stage process: Intent recognition to capture underlying user motivation, Category attribution to assign relevant risk types, and Safety prediction to determine final safety labels. This structured approach provides intermediate supervision signals that improve robustness on ambiguous and borderline cases."
-          },
-          {
-            "title": "Reasoning-Active Training with Reasoning-Free Inference",
-            "detail": "During training, DT-Guard uses explicit reasoning trajectories as supervision to guide the model in understanding complex safety decisions. At inference, the model emits only structured safety labels without generating reasoning chains, preserving low-latency deployment."
-          },
-          {
-            "title": "Rollout-Guided Progressive Hard-Case Optimization (RG-PHO)",
-            "detail": "RG-PHO uses multiple model rollouts to assess sample consistency, stratifying samples into stably mastered, persistently failed, and preference-unstable. Persistently failed samples receive stronger supervised fine-tuning, while preference-unstable samples undergo contrastive preference optimization to stabilize judgments."
-          },
-          {
-            "title": "Selective Chain-of-Thought (CoT) Supervision",
-            "detail": "CoT reasoning supervision is selectively applied only to borderline samples rather than uniformly across all data, mitigating format mismatch with reasoning-free inference and improving overall F1 performance."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "No explicit mechanism equations provided",
-            "detail": "The paper does not present formal equations or causal models but describes the progressive decision process and rollout consistency as conceptual mechanisms for improving safety judgment robustness."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Benchmark Evaluation on Prompt-Side and Response-Side Safety",
-            "detail": "DT-Guard is evaluated on 10 prompt-side benchmarks (e.g., ToxicChat, OpenAI Moderation, AegisSafety) and 7 response-side benchmarks (e.g., HarmBench-Response, SafeRLHF). Metrics reported are classification F1 scores, comparing against Qwen3Guard and YuFeng-XGuard baselines with parameter sizes from 0.6B to 8B."
-          },
-          {
-            "title": "Ablation Studies on Training Components",
-            "detail": "Ablations isolate the effects of intent labels, CoT allocation strategies, hard-case supervised fine-tuning (SFT), and direct preference optimization (DPO). Selective CoT on borderline samples yields the best average F1, confirming the importance of matching supervision to sample difficulty."
-          },
-          {
-            "title": "Model Size and Efficiency Comparison",
-            "detail": "DT-Guard with a 4B backbone outperforms strong 8B guardrail baselines, demonstrating that reasoning supervision internalized during training can compensate for smaller model size while maintaining low-latency inference."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Superior Safety Classification Performance",
-            "detail": "DT-Guard achieves average F1 scores of 0.886 on prompt-side and 0.870 on response-side safety benchmarks, outperforming Qwen3Guard-8B (0.852 prompt-side) and YuFeng-XGuard-8B baselines."
-          },
-          {
-            "title": "Effectiveness of Intent Labels",
-            "detail": "Adding intent supervision improves prompt-side average F1 from 0.855 to 0.863, indicating that modeling interaction motivation aids in disambiguating semantically similar but safety-divergent requests."
-          },
-          {
-            "title": "Selective CoT Training Improves Robustness",
-            "detail": "Applying chain-of-thought supervision only to borderline samples increases average F1 to 0.860, whereas full CoT training reduces performance to 0.828 due to format mismatch with reasoning-free inference."
-          },
-          {
-            "title": "RG-PHO Enhances Hard-Case Handling",
-            "detail": "Multi-rollout consistency stratification enables targeted optimization of persistently failed and preference-unstable samples, improving model stability and judgment quality on difficult cases."
-          },
-          {
-            "title": "Efficiency Gains from Reasoning-Free Inference",
-            "detail": "By emitting only structured safety labels at inference, DT-Guard avoids token-generation overhead of reasoning chains, enabling deployment in low-latency, high-throughput industrial systems."
-          }
-        ],
-        "contributions": [
-          "Proposed DT-Guard, a safety guardrail model combining reasoning-active training with reasoning-free inference for efficient and robust safety judgment.",
-          "Formulated safety judgment as a progressive Intent → Category → Safety decision process with intent-driven dataset construction.",
-          "Introduced Rollout-Guided Progressive Hard-Case Optimization to stratify and optimize hard safety cases via multi-rollout consistency.",
-          "Demonstrated that reasoning supervision can be internalized to outperform larger guardrail models with smaller backbones under low-latency inference constraints."
-        ],
-        "limitations": [
-          "Lack of detailed failure mode analysis or error case studies limits understanding of residual risks.",
-          "Generalization to unseen or evolving safety risks beyond benchmark datasets is not evaluated.",
-          "No explicit mechanism or theoretical guarantees are provided for the rollout consistency stratification approach.",
-          "The impact of model architecture variations or larger-scale training data on DT-Guard performance is not explored."
-        ],
-        "open_questions": [
-          "How well does DT-Guard generalize to novel or adversarially crafted safety risks outside the training distribution?",
-          "Can rollout-guided hard-case optimization be extended or formalized with theoretical guarantees for safety-critical applications?",
-          "What are the trade-offs between reasoning supervision granularity and inference efficiency in other safety-critical LLM tasks?",
-          "How does DT-Guard perform when integrated with larger backbone models or multimodal inputs?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "robustness",
-          "robust",
-          "training"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-08T11:57:23.024570+00:00"
-    },
-    {
-      "id": "2607.06461",
-      "title": "WordVoice: Explicit and Decoupled Multi-Dimensional Word-Level Control for LLM-Based TTS",
-      "abstract": "While recent Large Language Model (LLM)-based Text-to-Speech (TTS) systems have achieved remarkable naturalness, they predominantly rely on implicit end-to-end generation paradigms, resulting in coarse-grained control. In scenarios demanding precise stylistic interventions and strict temporal alignment, such as audiobook narration and video dubbing, the inability to explicitly manipulate word-level acoustic attributes remains a critical bottleneck. This limitation is primarily amplified by the severe scarcity of fine-grained annotated datasets and the architectural challenge of integrating multi-dimensional control signals into discrete autoregressive generation. To address this, we propose a unified framework for highly precise word-level control. First, we construct WordVoice-5A, a massive 4.7k-hour bilingual dataset featuring five-dimensional word-level annotations (duration, boundary, energy, pitch and tone) developed through a rigorous linguistically-guided pipeline. Second, we introduce WordVoice to transform the implicit generation process into an explicit, highly controllable paradigm. Specifically, we introduce a bound-token mechanism within the LLM to formulate an explicit ``acoustic planning'' process, enabling adaptive multi-task prosodic planning and flexible manual intervention. Furthermore, we augment the token-to-waveform stage with a fine-grained acoustic modulation module, bridging the resolution gap to strictly align word-level attributes between highly compressed discrete tokens and continuous waveforms. Extensive experiments demonstrate that WordVoice achieves superior, decoupled control over multiple acoustic dimensions while maintaining competitive zero-shot synthesis stability. The code and audio samples are publicly available at https://xxh333.github.io/wordvoice-demo/.",
-      "authors": [
-        "Sihang Nie",
-        "Jinxin Ji",
-        "Xiaofen Xing",
-        "Deyi Tuo",
-        "Chengbin Jin",
-        "Jialong Mai",
-        "Xiangmin Xu"
-      ],
-      "published": "2026-07-07T16:22:59Z",
-      "updated": "2026-07-07T16:22:59Z",
-      "categories": [
-        "eess.AS",
-        "cs.CL",
-        "cs.SD"
-      ],
-      "primary_category": "eess.AS",
-      "abs_url": "https://arxiv.org/abs/2607.06461v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.06461v1",
-      "comment": "10 pages, 4 figures, 6 tables; Preprint",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4042,
-          "matched": [
-            "alignment",
-            "alignment",
-            "llm"
-          ]
-        },
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.0813,
-          "matched": [
-            "bound"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4968,
-        "relevance": 0.3396,
-        "quality": 0.71,
-        "novelty": 0.8989,
-        "freshness": 0.8835
-      },
-      "quality_signals": [
-        "code available",
-        "experiments",
-        "formal bound",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "WordVoice introduces explicit, multi-dimensional word-level control in LLM-based TTS, achieving precise prosodic manipulation and strict temporal alignment.",
-        "problem": "Current LLM-based TTS systems lack fine-grained, explicit control over multiple acoustic attributes at the word level, limiting applications requiring precise stylistic and temporal adjustments.",
-        "method": "WordVoice combines a large-scale, linguistically annotated dataset (WordVoice-5A) with an explicit bound-token acoustic planning mechanism in the LLM and a fine-grained acoustic modulation module in the token-to-waveform stage.",
-        "evidence": "Experiments on a 4.7k-hour bilingual test set show WordVoice outperforms baselines like CosyVoice3 in controllability (Ctrl-MOS) and naturalness (N-MOS), with objective metrics confirming superior multi-attribute alignment and temporal precision.",
-        "limitations": "Tone control remains partially entangled with other acoustic features due to its dynamic nature, and strong localized prosodic variations slightly reduce speaker similarity.",
-        "why_for_you": "This work provides a novel, data-driven framework and architectural design enabling explicit, decoupled multi-dimensional word-level control in LLM-based TTS, advancing trustworthy and precise prosodic synthesis.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "WordVoice-5A is a 4.7k-hour bilingual dataset with five-dimensional word-level annotations (duration, boundary, energy, pitch, tone), enabling supervised training for explicit multi-attribute control."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The bound-token mechanism restructures the LLM’s autoregressive generation to explicitly plan acoustic attributes before speech token generation, allowing adaptive multi-task prosodic planning and manual intervention."
-          },
-          {
-            "icon": "📉",
-            "text": "Objective evaluations show WordVoice reduces duration mean absolute error (Dur-MAE) and boundary error rate (Bnd-ER) compared to MagicTTS, demonstrating improved temporal alignment precision."
-          }
-        ],
-        "overview": "This paper addresses the critical limitation of coarse-grained control in current LLM-based TTS systems by proposing WordVoice, a framework enabling explicit, multi-dimensional word-level control. The authors first construct WordVoice-5A, a large-scale bilingual dataset with detailed word-level acoustic annotations across five dimensions. Leveraging this data, WordVoice introduces a novel bound-token mechanism within the LLM to explicitly plan acoustic attributes in an autoregressive manner, enabling both autonomous prosodic generation and manual attribute specification. To bridge the resolution gap between discrete tokens and continuous waveforms, a fine-grained acoustic modulation module is integrated into the token-to-waveform stage. Extensive experiments on unseen Chinese and English utterances demonstrate that WordVoice achieves superior controllability and naturalness compared to strong baselines, validated by subjective MOS tests and objective acoustic metrics. Ablation studies confirm the decoupling of acoustic attributes and the necessity of the modulation module for detailed acoustic reconstruction. The work significantly advances precise prosodic control in TTS, crucial for applications like audiobook narration and video dubbing requiring strict temporal and stylistic fidelity.",
-        "methodology": [
-          {
-            "title": "WordVoice-5A Dataset Construction",
-            "detail": "A linguistically-guided annotation pipeline produces a 4.7k-hour bilingual dataset with five word-level acoustic attributes: duration, boundary, energy, pitch, and tone. This dataset supports supervised training for explicit multi-dimensional control."
-          },
-          {
-            "title": "Bound-Token Acoustic Planning Mechanism",
-            "detail": "Within the autoregressive LLM, special bound-tokens explicitly represent acoustic attributes, enabling the model to plan prosody before generating speech tokens. This restructures generation from implicit to explicit, allowing adaptive multi-task control and manual intervention."
-          },
-          {
-            "title": "Fine-Grained Acoustic Modulation Module",
-            "detail": "Inserted in the token-to-waveform stage, this module compensates for acoustic details lost during discrete token quantization by modulating continuous waveforms with word-level style tokens, ensuring strict alignment of acoustic attributes."
-          },
-          {
-            "title": "Training Objectives",
-            "detail": "The LLM is trained to predict acoustic attributes and speech tokens autoregressively, while the modulation module uses a Flow Matching objective to reconstruct acoustic details, with random masking of speech tokens to enforce reliance on style conditions."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Acoustic Planning via Bound-Tokens",
-            "detail": "The bound-token mechanism explicitly encodes word-level acoustic attributes within the LLM’s autoregressive generation, enabling causal reasoning about prosodic execution prior to speech token generation. This explicit planning contrasts with implicit end-to-end generation, facilitating decoupled multi-dimensional control."
-          },
-          {
-            "title": "No Additional Mechanistic Equations Provided",
-            "detail": "The paper does not provide explicit equations or causal models beyond the description of the bound-token mechanism and Flow Matching loss."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Subjective Evaluation on WordVoice-5A Test Set",
-            "detail": "Crowd-sourced listening tests with 20 participants rated 80 utterances per model on naturalness (N-MOS), speaker similarity (Spk-MOS), and word style control (Ctrl-MOS). WordVoice-Control achieved statistically significant improvements in controllability and naturalness over CosyVoice3."
-          },
-          {
-            "title": "Objective Acoustic Attribute Evaluation",
-            "detail": "Metrics such as Word Error Rate (WER), Duration Mean Absolute Error (Dur-MAE), Energy MAE, Pitch MAE, Boundary Error Rate (Bnd-ER), and Tone Relative Error Rate (Ton-RER) were computed on Chinese and English test sets, showing WordVoice variants outperform baselines and ablations."
-          },
-          {
-            "title": "Temporal Control Precision Comparison",
-            "detail": "WordVoice demonstrated lower Dur-MAE and Bnd-ER than MagicTTS variants on both Chinese and English test sets, confirming superior explicit temporal alignment."
-          },
-          {
-            "title": "Ablation Studies on Attribute Decoupling and Modulation Module",
-            "detail": "Single-attribute control experiments confirmed decoupling of duration, boundary, energy, and pitch, with tone showing partial entanglement. Removing the modulation module degraded energy and pitch reconstruction, validating its role in acoustic detail compensation."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Superior Multi-Dimensional Control",
-            "detail": "WordVoice achieves explicit, decoupled control over duration, boundary, energy, pitch, and tone at the word level, outperforming prior methods limited to unidimensional or implicit control."
-          },
-          {
-            "title": "Improved Naturalness and Controllability",
-            "detail": "WordVoice-Control variant significantly improves naturalness (N-MOS) and word-level style control (Ctrl-MOS) over CosyVoice3, with p<0.05 and p<0.01 respectively, demonstrating effective prosodic planning."
-          },
-          {
-            "title": "Tradeoff in Speaker Similarity",
-            "detail": "Localized prosodic variations introduced by WordVoice cause minor reductions in speaker similarity (Spk-MOS), reflecting a tradeoff between expressiveness and timbre consistency."
-          },
-          {
-            "title": "Temporal Alignment Precision",
-            "detail": "WordVoice reduces duration MAE and boundary error rates compared to MagicTTS, confirming more precise explicit temporal control."
-          },
-          {
-            "title": "Necessity of Acoustic Modulation Module",
-            "detail": "Ablations show that removing the WordVoice-FM module significantly degrades energy and pitch reconstruction, confirming its critical role in restoring acoustic details lost in token quantization."
-          }
-        ],
-        "contributions": [
-          "Construction and open-sourcing of WordVoice-5A, a large-scale bilingual dataset with five-dimensional word-level acoustic annotations.",
-          "Introduction of the bound-token mechanism enabling explicit acoustic planning within an autoregressive LLM for multi-dimensional prosodic control.",
-          "Development of a fine-grained acoustic modulation module bridging discrete token representations and continuous waveform synthesis.",
-          "Comprehensive evaluation demonstrating superior word-level control, naturalness, and temporal alignment over state-of-the-art baselines."
-        ],
-        "limitations": [
-          "Tone attribute control is only partially decoupled due to its dynamic variation nature, complicating absolute disentanglement from other acoustic features.",
-          "Strong localized prosodic manipulations slightly reduce speaker similarity, indicating a tradeoff between expressiveness and timbre consistency.",
-          "The approach relies on a large-scale annotated dataset, which may limit applicability in low-resource languages or domains without such data.",
-          "No explicit mechanistic or theoretical modeling beyond architectural design and loss functions is provided."
-        ],
-        "open_questions": [
-          "How can tone control be further disentangled from other acoustic attributes to achieve fully independent manipulation?",
-          "Can the WordVoice framework be adapted or extended to low-resource languages lacking large-scale annotated datasets?",
-          "What are the impacts of explicit multi-dimensional control on downstream tasks such as emotion recognition or speaker adaptation?",
-          "How does the tradeoff between localized prosodic expressiveness and speaker similarity affect user acceptance in real-world applications?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment",
-          "alignment",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-08T11:57:23.024570+00:00"
     }
   ]
 }
