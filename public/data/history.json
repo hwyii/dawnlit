@@ -1,6 +1,453 @@
 {
-  "generated_at": "2026-08-26T10:51:18.938084+00:00",
+  "generated_at": "2026-08-27T20:30:01.195934+00:00",
   "papers": [
+    {
+      "id": "conf:acl:2026:1334-main",
+      "title": "A Goal Without a Plan Is Just a Wish: Efficient and Effective Global Planner Training for Long-Horizon Agent Task",
+      "abstract": "Agents based on large language models (LLMs) struggle with brainless trial-and-error and generating hallucinatory actions due to a lack of global planning in long-horizon tasks. In this paper, we introduce a plan-and-execute framework and propose EAGLET, an efficient and effective planner training method to enhance the executor agent's planning abilities without human effort. Specifically, we train a plug-and-play global planner through a two-step process: we first synthesize high-quality plans from an advanced LLM using our proposed homologous consensus filtering strategy, and apply fine-tuning as a cold start. Moreover, we further improve the planner with a rule-based reinforcement learning stage using a novel executor capability gain reward, ensuring it can handle task instructions of varying difficulty. Experiments on three long-horizon agent tasks show that executor agents equipped with our planner outperform existing methods, achieving new state-of-the-art performance. Meanwhile, EAGLET reduces training costs by 8× compared to RL-based baselines, and it does not require manual effort or extra training data, offering an efficient and effective solution.",
+      "authors": [
+        "Shuzheng Si",
+        "Haozhe Zhao"
+      ],
+      "published": "2026-01-01T00:00:00Z",
+      "updated": "2026-01-01T00:00:00Z",
+      "categories": [
+        "ACL 2026",
+        "Oral"
+      ],
+      "primary_category": "ACL 2026",
+      "abs_url": "https://2026.aclweb.org/program/",
+      "pdf_url": "https://2026.aclweb.org/program/",
+      "comment": "",
+      "journal_ref": "ACL 2026 Oral",
+      "source": "conference",
+      "venue": "ACL",
+      "presentation": "Oral",
+      "conference_year": 2026,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.8209,
+          "matched": [
+            "efficient",
+            "training",
+            "fine-tuning"
+          ]
+        },
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.3174,
+          "matched": [
+            "filtering",
+            "training data",
+            "data"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.1308,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.774,
+        "relevance": 0.7464,
+        "quality": 0.78,
+        "novelty": 0.8285,
+        "freshness": 1.0,
+        "feedback_adjustment": -0.0227,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "experiments",
+        "quantitative results",
+        "publication metadata",
+        "conference oral"
+      ],
+      "summary": {
+        "method": "通过共识过滤的计划合成和基于规则的强化学习（使用能力提升奖励），训练即插即用的全局规划器。",
+        "takeaway": "EAGLET 高效训练全局规划器，提升 LLM 代理的长时程表现，无需人工数据。",
+        "problem": "LLM 代理缺乏全局规划，导致长时程任务中反复试错和幻觉行为。",
+        "evidence": "配备该规划器的执行代理在三项任务上达到 state‑of‑the‑art 结果，训练成本比 RL 基线降低 8 倍。",
+        "why_for_you": "如果您需要高效、无需对抗训练的方式提升 LLM 在长时程任务中的规划能力，则本研究相关。",
+        "limitations": "论文未提供量化性能数据或计划质量分析。",
+        "source": "abstract",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "experiments": [
+          {
+            "title": "三项长时程代理任务的评估",
+            "detail": "将配备 EAGLET 规划器的执行代理与现有方法对比；结果声称达到 state‑of‑the‑art 性能，训练成本比基于 RL 的基线降低 8 倍，且无需额外人工标注数据。"
+          }
+        ],
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "EAGLET 引入无需人工标注的即插即用全局规划器，提升长时程 LLM 代理。"
+          },
+          {
+            "icon": "⚙️",
+            "text": "使用同源共识过滤合成高质量计划，再通过基于规则的 RL 结合执行器能力提升奖励进行训练。"
+          },
+          {
+            "icon": "📊",
+            "text": "在三项长时程任务上展示 state‑of‑the‑art 性能，训练成本比 RL 基线低 8 倍，但未报告量化结果。"
+          }
+        ],
+        "contributions": [
+          "EAGLET 规划器训练流水线",
+          "用于计划合成的同源共识过滤策略",
+          "基于规则强化学习的执行器能力提升奖励"
+        ],
+        "methodology": [
+          {
+            "title": "通过同源共识过滤进行计划合成",
+            "detail": "从高级 LLM 生成高质量计划，并通过共识机制过滤，构建干净的规划器训练集。"
+          },
+          {
+            "title": "基于规则的强化学习与能力提升奖励",
+            "detail": "在基于规则的 RL 循环中进一步微调初始化的规划器，奖励衡量执行器在不同指令难度下的性能提升。"
+          }
+        ],
+        "limitations": [
+          "未提供量化性能指标或消融实验",
+          "缺少任务定义、基线和数据集细节",
+          "依赖高级 LLM 生成初始计划，可能限制适用性"
+        ],
+        "findings": [
+          {
+            "title": "性能提升与成本降低",
+            "detail": "加入规划器的执行器在三项任务上均优于已有方法，训练计算量降低八倍。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "共识过滤的冷启动",
+            "detail": "共识过滤在多个 LLM 输出中挑选一致的计划片段，确保规划器从可靠轨迹开始训练。"
+          },
+          {
+            "title": "执行器能力提升奖励",
+            "detail": "RL 奖励量化执行器在规划器引导下成功率的提升，鼓励直接有益于执行的规划行为。"
+          }
+        ],
+        "open_questions": [
+          "EAGLET 在更复杂或真实环境中的可扩展性如何？",
+          "该方法对 LLM 代理对抗鲁棒性的影响如何？",
+          "在没有高容量 LLM 的情况下，共识过滤方法是否仍然有效？"
+        ],
+        "overview": "本文针对 LLM 代理缺乏全局规划的问题，提出名为 EAGLET 的计划‑执行框架。首先通过同源共识过滤的高质量计划合成，对即插即用的全局规划器进行冷启动。随后在基于规则的强化学习阶段，以执行器能力提升为奖励对规划器进行微调。三项长时程任务的实验显示，方法达到 state‑of‑the‑art 性能，训练成本比 RL 基线降低八倍，且无需人工数据收集。",
+        "source_scope": "abstract",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "efficient",
+          "training",
+          "fine-tuning"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-27T20:30:01.195934+00:00"
+    },
+    {
+      "id": "conf:icml:2026:71112",
+      "title": "POET-X: Memory-efficient LLM Training by Scaling Orthogonal Transformation",
+      "abstract": "Efficient and stable training of large language models (LLMs) remains a core challenge in modern machine learning systems. To address this challenge, Reparameterized Orthogonal Equivalence Training (POET), a spectrum-preserving framework that optimizes each weight matrix through orthogonal equivalence transformation, has been proposed. Although POET provides strong training stability, its original implementation incurs high memory consumption and computational overhead due to intensive matrix multiplications. To overcome these limitations, we introduce POET-X, a scalable and memory-efficient variant that performs orthogonal equivalence transformations with significantly reduced computational cost. POET-X maintains the generalization and stability benefits of POET while achieving substantial improvements in throughput and memory efficiency. In our experiments, POET-X enables the pretraining of billion-parameter LLMs on a single Nvidia H100 GPU, and in contrast, standard optimizers such as AdamW run out of memory under the same settings.",
+      "authors": [
+        "Zeju Qiu",
+        "Lixin LIU",
+        "Adrian Weller",
+        "Han Shi",
+        "Weiyang Liu"
+      ],
+      "published": "2026-01-01T00:00:00Z",
+      "updated": "2026-01-01T00:00:00Z",
+      "categories": [
+        "ICML 2026",
+        "Oral"
+      ],
+      "primary_category": "ICML 2026",
+      "abs_url": "https://icml.cc/virtual/2026/oral/71112",
+      "pdf_url": "https://icml.cc/virtual/2026/oral/71112",
+      "comment": "",
+      "journal_ref": "ICML 2026 Oral",
+      "source": "conference",
+      "venue": "ICML",
+      "presentation": "Oral",
+      "conference_year": 2026,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.7999,
+          "matched": [
+            "efficient",
+            "training"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.3454,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.3091,
+          "matched": [
+            "generalization",
+            "scaling"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.7639,
+        "relevance": 0.7708,
+        "quality": 0.63,
+        "novelty": 0.8689,
+        "freshness": 1.0,
+        "feedback_adjustment": -0.0171,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "experiments",
+        "publication metadata",
+        "conference oral"
+      ],
+      "summary": {
+        "method": "POET‑X 重新设计正交等价变换，以降低矩阵乘法开销，同时保持 POET 的稳定性优势。",
+        "takeaway": "POET‑X 提供内存高效的正交等价训练方法，使得在单个 H100 GPU 上预训练十亿参数 LLM 成为可能。",
+        "problem": "标准正交等价训练 (POET) 需要大量内存和计算，限制了大规模 LLM 训练。",
+        "evidence": "POET‑X 成功在一块 Nvidia H100 上训练十亿参数 LLM，而 AdamW 会出现内存不足。",
+        "why_for_you": "通过降低大模型的内存和计算需求，契合您对高效 adversarial 训练的兴趣。",
+        "limitations": "在可得来源中未说明。",
+        "source": "abstract",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "experiments": [
+          {
+            "title": "单卡 H100 上的十亿参数 LLM 预训练",
+            "detail": "作者使用 POET‑X 在一块 Nvidia H100 GPU 上预训练数十亿参数的模型，并报告在相同硬件条件下，标准优化器如 AdamW 会出现内存不足。"
+          }
+        ],
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "POET‑X 提供内存高效的正交等价训练变体，降低矩阵乘法开销。"
+          },
+          {
+            "icon": "🔧",
+            "text": "POET‑X 通过可扩展实现，以更低计算成本执行正交等价变换。"
+          },
+          {
+            "icon": "📊",
+            "text": "POET‑X 在单块 Nvidia H100 上训练十亿参数 LLM，而 AdamW 出现 OOM。"
+          }
+        ],
+        "contributions": [
+          "内存高效的 POET‑X 变体",
+          "可扩展的正交等价变换实现",
+          "在单卡 H100 GPU 上进行十亿参数 LLM 训练的实证验证"
+        ],
+        "methodology": [
+          {
+            "title": "降低成本的正交等价变换",
+            "detail": "POET‑X 重构正交等价操作，以最小化矩阵乘法强度，从而降低内存占用和计算开销，同时保持权重矩阵的谱特性。"
+          }
+        ],
+        "limitations": [
+          "在可得来源中未说明。"
+        ],
+        "findings": [
+          {
+            "title": "内存效率使原本不可行的训练成为可能",
+            "detail": "POET‑X 降低的内存消耗使得在单 GPU 上成功训练十亿参数 LLM 成为可能，展示出相较于 AdamW 的显著吞吐量和内存提升。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "保持谱的重新参数化",
+            "detail": "该方法在更新过程中保持每个权重矩阵的特征值谱，因而据称提供与原始 POET 方法相当的训练稳定性。"
+          }
+        ],
+        "open_questions": [
+          "POET‑X 相较于基线优化器在收敛速度和最终模型质量上有何影响？",
+          "降低矩阵乘法与变换中潜在近似误差之间的权衡是什么？"
+        ],
+        "overview": "本文提出 POET‑X——可扩展的 Reparameterized Orthogonal Equivalence Training (POET) 变体，旨在降低正交变换的内存和计算负担。通过重新设计以避免高强度矩阵乘法，POET‑X 保持 POET 的谱保持稳定性，同时实现更高吞吐量和更低内存占用。实验表明，POET‑X 能在单块 Nvidia H100 GPU 上预训练十亿参数语言模型，而传统优化器如 AdamW 会超出内存限制。",
+        "source_scope": "abstract",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "efficient",
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-27T20:30:01.195934+00:00"
+    },
+    {
+      "id": "conf:iclr:2026:10011886",
+      "title": "Common Corpus: The Largest Collection of Ethical Data for LLM Pre-Training",
+      "abstract": "Large Language Models (LLMs) are pre-trained on large data from different sources and domains. These datasets often contain trillions of tokens, including large portions of copyrighted or proprietary content, which raises questions about the legal use of such models. This underscores the need for truly open pre-training data that complies with data security regulations. In this paper, we introduce Common Corpus, the largest open dataset for LLM pre-training. The data assembled in Common Corpus are either uncopyrighted or under permissive licenses and amount to about two trillion tokens. The dataset contains a wide variety of languages, ranging from the high-resource European languages to some low-resource languages rarely represented in pre-training datasets. In addition, it includes a large amount of code data. The diversity of data sources in terms of covered domains and time periods opens up the paths for both research and entrepreneurial needs in diverse areas of knowledge. In this paper, we present the detailed provenance of data assembling and the details of dataset filtering and curation. We train two small language models on Common Corpus and find that they perform comparably to other models of their size, indicating that our dataset is suitable for multilingual pretraining. Common Corpus represents a key contribution to the ecosystem for open science research on Large Language Models.",
+      "authors": [
+        "Pierre-Carl Langlais",
+        "Pavel Chizhov",
+        "Catherine Arnett",
+        "Carlos Hinostroza",
+        "Mattia Nee",
+        "Eliot Jones",
+        "Irène Girard",
+        "David Mach",
+        "Anastasia Stasenko",
+        "Ivan Yamshchikov"
+      ],
+      "published": "2026-01-01T00:00:00Z",
+      "updated": "2026-01-01T00:00:00Z",
+      "categories": [
+        "ICLR 2026",
+        "Oral"
+      ],
+      "primary_category": "ICLR 2026",
+      "abs_url": "https://iclr.cc/virtual/2026/oral/10011886",
+      "pdf_url": "https://iclr.cc/virtual/2026/oral/10011886",
+      "comment": "",
+      "journal_ref": "ICLR 2026 Oral",
+      "source": "conference",
+      "venue": "ICLR",
+      "presentation": "Oral",
+      "conference_year": 2026,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.6381,
+          "matched": [
+            "filtering",
+            "training data",
+            "curation",
+            "data"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5887,
+          "matched": [
+            "training"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.4427,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.748,
+        "relevance": 0.7105,
+        "quality": 0.75,
+        "novelty": 0.8618,
+        "freshness": 1.0,
+        "feedback_adjustment": -0.013,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "dataset evidence",
+        "publication metadata",
+        "conference oral"
+      ],
+      "summary": {
+        "evidence": "训练的两个小型模型表现与同类模型相当，表明数据集适合多语言预训练。",
+        "limitations": "未在摘要中提及具体限制。",
+        "method": "收集无版权或宽松许可的数据，进行过滤和整理，并训练小型模型验证效果。",
+        "problem": "现有LLM预训练数据常包含版权内容，引发法律使用问题，需真正开放且合规的数据。",
+        "takeaway": "提出Common Corpus，最大的开放数据集用于LLM预训练，包含符合数据安全法规的伦理数据。",
+        "why_for_you": "数据选择 for LLMs",
+        "source": "abstract",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Data selection for LLMs",
+        "matched": [
+          "filtering",
+          "training data",
+          "curation",
+          "data"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-27T20:30:01.195934+00:00"
+    },
     {
       "id": "2608.24492",
       "title": "When Do Supervised UQ Ensembles Improve LLM Hallucination Detection? A Robustness Study",
@@ -92,12 +539,12 @@
         "lane": "llm"
       },
       "summary": {
-        "takeaway": "Supervised ensembles of heterogeneous UQ scorers consistently improve closed‑book hallucination detection across LLMs and tasks, even with as few as 100 labeled examples.",
-        "problem": "Detecting hallucinations in LLM outputs without retrieval or reference documents requires reliable uncertainty signals.",
-        "method": "A classifier (logistic regression, random forest, or gradient boosting) is trained on a small, domain‑specific set of UQ scorer outputs and applied to out‑of‑sample responses.",
-        "evidence": "Ensembles outperform the best individual scorer in 30 of 32 settings by AUROC and retain advantage in 23 of 28 in‑domain transfer settings.",
-        "limitations": "Study is limited to four closed‑weight LLMs from two providers, three generation regimes, Python code only, and does not explore cross‑domain or cross‑LLM transfer.",
-        "why_for_you": "Matches your interest in trustworthy LLMs by showing a data‑efficient, robust detection method that could complement efficient adversarial training.",
+        "takeaway": "Supervised ensembles of heterogeneous UQ scores substantially improve hallucination detection across LLMs, needing only ~100 labeled examples.",
+        "problem": "Detecting hallucinations in closed‑book LLM outputs without external references.",
+        "method": "Train a classifier on multiple UQ scorer outputs (black‑box, white‑box, reflexive) to predict hallucination labels.",
+        "evidence": "Ensembles outperform the best individual scorer in 30/32 settings by AUROC and in 23/28 transfer settings, with gains from as few as 100 labeled instances.",
+        "limitations": "Study is limited to four closed‑weight LLMs, specific domains, and does not assess cross‑domain or open‑weight model ensembles.",
+        "why_for_you": "Matches your interest in trustworthy LLMs by showing a data‑efficient way to boost hallucination detection.",
         "source": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
         "language": "en",
@@ -108,74 +555,89 @@
         "signals": [
           {
             "icon": "💡",
-            "text": "Supervised UQ ensembles beat the best single scorer in 30/32 settings, with gains from just 100 labeled instances."
+            "text": "Supervised UQ ensembles beat the best individual scorer in 30 of 32 settings, achieving AUROC gains with as few as 100 labeled examples."
           },
           {
-            "icon": "🔧",
-            "text": "Ensemble classifier ingests 30+ black‑box, white‑box, and reflexive UQ scores (e.g., sequence probability, CodeBLEU, consistency) via logistic regression / random forest / gradient boosting."
+            "icon": "⚙️",
+            "text": "Ensemble trains a classifier (logistic regression, random forest, gradient boosting) over 30+ black‑box, white‑box, and reflexive UQ scores, evaluated across sample sizes and transfer conditions."
           },
           {
-            "icon": "📈",
-            "text": "AUROC advantage persists under in‑domain distribution shift, outperforming the top scorer in 23/28 transfer cases; black‑box‑only ensembles are nearly as effective as full ensembles."
+            "icon": "⚠️",
+            "text": "Across four LLMs and nine datasets, ensembles retain advantage in 23 of 28 distribution‑shift transfers, but study is limited to closed‑weight models and narrow domains."
           }
         ],
-        "overview": "The paper introduces a supervised ensembling framework that learns to combine a broad suite of uncertainty quantification (UQ) scorers for hallucination detection in closed‑book LLM generation. Across four LLMs, nine benchmarks, and three generation regimes (short QA, long‑form, code), the authors evaluate sample efficiency, in‑domain transfer, and regime dependence. Ensembles consistently surpass the strongest individual scorer, achieving notable gains with as few as 100 labeled examples and retaining most of the benefit under distribution shift. Black‑box‑only ensembles approach full‑ensemble performance, while white‑box‑only ensembles add limited value.",
+        "overview": "The paper presents a supervised ensembling framework that learns a classifier over a heterogeneous set of uncertainty quantification (UQ) scorers to detect hallucinations in closed‑book LLM outputs. It systematically evaluates robustness along three axes—sample efficiency, in‑domain transfer under distribution shift, and generation‑regime dependence—using four LLMs, nine benchmarks, and three generation formats (short QA, long‑form, code). Results show consistent AUROC and calibration improvements over the strongest single scorer, even with as few as 100 labeled examples, while highlighting limitations to closed‑weight models and specific task domains.",
         "methodology": [
           {
-            "title": "Ensemble training",
-            "detail": "A binary classifier is trained on vectors of K∈[0,1]UQ scores per response; classifiers explored include logistic regression, random forest, and gradient boosting."
+            "title": "Scorer Collection",
+            "detail": "Aggregates 30+ UQ scores spanning black‑box (e.g., self‑consistency, NLI), white‑box (token probabilities, entropy), and reflexive (model‑generated confidence) families, with access flags indicating token‑probability requirements."
           },
           {
-            "title": "Scorer collection",
-            "detail": "Thirty‑plus scorers spanning token‑level probabilities, consistency metrics, semantic similarity, code‑specific measures (CodeBLEU), and reflexive confidence are computed; access flags indicate token‑probability requirements per generation regime."
+            "title": "Classifier Training",
+            "detail": "Trains logistic regression, random forest, or gradient boosting models on labeled UQ score vectors; training subsets range from 0.1N to 0.7N of the available domain‑specific data."
+          },
+          {
+            "title": "Combination Strategies",
+            "detail": "Evaluates weighted averaging, full supervised ensembles, and sampling‑based black‑box ensembles; compares against an optimistic test‑set‑selected best individual scorer."
           }
         ],
         "mechanism": [
           {
-            "title": "Complementary uncertainty signals",
-            "detail": "Heterogeneous UQ scores capture distinct aspects of model confidence (e.g., likelihood, self‑consistency, semantic alignment); the learned classifier weights them to produce a more reliable hallucination probability."
+            "title": "Signal Complementarity",
+            "detail": "The classifier learns to weight complementary uncertainty signals, allowing it to compensate when any single scorer is unreliable across domains or LLM families."
+          },
+          {
+            "title": "Black‑Box Dominance",
+            "detail": "Sampling‑based black‑box ensembles achieve performance nearly identical to full ensembles, indicating that diverse perturbation‑based scores capture most useful information."
           }
         ],
         "experiments": [
           {
-            "title": "Evaluation setup",
-            "detail": "Four LLMs (Gemini‑2.5‑Flash, Gemini‑2.5‑Pro, GPT‑4o, GPT‑4o‑mini) are tested on nine datasets covering math (OpenR1‑Math, BigMath), factual QA (HotpotQA, SimpleQA), reading comprehension (DROP), code generation (LiveCodeBench Python subsets), and long‑form factoid QA (rivers, mushrooms). Ensembles are compared to the best individual scorer (optimistic test‑set selection) using AUROC and Expected Calibration Error (ECE) across 25 stratified 70/30 splits."
+            "title": "Model and Dataset Coverage",
+            "detail": "Four LLMs (Gemini‑2.5‑Flash, Gemini‑2.5‑Pro, GPT‑4o, GPT‑4o‑mini) evaluated on nine datasets: OpenR1‑Math, BigMath, SimpleQA, HotpotQA, DROP, two LiveCodeBench Python subsets, and two FactScore long‑form sets (rivers, mushrooms)."
+          },
+          {
+            "title": "Baselines and Metrics",
+            "detail": "Best individual scorer (AUROC‑optimal) serves as baseline; primary metrics are AUROC and Expected Calibration Error (ECE) across 25 stratified 70/30 train‑test splits."
+          },
+          {
+            "title": "Sample‑Efficiency Study",
+            "detail": "Ensembles trained on subsamples as small as 100 instances (≈0.1N) already surpass the best scorer in most settings, with AUROC gains widening as sample size increases."
+          },
+          {
+            "title": "In‑Domain Transfer",
+            "detail": "Ensembles trained on one dataset within a domain retain superiority in 23 of 28 cross‑dataset transfers, despite distributional shift."
           }
         ],
         "findings": [
           {
-            "title": "In‑distribution superiority",
-            "detail": "With the full training split (0.7N), ensembles beat the best scorer in 30/32 LLM‑dataset settings by AUROC; only BigMath/Gemini‑Flash and SimpleQA/GPT‑4o‑mini are exceptions."
+            "title": "Overall Superiority",
+            "detail": "Ensembles outperform the best individual scorer in 30 of 32 LLM‑dataset settings by AUROC and in 29 of 32 by calibration (ECE)."
           },
           {
-            "title": "Sample efficiency",
-            "detail": "Significant AUROC gains appear with as few as 100 labeled responses, and performance scales smoothly with training size."
+            "title": "Data Efficiency",
+            "detail": "Statistically significant gains appear with as few as 100 labeled responses."
           },
           {
-            "title": "Robustness to distribution shift",
-            "detail": "In‑domain transfer experiments show ensembles retain advantage in 23/28 settings, outperforming the top scorer despite shifted data distributions."
+            "title": "Transfer Robustness",
+            "detail": "Most advantage persists under in‑domain distribution shift, with ensembles beating the top scorer in 23 of 28 transfer experiments."
           },
           {
-            "title": "Black‑box vs. full ensembles",
-            "detail": "Sampling‑based black‑box ensembles achieve nearly identical AUROC to full ensembles, whereas white‑box‑only ensembles provide limited improvement."
+            "title": "White‑Box Limited Benefit",
+            "detail": "White‑box‑only ensembles provide modest improvements compared to black‑box‑only ensembles."
           }
         ],
         "contributions": [
-          "Systematic robustness analysis of supervised UQ ensembles across sample efficiency, in‑domain transfer, and generation regime axes.",
-          "Empirical demonstration that ensembles achieve strong performance with minimal labeled data.",
-          "Comparison of multiple combination strategies (weighted average, logistic regression, random forest, gradient boosting) beyond prior linear weighting."
+          "Systematic robustness analysis of supervised UQ ensembles across sample efficiency, in‑domain transfer, and generation regimes."
         ],
         "limitations": [
-          "Evaluated only on four closed‑weight LLMs from Google and OpenAI; results may not generalize to open‑weight models with internal‑state access.",
-          "Long‑form evaluation limited to two factoid domains (rivers, mushrooms) and claim‑level grading; broader summarization or dialogue tasks are untested.",
-          "Code experiments restricted to Python competitive‑programming problems; other languages and larger codebases are not covered.",
-          "Cross‑domain, cross‑LLM, and cross‑language transfer scenarios remain unexplored."
+          "Closed‑weight model scope: only four proprietary LLMs evaluated; results may not extend to open‑weight models with internal‑state scorers.",
+          "Evaluation scope: limited to short QA, factoid long‑form, and Python code generation; broader tasks (summarization, dialogue) and cross‑domain/LLM transfer remain untested."
         ],
         "open_questions": [
-          "How do ensembles that incorporate internal‑state scorers (e.g., attention maps) perform on open‑weight models?",
-          "What is the degradation pattern when transferring ensembles across domains (e.g., train on math, deploy on factual QA) or across different LLM families?",
-          "Can similar sample‑efficiency gains be achieved for more complex generation tasks such as open‑ended summarization or multi‑turn dialogue?",
-          "What is the optimal trade‑off between sampling‑based black‑box ensembles and potentially cheaper internal‑state methods in terms of inference cost and detection accuracy?"
+          "How do ensembles that incorporate internal‑state or attention‑based scorers perform on open‑weight models?",
+          "Can supervised UQ ensembles generalize across domains (e.g., train on math, deploy to factual QA) or across different LLM families?",
+          "What are the cost‑benefit trade‑offs of sampling‑based black‑box ensembles versus full ensembles in high‑throughput deployment?"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
@@ -2138,19 +2600,6 @@
         "experiments",
         "formal bound"
       ],
-      "summary": {
-        "evidence": "实验在六种LLM上验证，显示实证安全超过认证界限，但未提供具体数值。",
-        "limitations": "未在摘要中提及具体限制。",
-        "method": "作者通过状态对抗MDP建模对话安全，并提出组合认证和(α,β)-安全持续性机制。",
-        "problem": "现有方法无法处理多轮越狱攻击，导致认证界限随轮数指数级退化。",
-        "takeaway": "MTCR框架通过组合认证和安全持续性机制，实现了比传统方法更优的多轮鲁棒性认证。",
-        "why_for_you": "高效对抗训练中的多轮鲁棒性认证问题。",
-        "source": "abstract",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
       "analysis_status": "pending",
       "recommendation_reason": {
         "topic": "Efficient adversarial training",
@@ -2160,6 +2609,112 @@
           "robustness"
         ],
         "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "MTCR provides certified multi‑turn safety guarantees for LLMs that are tighter than naive multiplicative bounds and empirically validated on six models.",
+        "problem": "Existing certified robustness methods only handle single‑turn inputs and degrade exponentially when naively extended to multi‑turn jailbreak attacks.",
+        "method": "The authors model conversations as State‑Adversarial MDPs and combine embedding‑space mode decomposition with (α,β)-safety persistence to compute certified k‑turn safety probabilities.",
+        "evidence": "Experiments show certified lower bounds (e.g., ρ̂5=0.55 for GPT‑4o) with empirical safety exceeding them by 0.18–0.30 across static ε‑ball and Crescendo attacks.",
+        "limitations": "The formal guarantees apply only to ε‑bounded (character‑level) perturbations, rely on heuristic clustering, and use a binary safety predicate.",
+        "why_for_you": "If you seek efficient adversarial training or trustworthy LLM evaluation, MTCR offers a certification framework that can inform safety‑aware training objectives.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🛡️",
+            "text": "MTCR introduces compositional certification via embedding‑space mode decomposition, tightening multi‑turn safety bounds versus naive multiplication."
+          },
+          {
+            "icon": "🔧",
+            "text": "(α,β)-safety persistence improves degradation from p^k to β^k, yielding interpretable horizon estimates."
+          },
+          {
+            "icon": "📊",
+            "text": "Certified lower bounds (e.g., ρ̂5=0.55 for GPT‑4o) are consistently below empirical safety by +0.18–+0.30, but only cover ε‑bounded attacks."
+          }
+        ],
+        "overview": "The paper tackles the lack of certified robustness for multi‑turn jailbreak attacks by framing dialogue as a State‑Adversarial MDP. It proposes Multi‑Turn Certified Robustness (MTCR), which leverages embedding‑space mode decomposition to separate intra‑mode safety from inter‑mode transitions, and introduces (α,β)-safety persistence to reduce exponential decay of guarantees. A unified algorithm combines these components, and extensive experiments on six open‑ and closed‑source LLMs demonstrate that MTCR yields the tightest certified bounds while empirical safety remains comfortably higher.",
+        "methodology": [
+          {
+            "title": "SA‑MDP formulation",
+            "detail": "Conversation history is embedded into a state vector; an ε‑bounded adversary selects user messages, and safety is defined by a binary predicate over states."
+          },
+          {
+            "title": "Embedding‑space mode decomposition",
+            "detail": "Safe dialogue embeddings from 500 held‑out conversations are clustered (k‑means, M∈{2,4,8}); per‑mode randomized smoothing estimates intra‑mode safety, and inter‑mode transition costs are bounded."
+          },
+          {
+            "title": "Unified certification algorithm",
+            "detail": "Algorithm 1 computes a compositional lower bound and applies the (α,β)-persistence formula, taking the maximum of component bounds for each horizon k."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "(α,β)-safety persistence",
+            "detail": "If a system satisfies the persistence property, the k‑turn safety guarantee improves from p^k to β^k (β>p), with a linear horizon estimate 1−k(1−β) (Theorem 3.5)."
+          },
+          {
+            "title": "Information‑theoretic tightness",
+            "detail": "Upper bounds are proved for non‑overlapping mode decompositions, showing the compositional approach cannot be substantially improved without additional structure."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Model and attack suite",
+            "detail": "Six LLMs (LLaMA‑2‑7B‑Chat, Vicuna‑7B, Llama‑3.2‑3B, Qwen2.5‑7B‑Instruct, GPT‑4o, Claude‑3.5‑Sonnet) are evaluated under ε‑bounded static edit‑distance attacks (ε∈{3,5,7}) and Crescendo‑style adaptive attacks, using 150 harmful prompts (50 per category) and 100 trials per configuration."
+          },
+          {
+            "title": "Baselines and variants",
+            "detail": "Comparisons include naive multiplicative bound, optimistic reference bound, Persistence‑Only, Compositional‑Only, and the full MTCR combination."
+          },
+          {
+            "title": "Metrics",
+            "detail": "Certified lower bound ρ̂_k and empirical safety (fraction of trials remaining safe) are reported for horizons k∈{5,10,15,20}."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Combined MTCR yields tightest certified bounds",
+            "detail": "Across all horizons, MTCR (max of component bounds) outperforms Persistence‑Only and Compositional‑Only, matching the theoretical tightness results."
+          },
+          {
+            "title": "Empirical safety exceeds certified guarantees",
+            "detail": "Gaps between empirical safety and MTCR range from +0.18 to +0.30, confirming that the bounds are not violated in practice."
+          },
+          {
+            "title": "Mode granularity trade‑off",
+            "detail": "Coarser mode counts (M=2) give higher certified bounds (ρ̂5=0.39) than finer granularity (M=8, ρ̂5=0.25) due to increased overlap κ and transition cost."
+          }
+        ],
+        "contributions": [
+          "MTCR certification framework for multi‑turn LLM safety",
+          "Embedding‑space mode decomposition for compositional certification",
+          "(α,β)-safety persistence theory and horizon analysis",
+          "Information‑theoretic upper bounds establishing tightness",
+          "Empirical evaluation on six production LLMs under static and adaptive attacks"
+        ],
+        "limitations": [
+          "Formal guarantees limited to ε‑bounded (character‑level) perturbations; no provable protection against semantic attacks",
+          "Mode decomposition relies on heuristic k‑means clustering; bound tightness depends on chosen M and overlap κ",
+          "Safety predicate is binary and detector‑dependent; graded harmfulness scores are unsupported",
+          "Certification requires ~2.5 h per open‑source model on a single A100 GPU, limiting real‑time applicability"
+        ],
+        "open_questions": [
+          "How can MTCR be extended to certify against semantic or unrestricted adversarial perturbations?",
+          "Can automated, provably sound mode discovery replace heuristic clustering?",
+          "What modifications are needed to support continuous or graded safety metrics?",
+          "Is it possible to integrate MTCR‑derived certificates into adversarial training pipelines to improve robustness efficiently?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
       },
       "recommended_at": "2026-08-24T10:53:02.352651+00:00"
     },
@@ -16076,508 +16631,6 @@
           "calibration",
           "alignment",
           "safety"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-14T11:44:02.688717+00:00"
-    },
-    {
-      "id": "2607.11505",
-      "title": "Proxy Exploration and Reusable Guidance: A Modular LLM Post-Training Paradigm via Proxy-Guided Update Signals",
-      "abstract": "Post-training is essential for refining the domain-specific capabilities of large language models (LLMs), yet existing reward optimization and distribution matching methods tightly couple policy exploration with distribution alignment. This coupling forces expensive exploration directly on the policy model and severely hinders the asynchronous generation, reuse, and cross-model transfer of optimization signals. In this paper, we propose Proxy-guided Update Signal Transfer (PUST), a novel post-training framework that fundamentally decouples update-signal exploration from distribution alignment. Instead of utilizing the primary model for costly exploration, PUST employs a lightweight proxy model as an efficient testbed to discover high-reward behaviors. We extract the relative improvement signal between the proxy's initial and optimized states, transferring this directional update to the primary model to guide its policy alignment. This decoupled pipeline, comprising proxy exploration, update-signal extraction, and signal transfer, significantly reduces computational overhead and enables optimization signals to be asynchronously generated, cached, and reused. Crucially, by transferring relative improvements rather than absolute policy distributions, PUST naturally supports weak-to-strong improvement and seamless cross-model transfer. Systematic evaluations on Qwen3-family models across math and code domains demonstrate that update signals extracted from substantially weaker proxies can robustly and adjustably enhance stronger primary models. Ultimately, PUST transforms post-training from a monolithic online optimization process into a highly modular, reusable, and cost-efficient paradigm.",
-      "authors": [
-        "Daocheng Fu",
-        "Rong Wu",
-        "Yu Yang",
-        "Xuemeng Yang",
-        "Jianbiao Mei",
-        "Licheng Wen",
-        "Pinlong Cai",
-        "Yong Liu",
-        "Botian Shi",
-        "Yu Qiao"
-      ],
-      "published": "2026-07-13T12:56:21Z",
-      "updated": "2026-07-13T12:56:21Z",
-      "categories": [
-        "cs.LG",
-        "cs.AI"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2607.11505v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.11505v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.5292,
-          "matched": [
-            "alignment",
-            "alignment",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4674,
-        "relevance": 0.4234,
-        "quality": 0.47,
-        "novelty": 0.55,
-        "freshness": 0.8643
-      },
-      "quality_signals": [
-        "code available"
-      ],
-      "summary": {
-        "takeaway": "The Proxy-guided Update Signal Transfer (PUST) framework enhances post-training efficiency for LLMs by decoupling exploration from alignment.",
-        "problem": "Existing methods couple policy exploration with distribution alignment, leading to high computational costs and inefficiencies.",
-        "method": "PUST employs a lightweight proxy model to explore high-reward behaviors and transfers relative improvement signals to the primary model.",
-        "evidence": "Systematic evaluations on Qwen3-family models show that weaker proxies can effectively enhance stronger primary models through extracted update signals.",
-        "limitations": "The paper does not provide detailed quantitative results on the performance of the proposed method compared to existing baselines.",
-        "why_for_you": "This research offers a novel approach to improve the efficiency of post-training processes in LLMs, relevant for enhancing model adaptability.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "PUST allows for asynchronous generation and caching of optimization signals, significantly reducing computational overhead compared to traditional methods."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The framework utilizes a proxy model for exploration, which enables the extraction of relative improvement signals that guide the primary model's policy alignment."
-          },
-          {
-            "icon": "📉",
-            "text": "Experiments demonstrate that update signals from weaker proxies can robustly enhance stronger models, indicating effective cross-model transfer capabilities."
-          }
-        ],
-        "overview": "The research addresses the inefficiencies in post-training for LLMs caused by tightly coupling policy exploration with distribution alignment. By introducing the PUST framework, the authors propose a decoupled approach that utilizes a proxy model for exploration, allowing for the extraction and transfer of relative improvement signals to primary models. Evaluations on Qwen3-family models across math and code domains reveal that this method not only reduces computational costs but also enhances the adaptability of stronger models using insights from weaker proxies.",
-        "methodology": [
-          {
-            "title": "Proxy Model Utilization",
-            "detail": "A lightweight proxy model is employed to explore high-reward behaviors, allowing for efficient signal extraction without burdening the primary model."
-          },
-          {
-            "title": "Signal Extraction",
-            "detail": "The relative improvement signal between the proxy's initial and optimized states is extracted, which serves as a directional update for the primary model."
-          },
-          {
-            "title": "Signal Transfer Mechanism",
-            "detail": "The extracted signals are transferred to the primary model, enabling it to align its policy based on the improvements identified during proxy exploration."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Decoupling Exploration and Alignment",
-            "detail": "The PUST framework separates the stages of policy exploration and alignment, allowing for more efficient post-training processes."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Evaluation on Qwen3-family Models",
-            "detail": "Systematic evaluations demonstrate that update signals from weaker proxies can effectively enhance stronger primary models, showcasing the framework's adaptability."
-          },
-          {
-            "title": "Convergence Analysis",
-            "detail": "Comparative analysis reveals that OPD variants achieve rapid convergence, while traditional methods like GRPO require longer exploratory phases."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Efficiency of PUST",
-            "detail": "PUST significantly reduces exploration costs by delegating sampling and reward evaluation to a smaller proxy model."
-          },
-          {
-            "title": "Scalability of Update Signals",
-            "detail": "The framework allows for update signals to be asynchronously generated, cached, and reused across different training runs."
-          },
-          {
-            "title": "Cross-Model Transfer",
-            "detail": "Signals explored by weaker proxies can be flexibly applied to stronger primary models, enhancing their performance."
-          }
-        ],
-        "contributions": [
-          "Reinterpretation of post-training as distinct stages of policy exploration and alignment.",
-          "Introduction of the PUST framework that transfers relative improvement signals for flexible policy updates.",
-          "Demonstration of the reusability and scalability of update signals across models."
-        ],
-        "limitations": [
-          "Lack of detailed quantitative comparisons with existing baselines.",
-          "No exploration of the impact of different proxy model architectures on performance."
-        ],
-        "open_questions": [
-          "How can the PUST framework be adapted for different types of LLM architectures?",
-          "What are the optimal conditions for selecting proxy models to maximize performance gains?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4o-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment",
-          "alignment",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-14T11:44:02.688717+00:00"
-    },
-    {
-      "id": "2607.11883",
-      "title": "Requential Coding: Pushing the Limits of Model Compression with Self-Generated Training Data",
-      "abstract": "Compression is fundamental to intelligence. A model that can represent its training data as a short code has discovered regularities that enable generalization. Large neural networks may learn functions far simpler than their parameter counts suggest, but it is challenging to construct codes that realize this simplicity. Parameter-based methods such as quantization produce code lengths that scale with model size, insensitive to how much information the parameters store. Prequential coding bypasses this issue by compressing the training trajectory, but codes the exact data sequence regardless of how much the model learns, yielding large codes when the data has high entropy. We introduce requential coding, where a teacher model selects training samples drawn from the student's own distribution. The student's code records only these selections, which cost bits only where teacher and student disagree. The resulting code length is independent of parameter count and data entropy, and often orders of magnitude shorter than the prequential counterpart, with an advantage that grows with scale. This compression sheds light on phenomena inaccessible to prior compressors. Holding loss fixed, larger models and ensembles compress to much smaller sizes despite more parameters. Plugged into a PAC-Bayes bound, the requential code yields state-of-the-art generalization guarantees for billion-parameter LLMs, outperforming bounds built on aggressive post-training quantization even granted zero error. The bound tightens with scale in the compute-optimal regime, as models become increasingly compressible relative to dataset size. The same code predicts that models gradually overfit when trained for multiple epochs. It also isolates the learnable information in a dataset from its unpredictable, random content, revealing that lower-entropy text holds far more learnable structure than higher-entropy image data.",
-      "authors": [
-        "Shikai Qiu",
-        "Marc Finzi",
-        "Yujia Zheng",
-        "Kun Zhang",
-        "Andrew Gordon Wilson"
-      ],
-      "published": "2026-07-13T17:58:50Z",
-      "updated": "2026-07-13T17:58:50Z",
-      "categories": [
-        "cs.LG"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2607.11883v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.11883v1",
-      "comment": "Code available at https://github.com/shikaiqiu/requential-coding",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "emerging",
-          "score": 0.4115,
-          "matched": [
-            "training data",
-            "data"
-          ]
-        },
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.2349,
-          "matched": [
-            "generalization",
-            "generalization",
-            "bound"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4582,
-        "relevance": 0.3762,
-        "quality": 0.57,
-        "novelty": 0.55,
-        "freshness": 0.8943
-      },
-      "quality_signals": [
-        "code available",
-        "formal bound",
-        "dataset evidence"
-      ],
-      "summary": {
-        "takeaway": "Requential coding compresses large neural networks by encoding only teacher-selected training samples from the student's distribution, achieving code lengths independent of parameter count and data entropy, enabling state-of-the-art generalization bounds for billion-parameter LLMs.",
-        "problem": "Existing model compression methods scale code length with parameter count or data entropy, failing to capture the actual information learned by large neural networks.",
-        "method": "Requential coding iteratively trains a student model on samples selected by a teacher model from the student's own distribution, encoding only the indices of accepted samples via relative entropy coding to minimize code length.",
-        "evidence": "Experiments show requential coding yields code lengths orders of magnitude shorter than prequential coding, with compression improving with model scale and producing tighter PAC-Bayes generalization bounds than aggressive post-training quantization.",
-        "limitations": "Encoding time can be prohibitively slow due to the need for many proposals in relative entropy coding, and the method requires a teacher model trained on real data with similar architecture and hyperparameters.",
-        "why_for_you": "This method offers a principled, scalable approach to quantify and leverage the compressibility of large LLMs beyond parameter counts, directly relevant to data selection and statistical theory for LLM generalization.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Requential coding achieves code lengths roughly equal to the cumulative KL divergence between teacher and student distributions, enabling compression rates near 1 bit per parameter for compute-optimal LLMs."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The method uses relative entropy coding (REC) with a pseudorandom number generator to generate candidate samples from the student, encoding only the index of the teacher-accepted sample, reducing communication cost to KL(Q∥P) bits."
-          },
-          {
-            "icon": "📉",
-            "text": "Empirical results demonstrate that larger models and ensembles compress to smaller sizes despite more parameters, and the requential code predicts gradual overfitting with multiple training epochs."
-          }
-        ],
-        "overview": "The paper addresses the challenge that traditional model compression methods, such as parameter quantization or prequential coding, produce code lengths scaling with model size or data entropy, failing to reflect the actual information learned by large neural networks. Requential coding innovates by having a teacher model select training samples from the student's own distribution, encoding only the indices of accepted samples via relative entropy coding. This approach yields code lengths independent of parameter count and data entropy, often orders of magnitude shorter than prequential coding. The method is implemented by iteratively training a student model on teacher-selected samples, with the teacher evolving by training on real data. The resulting compression reveals phenomena inaccessible to prior compressors, such as improved compressibility with scale and tighter PAC-Bayes generalization bounds for billion-parameter LLMs. Experiments on transformers trained on text and images validate the approach, showing strong compression and predictive insights into overfitting and dataset learnability. The method requires shared randomness and incurs computational overhead but offers a principled framework for understanding and leveraging model compressibility at scale.",
-        "methodology": [
-          {
-            "title": "Requential Coding Protocol",
-            "detail": "At each training step t, the student model Pt generates candidate samples Yt,i from its distribution using a pseudorandom number generator with a shared seed. The teacher model Qt selects an accepted sample Xt by choosing an index i⋆ such that Xt is marginally distributed as Qt. The encoder transmits the index i⋆ using relative entropy coding (REC), which requires approximately KL(Qt ∥ Pt) bits. The student then trains on Xt to update Pt+1. This iterative process compresses the training trajectory by encoding only the teacher's selections."
-          },
-          {
-            "title": "Relative Entropy Coding (REC)",
-            "detail": "REC reduces the communication of a sample from distribution Q to communicating an index of a proposal from distribution P, leveraging shared randomness. The encoder and decoder share a pseudorandom number generator to produce identical candidate sequences. The encoder transmits a prefix-free code of the accepted proposal's index, achieving an expected code length bounded by KL(Q∥P) plus small logarithmic overheads, approaching the information-theoretic lower bound."
-          },
-          {
-            "title": "Teacher Model and Training Dynamics",
-            "detail": "The teacher model Qt is trained on real data batches and shares architecture and hyperparameters with the student to maintain low divergence. Enhancements include teacher smoothing via exponential moving average of checkpoints to reduce noise and iso-loss projection to periodically reset the teacher closer to the student, balancing divergence and pulling the student toward the target distribution."
-          },
-          {
-            "title": "Code Length Evaluation and Runtime",
-            "detail": "Code length is evaluated by simulating the stochastic process where REC encoding/decoding is replaced by sampling from the teacher. This requires roughly 2× memory and 2.33× FLOPs compared to ordinary training. Encoding time can be reduced by dividing batches into smaller blocks, trading off code length for encoding speed. Decoding cost remains close to ordinary training."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Compression via Teacher-Student KL Divergence",
-            "detail": "The code length accumulates approximately as the sum over training steps of KL divergences between the teacher and student distributions, reflecting the information difference the student must learn. This mechanism decouples code length from parameter count and data entropy, focusing on the actual information transferred during training."
-          },
-          {
-            "title": "REC Index Encoding with Elias Delta Code",
-            "detail": "Indices of accepted samples are encoded using the parameter-free Elias delta universal integer code, which adds negligible overhead and avoids requiring the decoder to know the teacher-student KL. This ensures prefix-free coding with expected length bounded by KL(Qt ∥ Pt) plus small logarithmic terms."
-          },
-          {
-            "title": "No Explicit Mechanism for Overfitting Prediction",
-            "detail": "While the code predicts gradual overfitting with multiple epochs, the paper does not provide explicit equations or causal mechanisms for this phenomenon."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Compression Comparison on Transformers",
-            "detail": "Requential coding is evaluated against prequential coding and quantization on transformer models trained on text and image datasets. Results show requential coding achieves orders of magnitude shorter code lengths, with compression rates near 1 bit per parameter for compute-optimal LLMs."
-          },
-          {
-            "title": "Generalization Bound Evaluation",
-            "detail": "The requential code is plugged into a PAC-Bayes generalization bound, evaluated on billion-parameter LLMs. It outperforms bounds based on aggressive 4-bit post-training quantization, even assuming zero training error, and tightens with scale in the compute-optimal regime."
-          },
-          {
-            "title": "Teacher Smoothing and Iso-Loss Projection Ablations",
-            "detail": "Improvements such as teacher smoothing via EMA and iso-loss projection are introduced to reduce noise and maintain low divergence between teacher and student, improving code length and training stability."
-          },
-          {
-            "title": "Runtime and Encoding Tradeoffs",
-            "detail": "Experiments analyze the computational overhead of requential coding, showing it requires roughly double memory and 2.33× FLOPs compared to ordinary training. Encoding time can be reduced by block-wise transmission at the cost of longer codes."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Code Length Independent of Parameter Count and Data Entropy",
-            "detail": "Requential coding produces code lengths that do not scale with model size or data entropy, unlike parameter quantization or prequential coding, enabling compression orders of magnitude shorter than prequential codes."
-          },
-          {
-            "title": "Larger Models Compress Better Despite More Parameters",
-            "detail": "Holding loss fixed, larger models and ensembles achieve smaller code lengths, indicating increased compressibility with scale, a phenomenon inaccessible to prior compressors."
-          },
-          {
-            "title": "State-of-the-Art Generalization Bounds",
-            "detail": "When plugged into PAC-Bayes bounds, requential coding yields tighter generalization guarantees for billion-parameter LLMs than aggressive post-training quantization bounds, with the bound tightening as model scale increases."
-          },
-          {
-            "title": "Prediction of Overfitting Dynamics",
-            "detail": "The requential code predicts that models gradually overfit when trained for multiple epochs, isolating learnable information from unpredictable random content in datasets."
-          },
-          {
-            "title": "Lower-Entropy Text Holds More Learnable Structure",
-            "detail": "Analysis reveals that lower-entropy text data contains far more learnable structure than higher-entropy image data, as reflected in compression behavior."
-          }
-        ],
-        "contributions": [
-          "Introduction of requential coding, a novel compression scheme encoding only teacher-selected samples from the student's distribution, independent of parameter count and data entropy.",
-          "Demonstration of orders of magnitude shorter code lengths than prequential coding on large transformers trained on text and images.",
-          "Integration of requential coding into PAC-Bayes bounds yielding state-of-the-art generalization guarantees for billion-parameter LLMs.",
-          "Empirical insights into model compressibility scaling with size and dataset learnability, including overfitting prediction and data entropy analysis.",
-          "Development of practical encoding schemes using relative entropy coding with universal integer codes and shared randomness."
-        ],
-        "limitations": [
-          "Encoding time can be prohibitively slow due to the need for many proposals in relative entropy coding, limiting practical transmission speed.",
-          "The method requires a teacher model trained on real data with similar architecture and hyperparameters, which may not always be available or efficient.",
-          "The approach incurs roughly double memory and more than double FLOPs compared to ordinary training, increasing computational cost.",
-          "No explicit causal mechanism or equations are provided for phenomena such as overfitting prediction."
-        ],
-        "open_questions": [
-          "How can encoding time be further reduced without significantly increasing code length, enabling practical model transmission?",
-          "Can requential coding be extended or adapted to settings without access to a teacher model trained on real data?",
-          "What are the theoretical limits of compressibility for different model architectures and data modalities under requential coding?",
-          "How does requential coding interact with other compression techniques such as pruning or knowledge distillation in large-scale LLMs?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Data selection for LLMs",
-        "matched": [
-          "training data",
-          "data"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-14T11:44:02.688717+00:00"
-    },
-    {
-      "id": "2607.11760",
-      "title": "From Expressivity to Sample Complexity: Narrow Teachers for Transformers via C-RASP",
-      "abstract": "A theoretical understanding of Transformers is crucial to better understand the capacities and limitations of large language models (LLMs). There is much work analyzing the expressivity of attention-based models. By proposing handcrafted weights or using computational complexity arguments, a large amount of past theoretical works have sought to characterize which tasks are and which are not in the hypothesis class of Transformer models. However, little work investigates the learnability of such solutions. In this work, we make progress towards this goal. Inspired by recent loss landscape analysis work, we propose preliminary sample complexity bounds for learning C-RASP constructions with Transformers.",
-      "authors": [
-        "Michael Rizvi-Martel",
-        "Satwik Bhattamishra",
-        "Guillaume Rabusseau",
-        "Michael Hahn"
-      ],
-      "published": "2026-07-13T16:22:36Z",
-      "updated": "2026-07-13T16:22:36Z",
-      "categories": [
-        "cs.LG",
-        "cs.CL"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2607.11760v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.11760v1",
-      "comment": "9 pages total",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "core",
-          "score": 0.4181,
-          "matched": [
-            "loss landscape",
-            "landscape",
-            "loss"
-          ]
-        },
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.3306,
-          "matched": [
-            "sample complexity"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4276,
-        "relevance": 0.4006,
-        "quality": 0.34,
-        "novelty": 0.55,
-        "freshness": 0.8848
-      },
-      "quality_signals": [
-        "formal bound"
-      ],
-      "summary": {
-        "takeaway": "The paper establishes sample complexity bounds for learning C-RASP constructions with Transformers.",
-        "problem": "Existing theoretical analyses of Transformers focus on expressivity but neglect learnability.",
-        "method": "The authors propose a framework that connects expressivity results to sample complexity bounds.",
-        "evidence": "The results indicate that constant-size constructions like Dyck-1 can be easily learned by Transformers.",
-        "limitations": "The paper lacks empirical validation of the theoretical findings regarding loss landscape impacts.",
-        "why_for_you": "This work bridges expressivity and learnability, which is crucial for understanding LLM training dynamics.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "The paper demonstrates that C-RASP Transformers can yield sample complexity bounds, specifically showing that constructions like Dyck-1 are easily learned."
-          },
-          {
-            "icon": "🛡️",
-            "text": "A novel learning algorithm based on a Guess and Check (G&C) procedure is proposed, which samples weights and computes empirical risk to ensure zero training error."
-          },
-          {
-            "icon": "📉",
-            "text": "The authors derive a sample complexity bound that relates the probability of sampling a teacher model to the architecture of the Transformer, providing a theoretical foundation for learning."
-          }
-        ],
-        "overview": "This research addresses the gap in understanding the learnability of Transformers by proposing sample complexity bounds for C-RASP constructions. The authors extend existing frameworks to show how wide student networks can implement narrow teacher networks, thus linking expressivity with learnability. Their findings suggest that certain constant-size constructions, such as Dyck-1, can be effectively learned by Transformers, providing a theoretical basis for future explorations in LLM training dynamics.",
-        "methodology": [
-          {
-            "title": "Sample Complexity Bounds",
-            "detail": "The authors derive bounds based on the architecture of Transformers and the characteristics of C-RASP programs, focusing on the relationship between model width, depth, and the number of variables."
-          },
-          {
-            "title": "Guess and Check Learning Algorithm",
-            "detail": "The learning algorithm samples weights uniformly at random and computes the empirical risk until zero training error is achieved, linking the success rate to the volume of generalizing solutions."
-          },
-          {
-            "title": "C-RASP Framework Extension",
-            "detail": "The paper extends the C-RASP framework to include a broader class of constructions, allowing for the analysis of their learnability in the context of Transformers."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Teacher-Equivalent Models",
-            "detail": "The paper defines a teacher-equivalent model in relation to a data distribution, establishing a framework for understanding how well a predictor can match a teacher model."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Learning Dyck-1",
-            "detail": "The authors illustrate their theoretical results by demonstrating that a single-head student Transformer can learn a C-RASP program for Dyck-1 with a sample complexity bound better than traditional Occam's razor arguments."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Expressivity and Learnability Link",
-            "detail": "The work is among the first to connect expressivity results of Transformers to sample complexity, showing that expressive capabilities can be learned."
-          },
-          {
-            "title": "Sample Complexity for C-RASP",
-            "detail": "The derived sample complexity bounds indicate that a narrow teacher can be effectively learned by a wider student Transformer under specific conditions."
-          },
-          {
-            "title": "Impact of Model Architecture",
-            "detail": "The findings suggest that the architecture of Transformers significantly influences their ability to learn specific tasks, such as those defined by C-RASP."
-          }
-        ],
-        "contributions": [
-          "The paper extends the framework of Buzaglo et al. to Transformers.",
-          "It provides a constraint-counting argument for implementing narrow teachers with wide student networks.",
-          "It bridges the gap between expressivity and learnability in the context of Transformers."
-        ],
-        "limitations": [
-          "The lack of empirical validation for the theoretical findings.",
-          "The current approach only accounts for a single encoding of the teacher within the student."
-        ],
-        "open_questions": [
-          "How does the loss landscape impact length generalization in Transformers?",
-          "Can the bounds on the probability of sampling a teacher model be further tightened?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4o-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "loss landscape",
-          "landscape",
-          "loss"
         ],
         "lane": "llm"
       },

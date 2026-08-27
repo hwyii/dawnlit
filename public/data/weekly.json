@@ -1,6 +1,453 @@
 {
-  "generated_at": "2026-08-26T10:51:18.938084+00:00",
+  "generated_at": "2026-08-27T20:30:01.195934+00:00",
   "papers": [
+    {
+      "id": "conf:acl:2026:1334-main",
+      "title": "A Goal Without a Plan Is Just a Wish: Efficient and Effective Global Planner Training for Long-Horizon Agent Task",
+      "abstract": "Agents based on large language models (LLMs) struggle with brainless trial-and-error and generating hallucinatory actions due to a lack of global planning in long-horizon tasks. In this paper, we introduce a plan-and-execute framework and propose EAGLET, an efficient and effective planner training method to enhance the executor agent's planning abilities without human effort. Specifically, we train a plug-and-play global planner through a two-step process: we first synthesize high-quality plans from an advanced LLM using our proposed homologous consensus filtering strategy, and apply fine-tuning as a cold start. Moreover, we further improve the planner with a rule-based reinforcement learning stage using a novel executor capability gain reward, ensuring it can handle task instructions of varying difficulty. Experiments on three long-horizon agent tasks show that executor agents equipped with our planner outperform existing methods, achieving new state-of-the-art performance. Meanwhile, EAGLET reduces training costs by 8× compared to RL-based baselines, and it does not require manual effort or extra training data, offering an efficient and effective solution.",
+      "authors": [
+        "Shuzheng Si",
+        "Haozhe Zhao"
+      ],
+      "published": "2026-01-01T00:00:00Z",
+      "updated": "2026-01-01T00:00:00Z",
+      "categories": [
+        "ACL 2026",
+        "Oral"
+      ],
+      "primary_category": "ACL 2026",
+      "abs_url": "https://2026.aclweb.org/program/",
+      "pdf_url": "https://2026.aclweb.org/program/",
+      "comment": "",
+      "journal_ref": "ACL 2026 Oral",
+      "source": "conference",
+      "venue": "ACL",
+      "presentation": "Oral",
+      "conference_year": 2026,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.8209,
+          "matched": [
+            "efficient",
+            "training",
+            "fine-tuning"
+          ]
+        },
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.3174,
+          "matched": [
+            "filtering",
+            "training data",
+            "data"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.1308,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.774,
+        "relevance": 0.7464,
+        "quality": 0.78,
+        "novelty": 0.8285,
+        "freshness": 1.0,
+        "feedback_adjustment": -0.0227,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "experiments",
+        "quantitative results",
+        "publication metadata",
+        "conference oral"
+      ],
+      "summary": {
+        "method": "通过共识过滤的计划合成和基于规则的强化学习（使用能力提升奖励），训练即插即用的全局规划器。",
+        "takeaway": "EAGLET 高效训练全局规划器，提升 LLM 代理的长时程表现，无需人工数据。",
+        "problem": "LLM 代理缺乏全局规划，导致长时程任务中反复试错和幻觉行为。",
+        "evidence": "配备该规划器的执行代理在三项任务上达到 state‑of‑the‑art 结果，训练成本比 RL 基线降低 8 倍。",
+        "why_for_you": "如果您需要高效、无需对抗训练的方式提升 LLM 在长时程任务中的规划能力，则本研究相关。",
+        "limitations": "论文未提供量化性能数据或计划质量分析。",
+        "source": "abstract",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "experiments": [
+          {
+            "title": "三项长时程代理任务的评估",
+            "detail": "将配备 EAGLET 规划器的执行代理与现有方法对比；结果声称达到 state‑of‑the‑art 性能，训练成本比基于 RL 的基线降低 8 倍，且无需额外人工标注数据。"
+          }
+        ],
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "EAGLET 引入无需人工标注的即插即用全局规划器，提升长时程 LLM 代理。"
+          },
+          {
+            "icon": "⚙️",
+            "text": "使用同源共识过滤合成高质量计划，再通过基于规则的 RL 结合执行器能力提升奖励进行训练。"
+          },
+          {
+            "icon": "📊",
+            "text": "在三项长时程任务上展示 state‑of‑the‑art 性能，训练成本比 RL 基线低 8 倍，但未报告量化结果。"
+          }
+        ],
+        "contributions": [
+          "EAGLET 规划器训练流水线",
+          "用于计划合成的同源共识过滤策略",
+          "基于规则强化学习的执行器能力提升奖励"
+        ],
+        "methodology": [
+          {
+            "title": "通过同源共识过滤进行计划合成",
+            "detail": "从高级 LLM 生成高质量计划，并通过共识机制过滤，构建干净的规划器训练集。"
+          },
+          {
+            "title": "基于规则的强化学习与能力提升奖励",
+            "detail": "在基于规则的 RL 循环中进一步微调初始化的规划器，奖励衡量执行器在不同指令难度下的性能提升。"
+          }
+        ],
+        "limitations": [
+          "未提供量化性能指标或消融实验",
+          "缺少任务定义、基线和数据集细节",
+          "依赖高级 LLM 生成初始计划，可能限制适用性"
+        ],
+        "findings": [
+          {
+            "title": "性能提升与成本降低",
+            "detail": "加入规划器的执行器在三项任务上均优于已有方法，训练计算量降低八倍。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "共识过滤的冷启动",
+            "detail": "共识过滤在多个 LLM 输出中挑选一致的计划片段，确保规划器从可靠轨迹开始训练。"
+          },
+          {
+            "title": "执行器能力提升奖励",
+            "detail": "RL 奖励量化执行器在规划器引导下成功率的提升，鼓励直接有益于执行的规划行为。"
+          }
+        ],
+        "open_questions": [
+          "EAGLET 在更复杂或真实环境中的可扩展性如何？",
+          "该方法对 LLM 代理对抗鲁棒性的影响如何？",
+          "在没有高容量 LLM 的情况下，共识过滤方法是否仍然有效？"
+        ],
+        "overview": "本文针对 LLM 代理缺乏全局规划的问题，提出名为 EAGLET 的计划‑执行框架。首先通过同源共识过滤的高质量计划合成，对即插即用的全局规划器进行冷启动。随后在基于规则的强化学习阶段，以执行器能力提升为奖励对规划器进行微调。三项长时程任务的实验显示，方法达到 state‑of‑the‑art 性能，训练成本比 RL 基线降低八倍，且无需人工数据收集。",
+        "source_scope": "abstract",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "efficient",
+          "training",
+          "fine-tuning"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-27T20:30:01.195934+00:00"
+    },
+    {
+      "id": "conf:icml:2026:71112",
+      "title": "POET-X: Memory-efficient LLM Training by Scaling Orthogonal Transformation",
+      "abstract": "Efficient and stable training of large language models (LLMs) remains a core challenge in modern machine learning systems. To address this challenge, Reparameterized Orthogonal Equivalence Training (POET), a spectrum-preserving framework that optimizes each weight matrix through orthogonal equivalence transformation, has been proposed. Although POET provides strong training stability, its original implementation incurs high memory consumption and computational overhead due to intensive matrix multiplications. To overcome these limitations, we introduce POET-X, a scalable and memory-efficient variant that performs orthogonal equivalence transformations with significantly reduced computational cost. POET-X maintains the generalization and stability benefits of POET while achieving substantial improvements in throughput and memory efficiency. In our experiments, POET-X enables the pretraining of billion-parameter LLMs on a single Nvidia H100 GPU, and in contrast, standard optimizers such as AdamW run out of memory under the same settings.",
+      "authors": [
+        "Zeju Qiu",
+        "Lixin LIU",
+        "Adrian Weller",
+        "Han Shi",
+        "Weiyang Liu"
+      ],
+      "published": "2026-01-01T00:00:00Z",
+      "updated": "2026-01-01T00:00:00Z",
+      "categories": [
+        "ICML 2026",
+        "Oral"
+      ],
+      "primary_category": "ICML 2026",
+      "abs_url": "https://icml.cc/virtual/2026/oral/71112",
+      "pdf_url": "https://icml.cc/virtual/2026/oral/71112",
+      "comment": "",
+      "journal_ref": "ICML 2026 Oral",
+      "source": "conference",
+      "venue": "ICML",
+      "presentation": "Oral",
+      "conference_year": 2026,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.7999,
+          "matched": [
+            "efficient",
+            "training"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.3454,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.3091,
+          "matched": [
+            "generalization",
+            "scaling"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.7639,
+        "relevance": 0.7708,
+        "quality": 0.63,
+        "novelty": 0.8689,
+        "freshness": 1.0,
+        "feedback_adjustment": -0.0171,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "experiments",
+        "publication metadata",
+        "conference oral"
+      ],
+      "summary": {
+        "method": "POET‑X 重新设计正交等价变换，以降低矩阵乘法开销，同时保持 POET 的稳定性优势。",
+        "takeaway": "POET‑X 提供内存高效的正交等价训练方法，使得在单个 H100 GPU 上预训练十亿参数 LLM 成为可能。",
+        "problem": "标准正交等价训练 (POET) 需要大量内存和计算，限制了大规模 LLM 训练。",
+        "evidence": "POET‑X 成功在一块 Nvidia H100 上训练十亿参数 LLM，而 AdamW 会出现内存不足。",
+        "why_for_you": "通过降低大模型的内存和计算需求，契合您对高效 adversarial 训练的兴趣。",
+        "limitations": "在可得来源中未说明。",
+        "source": "abstract",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "experiments": [
+          {
+            "title": "单卡 H100 上的十亿参数 LLM 预训练",
+            "detail": "作者使用 POET‑X 在一块 Nvidia H100 GPU 上预训练数十亿参数的模型，并报告在相同硬件条件下，标准优化器如 AdamW 会出现内存不足。"
+          }
+        ],
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "POET‑X 提供内存高效的正交等价训练变体，降低矩阵乘法开销。"
+          },
+          {
+            "icon": "🔧",
+            "text": "POET‑X 通过可扩展实现，以更低计算成本执行正交等价变换。"
+          },
+          {
+            "icon": "📊",
+            "text": "POET‑X 在单块 Nvidia H100 上训练十亿参数 LLM，而 AdamW 出现 OOM。"
+          }
+        ],
+        "contributions": [
+          "内存高效的 POET‑X 变体",
+          "可扩展的正交等价变换实现",
+          "在单卡 H100 GPU 上进行十亿参数 LLM 训练的实证验证"
+        ],
+        "methodology": [
+          {
+            "title": "降低成本的正交等价变换",
+            "detail": "POET‑X 重构正交等价操作，以最小化矩阵乘法强度，从而降低内存占用和计算开销，同时保持权重矩阵的谱特性。"
+          }
+        ],
+        "limitations": [
+          "在可得来源中未说明。"
+        ],
+        "findings": [
+          {
+            "title": "内存效率使原本不可行的训练成为可能",
+            "detail": "POET‑X 降低的内存消耗使得在单 GPU 上成功训练十亿参数 LLM 成为可能，展示出相较于 AdamW 的显著吞吐量和内存提升。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "保持谱的重新参数化",
+            "detail": "该方法在更新过程中保持每个权重矩阵的特征值谱，因而据称提供与原始 POET 方法相当的训练稳定性。"
+          }
+        ],
+        "open_questions": [
+          "POET‑X 相较于基线优化器在收敛速度和最终模型质量上有何影响？",
+          "降低矩阵乘法与变换中潜在近似误差之间的权衡是什么？"
+        ],
+        "overview": "本文提出 POET‑X——可扩展的 Reparameterized Orthogonal Equivalence Training (POET) 变体，旨在降低正交变换的内存和计算负担。通过重新设计以避免高强度矩阵乘法，POET‑X 保持 POET 的谱保持稳定性，同时实现更高吞吐量和更低内存占用。实验表明，POET‑X 能在单块 Nvidia H100 GPU 上预训练十亿参数语言模型，而传统优化器如 AdamW 会超出内存限制。",
+        "source_scope": "abstract",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "efficient",
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-27T20:30:01.195934+00:00"
+    },
+    {
+      "id": "conf:iclr:2026:10011886",
+      "title": "Common Corpus: The Largest Collection of Ethical Data for LLM Pre-Training",
+      "abstract": "Large Language Models (LLMs) are pre-trained on large data from different sources and domains. These datasets often contain trillions of tokens, including large portions of copyrighted or proprietary content, which raises questions about the legal use of such models. This underscores the need for truly open pre-training data that complies with data security regulations. In this paper, we introduce Common Corpus, the largest open dataset for LLM pre-training. The data assembled in Common Corpus are either uncopyrighted or under permissive licenses and amount to about two trillion tokens. The dataset contains a wide variety of languages, ranging from the high-resource European languages to some low-resource languages rarely represented in pre-training datasets. In addition, it includes a large amount of code data. The diversity of data sources in terms of covered domains and time periods opens up the paths for both research and entrepreneurial needs in diverse areas of knowledge. In this paper, we present the detailed provenance of data assembling and the details of dataset filtering and curation. We train two small language models on Common Corpus and find that they perform comparably to other models of their size, indicating that our dataset is suitable for multilingual pretraining. Common Corpus represents a key contribution to the ecosystem for open science research on Large Language Models.",
+      "authors": [
+        "Pierre-Carl Langlais",
+        "Pavel Chizhov",
+        "Catherine Arnett",
+        "Carlos Hinostroza",
+        "Mattia Nee",
+        "Eliot Jones",
+        "Irène Girard",
+        "David Mach",
+        "Anastasia Stasenko",
+        "Ivan Yamshchikov"
+      ],
+      "published": "2026-01-01T00:00:00Z",
+      "updated": "2026-01-01T00:00:00Z",
+      "categories": [
+        "ICLR 2026",
+        "Oral"
+      ],
+      "primary_category": "ICLR 2026",
+      "abs_url": "https://iclr.cc/virtual/2026/oral/10011886",
+      "pdf_url": "https://iclr.cc/virtual/2026/oral/10011886",
+      "comment": "",
+      "journal_ref": "ICLR 2026 Oral",
+      "source": "conference",
+      "venue": "ICLR",
+      "presentation": "Oral",
+      "conference_year": 2026,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.6381,
+          "matched": [
+            "filtering",
+            "training data",
+            "curation",
+            "data"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5887,
+          "matched": [
+            "training"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.4427,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.748,
+        "relevance": 0.7105,
+        "quality": 0.75,
+        "novelty": 0.8618,
+        "freshness": 1.0,
+        "feedback_adjustment": -0.013,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "dataset evidence",
+        "publication metadata",
+        "conference oral"
+      ],
+      "summary": {
+        "evidence": "训练的两个小型模型表现与同类模型相当，表明数据集适合多语言预训练。",
+        "limitations": "未在摘要中提及具体限制。",
+        "method": "收集无版权或宽松许可的数据，进行过滤和整理，并训练小型模型验证效果。",
+        "problem": "现有LLM预训练数据常包含版权内容，引发法律使用问题，需真正开放且合规的数据。",
+        "takeaway": "提出Common Corpus，最大的开放数据集用于LLM预训练，包含符合数据安全法规的伦理数据。",
+        "why_for_you": "数据选择 for LLMs",
+        "source": "abstract",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Data selection for LLMs",
+        "matched": [
+          "filtering",
+          "training data",
+          "curation",
+          "data"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-27T20:30:01.195934+00:00"
+    },
     {
       "id": "2608.24492",
       "title": "When Do Supervised UQ Ensembles Improve LLM Hallucination Detection? A Robustness Study",
@@ -92,12 +539,12 @@
         "lane": "llm"
       },
       "summary": {
-        "takeaway": "Supervised ensembles of heterogeneous UQ scorers consistently improve closed‑book hallucination detection across LLMs and tasks, even with as few as 100 labeled examples.",
-        "problem": "Detecting hallucinations in LLM outputs without retrieval or reference documents requires reliable uncertainty signals.",
-        "method": "A classifier (logistic regression, random forest, or gradient boosting) is trained on a small, domain‑specific set of UQ scorer outputs and applied to out‑of‑sample responses.",
-        "evidence": "Ensembles outperform the best individual scorer in 30 of 32 settings by AUROC and retain advantage in 23 of 28 in‑domain transfer settings.",
-        "limitations": "Study is limited to four closed‑weight LLMs from two providers, three generation regimes, Python code only, and does not explore cross‑domain or cross‑LLM transfer.",
-        "why_for_you": "Matches your interest in trustworthy LLMs by showing a data‑efficient, robust detection method that could complement efficient adversarial training.",
+        "takeaway": "Supervised ensembles of heterogeneous UQ scores substantially improve hallucination detection across LLMs, needing only ~100 labeled examples.",
+        "problem": "Detecting hallucinations in closed‑book LLM outputs without external references.",
+        "method": "Train a classifier on multiple UQ scorer outputs (black‑box, white‑box, reflexive) to predict hallucination labels.",
+        "evidence": "Ensembles outperform the best individual scorer in 30/32 settings by AUROC and in 23/28 transfer settings, with gains from as few as 100 labeled instances.",
+        "limitations": "Study is limited to four closed‑weight LLMs, specific domains, and does not assess cross‑domain or open‑weight model ensembles.",
+        "why_for_you": "Matches your interest in trustworthy LLMs by showing a data‑efficient way to boost hallucination detection.",
         "source": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
         "language": "en",
@@ -108,74 +555,89 @@
         "signals": [
           {
             "icon": "💡",
-            "text": "Supervised UQ ensembles beat the best single scorer in 30/32 settings, with gains from just 100 labeled instances."
+            "text": "Supervised UQ ensembles beat the best individual scorer in 30 of 32 settings, achieving AUROC gains with as few as 100 labeled examples."
           },
           {
-            "icon": "🔧",
-            "text": "Ensemble classifier ingests 30+ black‑box, white‑box, and reflexive UQ scores (e.g., sequence probability, CodeBLEU, consistency) via logistic regression / random forest / gradient boosting."
+            "icon": "⚙️",
+            "text": "Ensemble trains a classifier (logistic regression, random forest, gradient boosting) over 30+ black‑box, white‑box, and reflexive UQ scores, evaluated across sample sizes and transfer conditions."
           },
           {
-            "icon": "📈",
-            "text": "AUROC advantage persists under in‑domain distribution shift, outperforming the top scorer in 23/28 transfer cases; black‑box‑only ensembles are nearly as effective as full ensembles."
+            "icon": "⚠️",
+            "text": "Across four LLMs and nine datasets, ensembles retain advantage in 23 of 28 distribution‑shift transfers, but study is limited to closed‑weight models and narrow domains."
           }
         ],
-        "overview": "The paper introduces a supervised ensembling framework that learns to combine a broad suite of uncertainty quantification (UQ) scorers for hallucination detection in closed‑book LLM generation. Across four LLMs, nine benchmarks, and three generation regimes (short QA, long‑form, code), the authors evaluate sample efficiency, in‑domain transfer, and regime dependence. Ensembles consistently surpass the strongest individual scorer, achieving notable gains with as few as 100 labeled examples and retaining most of the benefit under distribution shift. Black‑box‑only ensembles approach full‑ensemble performance, while white‑box‑only ensembles add limited value.",
+        "overview": "The paper presents a supervised ensembling framework that learns a classifier over a heterogeneous set of uncertainty quantification (UQ) scorers to detect hallucinations in closed‑book LLM outputs. It systematically evaluates robustness along three axes—sample efficiency, in‑domain transfer under distribution shift, and generation‑regime dependence—using four LLMs, nine benchmarks, and three generation formats (short QA, long‑form, code). Results show consistent AUROC and calibration improvements over the strongest single scorer, even with as few as 100 labeled examples, while highlighting limitations to closed‑weight models and specific task domains.",
         "methodology": [
           {
-            "title": "Ensemble training",
-            "detail": "A binary classifier is trained on vectors of K∈[0,1]UQ scores per response; classifiers explored include logistic regression, random forest, and gradient boosting."
+            "title": "Scorer Collection",
+            "detail": "Aggregates 30+ UQ scores spanning black‑box (e.g., self‑consistency, NLI), white‑box (token probabilities, entropy), and reflexive (model‑generated confidence) families, with access flags indicating token‑probability requirements."
           },
           {
-            "title": "Scorer collection",
-            "detail": "Thirty‑plus scorers spanning token‑level probabilities, consistency metrics, semantic similarity, code‑specific measures (CodeBLEU), and reflexive confidence are computed; access flags indicate token‑probability requirements per generation regime."
+            "title": "Classifier Training",
+            "detail": "Trains logistic regression, random forest, or gradient boosting models on labeled UQ score vectors; training subsets range from 0.1N to 0.7N of the available domain‑specific data."
+          },
+          {
+            "title": "Combination Strategies",
+            "detail": "Evaluates weighted averaging, full supervised ensembles, and sampling‑based black‑box ensembles; compares against an optimistic test‑set‑selected best individual scorer."
           }
         ],
         "mechanism": [
           {
-            "title": "Complementary uncertainty signals",
-            "detail": "Heterogeneous UQ scores capture distinct aspects of model confidence (e.g., likelihood, self‑consistency, semantic alignment); the learned classifier weights them to produce a more reliable hallucination probability."
+            "title": "Signal Complementarity",
+            "detail": "The classifier learns to weight complementary uncertainty signals, allowing it to compensate when any single scorer is unreliable across domains or LLM families."
+          },
+          {
+            "title": "Black‑Box Dominance",
+            "detail": "Sampling‑based black‑box ensembles achieve performance nearly identical to full ensembles, indicating that diverse perturbation‑based scores capture most useful information."
           }
         ],
         "experiments": [
           {
-            "title": "Evaluation setup",
-            "detail": "Four LLMs (Gemini‑2.5‑Flash, Gemini‑2.5‑Pro, GPT‑4o, GPT‑4o‑mini) are tested on nine datasets covering math (OpenR1‑Math, BigMath), factual QA (HotpotQA, SimpleQA), reading comprehension (DROP), code generation (LiveCodeBench Python subsets), and long‑form factoid QA (rivers, mushrooms). Ensembles are compared to the best individual scorer (optimistic test‑set selection) using AUROC and Expected Calibration Error (ECE) across 25 stratified 70/30 splits."
+            "title": "Model and Dataset Coverage",
+            "detail": "Four LLMs (Gemini‑2.5‑Flash, Gemini‑2.5‑Pro, GPT‑4o, GPT‑4o‑mini) evaluated on nine datasets: OpenR1‑Math, BigMath, SimpleQA, HotpotQA, DROP, two LiveCodeBench Python subsets, and two FactScore long‑form sets (rivers, mushrooms)."
+          },
+          {
+            "title": "Baselines and Metrics",
+            "detail": "Best individual scorer (AUROC‑optimal) serves as baseline; primary metrics are AUROC and Expected Calibration Error (ECE) across 25 stratified 70/30 train‑test splits."
+          },
+          {
+            "title": "Sample‑Efficiency Study",
+            "detail": "Ensembles trained on subsamples as small as 100 instances (≈0.1N) already surpass the best scorer in most settings, with AUROC gains widening as sample size increases."
+          },
+          {
+            "title": "In‑Domain Transfer",
+            "detail": "Ensembles trained on one dataset within a domain retain superiority in 23 of 28 cross‑dataset transfers, despite distributional shift."
           }
         ],
         "findings": [
           {
-            "title": "In‑distribution superiority",
-            "detail": "With the full training split (0.7N), ensembles beat the best scorer in 30/32 LLM‑dataset settings by AUROC; only BigMath/Gemini‑Flash and SimpleQA/GPT‑4o‑mini are exceptions."
+            "title": "Overall Superiority",
+            "detail": "Ensembles outperform the best individual scorer in 30 of 32 LLM‑dataset settings by AUROC and in 29 of 32 by calibration (ECE)."
           },
           {
-            "title": "Sample efficiency",
-            "detail": "Significant AUROC gains appear with as few as 100 labeled responses, and performance scales smoothly with training size."
+            "title": "Data Efficiency",
+            "detail": "Statistically significant gains appear with as few as 100 labeled responses."
           },
           {
-            "title": "Robustness to distribution shift",
-            "detail": "In‑domain transfer experiments show ensembles retain advantage in 23/28 settings, outperforming the top scorer despite shifted data distributions."
+            "title": "Transfer Robustness",
+            "detail": "Most advantage persists under in‑domain distribution shift, with ensembles beating the top scorer in 23 of 28 transfer experiments."
           },
           {
-            "title": "Black‑box vs. full ensembles",
-            "detail": "Sampling‑based black‑box ensembles achieve nearly identical AUROC to full ensembles, whereas white‑box‑only ensembles provide limited improvement."
+            "title": "White‑Box Limited Benefit",
+            "detail": "White‑box‑only ensembles provide modest improvements compared to black‑box‑only ensembles."
           }
         ],
         "contributions": [
-          "Systematic robustness analysis of supervised UQ ensembles across sample efficiency, in‑domain transfer, and generation regime axes.",
-          "Empirical demonstration that ensembles achieve strong performance with minimal labeled data.",
-          "Comparison of multiple combination strategies (weighted average, logistic regression, random forest, gradient boosting) beyond prior linear weighting."
+          "Systematic robustness analysis of supervised UQ ensembles across sample efficiency, in‑domain transfer, and generation regimes."
         ],
         "limitations": [
-          "Evaluated only on four closed‑weight LLMs from Google and OpenAI; results may not generalize to open‑weight models with internal‑state access.",
-          "Long‑form evaluation limited to two factoid domains (rivers, mushrooms) and claim‑level grading; broader summarization or dialogue tasks are untested.",
-          "Code experiments restricted to Python competitive‑programming problems; other languages and larger codebases are not covered.",
-          "Cross‑domain, cross‑LLM, and cross‑language transfer scenarios remain unexplored."
+          "Closed‑weight model scope: only four proprietary LLMs evaluated; results may not extend to open‑weight models with internal‑state scorers.",
+          "Evaluation scope: limited to short QA, factoid long‑form, and Python code generation; broader tasks (summarization, dialogue) and cross‑domain/LLM transfer remain untested."
         ],
         "open_questions": [
-          "How do ensembles that incorporate internal‑state scorers (e.g., attention maps) perform on open‑weight models?",
-          "What is the degradation pattern when transferring ensembles across domains (e.g., train on math, deploy on factual QA) or across different LLM families?",
-          "Can similar sample‑efficiency gains be achieved for more complex generation tasks such as open‑ended summarization or multi‑turn dialogue?",
-          "What is the optimal trade‑off between sampling‑based black‑box ensembles and potentially cheaper internal‑state methods in terms of inference cost and detection accuracy?"
+          "How do ensembles that incorporate internal‑state or attention‑based scorers perform on open‑weight models?",
+          "Can supervised UQ ensembles generalize across domains (e.g., train on math, deploy to factual QA) or across different LLM families?",
+          "What are the cost‑benefit trade‑offs of sampling‑based black‑box ensembles versus full ensembles in high‑throughput deployment?"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
@@ -467,19 +929,6 @@
         "experiments",
         "formal bound"
       ],
-      "summary": {
-        "evidence": "实验在六种LLM上验证，显示实证安全超过认证界限，但未提供具体数值。",
-        "limitations": "未在摘要中提及具体限制。",
-        "method": "作者通过状态对抗MDP建模对话安全，并提出组合认证和(α,β)-安全持续性机制。",
-        "problem": "现有方法无法处理多轮越狱攻击，导致认证界限随轮数指数级退化。",
-        "takeaway": "MTCR框架通过组合认证和安全持续性机制，实现了比传统方法更优的多轮鲁棒性认证。",
-        "why_for_you": "高效对抗训练中的多轮鲁棒性认证问题。",
-        "source": "abstract",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
       "analysis_status": "pending",
       "recommendation_reason": {
         "topic": "Efficient adversarial training",
@@ -489,6 +938,112 @@
           "robustness"
         ],
         "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "MTCR provides certified multi‑turn safety guarantees for LLMs that are tighter than naive multiplicative bounds and empirically validated on six models.",
+        "problem": "Existing certified robustness methods only handle single‑turn inputs and degrade exponentially when naively extended to multi‑turn jailbreak attacks.",
+        "method": "The authors model conversations as State‑Adversarial MDPs and combine embedding‑space mode decomposition with (α,β)-safety persistence to compute certified k‑turn safety probabilities.",
+        "evidence": "Experiments show certified lower bounds (e.g., ρ̂5=0.55 for GPT‑4o) with empirical safety exceeding them by 0.18–0.30 across static ε‑ball and Crescendo attacks.",
+        "limitations": "The formal guarantees apply only to ε‑bounded (character‑level) perturbations, rely on heuristic clustering, and use a binary safety predicate.",
+        "why_for_you": "If you seek efficient adversarial training or trustworthy LLM evaluation, MTCR offers a certification framework that can inform safety‑aware training objectives.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🛡️",
+            "text": "MTCR introduces compositional certification via embedding‑space mode decomposition, tightening multi‑turn safety bounds versus naive multiplication."
+          },
+          {
+            "icon": "🔧",
+            "text": "(α,β)-safety persistence improves degradation from p^k to β^k, yielding interpretable horizon estimates."
+          },
+          {
+            "icon": "📊",
+            "text": "Certified lower bounds (e.g., ρ̂5=0.55 for GPT‑4o) are consistently below empirical safety by +0.18–+0.30, but only cover ε‑bounded attacks."
+          }
+        ],
+        "overview": "The paper tackles the lack of certified robustness for multi‑turn jailbreak attacks by framing dialogue as a State‑Adversarial MDP. It proposes Multi‑Turn Certified Robustness (MTCR), which leverages embedding‑space mode decomposition to separate intra‑mode safety from inter‑mode transitions, and introduces (α,β)-safety persistence to reduce exponential decay of guarantees. A unified algorithm combines these components, and extensive experiments on six open‑ and closed‑source LLMs demonstrate that MTCR yields the tightest certified bounds while empirical safety remains comfortably higher.",
+        "methodology": [
+          {
+            "title": "SA‑MDP formulation",
+            "detail": "Conversation history is embedded into a state vector; an ε‑bounded adversary selects user messages, and safety is defined by a binary predicate over states."
+          },
+          {
+            "title": "Embedding‑space mode decomposition",
+            "detail": "Safe dialogue embeddings from 500 held‑out conversations are clustered (k‑means, M∈{2,4,8}); per‑mode randomized smoothing estimates intra‑mode safety, and inter‑mode transition costs are bounded."
+          },
+          {
+            "title": "Unified certification algorithm",
+            "detail": "Algorithm 1 computes a compositional lower bound and applies the (α,β)-persistence formula, taking the maximum of component bounds for each horizon k."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "(α,β)-safety persistence",
+            "detail": "If a system satisfies the persistence property, the k‑turn safety guarantee improves from p^k to β^k (β>p), with a linear horizon estimate 1−k(1−β) (Theorem 3.5)."
+          },
+          {
+            "title": "Information‑theoretic tightness",
+            "detail": "Upper bounds are proved for non‑overlapping mode decompositions, showing the compositional approach cannot be substantially improved without additional structure."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Model and attack suite",
+            "detail": "Six LLMs (LLaMA‑2‑7B‑Chat, Vicuna‑7B, Llama‑3.2‑3B, Qwen2.5‑7B‑Instruct, GPT‑4o, Claude‑3.5‑Sonnet) are evaluated under ε‑bounded static edit‑distance attacks (ε∈{3,5,7}) and Crescendo‑style adaptive attacks, using 150 harmful prompts (50 per category) and 100 trials per configuration."
+          },
+          {
+            "title": "Baselines and variants",
+            "detail": "Comparisons include naive multiplicative bound, optimistic reference bound, Persistence‑Only, Compositional‑Only, and the full MTCR combination."
+          },
+          {
+            "title": "Metrics",
+            "detail": "Certified lower bound ρ̂_k and empirical safety (fraction of trials remaining safe) are reported for horizons k∈{5,10,15,20}."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Combined MTCR yields tightest certified bounds",
+            "detail": "Across all horizons, MTCR (max of component bounds) outperforms Persistence‑Only and Compositional‑Only, matching the theoretical tightness results."
+          },
+          {
+            "title": "Empirical safety exceeds certified guarantees",
+            "detail": "Gaps between empirical safety and MTCR range from +0.18 to +0.30, confirming that the bounds are not violated in practice."
+          },
+          {
+            "title": "Mode granularity trade‑off",
+            "detail": "Coarser mode counts (M=2) give higher certified bounds (ρ̂5=0.39) than finer granularity (M=8, ρ̂5=0.25) due to increased overlap κ and transition cost."
+          }
+        ],
+        "contributions": [
+          "MTCR certification framework for multi‑turn LLM safety",
+          "Embedding‑space mode decomposition for compositional certification",
+          "(α,β)-safety persistence theory and horizon analysis",
+          "Information‑theoretic upper bounds establishing tightness",
+          "Empirical evaluation on six production LLMs under static and adaptive attacks"
+        ],
+        "limitations": [
+          "Formal guarantees limited to ε‑bounded (character‑level) perturbations; no provable protection against semantic attacks",
+          "Mode decomposition relies on heuristic k‑means clustering; bound tightness depends on chosen M and overlap κ",
+          "Safety predicate is binary and detector‑dependent; graded harmfulness scores are unsupported",
+          "Certification requires ~2.5 h per open‑source model on a single A100 GPU, limiting real‑time applicability"
+        ],
+        "open_questions": [
+          "How can MTCR be extended to certify against semantic or unrestricted adversarial perturbations?",
+          "Can automated, provably sound mode discovery replace heuristic clustering?",
+          "What modifications are needed to support continuous or graded safety metrics?",
+          "Is it possible to integrate MTCR‑derived certificates into adversarial training pipelines to improve robustness efficiently?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
       },
       "recommended_at": "2026-08-24T10:53:02.352651+00:00"
     },
@@ -1573,523 +2128,6 @@
           "data",
           "mixture",
           "selection"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-24T10:53:02.352651+00:00"
-    },
-    {
-      "id": "2608.23353",
-      "title": "FormuEvo: LLM-Guided Evolution for Discovering Solver-Efficient Mixed-Integer Programming Formulations",
-      "abstract": "Mixed-integer programming (MIP) lies at the core of operations research and industrial optimization. While large language models (LLMs) have recently shown promise in automated MIP modeling from natural language, they prioritize semantic correctness but overlook formulation strength, severely bottlenecking the efficiency of downstream solvers. We propose FormuEvo, an LLM-guided evolutionary framework for automated discovery of solver-efficient MIP formulations. FormuEvo frames MIP formulation design as evolutionary optimization over the symbolic space of MIP formulations, represented as executable modeling programs, by iteratively generating, evaluating, and selecting stronger candidates via LLM-driven crossover, mutation, and repair operations. To move beyond blind exploration, FormuEvo introduces a solver-informed diagnosis mechanism that exploits fine-grained solver statistics as verbal gradients for targeted refinement. Additionally, a structured memory abstracts prior experience into reusable modeling strategies, avoiding redundant exploration while enabling zero-shot transfer to unseen problems and bootstrapping smaller LLMs. Experiments across diverse linear and non-linear problems demonstrate that FormuEvo discovers formulations that significantly outperform both expert-designed formulations and existing LLM-based approaches, accelerating solvers by up to 5.5$\\times$, with distilled knowledge transferring effectively across problems and model scales.",
-      "authors": [
-        "Haofeng Yuan",
-        "Jianing Peng",
-        "Jieyi Bi",
-        "Ni Zhang",
-        "Shiji Song",
-        "Zhiguang Cao"
-      ],
-      "published": "2026-08-24T15:01:28Z",
-      "updated": "2026-08-24T15:01:28Z",
-      "categories": [
-        "cs.CL",
-        "cs.NE"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2608.23353v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.23353v1",
-      "comment": "27 pages, 6 figures, and 9 tables. To appear in the Proceedings of EMNLP 2026",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.5781,
-          "matched": [
-            "llm"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.4283,
-          "matched": [
-            "efficient"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5824,
-        "relevance": 0.5481,
-        "quality": 0.47,
-        "novelty": 0.88,
-        "freshness": 0.8822,
-        "feedback_adjustment": -0.0236,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "experiments",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "FormuEvo uses LLM-driven evolutionary search with solver-informed feedback to automatically discover MIP formulations that run up to 5.5× faster than expert or prior LLM baselines.",
-        "problem": "Existing LLM-based MIP modeling generates semantically correct formulations but ignores formulation strength, leading to poor solver performance.",
-        "method": "The system iteratively evolves executable formulation programs via LLM-powered crossover, mutation, and repair, guided by verbalized solver statistics and a memory of past successful strategies.",
-        "evidence": "Across classical MILP/MINLP benchmarks, FormuEvo achieves the best runtime on most instances and up to 5.5× speedup over the strongest baselines.",
-        "limitations": "Ablations show that removing the solver-informed diagnosis or memory components noticeably worsens runtime, indicating dependence on these modules.",
-        "why_for_you": "If you study LLM loss landscapes, the paper’s use of solver feedback as verbal gradients offers a novel signal for guiding LLM generation, relevant to efficient adversarial training.",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "⚡",
-            "text": "FormuEvo discovers solver‑efficient MIP formulations, attaining up to 5.5× runtime acceleration over expert and LLM baselines."
-          },
-          {
-            "icon": "🔧",
-            "text": "It converts fine‑grained solver statistics into verbal gradients that steer LLM‑driven crossover, mutation, and repair."
-          },
-          {
-            "icon": "📊",
-            "text": "Ablation on TSP hard instances shows runtime rising from 0.1410 to 0.3079 without diagnosis, highlighting the importance of the feedback loop."
-          }
-        ],
-        "overview": "FormuEvo frames MIP formulation design as an evolutionary optimization over executable modeling programs. LLMs act as generators for crossover, mutation, and repair, while a solver‑informed diagnosis module extracts runtime, presolve, root‑gap, and branch‑and‑bound statistics and translates them into verbal gradients that guide the search. A structured memory stores reusable modeling strategies distilled from previous problems, enabling zero‑shot transfer to new instances and bootstrapping smaller LLMs. Experiments on diverse MILP and MINLP benchmarks demonstrate consistent runtime reductions and superior solved‑instance counts compared to expert and prior LLM approaches.",
-        "methodology": [
-          {
-            "title": "Evolutionary Search with LLM Operators",
-            "detail": "FormuEvo maintains a population of executable formulation programs; each generation applies LLM‑driven crossover, mutation, and repair to produce offspring, which are evaluated by a MIP solver."
-          },
-          {
-            "title": "Solver‑Informed Diagnosis",
-            "detail": "Fine‑grained solver statistics (runtime, presolve info, root node gap, B&B node count) are converted into natural‑language gradients that bias the LLM’s generation toward stronger formulations."
-          },
-          {
-            "title": "Structured Memory & Distillation",
-            "detail": "Prior successful formulation patterns are abstracted into a memory store; during generation, the LLM retrieves and adapts these patterns, allowing transfer to unseen problems and smaller LLMs."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Verbal Gradient Feedback",
-            "detail": "The diagnosis LLM interprets quantitative solver metrics as textual instructions (e.g., “tighten LP relaxation”, “reduce symmetry”), which are fed back into the generator LLM to steer mutation and crossover decisions."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Benchmark Evaluation",
-            "detail": "Evaluated on classical MILP/MINLP problems (TSP, JSSP, BPP, CFLP, QAP) and two novel instances; compared against expert formulations (MTZ, SCF, MCF‑RLT), LLM baselines (ORLM, StepORLM, EvoCut), and multiple backbone LLMs (GPT‑5.4‑nano, GPT‑5.4‑mini, Claude‑Sonnet‑4.6, DeepSeek‑V4‑Flash). Metrics: runtime, wins, solved instances."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Runtime Acceleration",
-            "detail": "FormuEvo achieves up to 5.5× faster solving than the best baseline, with the best discovered formulation often attaining the lowest runtime and highest solved count across benchmarks."
-          },
-          {
-            "title": "Component Importance",
-            "detail": "Ablation removing memory or diagnosis degrades performance (e.g., TSP hard runtime increases from 0.1410 to 0.3079), confirming their critical role."
-          },
-          {
-            "title": "Transferability",
-            "detail": "Distilled knowledge enables smaller LLMs (GPT‑5.4‑nano) to converge near the performance of larger models, reducing computational cost."
-          }
-        ],
-        "contributions": [
-          "LLM‑guided evolutionary framework for automated discovery of solver‑efficient MIP formulations.",
-          "Solver‑informed diagnosis that translates fine‑grained solver statistics into verbal gradients for targeted formulation refinement.",
-          "Structured memory that abstracts and transfers modeling strategies across problems and LLM scales."
-        ],
-        "limitations": [
-          "Performance drops noticeably when the solver‑informed diagnosis or memory components are omitted.",
-          "Experiments are limited to a selected set of MILP/MINLP benchmarks; scalability to larger or more complex instances is not demonstrated.",
-          "The approach relies on external LLM APIs and may incur additional latency or cost in practice."
-        ],
-        "open_questions": [
-          "How does FormuEvo scale to very large‑scale MIP instances with thousands of variables and constraints?",
-          "Can the verbal gradient feedback be formalized to provide theoretical guarantees on convergence or formulation strength?",
-          "What impact do different LLM architectures or training regimes have on the quality and diversity of discovered formulations?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-25T10:49:06.180385+00:00"
-    },
-    {
-      "id": "2608.24696",
-      "title": "On-policy Distillation with Verifiable Reward",
-      "abstract": "Reinforcement Learning with Verifiable Rewards (RLVR) and on-policy distillation (OPD) have become two widely adopted paradigms for post-training large language models. However, RLVR suffers from sparse task-level feedback, while OPD provides dense token-level guidance but ignores trajectory correctness, limiting its performance to that of the teacher. Combining them is a promising direction: OPD supplies dense supervisory signals, while RLVR provides task-level correctness. Nevertheless, existing integrations often rely on weighted combination or heuristic switching, introducing extra hyperparameters and trade-offs. We propose On-policy Distillation with Verifiable Reward (OPDVR), a simple yet effective method that seamlessly combines OPD and RLVR without adding any hyperparameters. We first reformulate the implicit reward of sampled-token OPD based on trajectory correctness, then apply a ReLU gating mechanism to ensure that correct trajectories receive non-negative rewards and incorrect ones receive non-positive rewards---thereby aligning the distillation signal with task success while preserving the teacher's distributional guidance. Furthermore, our modification transforms sampled-token OPD into a proper RLVR method, making it readily combinable with any policy gradient algorithm, such as GRPO. Experiments on six reasoning benchmarks show that OPDVR consistently outperforms standard OPD. Our code is available at https://github.com/LeapLabTHU/OPDVR.",
-      "authors": [
-        "Wenze Lin",
-        "Jiale Zhao",
-        "Xitai Jiang",
-        "Songde Rao",
-        "Yining Li",
-        "Shenzhi Wang",
-        "Bingxiang He",
-        "Gao Huang"
-      ],
-      "published": "2026-08-25T15:21:17Z",
-      "updated": "2026-08-25T15:21:17Z",
-      "categories": [
-        "cs.LG",
-        "cs.AI"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2608.24696v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.24696v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "emerging",
-          "score": 0.577,
-          "matched": [
-            "On-policy distillation",
-            "on-policy distillation",
-            "OPD",
-            "distillation",
-            "on-policy",
-            "opd"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.1027,
-          "matched": [
-            "training"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5814,
-        "relevance": 0.4821,
-        "quality": 0.76,
-        "novelty": 0.7177,
-        "freshness": 0.8839,
-        "feedback_adjustment": -0.0256,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "GitHub link",
-        "benchmark evaluation",
-        "experiments"
-      ],
-      "summary": {
-        "limitations": "评估仅限于数学推理基准和单一学生‑教师配对。",
-        "evidence": "在六个推理基准上，OPDVR 的平均准确率为 49.1%，而标准 OPD 为 42.0%，逆向门控变体表现更差。",
-        "method": "OPDVR 重新表述采样‑token OPD 奖励，并使用 ReLU 门控，使正确轨迹的奖励非负，错误轨迹的奖励非正。",
-        "problem": "RLVR 提供稀疏的任务级奖励，而 OPD 给出密集的 token 引导但忽视轨迹正确性，限制了学生模型的表现。",
-        "why_for_you": "鉴于您关注 on‑policy 蒸馏，OPDVR 提供一种无需超参数的方式，在可验证奖励下提升 OPD。",
-        "takeaway": "OPDVR 在 on‑policy 蒸馏中加入简单的 ReLU 门，使其成为可验证奖励方法，并在推理性能上提升且无需额外超参数。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "experiments": [
-          {
-            "title": "基准评估",
-            "detail": "学生模型 Qwen3‑4B 从教师 Qwen3‑4B‑RL 蒸馏；六个推理基准 (AIME24, AIME25, AMC, MATH500, Minerva, OlympiadBench) 使用 avg@16 准确率衡量；基线：标准 OPD 与逆向门控变体；硬件：NVIDIA GeForce RTX 5090 GPU。"
-          }
-        ],
-        "overview": "本文指出采样‑token on‑policy 蒸馏 (OPD) 与可验证奖励强化学习 (RLVR) 之间的不匹配：OPD 的 token 级优势可能与轨迹正确性冲突。OPDVR 通过重新表述 OPD 奖励并加入 ReLU 门，使 token 优势与验证器的二元奖励对齐，从而消除有害的梯度成分。该修改无需额外超参数，可与任意策略梯度算法结合。六个数学推理数据集的实验显示，相比普通 OPD 均有一致提升，验证了门控机制的有效性。",
-        "methodology": [
-          {
-            "title": "奖励重构",
-            "detail": "采样‑token OPD 可表示为二元任务奖励 (+1 或 –1) 乘以教师‑学生对数概率比，暴露出符号不一致的无界问题。"
-          },
-          {
-            "title": "ReLU 门控机制",
-            "detail": "对验证器奖励 R 与 token‑级优势 rt 的乘积使用 ReLU，得到 reward = ReLU(R·rt)；这迫使正确轨迹的 token 奖励为非负，错误轨迹为非正。"
-          },
-          {
-            "title": "与策略梯度的集成",
-            "detail": "门控奖励可直接嵌入标准策略梯度更新（如 GRPO），使 OPDVR 能作为 OPD 的即插即用替代，无需额外的损失加权。"
-          }
-        ],
-        "limitations": [
-          "仅在数学推理基准上评估，缺乏对其他任务的通用性证据",
-          "未对计算开销或训练稳定性进行分析，除已报告的曲线外缺乏进一步评估"
-        ],
-        "findings": [
-          {
-            "title": "性能提升",
-            "detail": "OPDVR 的平均准确率为 49.1%，而 OPD 为 42.0%；逆向门控变体低于 OPD，证实门控的必要性。"
-          }
-        ],
-        "contributions": [
-          "通过 ReLU 门实现 OPD 与 RLVR 的无超参数组合",
-          "理论分析表明 OPDVR 消除与验证器冲突的梯度成分",
-          "在六个数学推理基准上进行实证验证"
-        ],
-        "open_questions": [
-          "OPDVR 在非推理或多模态任务上的表现如何？",
-          "门控机制能否适配二元正确性以外的奖励结构？",
-          "OPDVR 对训练效率和大模型可扩展性的影响是什么？"
-        ],
-        "mechanism": [
-          {
-            "title": "冲突消除",
-            "detail": "门控更新将原始 OPD 梯度分解为无冲突分量 (ΔOPDVR) 与冲突项，后者在投影到验证器梯度上时为非正，确保与可验证奖励对齐。"
-          }
-        ],
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "OPDVR 引入无超参数的 ReLU 门，将采样‑token OPD 转换为合规的 RLVR 方法。"
-          },
-          {
-            "icon": "🔧",
-            "text": "该门控通过对验证信号与 token‑级优势的乘积使用 ReLU，强制正确轨迹的 token 奖励为非负，错误轨迹为非正。"
-          },
-          {
-            "icon": "📈",
-            "text": "OPDVR 在六个推理基准上实现 49.1% 的平均准确率，优于 OPD 的 42.0%，并超越逆向门控变体。"
-          }
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "On-policy distillation",
-        "matched": [
-          "On-policy distillation",
-          "on-policy distillation",
-          "OPD",
-          "distillation"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-26T10:51:18.938084+00:00"
-    },
-    {
-      "id": "2608.20554",
-      "title": "aiXamine: Unified Black-Box Evaluation of Cross-Dimensional Trade-offs in LLM Safety, Security, and Privacy",
-      "abstract": "The critical failure modes in deployed large language models (LLMs) are cross-dimensional: a model can score 99.3 in safety alignment while refusing one in three benign queries, or improve across every capability metric while losing 21 points in privacy. Existing evaluation frameworks that assess safety, security, and privacy independently cannot detect these patterns. We introduce aiXamine, a unified black-box platform that evaluates LLM trustworthiness across safety, security, and privacy as interdependent properties. aiXamine orchestrates 46 tests across nine services through an automated red-teaming pipeline, producing hierarchical risk profiles, from prompt-level diagnostics to cross-service trade-off analytics, that enable reproducible comparison of proprietary and open-weight systems under identical conditions. Applying aiXamine to over 120 LLMs through more than 5,000 test runs, we conduct the largest joint safety, security, and privacy study to date and uncover three cross-dimensional phenomena invisible to single-axis evaluation. First, safety enforcement incurs a quantifiable safety tax: stronger alignment systematically increases over-refusal, forcing providers to choose between protection and utility. Second, privacy is near-orthogonal to other trustworthiness dimensions and not captured by standard alignment. Third, we identify and formally characterize distillation-induced robustness collapse: off-policy distillation without on-policy correction causes entropy collapse, catastrophically destroying robustness (56.9$\\to$2.6) on the same base architecture. These findings, compounded by diminishing returns from scale and category-dependent safety behaviors, demonstrate that trustworthiness is inherently multi-dimensional: progress along one axis does not guarantee, and can actively undermine, progress along others, yet current alignment methods treat it as a single objective.",
-      "authors": [
-        "Fatih Deniz",
-        "Yazan Boshmaf",
-        "Dorde Popovic",
-        "Issa Khalil"
-      ],
-      "published": "2026-08-20T20:33:35Z",
-      "updated": "2026-08-20T20:33:35Z",
-      "categories": [
-        "cs.CR",
-        "cs.LG"
-      ],
-      "primary_category": "cs.CR",
-      "abs_url": "https://arxiv.org/abs/2608.20554v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.20554v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.6167,
-          "matched": [
-            "llm safety",
-            "LLM safety",
-            "robustness",
-            "privacy",
-            "alignment",
-            "safety"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.4466,
-          "matched": [
-            "llm"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.2652,
-          "matched": [
-            "robustness"
-          ]
-        },
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "emerging",
-          "score": 0.2624,
-          "matched": [
-            "distillation",
-            "on-policy"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5555,
-        "relevance": 0.6357,
-        "quality": 0.49,
-        "novelty": 0.2,
-        "freshness": 0.4862,
-        "feedback_adjustment": -0.008,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "reproducibility",
-        "quantitative results"
-      ],
-      "summary": {
-        "evidence": "Distillation-induced robustness collapse shows entropy collapse from 56.9 to 2.6 on the same base architecture.",
-        "limitations": "Black-box evaluation limits direct insight into internal model mechanisms.",
-        "method": "aiXamine orchestrates 46 tests across nine services via an automated red-teaming pipeline to produce hierarchical risk profiles.",
-        "problem": "Existing frameworks fail to detect cross-dimensional failure modes where improvements in one trustworthiness dimension harm others.",
-        "takeaway": "aiXamine introduces a unified black-box platform to evaluate cross-dimensional trade-offs in LLM safety, security, and privacy.",
-        "why_for_you": "Researchers studying LLM loss landscapes and adversarial training will find the distillation-induced robustness collapse mechanism and cross-dimensional trade-off analysis directly relevant.",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "contributions": [
-          "Unified black-box evaluation framework for LLM safety, security, and privacy",
-          "Identification of three cross-dimensional phenomena invisible to single-axis evaluation",
-          "Formal characterization of distillation-induced robustness collapse"
-        ],
-        "experiments": [
-          {
-            "detail": "121 LLMs (proprietary and open-weight) tested across 46 services with 5,000+ test runs, including frontier models (GPT-5, Gemini 3, Claude-4.5) and open-weight families (Llama-3.x, Qwen3.5, Gemma4)",
-            "title": "Large-scale LLM evaluation"
-          }
-        ],
-        "findings": [
-          {
-            "detail": "Safety enforcement increases over-refusal (99.3 safety score with 1/3 benign query rejections); privacy is orthogonal to other dimensions; distillation causes 56.9→2.6 robustness collapse",
-            "title": "Cross-dimensional trade-offs"
-          }
-        ],
-        "limitations": [
-          "Black-box approach limits insight into internal model mechanisms",
-          "Coverage of nine services may not capture all trustworthiness dimensions"
-        ],
-        "mechanism": [
-          {
-            "detail": "Off-policy distillation without on-policy correction causes entropy collapse, reducing robustness from 56.9 to 2.6 on the same base architecture",
-            "title": "Distillation-induced robustness collapse"
-          }
-        ],
-        "methodology": [
-          {
-            "detail": "Coordinates 46 tests across nine services (adversarial robustness, code security, fairness, hallucination, jailbreak resistance, model/data privacy, OOD robustness, over-refusal, safety alignment) to generate hierarchical risk profiles",
-            "title": "Automated red-teaming pipeline"
-          },
-          {
-            "detail": "Standardized tests applied to both proprietary (API access) and open-weight (containerized deployments) models under identical inference conditions",
-            "title": "Black-box evaluation framework"
-          }
-        ],
-        "open_questions": [
-          "How to mitigate distillation-induced robustness collapse while maintaining alignment",
-          "What alignment strategies can address cross-dimensional trade-offs without compromising multiple trustworthiness dimensions"
-        ],
-        "overview": "This paper presents aiXamine, a black-box platform that reveals cross-dimensional trade-offs in LLM trustworthiness through 46 tests across nine services. It identifies three key phenomena: safety enforcement causing over-refusal (safety tax), privacy's near-orthogonality to other dimensions, and distillation-induced robustness collapse. The study evaluates 120 LLMs with 5,000 test runs, demonstrating that trustworthiness is inherently multi-dimensional and current alignment methods inadequately address this complexity.",
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "aiXamine's unified black-box evaluation of 46 tests across nine services"
-          },
-          {
-            "icon": "⚙️",
-            "text": "Automated red-teaming pipeline with hierarchical risk profiles"
-          },
-          {
-            "icon": "📊",
-            "text": "56.9→2.6 robustness collapse from distillation-induced entropy collapse"
-          }
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "en",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "llm safety",
-          "LLM safety",
-          "robustness",
-          "privacy"
         ],
         "lane": "llm"
       },
