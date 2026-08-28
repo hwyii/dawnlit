@@ -1,6 +1,545 @@
 {
-  "generated_at": "2026-08-27T20:30:01.195934+00:00",
+  "generated_at": "2026-08-28T21:10:49.916182+00:00",
   "papers": [
+    {
+      "id": "conf:acl:2026:3565-main",
+      "title": "Understanding and Mitigating Bias Inheritance in LLM-based Data Augmentation on Downstream Tasks",
+      "abstract": "Generating synthetic datasets via large language models (LLMs) has emerged as a promising approach to improve LLM performance. However, LLMs inherently reflect biases in their training data, leading to a critical challenge: when models are trained on synthetic data, they may propagate and amplify the inherent biases that can significantly impact fairness and robustness on downstream tasks—a phenomenon we term bias inheritance. This work presents the first systematic investigation in understanding, analyzing, and mitigating bias inheritance. We fine-tune LLMs with a combined dataset of real and LLM-augmented data with varied bias ratio as the proportion of augmented data. Through systematic experiments across 10 classification and generation tasks, we analyze how 6 different types of biases manifest. Our results indicate that bias inheritance harms downstream task performance in bias directly-related classification and generation tasks. Then, our analysis identifies three key misalignment factors: misalignment of values, group data, and data distributions. Based on these insights, we propose three mitigation strategies: token-based, mask-based, and loss-based approaches, which can work differently on various tasks and bias, indicating the substantial challenges to mitigate bias inheritance. We hope this work can provide insights to the research of LLM data augmentation.",
+      "authors": [
+        "Miaomiao Li",
+        "Hao Chen",
+        "Yang Wang",
+        "Tingyuan Zhu",
+        "Weijia Zhang",
+        "Kaijie Zhu",
+        "Kam-Fai Wong",
+        "Jindong Wang"
+      ],
+      "published": "2026-01-01T00:00:00Z",
+      "updated": "2026-01-01T00:00:00Z",
+      "categories": [
+        "ACL 2026",
+        "Oral"
+      ],
+      "primary_category": "ACL 2026",
+      "abs_url": "https://2026.aclweb.org/program/",
+      "pdf_url": "https://2026.aclweb.org/program/",
+      "comment": "",
+      "journal_ref": "ACL 2026 Oral",
+      "source": "conference",
+      "venue": "ACL",
+      "presentation": "Oral",
+      "conference_year": 2026,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.6441,
+          "matched": [
+            "llm",
+            "loss"
+          ]
+        },
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.5257,
+          "matched": [
+            "training data",
+            "data"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4303,
+          "matched": [
+            "robustness",
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.2596,
+          "matched": [
+            "training",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.7419,
+        "relevance": 0.7065,
+        "quality": 0.75,
+        "novelty": 0.8266,
+        "freshness": 1.0,
+        "feedback_adjustment": -0.0187,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "experiments",
+        "dataset evidence",
+        "quantitative results",
+        "publication metadata",
+        "conference oral"
+      ],
+      "summary": {
+        "takeaway": "LLM 生成的合成数据中的偏见可能被继承并放大，损害下游公平性，且缓解并非易事。",
+        "evidence": "在 10 项分类和生成任务上的实验表明，偏见继承会降低偏见相关任务的性能。",
+        "limitations": "缓解策略在不同任务和偏见上的效果差异显著，表明面临巨大挑战。",
+        "method": "在混合真实与合成数据、不同偏见比例下微调 LLM，并评估基于 token、mask 和 loss 的缓解策略。",
+        "why_for_you": "对研究数据选择和可信 LLM 有重要意义，因为它揭示了合成增强中的偏见风险。",
+        "problem": "LLM 增强的训练数据将固有偏见传播至下游任务（偏见继承）。",
+        "source": "abstract",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "首次系统性研究 LLM 数据增强中偏见继承，覆盖 10 项任务和 6 类偏见。"
+          },
+          {
+            "icon": "⚙️",
+            "text": "提出基于 token、mask 和 loss 的缓解方法，以解决偏见错位。"
+          },
+          {
+            "icon": "📊",
+            "text": "研究发现偏见继承损害下游性能，但缓解效果因任务和偏见而异。"
+          }
+        ],
+        "overview": "本文研究了大型语言模型生成的合成数据如何继承并放大训练数据偏见（称为偏见继承）。通过在真实与 LLM 增强数据的混合数据集上进行微调并控制偏见比例，作者在十个分类和生成基准上考察了六类偏见。文中指出三种错位因素——价值观、群体数据和数据分布——并提出三种缓解策略（基于 token、mask、loss）。结果显示偏见相关任务性能下降，且缓解效果差异显著，凸显彻底解决偏见继承的难度。",
+        "methodology": [
+          {
+            "title": "Bias‑ratio 控制的微调",
+            "detail": "在真实与合成数据的混合上对 LLM 进行微调，改变增强数据（bias ratio）的比例，以研究其对下游性能的影响。"
+          },
+          {
+            "title": "缓解策略设计",
+            "detail": "提出三种方法：基于 token 的（调整 token 表示）、基于 mask 的（修改注意力掩码）和基于 loss 的（改变损失函数），用于抵消已识别的错位。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "错位因素",
+            "detail": "偏差继承源于真实与合成语料库之间在价值观、群体数据和整体数据分布上的错位。"
+          },
+          {
+            "title": "缓解机制",
+            "detail": "基于 token 的方法旨在重新加权有偏 token，基于 mask 的方法限制有偏注意力模式，基于 loss 的方法在训练中惩罚有偏预测。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "任务套件与偏差分类法",
+            "detail": "评估了十个 classification 和 generation 任务，涵盖六种不同的 bias 类型；系统性地改变 bias ratios，以观察 inheritance effects。"
+          },
+          {
+            "title": "mitigation 评估",
+            "detail": "在任务套件中应用每种 mitigation 策略，测量 downstream performance 的变化，以评估其在各 bias 和任务上的有效性。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "Bias inheritance 降低性能",
+            "detail": "在与 bias 直接相关的 classification 和 generation 任务中，较高的 synthetic bias ratios 导致 downstream accuracy 和 fairness metrics 可测量的下降。"
+          },
+          {
+            "title": "异构 mitigation 结果",
+            "detail": "Token‑、mask‑、和 loss‑based 方法在部分 bias‑task 组合上提升 performance，但在其他组合上失效或出现回退，凸显 task‑specific 挑战。"
+          }
+        ],
+        "contributions": [
+          "系统性研究 LLM 生成的合成数据中的偏差继承。",
+          "识别导致偏差传播的三个关键错位因素。",
+          "提出三种缓解策略（基于 token、基于 mask、基于 loss）。"
+        ],
+        "limitations": [
+          "缓解策略在不同任务和偏差类型上的效果差异显著，表明普遍解决偏差继承面临重大挑战。"
+        ],
+        "open_questions": [
+          "如何统一缓解技术，以在多样任务中持续降低偏差继承？",
+          "哪些定量指标最能衡量合成数据集中的偏差继承程度？",
+          "能否将偏差感知的数据选择标准整合到 LLM 增强流水线中，以预先限制偏差传播？"
+        ],
+        "source_scope": "abstract",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm",
+          "loss"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-28T21:10:49.916182+00:00"
+    },
+    {
+      "id": "conf:acl:2026:4244-main",
+      "title": "User Perceptions vs. Proxy LLM Judges: Privacy and Helpfulness in LLM Responses to Privacy-Sensitive Scenarios",
+      "abstract": "Large language models (LLMs) are rapidly being adopted for tasks like drafting emails, summarizing meetings, and answering health questions. In these settings, users may need to share private information (e.g., contact details, health records). To evaluate LLMs' ability to identify and redact such information, prior work introduced real-life, scenario-based benchmarks (e.g., ConfAIde, PrivacyLens) and found that LLMs can leak private information in complex scenarios. However, these evaluations relied on proxy LLMs to judge the helpfulness and privacy-preservation quality of LLM responses, rather than directly measuring users' perceptions. To understand how users perceive the helpfulness and privacy-preservation quality of LLM responses to privacy-sensitive scenarios, we conducted a user study ($n=94$) using 90 PrivacyLens scenarios. We found that users had low agreement with each other when evaluating identical LLM responses. In contrast, five proxy LLMs reached high agreement, yet each proxy LLM had low correlation with users' evaluations. These results indicate that proxy LLMs cannot accurately estimate users' wide range of perceptions of utility and privacy in privacy-sensitive scenarios. We discuss the need for more user-centered studies to measure LLMs' ability to help users while preserving privacy, and for improving alignment between LLMs and users in estimating perceived privacy and utility.",
+      "authors": [
+        "Xiaoyuan Wu",
+        "Roshni Kaushik",
+        "Wenkai Li",
+        "Lujo Bauer",
+        "Koichi Onoue"
+      ],
+      "published": "2026-01-01T00:00:00Z",
+      "updated": "2026-01-01T00:00:00Z",
+      "categories": [
+        "ACL 2026",
+        "Oral"
+      ],
+      "primary_category": "ACL 2026",
+      "abs_url": "https://2026.aclweb.org/program/",
+      "pdf_url": "https://2026.aclweb.org/program/",
+      "comment": "",
+      "journal_ref": "ACL 2026 Oral",
+      "source": "conference",
+      "venue": "ACL",
+      "presentation": "Oral",
+      "conference_year": 2026,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.7339,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.6092,
+          "matched": [
+            "privacy",
+            "alignment",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.7413,
+        "relevance": 0.709,
+        "quality": 0.72,
+        "novelty": 0.8652,
+        "freshness": 1.0,
+        "feedback_adjustment": -0.0118,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "quantitative results",
+        "publication metadata",
+        "conference oral"
+      ],
+      "summary": {
+        "takeaway": "代理 LLM 评审无法预测用户在隐私敏感情境下对隐私和有用性的感知。",
+        "evidence": "用户间评审一致性低，而五个代理 LLM 的一致性高，但与用户评分相关性低。",
+        "limitations": "缺乏对 90 PrivacyLens 场景之外的泛化证据。",
+        "method": "对 94 名参与者进行的用户研究，评估 90 个 PrivacyLens 场景下 LLM 响应的隐私性和实用性。",
+        "why_for_you": "对可信 LLM 研究重要，因为它揭示了基于模型的代理与人类隐私判断之间的不一致。",
+        "problem": "当前评估依赖代理 LLM，而非直接测量用户对隐私保护 LLM 行为的判断。",
+        "source": "abstract",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "overview": "本文探讨代理 LLM 评审能否替代人类对 LLM 生成响应的隐私和实用性评估。通过招募 94 名参与者对 90 个真实 PrivacyLens 场景的响应进行评分，作者测量用户间的一致性并与五个代理 LLM 的共识比较。结果显示人类意见分歧显著，代理模型内部一致却与人类判断偏离，凸显当前评估实践的缺口并推动以用户为中心的评估方法。",
+        "open_questions": [
+          "如何设计评估指标以捕捉用户对隐私感知的广泛差异？",
+          "哪些方法能使代理 LLM 判断与隐私敏感情境下多样的人类判断保持一致？"
+        ],
+        "limitations": [
+          "缺乏对 90 PrivacyLens 场景之外的泛化证据。"
+        ],
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "代理 LLM 评审在 90 个 PrivacyLens 场景（94 名用户）中对隐私和有用性的人工判断预测效果差。"
+          },
+          {
+            "icon": "🔧",
+            "text": "进行用户研究，对 LLM 响应的隐私和实用性进行评分，并将用户间一致性与五个代理 LLM 进行比较。"
+          },
+          {
+            "icon": "📊",
+            "text": "用户一致性低（低的 inter‑rater 相关），而代理 LLM 一致性高但与用户相关性低。"
+          }
+        ],
+        "methodology": [
+          {
+            "title": "User Study Design",
+            "detail": "94 名参与者分别评估 90 个 PrivacyLens 场景下的 LLM 响应，给出对隐私保护和有用性的感知评分。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Misalignment Between Proxy and Human Judgments",
+            "detail": "代理 LLM 在内部产生一致评分，但这些评分与多样的人类评估相关性差，表明存在系统性评估偏差。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Evaluation of Proxy LLMs vs. Human Ratings",
+            "detail": "五个代理 LLM 对相同响应生成判断；计算了代理之间的一致性以及与人类评分的相关性。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "Low Human Agreement",
+            "detail": "人类参与者对相同 LLM 响应的评分一致性低。"
+          },
+          {
+            "title": "High Proxy Agreement, Low Correlation",
+            "detail": "代理 LLM 达到高内部一致性，但与人类评估的相关性低。"
+          }
+        ],
+        "contributions": [
+          "提供实证表明代理 LLM 评审未能反映用户对隐私和实用性的感知。"
+        ],
+        "source_scope": "abstract",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-28T21:10:49.916182+00:00"
+    },
+    {
+      "id": "conf:icml:2026:71030",
+      "title": "OPUS: Towards Efficient and Principled Data Selection in Large Language Model Pre-training in Every Iteration",
+      "abstract": "As high-quality public text approaches exhaustion, a phenomenon known as the Data Wall—LLM pre-training is shifting from more tokens to better tokens. However, existing methods either rely on heuristic static filters that ignore training dynamics, or use dynamic yet optimizer-agnostic criteria based on raw gradients. We propose OPUS (Optimizer-induced Projected Utility Selection), a dynamic framework that defines utility in the optimizer-induced update space. OPUS scores candidates by projecting their effective updates, shaped by modern optimizers, onto a target direction derived from a stable, in-distribution proxy. To ensure scalability, we employ Ghost technique with CountSketch for computational efficiency, and Boltzmann sampling for data diversity, incurring only 4.7% additional compute overhead. OPUS achieves remarkable results across diverse corpora, quality tiers, optimizers, and model scales. It also outperforms previous data selection methods across different stages of training, including from-scratch pre-training and also mid-training. Beyond online selection, the OPUS utility score also demonstrates potential as a static filter for flagging and removing toxic documents from contaminated training corpora prior to training.",
+      "authors": [
+        "Shaobo Wang",
+        "Xuan Ouyang",
+        "Tianyi Xu",
+        "Yuzheng Hu",
+        "Jialin Liu",
+        "Guo Chen",
+        "Tianyu Zhang",
+        "Junhao Zheng",
+        "Kexin Yang",
+        "Xingzhang Ren",
+        "Dayiheng Liu",
+        "Linfeng Zhang"
+      ],
+      "published": "2026-01-01T00:00:00Z",
+      "updated": "2026-01-01T00:00:00Z",
+      "categories": [
+        "ICML 2026",
+        "Oral"
+      ],
+      "primary_category": "ICML 2026",
+      "abs_url": "https://icml.cc/virtual/2026/oral/71030",
+      "pdf_url": "https://icml.cc/virtual/2026/oral/71030",
+      "comment": "",
+      "journal_ref": "ICML 2026 Oral",
+      "source": "conference",
+      "venue": "ICML",
+      "presentation": "Oral",
+      "conference_year": 2026,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.6968,
+          "matched": [
+            "data selection",
+            "sampling",
+            "data",
+            "selection"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.6931,
+          "matched": [
+            "efficient",
+            "training"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.1286,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.7352,
+        "relevance": 0.7218,
+        "quality": 0.65,
+        "novelty": 0.8605,
+        "freshness": 1.0,
+        "feedback_adjustment": -0.0168,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "quantitative results",
+        "publication metadata",
+        "conference oral"
+      ],
+      "summary": {
+        "takeaway": "OPUS 通过将 optimizer‑induced 更新投影到 target direction，高效选择更高效用的训练标记。",
+        "evidence": "OPUS 在语料库、optimizers 和模型规模上均优于已有 data‑selection 方法，且仅增加 4.7% 的计算开销。",
+        "limitations": "在可得来源中未说明。",
+        "method": "OPUS 通过使用 Ghost、CountSketch 和 Boltzmann 采样，将现代优化器塑造的有效更新投影到由稳定分布代理得到的方向上，为每个候选项打分。",
+        "why_for_you": "如果您需要利用训练动态和 optimizer 行为的 data‑selection 方法以实现高效 LLM pre‑training，则本研究相关。",
+        "problem": "Data Wall 限制了 LLM pre‑training，因为高质量公共文本已枯竭，且现有过滤器忽视训练动态或对 optimizer‑agnostic 不敏感。",
+        "source": "abstract",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "OPUS 引入了动态、optimizer‑aware 的数据选择框架，通过投影效用为训练样本打分。"
+          },
+          {
+            "icon": "🗂️",
+            "text": "OPUS 使用 Ghost 技术结合 CountSketch 与 Boltzmann 采样，将 optimizer‑shaped 的有效更新投影到 target direction。"
+          },
+          {
+            "icon": "📈",
+            "text": "OPUS 仅增加 4.7% 的计算开销，却在语料库、optimizers 和模型规模上实现更佳性能。"
+          }
+        ],
+        "overview": "OPUS 通过在 optimizer‑induced 更新空间定义效用来应对 Data Wall。它利用现代优化器计算的有效更新，将其投影到由稳定分布代理得到的 target direction 上，为每个候选标记计算效用分数。通过 Ghost 技术结合 CountSketch 实现可扩展性，并使用 Boltzmann 采样保持数据多样性。跨不同语料库、质量层级、optimizers 和模型规模的实验表明，相比现有静态和动态选择方法，OPUS 能持续提升性能，且仅带来约 4.7% 的计算增量。该效用分数亦可用作有害数据的静态过滤器。",
+        "methodology": [
+          {
+            "title": "Utility Scoring via Projection",
+            "detail": "每个候选的有效更新（由 optimizer 产生）被投影到反映稳定分布内 proxy 的目标方向上，得到标量效用分数。"
+          },
+          {
+            "title": "可扩展计算",
+            "detail": "Ghost 技术结合 CountSketch 高效近似投影，实现每次迭代评分而不会产生过大开销。"
+          },
+          {
+            "title": "通过 Boltzmann 采样实现多样性",
+            "detail": "效用分数通过 Boltzmann 分布转化为选择概率，既保证数据多样性，又倾向于高效用样本。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "优化器诱导的更新空间",
+            "detail": "现代优化器（如 Adam）生成的更新定义了一个向量空间；OPUS 利用该空间捕获原始梯度方法中缺失的训练动态。"
+          },
+          {
+            "title": "来自稳定代理的目标方向",
+            "detail": "稳定的分布内数据集提供参考方向；将更新投影到该方向上可衡量与期望学习信号的对齐程度。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "实证评估",
+            "detail": "在多个覆盖不同质量层级的语料库上评估 OPUS，使用多种优化器和模型规模，涵盖从头 pre‑training 和 mid‑training 阶段；并与之前的 static filters 和 dynamic gradient‑based selectors 进行比较。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "性能提升",
+            "detail": "在所有设置下，OPUS 始终优于以往 data selection methods，展示了对语料类型、优化器选择和模型规模的鲁棒性。"
+          },
+          {
+            "title": "计算效率",
+            "detail": "OPUS 额外的计算成本限制在每次 training iteration 的 4.7%。"
+          },
+          {
+            "title": "静态过滤能力",
+            "detail": "OPUS utility score 可 offline 用于标记并在 training 前移除 toxic documents。"
+          }
+        ],
+        "contributions": [
+          "Dynamic optimizer‑aware 投影效用的数据选择。",
+          "使用 Ghost 技术和 CountSketch 的可扩展投影。",
+          "展示 utility score 作为静态 toxic‑data 过滤器。"
+        ],
+        "limitations": [
+          "在可用来源中未说明。"
+        ],
+        "open_questions": [
+          "OPUS 在极大模型（例如 >10B 参数）和海量 token 池上的可扩展性如何？",
+          "不同的 stable in‑distribution 代理选择对 utility 估计的影响是什么？",
+          "OPUS 对 optimizer 超参数以及 Ghost/CountSketch 近似细节的敏感性如何？"
+        ],
+        "source_scope": "abstract",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Data selection for LLMs",
+        "matched": [
+          "data selection",
+          "sampling",
+          "data",
+          "selection"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-28T21:10:49.916182+00:00"
+    },
     {
       "id": "conf:acl:2026:1334-main",
       "title": "A Goal Without a Plan Is Just a Wish: Efficient and Effective Global Planner Training for Long-Horizon Agent Task",
@@ -539,12 +1078,12 @@
         "lane": "llm"
       },
       "summary": {
-        "takeaway": "Supervised ensembles of heterogeneous UQ scores substantially improve hallucination detection across LLMs, needing only ~100 labeled examples.",
-        "problem": "Detecting hallucinations in closed‑book LLM outputs without external references.",
-        "method": "Train a classifier on multiple UQ scorer outputs (black‑box, white‑box, reflexive) to predict hallucination labels.",
-        "evidence": "Ensembles outperform the best individual scorer in 30/32 settings by AUROC and in 23/28 transfer settings, with gains from as few as 100 labeled instances.",
-        "limitations": "Study is limited to four closed‑weight LLMs, specific domains, and does not assess cross‑domain or open‑weight model ensembles.",
-        "why_for_you": "Matches your interest in trustworthy LLMs by showing a data‑efficient way to boost hallucination detection.",
+        "takeaway": "Supervised ensembles of heterogeneous UQ scorers consistently improve closed‑book hallucination detection across LLMs and tasks.",
+        "problem": "Detecting hallucinations in LLM outputs without retrieval or reference documents.",
+        "method": "Train a classifier (e.g., logistic regression, random forest, gradient boosting) on a small labeled set of UQ scorer outputs spanning black‑box, white‑box, and reflexive signals.",
+        "evidence": "Ensembles beat the best individual scorer in 30 of 32 settings by AUROC and retain advantage in 23 of 28 transfer settings, with gains from as few as 100 labeled instances.",
+        "limitations": "Study is limited to four closed‑weight LLMs, narrow domains, and does not evaluate open‑weight models or cross‑domain transfer.",
+        "why_for_you": "Matches your interest in trustworthy LLMs by showing sample‑efficient, robust hallucination detection via UQ ensembles.",
         "source": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
         "language": "en",
@@ -555,89 +1094,96 @@
         "signals": [
           {
             "icon": "💡",
-            "text": "Supervised UQ ensembles beat the best individual scorer in 30 of 32 settings, achieving AUROC gains with as few as 100 labeled examples."
+            "text": "Supervised UQ ensembles outperform the best individual scorer in 30 of 32 evaluated settings."
           },
           {
             "icon": "⚙️",
-            "text": "Ensemble trains a classifier (logistic regression, random forest, gradient boosting) over 30+ black‑box, white‑box, and reflexive UQ scores, evaluated across sample sizes and transfer conditions."
+            "text": "Ensemble classifier trained on heterogeneous black‑box, white‑box, and reflexive scorer outputs, effective with ≥100 labeled examples."
           },
           {
             "icon": "⚠️",
-            "text": "Across four LLMs and nine datasets, ensembles retain advantage in 23 of 28 distribution‑shift transfers, but study is limited to closed‑weight models and narrow domains."
+            "text": "Results confined to four closed‑source LLMs and limited domains; open‑weight models and cross‑domain transfer remain untested."
           }
         ],
-        "overview": "The paper presents a supervised ensembling framework that learns a classifier over a heterogeneous set of uncertainty quantification (UQ) scorers to detect hallucinations in closed‑book LLM outputs. It systematically evaluates robustness along three axes—sample efficiency, in‑domain transfer under distribution shift, and generation‑regime dependence—using four LLMs, nine benchmarks, and three generation formats (short QA, long‑form, code). Results show consistent AUROC and calibration improvements over the strongest single scorer, even with as few as 100 labeled examples, while highlighting limitations to closed‑weight models and specific task domains.",
+        "overview": "The paper investigates a supervised ensembling framework that learns to combine a diverse set of uncertainty quantification (UQ) signals for hallucination detection in closed‑book LLM generation. Across four LLMs, nine benchmarks, and three generation regimes (short‑form QA, long‑form, code), the authors evaluate sample efficiency, in‑domain transfer, and access‑constrained variants. Ensembles consistently surpass the strongest single scorer, achieving notable gains with as few as 100 labeled responses, and black‑box‑only ensembles approach full‑ensemble performance. Limitations include a narrow model and task scope, leaving open questions about broader applicability.",
         "methodology": [
           {
-            "title": "Scorer Collection",
-            "detail": "Aggregates 30+ UQ scores spanning black‑box (e.g., self‑consistency, NLI), white‑box (token probabilities, entropy), and reflexive (model‑generated confidence) families, with access flags indicating token‑probability requirements."
+            "title": "Ensemble inputs",
+            "detail": "A collection of 30 UQ scorers (e.g., token probability statistics, consistency measures, self‑reflection confidence, graph‑based claim centrality) grouped by access (white‑box vs. black‑box) and generation regime."
           },
           {
-            "title": "Classifier Training",
-            "detail": "Trains logistic regression, random forest, or gradient boosting models on labeled UQ score vectors; training subsets range from 0.1N to 0.7N of the available domain‑specific data."
+            "title": "Classifier training",
+            "detail": "Logistic regression, random forest, and gradient boosting models are trained on vectors of scorer outputs; training subsets range from 0.1N to 0.7N of the labeled data, where N is the dataset size."
           },
           {
-            "title": "Combination Strategies",
-            "detail": "Evaluates weighted averaging, full supervised ensembles, and sampling‑based black‑box ensembles; compares against an optimistic test‑set‑selected best individual scorer."
+            "title": "Evaluation protocol",
+            "detail": "For each domain, 25 stratified 70/30 train‑test splits are generated; AUROC and expected calibration error (ECE) are reported with 95% confidence intervals."
           }
         ],
         "mechanism": [
           {
-            "title": "Signal Complementarity",
-            "detail": "The classifier learns to weight complementary uncertainty signals, allowing it to compensate when any single scorer is unreliable across domains or LLM families."
+            "title": "Signal integration",
+            "detail": "The classifier learns weighted combinations of heterogeneous UQ scores, allowing it to exploit complementary information (e.g., token‑level entropy vs. self‑consistency) that single scorers cannot capture."
           },
           {
-            "title": "Black‑Box Dominance",
-            "detail": "Sampling‑based black‑box ensembles achieve performance nearly identical to full ensembles, indicating that diverse perturbation‑based scores capture most useful information."
+            "title": "Robustness to scarcity",
+            "detail": "Even with 100 labeled instances, the learned weighting yields measurable AUROC improvements, indicating that the UQ feature space provides strong discriminative signal."
           }
         ],
         "experiments": [
           {
-            "title": "Model and Dataset Coverage",
-            "detail": "Four LLMs (Gemini‑2.5‑Flash, Gemini‑2.5‑Pro, GPT‑4o, GPT‑4o‑mini) evaluated on nine datasets: OpenR1‑Math, BigMath, SimpleQA, HotpotQA, DROP, two LiveCodeBench Python subsets, and two FactScore long‑form sets (rivers, mushrooms)."
+            "title": "Model and dataset coverage",
+            "detail": "LLMs: Gemini‑2.5‑Flash, Gemini‑2.5‑Pro, GPT‑4o, GPT‑4o‑mini. Datasets: OpenR1‑Math, BigMath, HotpotQA, SimpleQA, DROP, LiveCodeBench (Python), FactScore‑Rivers, FactScore‑Mushrooms."
           },
           {
-            "title": "Baselines and Metrics",
-            "detail": "Best individual scorer (AUROC‑optimal) serves as baseline; primary metrics are AUROC and Expected Calibration Error (ECE) across 25 stratified 70/30 train‑test splits."
+            "title": "Baselines and metrics",
+            "detail": "Best individual scorer (optimistic test‑set selection) serves as baseline; primary metrics are AUROC and calibration error (ECE)."
           },
           {
-            "title": "Sample‑Efficiency Study",
-            "detail": "Ensembles trained on subsamples as small as 100 instances (≈0.1N) already surpass the best scorer in most settings, with AUROC gains widening as sample size increases."
+            "title": "Sample‑efficiency study",
+            "detail": "Ensembles trained on subsamples from 0.1N to 0.7N; gains appear as early as 100 labeled examples."
           },
           {
-            "title": "In‑Domain Transfer",
-            "detail": "Ensembles trained on one dataset within a domain retain superiority in 23 of 28 cross‑dataset transfers, despite distributional shift."
+            "title": "In‑domain transfer",
+            "detail": "Ensembles trained on one dataset within a domain and evaluated on another (e.g., Math→Math) retain advantage in 23 of 28 transfer settings."
+          },
+          {
+            "title": "Access‑constrained ablations",
+            "detail": "Black‑box‑only ensembles (no token‑probability access) achieve near‑full performance; white‑box‑only ensembles provide limited benefit."
           }
         ],
         "findings": [
           {
-            "title": "Overall Superiority",
-            "detail": "Ensembles outperform the best individual scorer in 30 of 32 LLM‑dataset settings by AUROC and in 29 of 32 by calibration (ECE)."
+            "title": "Overall superiority",
+            "detail": "Ensembles outperform the best individual scorer in 30/32 settings by AUROC and in 29/32 by calibration."
           },
           {
-            "title": "Data Efficiency",
-            "detail": "Statistically significant gains appear with as few as 100 labeled responses."
+            "title": "Low‑label effectiveness",
+            "detail": "Statistically significant AUROC gains are observed with as few as 100 labeled responses."
           },
           {
-            "title": "Transfer Robustness",
-            "detail": "Most advantage persists under in‑domain distribution shift, with ensembles beating the top scorer in 23 of 28 transfer experiments."
+            "title": "Transfer robustness",
+            "detail": "Ensembles maintain most of their in‑distribution advantage under distribution shift, beating the best scorer in 23/28 transfer cases."
           },
           {
-            "title": "White‑Box Limited Benefit",
-            "detail": "White‑box‑only ensembles provide modest improvements compared to black‑box‑only ensembles."
+            "title": "Black‑box efficiency",
+            "detail": "Sampling‑based black‑box ensembles are nearly as effective as full ensembles that also use white‑box signals."
           }
         ],
         "contributions": [
-          "Systematic robustness analysis of supervised UQ ensembles across sample efficiency, in‑domain transfer, and generation regimes."
+          "Systematic robustness analysis of supervised UQ ensembles across sample size, domain shift, and generation regime.",
+          "Demonstration that black‑box‑only ensembles can match full ensembles, reducing inference cost.",
+          "Empirical evidence that ensembles require minimal labeled data to surpass individual UQ scorers."
         ],
         "limitations": [
-          "Closed‑weight model scope: only four proprietary LLMs evaluated; results may not extend to open‑weight models with internal‑state scorers.",
-          "Evaluation scope: limited to short QA, factoid long‑form, and Python code generation; broader tasks (summarization, dialogue) and cross‑domain/LLM transfer remain untested."
+          "Evaluated only four closed‑weight LLMs from Google and OpenAI; results may not generalize to open‑weight models.",
+          "Long‑form evaluation limited to two factoid domains (rivers, mushrooms) and code experiments restricted to Python competitive programming.",
+          "Cross‑domain, cross‑LLM, and cross‑language transfer not explored."
         ],
         "open_questions": [
-          "How do ensembles that incorporate internal‑state or attention‑based scorers perform on open‑weight models?",
-          "Can supervised UQ ensembles generalize across domains (e.g., train on math, deploy to factual QA) or across different LLM families?",
-          "What are the cost‑benefit trade‑offs of sampling‑based black‑box ensembles versus full ensembles in high‑throughput deployment?"
+          "How do supervised UQ ensembles perform with open‑weight models that expose internal representations?",
+          "Can ensembles trained on one generation regime (e.g., short‑form QA) transfer effectively to a different regime (e.g., dialogue)?",
+          "What is the trade‑off between ensemble inference cost and detection performance in real‑time deployment?"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
@@ -16110,531 +16656,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-07-15T11:47:59.097160+00:00"
-    },
-    {
-      "id": "2607.12885",
-      "title": "LLM Judges Can Be Too Generous When There Is No Reference Answer",
-      "abstract": "LLM judges are increasingly being used to evaluate open-ended model responses, often in no-reference settings where a ground-truth answer is unavailable. However, can they reliably assess in such evaluation setups? We explore this question in this paper through a two stage pipeline with a) calibration experiments that assess the judge model's knowledge of the task it is evaluating, and b) sensitivity experiments that assess how the judge model's performance is impacted by the presence and positioning of the reference answer in the prompt. Across experiments covering three languages, we show that the judge models we evaluated tend to over-credit incorrect answers in the absence of a reference answer, and adding reference answer information to the prompt flips the judge model's correct/incorrect decisions by as much as 85% in some experimental settings. Comparison with a subset of human annotations shows that these reference-driven changes generally align with human judgments. Our results emphasize the need for calibrating the LLM judges with a sample with reference-aware evaluation before using them in reference-free setups reliably, and our methodology provides a blueprint for researchers and practitioners in doing such calibration of LLM judges for other tasks.",
-      "authors": [
-        "Chalamalasetti Kranti",
-        "Sowmya Vajjala"
-      ],
-      "published": "2026-07-14T15:31:33Z",
-      "updated": "2026-07-14T15:31:33Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.12885v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.12885v1",
-      "comment": "Preprint",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3551,
-          "matched": [
-            "calibration",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4083,
-        "relevance": 0.2841,
-        "quality": 0.47,
-        "novelty": 0.8569,
-        "freshness": 0.8793
-      },
-      "quality_signals": [
-        "experiments",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "LLM judges tend to over-credit incorrect answers without reference answers, and their decisions shift drastically when reference answers are included.",
-        "problem": "Can LLM judges reliably evaluate open-ended model responses in no-reference settings where ground-truth answers are unavailable?",
-        "method": "A two-stage pipeline involving calibration experiments to assess judge model task knowledge and sensitivity experiments to measure impact of reference answer presence and positioning.",
-        "evidence": "Experiments across three languages show up to 85% flips in judge decisions when reference answers are added, aligning with human annotations.",
-        "limitations": "The study does not provide quantitative metrics beyond decision flip rates or detailed analysis of judge model architectures.",
-        "why_for_you": "Understanding and calibrating LLM judges is critical for trustworthy evaluation of open-ended LLM outputs in reference-free scenarios.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "LLM judges over-credit incorrect answers in no-reference settings, indicating a systematic bias in their evaluation without ground-truth context."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The two-stage pipeline includes calibration experiments to verify judge model task knowledge and sensitivity experiments to test how reference answer presence affects judgments."
-          },
-          {
-            "icon": "📉",
-            "text": "Adding reference answers to prompts causes up to 85% of judge model decisions to flip between correct and incorrect, demonstrating high sensitivity to reference information."
-          }
-        ],
-        "overview": "This paper investigates the reliability of large language model (LLM) judges when evaluating open-ended responses without access to ground-truth reference answers. The authors propose a two-stage evaluation pipeline: first, calibration experiments assess whether the judge model understands the task it is evaluating; second, sensitivity experiments measure how the presence and positioning of reference answers in the prompt influence the judge's decisions. Conducted across three languages, the experiments reveal that LLM judges systematically over-credit incorrect answers when no reference is provided. Introducing reference answers into the prompt causes dramatic shifts in evaluation outcomes, with up to 85% of decisions flipping from correct to incorrect or vice versa. These shifts align well with human annotations, suggesting that reference-aware calibration is essential for trustworthy LLM judging. The methodology offers a practical blueprint for calibrating LLM judges before deploying them in no-reference evaluation settings, addressing a critical gap in reliable automated evaluation of open-ended LLM outputs.",
-        "methodology": [
-          {
-            "title": "Calibration Experiments",
-            "detail": "These experiments assess the judge model's understanding of the evaluation task by testing its ability to correctly judge responses when reference answers are present, ensuring the model has task-relevant knowledge before no-reference evaluation."
-          },
-          {
-            "title": "Sensitivity Experiments",
-            "detail": "These experiments evaluate how the judge model's decisions change when reference answers are added or repositioned in the prompt, quantifying the impact of reference information on judgment reliability."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "No explicit mechanism provided",
-            "detail": "The paper does not present a formal mechanism or theoretical model explaining why LLM judges over-credit incorrect answers without references or why reference presence causes decision flips."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Multilingual Evaluation",
-            "detail": "Experiments were conducted across three languages to test judge model behavior in diverse linguistic contexts, measuring decision flips and comparing judge outputs to human annotations."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Over-crediting Incorrect Answers",
-            "detail": "LLM judges tend to assign credit to incorrect model responses when no reference answer is provided, indicating unreliable evaluation in no-reference settings."
-          },
-          {
-            "title": "High Sensitivity to Reference Answers",
-            "detail": "Inclusion of reference answers in prompts causes up to 85% of judge decisions to flip, demonstrating that reference information strongly influences evaluation outcomes."
-          },
-          {
-            "title": "Alignment with Human Judgments",
-            "detail": "Changes in judge decisions driven by reference answer presence generally align with human annotations, validating the importance of reference-aware calibration."
-          }
-        ],
-        "contributions": [
-          "Identification of systematic over-crediting by LLM judges in no-reference evaluation settings.",
-          "Development of a two-stage pipeline combining calibration and sensitivity experiments to assess judge reliability.",
-          "Empirical demonstration of up to 85% decision flips caused by reference answer inclusion across three languages.",
-          "Provision of a practical methodology blueprint for calibrating LLM judges before no-reference deployment."
-        ],
-        "limitations": [
-          "Lack of detailed quantitative metrics beyond decision flip percentages limits understanding of judge accuracy.",
-          "No analysis of the impact of different judge model architectures or sizes on evaluation reliability.",
-          "Absence of a formal theoretical mechanism explaining observed judge behavior.",
-          "Limited information on dataset specifics or task domains used in experiments."
-        ],
-        "open_questions": [
-          "How do different LLM judge architectures or training regimes affect over-crediting behavior in no-reference settings?",
-          "Can formal theoretical models explain why reference answers cause large decision flips in LLM judges?",
-          "What are effective calibration strategies to improve judge reliability across diverse tasks and languages?",
-          "How does judge performance vary with different types of open-ended tasks beyond those tested?"
-        ],
-        "source_scope": "abstract",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "calibration",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-15T11:47:59.097160+00:00"
-    },
-    {
-      "id": "2607.11444",
-      "title": "UMoE:Unlocking Every Expert in Domain-Specific Training",
-      "abstract": "Mixture-of-Experts (MoE) models scale capacity without proportional compute cost and have become a key architecture for frontier large language models (LLMs). Yet domain-specific post-training inherits an expert pool shaped by mixed-domain pre-training: a substantial subset of experts contributes little on the target domain, and standard supervised fine-tuning (SFT) leaves the composition of this pool unchanged. We propose a simple, budget-preserving pipeline that realigns the expert pool to the target domain before fine-tuning. Given a target domain, we (1) prune the experts with lowest domain-aligned saliency, (2) regrow the expert pool to its original size through perturbation-based expert expansion, and (3) apply standard SFT. The resulting model preserves the original expert count, parameter count, and inference cost. With a single frozen recipe and no per-domain hyperparameter tuning, UMoE consistently improves over direct sft across two MoE architectures (Qwen3-30B-A3B and Qwen3.5-35B-A3B), five domains (math, code, science, tool-use, and agentic coding), and 12 benchmarks. Representative improvements are 3.4 points in math average accuracy, 6.0 points on SWE-bench Verified. On a strong in-house math corpus, direct sft already surpasses Qwen3-30B-A3B-Thinking (82.81 vs.\\ 81.06), yet UMoE further raises the average to 84.17, an additional 1.36 points, demonstrating robustness to a substantially stronger SFT regime. Data-scaling experiments further show that the gain persists as training data grows. Analysis reveals that the direct-SFT model allocates substantial routed-expert compute to a low-saliency subset that can be removed post hoc with little average degradation; UMoE turns this redundant capacity into useful domain capacity and achieves lower training loss, with gains spanning all difficulty levels in downstream evaluation.",
-      "authors": [
-        "Xuefeng Li",
-        "Pengfei Liu"
-      ],
-      "published": "2026-07-13T11:52:42Z",
-      "updated": "2026-07-13T11:52:42Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.11444v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.11444v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.7549,
-          "matched": [
-            "robustness",
-            "perturbation",
-            "fine-tuning",
-            "training"
-          ]
-        },
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "emerging",
-          "score": 0.3859,
-          "matched": [
-            "training data",
-            "data",
-            "mixture"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.1887,
-          "matched": [
-            "robustness",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.7011,
-        "relevance": 0.7188,
-        "quality": 0.68,
-        "novelty": 0.55,
-        "freshness": 0.858
-      },
-      "quality_signals": [
-        "code available",
-        "benchmark evaluation",
-        "experiments",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "UMoE reorganizes the expert pool of pretrained MoE LLMs by pruning low-saliency experts and regrowing them via perturbation, yielding consistent domain-specific performance gains without increasing model size or inference cost.",
-        "problem": "Standard supervised fine-tuning of pretrained MoE models leaves many experts poorly aligned to the target domain, wasting capacity and limiting domain-specific adaptation.",
-        "method": "UMoE prunes the least domain-salient experts using a calibration set, regrows the expert pool by perturbation-based expansion to restore original size, then applies standard supervised fine-tuning.",
-        "evidence": "UMoE improves benchmark averages across five domains and two MoE architectures, e.g., +3.4 points math accuracy and +6.0 points on SWE-bench Verified, while preserving parameter count and inference cost.",
-        "limitations": "The paper does not provide detailed analysis of UMoE’s impact on inference latency or memory beyond parameter count, nor does it explore alternative pruning ratios or perturbation scales extensively.",
-        "why_for_you": "UMoE offers an efficient, budget-preserving approach to enhance domain-specific fine-tuning of large MoE LLMs by better utilizing expert capacity, relevant for improving trustworthy and efficient LLM adaptation.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "UMoE achieves a 3.4-point average accuracy improvement on math benchmarks and a 6.0-point gain on SWE-bench Verified by reorganizing experts before fine-tuning, demonstrating robust domain adaptation across multiple datasets."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The method uses REAP saliency scores on a calibration subset to prune the bottom 50% of experts per layer, then regenerates pruned experts by copying and symmetrically perturbing surviving experts’ MLP weights and router rows."
-          },
-          {
-            "icon": "📉",
-            "text": "Analysis shows direct supervised fine-tuning routes substantial compute to low-saliency experts that can be pruned with minimal degradation, whereas UMoE reallocates this capacity to domain-aligned experts, reducing training loss and improving downstream performance."
-          }
-        ],
-        "overview": "This work addresses the inefficiency in domain-specific fine-tuning of large Mixture-of-Experts (MoE) language models, where many experts pretrained on mixed domains contribute little to the target domain. The authors propose UMoE, a three-step pipeline that first prunes experts with the lowest domain-aligned saliency using a calibration dataset, then regrows the expert pool to its original size by perturbation-based expansion of surviving experts, and finally applies standard supervised fine-tuning. This preserves the original model architecture, parameter count, and inference cost, ensuring deployment budget consistency. Evaluations on two MoE architectures (Qwen3-30B-A3B and Qwen3.5-35B-A3B) across five domains (math, code, science, tool-use, agentic coding) and 12 benchmarks demonstrate consistent improvements, including a 3.4-point gain in math accuracy and 6.0 points on SWE-bench Verified. The approach is robust to stronger fine-tuning regimes and scales well with training data size. The key insight is that direct fine-tuning wastes capacity on low-saliency experts, whereas UMoE reallocates this capacity to domain-relevant experts, improving training efficiency and downstream task performance.",
-        "methodology": [
-          {
-            "title": "Domain-Aligned Expert Pruning",
-            "detail": "UMoE scores each expert’s domain relevance using REAP saliency on a calibration subset of the target domain data, combining router gate values and activation norms. It prunes the bottom 50% of experts per layer, retaining those most relevant to the domain to form a domain-aligned expert subset."
-          },
-          {
-            "title": "Budget-Preserving Expert Expansion",
-            "detail": "To restore the original expert count, each pruned slot is reinitialized by copying MLP weights and router rows from surviving experts in a round-robin fashion. Both the parent and regrown experts are independently perturbed with Gaussian noise scaled by parameter standard deviation (σ=0.05) to promote specialization and avoid initialization asymmetry."
-          },
-          {
-            "title": "Standard Supervised Fine-Tuning (SFT)",
-            "detail": "After expert pool reorganization, the model undergoes standard supervised fine-tuning on the full domain-specific dataset using cross-entropy loss. This step updates the domain-aligned experts to improve downstream task performance without changing model size or inference cost."
-          },
-          {
-            "title": "Evaluation Across Architectures and Domains",
-            "detail": "UMoE is evaluated on Qwen3-30B-A3B and Qwen3.5-35B-A3B MoE architectures across five domains (math, code, science, tool-use, agentic coding) using multiple benchmarks and varying SFT data scales to validate generality and robustness."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Domain-Aligned Saliency Scoring",
-            "detail": "Experts are scored by REAP saliency, which integrates router gate weights and activation norms over a calibration set, reflecting each expert’s functional importance under the target domain distribution. This guides pruning decisions to retain domain-relevant experts."
-          },
-          {
-            "title": "Symmetric Perturbation for Expert Expansion",
-            "detail": "Copied experts are perturbed symmetrically on both the parent and regrown copies by adding Gaussian noise scaled by parameter standard deviation, applied to both MLP weights and router rows. This symmetric perturbation avoids initialization bias and encourages functional specialization."
-          },
-          {
-            "title": "Fixed Budget Constraint",
-            "detail": "UMoE maintains the original expert count E and active expert count K, preserving parameter count and inference cost. This ensures that domain adaptation does not increase deployment resource requirements."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Domain-Specific Fine-Tuning on Qwen3-30B-A3B and Qwen3.5-35B-A3B",
-            "detail": "UMoE is tested on two MoE architectures with 128 and 256 routed experts respectively, across five domains with domain-specific SFT datasets and multiple benchmarks, including math competitions (AIME, HMMT), code reasoning (LiveCodeBench), science (GPQA-Diamond), tool-use (τ-bench), and agentic coding (SWE-bench Verified)."
-          },
-          {
-            "title": "Data-Scaling Experiments",
-            "detail": "UMoE’s performance gains persist across varying amounts of supervised fine-tuning data, demonstrating robustness to training data scale and confirming that improvements are not limited to small data regimes."
-          },
-          {
-            "title": "Ablation on Saliency Metrics and Perturbation Design",
-            "detail": "Comparisons among REAP saliency, activation frequency, and Expert Activation Norm (EAN) show REAP and frequency are competitive, with EAN weaker. Perturbing both parent and regrown experts symmetrically outperforms one-sided perturbation, and perturbing both router and MLP weights yields complementary benefits."
-          }
-        ],
-        "findings": [
-          {
-            "title": "UMoE Improves Domain-Specific Accuracy",
-            "detail": "UMoE consistently outperforms direct supervised fine-tuning, e.g., raising math average accuracy by 3.4 points and SWE-bench Verified pass@1 by 6.0 points, demonstrating effective domain adaptation."
-          },
-          {
-            "title": "Robustness to Stronger Fine-Tuning Regimes",
-            "detail": "On a strong in-house math corpus where direct SFT already surpasses a strong baseline (82.81 vs. 81.06), UMoE further improves average accuracy to 84.17, showing gains under stronger SFT conditions."
-          },
-          {
-            "title": "Expert Pool Reorganization Reduces Redundancy",
-            "detail": "Direct SFT routes substantial compute to low-saliency experts that can be pruned post hoc with little degradation, whereas UMoE reallocates this capacity to domain-aligned experts, lowering training loss and improving performance across difficulty levels."
-          },
-          {
-            "title": "Perturbation Design is Critical",
-            "detail": "Symmetric perturbation of both parent and regrown experts on MLP and router parameters is essential; one-sided perturbation leads to routing decline and performance degradation."
-          }
-        ],
-        "contributions": [
-          "Proposed UMoE, a domain-aware expert pool reorganization method that prunes and regrows experts to improve domain-specific fine-tuning without increasing model size or inference cost.",
-          "Introduced a budget-preserving expert expansion technique using symmetric perturbation of copied experts to promote specialization.",
-          "Demonstrated consistent performance gains across multiple MoE architectures, five diverse domains, and 12 benchmarks, including strong math and agentic coding tasks.",
-          "Provided analysis showing that direct fine-tuning wastes capacity on low-saliency experts, which UMoE effectively reallocates to domain-relevant experts.",
-          "Validated robustness of UMoE gains across varying supervised fine-tuning data scales and stronger fine-tuning regimes."
-        ],
-        "limitations": [
-          "The impact of UMoE on inference latency and memory usage beyond parameter count is not analyzed.",
-          "The pruning ratio is fixed at 50% without extensive exploration of alternative ratios or adaptive pruning strategies.",
-          "The perturbation scale σ is fixed at 0.05; sensitivity to this hyperparameter is not deeply studied.",
-          "UMoE relies on a calibration subset for saliency scoring, but the effect of calibration set size and representativeness is not detailed."
-        ],
-        "open_questions": [
-          "How does UMoE affect inference efficiency metrics such as latency and memory footprint in deployment scenarios?",
-          "Can adaptive or dynamic pruning ratios based on domain complexity further improve expert pool reorganization?",
-          "What is the sensitivity of UMoE performance to the choice and size of the calibration dataset used for saliency scoring?",
-          "Could alternative perturbation schemes or learned expert regeneration methods yield better specialization and downstream gains?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "robustness",
-          "perturbation",
-          "fine-tuning",
-          "training"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-14T11:44:02.688717+00:00"
-    },
-    {
-      "id": "2607.11475",
-      "title": "HyperSafe: Inference-Time Safety Recovery for Fine-Tuned Language Models",
-      "abstract": "Safety alignment in large language models can be fragile under fine-tuning, as even benign task adaptation may increase harmful compliance. Existing defenses mainly follow two directions: they either intervene during or after fine-tuning through retraining or weight modification, which can be costly and may hurt task performance, or they use model-agnostic safety classifiers, which may miss failures specific to a given fine-tuned checkpoint. These limitations motivate a post hoc, model-specific, and non-invasive approach to safety restoration. To meet these requirements, we propose HyperSafe, a framework that restores safety behavior by generating a model-specific Safe Side Network (SSN) for each fine-tuned checkpoint. HyperSafe uses layer-wise activation fingerprints to capture how fine-tuning changes the model's inner representations. With a small set of given calibration prompts, the hypernetwork maps these fingerprints to the parameters of the \\ssn{} in a single forward pass. The generated \\ssn{} runs alongside the frozen fine-tuned model and performs prompt-level safety classification: harmful prompts are routed to refusal, while safe prompts are answered by the original fine-tuned model. Thus, HyperSafe requires no gradient updates, no safety data at deployment time, and no modification to the deployed model weights. We evaluate HyperSafe on two model families, Qwen2-7B and LLaMA-3-8B, across multiple safety benchmarks. HyperSafe reduces harmful response rates from 19-31% to below 1% on every held-out checkpoint, while keeping downstream task accuracy within 1% of the fine-tuned baseline on average. Code is available at https://github.com/nokronim/project-safety-remedy.",
-      "authors": [
-        "Aznaur Aliev",
-        "Carlos Hinojosa",
-        "Abdelrahman Eldesokey",
-        "Bang An",
-        "Bernard Ghanem",
-        "Yibo Yang"
-      ],
-      "published": "2026-07-13T12:28:43Z",
-      "updated": "2026-07-13T12:28:43Z",
-      "categories": [
-        "cs.LG",
-        "cs.CL"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2607.11475v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.11475v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.5299,
-          "matched": [
-            "alignment",
-            "calibration",
-            "alignment",
-            "safety"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5436,
-        "relevance": 0.4239,
-        "quality": 0.85,
-        "novelty": 0.55,
-        "freshness": 0.8616
-      },
-      "quality_signals": [
-        "code available",
-        "GitHub link",
-        "baseline comparison",
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "HyperSafe generates model-specific Safe Side Networks at inference time to restore safety in fine-tuned LLMs, reducing harmful outputs below 1% while preserving task accuracy within 1%.",
-        "problem": "Fine-tuning safety-aligned large language models often degrades their safety alignment, increasing harmful response rates significantly.",
-        "method": "HyperSafe uses layer-wise activation fingerprints from calibration prompts to generate a Safe Side Network via a hypernetwork that classifies prompts at inference, routing harmful ones to refusal without modifying model weights.",
-        "evidence": "Evaluations on Qwen2-7B and LLaMA-3-8B across multiple safety benchmarks show HyperSafe reduces harmful response rates from 19–31% to below 1% on all held-out checkpoints while maintaining task accuracy within 1% of fine-tuned baselines.",
-        "limitations": "The method relies on a calibration set and may degrade if instruction-following data is excluded; it has been evaluated primarily on LoRA fine-tuned checkpoints and two model families.",
-        "why_for_you": "HyperSafe offers a non-invasive, model-specific, and efficient inference-time safety recovery approach that preserves downstream task performance, addressing fine-tuning-induced safety degradation without retraining or weight modification.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "HyperSafe reduces harmful response rates from 19–31% in LoRA fine-tuned Qwen2-7B and LLaMA-3-8B models to below 1% across 12 held-out datasets, demonstrating strong zero-shot safety generalization."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The Safe Side Network (SSN) is generated by a hypernetwork that maps layer-wise activation fingerprints from a small calibration prompt set to SSN parameters in a single forward pass, enabling prompt-level safety classification without weight updates."
-          },
-          {
-            "icon": "📉",
-            "text": "Ablation studies show removing safe-probe supervision or domain-specific calibration degrades task accuracy and safety, indicating the importance of functional supervision and diverse calibration data for SSN effectiveness."
-          }
-        ],
-        "overview": "Fine-tuning aligned large language models often compromises their safety, increasing harmful outputs despite benign task adaptation. Existing defenses either intervene during fine-tuning with costly constraints, modify model weights post hoc risking task performance degradation, or use model-agnostic classifiers that miss fine-tuning-specific failures. HyperSafe addresses these limitations by generating a model-specific Safe Side Network (SSN) at inference time using a hypernetwork conditioned on layer-wise activation fingerprints extracted from a small calibration prompt set. The SSN runs alongside the frozen fine-tuned model, classifying prompts as harmful or safe and routing harmful prompts to refusal, thus restoring safety without retraining or weight modification. Evaluations on Qwen2-7B and LLaMA-3-8B across multiple safety benchmarks demonstrate that HyperSafe reduces harmful response rates from 19–31% to below 1% while preserving task accuracy within 1%. Ablations confirm the necessity of functional supervision and calibration diversity. This approach enables deployment of fine-tuned models with restored safety guarantees efficiently and non-invasively.",
-        "methodology": [
-          {
-            "title": "Layer-wise Activation Fingerprints",
-            "detail": "Extracts activation patterns from multiple layers of the fine-tuned model using a small set of calibration prompts to capture fine-tuning-induced representation changes, serving as input to the hypernetwork."
-          },
-          {
-            "title": "Hypernetwork Parameter Generation",
-            "detail": "A hypernetwork maps the extracted activation fingerprints to the parameters of the Safe Side Network in a single forward pass, enabling rapid generation of a model-specific safety classifier without gradient updates."
-          },
-          {
-            "title": "Safe Side Network (SSN) Architecture",
-            "detail": "The SSN is a lightweight classifier with 12 side layers and reduced hidden size (h/4) that runs alongside the frozen fine-tuned model, performing prompt-level safety classification to route harmful prompts to refusal."
-          },
-          {
-            "title": "Prompt-level Safety Classification",
-            "detail": "The SSN classifies each input prompt as harmful or safe; harmful prompts are refused, while safe prompts are answered by the original fine-tuned model, preserving task utility."
-          },
-          {
-            "title": "Training Objective and Calibration",
-            "detail": "The hypernetwork and SSN are trained using a combination of functional supervision losses including safe-probe supervision and domain calibration prompts, ensuring discriminative safety classification and minimal over-blocking."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "No explicit mechanism equations provided",
-            "detail": "The paper does not provide formal equations or causal models but explains that layer-wise activation fingerprints capture fine-tuning changes, which the hypernetwork uses to generate SSN parameters for prompt-level safety classification."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Model Families and Fine-tuning",
-            "detail": "Evaluations conducted on Qwen2-7B-Instruct and LLaMA-3-8B-Instruct models fine-tuned with LoRA (rank 16, α=32) across 22 diverse datasets spanning QA, reasoning, math, classification, code, and instruction-following."
-          },
-          {
-            "title": "Safety Benchmarks and Evaluation Protocol",
-            "detail": "Safety evaluated on BeaverTails (700 prompts, 14 categories), AdvBench (520 prompts), and HEx-PHI (330 prompts, 11 categories) with disjoint training and evaluation splits; harmful rate and task accuracy metrics reported."
-          },
-          {
-            "title": "Comparison Baselines",
-            "detail": "Compared against base aligned models, LoRA fine-tuned models without safety mechanisms, and Llama Guard 4 (12B) external classifier, demonstrating superior safety reduction and task accuracy preservation."
-          },
-          {
-            "title": "Ablation Studies",
-            "detail": "Ablations on LLaMA-3-8B show removing safe-probe supervision or domain calibration degrades accuracy and safety; calibration prompt set size impacts fingerprint quality and SSN performance; SSNs trained on LoRA checkpoints transfer to full fine-tuning."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Safety Restoration",
-            "detail": "HyperSafe reduces harmful response rates from 19–31% in fine-tuned models to below 1% across all held-out datasets and model families, achieving over 95% relative reduction in harmful outputs."
-          },
-          {
-            "title": "Task Accuracy Preservation",
-            "detail": "Task accuracy remains within 1 percentage point of the fine-tuned baseline on average, indicating minimal utility loss despite safety restoration."
-          },
-          {
-            "title": "Generalization and Transfer",
-            "detail": "SSNs generated from LoRA fingerprints transfer unchanged to fully fine-tuned counterparts, maintaining harmful rates ≤0.1% and stable task accuracy."
-          },
-          {
-            "title": "Calibration Data Importance",
-            "detail": "Instruction-following calibration data is critical for safety; removing it substantially increases harmful rates, while removing other categories has minimal effect."
-          },
-          {
-            "title": "Efficiency",
-            "detail": "SSN adds only 3–4% of backbone parameters and requires a single hypernetwork forward pass amortized over prompts; safe prompts bypass SSN during decoding, keeping generation cost unchanged."
-          }
-        ],
-        "contributions": [
-          "Proposed HyperSafe, a novel inference-time safety recovery framework generating model-specific Safe Side Networks without weight modification or retraining.",
-          "Introduced layer-wise activation fingerprints as a representation of fine-tuning changes for hypernetwork conditioning.",
-          "Demonstrated strong safety restoration reducing harmful outputs below 1% while preserving task accuracy within 1% across two large LLM families and multiple safety benchmarks.",
-          "Provided extensive ablations showing the importance of functional supervision, calibration diversity, and prompt set size.",
-          "Showed SSN transferability from LoRA to full fine-tuning, enabling practical deployment without re-alignment."
-        ],
-        "limitations": [
-          "Dependence on a sufficiently diverse and representative calibration prompt set, especially instruction-following data, for effective safety classification.",
-          "Evaluations limited to two model families (Qwen2-7B and LLaMA-3-8B) and LoRA fine-tuning; generalization to other architectures or fine-tuning methods is unverified.",
-          "No explicit theoretical mechanism or formal guarantees provided for safety restoration effectiveness.",
-          "Potential residual harmful outputs remain (up to 0.7% in some datasets), indicating non-zero failure risk."
-        ],
-        "open_questions": [
-          "How well does HyperSafe generalize to other fine-tuning methods beyond LoRA and to larger or different LLM architectures?",
-          "Can the calibration prompt set be optimized or minimized further without degrading safety and accuracy?",
-          "What are the theoretical limits and guarantees of safety restoration achievable by model-specific SSNs generated from activation fingerprints?",
-          "How does HyperSafe perform against adaptive adversarial harmful prompts designed to evade the SSN?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment",
-          "calibration",
-          "alignment",
-          "safety"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-14T11:44:02.688717+00:00"
     }
   ]
 }
