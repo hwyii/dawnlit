@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-28T21:10:49.916182+00:00",
+  "generated_at": "2026-08-29T15:03:50.069527+00:00",
   "papers": [
     {
       "id": "conf:acl:2026:1334-main",
@@ -1078,12 +1078,12 @@
         "lane": "llm"
       },
       "summary": {
-        "takeaway": "Supervised ensembles of heterogeneous UQ scorers consistently improve closed‑book hallucination detection across LLMs and tasks.",
-        "problem": "Detecting hallucinations in LLM outputs without retrieval or reference documents.",
-        "method": "Train a classifier (e.g., logistic regression, random forest, gradient boosting) on a small labeled set of UQ scorer outputs spanning black‑box, white‑box, and reflexive signals.",
-        "evidence": "Ensembles beat the best individual scorer in 30 of 32 settings by AUROC and retain advantage in 23 of 28 transfer settings, with gains from as few as 100 labeled instances.",
-        "limitations": "Study is limited to four closed‑weight LLMs, narrow domains, and does not evaluate open‑weight models or cross‑domain transfer.",
-        "why_for_you": "Matches your interest in trustworthy LLMs by showing sample‑efficient, robust hallucination detection via UQ ensembles.",
+        "takeaway": "Supervised ensembles of heterogeneous UQ scorers consistently improve hallucination detection over any single scorer.",
+        "problem": "Closed‑book LLMs lack reliable hallucination detectors, and individual UQ signals vary across domains and models.",
+        "method": "Train a classifier (logistic regression, random forest, or gradient boosting) on a small labeled set of UQ scorer outputs to predict hallucination.",
+        "evidence": "Ensembles beat the best individual scorer in 30 of 32 settings (AUROC) and achieve gains with as few as 100 labeled examples.",
+        "limitations": "Study is limited to four closed‑weight LLMs, two factoid long‑form domains, and Python code, omitting open‑weight models and cross‑domain transfer.",
+        "why_for_you": "Relevant to trustworthy LLM work because it shows a data‑efficient way to boost hallucination detection reliability.",
         "source": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
         "language": "en",
@@ -1093,97 +1093,69 @@
       "deep_dive": {
         "signals": [
           {
-            "icon": "💡",
-            "text": "Supervised UQ ensembles outperform the best individual scorer in 30 of 32 evaluated settings."
+            "icon": "🗂️",
+            "text": "Supervised UQ ensembles outperform the best individual scorer in 30 of 32 AUROC evaluations across four LLMs and nine datasets."
           },
           {
-            "icon": "⚙️",
-            "text": "Ensemble classifier trained on heterogeneous black‑box, white‑box, and reflexive scorer outputs, effective with ≥100 labeled examples."
+            "icon": "🔧",
+            "text": "Ensembles use logistic regression, random forest, or gradient boosting over 30+ black‑box, white‑box, reflexive, and graph‑based UQ scores."
           },
           {
-            "icon": "⚠️",
-            "text": "Results confined to four closed‑source LLMs and limited domains; open‑weight models and cross‑domain transfer remain untested."
+            "icon": "📈",
+            "text": "Performance gains appear with as few as 100 labeled instances, but results are confined to closed‑weight models and narrow domains."
           }
         ],
-        "overview": "The paper investigates a supervised ensembling framework that learns to combine a diverse set of uncertainty quantification (UQ) signals for hallucination detection in closed‑book LLM generation. Across four LLMs, nine benchmarks, and three generation regimes (short‑form QA, long‑form, code), the authors evaluate sample efficiency, in‑domain transfer, and access‑constrained variants. Ensembles consistently surpass the strongest single scorer, achieving notable gains with as few as 100 labeled responses, and black‑box‑only ensembles approach full‑ensemble performance. Limitations include a narrow model and task scope, leaving open questions about broader applicability.",
+        "overview": "The paper conducts a systematic robustness study of supervised uncertainty‑quantification (UQ) ensembles for hallucination detection in closed‑book LLMs. By training classifiers on heterogeneous UQ scorer outputs, the authors evaluate sample efficiency, in‑domain transfer under distribution shift, and generation‑regime dependence across four LLMs, nine datasets, and three regimes (short QA, long‑form, code). Ensembles consistently surpass the strongest single scorer, retain advantages under modest distribution shifts, and achieve notable gains with limited labeled data, while black‑box‑only ensembles approach full‑ensemble performance.",
         "methodology": [
           {
-            "title": "Ensemble inputs",
-            "detail": "A collection of 30 UQ scorers (e.g., token probability statistics, consistency measures, self‑reflection confidence, graph‑based claim centrality) grouped by access (white‑box vs. black‑box) and generation regime."
-          },
-          {
-            "title": "Classifier training",
-            "detail": "Logistic regression, random forest, and gradient boosting models are trained on vectors of scorer outputs; training subsets range from 0.1N to 0.7N of the labeled data, where N is the dataset size."
-          },
-          {
-            "title": "Evaluation protocol",
-            "detail": "For each domain, 25 stratified 70/30 train‑test splits are generated; AUROC and expected calibration error (ECE) are reported with 95% confidence intervals."
+            "title": "Classifier‑based ensemble",
+            "detail": "A supervised model (logistic regression, random forest, or gradient boosting) ingests a vector of K∈[0,1] confidence scores from diverse UQ scorers and learns to predict binary hallucination labels."
           }
         ],
         "mechanism": [
           {
-            "title": "Signal integration",
-            "detail": "The classifier learns weighted combinations of heterogeneous UQ scores, allowing it to exploit complementary information (e.g., token‑level entropy vs. self‑consistency) that single scorers cannot capture."
+            "title": "Heterogeneous scorer collection",
+            "detail": "Scorers span single‑generation white‑box (e.g., token probability statistics), consistency‑based black‑box (e.g., exact match, BERTScore), reflexive confidence, and graph‑based claim metrics, each requiring varying access to token probabilities."
           },
           {
-            "title": "Robustness to scarcity",
-            "detail": "Even with 100 labeled instances, the learned weighting yields measurable AUROC improvements, indicating that the UQ feature space provides strong discriminative signal."
+            "title": "Training on small labeled set",
+            "detail": "Ensembles are trained on subsamples of the training fold ranging from 0.1N to 0.7N, with N the dataset size; gains are observed with as few as 100 labeled responses."
           }
         ],
         "experiments": [
           {
-            "title": "Model and dataset coverage",
-            "detail": "LLMs: Gemini‑2.5‑Flash, Gemini‑2.5‑Pro, GPT‑4o, GPT‑4o‑mini. Datasets: OpenR1‑Math, BigMath, HotpotQA, SimpleQA, DROP, LiveCodeBench (Python), FactScore‑Rivers, FactScore‑Mushrooms."
-          },
-          {
-            "title": "Baselines and metrics",
-            "detail": "Best individual scorer (optimistic test‑set selection) serves as baseline; primary metrics are AUROC and calibration error (ECE)."
-          },
-          {
-            "title": "Sample‑efficiency study",
-            "detail": "Ensembles trained on subsamples from 0.1N to 0.7N; gains appear as early as 100 labeled examples."
-          },
-          {
-            "title": "In‑domain transfer",
-            "detail": "Ensembles trained on one dataset within a domain and evaluated on another (e.g., Math→Math) retain advantage in 23 of 28 transfer settings."
-          },
-          {
-            "title": "Access‑constrained ablations",
-            "detail": "Black‑box‑only ensembles (no token‑probability access) achieve near‑full performance; white‑box‑only ensembles provide limited benefit."
+            "title": "Models, data, baselines, metrics",
+            "detail": "Four LLMs (Gemini‑2.5‑Flash, Gemini‑2.5‑Pro, GPT‑4o, GPT‑4o‑mini) evaluated on nine benchmarks covering math, factual QA, code (Python), and long‑form factoid domains. Baselines are the best individual UQ scorer (optimistically selected on test). Metrics include AUROC and Expected Calibration Error (ECE) with 25 random 70/30 stratified splits."
           }
         ],
         "findings": [
           {
-            "title": "Overall superiority",
-            "detail": "Ensembles outperform the best individual scorer in 30/32 settings by AUROC and in 29/32 by calibration."
+            "title": "In‑distribution superiority",
+            "detail": "Using the full training sample, ensembles outperform the best scorer in 30/32 LLM‑dataset settings by AUROC and 29/32 by ECE."
           },
           {
-            "title": "Low‑label effectiveness",
-            "detail": "Statistically significant AUROC gains are observed with as few as 100 labeled responses."
+            "title": "Sample efficiency",
+            "detail": "Ensemble AUROC exceeds the best scorer after training on only ~100 labeled instances across all domains."
           },
           {
-            "title": "Transfer robustness",
-            "detail": "Ensembles maintain most of their in‑distribution advantage under distribution shift, beating the best scorer in 23/28 transfer cases."
+            "title": "In‑domain transfer robustness",
+            "detail": "Under distribution shift, ensembles remain superior in 23 of 28 transfer settings, preserving most of their in‑distribution advantage."
           },
           {
-            "title": "Black‑box efficiency",
-            "detail": "Sampling‑based black‑box ensembles are nearly as effective as full ensembles that also use white‑box signals."
+            "title": "Black‑box vs. full ensembles",
+            "detail": "Sampling‑based black‑box ensembles achieve near‑full‑ensemble performance, whereas white‑box‑only ensembles provide limited benefit."
           }
         ],
         "contributions": [
-          "Systematic robustness analysis of supervised UQ ensembles across sample size, domain shift, and generation regime.",
-          "Demonstration that black‑box‑only ensembles can match full ensembles, reducing inference cost.",
-          "Empirical evidence that ensembles require minimal labeled data to surpass individual UQ scorers."
+          "Systematic robustness analysis of supervised UQ ensembles across sample size, domain shift, and generation regime."
         ],
         "limitations": [
-          "Evaluated only four closed‑weight LLMs from Google and OpenAI; results may not generalize to open‑weight models.",
-          "Long‑form evaluation limited to two factoid domains (rivers, mushrooms) and code experiments restricted to Python competitive programming.",
-          "Cross‑domain, cross‑LLM, and cross‑language transfer not explored."
+          "Evaluated only on four closed‑weight LLMs; results may not extend to open‑weight models with internal‑state scorers.",
+          "Long‑form and code experiments cover limited domains (factoid rivers/mushrooms, Python competitive programming)."
         ],
         "open_questions": [
-          "How do supervised UQ ensembles perform with open‑weight models that expose internal representations?",
-          "Can ensembles trained on one generation regime (e.g., short‑form QA) transfer effectively to a different regime (e.g., dialogue)?",
-          "What is the trade‑off between ensemble inference cost and detection performance in real‑time deployment?"
+          "How do supervised UQ ensembles perform when transferred across domains (e.g., train on math, test on factual QA) or across different LLM families?",
+          "Can ensembles incorporating internal‑representation scorers for open‑weight models achieve similar gains with lower inference cost?"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
@@ -1594,25 +1566,131 @@
       "recommended_at": "2026-08-24T10:53:02.352651+00:00"
     },
     {
-      "id": "2608.20518",
-      "title": "FL-MAESTRO: Multi-Agent LLM Orchestration for Resource-Constrained Federated Learning",
-      "abstract": "In Federated Learning (FL), the communication topology is a runtime variable rather than a fixed design choice, since links and edge devices drop in and out during training. Each round, the server must commit three coupled decisions, namely the communication topology, per-client resource allocation, and the aggregation rule for combining local updates. Recent agentic systems have begun bringing large language models (LLM) into FL, but the existing line of work either operates at setup time or handles a single runtime dimension such as client selection. We propose FL-MAESTRO, a multi-agent orchestrator that makes the joint runtime FL decision directly through three specialist LLM agents, one per decision dimension. A coordinator combines their analyses into a single decision, and a non-LLM feasibility check confirms it before the round executes. Because the orchestrator consumes the server's predicted-failure list, it withholds clients whose updates would never be aggregated, which removes the dominant source of wasted round energy in classical FL on volatile edge networks. Because client state is read as natural-text profiles, the same orchestrator extends to heterogeneous device classes without per-class energy models. On a non-IID CIFAR-10 benchmark, FL-MAESTRO matches the accuracy of the strongest energy-aware baseline while cutting wasted round energy from over a third to near zero. Code is available at https://github.com/denoslab/FL-MAESTRO.",
+      "id": "2608.25429",
+      "title": "Distance Is Not Enough: Forget-Retain Alignment Gap Predicts LLM Relearning Robustness",
+      "abstract": "Machine unlearning aims to make a model forget specific data, yet unlearned LLMs often fail to stay unlearned: brief fine-tuning can revive removed knowledge. Existing robustness predictors rely on global weight-space displacement, but distance alone can be misleading when random or destructive updates collapse performance. We argue that relearning robustness depends on update structure: robust unlearning should affect forget-critical weights while sparing retain-critical ones. We introduce the Forget-Retain Alignment Gap (FRAG), a training-free predictor that scores an update's forget-retain alignment without running a relearning attack, and separates selective from dense updates more reliably than global distance. Building on the forget-critical, retain-sparing principle, Forget-Retain Pruning (FRP) improves relearning robustness. Our results suggest that weight selectivity better explains robustness than distance alone. Code is available at https://github.com/Yi1-Chen/FRAG.",
       "authors": [
-        "Jiajun Wu",
-        "Zirui Wang",
-        "Jiayu Zhou",
-        "Qiang Ye",
-        "Steve Drew"
+        "Yi Chen",
+        "Hanna Hsieh",
+        "Shuhong Liu",
+        "Chuanbo Hua",
+        "Zihan Ma",
+        "Kun Wang",
+        "Joo-Young Kim"
       ],
-      "published": "2026-08-20T19:27:52Z",
-      "updated": "2026-08-20T19:27:52Z",
+      "published": "2026-08-26T06:39:49Z",
+      "updated": "2026-08-26T06:39:49Z",
       "categories": [
-        "cs.AI"
+        "cs.AI",
+        "cs.LG"
       ],
       "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2608.20518v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.20518v1",
-      "comment": "Accepted at IEEE GLOBECOM 2026",
+      "abs_url": "https://arxiv.org/abs/2608.25429v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.25429v1",
+      "comment": "Accepted to EMNLP 2026 Main Conference",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "llm",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5819,
+          "matched": [
+            "training",
+            "fine-tuning",
+            "robust",
+            "robustness"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4728,
+          "matched": [
+            "robustness",
+            "alignment",
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.273,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6387,
+        "relevance": 0.6147,
+        "quality": 0.63,
+        "novelty": 0.8706,
+        "freshness": 0.5214,
+        "feedback_adjustment": -0.0132,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link"
+      ],
+      "summary": {
+        "takeaway": "We introduce the Forget-Retain Alignment Gap (FRAG), a training-free predictor that scores an update's forget-retain alignment without running a relearning attack, and separates selective from dense updates more reliably than global distance.",
+        "problem": "Machine unlearning aims to make a model forget specific data, yet unlearned LLMs often fail to stay unlearned: brief fine-tuning can revive removed knowledge.",
+        "method": "We introduce the Forget-Retain Alignment Gap (FRAG), a training-free predictor that scores an update's forget-retain alignment without running a relearning attack, and separates selective from dense updates more reliably than global distance.",
+        "evidence": "Building on the forget-critical, retain-sparing principle, Forget-Retain Pruning (FRP) improves relearning robustness.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Efficient adversarial training, Trustworthy LLM.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training",
+          "fine-tuning",
+          "robust",
+          "robustness"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-29T15:03:50.069527+00:00"
+    },
+    {
+      "id": "2608.25727",
+      "title": "Are LLM-Enhanced GNNs Privacy-Safe?",
+      "abstract": "Large language models (LLMs) have recently advanced graph neural networks (GNNs) by enriching node representations with semantic information, giving rise to LLM-enhanced GNNs that achieve substantial performance gains. However, their vulnerability to privacy attacks, in which adversaries infer sensitive information from model outputs, remains largely underexplored. To bridge this gap, we present a systematic evaluation of privacy risks in LLM-enhanced GNNs through a unified framework consisting of five stages: (1) dataset preparation, (2) victim model training, (3) privacy attack, (4) risk assessment, and (5) defense analysis. Specifically, we conduct experiments on six real-world text-attributed graph datasets covering diverse domains. We consider six representative privacy attack methods targeting three fundamental threats, namely link, label, and membership inference, and construct 42 victim model configurations by combining multiple LLM-based feature enhancers with representative GNN backbones. Extensive experiments show that, despite their utility improvements, LLM-enhanced GNNs consistently exhibit increased vulnerability to privacy attacks compared to shallow text representation baselines. Further analysis reveals that semantic enrichment amplifies link-, label-, and membership-related signals in the embedding space, making them more exploitable by inference attacks. Finally, we evaluate differential privacy as a defense strategy and show that, while it can partially mitigate privacy risks, it introduces significant utility degradation, highlighting a fundamental privacy-utility trade-off in LLM-enhanced graph learning. Overall, this work provides a comprehensive understanding of privacy risks in LLM-enhanced GNNs and offers practical insights for developing more secure and trustworthy graph learning systems.",
+      "authors": [
+        "Longzhu He",
+        "Zelang Wen",
+        "Chaozhuo Li",
+        "Sen Su"
+      ],
+      "published": "2026-08-26T12:42:21Z",
+      "updated": "2026-08-26T12:42:21Z",
+      "categories": [
+        "cs.LG",
+        "cs.CR"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2608.25727v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.25727v1",
+      "comment": "",
       "journal_ref": "",
       "source": "arxiv",
       "venue": "",
@@ -1631,8 +1709,18 @@
           "id": "llm_loss_landscape",
           "name": "LLM loss landscape",
           "status": "emerging",
-          "score": 0.5866,
+          "score": 0.5843,
           "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.5723,
+          "matched": [
+            "privacy",
             "llm"
           ]
         },
@@ -1640,28 +1728,115 @@
           "id": "efficient_adversarial_training",
           "name": "Efficient adversarial training",
           "status": "emerging",
-          "score": 0.1349,
+          "score": 0.1345,
           "matched": [
             "training"
           ]
         }
       ],
       "scores": {
-        "total": 0.6081,
-        "relevance": 0.4963,
-        "quality": 0.85,
-        "novelty": 0.8918,
-        "freshness": 0.527,
-        "feedback_adjustment": -0.0172,
-        "semantic_feedback": 0.0
+        "total": 0.6381,
+        "relevance": 0.634,
+        "quality": 0.58,
+        "novelty": 0.8211,
+        "freshness": 0.5574,
+        "feedback_adjustment": -0.0174,
+        "semantic_feedback": 0.168
       },
       "quality_signals": [
-        "code available",
-        "GitHub link",
         "baseline comparison",
-        "benchmark evaluation",
+        "experiments",
+        "dataset evidence",
         "quantitative results"
       ],
+      "summary": {
+        "takeaway": "LLM‑增强的 GNN 在提升节点分类准确率的同时，会显著增加对链接、标签和成员推断攻击的易感性，差分隐私只能在高代价的实用性损失下部分缓解。",
+        "why_for_you": "符合您对可信 LLM 的兴趣，揭示了 LLM‑增强图学习中的隐私漏洞及其权衡。",
+        "method": "作者提出统一的五阶段框架，在六个文本属性图数据集、42 种受害模型配置和六类代表性推断攻击上评估隐私，并考察差分隐私作为防御手段。",
+        "limitations": "在可获取的来源中未说明。",
+        "evidence": "大量实验表明，LLM‑增强的 GNN 相较于浅层基线泄露更多隐私，使用差分隐私可降低泄露但会显著下降分类准确率。",
+        "problem": "尚未系统研究融合 LLM‑生成节点嵌入的图神经网络的隐私风险。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🗂️",
+            "text": "提出统一的五阶段框架，在六个数据集上评估 42 种 LLM‑增强 GNN 配置的隐私风险。"
+          },
+          {
+            "icon": "🔧",
+            "text": "将基于解释和基于嵌入的 LLM 增强与标准 GNN 主干结合，测试链接、标签和成员推断攻击。"
+          },
+          {
+            "icon": "📈",
+            "text": "实证结果显示，相比浅层基线，隐私泄露持续增加，差分隐私虽能减轻泄露但会导致显著的效用损失。"
+          }
+        ],
+        "overview": "本文提供系统的 LLM‑增强图神经网络隐私评估流水线，涵盖数据集准备、使用解释式和嵌入式 LLM 增强的受害模型训练、针对链接、标签和成员信息的六种推断攻击、定量风险评估以及差分隐私防御研究。六个真实文本属性图的实验表明，语义增强提升分类性能的同时也放大了隐私泄露信号，且差分隐私只能在牺牲准确率的情况下提供部分保护。",
+        "methodology": [
+          {
+            "title": "五阶段评估框架",
+            "detail": "阶段：(1) 数据集准备，(2) 受害模型训练（LLM 增强器 + GNN 主干），(3) 隐私攻击执行，(4) 风险评估（隐私 vs 实用性指标），(5) 使用差分隐私的防御分析。"
+          },
+          {
+            "title": "受害模型配置",
+            "detail": "通过将多种基于 LLM 的特征增强器（基于解释或基于嵌入）与代表性 GNN 主干（如 GAT）配对，创建了 42 种配置，采用两层架构（隐藏维度 256，dropout 0.5，学习率 0.001）。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "语义增强放大泄漏信号",
+            "detail": "LLM 生成的嵌入强化了潜在空间中的结构、标签和成员关系模式，使其更易被推断攻击利用。"
+          }
+        ],
+        "experiments": [
+          {
+            "detail": "六个真实世界文本属性图数据集；六种隐私攻击（链接、标签、成员推理变体）；指标包括节点分类准确率和攻击AUC；每次运行使用不同种子重复五次。",
+            "title": "实证研究"
+          },
+          {
+            "detail": "对目标模型应用DP机制，测量隐私风险降低与效用退化（ noted as substantial）。",
+            "title": "差分隐私防御"
+          }
+        ],
+        "findings": [
+          {
+            "detail": "LLM增强的GNNs在节点分类准确率上始终优于浅层BoW/Word2Vec基线（例如，高达~95.7%）。",
+            "title": "效用提升"
+          },
+          {
+            "detail": "所有攻击中，LLM增强模型表现出比浅层基线更高的泄露，证实了隐私风险的放大。",
+            "title": "隐私脆弱性增加"
+          },
+          {
+            "detail": "差分隐私部分缓解了攻击，但导致分类性能显著下降。",
+            "title": "隐私-效用权衡"
+          }
+        ],
+        "contributions": [
+          "统一的五阶段框架，用于系统评估 LLM‑enhanced GNNs 的隐私风险。",
+          "全面的实证基准，涵盖六个数据集、42 种模型配置和六种攻击方法。",
+          "分析表明，LLM‑driven 语义增强会放大隐私泄漏信号。"
+        ],
+        "limitations": [
+          "在可用来源中未说明。"
+        ],
+        "open_questions": [
+          "如何设计 privacy‑preserving LLM 增强，使其在保持效用的同时不放大泄漏？",
+          "在 differential privacy 之外，哪些替代防御机制对 LLM‑enhanced GNNs 有效？",
+          "观察到的隐私风险是否可推广到更大的 LLM 或其他图任务，如 link prediction？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
       "analysis_status": "complete",
       "recommendation_reason": {
         "topic": "LLM loss landscape",
@@ -1670,132 +1845,25 @@
         ],
         "lane": "llm"
       },
-      "summary": {
-        "method": "多代理编排器使用 TopologyAgent、ResourceAgent 和 AggregationAgent，其输出由 LLM 协调器合成，并通过非 LLM 可行性检查进行验证。",
-        "evidence": "在 30 客户端的 non‑IID CIFAR‑10 上，FL‑MAESTRO 将浪费的轮次能耗从 >33% 降至接近零，同时保持最强能耗感知基线的准确率。",
-        "takeaway": "FL‑MAESTRO 使用三个专用 LLM 代理在每轮 FL 中共同决定拓扑、资源和聚合，消除大部分浪费能量。",
-        "why_for_you": "如果您关注高效对抗训练，本文的资源感知 LLM 编排或能为低能耗 FL 策略提供灵感。",
-        "limitations": "评估仅限于模拟 CIFAR‑10 场景，未考察真实部署或更大模型规模。",
-        "problem": "联邦学习因客户端可用性波动以及固定的拓扑/资源决策而导致轮次能量浪费。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "FL‑MAESTRO 通过三个专用 LLM 代理在每轮共同编排拓扑、每客户端资源和聚合。"
-          },
-          {
-            "icon": "🔧",
-            "text": "协调器将各代理的分析合成为可行的联合决策，迭代至 Dmax ∈ {2, 3}，并通过非 LLM 可行性检查进行验证。"
-          },
-          {
-            "icon": "📊",
-            "text": "在 non‑IID CIFAR‑10 上，FL‑MAESTRO 将浪费的轮次能量从 >33% 降至接近零，同时保持基线准确率。"
-          }
-        ],
-        "overview": "FL‑MAESTRO 为联邦学习引入运行时编排器，通过专用 LLM 代理耦合通信拓扑、每客户端资源分配和聚合权重三大决策维度。每个代理基于自然文本客户端概况和领域工具进行推理，中心 LLM 协调器将其提案合并为联合决策，由非 LLM 验证器确保可行性。 在模拟的 non‑IID CIFAR‑10 异构边缘客户端实验中，系统在不牺牲模型准确率的前提下消除大部分能量浪费，展示了 open‑weight LLM 在本地 FL 控制中的实用性。",
-        "methodology": [
-          {
-            "title": "专用 LLM 代理",
-            "detail": "TopologyAgent、ResourceAgent 和 AggregationAgent 各自接收针对通信成本、能量成本、标签多样性和电池可行性的类型化约束分析和查询工具。"
-          },
-          {
-            "title": "协调器和验证器",
-            "detail": "仅合成的 LLM 提示将三项分析合并为 JSON 决策 (C+, τ, {ri}, σ)；Python 验证器强制执行电池合格性、聚合器能力、权重归一化以及对不可行值的裁剪。"
-          },
-          {
-            "title": "协作协议",
-            "detail": "代理在 Dmax ∈ {2, 3} 次迭代内运行，在观察其他维度后修订提案，以在最终合成前强制耦合。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "预测失效过滤",
-            "detail": "编排器读取服务器的预测失效列表，屏蔽电池电量低且其更新将被丢弃的客户端，从而消除浪费回合能量的主要来源。"
-          },
-          {
-            "title": "自然文本客户端配置文件",
-            "detail": "客户端状态被编码为文本配置文件，使同一 LLM 编排能够在无需每类能量模型的情况下处理异构设备类别。"
-          },
-          {
-            "title": "可行性裁剪",
-            "detail": "验证器将不可行的联合决策裁剪至可行性边界，将 LLM 错误转化为修复而非运行时崩溃。"
-          }
-        ],
-        "experiments": [
-          {
-            "detail": "CIFAR‑10 与 Dirichlet 非独立同分布划分（α=0.1, 0.3），CNN（545k 参数），30 个客户端，电池电量 ∈[0.5,0.9]（硬/极端低电量子集），带宽双峰分布，计算资源从指数分布中采样。",
-            "title": "设置"
-          },
-          {
-            "detail": "两种异构边缘场景（硬 α=0.3，极端 α=0.1）与最强节能基线（如 Oort）及经典 FL 方法（FedAvg，FedProx）进行对比。",
-            "title": "场景与基线"
-          },
-          {
-            "detail": "模型准确率，浪费的轮次能量（客户端在聚合前掉线所消耗能量的百分比），可行性违反率。",
-            "title": "指标"
-          }
-        ],
-        "findings": [
-          {
-            "detail": "FL‑MAESTRO 在硬场景和极端场景下将浪费的轮次能量从超过三分之一减少到接近零。",
-            "title": "能耗效率"
-          },
-          {
-            "detail": "该方法在激进客户端屏蔽情况下仍能保持与最强节能基线相当的准确率。",
-            "title": "准确率保持"
-          },
-          {
-            "detail": "非 LLM 验证器成功限制不可行决策，防止运行时崩溃并维持稳定训练。",
-            "title": "可行性执行"
-          }
-        ],
-        "contributions": [
-          "Joint runtime FL decision making with multi‑agent LLMs",
-          "Energy‑aware orchestration that eliminates wasted round energy",
-          "Open‑weight LLM implementation removing cloud dependency"
-        ],
-        "limitations": [
-          "仅在 CIFAR‑10 上进行模拟实验；未在真实边缘环境部署",
-          "评估仅限于单一模型规模和 30 个客户端",
-          "未分析 LLM loss‑landscape 行为或对抗鲁棒性"
-        ],
-        "open_questions": [
-          "多代理 LLM 编排如何影响联邦训练中的 loss‑landscape 动态？",
-          "该方法能否在资源受限下扩展至高效的对抗训练？",
-          "在将客户端数量和模型规模超出所示实验时，会出现哪些可扩展性挑战？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "recommended_at": "2026-08-24T02:55:19.024175+00:00"
+      "recommended_at": "2026-08-29T15:03:50.069527+00:00"
     },
     {
-      "id": "2608.21278",
-      "title": "CLEAR: Continuous Latent Adapter Routing for Utility-Preserving LLM Safety Alignment",
-      "abstract": "Improving the safety of large language models (LLMs) often comes at the expense of utility, as globally applied safety tuning may affect model responses to both harmful and benign inputs. We propose \\textbf{C}ontinuous \\textbf{L}at\\textbf{E}nt \\textbf{A}dapter \\textbf{R}outing (CLEAR), a conditional safety adaptation framework that uses a lightweight hidden-state gate to continuously control the activation strength of a safety low-rank adapter. CLEAR aims to reduce harmful completions while avoiding unnecessary changes to the frozen backbone that could degrade performance on benign prompts. Experiments on widely used safety and utility benchmarks show that CLEAR improves robustness on HarmBench while reducing the utility degradation observed with globally applied safety tuning such as SFT or standard low-rank adaptation (LoRA). On Llama-3-8B-Instruct, CLEAR reduces HarmBench ASR from 32.3\\% to 0.5\\%, while retaining most of the base model's utility and achieving up to 7.1 percentage points higher GSM8K accuracy than globally applied SFT or LoRA. These results suggest that CLEAR is a promising mechanism for improving the safety--utility trade-off in LLM alignment.",
+      "id": "2608.27397",
+      "title": "Making Clinical Language Models Auditable: Concept-Guided Fine-Tuning for Robust Prediction",
+      "abstract": "Clinical language models can achieve strong in-hospital accuracy yet fail under deployment shifts because they exploit note-specific artifacts (e.g., templates, separators, boilerplate) that do not reflect patient state. We propose CAST (Concept-guided Artifact Suppression Tuning), an SAE-based framework for auditable clinical text classification. CAST uses Sparse Autoencoders to expose sparse, human-auditable features from intermediate Transformer activations, labels SAE latents with an LLM-assisted interpretation pipeline and ICD-10 retrieval constraints, suppresses verified artifact latents via residual subtraction during fine-tuning, and provides post-hoc per-concept attributions for auditing model decisions. On MIMIC-IV discharge-note mortality prediction, CAST improves over its corresponding fine-tuned encoder baselines and remains competitive with strong LLM baselines, while producing a feature-level audit trail of the clinical concepts that support each prediction and the artifact concepts suppressed during training.",
       "authors": [
-        "Chengxiao Wang",
-        "Enyi Jiang",
-        "Xiaojing Liao",
-        "Sanmi Koyejo"
+        "Jin Mu",
+        "Guanhua Chen"
       ],
-      "published": "2026-08-21T16:36:10Z",
-      "updated": "2026-08-21T16:36:10Z",
+      "published": "2026-08-27T17:28:35Z",
+      "updated": "2026-08-27T17:28:35Z",
       "categories": [
+        "cs.CL",
         "cs.AI"
       ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2608.21278v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.21278v1",
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.27397v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.27397v1",
       "comment": "",
       "journal_ref": "",
       "source": "arxiv",
@@ -1804,319 +1872,71 @@
       "conference_year": null,
       "lane": "llm",
       "scope_matches": [
-        "large language model",
-        "large language models",
         "language model",
         "language models",
-        "llm"
+        "llm",
+        "transformer"
       ],
       "topics": [
         {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.591,
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.6765,
           "matched": [
-            "llm safety",
-            "LLM safety",
-            "robustness",
-            "alignment",
-            "safety",
-            "llm"
+            "training",
+            "fine-tuning",
+            "robust"
           ]
         },
         {
           "id": "llm_loss_landscape",
           "name": "LLM loss landscape",
           "status": "emerging",
-          "score": 0.4309,
+          "score": 0.2533,
           "matched": [
             "llm"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.1221,
-          "matched": [
-            "robustness"
           ]
         }
       ],
       "scores": {
-        "total": 0.6054,
-        "relevance": 0.5834,
-        "quality": 0.54,
-        "novelty": 0.8551,
-        "freshness": 0.6529,
+        "total": 0.6329,
+        "relevance": 0.5919,
+        "quality": 0.62,
+        "novelty": 0.8774,
+        "freshness": 0.7286,
         "feedback_adjustment": -0.0254,
         "semantic_feedback": 0.0
       },
       "quality_signals": [
-        "benchmark evaluation",
-        "experiments",
-        "quantitative results"
-      ],
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "llm safety",
-          "LLM safety",
-          "robustness",
-          "alignment"
-        ],
-        "lane": "llm"
-      },
-      "summary": {
-        "limitations": "在可获得的来源中未说明。",
-        "evidence": "在 Llama‑3‑8B‑Instruct 上，HarmBench ASR 从 32.3% 降至 0.5%，且相较于 SFT 或标准 LoRA，GSM8K 准确率提升最高 7.1 分。",
-        "method": "CLEAR 冻结主干，并学习一个隐藏状态门，对每个提示持续缩放 safety LoRA 适配器。",
-        "problem": "全局安全微调会通过改变模型在良性输入上的行为，降低实用性。",
-        "why_for_you": "通过提供参数高效、条件化的安全机制，降低对齐成本，契合您对高效对抗训练的兴趣。",
-        "takeaway": "CLEAR 通过潜在表示门控的条件低秩安全适配器，实现几乎为零的 HarmBench 攻击成功率，同时保持或提升实用性。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "experiments": [
-          {
-            "title": "基准与模型",
-            "detail": "在 HarmBench、XSTest（安全）以及 GSM8K、MMLU、TruthfulQA（实用）上评估，使用 Llama‑3‑8B‑Instruct 和 Gemma‑2‑2B‑it；基线包括 SFT 和标准 LoRA。"
-          },
-          {
-            "title": "指标",
-            "detail": "安全性通过 HarmBench 攻击成功率 (ASR) 和 XSTest 拒绝/过度拒绝衡量；实用性通过 GSM8K、MMLU 和 TruthfulQA (MC1/MC2) 的准确率衡量。"
-          }
-        ],
-        "overview": "CLEAR 引入轻量级隐藏状态门，为每个输入预测连续路由分数，并调节插入冻结 LLM 主干的安全专用 LoRA 适配器。该门使用子类型感知的二元交叉熵和硬对偶边距损失进行训练，以在潜在空间中区分有害与良性提示。Llama‑3‑8B‑Instruct 和 Gemma‑2‑2B‑it 的实验显示，显著降低 HarmBench 攻击成功率，同时在 GSM8K、MMLU、TruthfulQA 等实用基准上保持或提升性能。",
-        "methodology": [
-          {
-            "title": "潜在门",
-            "detail": "两层 MLP 从选定的 transformer 层聚合隐藏状态，经过 sigmoid 输出 g∈[0,1]。"
-          },
-          {
-            "title": "Safety LoRA 适配器",
-            "detail": "低秩更新 ΔW 插入 q_proj 和 v_proj 注意力矩阵；仅训练 ΔW 与门参数，主干保持冻结。"
-          },
-          {
-            "title": "训练目标",
-            "detail": "子类型感知的 BCE 损失对对抗性良性/有害示例赋予更高权重；硬对偶边距损失通过软加权强制 gu > gs。"
-          }
-        ],
-        "limitations": [
-          "规模效益仅在两种模型上展示，缺乏更广泛的模型规模分析。",
-          "提出了自适应鲁棒性 (Q4)，但在提供的摘录中未报告。"
-        ],
-        "findings": [
-          {
-            "title": "安全‑实用权衡",
-            "detail": "CLEAR 将 Llama‑3‑8B‑Instruct 上的 HarmBench ASR 从 32.3% 降至 0.5%，并相较于全局 SFT 或 LoRA，GSM8K 准确率提升最高 7.1%。"
-          },
-          {
-            "title": "门的训练动态",
-            "detail": "训练曲线显示 LM 损失、BCE 损失和边距损失下降，同时安全与不安全门分数分化，表明路由有效。"
-          }
-        ],
-        "contributions": [
-          "通过连续潜在门实现条件化安全适配。",
-          "子类型感知的门加权结合硬对偶边距损失。",
-          "在两种指令微调 LLM 上实证展示了改进的安全‑实用权衡。"
-        ],
-        "open_questions": [
-          "CLEAR 在针对门控机制的自适应对抗攻击下表现如何？",
-          "潜在门控方法能否与 RLHF 或其他基于强化学习的对齐流水线结合？",
-          "在大规模使用时，计算门并应用路由适配器的推理延迟开销是多少？"
-        ],
-        "mechanism": [
-          {
-            "title": "连续路由",
-            "detail": "生成过程中，隐藏状态 h 被转换为 h' = (W + gΔW)h，其中 g 连续控制安全干预的强度。"
-          },
-          {
-            "title": "潜在区分",
-            "detail": "门学习对良性提示赋予低分，对有害或对抗性提示赋予高分，实现选择性安全激活。"
-          }
-        ],
-        "signals": [
-          {
-            "icon": "🛡️",
-            "text": "CLEAR 添加了连续潜在门，为每个提示路由 safety LoRA 适配器，保持模型实用性。"
-          },
-          {
-            "icon": "⚙️",
-            "text": "门输出 g∈[0,1]，将 LoRA 适配器缩放为 h' = (W + gΔW)h，使用 BCE 与边距损失进行训练。"
-          },
-          {
-            "icon": "📊",
-            "text": "CLEAR 将 Llama‑3‑8B‑Instruct 上的 HarmBench ASR 从 32.3% 降至 0.5%，但两模型之外的规模结果未完整报告。"
-          }
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "recommended_at": "2026-08-24T02:55:19.024175+00:00"
-    },
-    {
-      "id": "2608.19579",
-      "title": "Enforcing LLM Safety through DMD-based Classification of Prompt-Response Embedding Dynamics",
-      "abstract": "Large Language Models (LLMs) are increasingly deployed in high-stakes applications, yet their tendency to generate toxic, harmful, or policy-violating content poses significant risks. Detecting these unsafe outputs efficiently in a black-box manner remains an open challenge. In this paper, we extend a recently proposed dynamical systems framework designed for hallucination detection to LLM safety classification. By projecting both prompts and responses into high-dimensional embedding spaces and fitting separate Koopman-based predictive models for safe and unsafe regimes, we classify new outputs using a new differential residual score that compares prediction errors of the safe and unsafe regimes. A key contribution is the incorporation of the prompt and response embedding dynamics, yielding fitted Koopman operators that capture crucial interaction patterns. We evaluate our black-box method across three safety benchmarks using three embedding models. Our results show that incorporating prompt embeddings yields consistent improvements, particularly for interaction-dependent violations when paired with causal decoders (e.g., in Llama-3), while response-only violations benefit more from dense semantic embedding representations. These findings opens the door for using dynamical systems to analyze AI systems rather than the dominant paradigm of using AI to model dynamical systems.",
-      "authors": [
-        "Mohamed Akrout",
-        "Olivera Kotevska",
-        "Dan Wilson"
-      ],
-      "published": "2026-08-20T02:50:44Z",
-      "updated": "2026-08-20T02:50:44Z",
-      "categories": [
-        "cs.AI",
-        "math.DS"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2608.19579v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.19579v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.558,
-          "matched": [
-            "llm safety",
-            "hallucination",
-            "safety"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5997,
-        "relevance": 0.5544,
-        "quality": 0.62,
-        "novelty": 0.891,
-        "freshness": 0.5249,
-        "feedback_adjustment": -0.0137,
-        "semantic_feedback": 0.7203
-      },
-      "quality_signals": [
         "code available",
-        "benchmark evaluation",
+        "baseline comparison",
         "quantitative results"
       ],
       "summary": {
-        "takeaway": "使用 DMD 与 Koopman 算子对提示‑响应嵌入动力学进行分类，可在黑盒条件下提升 LLM 安全检测。",
-        "problem": "需要一种无需访问模型内部或多次采样即可高效识别 LLM 有害输出的方法。",
-        "method": "将提示和响应的 token 嵌入投射至高维空间，分别拟合安全与不安全的 Koopman 预测模型，利用差分残差分数进行二分类。",
-        "evidence": "在三个安全基准上，加入提示嵌入始终提升检测效果，尤其对 Llama‑3 的交互依赖违规有显著增益。",
-        "limitations": "仅评估二分类且缺乏多类危害实验和理论可分性保证。",
-        "why_for_you": "对可信 LLM 研究者，这提供了无需内部访问的后部署安全监控方案，适合实际部署场景。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
+        "takeaway": "We propose CAST (Concept-guided Artifact Suppression Tuning), an SAE-based framework for auditable clinical text classification.",
+        "problem": "Clinical language models can achieve strong in-hospital accuracy yet fail under deployment shifts because they exploit note-specific artifacts (e.g., templates, separators, boilerplate) that do not reflect patient state.",
+        "method": "We propose CAST (Concept-guided Artifact Suppression Tuning), an SAE-based framework for auditable clinical text classification.",
+        "evidence": "On MIMIC-IV discharge-note mortality prediction, CAST improves over its corresponding fine-tuned encoder baselines and remains competitive with strong LLM baselines, while producing a feature-level audit trail of the clinical concepts that support each prediction and the artifact concepts suppressed during training.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Efficient adversarial training, LLM loss landscape.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
       },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🛡️",
-            "text": "首次将提示嵌入动力学加入 Koopman 分类，实现交互依赖安全检测提升。"
-          },
-          {
-            "icon": "🔧",
-            "text": "基于扩展 DMD 拟合安全/不安全 Koopman 算子，比较预测误差得到差分残差分数。"
-          },
-          {
-            "icon": "📈",
-            "text": "在三项安全基准上，加入提示嵌入对 Llama‑3 的交互违规检测提升显著。"
-          }
-        ],
-        "overview": "本文将 LLM 的 token 生成视为离散动力系统，利用扩展 DMD 拟合安全与不安全两套 Koopman 算子，并引入提示嵌入动力学以捕获交互依赖的违规模式。通过差分残差分数实现黑盒二分类，在三个安全基准和三种不同规模的嵌入模型上验证了方法的有效性，揭示了嵌入模型与违规类型之间的细微关系。",
-        "methodology": [
-          {
-            "title": "嵌入投射",
-            "detail": "使用 Qwen3-Embed、Mistral、Llama‑3 等预训练模型将提示和响应的 token 转换为高维向量序列。"
-          },
-          {
-            "title": "Koopman 拟合",
-            "detail": "采用扩展 DMD（EDMD）对安全和不安全的嵌入轨迹分别进行最小二乘拟合，得到四个有限维 Koopman 算子。"
-          },
-          {
-            "title": "差分残差评分",
-            "detail": "在推理阶段计算安全与不安全模型的预测误差差异，作为二分类的决策分数。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "动力学视角",
-            "detail": "将 token 嵌入视为可观测的状态轨迹，安全与不安全行为对应不同的动力学流形。"
-          },
-          {
-            "title": "交互捕获",
-            "detail": "通过同时建模提示和响应的 Koopman 算子，捕获仅在两者交互时出现的违规模式。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "基准与模型",
-            "detail": "在三个公开安全基准上评估，使用三种嵌入模型（Qwen3-Embed 0.6B、Mistral 7.2B、Llama‑3 8.0B），采用二分类准确率等指标。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "提示嵌入提升",
-            "detail": "加入提示嵌入后，所有基准均出现一致的检测性能提升，尤其在交互依赖违规上对 Llama‑3 提升最明显。"
-          },
-          {
-            "title": "模型‑违规匹配",
-            "detail": "因果解码器（Llama‑3）适合捕获交互违规，紧凑语义编码器（Qwen‑Embed）更擅长检测仅响应中的不安全内容。"
-          }
-        ],
-        "contributions": [
-          "提出 Prompt‑aware Koopman 分类框架用于 LLM 安全检测",
-          "展示嵌入模型与违规类型之间的细粒度匹配关系",
-          "实现无需内部访问或多次采样的黑盒安全监控"
-        ],
-        "limitations": [
-          "仅实现二分类（安全/不安全），未覆盖多类别危害标签",
-          "实验局限于三种嵌入模型和特定安全基准，缺乏更广泛的评估",
-          "未提供安全可分性的理论保证"
-        ],
-        "open_questions": [
-          "如何将方法扩展到多类别安全标签（如暴力、仇恨、误导等）？",
-          "是否能建立 Koopman 动力学下安全/不安全轨迹可分性的理论界限？",
-          "在实时大规模部署环境中，计算开销与响应延迟如何进一步优化？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
+      "analysis_status": "pending",
       "recommendation_reason": {
-        "topic": "Trustworthy LLM",
+        "topic": "Efficient adversarial training",
         "matched": [
-          "llm safety",
-          "hallucination",
-          "safety"
+          "training",
+          "fine-tuning",
+          "robust"
         ],
         "lane": "llm"
       },
-      "recommended_at": "2026-08-23T10:39:34.861608+00:00"
+      "recommended_at": "2026-08-29T15:03:50.069527+00:00"
     }
   ]
 }
