@@ -1,6 +1,842 @@
 {
-  "generated_at": "2026-08-29T15:03:50.069527+00:00",
+  "generated_at": "2026-08-30T14:52:18.671788+00:00",
   "papers": [
+    {
+      "id": "2608.25941",
+      "title": "When Pruning Meets Interpretability: Preserving Sparse Autoencoder Robustness in LLMs",
+      "abstract": "Sparse autoencoders (SAEs) are widely used to interpret the internal representations of large language models (LLMs), yet their reliability under post-hoc model compression remains poorly understood. We present a systematic study of how pruning affects SAE behavior and theoretically show that, for a fixed SAE, its impact is governed by perturbation energy, a covariance-weighted norm. This perspective exposes a key limitation of magnitude pruning: by ignoring activation geometry, it distorts the learned representation space and degrades SAE functionality. Activation-aware methods such as Wanda and SparseGPT, in contrast, implicitly control perturbation energy and are therefore substantially more robust at preserving SAE behavior. We further reveal a consistent structural vulnerability across all pruning methods: middle layers are significantly more sensitive to pruning than early or late layers. Guided by this insight, we propose a layer-wise sparsity allocation strategy, achieving lower perplexity under the same average pruning sparsity. Experiments across four model architectures validate our theoretical findings. Code is publicly available at https://github.com/osu-srml/sae-robustness-under-pruning/tree/main.",
+      "authors": [
+        "Suchit Gupte",
+        "Xueru Zhang",
+        "Mohammad Mahdi Khalili"
+      ],
+      "published": "2026-08-26T15:57:42Z",
+      "updated": "2026-08-26T15:57:42Z",
+      "categories": [
+        "cs.LG"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2608.25941v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.25941v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5175,
+          "matched": [
+            "robust",
+            "robustness"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.456,
+          "matched": [
+            "robustness",
+            "reliability"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5694,
+        "relevance": 0.5052,
+        "quality": 0.69,
+        "novelty": 0.8125,
+        "freshness": 0.4351,
+        "feedback_adjustment": -0.0153,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "experiments"
+      ],
+      "summary": {
+        "evidence": "在四种模型架构上的实验验证了理论分析的正确性。",
+        "limitations": "作者指出中间层对剪枝的敏感性高于早期或晚期层，这是明确提到的局限性。",
+        "method": "通过理论分析揭示扰动能量对SAE行为的影响，并设计分层稀疏分配策略优化剪枝效果。",
+        "problem": "现有剪枝方法（如幅度剪枝）因忽略激活几何结构而破坏SAE功能，导致其可靠性不足。",
+        "takeaway": "提出了一种分层稀疏分配策略，以在相同平均剪枝稀疏度下降低困惑度并保持稀疏自编码器（SAE）的鲁棒性。",
+        "why_for_you": "与可信大语言模型（LLM）的可解释性保持相关，特别是在模型压缩场景下维持稀疏自编码器的鲁棒性。",
+        "source": "abstract",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "robust",
+          "robustness"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-30T14:52:18.671788+00:00"
+    },
+    {
+      "id": "2608.26588",
+      "title": "Unsaid, Unsafe? Implicit Security Obligations in LLM-Based RTL Code Generation",
+      "abstract": "Large Language Models (LLMs) generate register-transfer-level (RTL) code with rapidly improving functional correctness. Security of LLM-generated code, however, has been studied mainly for software, where flaws can still be patched after deployment. Insecure RTL offers no such remedy once taped out into silicon. We construct SECRTL-GEN, a multi-language resource-access security benchmark grounded in real SoC IP: 392 tasks over five CWE families and four HDLs (Verilog, SystemVerilog, VHDL, and Python), each with black-box functional and security testbenches. Functional specifications intentionally omit security obligations, matching how obligations are often kept out of functional docs in practice. An empirical study of five frontier LLMs shows a sharp gap: under vanilla prompts they pass functional tests in about 73-79% of cases but security tests in only 14-35%, and stronger functional models are not safer. Adding CWE knowledge raises security, while unaided self-thinking helps less and both security-oriented prompts cut functional pass rates, showing that the bottleneck is missing weakness awareness in the specification, not an inability to write defensive RTL. We present RTL-Obliger, a neuro-symbolic framework that infers these implicit obligations. An LLM extracts a functional-semantic graph from the specification; a symbolic engine then matches it against a CWE pattern ontology to surface mitigation-evidence gaps and signal-level obligations; the LLM finally revises RTL under those obligations in a functionality-preserving two-stage generation. Across five models and four languages, RTL-Obliger raises mean all-pass from 49.6-51.4% (SecV/RESCUE) to 61.6%, with higher security and functional rates than these secure-generation baselines.",
+      "authors": [
+        "Guang Yang",
+        "Xing Hu",
+        "Xiang Chen",
+        "Xin Xia"
+      ],
+      "published": "2026-08-27T03:59:55Z",
+      "updated": "2026-08-27T03:59:55Z",
+      "categories": [
+        "cs.CR",
+        "cs.SE"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2608.26588v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.26588v1",
+      "comment": "Under Review",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5821,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5496,
+        "relevance": 0.4657,
+        "quality": 0.69,
+        "novelty": 0.8357,
+        "freshness": 0.5067,
+        "feedback_adjustment": -0.0216,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "baseline comparison",
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "RTL-Obliger infers missing security obligations and revises LLM-generated RTL, substantially improving security pass rates.",
+        "problem": "Functional specifications for RTL omit implicit security obligations, causing LLM-generated designs to fail security tests.",
+        "method": "A neuro-symbolic system builds a functional-semantic graph, matches it against a CWE pattern ontology, and performs two-stage obligation-guided RTL generation.",
+        "evidence": "Mean all-pass rises from 49.6–51.4% (SecV/RESCUE) to 61.6% across five models and four HDLs.",
+        "limitations": "Residual failures are due to matching recall and obligation-guided generation, and the study covers only resource-access weaknesses with black-box tests.",
+        "why_for_you": "Relevant to loss-landscape research by revealing how missing security constraints affect LLM performance and how symbolic guidance can reshape the loss surface.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "RTL-Obliger neuro‑symbolic pipeline lifts mean all‑pass on SECRTL‑GEN to 61.6%."
+          },
+          {
+            "icon": "⚙️",
+            "text": "Method extracts a functional‑semantic graph, matches it to a CWE ontology, then revises RTL in two stages."
+          },
+          {
+            "icon": "⚠️",
+            "text": "Symbolic matching adds +8.1 points to all‑pass; remaining errors stem from matching recall and generation filtering."
+          }
+        ],
+        "overview": "The paper introduces SECRTL-GEN, a 392‑task, four‑HDL benchmark that isolates the functional‑security gap in LLM‑generated RTL when specifications omit security obligations. An empirical study of five frontier LLMs shows high functional pass (73–79%) but low security pass (14–35%). RTL-Obliger addresses this by extracting a functional‑semantic graph from the spec, deterministically matching it against a CWE pattern ontology to infer signal‑level obligations, filtering candidates with an LLM‑as‑judge, and revising the RTL in a two‑stage generation that preserves functionality. Across models and languages, the framework raises mean all‑pass to 61.6%, with symbolic inference providing the largest gain.",
+        "methodology": [
+          {
+            "title": "Functional‑semantic graph extraction",
+            "detail": "An LLM parses the natural‑language specification into a graph of elements, lifetimes, sensitivities, and operations."
+          },
+          {
+            "title": "Symbolic ontology matching",
+            "detail": "A deterministic engine checks each graph element against CWE pattern predicates (PE, PT) to produce high‑recall obligation candidates."
+          },
+          {
+            "title": "LLM‑as‑Judge filtering",
+            "detail": "The LLM re‑evaluates each candidate against the spec and a functional‑semantic summary, discarding false positives without inventing new obligations."
+          },
+          {
+            "title": "Two‑stage RTL generation",
+            "detail": "Stage 1 generates a functional draft; Stage 2 revises the draft under the filtered obligations, aiming to keep functional behavior unchanged."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Deterministic high‑recall matching",
+            "detail": "Algorithm 1 evaluates every scenario in the CWE ontology, requiring preconditions and uncovered elements (U) to trigger an obligation, ensuring no structural gaps are missed."
+          },
+          {
+            "title": "Obligation instantiation via templates",
+            "detail": "Triggered scenarios are turned into natural‑language obligations by filling placeholders ({elem_names}, {trans_names}, {exit_hints}) with the uncovered elements and associated operations."
+          },
+          {
+            "title": "Functionality‑preserving revision",
+            "detail": "The second generation pass conditions the LLM on both the original spec and the obligation text, constraining edits to the minimal code regions identified by the symbolic engine."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Benchmark and baseline setup",
+            "detail": "SECRTL‑GEN comprises 392 tasks across Verilog, SystemVerilog, VHDL, and Python, each with black‑box functional (Tfunc) and security (Tsec) testbenches. Baselines include vanilla prompting, SecV, and RESCUE."
+          },
+          {
+            "title": "Model suite",
+            "detail": "Five frontier LLMs (including DeepSeek‑v4‑Pro) are evaluated under vanilla prompts and under RTL‑Obliger."
+          },
+          {
+            "title": "Metrics",
+            "detail": "Functional pass (F), security pass (S), and all‑pass (A = F ∧ S) are reported per model, language, and ablation."
+          },
+          {
+            "title": "Ablation study",
+            "detail": "Three variants remove (i) symbolic matching, (ii) the LLM‑as‑Judge, or (iii) the two‑stage generation to quantify each component’s contribution."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Functional‑security gap",
+            "detail": "Under vanilla prompts, models achieve 73–79% functional pass but only 14–35% security pass."
+          },
+          {
+            "title": "RTL‑Obliger improvement",
+            "detail": "Mean all‑pass rises from 49.6–51.4% (SecV/RESCUE) to 61.6% across five models and four HDLs."
+          },
+          {
+            "title": "Component impact",
+            "detail": "Removing symbolic matching drops average A by 8.1 points; removing the Judge or two‑stage generation causes smaller declines (≈2 points each)."
+          },
+          {
+            "title": "Error analysis",
+            "detail": "Remaining failures cluster around missed matches in the ontology (recall) and imperfect obligation‑guided revisions."
+          }
+        ],
+        "contributions": [
+          "SECRTL‑GEN: a multi‑language, real‑SoC security benchmark with omitted obligations.",
+          "Empirical quantification of the functional‑security gap for LLM‑generated RTL.",
+          "RTL‑Obliger: a neuro‑symbolic framework that infers and enforces implicit security obligations.",
+          "Comprehensive evaluation showing security gains and component‑wise ablation results."
+        ],
+        "limitations": [
+          "Benchmarked only resource‑access CWE families; other hardware weaknesses are not covered.",
+          "Security assessment relies on black‑box simulation testbenches, not formal verification.",
+          "Residual errors stem from ontology matching recall and obligation‑guided generation precision."
+        ],
+        "open_questions": [
+          "Can the neuro‑symbolic approach scale to larger, more complex designs and broader CWE families?",
+          "How does integrating symbolic obligation inference affect the loss landscape of LLM fine‑tuning for hardware code generation?",
+          "What are the trade‑offs between deterministic symbolic guidance and end‑to‑end learned security prompts in terms of efficiency and robustness?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-30T14:52:18.671788+00:00"
+    },
+    {
+      "id": "2608.26730",
+      "title": "Knowing When Not to Reuse: Conditional Experience Transfer in Autonomous LLM Post-Training",
+      "abstract": "Large language models offer broad capabilities, but adapting them to evolving domains, tools, and requirements often entails repeated post-training. Autonomous systems automate parts of this process by proposing updates, training candidates, and using evaluation feedback to select subsequent proposals. As evidence accumulates, a central problem emerges: which past update evidence remains actionable after subsequent training has changed the parent model? An update's effect depends on its parent, data, and training stage. Treating past success as context-free permission can waste compute. If the resulting child is promoted, it can also degrade the subsequent training trajectory. We formulate this problem as conditional experience transfer and introduce Boundary-Calibrated Intervention Transfer (BCIT), a method that authorizes experience reuse before weight-changing training. BCIT binds an observed effect to its source context, checks applicability conditions, vetoes candidates with named hard conflicts, and obtains current-state evidence through a bounded training trial when needed. Fully trained candidates still face a shared adoption rule, and only observed events extend memory. On one 4B model adapted across finance reasoning, text-to-SQL, and function calling, candidate updates exhibit heterogeneous target and retention effects across the evaluated contexts. Under matched candidates, evidence, and compute, BCIT authorizes fewer harmful updates and attains higher equal-budget final-model quality than the evaluated alternatives. These results support treating experience authorization as a distinct problem in autonomous post-training.",
+      "authors": [
+        "Tingyun Li",
+        "Wenfeng Feng",
+        "Weiqing Li",
+        "Abudukelimu Wuerkaixi",
+        "Guohua Liu",
+        "Yuewei Zhang"
+      ],
+      "published": "2026-08-27T07:22:16Z",
+      "updated": "2026-08-27T07:22:16Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2608.26730v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.26730v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.586,
+          "matched": [
+            "training"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.3428,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5382,
+        "relevance": 0.5374,
+        "quality": 0.39,
+        "novelty": 0.8462,
+        "freshness": 0.5268,
+        "feedback_adjustment": -0.0178,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "formal bound"
+      ],
+      "summary": {
+        "takeaway": "BCIT reduces wasted compute by conditioning reuse of past updates on source context, improving final model quality.",
+        "problem": "Autonomous LLM post‑training must decide when historical update evidence remains valid after the parent model changes.",
+        "method": "BCIT records source context, evidence, applicability rules, and hard conflicts, then rejects, validates via a bounded trial, or fully trains candidates.",
+        "evidence": "On a 4B model across three tasks, BCIT cuts harmful authorizations from 62.5% to 25.0% and achieves higher cross‑task mean under equal compute.",
+        "limitations": "Experiments cover only one 4B model, three capabilities, a single retention benchmark, and manually set boundaries.",
+        "why_for_you": "If you aim to make adversarial or efficient LLM training more compute‑aware, BCIT’s conditional reuse directly addresses wasteful update allocation.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "BCIT frames conditional experience transfer, cutting harmful update authorizations from 62.5% to 25.0%."
+          },
+          {
+            "icon": "🧮",
+            "text": "BCIT binds observed effects to source context, checks applicability, vetoes hard conflicts, and runs bounded trials before full training."
+          },
+          {
+            "icon": "📊",
+            "text": "BCIT authorizes 2/8 harmful vs 5/8 baseline and yields higher cross‑task mean, evaluated on one 4B model."
+          }
+        ],
+        "overview": "The paper defines conditional experience transfer, the problem of reusing past post‑training updates when the parent LLM has changed. It proposes Boundary‑Calibrated Intervention Transfer (BCIT), which records each update’s source context, observed gain, applicability conditions, and named hard conflicts. At decision time BCIT either rejects a candidate, runs a short bounded trial on the current parent, or grants full training under a frozen rule, after which a shared adoption rule decides promotion. Experiments on a 4B model across finance reasoning, text‑to‑SQL, and function calling show BCIT reduces harmful authorizations and improves overall task performance under equal compute budgets.",
+        "methodology": [
+          {
+            "title": "Source‑bound record",
+            "detail": "Each historical update is stored as (i, xs, Es, Bi, ρi) capturing the update, source context, observed evidence, applicability conditions, and conflict specifications."
+          },
+          {
+            "title": "Decision actions",
+            "detail": "Given a candidate and current context, BCIT either rejects (hard conflict), validates via a bounded training trial (unresolved evidence), or authorizes full training (frozen rule)."
+          },
+          {
+            "title": "Shared adoption rule",
+            "detail": "All fully trained children are later evaluated with the same promote‑or‑rollback criterion, decoupling authorization from final selection."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Context binding",
+            "detail": "Observed gains are tied to the exact parent model, data mixture, training stage, and evaluation protocol, preventing context‑free reuse."
+          },
+          {
+            "title": "Applicability checking",
+            "detail": "Pre‑specified conditions (e.g., data domain, training stage) are evaluated; violations trigger vetoes or bounded trials."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Setup",
+            "detail": "A 4B LLM adapted sequentially to three capabilities (finance reasoning, text‑to‑SQL, function calling). Candidates were matched on parent, seed, data scale, and budget."
+          },
+          {
+            "title": "Baselines",
+            "detail": "Compared BCIT against Flat‑Additive, ValidateAll, and Additive+Veto policies using six seeds and equal GPU‑hour budgets."
+          },
+          {
+            "title": "Metrics",
+            "detail": "Target task accuracy, two retention measures (IFEval‑P/I), harmful‑candidate authorization rate, beneficial‑candidate coverage, and cross‑task mean score."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Harm reduction",
+            "detail": "BCIT authorized 2 of 8 harmful candidates (25.0%) versus 5 of 8 (62.5%) for Flat‑Additive."
+          },
+          {
+            "title": "Beneficial retention",
+            "detail": "BCIT retained 9 of 10 beneficial candidates (90.0%) compared to 8 of 10 (80.0%) for the baseline."
+          },
+          {
+            "title": "Overall performance",
+            "detail": "Under matched compute, BCIT achieved a higher cross‑task mean than all evaluated shared‑model alternatives."
+          }
+        ],
+        "contributions": [
+          "Formulation of conditional experience transfer as a control problem in autonomous LLM post‑training.",
+          "Design of BCIT, a transparent reject‑validate‑train pipeline with explicit context binding and conflict vetoes.",
+          "Empirical evidence chain showing heterogeneous update effects and BCIT’s advantage in reducing harmful updates while preserving benefits."
+        ],
+        "limitations": [
+          "Evidence limited to a single 4B model and three target tasks.",
+          "Only one retention benchmark and manually defined applicability boundaries were used.",
+          "Studies share candidates and are not independent replications; component analyses are descriptive rather than fully isolated."
+        ],
+        "open_questions": [
+          "How does BCIT scale to larger models (e.g., 70B) and longer adaptation trajectories?",
+          "Can applicability conditions and conflict boundaries be learned automatically rather than hand‑specified?",
+          "What is the impact of BCIT on adversarial robustness and loss‑landscape geometry during sequential fine‑tuning?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-30T14:52:18.671788+00:00"
+    },
+    {
+      "id": "2608.26982",
+      "title": "JudgeStealer: Extracting LLM Judging Capabilities across Evaluation Protocols",
+      "abstract": "Large language model (LLM) judges are increasingly used across various evaluation scenarios, making their judgment capabilities valuable intellectual property. However, black-box access exposes these capabilities to model extraction attacks. Existing extraction methods do not specifically target LLM judges and provide limited support for multiple evaluation protocols under restricted query budgets. In this study, we propose JUDGESTEALER, the first query-efficient model extraction framework for replicating judging capabilities across pointwise scoring, pairwise comparison, and listwise ranking protocols. JUDGESTEALER exploits the strong cross-protocol agreement to acquire pointwise scores and transform them into pairwise and listwise supervisions without additional victim queries. To capture informative judge patterns and improve query efficiency, JUDGESTEALER dynamically selects pointwise inputs based on semantic diversity, predictive uncertainty, and potential judge biases. It further applies score smoothing and multi-protocol review to preserve the ordinal structure of scores and mitigate catastrophic forgetting during surrogate adaptation. Extensive experiments on state-of-the-art LLM-as-a-judge and reward models show that JUDGESTEALER consistently outperforms existing extraction baselines, achieving up to 73.3%, 87.0%, and 71.6% accuracy for pointwise, pairwise, and listwise evaluation, respectively. JUDGESTEALER also remains effective across different sur- rogate model scales, adaptation strategies, and reasoning settings. Moreover, JUDGESTEALER demonstrates robustness against representative extraction defenses.",
+      "authors": [
+        "Chen Chen",
+        "Yaolin Chen",
+        "Xuehan Sun",
+        "Juan Lin",
+        "Xueluan Gong",
+        "Yuhang Zheng",
+        "Qian Wang",
+        "Kwok-Yan Lam"
+      ],
+      "published": "2026-08-27T11:28:32Z",
+      "updated": "2026-08-27T11:28:32Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.26982v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.26982v1",
+      "comment": "20 pages, 8 figures",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.497,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.2092,
+          "matched": [
+            "efficient",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5416,
+        "relevance": 0.4986,
+        "quality": 0.54,
+        "novelty": 0.819,
+        "freshness": 0.5512,
+        "feedback_adjustment": -0.0285,
+        "semantic_feedback": 0.3947
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "JudgeStealer efficiently extracts LLM judging behavior across pointwise, pairwise, and listwise protocols using a two‑stage surrogate training pipeline.",
+        "problem": "Black‑box LLM judges can be stolen, yet existing extraction attacks lack support for multiple evaluation protocols under limited query budgets.",
+        "method": "The framework dynamically selects informative inputs via semantic diversity, predictive uncertainty, and bias signals, then applies adaptive score smoothing and multi‑protocol consolidation to train a surrogate judge.",
+        "evidence": "It attains up to 73.3% pointwise, 87.0% pairwise, and 71.6% listwise accuracy while remaining robust to representative defenses.",
+        "limitations": "Authors do not state explicit limitations.",
+        "why_for_you": "Relevant to your interest in efficient adversarial training because it demonstrates a query‑efficient attack that probes LLM loss landscapes across evaluation protocols.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "First framework to extract LLM judging capabilities across pointwise, pairwise, and listwise protocols"
+          },
+          {
+            "icon": "🔧",
+            "text": "Dynamically selects inputs using semantic diversity, uncertainty, and bias, then smooths scores and consolidates multi‑protocol supervision"
+          },
+          {
+            "icon": "📈",
+            "text": "Achieves up to 73.3% pointwise, 87.0% pairwise, 71.6% listwise accuracy under ~600 queries"
+          }
+        ],
+        "overview": "JudgeStealer introduces a query‑efficient extraction pipeline that first gathers pointwise scores from a black‑box LLM judge, using a dynamic selection mechanism based on semantic diversity, predictive uncertainty, and potential judge bias. These scores are smoothed with an adaptive discrete Gaussian and used to warm‑up a surrogate model. In a second stage, the pointwise scores are transformed into pairwise and listwise supervision, and all three forms are jointly fine‑tuned, preserving ordinal structure and mitigating forgetting. Experiments on proprietary and open‑source judges show high accuracy across protocols and resilience to defenses.",
+        "methodology": [
+          {
+            "title": "Stage I – Pointwise Score Extraction",
+            "detail": "Iteratively query the victim judge, select inputs via D, U, B signals, and train the surrogate with adaptive Gaussian‑smoothed cross‑entropy loss."
+          },
+          {
+            "title": "Stage II – Multi‑Protocol Extension",
+            "detail": "Transform collected pointwise scores into pairwise comparisons and listwise rankings, then consolidate all supervision for joint surrogate adaptation."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Cross‑Protocol Agreement Exploitation",
+            "detail": "Assumes strong agreement among pointwise, pairwise, and listwise judgments, allowing conversion of pointwise outputs into other protocol labels without extra victim queries."
+          },
+          {
+            "title": "Dynamic Input Selection",
+            "detail": "Combines semantic diversity (D), predictive uncertainty (U), and bias estimation (B) to prioritize queries that reveal informative judge patterns."
+          },
+          {
+            "title": "Adaptive Score Smoothing",
+            "detail": "Blends one‑hot targets with a trainable discrete Gaussian distribution to encode ordinal relationships and reduce catastrophic forgetting."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Evaluation Setup",
+            "detail": "Surrogate: Qwen3‑1.7B (and others); Victims: GPT‑5.4, Llama‑3.2‑1B, Qwen3‑1.7B; Baselines: prior extraction attacks (KnockoffNet, Activethief, etc.); Metrics: Acc, Acc±1, MAE for each protocol; Query budget ≈600."
+          },
+          {
+            "title": "Ablation Studies",
+            "detail": "Removing any of D, U, B degrades performance; adaptive smoothing outperforms fixed smoothing and one‑hot supervision; consolidation stage contributes most runtime."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Extraction Performance",
+            "detail": "JudgeStealer reaches 73.3% pointwise, 87.0% pairwise, and 71.6% listwise accuracy, surpassing all listed baselines."
+          },
+          {
+            "title": "Robustness to Defenses",
+            "detail": "Maintains high accuracy against anomaly detection and ownership‑tracing defenses (e.g., Table 10 results)."
+          },
+          {
+            "title": "Efficiency",
+            "detail": "Full pipeline completes in 65 min 34 s for 600 queries; selection accounts for 23% of runtime."
+          }
+        ],
+        "contributions": [
+          "First model extraction framework for LLM judges across multiple evaluation protocols",
+          "Query‑efficient dynamic input selection using diversity, uncertainty, and bias signals",
+          "Adaptive score smoothing and multi‑protocol consolidation preserving ordinal structure"
+        ],
+        "limitations": [
+          "No explicit limitation discussion; evaluation limited to specific victim models and a ~600‑query budget"
+        ],
+        "open_questions": [
+          "How does the approach scale to larger query budgets or more restrictive API limits?",
+          "Can adaptive defenses that modify output distributions undermine the cross‑protocol transformation?",
+          "Is the method applicable to extracting other LLM functionalities beyond judging?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-30T14:52:18.671788+00:00"
+    },
+    {
+      "id": "2608.26587",
+      "title": "Surgical Alignment in Knowledge Graph Training for Clinical Diagnosis with Large Language Models",
+      "abstract": "Biomedical knowledge graphs (KGs) offer structured medical knowledge that can ground large language model (LLM) reasoning in clinical diagnosis application, yet how KG signal should be integrated into LLMs remains an open question. We present a systematic study spanning five KG task formulations, three training paradigms, two KGs, and three base LLMs. At the task level, all paradigms improve over the non-finetuned baseline, but methods with comparable in-domain accuracy show substantially different knowledge transfer behavior. We introduce Gradient Intervention Density (GID) and Gradient Distortion (GD) to measure how broadly an optimizer modifies the pretrained model. GID and GD together reveal a clear divide: KG-judgment training under KL regularization produces sparse, localized updates (a regime we term as surgical alignment), while task-specific SFT produces dense ones. A controlled ablation shows that the objective and KL contribute to sparsity independently, and the paradigms that produce sparse updates also improve reasoning quality, even when their in-domain accuracy is lower than task-specific SFT. Assessing KG-LLM integration thus requires complementing accuracy with optimization-geometry diagnostics. Our implementation can be found at https://github.com/LARK-NLP-Lab/Surgical-Alignment.",
+      "authors": [
+        "Saksham Khatwani",
+        "He Cheng",
+        "Majid Afshar",
+        "Dmitriy Dligach",
+        "Yanjun Gao"
+      ],
+      "published": "2026-08-27T03:57:52Z",
+      "updated": "2026-08-27T03:57:52Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.26587v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.26587v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5194,
+          "matched": [
+            "training"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.2614,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5409,
+        "relevance": 0.4678,
+        "quality": 0.66,
+        "novelty": 0.7951,
+        "freshness": 0.5065,
+        "feedback_adjustment": -0.0163,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "GitHub link",
+        "ablation study",
+        "baseline comparison"
+      ],
+      "summary": {
+        "takeaway": "We present a systematic study spanning five KG task formulations, three training paradigms, two KGs, and three base LLMs.",
+        "problem": "Biomedical knowledge graphs (KGs) offer structured medical knowledge that can ground large language model (LLM) reasoning in clinical diagnosis application, yet how KG signal should be integrated into LLMs remains an open question.",
+        "method": "We introduce Gradient Intervention Density (GID) and Gradient Distortion (GD) to measure how broadly an optimizer modifies the pretrained model.",
+        "evidence": "At the task level, all paradigms improve over the non-finetuned baseline, but methods with comparable in-domain accuracy show substantially different knowledge transfer behavior.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Efficient adversarial training, LLM loss landscape.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-30T14:52:18.671788+00:00"
+    },
+    {
+      "id": "2608.26043",
+      "title": "Robust CurveMoE: Multi-Norm Adversarial Defense for Mixture-of-Experts Models via Mode Connectivity",
+      "abstract": "Multi-norm adversarial defense aims to protect neural networks against perturbations defined by different norm constraints, but existing methods typically optimize competing robustness objectives within a single parameter configuration, leading to substantial training cost and unfavorable robustness trade-offs. We propose Robust CurveMoE, an efficient mixture-of-experts framework that connects models specialized for different perturbation norms through a low-loss path and exploits the complementary robustness profiles of models along this path. Robust CurveMoE derives clean and norm-specialized experts from robustness-constrained curve locations and selectively expertizes only influential layers, while sharing the remaining parameters across routing paths. To further reduce curve-construction cost, we introduce contribution-guided partial updating, which selects influential curve parameters using initialization-based gradient scores. We also theoretically bound the objective gap between partial and full curve optimization. Experiments on CIFAR-100 and ImageNet-100 with WideResNet and Vision Transformer architectures show that Robust CurveMoE consistently improves clean, norm-specific, and Union accuracy over MSD and ERMC. In particular, it improves Union accuracy by 2.37 and 2.13 percentage points over the strongest baseline on CIFAR-100 and ImageNet-100, respectively. Extensive ablations further validate the effectiveness of partial updating, selective expertization, and robustness-constrained expert selection.",
+      "authors": [
+        "Xu Zhang",
+        "Ren Wang"
+      ],
+      "published": "2026-08-26T17:21:33Z",
+      "updated": "2026-08-26T17:21:33Z",
+      "categories": [
+        "cs.LG"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2608.26043v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.26043v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "transferable",
+      "scope_matches": [
+        "mode connectivity"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.4141,
+          "matched": [
+            "adversarial",
+            "efficient",
+            "training",
+            "robust",
+            "robustness"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.3635,
+          "matched": [
+            "mode connectivity",
+            "loss",
+            "connectivity",
+            "mode"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.1686,
+          "matched": [
+            "robustness"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.064,
+          "matched": [
+            "bound",
+            "optimization"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5311,
+        "relevance": 0.4377,
+        "quality": 0.7,
+        "novelty": 0.8446,
+        "freshness": 0.4434,
+        "feedback_adjustment": -0.0196,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "ablation study",
+        "baseline comparison",
+        "experiments",
+        "formal bound",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "We propose Robust CurveMoE, an efficient mixture-of-experts framework that connects models specialized for different perturbation norms through a low-loss path and exploits the complementary robustness profiles of models along this path.",
+        "problem": "Multi-norm adversarial defense aims to protect neural networks against perturbations defined by different norm constraints, but existing methods typically optimize competing robustness objectives within a single parameter configuration, leading to substantial training cost and unfavorable robustness trade-offs.",
+        "method": "We propose Robust CurveMoE, an efficient mixture-of-experts framework that connects models specialized for different perturbation norms through a low-loss path and exploits the complementary robustness profiles of models along this path.",
+        "evidence": "Experiments on CIFAR-100 and ImageNet-100 with WideResNet and Vision Transformer architectures show that Robust CurveMoE consistently improves clean, norm-specific, and Union accuracy over MSD and ERMC.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Efficient adversarial training, LLM loss landscape.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "adversarial",
+          "efficient",
+          "training",
+          "robust"
+        ],
+        "lane": "transferable"
+      },
+      "recommended_at": "2026-08-30T14:52:18.671788+00:00"
+    },
     {
       "id": "2608.25429",
       "title": "Distance Is Not Enough: Forget-Retain Alignment Gap Predicts LLM Relearning Robustness",
@@ -15397,1067 +16233,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-07-21T11:59:54.359328+00:00"
-    },
-    {
-      "id": "2607.15081",
-      "title": "DataShield: Uncovering Risky Fine-Tuning Data Across LLMs Through Consensus Subspace Alignment",
-      "abstract": "Fine-tuning large language models (LLMs) on domain-specific datasets has become a standard paradigm for adapting LLMs to specialized applications. However, recent work has shown that even fine-tuning on benign task-specific data can substantially weaken the safety capabilities of LLMs. While existing efforts have made progress in identifying data responsible for safety degradation, they usually rely on a single mean vector computed over a specific model with its tokenizer to represent the safety direction, which limits both the effectiveness and transferability of their risk assessment measures. To address these limitations, we propose DataShield, a data assessment framework that identifies risky fine-tuning samples and response segments through consensus subspace alignment over joint safety-critical semantic spaces derived from multiple safety-aligned LLMs. Within these spaces, DataShield extracts consensus safe and unsafe subspaces using semantic spectral decomposition over safe and unsafe data representations. The risk of a data sample or segment is then estimated by measuring its relative alignment with the unsafe and safe subspaces, enabling both sample-level filtering and fine-grained segment-level masking. Compared with state-of-the-art filtering and masking baselines, DataShield reduces ASR by 14.6\\% with sample filtering and 32.3\\% with segment masking, while preserving downstream utility and avoiding target-model-specific risk computation.",
-      "authors": [
-        "Zefeng Wu",
-        "Weiwei Qi",
-        "Jielong Chen",
-        "Tianhang Zheng",
-        "Di Hong",
-        "Chaochao Lu",
-        "Liang He",
-        "Zhan Qin",
-        "Kui Ren"
-      ],
-      "published": "2026-07-16T14:51:42Z",
-      "updated": "2026-07-16T14:51:42Z",
-      "categories": [
-        "cs.CR"
-      ],
-      "primary_category": "cs.CR",
-      "abs_url": "https://arxiv.org/abs/2607.15081v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.15081v1",
-      "comment": "24 pages, 12 figures, 19 tables",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.6071,
-          "matched": [
-            "alignment",
-            "alignment",
-            "safety"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5489,
-        "relevance": 0.4857,
-        "quality": 0.52,
-        "novelty": 0.8536,
-        "freshness": 0.8761
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "DataShield improves LLM fine-tuning safety by identifying risky data samples and segments through consensus subspace alignment across multiple safety-aligned models, outperforming prior methods in reducing attack success rates while preserving utility.",
-        "problem": "Fine-tuning LLMs on domain-specific data can degrade their safety capabilities, and existing data filtering methods lack transferability and granularity due to reliance on single-model mean vectors and tokenizer-dependent token-level risk estimation.",
-        "method": "DataShield constructs consensus safe and unsafe subspaces via semantic spectral decomposition over safety-critical representations from multiple LLMs, estimating risk by measuring alignment with these subspaces to enable sample-level filtering and segment-level masking.",
-        "evidence": "Experiments show DataShield reduces attack success rate (ASR) by 14.6% with sample filtering and 32.3% with segment masking compared to state-of-the-art baselines, while maintaining downstream task utility and avoiding target-model-specific risk computations.",
-        "limitations": "The paper does not provide explicit limitations or failure cases of DataShield, nor detailed analysis on computational overhead or performance on diverse downstream tasks beyond safety metrics.",
-        "why_for_you": "DataShield offers a transferable, model-agnostic approach to mitigate safety degradation during LLM fine-tuning, addressing key challenges in trustworthy LLM deployment by enabling reusable risk assessment across architectures and tokenizers.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "DataShield leverages semantic spectral decomposition to extract consensus safe and unsafe subspaces from multiple safety-aligned LLMs, capturing diverse safety-related directions beyond single mean vector representations."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The framework applies two intervention modes: DataShield-Sp for sample-level filtering by removing the top-risk samples, and DataShield-Sm for segment-level masking by masking high-risk response segments identified via tokenizer-independent segmentation."
-          },
-          {
-            "icon": "📉",
-            "text": "Compared to state-of-the-art baselines, DataShield achieves a 14.6% reduction in attack success rate with sample filtering and a 32.3% reduction with segment masking, demonstrating improved safety preservation without sacrificing downstream utility."
-          }
-        ],
-        "overview": "DataShield addresses the challenge of safety degradation in fine-tuned LLMs by proposing a data-centric risk assessment framework that overcomes limitations of prior methods relying on single-model, mean-vector-based risk estimates and tokenizer-dependent token-level masking. It constructs joint safety-critical semantic spaces by aggregating representations from multiple safety-aligned LLMs with diverse architectures. Through semantic spectral decomposition, DataShield extracts consensus safe and unsafe subspaces that capture richer safety semantics. Risk scores for fine-tuning samples and response segments are computed by measuring their alignment with these subspaces, enabling both sample-level filtering and fine-grained segment-level masking. This approach is model-agnostic and reusable across different target models and tokenizers. Empirical results demonstrate that DataShield significantly reduces harmful behavior compliance rates compared to existing filtering and masking baselines, while preserving downstream task performance. This establishes DataShield as an effective and transferable solution for mitigating safety risks in LLM fine-tuning.",
-        "methodology": [
-          {
-            "title": "Construction of Consensus Safe and Unsafe Subspaces",
-            "detail": "DataShield uses multiple safety-aligned LLMs as source models to extract safety-critical hidden states from selected layers identified via an over-refusal probing dataset. Semantic spectral decomposition is applied to safe and unsafe data representations to derive consensus safe and unsafe subspaces capturing diverse safety-related directions."
-          },
-          {
-            "title": "Sample-Level Filtering (DataShield-Sp)",
-            "detail": "For each fine-tuning sample, DataShield computes a risk score by averaging alignment gaps between the sample's representation and the consensus safe and unsafe subspaces across all source models. The top fraction ρ of samples with highest risk scores are removed from the fine-tuning dataset."
-          },
-          {
-            "title": "Segment-Level Masking (DataShield-Sm)",
-            "detail": "Responses are split into tokenizer-independent raw-text segments using NLP tools. Each segment's risk is computed from autoregressive risk increments based on alignment with consensus subspaces. The top fraction ρ of high-risk segments are masked during fine-tuning to mitigate safety degradation."
-          },
-          {
-            "title": "Reusable Risk Estimation Across Models",
-            "detail": "Risk measurement relies solely on fixed source models and their consensus subspaces, enabling the filtered or masked datasets to be reused for fine-tuning different target LLMs without recomputing risk, thus improving transferability and reducing computational cost."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Consensus Subspace Alignment via Semantic Spectral Decomposition",
-            "detail": "DataShield aligns safety-critical semantic spaces from multiple LLMs by decomposing representations of safe and unsafe data into orthogonal subspaces. This spectral decomposition captures multiple safety-related directions rather than a single mean vector, enabling more robust and transferable risk estimation."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Evaluation of Sample Filtering and Segment Masking",
-            "detail": "Experiments conducted on multiple LLM architectures demonstrate that DataShield-Sp reduces attack success rate by 14.6% and DataShield-Sm by 32.3% compared to state-of-the-art baselines, while preserving downstream task utility measured on domain-specific datasets."
-          },
-          {
-            "title": "Ablation on Tokenizer-Independent Segmentation",
-            "detail": "DataShield uses NLP tools such as Jieba, NLTK, and spaCy to split responses into raw-text segments independent of model tokenizers, addressing tokenization mismatch issues and improving the transferability of segment-level masking across different LLMs."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Improved Safety Preservation",
-            "detail": "DataShield significantly lowers harmful behavior compliance rates in fine-tuned LLMs, achieving a 14.6% ASR reduction with sample filtering and 32.3% with segment masking compared to prior methods relying on single-model risk estimates."
-          },
-          {
-            "title": "Transferability Across Models and Tokenizers",
-            "detail": "By constructing consensus subspaces from multiple source models and using tokenizer-independent segmentation, DataShield's risk assessments and interventions generalize well across different target LLM architectures and tokenizers."
-          },
-          {
-            "title": "Preservation of Downstream Utility",
-            "detail": "Despite aggressive filtering and masking of risky data, DataShield maintains the utility of fine-tuned models on downstream tasks, avoiding the trade-off between safety and performance observed in some prior approaches."
-          }
-        ],
-        "contributions": [
-          "Proposed a novel consensus subspace alignment framework for safety risk estimation in fine-tuning data using multiple safety-aligned LLMs.",
-          "Developed semantic spectral decomposition to extract consensus safe and unsafe subspaces capturing diverse safety semantics.",
-          "Introduced sample-level filtering and tokenizer-independent segment-level masking interventions to mitigate safety degradation.",
-          "Demonstrated significant improvements in reducing harmful behavior compliance rates while preserving downstream utility.",
-          "Provided a reusable, model-agnostic risk assessment method that avoids target-model-specific computations."
-        ],
-        "limitations": [
-          "No explicit discussion of computational overhead or scalability of DataShield's spectral decomposition and multi-model alignment.",
-          "Lack of detailed analysis on performance across a wide range of downstream tasks beyond safety metrics.",
-          "No reported failure cases or limitations in handling certain types of risky data or model architectures.",
-          "Unclear how DataShield performs under adversarially crafted fine-tuning data or evolving safety definitions."
-        ],
-        "open_questions": [
-          "How does DataShield scale with increasing numbers and diversity of source models for consensus subspace construction?",
-          "Can the framework be extended to dynamically update consensus subspaces during continual fine-tuning or model updates?",
-          "What are the trade-offs between segment-level masking granularity and downstream task performance in different application domains?",
-          "How robust is DataShield against adversarial attempts to evade detection by manipulating fine-tuning data semantics?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment",
-          "alignment",
-          "safety"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-17T11:40:30.308849+00:00"
-    },
-    {
-      "id": "2607.15161",
-      "title": "On-Policy Delta Distillation",
-      "abstract": "On-policy distillation is an alternative post-training method in reinforcement learning that alleviates the constraints imposed by reward models by providing token-level supervision from a teacher model. Although on-policy distillation has been studied and applied across various settings, its fundamental design remains underexplored. In this paper, we introduce a new distillation reward, termed the delta signal, instead of directly imitating the teacher's output distribution. The delta signal is defined as the difference between the teacher model and its base model prior to instruction tuning for reasoning capability. It therefore captures the changes induced by reasoning tuning and provides a more direct signal for transferring reasoning capabilities. Using extensive empirical evidence, we show that the delta signal substantially improves on-policy distillation and refer to the new distillation method as On-Policy Delta Distillation (OPD$^2$). Experiments across mathematics, science, and code-reasoning benchmarks demonstrate that OPD$^2$ consistently outperforms conventional on-policy distillation, enabling reasoning LLMs to achieve strong performance with only a short post-training period. Code will be available at https://github.com/naver-ai/opd2",
-      "authors": [
-        "Byeongho Heo",
-        "Jaehui Hwang",
-        "Sangdoo Yun",
-        "Dongyoon Han"
-      ],
-      "published": "2026-07-16T16:07:19Z",
-      "updated": "2026-07-16T16:07:19Z",
-      "categories": [
-        "cs.LG",
-        "cs.CL"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2607.15161v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.15161v1",
-      "comment": "19 pages, 4 figures, 12 tables",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "llms",
-        "instruction tuning"
-      ],
-      "topics": [
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "watch",
-          "score": 0.4868,
-          "matched": [
-            "on-policy distillation",
-            "OPD",
-            "token-level",
-            "policy distillation",
-            "opd",
-            "distillation"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5424,
-        "relevance": 0.3894,
-        "quality": 0.84,
-        "novelty": 0.771,
-        "freshness": 0.8836
-      },
-      "quality_signals": [
-        "code available",
-        "GitHub link",
-        "benchmark evaluation",
-        "experiments",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "On-Policy Delta Distillation (OPD2), which uses the delta signal between a teacher and its base model, significantly improves reasoning capability transfer in on-policy distillation.",
-        "problem": "Conventional on-policy distillation uses the teacher's output distribution directly, which may not effectively capture the reasoning knowledge gained during instruction tuning.",
-        "method": "OPD2 defines a new distillation reward as the difference (delta signal) between the teacher model and its base model prior to reasoning tuning, focusing on the learning trajectory for reasoning capability.",
-        "evidence": "Extensive experiments on multiple benchmarks across Math, Science, and Code domains show OPD2 consistently outperforms both conventional OPD and advanced ExOPD methods across various model sizes.",
-        "limitations": "The paper does not address extensions of OPD signals beyond sampled tokens and does not provide detailed mechanism equations for the delta signal.",
-        "why_for_you": "OPD2 offers a novel, empirically validated approach to enhance on-policy distillation for reasoning LLMs, relevant for improving post-training methods in reinforcement learning.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "The delta signal, defined as the difference between the reasoning-tuned teacher and its base model, captures the knowledge gained during instruction tuning, providing a more direct supervision signal for reasoning capability transfer."
-          },
-          {
-            "icon": "🛡️",
-            "text": "OPD2 applies on-policy distillation by scoring student-generated tokens using the delta signal rather than the teacher's raw output probabilities, preserving the student's original knowledge while enhancing reasoning skills."
-          },
-          {
-            "icon": "📉",
-            "text": "Empirical results on Qwen3 and Gemma4 models across 14 benchmarks show OPD2 achieves substantial improvements over OPD and ExOPD, with gains in pass@1 metrics in Math, Science, and Code tasks, demonstrating the effectiveness of the delta signal."
-          }
-        ],
-        "overview": "This paper addresses the fundamental design of on-policy distillation (OPD) in reinforcement learning for large language models, focusing on improving the transfer of reasoning capabilities. Traditional OPD uses the teacher's output distribution as a reward signal, which may not isolate the reasoning knowledge acquired during instruction tuning. The authors propose On-Policy Delta Distillation (OPD2), which leverages the delta signal—the difference between the teacher model and its base model before reasoning tuning—as a more direct and informative reward. This approach captures the learning trajectory of reasoning tuning, enabling more effective knowledge transfer. Extensive experiments on multiple reasoning domains (Math, Science, Code) and benchmarks demonstrate that OPD2 consistently outperforms conventional OPD and the advanced ExOPD method across various model sizes and architectures. The results validate that the delta signal provides a richer supervision signal, leading to improved reasoning performance with a short post-training period. The paper contributes a novel distillation reward design and comprehensive empirical validation, positioning OPD2 as a significant advancement in on-policy distillation for reasoning LLMs.",
-        "methodology": [
-          {
-            "title": "Delta Signal Computation",
-            "detail": "Compute the delta signal as the difference between the teacher model's output distribution after reasoning tuning and its base model's output distribution prior to tuning. This delta captures the reasoning knowledge gained during instruction tuning."
-          },
-          {
-            "title": "On-Policy Distillation Training",
-            "detail": "Generate sequences using the student model and apply the delta signal as a reward to sampled tokens. Tokens aligned with positive delta values are reinforced, while those with negative values are suppressed, preserving the student's original knowledge."
-          },
-          {
-            "title": "Multi-Domain Dataset Construction",
-            "detail": "Construct a mixed training dataset by sampling questions from Math, Science, and Code reasoning domains to ensure broad applicability and robustness of the distillation method."
-          },
-          {
-            "title": "Evaluation Protocol",
-            "detail": "Evaluate models on 14 benchmarks spanning three domains using pass@1 metrics, comparing OPD2 against baseline OPD, ExOPD, and original models in both non-thinking and thinking generation modes."
-          },
-          {
-            "title": "Training Configuration",
-            "detail": "Train models for 100 optimization steps with AdamW optimizer, learning rate 5e-6, cosine decay, batch sizes 256-288, gradient clipping, and scaled rewards to stabilize training without KL regularization."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Delta Signal as Learning Trajectory",
-            "detail": "The delta signal represents the difference in output probabilities between the teacher model after reasoning tuning and its base model before tuning, effectively encoding the knowledge changes induced by instruction tuning. No explicit equations are provided, but the delta acts as a refined reward signal focusing on reasoning capability."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Model and Dataset Setup",
-            "detail": "Use Qwen3 (1.7B, 4B, 8B) and Gemma4-E4B as student models with corresponding larger teacher models from the same family. Train on a mixed dataset of Math, Science, and Code questions, evaluating on 14 benchmarks with pass@1 metric."
-          },
-          {
-            "title": "Baseline Comparisons",
-            "detail": "Compare OPD2 against conventional OPD and ExOPD, an advanced on-policy distillation method that amplifies extrapolation signals using teacher-base models, to assess relative performance improvements."
-          },
-          {
-            "title": "Generation Modes",
-            "detail": "Evaluate both non-thinking mode (no explicit reasoning traces) and thinking mode (with reasoning traces) for Qwen3 models, while Gemma4 is evaluated only in thinking mode to assess OPD2's effectiveness across generation styles."
-          },
-          {
-            "title": "Training and Hardware",
-            "detail": "Train models on NVIDIA H100 GPUs with multi-node setups for larger models, using 100 optimization steps and effective batch sizes of 256-288, ensuring reproducibility and scalability of OPD2 training."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Performance Gains Across Domains",
-            "detail": "OPD2 consistently outperforms OPD and ExOPD on Math, Science, and Code benchmarks, with improvements in pass@1 scores across all tested model sizes, demonstrating the delta signal's effectiveness in transferring reasoning knowledge."
-          },
-          {
-            "title": "Effectiveness in Non-Thinking Mode",
-            "detail": "In non-thinking mode, where reasoning is less explicit, OPD2 achieves substantial improvements over baselines, indicating its ability to enhance reasoning capabilities even without explicit reasoning traces."
-          },
-          {
-            "title": "Robustness Across Model Sizes",
-            "detail": "OPD2 shows consistent performance gains from smaller (1.7B) to larger (8B) Qwen3 models, suggesting scalability and general applicability of the delta signal approach."
-          },
-          {
-            "title": "Short Post-Training Period",
-            "detail": "OPD2 enables strong reasoning performance improvements with only 100 optimization steps, highlighting its efficiency as a post-training method."
-          }
-        ],
-        "contributions": [
-          "Introduction of the delta signal as a novel distillation reward capturing reasoning tuning knowledge.",
-          "Development of On-Policy Delta Distillation (OPD2) method leveraging the delta signal for improved reasoning capability transfer.",
-          "Comprehensive empirical evaluation across multiple reasoning domains, benchmarks, and model sizes demonstrating OPD2's superiority over OPD and ExOPD.",
-          "Demonstration that OPD2 achieves strong reasoning performance with a short post-training period, enhancing efficiency.",
-          "Provision of an open-source codebase for reproducibility and further research."
-        ],
-        "limitations": [
-          "The paper does not explore extending the delta signal beyond sampled tokens or alternative reward designs.",
-          "No explicit mathematical formulation or theoretical analysis of the delta signal mechanism is provided.",
-          "Evaluation is limited to specific model families (Qwen3 and Gemma4) and may not generalize to all LLM architectures.",
-          "The impact of OPD2 on generation diversity or other qualitative aspects beyond pass@1 metrics is not discussed."
-        ],
-        "open_questions": [
-          "How can the delta signal be extended or combined with other reward signals beyond sampled tokens for further performance gains?",
-          "What theoretical guarantees or formal analyses can be developed to explain why the delta signal effectively transfers reasoning knowledge?",
-          "Can OPD2 be generalized to other LLM architectures or domains beyond Math, Science, and Code reasoning?",
-          "How does OPD2 affect other aspects of model behavior such as generation diversity, robustness, or alignment with human preferences?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "On-policy distillation",
-        "matched": [
-          "on-policy distillation",
-          "OPD",
-          "token-level",
-          "policy distillation"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-17T11:40:30.308849+00:00"
-    },
-    {
-      "id": "2607.15095",
-      "title": "Digital Pantheon: Simulating and Auditing Coalition Formation with LLM Agents",
-      "abstract": "The formation of political coalitions is a complex negotiation driven by both concrete policy objectives and deep-seated ideological convictions. While Large Language Models (LLMs) open new avenues for computational political science, the neutrality and helpfulness biases instilled by Reinforcement Learning from Human Feedback (RLHF) prevent them from sustaining steadfast partisan behaviour. We present a multi-agent framework that reconciles factual grounding with ideological alignment by combining Supervised Fine-Tuning (SFT), Direct Preference Optimization (DPO), and Retrieval-Augmented Generation (RAG): DPO instils aggressive party-specific personas, while a per-party RAG pipeline keeps each agent bounded to its official manifesto. We operationalize the framework on the 2019 Flemish election, deploying the partisan agents in a hub-and-spoke negotiation arbitrated by a formateur. To make the emergent negotiation interpretable, we introduce a Multi-Layered Information Lineage Topology (MILT) that traces every clause in the final agreement back to its manifesto origin and classifies it into five provenance states, a Coalition Influence Score (CIS) that aggregates these traceable contributions to identify which party shaped the agreement, and a real-world grounding pass that benchmarks each simulated provision against the historically adopted coalition agreement. Across three independent simulations the framework yields a stable winner and ranking (N-VA ahead of CD\\&V and Open Vld), and manifesto-anchored lineage reliably predicts real-world materialization whereas hallucinated content does not. The result is a transparent, scalable testbed for the ex-ante exploration of party compatibility and formateur-mediated compromise.",
-      "authors": [
-        "Dylan Van Mulders",
-        "Matthias Bogaert",
-        "Dirk Van den Poel"
-      ],
-      "published": "2026-07-16T15:08:29Z",
-      "updated": "2026-07-16T15:08:29Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI",
-        "cs.MA"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.15095v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.15095v1",
-      "comment": "11 pages, 2 figures, To be published in the Post-Workshop proceedings of the ECML PKDD 2026 Conference",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4937,
-          "matched": [
-            "alignment",
-            "auditing",
-            "alignment",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4961,
-        "relevance": 0.395,
-        "quality": 0.54,
-        "novelty": 0.8747,
-        "freshness": 0.8778
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "formal bound",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "The paper presents Digital Pantheon, a multi-agent LLM framework combining SFT, DPO, and RAG to simulate and audit partisan coalition formation with interpretable lineage and real-world grounding.",
-        "problem": "Existing LLMs tuned with RLHF exhibit neutrality and conformity biases that prevent sustained partisan behavior necessary for realistic coalition negotiation simulation.",
-        "method": "The approach integrates Supervised Fine-Tuning and Direct Preference Optimization to embed party-specific personas, Retrieval-Augmented Generation to ground agents in official manifestos, and a structured multi-agent negotiation protocol with explainability tools MILT and CIS.",
-        "evidence": "Three independent simulations of the 2019 Flemish election produce stable coalition rankings matching historical outcomes, with manifesto-anchored lineage reliably predicting real-world agreement materialization.",
-        "limitations": "The evaluation is limited to a single election context without cross-system replication or human expert validation of automated lineage labels.",
-        "why_for_you": "This work offers a scalable, transparent framework for trustworthy LLM-based political simulations that maintain ideological fidelity and enable auditability of coalition negotiation processes.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Direct Preference Optimization (DPO) effectively instills aggressive, party-specific personas at the parameter level, overcoming RLHF-induced neutrality and enabling sustained partisan negotiation behavior."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The Multi-Layered Information Lineage Topology (MILT) traces every clause in the final coalition agreement back to its manifesto origin, classifying provenance into five states to ensure interpretability and auditability."
-          },
-          {
-            "icon": "📉",
-            "text": "Manifesto-anchored lineage reliably predicts real-world coalition agreement materialization, whereas hallucinated content does not, demonstrating the importance of grounding in official party documents."
-          }
-        ],
-        "overview": "Digital Pantheon addresses the challenge of simulating political coalition formation with LLM agents that must maintain partisan consistency despite RLHF biases toward neutrality. The framework combines Supervised Fine-Tuning and Direct Preference Optimization to embed party-specific ideological commitments at the model parameter level, while Retrieval-Augmented Generation grounds each agent's utterances in its official party manifesto. A structured multi-agent negotiation protocol simulates the 2019 Flemish election coalition formation, mediated by a formateur agent. To ensure transparency, the Multi-Layered Information Lineage Topology (MILT) traces each clause in the final agreement back to its manifesto source, and the Coalition Influence Score (CIS) quantifies each party's contribution. Real-world grounding compares simulated provisions to the historical coalition agreement, validating the approach. Across three independent runs, the framework yields stable coalition rankings consistent with actual outcomes, demonstrating ideological fidelity and interpretability. This work fills gaps in prior LLM-agent political simulations by combining behavioral steering, manifesto grounding, and explainability.",
-        "methodology": [
-          {
-            "title": "Data and Document Chunking",
-            "detail": "The official 2019 Flemish electoral manifestos are partitioned using an Agentic–Structural Hybrid (ASH) procedure combining deterministic regex-based splits on formal section markers and probabilistic same-topic judgments from Gemma3 (27B) LLM. This preserves document hierarchy and semantic coherence, producing chunks that serve as retrieval units for grounding."
-          },
-          {
-            "title": "Supervised Fine-Tuning and Direct Preference Optimization",
-            "detail": "SFT and DPO are applied to embed party-specific ideological commitments into the LLM parameters, enabling agents to maintain aggressive partisan personas during negotiation. DPO optimizes model preferences directly from human feedback data to overcome RLHF neutrality biases."
-          },
-          {
-            "title": "Retrieval-Augmented Generation (RAG)",
-            "detail": "Each agent is equipped with a per-party RAG pipeline that retrieves relevant manifesto chunks to ground generation, ensuring factual policy alignment and preventing hallucination beyond official party positions."
-          },
-          {
-            "title": "Multi-Agent Negotiation Protocol",
-            "detail": "A hub-and-spoke communication topology is used where partisan agents negotiate under the arbitration of a formateur agent. This structured deliberation protocol is informed by recent work on communication topologies and decision protocols to simulate realistic coalition bargaining."
-          },
-          {
-            "title": "Explainability Framework: MILT and CIS",
-            "detail": "The Multi-Layered Information Lineage Topology (MILT) traces each clause in the final coalition agreement back to its manifesto origin, classifying provenance into five states. The Coalition Influence Score (CIS) aggregates these contributions to quantify each party's influence on the agreement."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "No explicit mechanism equations or causal models provided",
-            "detail": "The paper does not present formal equations or causal mechanisms but relies on the combination of SFT, DPO, and RAG to embed ideological alignment and factual grounding, and on MILT and CIS for interpretability."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Simulation of 2019 Flemish Election Coalition Formation",
-            "detail": "Three independent simulations deploy partisan agents representing N-VA, CD&V, and Open Vld parties negotiating under a formateur agent. The emergent coalition agreements are benchmarked against the historical coalition formed after the 2019 election."
-          },
-          {
-            "title": "Evaluation of Lineage and Real-World Grounding",
-            "detail": "The Multi-Layered Information Lineage Topology (MILT) traces agreement clauses to manifesto origins, and a real-world grounding pass compares simulated provisions to the actual coalition agreement to assess fidelity and hallucination."
-          },
-          {
-            "title": "Ablation Studies and Perturbations (Proposed Future Work)",
-            "detail": "The paper suggests future ablations of SFT, DPO, and RAG components, alternative formateur protocols, and counterfactual coalition scenarios to quantify marginal contributions and test generalizability."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Stable Coalition Rankings Matching Historical Outcomes",
-            "detail": "Across three independent simulations, the framework consistently ranks N-VA ahead of CD&V and Open Vld, replicating the real-world coalition hierarchy from the 2019 Flemish election."
-          },
-          {
-            "title": "Manifesto-Anchored Lineage Predicts Real-World Materialization",
-            "detail": "Clauses traced to official manifestos via MILT correspond to provisions in the historical coalition agreement, whereas hallucinated content lacks such correspondence, validating the grounding approach."
-          },
-          {
-            "title": "Behaviorally Steered Agents Maintain Partisan Consistency",
-            "detail": "The combination of SFT and DPO enables agents to sustain aggressive, party-specific personas throughout extended negotiation, overcoming RLHF-induced neutrality and conformity biases."
-          }
-        ],
-        "contributions": [
-          "A multi-agent LLM framework combining SFT, DPO, and RAG to simulate ideologically faithful coalition negotiations.",
-          "An explainability framework (MILT and CIS) that attributes every clause in coalition agreements to party manifestos and quantifies party influence.",
-          "Empirical validation on the 2019 Flemish election demonstrating stable coalition outcomes and real-world grounding of simulated agreements.",
-          "A scalable, transparent testbed for exploring political strategy and formateur-mediated compromise in multi-party systems.",
-          "Behaviorally steered LLM agents that maintain partisan consistency under extended negotiation."
-        ],
-        "limitations": [
-          "Evaluation is limited to a single election context without cross-system replication to test generalizability.",
-          "Automated lineage labels have not been validated against human expert annotations, risking annotation errors.",
-          "The Coalition Influence Score uses uniform clause weighting without sensitivity analysis of alternative weighting schemes.",
-          "No ablation studies are reported quantifying the marginal impact of SFT, DPO, and RAG components."
-        ],
-        "open_questions": [
-          "How well does the framework generalize to other multi-party political systems beyond the Flemish context?",
-          "Can human expert validation of MILT lineage labels improve the reliability of the explainability framework?",
-          "What is the impact of alternative formateur arbitration protocols on coalition outcomes and negotiation dynamics?",
-          "How sensitive is the Coalition Influence Score to different clause weighting schemes and can it be extended to capture nuanced influence?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment",
-          "auditing",
-          "alignment",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-17T11:40:30.308849+00:00"
-    },
-    {
-      "id": "2607.14905",
-      "title": "Show Me How You Reason and I'll Tell You Who You Are: Reasoning Graphs for Robust LLM Authorship Attribution",
-      "abstract": "Given the current trend to employ large language models (LLMs) in almost any imaginable context, LLM-generated text detection and authorship attribution have become a pressing issue. Prior work has primarily focused on surface-level linguistic features, an approach shown to be susceptible to paraphrasing and other obfuscation techniques. In this paper, we go beyond the linguistic surface, extracting and analysing reasoning structures in LLM-generated texts with the goal of capturing more complex signals of LLM authorship. We propose a graph neural network approach that leverages reasoning graphs extracted by an argument mining pipeline, demonstrating improved robustness and generalisation over a traditional Longformer baseline. Our approach outperforms the baseline by up to 27 percentage points under the obfuscation attacks such as paraphrasing and backtranslation, and 19 percentage points when evaluated on the texts generated by the unseen model versions, simulating real-world conditions in which new LLM versions are continuously released.",
-      "authors": [
-        "Zlata Kikteva",
-        "Artur Romazanov",
-        "Annette Hautli-Janisz",
-        "Ramon Ruiz-Dolz"
-      ],
-      "published": "2026-07-16T12:25:16Z",
-      "updated": "2026-07-16T12:25:16Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.14905v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.14905v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.5018,
-          "matched": [
-            "robustness",
-            "llm",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.486,
-        "relevance": 0.4014,
-        "quality": 0.48,
-        "novelty": 0.86,
-        "freshness": 0.8616
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Reasoning graph-based authorship attribution using graph neural networks significantly improves robustness and generalisation over text-only baselines for LLM-generated texts under obfuscation and unseen model versions.",
-        "problem": "Existing LLM authorship attribution methods relying on surface-level linguistic features are vulnerable to paraphrasing and fail to generalise across different model versions.",
-        "method": "The paper proposes a graph neural network approach leveraging reasoning graphs extracted via an argument mining pipeline to capture structural reasoning features for authorship attribution.",
-        "evidence": "The reasoning graph-based approach outperforms a Longformer baseline by up to 27 percentage points in F1-score under paraphrasing and backtranslation obfuscations and by 19 points when tested on unseen LLM versions.",
-        "limitations": "The approach does not employ word-level or character-level perturbations, which may limit evaluation of robustness against finer-grained obfuscations.",
-        "why_for_you": "This method offers a novel, structurally grounded technique to enhance trustworthy LLM authorship attribution, addressing robustness and generalisation challenges critical for reliable AI-generated text identification.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "The reasoning graph-based fingerprinting approach achieves up to +27% F1-score improvement over text-only baselines under obfuscation attacks such as paraphrasing and backtranslation, demonstrating superior robustness."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The method constructs reasoning graphs from argumentative essays using the oAMF argument mining pipeline and trains graph neural networks (GCN, GAT, Graph Transformer, GPS) to classify LLM authorship."
-          },
-          {
-            "icon": "📉",
-            "text": "Paraphrasing via DIPPER and backtranslation through French and Turkish languages introduce lexical and syntactic variation that reduces lexical diversity and essay length, challenging surface-level detection methods."
-          }
-        ],
-        "overview": "The paper addresses the challenge of attributing authorship to texts generated by large language models (LLMs), focusing on robustness to obfuscation and generalisation across unseen model versions. Prior methods relying on surface-level linguistic features are vulnerable to paraphrasing and fail to generalise across evolving LLMs. To overcome this, the authors propose a novel approach that extracts reasoning graphs from argumentative essays using an argument mining pipeline, capturing meta-linguistic and pragmatic structures beyond lexical content. These graphs serve as input to various graph neural network architectures, which learn to classify the originating LLM model. The approach is evaluated on a newly created corpus of 2,240 essays from four LLM families and multiple versions, with obfuscation strategies including paraphrasing and backtranslation. Results show substantial improvements in F1-score over a Longformer baseline, with up to 27 percentage points gain under obfuscation and 19 points gain in cross-version generalisation, demonstrating the effectiveness of structural reasoning features for robust authorship attribution.",
-        "methodology": [
-          {
-            "title": "Reasoning Graph Construction",
-            "detail": "Argument mining pipeline (oAMF) extracts argumentative components and relations from essays, representing sentences as nodes with sentence embeddings and edges as argument relations, forming reasoning graphs that capture the text's structural reasoning."
-          },
-          {
-            "title": "Graph Neural Network Architectures",
-            "detail": "Four GNN variants—Graph Convolutional Networks (GCN), Graph Attention Networks (GAT), Graph Transformer, and General Powerful Scalable (GPS) networks—are trained on reasoning graphs to classify LLM authorship, differing in neighborhood aggregation and attention mechanisms."
-          },
-          {
-            "title": "Node and Edge Encoding",
-            "detail": "Nodes are encoded using sentence-transformer embeddings (all-mpnet-base-v2), while edges are processed via argmax or probability distributions over argument relation classes from the ARIR module, enabling relational reasoning in the graph."
-          },
-          {
-            "title": "Training and Evaluation Setup",
-            "detail": "Models are trained and evaluated on the LLM-OWL-AE corpus with two splits: SAME-VERSION (train/test on same model version) and CROSS-VERSION (train/test on different versions), using 200 essays per model for training and 80 for testing, assessing robustness and generalisation."
-          },
-          {
-            "title": "Authorship Obfuscation Strategies",
-            "detail": "Paraphrasing is applied using the DIPPER tool at paragraph level, and backtranslation is performed via French and Turkish using OPUS-MT models, introducing lexical and syntactic variation to test model robustness."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "No Explicit Mechanism or Equations Provided",
-            "detail": "The paper does not provide formal equations or detailed causal mechanisms but relies on the hypothesis that reasoning graph structures capture meta-linguistic features less affected by surface-level obfuscations, enabling robust authorship attribution."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Dataset and Splits",
-            "detail": "The LLM-OWL-AE corpus contains 2,240 argumentative essays from four LLM families and two versions each, with train/test splits for SAME-VERSION and CROSS-VERSION evaluation to test robustness and generalisation."
-          },
-          {
-            "title": "Baseline and Models",
-            "detail": "A Longformer-based text-only baseline is compared against four GNN architectures trained on reasoning graphs, evaluating F1-score performance under original, paraphrased, and backtranslated conditions."
-          },
-          {
-            "title": "Obfuscation Techniques",
-            "detail": "Paraphrasing via DIPPER and backtranslation through French and Turkish are applied to test the models' robustness to lexical and syntactic perturbations that preserve semantic meaning but alter surface features."
-          },
-          {
-            "title": "Cross-Version Generalisation",
-            "detail": "Models trained on earlier LLM versions are tested on later versions and vice versa to assess the ability to generalise authorship attribution across evolving model releases."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Robustness to Obfuscation",
-            "detail": "The reasoning graph-based approach improves F1-score by up to 27 percentage points over the Longformer baseline under paraphrasing and backtranslation obfuscations, demonstrating superior robustness."
-          },
-          {
-            "title": "Generalisation Across Versions",
-            "detail": "When evaluated on unseen LLM versions, the graph-based method outperforms the baseline by 19 percentage points in F1-score, indicating better generalisation to new model releases."
-          },
-          {
-            "title": "Lexical Diversity Impact",
-            "detail": "Paraphrasing reduces lexical diversity more severely than backtranslation, with MTLD scores dropping by up to 90 points for some models, challenging surface-level detection but less affecting reasoning graph features."
-          },
-          {
-            "title": "GNN Architecture Performance",
-            "detail": "Among GNNs, architectures combining local message passing with global attention (GPS) and Graph Transformer variants effectively leverage reasoning graphs for authorship classification."
-          }
-        ],
-        "contributions": [
-          "Creation and public release of a new dataset of LLM-generated argumentative essays across multiple model versions and families with obfuscation strategies for robustness and generalisation evaluation.",
-          "Proposal of a novel reasoning graph-based authorship attribution approach combining language and reasoning features via graph neural networks.",
-          "Demonstration of significant performance gains in robustness to obfuscation and generalisation across unseen LLM versions compared to text-only baselines."
-        ],
-        "limitations": [
-          "The approach excludes word-level and character-level perturbations, limiting evaluation against finer-grained obfuscation attacks.",
-          "No explicit formal mechanism or theoretical explanation is provided for why reasoning graphs capture authorship signals more robustly.",
-          "Evaluation is limited to argumentative essays, which may not generalise to other text genres or shorter texts.",
-          "Computational resource requirements for argument mining and GNN training are non-trivial, potentially limiting scalability."
-        ],
-        "open_questions": [
-          "How well does the reasoning graph-based approach perform on non-argumentative or shorter texts generated by LLMs?",
-          "Can the method be extended or adapted to resist finer-grained obfuscations such as character-level perturbations or adversarial paraphrasing?",
-          "What are the theoretical underpinnings explaining the robustness of reasoning graphs to obfuscation and model version shifts?",
-          "How does the approach scale computationally and perform in real-time or large-scale deployment scenarios?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "robustness",
-          "llm",
-          "robustness"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-17T11:40:30.308849+00:00"
-    },
-    {
-      "id": "2607.15218",
-      "title": "When Words Are Safe But Actions Kill: Probing Physical Danger Beyond Text Safety in Hidden-State Risk Space",
-      "abstract": "Large language models (LLMs) increasingly serve as high-level planners for embodied agents, where linguistically benign instructions can become unsafe once grounded in the physical world. We study whether this physically grounded danger is the same safety problem as ordinary text-level content danger. Through hidden-state direction analysis and random-split null tests, we show that content danger (CD) and physical danger (PD) form separable signals in LLM representations across Qwen2.5-3B/7B/14B/32B, Phi-3.5 and SmolLM2. Building on the CD/PD separability, we propose PRISM, a single-layer L2-regularized logistic probe over full hidden states. PRISM achieves 86.2--87.7\\% accuracy on SafeAgentBench with 11.7--13.7\\% FPR, while same-scale LLM judges over-block safe tasks at 24.7--39.0\\% FPR. We further introduce PhysicalSafetyBench-1K (PSB-1K), a contrastive benchmark of 1{,}000 physical-risk pairs without direct harm keywords, to test whether methods detect physically grounded danger rather than explicit unsafe wording. On PSB-1K, PRISM reaches 99.6\\% accuracy and 0.7\\% FPR, whereas a Qwen2.5-3B judge rejects 67.8\\% of safe tasks. PRISM also replicates on SafeText and EARBench, supporting hidden-state probing as a representation-level method for physical safety beyond text moderation.",
-      "authors": [
-        "Weimeng Wang",
-        "Ziqiang Wang",
-        "Zihang Zhan",
-        "Chuanpu Fu",
-        "Qi Li",
-        "Ke Xu"
-      ],
-      "published": "2026-07-16T17:20:38Z",
-      "updated": "2026-07-16T17:20:38Z",
-      "categories": [
-        "cs.AI",
-        "cs.CR"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2607.15218v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.15218v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4668,
-          "matched": [
-            "safety",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.468,
-        "relevance": 0.3734,
-        "quality": 0.48,
-        "novelty": 0.8471,
-        "freshness": 0.8909
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Physical danger and content danger are separable signals in LLM hidden states, enabling targeted detection of physically grounded risks beyond text-level safety.",
-        "problem": "LLMs used as planners for embodied agents face safety challenges where linguistically benign instructions can cause physical harm, a problem distinct from ordinary text content danger.",
-        "method": "PRISM, a single-layer L2-regularized logistic probe over full hidden states, leverages the separability of content and physical danger directions to detect both with low false positive rates.",
-        "evidence": "PRISM achieves 86.2–87.7% accuracy with 11.7–13.7% FPR on SafeAgentBench and 99.6% accuracy with 0.7% FPR on the contrastive PhysicalSafetyBench-1K, outperforming LLM judges and prototype methods.",
-        "limitations": "The SafeAgentBench split contains keyword leakage, and the study does not provide evidence on strict orthogonality of danger directions or performance on broader real-world embodied tasks.",
-        "why_for_you": "This work provides a novel representation-level method to detect physical safety risks in LLMs, addressing a critical gap in trustworthy embodied agent deployment.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Content Danger Direction (CDD) and Physical Danger Direction (PDD) are statistically separable in hidden states across Qwen2.5-3B/7B/14B/32B, Phi-3.5-mini, and SmolLM2-1.7B, with probe-weight angles around 70°, indicating distinct representational signals."
-          },
-          {
-            "icon": "🛡️",
-            "text": "PRISM uses a single-layer L2-regularized logistic regression probe trained on standardized last-token hidden states from a selected layer, jointly detecting content and physical dangers with low false positive rates."
-          },
-          {
-            "icon": "📉",
-            "text": "Baseline methods like LPM and single-direction probes fail to detect physical danger effectively, with physical-OOD detection rates as low as 9.6–19.3%, while PRISM maintains stable physical-danger detection between 79.1% and 82.4%."
-          }
-        ],
-        "overview": "The paper addresses the safety challenge in embodied agents where instructions safe in text can cause physical harm when executed. It hypothesizes that physical danger (PD) and content danger (CD) are distinct safety problems encoded separately in LLM hidden states. Through hidden-state direction analysis on multiple LLM architectures and scales, the authors identify two distinct directions: CDD and PDD. They propose PRISM, a linear probe trained on full hidden states to jointly detect both dangers. PRISM outperforms existing text-based safety detectors and prototype methods, achieving high accuracy and low false positive rates on SafeAgentBench and the newly introduced PhysicalSafetyBench-1K, which contains physically risky instructions without explicit harmful keywords. The results demonstrate that physical safety requires explicit representation-level modeling beyond text moderation, providing a practical method for embodied agent safety monitoring.",
-        "methodology": [
-          {
-            "title": "Hidden-State Direction Analysis",
-            "detail": "Compute class-mean hidden states for safe, content-danger, and physical-danger examples at each layer; define Content Danger Direction (CDD) and Physical Danger Direction (PDD) as vector differences between unsafe and safe means; analyze angular separation to test signal distinctness."
-          },
-          {
-            "title": "PRISM Probe Training",
-            "detail": "Extract last-token hidden states from a selected LLM layer; standardize features; train a single-layer L2-regularized logistic regression classifier with binary cross-entropy loss to predict safety labels jointly for CD and PD; select layer by cross-validation."
-          },
-          {
-            "title": "Benchmark Construction",
-            "detail": "PhysicalSafetyBench-1K (PSB-1K) is constructed with 1,000 minimally contrasted safe/risk instruction pairs across ten household risk families, avoiding explicit harm keywords to isolate physical danger detection capability."
-          },
-          {
-            "title": "Evaluation Protocol",
-            "detail": "Evaluate PRISM and baselines on SafeAgentBench (600 tasks), PSB-1K, SafeText, and EARBench using accuracy, false positive rate, F1, and AUC metrics; perform 5-fold cross-validation and ablations to assess signal contributions and generalization."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Representation-Level Danger Decomposition",
-            "detail": "The mechanism relies on the hypothesis that physical and content dangers occupy distinct directions in the LLM hidden-state space, evidenced by stable angular separation between CDD and PDD vectors, enabling linear probes to disentangle these safety signals."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "SafeAgentBench Evaluation",
-            "detail": "PRISM achieves 86.2–87.7% accuracy, 11.7–13.7% FPR, and 79.1–82.4% physical-danger detection across Qwen2.5 models (3B to 32B), outperforming LPM, single-direction probes, and zero-shot LLM judges."
-          },
-          {
-            "title": "PhysicalSafetyBench-1K Benchmark",
-            "detail": "On PSB-1K, PRISM attains 99.6% accuracy and 0.7% FPR detecting physical danger without explicit harm keywords, while a Qwen2.5-3B judge rejects 67.8% of safe tasks, and Llama Guard 3-1B fails to detect physical danger."
-          },
-          {
-            "title": "Cross-Dataset and Cross-Architecture Replication",
-            "detail": "PRISM replicates performance on SafeText and EARBench datasets and confirms CD/PD direction separation on Phi-3.5-mini and SmolLM2-1.7B, demonstrating generality beyond Qwen models."
-          },
-          {
-            "title": "Ablation Studies",
-            "detail": "Ablations show that CDD-only probes fail on physical danger OOD detection (19.8–32.6%), PDD-only probes have incomplete content detection (68.1–85.0%), and prototype methods perform poorly on PD transfer, confirming the necessity of joint modeling."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Distinct Hidden-State Signals for CD and PD",
-            "detail": "CDD and PDD directions are statistically separable with probe-weight angles around 70°, exceeding random-split null distributions, indicating physical danger is a distinct representational concept."
-          },
-          {
-            "title": "PRISM Outperforms Baselines on Physical Safety",
-            "detail": "PRISM achieves stable physical-danger detection rates above 79% with low false positives, outperforming LPM and LLM judges that either miss physical danger or over-block safe tasks."
-          },
-          {
-            "title": "PhysicalSafetyBench-1K Validates Detection Beyond Text Cues",
-            "detail": "PRISM detects physical danger with 99.6% accuracy and 0.7% FPR on PSB-1K, a benchmark designed to exclude explicit harm keywords, confirming its ability to identify grounded physical risks."
-          },
-          {
-            "title": "Layer Selection is Critical",
-            "detail": "Selecting an appropriate hidden layer via cross-validation is essential for PRISM’s performance, indicating that physical and content danger signals concentrate in middle-to-late layers."
-          }
-        ],
-        "contributions": [
-          "Identification of separable content and physical danger directions in LLM hidden states across multiple architectures and scales.",
-          "Introduction of PhysicalSafetyBench-1K, a novel contrastive benchmark isolating physical danger without explicit harmful keywords.",
-          "Development of PRISM, a simple yet effective linear probe leveraging hidden-state separability to jointly detect content and physical dangers with low false positive rates.",
-          "Comprehensive evaluation demonstrating PRISM’s superiority over existing text-based safety detectors, prototype methods, and LLM judges."
-        ],
-        "limitations": [
-          "SafeAgentBench’s keyword-based unsafe split contains leakage, potentially inflating detection performance.",
-          "No strict orthogonality or causal mechanism is proven for the separation of CDD and PDD directions.",
-          "Evaluation focuses on household instruction datasets; generalization to broader embodied tasks or real-world deployment scenarios is untested.",
-          "PRISM relies on frozen LLM hidden states and linear probes, which may limit adaptability to evolving physical safety contexts."
-        ],
-        "open_questions": [
-          "How can physical danger detection be integrated into end-to-end embodied agent systems for real-time safety monitoring?",
-          "What are the causal or geometric properties underlying the separability of content and physical danger directions in LLM representations?",
-          "Can the PRISM approach be extended to multimodal models incorporating vision and action modalities for richer physical safety reasoning?",
-          "How robust is PRISM to adversarial or out-of-distribution instructions that exploit physical safety blind spots?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "safety",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-17T11:40:30.308849+00:00"
-    },
-    {
-      "id": "2607.13753",
-      "title": "Post-Training Shifts Confidence: A Three-Stage Analysis of How SFT, RL, and OPD Shape Pre-, Intra-, and Post-CoT Calibration",
-      "abstract": "Large language models have made strong reasoning gains through supervised fine-tuning, reinforcement learning, and on-policy distillation, yet these post-training methods are usually evaluated only by final-answer accuracy. We study how they reshape confidence during reasoning. We introduce a three-stage calibration framework that evaluates confidence before, during, and after chain-of-thought generation, corresponding to difficulty estimation, early termination, and answer aggregation. Through a controlled comparison on mathematical reasoning benchmarks, we find that OPD provides the most useful pre-reasoning confidence, SFT gives the strongest online signal for early stopping, and RL produces the most reliable trace-level signal for aggregation. We further show that confidence reliability is position-dependent: RL confidence becomes informative after a path-commitment phase, while OPD confidence is useful early but can become inversely calibrated later. Based on this observation, we propose PosConf, a position-aware confidence strategy that uses confidence only from reliable relative-position intervals. PosConf improves RL answer aggregation by 6.1 points over majority voting and consistently improves OPD early stopping under tight token budgets, with gains up to 4.3 points by avoiding its later inverse-calibration region, showing that \\emph{confidence in reasoning models should be used both stage-wise and position-awarely}. Our code is available at https://github.com/EIT-NLP/Post-Training-Calibration.",
-      "authors": [
-        "Shuhao Li",
-        "Guodong Du",
-        "Anhao Zhao",
-        "Wanyu Lin",
-        "Tianyu Yuan",
-        "Xiaoyu Shen"
-      ],
-      "published": "2026-07-15T12:12:37Z",
-      "updated": "2026-07-15T12:12:37Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.13753v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.13753v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "watch",
-          "score": 0.5634,
-          "matched": [
-            "on-policy distillation",
-            "OPD",
-            "policy distillation",
-            "opd",
-            "distillation",
-            "on-policy"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4046,
-          "matched": [
-            "calibration",
-            "reliability"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6264,
-        "relevance": 0.5316,
-        "quality": 0.78,
-        "novelty": 0.8186,
-        "freshness": 0.859
-      },
-      "quality_signals": [
-        "code available",
-        "GitHub link",
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Reasoning-oriented post-training methods (SFT, RL, OPD) induce distinct, stage-dependent shifts in confidence calibration, which can be leveraged position-awarely to improve reasoning efficiency and accuracy.",
-        "problem": "Existing evaluations of post-training methods focus on final-answer accuracy, neglecting how these methods reshape confidence calibration before, during, and after chain-of-thought reasoning.",
-        "method": "The paper introduces a three-stage confidence calibration framework (Pre-CoT, Intra-CoT, Post-CoT) to systematically analyze and compare how SFT, RL, and OPD affect confidence signals at different reasoning stages and positions.",
-        "evidence": "Controlled experiments on mathematical reasoning benchmarks with Qwen2.5-7B variants show OPD excels at pre-reasoning difficulty estimation, SFT provides the strongest intra-reasoning early stopping signal, and RL yields the most reliable post-reasoning aggregation confidence, with PosConf improving RL aggregation by 6.1 points and OPD early stopping by up to 4.3 points.",
-        "limitations": "The study is limited to a single backbone (Qwen2.5-7B) and mathematical reasoning benchmarks, with no evidence on other model families, domains, or downstream tasks.",
-        "why_for_you": "Understanding how post-training paradigms reshape confidence calibration stage-wise and position-awarely enables designing more trustworthy and efficient LLM reasoning systems through improved uncertainty estimation and inference-time decisions.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "OPD provides the most informative Pre-CoT confidence for problem difficulty estimation, achieving the highest AUROC and PRR scores across multiple mathematical benchmarks."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The PosConf strategy uses position-aware confidence intervals to selectively leverage reliable confidence signals, improving RL answer aggregation by 6.1 points over majority voting and enhancing OPD early stopping under tight token budgets."
-          },
-          {
-            "icon": "📉",
-            "text": "Confidence reliability is position-dependent: RL confidence becomes informative only after a path-commitment phase, while OPD confidence is useful early but can become inversely calibrated later in the reasoning trace."
-          }
-        ],
-        "overview": "This paper addresses the gap in understanding how different post-training methods—supervised fine-tuning (SFT), reinforcement learning (RL), and on-policy distillation (OPD)—reshape confidence calibration in large language models during chain-of-thought reasoning. Instead of treating confidence as a monolithic final output property, the authors propose a three-stage framework evaluating confidence before reasoning (Pre-CoT), during reasoning (Intra-CoT), and after reasoning (Post-CoT). Using Qwen2.5-7B-based models trained on the same data but with different post-training objectives, they conduct controlled experiments on diverse mathematical reasoning benchmarks. Results show that OPD excels at pre-reasoning difficulty estimation, SFT provides the strongest online signal for early termination of low-quality reasoning traces, and RL yields the most reliable confidence for answer aggregation. They further reveal that confidence calibration varies with token position, motivating PosConf, a position-aware confidence strategy that selectively uses confidence from reliable relative-position intervals. PosConf significantly improves RL aggregation accuracy and OPD early stopping efficiency, demonstrating that confidence should be used both stage-wise and position-awarely to enhance reasoning reliability and efficiency.",
-        "methodology": [
-          {
-            "title": "Three-Stage Confidence Calibration Framework",
-            "detail": "The framework partitions confidence evaluation into Pre-CoT (before chain-of-thought generation, assessing problem difficulty), Intra-CoT (during generation, enabling early termination of uncertain traces), and Post-CoT (after generation, supporting answer aggregation). Confidence is computed from top-k next-token probabilities, smoothed over sliding windows, and normalized by relative token position."
-          },
-          {
-            "title": "Model Variants and Training",
-            "detail": "Four Qwen2.5-7B-based models are compared: Qwen-Instruct (instruction-tuned baseline), Qwen-SFT (supervised fine-tuned on correct chain-of-thought traces), Qwen-RL (trained with group relative policy optimization using binary outcome rewards), and Qwen-OPD (on-policy distillation from a larger teacher model via dense KL divergence). All models share the same backbone and training data to isolate post-training effects."
-          },
-          {
-            "title": "Confidence Metrics and Evaluation",
-            "detail": "Pre-CoT confidence is evaluated by AUROC and PRR to measure difficulty prediction quality. Intra-CoT confidence triggers early stopping when sliding window confidence falls below a threshold, balancing token usage and accuracy. Post-CoT confidence ranks completed traces for confidence-filtered majority voting and most-confident selection, assessing aggregation improvements."
-          },
-          {
-            "title": "PosConf Position-Aware Confidence Strategy",
-            "detail": "PosConf restricts confidence usage to reliable relative-position intervals identified by analyzing confidence calibration dynamics across token positions. This avoids inverse calibration regions, improving early stopping and answer aggregation by leveraging only trustworthy confidence segments."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Token-Level Confidence Computation",
-            "detail": "Confidence at token position ℓ is computed as the negative average log probability over the top-k next-token candidates, smoothed over a sliding window of size w to capture local uncertainty dynamics. Relative token position ρt = t/m normalizes positions across traces of varying lengths, enabling position-aware confidence analysis."
-          },
-          {
-            "title": "No Explicit Theoretical Mechanism Provided",
-            "detail": "The paper does not provide formal equations or causal theories beyond the confidence computation formula and the empirical observation of position-dependent calibration shifts."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Pre-CoT Difficulty Estimation",
-            "detail": "Evaluated on mathematical reasoning benchmarks (AIME 24/25, AMC 23, MATH500) using AUROC and PRR metrics, comparing Qwen-Instruct, Qwen-SFT, Qwen-RL, and Qwen-OPD. OPD achieves the highest average AUROC (0.644) and PRR (0.345), indicating superior pre-reasoning confidence calibration."
-          },
-          {
-            "title": "Intra-CoT Early Stopping",
-            "detail": "Confidence thresholds are swept to produce token-accuracy frontiers under a fixed budget of 256 traces per problem. Early stopping triggered when sliding window confidence falls below threshold reduces token usage without accuracy loss. SFT yields the strongest online signal for early termination."
-          },
-          {
-            "title": "Post-CoT Answer Aggregation",
-            "detail": "Answer aggregation compares majority voting, confidence-filtered majority voting (top 5% or 10% traces by confidence), and most-confident selection. RL confidence filtering improves aggregation accuracy by 6.1 points over majority voting, demonstrating reliable trace-level confidence."
-          },
-          {
-            "title": "PosConf Evaluation",
-            "detail": "PosConf applies position-aware confidence intervals to improve RL aggregation and OPD early stopping. It avoids later inverse-calibration regions in OPD, yielding up to 4.3 points gain under tight token budgets."
-          }
-        ],
-        "findings": [
-          {
-            "title": "OPD Excels at Pre-CoT Confidence",
-            "detail": "OPD achieves the highest AUROC and PRR scores for difficulty estimation across multiple benchmarks, outperforming SFT, RL, and the baseline Qwen-Instruct, indicating its pre-reasoning confidence is most informative."
-          },
-          {
-            "title": "SFT Provides Strongest Intra-CoT Signal",
-            "detail": "During reasoning, SFT yields the most reliable token-level confidence for early stopping, enabling efficient pruning of low-quality reasoning traces without compromising accuracy."
-          },
-          {
-            "title": "RL Confidence Best for Post-CoT Aggregation",
-            "detail": "RL produces the most reliable trace-level confidence for answer aggregation, improving accuracy by 6.1 points over majority voting when using confidence-filtered voting."
-          },
-          {
-            "title": "Confidence Calibration is Position-Dependent",
-            "detail": "RL confidence becomes informative only after a path-commitment phase, while OPD confidence is useful early but can become inversely calibrated later, motivating position-aware confidence usage."
-          },
-          {
-            "title": "PosConf Improves Reasoning Efficiency and Accuracy",
-            "detail": "By restricting confidence usage to reliable relative-position intervals, PosConf improves RL answer aggregation by 6.1 points and OPD early stopping by up to 4.3 points, demonstrating the benefit of stage-wise and position-aware confidence strategies."
-          }
-        ],
-        "contributions": [
-          "Introduced a three-stage confidence calibration framework (Pre-CoT, Intra-CoT, Post-CoT) linking confidence signals to inference-time decisions in reasoning.",
-          "Provided a controlled comparison of SFT, RL, and OPD post-training methods showing distinct stage-dependent confidence calibration shifts.",
-          "Discovered position-dependent confidence reliability and proposed PosConf, a position-aware confidence strategy that improves early stopping and answer aggregation."
-        ],
-        "limitations": [
-          "Experiments are limited to the Qwen2.5-7B backbone and mathematical reasoning benchmarks, limiting generalizability to other models and tasks.",
-          "No evaluation on downstream applications beyond mathematical reasoning or on other types of reasoning tasks.",
-          "The study does not explore the impact of varying training data or model architectures on confidence calibration.",
-          "No formal theoretical mechanism or causal explanation is provided for the observed position-dependent calibration shifts."
-        ],
-        "open_questions": [
-          "How do confidence calibration dynamics generalize across different LLM architectures and larger-scale models?",
-          "Can position-aware confidence strategies like PosConf be adapted to other reasoning domains or multimodal tasks?",
-          "What are the underlying causes of inverse calibration in OPD confidence at later token positions?",
-          "How can confidence calibration be integrated with other uncertainty estimation methods to further improve trustworthy LLM reasoning?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "On-policy distillation",
-        "matched": [
-          "on-policy distillation",
-          "OPD",
-          "policy distillation",
-          "opd"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-16T11:53:57.047514+00:00"
     }
   ]
 }
