@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-30T14:52:18.671788+00:00",
+  "generated_at": "2026-08-31T17:37:30.318867+00:00",
   "papers": [
     {
       "id": "conf:acl:2026:1334-main",
@@ -1078,12 +1078,12 @@
         "lane": "llm"
       },
       "summary": {
-        "takeaway": "Supervised ensembles of heterogeneous UQ scorers consistently improve hallucination detection over any single scorer.",
-        "problem": "Closed‑book LLMs lack reliable hallucination detectors, and individual UQ signals vary across domains and models.",
-        "method": "Train a classifier (logistic regression, random forest, or gradient boosting) on a small labeled set of UQ scorer outputs to predict hallucination.",
-        "evidence": "Ensembles beat the best individual scorer in 30 of 32 settings (AUROC) and achieve gains with as few as 100 labeled examples.",
-        "limitations": "Study is limited to four closed‑weight LLMs, two factoid long‑form domains, and Python code, omitting open‑weight models and cross‑domain transfer.",
-        "why_for_you": "Relevant to trustworthy LLM work because it shows a data‑efficient way to boost hallucination detection reliability.",
+        "takeaway": "Supervised ensembles of heterogeneous UQ scorers consistently improve hallucination detection over the best single scorer, even with as few as 100 labeled examples.",
+        "problem": "Detecting hallucinations in closed‑book LLM outputs without retrieval or reference documents.",
+        "method": "Train a classifier on a vector of black‑box, white‑box, and reflexive UQ scores from a small domain‑specific labeled set and apply it to out‑of‑sample responses.",
+        "evidence": "Ensembles outperform the top individual scorer in 30 of 32 settings by AUROC and retain advantage in 23 of 28 distribution‑shift transfer cases.",
+        "limitations": "Study is limited to four closed‑source LLMs, two factoid long‑form domains, Python code, and does not evaluate cross‑domain or open‑weight model scorers.",
+        "why_for_you": "Matches your interest in trustworthy LLMs by providing a sample‑efficient, robust hallucination detector.",
         "source": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
         "language": "en",
@@ -1093,69 +1093,67 @@
       "deep_dive": {
         "signals": [
           {
-            "icon": "🗂️",
-            "text": "Supervised UQ ensembles outperform the best individual scorer in 30 of 32 AUROC evaluations across four LLMs and nine datasets."
+            "icon": "💡",
+            "text": "Supervised UQ ensembles beat the best single scorer in 30/32 settings, with AUROC gains from 100 labeled examples."
           },
           {
-            "icon": "🔧",
-            "text": "Ensembles use logistic regression, random forest, or gradient boosting over 30+ black‑box, white‑box, reflexive, and graph‑based UQ scores."
+            "icon": "⚙️",
+            "text": "Train logistic regression / random forest / gradient boosting on heterogeneous black‑box, white‑box, and reflexive scorer outputs."
           },
           {
-            "icon": "📈",
-            "text": "Performance gains appear with as few as 100 labeled instances, but results are confined to closed‑weight models and narrow domains."
+            "icon": "📊",
+            "text": "Ensembles retain advantage in 23/28 distribution‑shift transfer cases, but evaluation covers only four closed‑source LLMs and narrow domains."
           }
         ],
-        "overview": "The paper conducts a systematic robustness study of supervised uncertainty‑quantification (UQ) ensembles for hallucination detection in closed‑book LLMs. By training classifiers on heterogeneous UQ scorer outputs, the authors evaluate sample efficiency, in‑domain transfer under distribution shift, and generation‑regime dependence across four LLMs, nine datasets, and three regimes (short QA, long‑form, code). Ensembles consistently surpass the strongest single scorer, retain advantages under modest distribution shifts, and achieve notable gains with limited labeled data, while black‑box‑only ensembles approach full‑ensemble performance.",
+        "overview": "The paper investigates a supervised ensembling framework that learns to combine diverse uncertainty quantification (UQ) signals for hallucination detection in closed‑book LLM generation. By training simple classifiers on vectors of black‑box, white‑box, and reflexive scorer outputs, the authors evaluate sample efficiency, in‑domain transfer under distribution shift, and generation‑regime dependence across four LLMs, nine datasets, and three output formats. Results show ensembles dominate individual scorers in most settings, with modest labeled data requirements, while black‑box‑only ensembles approach full‑ensemble performance. Limitations include a narrow model and task scope.",
         "methodology": [
           {
-            "title": "Classifier‑based ensemble",
-            "detail": "A supervised model (logistic regression, random forest, or gradient boosting) ingests a vector of K∈[0,1] confidence scores from diverse UQ scorers and learns to predict binary hallucination labels."
+            "title": "Supervised ensemble training",
+            "detail": "A classifier (logistic regression, random forest, or gradient boosting) is trained on K‑dimensional vectors of UQ scores s1(y)…sK(y) ∈ [0,1]K derived from heterogeneous scorers; training subsets range from 0.1N to 0.7N of the labeled data."
           }
         ],
         "mechanism": [
           {
-            "title": "Heterogeneous scorer collection",
-            "detail": "Scorers span single‑generation white‑box (e.g., token probability statistics), consistency‑based black‑box (e.g., exact match, BERTScore), reflexive confidence, and graph‑based claim metrics, each requiring varying access to token probabilities."
-          },
-          {
-            "title": "Training on small labeled set",
-            "detail": "Ensembles are trained on subsamples of the training fold ranging from 0.1N to 0.7N, with N the dataset size; gains are observed with as few as 100 labeled responses."
+            "title": "Signal combination",
+            "detail": "Supervised learning learns weighted combinations of complementary UQ signals, allowing the model to exploit strengths of black‑box consistency, white‑box token probabilities, and reflexive self‑judgments, thereby improving discrimination between truthful and hallucinated outputs."
           }
         ],
         "experiments": [
           {
-            "title": "Models, data, baselines, metrics",
-            "detail": "Four LLMs (Gemini‑2.5‑Flash, Gemini‑2.5‑Pro, GPT‑4o, GPT‑4o‑mini) evaluated on nine benchmarks covering math, factual QA, code (Python), and long‑form factoid domains. Baselines are the best individual UQ scorer (optimistically selected on test). Metrics include AUROC and Expected Calibration Error (ECE) with 25 random 70/30 stratified splits."
+            "title": "Empirical evaluation",
+            "detail": "Four LLMs (Gemini‑2.5‑Flash, Gemini‑2.5‑Pro, GPT‑4o, GPT‑4o‑mini) are tested on nine benchmarks covering short‑form math, factual QA, reading comprehension, Python code generation (LiveCodeBench), and long‑form factoid QA (rivers, mushrooms). Metrics include AUROC and expected calibration error (ECE); baselines are the best individual scorer per setting."
           }
         ],
         "findings": [
           {
             "title": "In‑distribution superiority",
-            "detail": "Using the full training sample, ensembles outperform the best scorer in 30/32 LLM‑dataset settings by AUROC and 29/32 by ECE."
+            "detail": "With the full training sample (0.7N), ensembles outperform the best individual scorer in 30 of 32 LLM‑dataset settings by AUROC and in 29 of 32 by ECE."
           },
           {
             "title": "Sample efficiency",
-            "detail": "Ensemble AUROC exceeds the best scorer after training on only ~100 labeled instances across all domains."
+            "detail": "Performance gains appear with as few as 100 labeled instances, as shown by AUROC curves across training sizes."
           },
           {
-            "title": "In‑domain transfer robustness",
-            "detail": "Under distribution shift, ensembles remain superior in 23 of 28 transfer settings, preserving most of their in‑distribution advantage."
+            "title": "Transfer robustness",
+            "detail": "Under in‑domain distribution shift, ensembles remain superior in 23 of 28 transfer settings."
           },
           {
-            "title": "Black‑box vs. full ensembles",
-            "detail": "Sampling‑based black‑box ensembles achieve near‑full‑ensemble performance, whereas white‑box‑only ensembles provide limited benefit."
+            "title": "Black‑box vs full ensembles",
+            "detail": "Sampling‑based black‑box ensembles achieve nearly the same AUROC as full ensembles, whereas white‑box‑only ensembles provide limited benefit."
           }
         ],
         "contributions": [
-          "Systematic robustness analysis of supervised UQ ensembles across sample size, domain shift, and generation regime."
+          "Systematic robustness analysis of supervised UQ ensembles across sample efficiency, distribution shift, and generation regimes."
         ],
         "limitations": [
-          "Evaluated only on four closed‑weight LLMs; results may not extend to open‑weight models with internal‑state scorers.",
-          "Long‑form and code experiments cover limited domains (factoid rivers/mushrooms, Python competitive programming)."
+          "Only four closed‑source LLMs from two providers are evaluated; results may not generalize to open‑weight models.",
+          "Long‑form evaluation is limited to two factoid domains and code experiments to Python competitive‑programming tasks.",
+          "Cross‑domain, cross‑LLM, and internal‑state scorer combinations are not explored."
         ],
         "open_questions": [
-          "How do supervised UQ ensembles perform when transferred across domains (e.g., train on math, test on factual QA) or across different LLM families?",
-          "Can ensembles incorporating internal‑representation scorers for open‑weight models achieve similar gains with lower inference cost?"
+          "How do supervised ensembles perform with open‑weight models and internal‑state UQ signals?",
+          "Can ensembles trained on one domain or LLM transfer effectively to entirely different domains or other model families?",
+          "What is the impact of more diverse long‑form generation tasks (e.g., summarization, multi‑turn dialogue) on ensemble efficacy?"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
@@ -1359,213 +1357,6 @@
       "recommended_at": "2026-08-25T10:49:06.180385+00:00"
     },
     {
-      "id": "2608.20820",
-      "title": "Certified Multi-Turn Robustness for LLM Safety via Compositional Bounds and Safety Persistence",
-      "abstract": "Large language models (LLMs) are vulnerable to multi-turn jailbreak attacks that progressively manipulate conversation context. Existing certified robustness methods are limited to single-turn inputs; naive multi-turn composition yields bounds that degrade exponentially in the number of turns. We introduce Multi-Turn Certified Robustness (MTCR), a framework that models conversational safety via State-Adversarial MDPs and defines $k$-turn certified robustness as the worst-case safety probability across $k$ adversarial turns. MTCR comprises: (i) compositional certification via embedding-space mode decomposition, yielding tighter certified lower bounds than naive multiplication; (ii) $(α,β)$-safety persistence, improving the degradation rate from $\\underline{p}^{k}$ to $β^k$ (with $β> \\underline{p}$) and yielding interpretable horizon estimates; (iii) matching information-theoretic upper bounds establishing tightness; and (iv) a unified algorithm combining these results. Experiments on six LLMs under $ε$-bounded and Crescendo-style attacks confirm that empirical safety consistently exceeds the certified bounds.",
-      "authors": [
-        "Yang Liu",
-        "Bin Chong",
-        "Wenkai Yang",
-        "Shuai Zhang",
-        "Yancheng Chen",
-        "Feiyu Han",
-        "GuoZhen",
-        "Cheng Zhang",
-        "Huaibing Xie",
-        "Changze Lv",
-        "Shihan Dou",
-        "Pluto Zhou"
-      ],
-      "published": "2026-08-21T07:43:06Z",
-      "updated": "2026-08-21T07:43:06Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2608.20820v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.20820v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.7394,
-          "matched": [
-            "adversarial",
-            "jailbreak",
-            "robustness"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.6049,
-          "matched": [
-            "llm safety",
-            "LLM safety",
-            "robustness",
-            "safety",
-            "llm"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.4408,
-          "matched": [
-            "llm",
-            "mode"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6521,
-        "relevance": 0.7915,
-        "quality": 0.45,
-        "novelty": 0.2,
-        "freshness": 0.5526,
-        "feedback_adjustment": -0.016,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "experiments",
-        "formal bound"
-      ],
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "adversarial",
-          "jailbreak",
-          "robustness"
-        ],
-        "lane": "llm"
-      },
-      "summary": {
-        "takeaway": "MTCR provides certified multi‑turn safety guarantees for LLMs that are tighter than naive multiplicative bounds and empirically validated on six models.",
-        "problem": "Existing certified robustness methods only handle single‑turn inputs and degrade exponentially when naively extended to multi‑turn jailbreak attacks.",
-        "method": "The authors model conversations as State‑Adversarial MDPs and combine embedding‑space mode decomposition with (α,β)-safety persistence to compute certified k‑turn safety probabilities.",
-        "evidence": "Experiments show certified lower bounds (e.g., ρ̂5=0.55 for GPT‑4o) with empirical safety exceeding them by 0.18–0.30 across static ε‑ball and Crescendo attacks.",
-        "limitations": "The formal guarantees apply only to ε‑bounded (character‑level) perturbations, rely on heuristic clustering, and use a binary safety predicate.",
-        "why_for_you": "If you seek efficient adversarial training or trustworthy LLM evaluation, MTCR offers a certification framework that can inform safety‑aware training objectives.",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🛡️",
-            "text": "MTCR introduces compositional certification via embedding‑space mode decomposition, tightening multi‑turn safety bounds versus naive multiplication."
-          },
-          {
-            "icon": "🔧",
-            "text": "(α,β)-safety persistence improves degradation from p^k to β^k, yielding interpretable horizon estimates."
-          },
-          {
-            "icon": "📊",
-            "text": "Certified lower bounds (e.g., ρ̂5=0.55 for GPT‑4o) are consistently below empirical safety by +0.18–+0.30, but only cover ε‑bounded attacks."
-          }
-        ],
-        "overview": "The paper tackles the lack of certified robustness for multi‑turn jailbreak attacks by framing dialogue as a State‑Adversarial MDP. It proposes Multi‑Turn Certified Robustness (MTCR), which leverages embedding‑space mode decomposition to separate intra‑mode safety from inter‑mode transitions, and introduces (α,β)-safety persistence to reduce exponential decay of guarantees. A unified algorithm combines these components, and extensive experiments on six open‑ and closed‑source LLMs demonstrate that MTCR yields the tightest certified bounds while empirical safety remains comfortably higher.",
-        "methodology": [
-          {
-            "title": "SA‑MDP formulation",
-            "detail": "Conversation history is embedded into a state vector; an ε‑bounded adversary selects user messages, and safety is defined by a binary predicate over states."
-          },
-          {
-            "title": "Embedding‑space mode decomposition",
-            "detail": "Safe dialogue embeddings from 500 held‑out conversations are clustered (k‑means, M∈{2,4,8}); per‑mode randomized smoothing estimates intra‑mode safety, and inter‑mode transition costs are bounded."
-          },
-          {
-            "title": "Unified certification algorithm",
-            "detail": "Algorithm 1 computes a compositional lower bound and applies the (α,β)-persistence formula, taking the maximum of component bounds for each horizon k."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "(α,β)-safety persistence",
-            "detail": "If a system satisfies the persistence property, the k‑turn safety guarantee improves from p^k to β^k (β>p), with a linear horizon estimate 1−k(1−β) (Theorem 3.5)."
-          },
-          {
-            "title": "Information‑theoretic tightness",
-            "detail": "Upper bounds are proved for non‑overlapping mode decompositions, showing the compositional approach cannot be substantially improved without additional structure."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Model and attack suite",
-            "detail": "Six LLMs (LLaMA‑2‑7B‑Chat, Vicuna‑7B, Llama‑3.2‑3B, Qwen2.5‑7B‑Instruct, GPT‑4o, Claude‑3.5‑Sonnet) are evaluated under ε‑bounded static edit‑distance attacks (ε∈{3,5,7}) and Crescendo‑style adaptive attacks, using 150 harmful prompts (50 per category) and 100 trials per configuration."
-          },
-          {
-            "title": "Baselines and variants",
-            "detail": "Comparisons include naive multiplicative bound, optimistic reference bound, Persistence‑Only, Compositional‑Only, and the full MTCR combination."
-          },
-          {
-            "title": "Metrics",
-            "detail": "Certified lower bound ρ̂_k and empirical safety (fraction of trials remaining safe) are reported for horizons k∈{5,10,15,20}."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Combined MTCR yields tightest certified bounds",
-            "detail": "Across all horizons, MTCR (max of component bounds) outperforms Persistence‑Only and Compositional‑Only, matching the theoretical tightness results."
-          },
-          {
-            "title": "Empirical safety exceeds certified guarantees",
-            "detail": "Gaps between empirical safety and MTCR range from +0.18 to +0.30, confirming that the bounds are not violated in practice."
-          },
-          {
-            "title": "Mode granularity trade‑off",
-            "detail": "Coarser mode counts (M=2) give higher certified bounds (ρ̂5=0.39) than finer granularity (M=8, ρ̂5=0.25) due to increased overlap κ and transition cost."
-          }
-        ],
-        "contributions": [
-          "MTCR certification framework for multi‑turn LLM safety",
-          "Embedding‑space mode decomposition for compositional certification",
-          "(α,β)-safety persistence theory and horizon analysis",
-          "Information‑theoretic upper bounds establishing tightness",
-          "Empirical evaluation on six production LLMs under static and adaptive attacks"
-        ],
-        "limitations": [
-          "Formal guarantees limited to ε‑bounded (character‑level) perturbations; no provable protection against semantic attacks",
-          "Mode decomposition relies on heuristic k‑means clustering; bound tightness depends on chosen M and overlap κ",
-          "Safety predicate is binary and detector‑dependent; graded harmfulness scores are unsupported",
-          "Certification requires ~2.5 h per open‑source model on a single A100 GPU, limiting real‑time applicability"
-        ],
-        "open_questions": [
-          "How can MTCR be extended to certify against semantic or unrestricted adversarial perturbations?",
-          "Can automated, provably sound mode discovery replace heuristic clustering?",
-          "What modifications are needed to support continuous or graded safety metrics?",
-          "Is it possible to integrate MTCR‑derived certificates into adversarial training pipelines to improve robustness efficiently?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "recommended_at": "2026-08-24T10:53:02.352651+00:00"
-    },
-    {
       "id": "2608.25429",
       "title": "Distance Is Not Enough: Forget-Retain Alignment Gap Predicts LLM Relearning Robustness",
       "abstract": "Machine unlearning aims to make a model forget specific data, yet unlearned LLMs often fail to stay unlearned: brief fine-tuning can revive removed knowledge. Existing robustness predictors rely on global weight-space displacement, but distance alone can be misleading when random or destructive updates collapse performance. We argue that relearning robustness depends on update structure: robust unlearning should affect forget-critical weights while sparing retain-critical ones. We introduce the Forget-Retain Alignment Gap (FRAG), a training-free predictor that scores an update's forget-retain alignment without running a relearning attack, and separates selective from dense updates more reliably than global distance. Building on the forget-critical, retain-sparing principle, Forget-Retain Pruning (FRP) improves relearning robustness. Our results suggest that weight selectivity better explains robustness than distance alone. Code is available at https://github.com/Yi1-Chen/FRAG.",
@@ -1645,20 +1436,7 @@
         "code available",
         "GitHub link"
       ],
-      "summary": {
-        "takeaway": "We introduce the Forget-Retain Alignment Gap (FRAG), a training-free predictor that scores an update's forget-retain alignment without running a relearning attack, and separates selective from dense updates more reliably than global distance.",
-        "problem": "Machine unlearning aims to make a model forget specific data, yet unlearned LLMs often fail to stay unlearned: brief fine-tuning can revive removed knowledge.",
-        "method": "We introduce the Forget-Retain Alignment Gap (FRAG), a training-free predictor that scores an update's forget-retain alignment without running a relearning attack, and separates selective from dense updates more reliably than global distance.",
-        "evidence": "Building on the forget-critical, retain-sparing principle, Forget-Retain Pruning (FRP) improves relearning robustness.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Efficient adversarial training, Trustworthy LLM.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
+      "analysis_status": "complete",
       "recommendation_reason": {
         "topic": "Efficient adversarial training",
         "matched": [
@@ -1668,6 +1446,94 @@
           "robustness"
         ],
         "lane": "llm"
+      },
+      "summary": {
+        "why_for_you": "高效对抗训练专家会看重 FRAG 的 training-free 对齐指标，用于在无需重新学习攻击的情况下评估忘记鲁棒性。",
+        "limitations": "FRAG 需要校准数据，且主要在 transformer 架构上进行评估。",
+        "problem": "现有的忘记方法因对权重更新缺乏足够的结构性保证，无法防止重新学习攻击。",
+        "method": "FRAG 通过 activation-normalized 权重重要性得分计算忘记-保留对齐差距；FRP 根据这些得分剪枝权重。",
+        "evidence": "在多种忘记方法和模型中，FRAG 与实际重新学习鲁棒性的相关性比全局距离更可靠。",
+        "takeaway": "FRAG 与 FRP 通过优先考虑忘记-保留对齐而非全局距离，提升重新学习鲁棒性。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "experiments": [
+          {
+            "detail": "TOFU (LLaMA3.2-1B/3B) 与 WMDP-cyber (Qwen2.5-14BInstruct) 在 forget01/05/10、retain 和 forget+retain 攻击下",
+            "title": "忘记基准"
+          },
+          {
+            "detail": "GA、GradDiff、NPO、RMU、SP；指标 ES/∆ES/utility（TOFU），Acc/∆Acc/MMLU（WMDP）",
+            "title": "基线"
+          },
+          {
+            "detail": "相较于全局 ℓ2 距离，FRAG 在不同模型规模（1B、3B、14B）上与实际鲁棒性的相关性更强",
+            "title": "FRAG 评估"
+          }
+        ],
+        "limitations": [
+          "FRAG 需要用于 activation norm 估计的校准数据",
+          "评估仅限于 transformer 架构（Llama/Qwen）"
+        ],
+        "overview": "本文质疑全局权重距离能够预测重新学习鲁棒性的假设。作者提出 FRAG，一种 training-free 指标，通过衡量忘记关键权重与保留关键权重的对齐程度来评估更新结构。实验表明 FRAG 与实际鲁棒性的相关性优于距离度量，并展示了其在 FRP（剪枝方法）中的应用，FRP 在提升鲁棒性的同时控制效用损失。工作强调在忘记保证中权重的选择性而非仅仅大小。",
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "FRAG：training-free 忘记-保留对齐差距预测器"
+          },
+          {
+            "icon": "🔬",
+            "text": "activation-normalized 权重重要性得分的余弦相似度"
+          },
+          {
+            "icon": "📈",
+            "text": "FRAG 在攻击前 ES 降低方面比全局距离提升 2.6-4.0 倍"
+          }
+        ],
+        "open_questions": [
+          "FRAG 能否在无需校准过程的实时忘记中使用？",
+          "忘记-保留对齐在非 transformer 架构上的泛化如何？"
+        ],
+        "contributions": [
+          "将忘记鲁棒性重新定义为结构化更新问题，而非距离优化",
+          "提出 FRAG 作为 training-free 的忘记对齐指标",
+          "展示 FRP 在可控效用权衡下提升鲁棒性的能力"
+        ],
+        "mechanism": [
+          {
+            "detail": "如果权重的幅度与 forget activation norm 的相关性高于 retain norm，则视为忘记关键权重；反之则为保留关键权重",
+            "title": "忘记-保留重要性对比"
+          }
+        ],
+        "findings": [
+          {
+            "detail": "FRAG 与实际重新学习鲁棒性的相关性比全局距离更可靠（在 3B 时，综合 FRAG 分数 -0.74 对比 ℓ2 -0.10）",
+            "title": "FRAG 相关性"
+          },
+          {
+            "detail": "在相同稀疏度下，FRP 的攻击前 ES 比 SP 低 2.6-4.0 倍，且效用相当",
+            "title": "FRP 效果"
+          }
+        ],
+        "methodology": [
+          {
+            "detail": "FRAG 通过 |Wij| * (xfj/(xrj+ϵ)) 与 |Wij| * (xrj/(xfj+ϵ)) 计算忘记/保留重要性，使用校准数据的输入通道 activation norm",
+            "title": "activation-normalized 重要性评分"
+          },
+          {
+            "detail": "FRAG 使用更新向量与重要性图的余弦相似度计算全局对齐分数 Af 与 Ar，公式为 A_f = Σ(ΔWℓ² * Fℓ)/||ΔWℓ²||||Fℓ||",
+            "title": "余弦对齐计算"
+          }
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
       },
       "recommended_at": "2026-08-29T15:03:50.069527+00:00"
     },
@@ -1937,6 +1803,95 @@
         "lane": "llm"
       },
       "recommended_at": "2026-08-29T15:03:50.069527+00:00"
+    },
+    {
+      "id": "2608.28009",
+      "title": "Beyond Global Scalars: Synergizing Token-Level Statistics and Deep Semantics for Adversarial AIGC Text Detection",
+      "abstract": "The rapid evolution of large language models necessitates robust machine-generated text detection. Existing paradigms typically follow two isolated tracks. Training-free methods rely on global statistical scalars such as perplexity, while training-based methods utilize semantic hidden states. Both approaches exhibit fundamental vulnerabilities in adversarial scenarios. Global scalars act as lossy compressions that obscure local probabilistic burstiness in interleaved texts, whereas pure semantic models overfit to specific fingerprints and remain susceptible to spoofing. To expose these flaws, we introduce MOSAIC, a comprehensive adversarial benchmark comprising 16000 samples across a full-granularity attack spectrum. To address these challenges, we propose NeuroStat, an end-to-end framework bridging the statistical and semantic gap. NeuroStat captures uncompressed token-level probabilistic logits alongside deep semantic hidden states from a single causal language model backbone. We fuse these heterogeneous signals through Macro-State Residual Modulation, which adaptively calibrates local convolutional features using global uncertainty indicators. Orthogonal and contrastive losses further ensure the learning of complementary representations. Extensive experiments demonstrate that NeuroStat maintains exceptional robustness on MOSAIC compared to the severe degradation of state-of-the-art methods, establishing a new standard for adversarial text detection. Code and the MOSAIC benchmark are available at https://github.com/TencentBAC/NeuroStat.",
+      "authors": [
+        "Peiming Li",
+        "Yifan Wang",
+        "Zhiyuan Hu",
+        "Shiyu Li",
+        "Zheng Wei",
+        "Yang Tang"
+      ],
+      "published": "2026-08-28T07:23:58Z",
+      "updated": "2026-08-28T07:23:58Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2608.28009v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.28009v1",
+      "comment": "Accepted by EMNLP 2026 Findings",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.6686,
+          "matched": [
+            "adversarial",
+            "training",
+            "robust",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6237,
+        "relevance": 0.5349,
+        "quality": 0.84,
+        "novelty": 0.8246,
+        "freshness": 0.5106,
+        "feedback_adjustment": -0.0193,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "benchmark evaluation",
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "evidence": "在MOSAIC基准上的实验显示NeuroStat优于SOTA方法，表现出更强的鲁棒性。",
+        "limitations": "未在摘要中提及具体限制。",
+        "method": "NeuroStat通过Macro-State Residual Modulation融合单个因果语言模型的token级概率logits与语义隐藏状态，并使用正交和对比损失学习互补表示。",
+        "problem": "现有方法在对抗场景中存在根本性漏洞：全局标量丢失局部概率突变信息，纯语义模型易过拟合且易被欺骗。",
+        "takeaway": "NeuroStat框架通过融合token级概率logits和深度语义隐藏状态，解决了对抗场景下的AIGC文本检测问题。",
+        "why_for_you": "对抗性文本检测中统计特征与语义特征的协同机制",
+        "source": "abstract",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "adversarial",
+          "training",
+          "robust",
+          "robustness"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-31T17:37:30.318867+00:00"
     }
   ]
 }
