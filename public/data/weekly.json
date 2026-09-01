@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-31T17:37:30.318867+00:00",
+  "generated_at": "2026-09-01T14:52:59.157232+00:00",
   "papers": [
     {
       "id": "conf:acl:2026:1334-main",
@@ -1164,199 +1164,6 @@
       "recommended_at": "2026-08-26T10:51:18.938084+00:00"
     },
     {
-      "id": "2608.23391",
-      "title": "Cross-Domain, Multi-Task Data-to-Text Generation without In-Domain Training Data",
-      "abstract": "Structured data exists in many forms (tables, knowledge graphs, charts, and time series), and converting it into text may involve different generation tasks. However, most prior work on data-to-text (D2T) generation has focused on specific tasks and datasets, relying either on task-specific training data or on the zero-shot capabilities of large language models. We study cross-domain D2T generation in a setting where neither in-domain training text nor test references are available, and where domains, generation goals, and input structures vary substantially. We compare data-driven knowledge distillation (DDKD) against zero-shot inference and fine-tuning on out-of-domain D2T data, and introduce structure-preserving augmentation via structural subsampling and perturbation. Experiments on five benchmarks show that, at constant model size (1.7B parameters), DDKD consistently outperforms both fine-tuning and zero-shot inference. Moreover, the resulting small models outperform a much larger finetuned model on two of the five domains, achieving comparable performance on the remaining three. We further construct QUINTD-5, a fivefold extension of QUINTD-1, and show that simply scaling real target-domain inputs yields only modest gains, whereas our augmentation strategy remains more effective and more cost-efficient for cross-domain distillation.",
-      "authors": [
-        "Yifei Song",
-        "Kun Efimov-Zhang",
-        "Claire Gardent"
-      ],
-      "published": "2026-08-24T15:37:19Z",
-      "updated": "2026-08-24T15:37:19Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2608.23391v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.23391v1",
-      "comment": "Accepted by EMNLP Findings 2026",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.6024,
-          "matched": [
-            "efficient",
-            "training",
-            "fine-tuning"
-          ]
-        },
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "core",
-          "score": 0.5966,
-          "matched": [
-            "training data",
-            "data"
-          ]
-        },
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "emerging",
-          "score": 0.1519,
-          "matched": [
-            "distillation"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6552,
-        "relevance": 0.6316,
-        "quality": 0.58,
-        "novelty": 0.8436,
-        "freshness": 0.8857,
-        "feedback_adjustment": -0.0173,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "experiments",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "method": "大型教师模型（zero‑shot 或 WebNLG‑fine‑tuned）生成合成目标域文本，经过增强后通过最大似然训练紧凑学生模型。",
-        "evidence": "在五个基准上，1.7B 学生模型始终比 zero‑shot 与 WebNLG‑fine‑tuned 模型错误率更低，并在两个领域超越更大的 fine‑tuned 模型。",
-        "takeaway": "基于数据的知识蒸馏结合结构保持增强，使小模型在跨域 data‑to‑text 生成中无需目标域文本即可超越更大的 fine‑tuned 基线。",
-        "why_for_you": "本文提出高效的 on‑policy 蒸馏流水线和数据选择增强，符合您对高效对抗训练和 LLM 数据选择的兴趣。",
-        "limitations": "结果仅在 1B‑2B Qwen3/Gemma3 模型上展示，使用启发式增强和闭源 LLM 评审。",
-        "problem": "在缺乏领域内训练文本或参考的情况下，从跨域异构结构化输入生成文本。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "DDKD 结合结构保持增强在五个领域始终实现更低错误率，优于 zero‑shot 与 fine‑tuning。"
-          },
-          {
-            "icon": "⚙️",
-            "text": "来自 zero‑shot 或 WebNLG‑SFT 教师的合成 (x, ŷ) 对通过标准最大似然训练 1.7B 学生模型。"
-          },
-          {
-            "icon": "📊",
-            "text": "DDKD 学生在两个领域超越更大的 fine‑tuned 模型，但仅限于 1B‑2B Qwen3/Gemma3 系列。"
-          }
-        ],
-        "overview": "作者通过将大型教师的知识蒸馏至小学生模型，解决无目标域监督的跨域 data‑to‑text 生成。合成目标域示例由 zero‑shot LLM 或 WebNLG‑fine‑tuned LLM 生成，再经结构保持增强（子抽样与扰动）扩展。基于这些示例训练的 1.7B 学生模型在五个异构基准上始终降低错误率，相比 zero‑shot 与跨域 fine‑tuned 基线，并在两个领域超越更大的 fine‑tuned 模型。",
-        "methodology": [
-          {
-            "title": "教师生成",
-            "detail": "一个大型 LLM（零样本或在 WebNLG 上微调）为每个目标域结构化输入 x 生成合成文本 ŷ̃。"
-          },
-          {
-            "title": "合成数据增强",
-            "detail": "结构子抽样和受控扰动在教师生成前产生多样且保持 schema 的 x 变体。"
-          },
-          {
-            "title": "学生模型训练",
-            "detail": "学生模型（1.7B Qwen3 或 Gemma3）使用标准最大似然损失 L_DDKD = −log pθ(ŷ̃|x) 在 (x, ŷ̃) 对上进行训练。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "数据驱动知识蒸馏",
-            "detail": "蒸馏仅依赖教师生成的文本，避免基于 logits 或置信度的方法，使过程与模型无关。"
-          },
-          {
-            "title": "结构保持增强",
-            "detail": "增强通过定义原子单元并强制可交换性来遵循输入 schema，提升对格式异构性的鲁棒性。"
-          }
-        ],
-        "experiments": [
-          {
-            "detail": "五个QUINTD-1目标领域（Wikidata、冰球、天气、GSM Arena、OWID）在Qwen3-1.7B和Gemma3-1B主干网络上，使用三个小型模型（零样本、WebNLG-SFT、DDKD）进行评估；更大规模的微调模型用于比较。",
-            "title": "基准与基线"
-          },
-          {
-            "detail": "错误率（LLM作为评判者，越低越好）和内容覆盖分数（越高越好）由两位独立评判者（GPT-5.1、Gemini-2.5-Pro）及人工验证评估。",
-            "title": "指标"
-          }
-        ],
-        "findings": [
-          {
-            "detail": "DDKD在所有五个领域中始终比零样本和WebNLG微调基线模型取得更低的错误率。",
-            "title": "错误率降低"
-          },
-          {
-            "detail": "1.7B参数的DDKD学生模型在两个领域中优于更大规模的微调模型，并在其余三个领域表现相当。",
-            "title": "小型模型优势"
-          },
-          {
-            "detail": "结构保持增强相比单纯扩展真实目标领域输入产生更大收益，且计算成本更低。",
-            "title": "增强效果"
-          },
-          {
-            "detail": "与零样本、E2E或KELM-Q1教师相比，WebNLG-SFT教师在忠实度-覆盖度权衡上表现最佳。",
-            "title": "教师选择影响"
-          }
-        ],
-        "contributions": [
-          "引入数据驱动的知识蒸馏用于跨域 D2T，无需目标域参考。",
-          "提出保持结构的增强（子抽样、扰动），以应对模式和格式的异构性。",
-          "创建 QUINTD‑5，作为 QUINTD‑1 的五倍扩展，用于评估规模与增强的关系。",
-          "提供基于 LLM 评审、人类验证和覆盖率检查的无参考评估框架。"
-        ],
-        "limitations": [
-          "仅在小规模 (1B‑2B) Qwen3/Gemma3 模型上评估，未验证对更大架构的迁移性。",
-          "增强启发式依赖手工定义的原子单元和可交换性约束，可能不适用于所有领域。",
-          "评估依赖闭源 LLM 评审，导致成本并可能产生领域偏差。"
-        ],
-        "open_questions": [
-          "当扩展到更大学生模型或不同架构族时，DDKD 的表现如何？",
-          "更原理化或学习式的增强策略能否进一步提升跨域迁移？",
-          "使用完全开源评估器替代专有 LLM 评审对评估可靠性有何影响？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "efficient",
-          "training",
-          "fine-tuning"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-25T10:49:06.180385+00:00"
-    },
-    {
       "id": "2608.25429",
       "title": "Distance Is Not Enough: Forget-Retain Alignment Gap Predicts LLM Relearning Robustness",
       "abstract": "Machine unlearning aims to make a model forget specific data, yet unlearned LLMs often fail to stay unlearned: brief fine-tuning can revive removed knowledge. Existing robustness predictors rely on global weight-space displacement, but distance alone can be misleading when random or destructive updates collapse performance. We argue that relearning robustness depends on update structure: robust unlearning should affect forget-critical weights while sparing retain-critical ones. We introduce the Forget-Retain Alignment Gap (FRAG), a training-free predictor that scores an update's forget-retain alignment without running a relearning attack, and separates selective from dense updates more reliably than global distance. Building on the forget-critical, retain-sparing principle, Forget-Retain Pruning (FRP) improves relearning robustness. Our results suggest that weight selectivity better explains robustness than distance alone. Code is available at https://github.com/Yi1-Chen/FRAG.",
@@ -1892,6 +1699,173 @@
         "lane": "llm"
       },
       "recommended_at": "2026-08-31T17:37:30.318867+00:00"
+    },
+    {
+      "id": "2608.26008",
+      "title": "A Self-Evolving Multi-Agent Framework Defense against LLM Jailbreak Attacks",
+      "abstract": "Large language models (LLMs) remain vulnerable to jailbreak attacks that exploit techniques such as role-playing, obfuscation, code transformation, and multi-step indirection to elicit harmful outputs. As jailbreak strategies keep emerging, defenses have proliferated in an ongoing cat-and-mouse game, yet most remain static: their safety behavior is fixed at deployment, so they cannot accumulate defensive experience or adapt to unseen strategies. We propose a self-evolving test-time defense built around a persistent, cross-interaction rule memory: when an attack succeeds, the framework abstracts that failure into a method-level rule capturing the structural attack wrapper rather than the harmful topic, and reuses it against future inputs. Because rules are method-level, one induced rule generalizes across an entire attack family, and the label space expands as novel wrappers appear. The mechanism operates entirely through external memory and prompting, with no parameter updates, and applies to both open-weight and black-box API models. We realize it as four cooperating modules, but the contribution is the memory-based adaptation mechanism, not the module decomposition. Across four black-box jailbreak families and multiple models, our method substantially reduces attack success rates while preserving benign utility, remains robust under an adaptive composite-wrapper attack, and does not increase over-refusal as the memory grows.",
+      "authors": [
+        "Tongyan Hu",
+        "Bryan Hooi"
+      ],
+      "published": "2026-08-26T16:52:06Z",
+      "updated": "2026-08-26T16:52:06Z",
+      "categories": [
+        "cs.CR",
+        "cs.CL"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2608.26008v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.26008v1",
+      "comment": "8 pages (main), with appendix",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.6355,
+          "matched": [
+            "jailbreak",
+            "robust"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.3359,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.265,
+          "matched": [
+            "safety",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6178,
+        "relevance": 0.6286,
+        "quality": 0.47,
+        "novelty": 0.8608,
+        "freshness": 0.5822,
+        "feedback_adjustment": -0.0249,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available"
+      ],
+      "summary": {
+        "takeaway": "一种基于记忆的测试时防御，能够从 jailbreak 失败中学习，在不修改模型参数的情况下显著降低攻击成功率。",
+        "why_for_you": "符合您对 LLM 自适应、parameter‑free 防御的兴趣，提供一种 test‑time 方法来缓解 jailbreak。",
+        "method": "持久的外部规则记忆将失败的攻击抽象为方法级规则，并在 inference 时通过四个提示式代理应用。",
+        "limitations": "评估仅限于四个攻击家族和有限的模型集合，每个标签的规则容量为 4 条。",
+        "evidence": "在四个 black‑box jailbreak 家族中，系统在首批后将 ASR‑gpt 降至接近零，同时保持良好的实用性。",
+        "problem": "静态安全机制无法在 inference 期间适应新出现的 jailbreak 策略。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🛡️",
+            "text": "引入持久规则记忆，将攻击包装器抽象化，在首次暴露后实现接近零的攻击成功率。"
+          },
+          {
+            "icon": "🔎",
+            "text": "实现四个提示式代理，分别进行分类、检索、执行和反思，以在不更新模型权重的情况下生成 method‑level 规则。"
+          },
+          {
+            "icon": "⚠️",
+            "text": "在四个 black‑box jailbreak 家族中将 ASR‑gpt 降至接近零，尽管结果仅限于这些攻击和模型。"
+          }
+        ],
+        "overview": "本文提出一种自演化的 test‑time 防御，将 method‑level 规则存储在外部记忆中。当 jailbreak 成功时，reflection 代理将结构化包装抽象为规则，triggering 代理据此检测未来相似输入。policy 代理根据匹配规则执行硬拒或软拒，response 代理生成最终输出。模型参数不被修改，可部署于 open‑weight 与 black‑box LLM API。",
+        "mechanism": [
+          {
+            "detail": "而非特定主题的过滤器，规则抽象了结构化的攻击方法（例如，角色扮演-嵌套人格），使单个规则能够跨所有共享相同包装器的提示进行泛化，无论其有害意图如何。",
+            "title": "方法级规则抽象"
+          }
+        ],
+        "methodology": [
+          {
+            "detail": "规则记忆Rt存储形式为[标签=Li] 如果请求使用Pi则Di的条目，其中Pi捕获攻击包装器，Di为拒绝约束；通过归纳增长，并按标签限制（C=4）。",
+            "title": "规则记忆与操作符"
+          },
+          {
+            "detail": "A1（规则触发）运行分类器ϕ对输入进行标记并检索最多K=2个匹配规则；A2（策略决策）将触发规则映射为硬拒绝、软拒绝或允许；A3（响应生成）将策略作为动态系统指令注入；A4（自我反思）检测违规行为，通过操作符F生成新规则，并通过U更新记忆。",
+            "title": "四个提示代理"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "评估设置",
+            "detail": "基准：AdvBench 与 CodeChameleon；模型：Qwen2.5‑7B、Llama3.1‑8B、Gemini‑3‑Flash‑Preview；攻击：四类黑盒 jailbreak 家族及 DeepInception；基线：No Defense、Defense Prompt、Self‑Reminder、AutoDefense；指标：ASR‑rej、ASR‑gpt、任务性能（MMLU、GSM8K）。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "攻击成功率降低",
+            "detail": "ASR‑gpt 在首批 20 次攻击后降至接近零，并在所有四个家族中保持低水平；消融实验表明，移除任意代理都会显著提升 ASR，验证了其互补作用。"
+          },
+          {
+            "title": "效用保持",
+            "detail": "良性任务性能与基模型相当，且随着规则记忆扩展，过度拒绝并未增加。"
+          }
+        ],
+        "contributions": [
+          "在测试时，Persistent external rule memory 累积结构化防御知识。",
+          "Method‑level rule abstraction 使跨 attack families 泛化。",
+          "Multi‑agent prompting architecture 在无需 parameter updates 的情况下实现 classification、retrieval、enforcement 和 reflection。"
+        ],
+        "limitations": [
+          "实验仅覆盖四个 black‑box jailbreak families 以及有限的 LLMs。",
+          "Per‑label capacity (C=4) 可能限制对大量多样化 attack methods 的可扩展性。",
+          "缺乏针对 memory 的 formal safety guarantees 或对 adaptive adversaries 的分析。"
+        ],
+        "open_questions": [
+          "当 rule memory 扩展至数百种多样化 wrappers 时，该方法的可扩展性如何？",
+          "adaptive attackers 能否构造提示规避或污染 rule induction process？",
+          "test‑time memory 与现有对齐技术（如 RLHF）之间的交互是什么？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "jailbreak",
+          "robust"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-29T15:03:50.069527+00:00"
     }
   ]
 }
