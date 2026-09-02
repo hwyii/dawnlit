@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-01T14:52:59.157232+00:00",
+  "generated_at": "2026-09-02T14:29:00.447095+00:00",
   "papers": [
     {
       "id": "conf:acl:2026:1334-main",
@@ -988,24 +988,24 @@
       "recommended_at": "2026-08-28T21:10:49.916182+00:00"
     },
     {
-      "id": "2608.24492",
-      "title": "When Do Supervised UQ Ensembles Improve LLM Hallucination Detection? A Robustness Study",
-      "abstract": "Uncertainty quantification (UQ) methods are widely used for hallucination detection in large language models (LLMs) in closed-book settings where ground-truth evidence is unavailable at inference time. Prior work has proposed combining UQ signals via learned ensembles, but empirical investigations into the robustness of these ensembles are limited. We study a supervised ensembling framework that trains a classifier over heterogeneous UQ-based scorer outputs on a small, domain-specific dataset of labeled LLM responses, then applies it to out-of-sample hallucination classification without retrieval, tools, or reference documents. Across four LLMs, nine datasets, and three generation regimes (short-form QA, long-form generation, and code generation), we provide a systematic robustness analysis along three axes: sample efficiency, in-domain dataset transfer, and generation regime dependence. We find that supervised ensembles outperform the best individual scorer in 30 of 32 settings, with gains realized from as few as 100 labeled instances. Ensembles retain most of their advantage in cases of in-domain transfer under distribution shift, outperforming the best non-ensemble scorer in 23 of 28 transfer settings. Sampling-based black-box ensembles are nearly as effective as full ensembles, while single-generation white-box ensembles offer limited benefit.",
+      "id": "2609.01535",
+      "title": "Can LLMs Design Video Coding Tools? A Case Study on Planar Mode",
+      "abstract": "This paper explores whether large language models (LLMs) can design video coding tools, a highly challenging task due to the intricate algorithmic coupling of tool modifications. In particular, we present an empirical case study on the Planar mode, a long-standing intra prediction tool in video coding standards. Our experiments operate within a generation-and-evaluation loop, with the LLM generating new Planar predictors, encoder trials evaluating their coding performance, and the LLM re-generating refined implementations based on the evaluation feedback. We first examine directly replacing the default Planar mode in the Fraunhofer Versatile Video Encoder (VVenC) under its faster preset. Experimental results demonstrate that the LLM-generated mode can outperform the conventional Planar mode on this lightweight toolset, achieving 0.18% bitrate savings with 0.4% complexity overhead on the standard benchmark. We further extend our evaluation to the Enhanced Compression Model (ECM). Leveraging newly introduced directional Planar modes, we investigate two integration strategies: directly replacing them, and introducing the LLM-generated predictor as an additional prediction mode with new syntax elements. The empirical results suggest that both strategies can yield coding gains under a constrained low-resolution setting. Overall, this study offers preliminary evidence and practical insights, highlighting both the potential and open challenges of LLM-based coding tool design.",
       "authors": [
-        "Mohit Singh Chauhan",
-        "Vipin Gyanchandani",
-        "Dylan Bouchard"
+        "Yingwen Zhang",
+        "Meng Wang",
+        "Liqiang He",
+        "Shiqi Wang"
       ],
-      "published": "2026-08-25T12:43:07Z",
-      "updated": "2026-08-25T12:43:07Z",
+      "published": "2026-09-01T17:04:47Z",
+      "updated": "2026-09-01T17:04:47Z",
       "categories": [
-        "cs.LG",
-        "cs.AI",
-        "cs.CL"
+        "cs.MM",
+        "cs.AI"
       ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2608.24492v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.24492v1",
+      "primary_category": "cs.MM",
+      "abs_url": "https://arxiv.org/abs/2609.01535v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.01535v1",
       "comment": "",
       "journal_ref": "",
       "source": "arxiv",
@@ -1022,146 +1022,122 @@
       ],
       "topics": [
         {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.585,
-          "matched": [
-            "robustness",
-            "uncertainty",
-            "hallucination",
-            "llm"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.5199,
-          "matched": [
-            "robustness"
-          ]
-        },
-        {
           "id": "llm_loss_landscape",
           "name": "LLM loss landscape",
           "status": "emerging",
-          "score": 0.4426,
+          "score": 0.7409,
           "matched": [
-            "llm"
+            "llm",
+            "mode"
           ]
         }
       ],
       "scores": {
-        "total": 0.6715,
-        "relevance": 0.6605,
-        "quality": 0.59,
-        "novelty": 0.8075,
-        "freshness": 0.8682,
-        "feedback_adjustment": -0.0129,
+        "total": 0.6513,
+        "relevance": 0.5927,
+        "quality": 0.68,
+        "novelty": 0.8637,
+        "freshness": 0.8726,
+        "feedback_adjustment": -0.0138,
         "semantic_feedback": 0.0
       },
       "quality_signals": [
         "code available",
-        "dataset evidence",
+        "benchmark evaluation",
+        "experiments",
         "quantitative results"
       ],
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "robustness",
-          "uncertainty",
-          "hallucination",
-          "llm"
-        ],
-        "lane": "llm"
-      },
       "summary": {
-        "takeaway": "Supervised ensembles of heterogeneous UQ scorers consistently improve hallucination detection over the best single scorer, even with as few as 100 labeled examples.",
-        "problem": "Detecting hallucinations in closed‑book LLM outputs without retrieval or reference documents.",
-        "method": "Train a classifier on a vector of black‑box, white‑box, and reflexive UQ scores from a small domain‑specific labeled set and apply it to out‑of‑sample responses.",
-        "evidence": "Ensembles outperform the top individual scorer in 30 of 32 settings by AUROC and retain advantage in 23 of 28 distribution‑shift transfer cases.",
-        "limitations": "Study is limited to four closed‑source LLMs, two factoid long‑form domains, Python code, and does not evaluate cross‑domain or open‑weight model scorers.",
-        "why_for_you": "Matches your interest in trustworthy LLMs by providing a sample‑efficient, robust hallucination detector.",
+        "problem": "视频编码工具的设计在算法上相互耦合，且传统上依赖专家。",
+        "method": "生成‑评估循环让 LLM 编写预测器代码，编码器测量性能，LLM 再优化代码。",
+        "limitations": "实验仅限于轻量预设和低分辨率 ECM 场景。",
+        "evidence": "在 VVenC faster 预设下，LLM 模式节省 0.18% bitrate，复杂度增加 0.4%。",
+        "takeaway": "LLM 生成的 Planar 预测器略提升 bitrate，且仅带来极小复杂度。",
+        "why_for_you": "如果您研究 LLM 损失曲面与迭代代码生成反馈回路，则相关。",
         "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
         "schema_version": 3,
         "prompt_version": 2
       },
       "deep_dive": {
-        "signals": [
+        "overview": "本文探讨大语言模型能否自主设计视频编解码器的 intra‑prediction 工具。聚焦 Planar 模式，作者实现了生成‑评估流水线：LLM 提出 C++ 预测器实现，编码器评估 bitrate 与复杂度，LLM 迭代优化代码。实验在 VVenC faster 预设中替换默认 Planar 模式，并将 LLM 生成的预测器嵌入 ECM 的 directional Planar 框架，报告在低分辨率内容上获得轻微 bitrate 提升和略增的复杂度。",
+        "findings": [
           {
-            "icon": "💡",
-            "text": "Supervised UQ ensembles beat the best single scorer in 30/32 settings, with AUROC gains from 100 labeled examples."
+            "title": "Bitrate 改进，开销极小",
+            "detail": "LLM 设计的 Planar 预测器在 bitrate 上比手工基线高 0.18%，仅增加 0.4% 编码复杂度。"
           },
           {
-            "icon": "⚙️",
-            "text": "Train logistic regression / random forest / gradient boosting on heterogeneous black‑box, white‑box, and reflexive scorer outputs."
-          },
-          {
-            "icon": "📊",
-            "text": "Ensembles retain advantage in 23/28 distribution‑shift transfer cases, but evaluation covers only four closed‑source LLMs and narrow domains."
+            "title": "在 ECM 中的可行集成路径",
+            "detail": "在受限低分辨率条件下，将 LLM 预测器替换或插入 ECM 的 directional Planar 框架均可获得可测量的编码增益。"
           }
         ],
-        "overview": "The paper investigates a supervised ensembling framework that learns to combine diverse uncertainty quantification (UQ) signals for hallucination detection in closed‑book LLM generation. By training simple classifiers on vectors of black‑box, white‑box, and reflexive scorer outputs, the authors evaluate sample efficiency, in‑domain transfer under distribution shift, and generation‑regime dependence across four LLMs, nine datasets, and three output formats. Results show ensembles dominate individual scorers in most settings, with modest labeled data requirements, while black‑box‑only ensembles approach full‑ensemble performance. Limitations include a narrow model and task scope.",
+        "contributions": [
+          "展示 LLM 能生成可提升编解码器效率的功能性 intra‑prediction 工具。",
+          "提出用于 LLM 驱动编解码工具设计的迭代生成‑评估流水线。",
+          "提供 VVenC 与 ECM 场景下编码增益的实证。"
+        ],
         "methodology": [
           {
-            "title": "Supervised ensemble training",
-            "detail": "A classifier (logistic regression, random forest, or gradient boosting) is trained on K‑dimensional vectors of UQ scores s1(y)…sK(y) ∈ [0,1]K derived from heterogeneous scorers; training subsets range from 0.1N to 0.7N of the labeled data."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Signal combination",
-            "detail": "Supervised learning learns weighted combinations of complementary UQ signals, allowing the model to exploit strengths of black‑box consistency, white‑box token probabilities, and reflexive self‑judgments, thereby improving discrimination between truthful and hallucinated outputs."
+            "title": "生成‑评估循环",
+            "detail": "LLM 输出 Planar 预测器实现；VVenC 或 ECM 进行编码试验；测得的 BDrate 与编码时间反馈给 LLM 用于代码优化。"
           }
         ],
         "experiments": [
           {
-            "title": "Empirical evaluation",
-            "detail": "Four LLMs (Gemini‑2.5‑Flash, Gemini‑2.5‑Pro, GPT‑4o, GPT‑4o‑mini) are tested on nine benchmarks covering short‑form math, factual QA, reading comprehension, Python code generation (LiveCodeBench), and long‑form factoid QA (rivers, mushrooms). Metrics include AUROC and expected calibration error (ECE); baselines are the best individual scorer per setting."
+            "title": "VVenC faster 预设替换",
+            "detail": "将默认 Planar 模式直接替换为 LLM 生成版本；在标准基准上评估，报告 0.18% bitrate 节省和 0.4% 复杂度开销。"
+          },
+          {
+            "title": "ECM directional Planar 集成",
+            "detail": "两种策略——替换现有 directional Planar 模式或将 LLM 预测器作为新模式并添加额外语法元素——在低分辨率序列上测试，均带来编码增益。"
           }
         ],
-        "findings": [
+        "signals": [
           {
-            "title": "In‑distribution superiority",
-            "detail": "With the full training sample (0.7N), ensembles outperform the best individual scorer in 30 of 32 LLM‑dataset settings by AUROC and in 29 of 32 by ECE."
+            "icon": "🗂️",
+            "text": "LLM 生成的 Planar 预测器在标准基准中比手工基线降低 0.18% bitrate。"
           },
           {
-            "title": "Sample efficiency",
-            "detail": "Performance gains appear with as few as 100 labeled instances, as shown by AUROC curves across training sizes."
+            "icon": "🔧",
+            "text": "迭代生成‑评估循环利用编码器 BDrate 反馈，多轮优化预测器代码。"
           },
           {
-            "title": "Transfer robustness",
-            "detail": "Under in‑domain distribution shift, ensembles remain superior in 23 of 28 transfer settings."
-          },
-          {
-            "title": "Black‑box vs full ensembles",
-            "detail": "Sampling‑based black‑box ensembles achieve nearly the same AUROC as full ensembles, whereas white‑box‑only ensembles provide limited benefit."
+            "icon": "📊",
+            "text": "证据仅限于 VVenC faster 预设和低分辨率 ECM；高分辨率影响未知。"
           }
-        ],
-        "contributions": [
-          "Systematic robustness analysis of supervised UQ ensembles across sample efficiency, distribution shift, and generation regimes."
         ],
         "limitations": [
-          "Only four closed‑source LLMs from two providers are evaluated; results may not generalize to open‑weight models.",
-          "Long‑form evaluation is limited to two factoid domains and code experiments to Python competitive‑programming tasks.",
-          "Cross‑domain, cross‑LLM, and internal‑state scorer combinations are not explored."
+          "评估仅限于 VVenC faster 预设和低分辨率 ECM 场景，未评估高分辨率性能。",
+          "尽管复杂度开销小，但在实时或高度受限部署中可能成为瓶颈。"
+        ],
+        "mechanism": [
+          {
+            "title": "反馈驱动的代码优化",
+            "detail": "编码器得到的性能指标作为损失信号，引导 LLM 在遵守编解码器语法和解码兼容性的前提下修改预测器逻辑。"
+          }
         ],
         "open_questions": [
-          "How do supervised ensembles perform with open‑weight models and internal‑state UQ signals?",
-          "Can ensembles trained on one domain or LLM transfer effectively to entirely different domains or other model families?",
-          "What is the impact of more diverse long‑form generation tasks (e.g., summarization, multi‑turn dialogue) on ensemble efficacy?"
+          "生成‑评估方法能否扩展到语法约束更严格、更加复杂的编码工具？",
+          "LLM 设计的工具在高分辨率和多样内容分布上的表现如何？",
+          "LLM 的哪些损失曲面特性会影响收敛性和生成的编解码代码质量？"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
         "schema_version": 6,
         "prompt_version": 2
       },
-      "recommended_at": "2026-08-26T10:51:18.938084+00:00"
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm",
+          "mode"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-02T14:29:00.447095+00:00"
     },
     {
       "id": "2608.25429",
@@ -1674,19 +1650,6 @@
         "experiments",
         "quantitative results"
       ],
-      "summary": {
-        "evidence": "在MOSAIC基准上的实验显示NeuroStat优于SOTA方法，表现出更强的鲁棒性。",
-        "limitations": "未在摘要中提及具体限制。",
-        "method": "NeuroStat通过Macro-State Residual Modulation融合单个因果语言模型的token级概率logits与语义隐藏状态，并使用正交和对比损失学习互补表示。",
-        "problem": "现有方法在对抗场景中存在根本性漏洞：全局标量丢失局部概率突变信息，纯语义模型易过拟合且易被欺骗。",
-        "takeaway": "NeuroStat框架通过融合token级概率logits和深度语义隐藏状态，解决了对抗场景下的AIGC文本检测问题。",
-        "why_for_you": "对抗性文本检测中统计特征与语义特征的协同机制",
-        "source": "abstract",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
       "analysis_status": "pending",
       "recommendation_reason": {
         "topic": "Efficient adversarial training",
@@ -1697,6 +1660,96 @@
           "robustness"
         ],
         "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "NeuroStat fuses token‑level probability logits with deep semantic hidden states to achieve superior adversarial text detection.",
+        "problem": "Training‑free global scalar detectors and training‑based semantic models both collapse under adversarial interleaving and spoofing attacks.",
+        "method": "NeuroStat uses a dual‑branch architecture that extracts token‑level log‑probability trajectories and hidden states from a single causal LM, fusing them via Macro‑State Residual Modulation and auxiliary orthogonal/contrastive losses.",
+        "evidence": "On the MOSAIC benchmark NeuroStat (Qwen2‑0.5B) attains an overall AUROC of 83.4%, surpassing the next best DetectAnyLLM (77.1%) while training on only 500 pairs.",
+        "limitations": "Evaluation is limited to English texts, requires token‑level logits unavailable from many closed‑source APIs, and incurs ~10% higher latency and memory than the strongest baseline.",
+        "why_for_you": "The work demonstrates a data‑efficient, robust detection model that aligns with your interest in efficient adversarial training.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "NeuroStat attains the highest MOSAIC AUROC of 83.4%, outpacing all prior MGTD detectors."
+          },
+          {
+            "icon": "🔧",
+            "text": "Fusion via Macro-State Residual Modulation combines token‑level logits and hidden states with orthogonal and contrastive losses."
+          },
+          {
+            "icon": "📊",
+            "text": "On MOSAIC, NeuroStat (Qwen2‑0.5B) reaches 83.4% AUROC versus DetectAnyLLM’s 77.1%, using only 500 training pairs."
+          }
+        ],
+        "overview": "The paper identifies that existing machine‑generated text detectors either compress token probabilities into global scalars or rely solely on semantic fingerprints, both of which are vulnerable to sophisticated adversarial attacks such as interleaved human‑AI writing and statistical hijacking. To expose these weaknesses, the authors release MOSAIC, a 16k‑sample benchmark covering 36 attack types. NeuroStat addresses the gap by jointly processing uncompressed token‑level logits and deep hidden states from a single causal LM, merging them through Macro‑State Residual Modulation and reinforcing complementary learning with orthogonal and contrastive objectives. Extensive experiments on MOSAIC and MIRAGE show NeuroStat’s robustness and data efficiency, while ablations confirm each component’s contribution. Limitations include English‑only evaluation, reliance on log‑probability access, and modest computational overhead.",
+        "methodology": [
+          {
+            "title": "Probabilistic Trajectories Branch (TF)",
+            "detail": "Extracts the shifted log‑probability trajectory of each token, processes it with a hierarchical 1D‑CNN to capture local burstiness, and outputs a feature vector c."
+          },
+          {
+            "title": "Semantic Branch (TB)",
+            "detail": "Feeds the last‑layer hidden states H from the same backbone into a parallel encoder to capture contextual semantic artifacts."
+          },
+          {
+            "title": "Macro‑State Residual Modulation (MSRM)",
+            "detail": "Conditions the CNN features on global uncertainty indicators—mean entropy (Ē) and mean log‑rank (R̄)—to calibrate local signals with overall model confidence."
+          },
+          {
+            "title": "Auxiliary Losses",
+            "detail": "Applies a supervised contrastive loss to enlarge inter‑class margins and an orthogonal penalty to keep TF and TB representations decorrelated."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Fusion via MSRM",
+            "detail": "MSRM adds a residual term derived from Ē and R̄ to the CNN feature map, allowing the model to distinguish genuine low‑probability human words from AI‑generated anomalies, while the orthogonal loss forces the two branches to encode distinct information."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Benchmarking on MOSAIC and MIRAGE",
+            "detail": "Evaluated NeuroStat with Qwen2‑0.5B and Qwen3.5‑0.8B backbones against 11 state‑of‑the‑art MGTD baselines on MOSAIC (16k samples, 8 attack categories) and MIRAGE (multiple domains). Training used only 500 human‑AI passage pairs; AUROC and TPR@5% were reported."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Superior Adversarial Robustness",
+            "detail": "NeuroStat (Qwen2‑0.5B) achieved 83.4% overall AUROC on MOSAIC, with per‑attack scores up to 89.9% (Interleaved) and consistently outperformed all baselines, whose AUROCs dropped dramatically under targeted attacks."
+          },
+          {
+            "title": "Data Efficiency and Generalization",
+            "detail": "With just 250 training pairs NeuroStat reached 78.9% MOSAIC AUROC; on MIRAGE‑SIG it obtained AUROCs of 0.9954, 0.9739, and 0.9665 across three tasks, demonstrating strong cross‑domain transfer."
+          }
+        ],
+        "contributions": [
+          "Dual‑branch detection framework NeuroStat that jointly leverages token‑level logits and semantic hidden states.",
+          "Macro‑State Residual Modulation for adaptive fusion of local and global uncertainty signals.",
+          "MOSAIC, a comprehensive adversarial MGTD benchmark covering a full‑granularity attack taxonomy."
+        ],
+        "limitations": [
+          "Evaluated only on English‑language corpora; multilingual or domain‑specific (e.g., code, legal) performance is untested.",
+          "Requires access to full token‑level log probabilities, limiting applicability to closed‑source APIs.",
+          "Introduces approximately 10% higher inference latency and memory usage compared to the strongest baseline."
+        ],
+        "open_questions": [
+          "How can NeuroStat be adapted to multilingual or low‑resource language settings?",
+          "Can surrogate log‑probability estimation close the performance gap for proprietary generators without sacrificing robustness?",
+          "What vocabulary reduction or top‑k logit approximation techniques can retain detection strength while further lowering computational overhead?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
       },
       "recommended_at": "2026-08-31T17:37:30.318867+00:00"
     },

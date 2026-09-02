@@ -1,6 +1,876 @@
 {
-  "generated_at": "2026-09-01T14:52:59.157232+00:00",
+  "generated_at": "2026-09-02T14:29:00.447095+00:00",
   "papers": [
+    {
+      "id": "2609.01535",
+      "title": "Can LLMs Design Video Coding Tools? A Case Study on Planar Mode",
+      "abstract": "This paper explores whether large language models (LLMs) can design video coding tools, a highly challenging task due to the intricate algorithmic coupling of tool modifications. In particular, we present an empirical case study on the Planar mode, a long-standing intra prediction tool in video coding standards. Our experiments operate within a generation-and-evaluation loop, with the LLM generating new Planar predictors, encoder trials evaluating their coding performance, and the LLM re-generating refined implementations based on the evaluation feedback. We first examine directly replacing the default Planar mode in the Fraunhofer Versatile Video Encoder (VVenC) under its faster preset. Experimental results demonstrate that the LLM-generated mode can outperform the conventional Planar mode on this lightweight toolset, achieving 0.18% bitrate savings with 0.4% complexity overhead on the standard benchmark. We further extend our evaluation to the Enhanced Compression Model (ECM). Leveraging newly introduced directional Planar modes, we investigate two integration strategies: directly replacing them, and introducing the LLM-generated predictor as an additional prediction mode with new syntax elements. The empirical results suggest that both strategies can yield coding gains under a constrained low-resolution setting. Overall, this study offers preliminary evidence and practical insights, highlighting both the potential and open challenges of LLM-based coding tool design.",
+      "authors": [
+        "Yingwen Zhang",
+        "Meng Wang",
+        "Liqiang He",
+        "Shiqi Wang"
+      ],
+      "published": "2026-09-01T17:04:47Z",
+      "updated": "2026-09-01T17:04:47Z",
+      "categories": [
+        "cs.MM",
+        "cs.AI"
+      ],
+      "primary_category": "cs.MM",
+      "abs_url": "https://arxiv.org/abs/2609.01535v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.01535v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.7409,
+          "matched": [
+            "llm",
+            "mode"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6513,
+        "relevance": 0.5927,
+        "quality": 0.68,
+        "novelty": 0.8637,
+        "freshness": 0.8726,
+        "feedback_adjustment": -0.0138,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "benchmark evaluation",
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "problem": "视频编码工具的设计在算法上相互耦合，且传统上依赖专家。",
+        "method": "生成‑评估循环让 LLM 编写预测器代码，编码器测量性能，LLM 再优化代码。",
+        "limitations": "实验仅限于轻量预设和低分辨率 ECM 场景。",
+        "evidence": "在 VVenC faster 预设下，LLM 模式节省 0.18% bitrate，复杂度增加 0.4%。",
+        "takeaway": "LLM 生成的 Planar 预测器略提升 bitrate，且仅带来极小复杂度。",
+        "why_for_you": "如果您研究 LLM 损失曲面与迭代代码生成反馈回路，则相关。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "overview": "本文探讨大语言模型能否自主设计视频编解码器的 intra‑prediction 工具。聚焦 Planar 模式，作者实现了生成‑评估流水线：LLM 提出 C++ 预测器实现，编码器评估 bitrate 与复杂度，LLM 迭代优化代码。实验在 VVenC faster 预设中替换默认 Planar 模式，并将 LLM 生成的预测器嵌入 ECM 的 directional Planar 框架，报告在低分辨率内容上获得轻微 bitrate 提升和略增的复杂度。",
+        "findings": [
+          {
+            "title": "Bitrate 改进，开销极小",
+            "detail": "LLM 设计的 Planar 预测器在 bitrate 上比手工基线高 0.18%，仅增加 0.4% 编码复杂度。"
+          },
+          {
+            "title": "在 ECM 中的可行集成路径",
+            "detail": "在受限低分辨率条件下，将 LLM 预测器替换或插入 ECM 的 directional Planar 框架均可获得可测量的编码增益。"
+          }
+        ],
+        "contributions": [
+          "展示 LLM 能生成可提升编解码器效率的功能性 intra‑prediction 工具。",
+          "提出用于 LLM 驱动编解码工具设计的迭代生成‑评估流水线。",
+          "提供 VVenC 与 ECM 场景下编码增益的实证。"
+        ],
+        "methodology": [
+          {
+            "title": "生成‑评估循环",
+            "detail": "LLM 输出 Planar 预测器实现；VVenC 或 ECM 进行编码试验；测得的 BDrate 与编码时间反馈给 LLM 用于代码优化。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "VVenC faster 预设替换",
+            "detail": "将默认 Planar 模式直接替换为 LLM 生成版本；在标准基准上评估，报告 0.18% bitrate 节省和 0.4% 复杂度开销。"
+          },
+          {
+            "title": "ECM directional Planar 集成",
+            "detail": "两种策略——替换现有 directional Planar 模式或将 LLM 预测器作为新模式并添加额外语法元素——在低分辨率序列上测试，均带来编码增益。"
+          }
+        ],
+        "signals": [
+          {
+            "icon": "🗂️",
+            "text": "LLM 生成的 Planar 预测器在标准基准中比手工基线降低 0.18% bitrate。"
+          },
+          {
+            "icon": "🔧",
+            "text": "迭代生成‑评估循环利用编码器 BDrate 反馈，多轮优化预测器代码。"
+          },
+          {
+            "icon": "📊",
+            "text": "证据仅限于 VVenC faster 预设和低分辨率 ECM；高分辨率影响未知。"
+          }
+        ],
+        "limitations": [
+          "评估仅限于 VVenC faster 预设和低分辨率 ECM 场景，未评估高分辨率性能。",
+          "尽管复杂度开销小，但在实时或高度受限部署中可能成为瓶颈。"
+        ],
+        "mechanism": [
+          {
+            "title": "反馈驱动的代码优化",
+            "detail": "编码器得到的性能指标作为损失信号，引导 LLM 在遵守编解码器语法和解码兼容性的前提下修改预测器逻辑。"
+          }
+        ],
+        "open_questions": [
+          "生成‑评估方法能否扩展到语法约束更严格、更加复杂的编码工具？",
+          "LLM 设计的工具在高分辨率和多样内容分布上的表现如何？",
+          "LLM 的哪些损失曲面特性会影响收敛性和生成的编解码代码质量？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm",
+          "mode"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-02T14:29:00.447095+00:00"
+    },
+    {
+      "id": "2609.01422",
+      "title": "From Rollouts to Recipes: Self-Contained Post-Training for LLMs",
+      "abstract": "Post-training large language models usually applies a single training recipe to all samples, even though the model's own rollouts reveal different sample-level learning states. We propose Self-Routing, a behavior-conditioned post-training framework that uses rollout correctness and confidence to decide how each sample should be optimized. Depending on its behavior state, a sample is routed to GRPO, on-policy self-distillation, regularization, or skipping, allowing training to adapt without external teachers, extra annotations, or additional sampling. Experiments on mathematical reasoning across Qwen3 and Qwen3.5 backbones show that Self-Routing consistently improves over uniform GRPO, uniform OPSD, fixed mixtures, and simpler routing baselines. Further analyses show that the routing distribution changes over training and reduces unnecessary updates on low-signal or already stable samples.",
+      "authors": [
+        "Yifei Li",
+        "Lingling Zhang",
+        "Muye Huang",
+        "Zihan Ma",
+        "Jiashuai Liu",
+        "Jun Liu"
+      ],
+      "published": "2026-09-01T15:36:26Z",
+      "updated": "2026-09-01T15:36:26Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2609.01422v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.01422v1",
+      "comment": "14 pages, 5 figures. Accepted at EMNLP 2026",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5814,
+          "matched": [
+            "training"
+          ]
+        },
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "emerging",
+          "score": 0.3097,
+          "matched": [
+            "self-distillation",
+            "distillation",
+            "on-policy"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5703,
+        "relevance": 0.5271,
+        "quality": 0.49,
+        "novelty": 0.8652,
+        "freshness": 0.8638,
+        "feedback_adjustment": -0.0237,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "problem": "全局后训练配方忽视了通过 on‑policy rollouts 揭示的样本级学习状态的异质性。",
+        "method": "路由器根据每个样本的 rollout 准确率和归一化置信度，将其映射到四种操作之一：GRPO、on‑policy self‑distillation (OPSD)、正则化或跳过。",
+        "limitations": "Self‑Routing 的计算开销高于 Naive‑OPSD，且在最小模型上因自生成信号不稳定而收益不一。",
+        "evidence": "在 Qwen3‑4B 上，Self‑Routing 将平均分从 61.0 提升至 73.7，分别比 Naive‑GRPO 和 Naive‑OPSD 高出 6.9 分和 3.3 分。",
+        "takeaway": "Self‑Routing 基于 rollout 正确性和置信度自适应地为每个样本选择后训练配方，提升推理性能。",
+        "why_for_you": "该框架利用 on‑policy self‑distillation，减少不必要的更新，契合对高效对抗训练和 on‑policy 蒸馏的兴趣。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "Self‑Routing 框架依据 rollout 正确性和置信度，将每个样本路由至 GRPO、OPSD、正则化或跳过。"
+          },
+          {
+            "icon": "🔧",
+            "text": "路由器计算每个样本的 accuracy a 和归一化 confidence c，然后选择相应的优化配方。"
+          },
+          {
+            "icon": "📈",
+            "text": "在 Qwen3‑4B 上实现 73.7 的平均分（从 61.0 提升），比 Naive‑GRPO 高出 6.9 分，比 Naive‑OPSD 高出 3.3 分。"
+          }
+        ],
+        "overview": "本文指出 verifier‑based 后训练对所有数据使用单一配方，忽视了在 current‑policy rollouts 中可观察到的学习状态异质性。提出 Self‑Routing：在自循环中对每个样本提取 rollout 正确性和 token‑level 置信度，并据此将样本路由至四种优化操作之一：GRPO 强化学习、on‑policy self‑distillation (OPSD)、正则化目标或跳过更新。对 Qwen3 与 Qwen3.5 系列模型在六个推理基准上的实验显示出一致提升，尤其在大模型上效果显著，同时表明路由在训练过程中会自适应地减少无效更新。",
+        "methodology": [
+          {
+            "title": "行为信号提取",
+            "detail": "对每个训练提示生成八个 rollouts；计算 rollout 准确率 a（正确比例）和归一化置信度 c（基于 token 级别熵）"
+          },
+          {
+            "title": "路由决策",
+            "detail": "确定性映射将 (a, c) 对应到四种操作之一：(i) GRPO 用于混合正确样本，(ii) OPSD 用于统一错误但信息丰富的样本，(iii) regularization 用于已稳定的正确样本，(iv) skip 用于高置信度失败"
+          },
+          {
+            "title": "配方集",
+            "detail": "GRPO 实现 verifier‑guided 强化学习；OPSD 执行 on‑policy 自蒸馏；regularization 使用保守损失；skipping 在当前步骤省略该样本"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "学习状态驱动的优化",
+            "detail": "Rollout 行为反映模型在样本上的当前能力；将优化目标对齐到该状态可在需要时提供密集梯度，并避免对已解决或无望样本的噪声更新"
+          },
+          {
+            "title": "自包含反馈回路",
+            "detail": "所有信号均来源于模型自身的 rollouts，消除 external teachers 或 extra annotations，降低 training 与 inference 之间的 distribution mismatch"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "设置",
+            "detail": "在 DAPO‑Math‑17K 上训练；在 GSM8K、MATH‑500、AIME24、AIME25、GPQA 和 MMLUPro（宏观平均）上评估。模型：Qwen3‑0.6B、1.7B、4B 和 Qwen3.5‑0.8B、2B、4B。基线：base model、Naive‑GRPO、Naive‑OPSD、DAPO‑style RL、PODS。"
+          },
+          {
+            "title": "结果",
+            "detail": "Self‑Routing 在所有骨干模型中获得最高平均值；例如，Qwen3‑4B 从 61.0 提升至 73.7，分别比 Naive‑GRPO 高 6.9 分，比 Naive‑OPSD 高 3.3 分。提升随模型规模增大而增加；最小模型在 AIME24 和 GPQA‑diamond 上表现参差。"
+          },
+          {
+            "title": "成本分析",
+            "detail": "归一化计算成本：Naive‑GRPO 为 64.0，Naive‑OPSD 为 24.0，Self‑Routing 为 34.7（G=8），表明其成本高于 OPSD，但低于对所有样本使用 GRPO。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "性能提升",
+            "detail": "Self‑Routing 在域内和域外推理任务中始终优于统一配方基线。"
+          },
+          {
+            "title": "自适应路由动态",
+            "detail": "在训练过程中，分配给各配方的样本分布会发生变化，减少对 low‑signal 或已稳定样本的更新。"
+          },
+          {
+            "title": "可扩展性",
+            "detail": "更大的模型受益更显著，表明更强的策略能产生更可靠的 rollout 信号，从而实现有效路由。"
+          }
+        ],
+        "contributions": [
+          "行为条件路由，将 rollout 信号转换为每样本训练配方。",
+          "统一的后训练框架，集成 GRPO、OPSD、正则化和跳过，无需外部教师。",
+          "实证展示在多种模型规模和推理基准上持续提升。"
+        ],
+        "limitations": [
+          "计算成本高于最廉价基线（Naive‑OPSD）。",
+          "在最小模型上因不稳定的自生成 rollout 信号而出现混合结果。",
+          "未修改 GRPO 或 OPSD 的内部设计；改进与这些方法正交。"
+        ],
+        "open_questions": [
+          "如何设计最优路由准则，在进一步降低成本的同时保持提升。",
+          "Self‑Routing 范式能否扩展到代码生成或对话等非推理任务。",
+          "行为条件后训练的收敛性或稳定性有哪些理论保证。"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-02T14:29:00.447095+00:00"
+    },
+    {
+      "id": "2609.01455",
+      "title": "When Safety Routing Breaks: Understanding Alignment Fragility under Benign Fine-Tuning",
+      "abstract": "Benign fine-tuning severely weakens the safety alignment of large language models (LLMs), so we study why refusal behavior is so fragile. While prior work often attributes this failure to gradient conflict, we propose a fundamentally different Fisher-geometric explanation: safety Fisher is low-rank, and alignment makes the safety geometry flatter while preserving an output-routing pathway. After 100 benign fine-tuning examples, this pathway is selectively re-sharpened in output-side MLP modules, explaining the asymmetric fragility: safety can collapse to high attack success rates, while general utility degrades mildly. The routing view also explains why few safety examples can restore refusal behavior, indicating that internal safety-relevant representations are preserved. Finally, we show that LoRA and ASAM mitigate early collapse by suppressing output-side sharpness, but their protection weakens at larger fine-tuning scales. Overall, safety failure is best understood as a disruption of a low-rank output-routing mechanism",
+      "authors": [
+        "Yitong Guo",
+        "Xiaoyi Chen",
+        "Siyuan Zhang",
+        "Xiaofeng Wang",
+        "Haixu Tang"
+      ],
+      "published": "2026-09-01T15:59:32Z",
+      "updated": "2026-09-01T15:59:32Z",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2609.01455v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.01455v1",
+      "comment": "Accepted to the Findings of EMNLP 2026",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5589,
+          "matched": [
+            "fine-tuning"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.2469,
+          "matched": [
+            "sharpness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5368,
+        "relevance": 0.4965,
+        "quality": 0.41,
+        "novelty": 0.8878,
+        "freshness": 0.8661,
+        "feedback_adjustment": -0.0127,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "quantitative results"
+      ],
+      "summary": {
+        "evidence": "Safety Fisher sharpness increases 11.2× in output MLPs after 100 benign examples, while utility sharpness only 1.2×.",
+        "limitations": "LoRA/ASAM mitigation effectiveness decreases with larger fine-tuning scales.",
+        "method": "Fisher-geometric analysis of safety-relevant representations and output-side MLP sharpness changes.",
+        "problem": "Benign fine-tuning severely weakens LLM safety alignment despite no harmful data.",
+        "takeaway": "Safety alignment fragility under benign fine-tuning arises from low-rank output-routing mechanism disruption, not gradient conflict.",
+        "why_for_you": "Relevant to efficient adversarial training through geometric analysis of alignment fragility and output-side sharpness control.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "contributions": [
+          "Fisher-geometric explanation of safety alignment fragility",
+          "Low-rank output-routing mechanism for refusal behavior",
+          "Empirical analysis of sharpness dynamics in MLP modules"
+        ],
+        "experiments": [
+          {
+            "detail": "Llama3.1 and Qwen2.5 with three alignment settings (baseline, Align-256, Align-10k)",
+            "title": "Model families"
+          },
+          {
+            "detail": "100-5000 examples from Alpaca/Dolly datasets with ASR and MMLU metrics",
+            "title": "Fine-tuning data"
+          },
+          {
+            "detail": "LoRA (r=32, α=64) and ASAM (ρ=0.05) compared to full SFT",
+            "title": "Mitigation techniques"
+          }
+        ],
+        "findings": [
+          {
+            "detail": "85.7% ASR increase after 100 examples vs 1.2× utility sharpness growth",
+            "title": "Safety collapse asymmetry"
+          },
+          {
+            "detail": "50% ASR reduction with fixed refusal prefix without parameter updates",
+            "title": "Routing recovery"
+          },
+          {
+            "detail": "LoRA/ASAM protection weakens at 5000-example scale due to accumulated drift",
+            "title": "Mitigation limits"
+          }
+        ],
+        "limitations": [
+          "LoRA/ASAM effectiveness decreases with larger fine-tuning scales",
+          "Limited analysis of non-MLP routing components"
+        ],
+        "mechanism": [
+          {
+            "detail": "Safety alignment preserves a compressed pathway from safety-relevant states to refusal behavior, which gets selectively re-sharpened during fine-tuning",
+            "title": "Low-rank routing mechanism"
+          }
+        ],
+        "methodology": [
+          {
+            "detail": "Measures safety/utility concentration via top-1 Fisher eigenvalue ratios (0.491 vs 0.271) and layerwise eigenvalue compression during alignment",
+            "title": "Fisher information analysis"
+          },
+          {
+            "detail": "Quantifies output-side MLP module sharpness changes using down_proj layer curvature metrics",
+            "title": "Sharpness tracking"
+          }
+        ],
+        "open_questions": [
+          "Mechanisms underlying low-rank safety representation preservation",
+          "Scalable mitigation strategies for large-scale fine-tuning",
+          "Generalization of routing principles across model architectures"
+        ],
+        "overview": "This paper challenges gradient conflict as the primary cause of safety alignment failure under benign fine-tuning. Through Fisher-geometric analysis, it demonstrates that alignment flattens safety geometry while preserving a low-rank output-routing pathway. Benign fine-tuning selectively re-sharpens output-side MLP modules, causing asymmetric safety degradation (85.7% ASR increase) vs. mild utility loss. LoRA and ASAM mitigate early collapse by controlling output-side sharpness, but their effectiveness diminishes with larger datasets.",
+        "signals": [
+          {
+            "icon": "🛡️",
+            "text": "Low-rank output-routing mechanism explains safety fragility"
+          },
+          {
+            "icon": "🔧",
+            "text": "Fisher information analysis of safety/utility sharpness in MLP modules"
+          },
+          {
+            "icon": "📈",
+            "text": "11.2× safety sharpness increase in output MLPs after 100 examples"
+          }
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "fine-tuning"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-02T14:29:00.447095+00:00"
+    },
+    {
+      "id": "2609.01591",
+      "title": "StudentSim: Training LLM-based Student Simulators",
+      "abstract": "AI tutors are most useful when they adapt to each student's strengths, weaknesses, and preferred guidance, but evidence about which guidance works for which student is sparse, slow, and costly to collect from real learners. Student simulators can provide this signal as a proxy, yet existing approaches are limited: state-tracking models fit student behavior but struggle to process explanations or corrections, while LLM role-play follows guidance fluently but does not reliably match the competence of the student being imitated. We present StudentSim, a training framework that turns sparse per-student data into individualized simulators through pooled training followed by per-student specialization. The resulting simulators both mirror a student's own responses and update them under tutor guidance. We also introduce StudentSimEval, a standardized protocol covering 60 students across chess, second-language English writing, and mathematics, using public learner datasets with de-identified records shared for research. StudentSimEval measures behavioral fidelity (F), or how well a simulator matches a student's responses, and guidance responsiveness (R), or how readily it updates under tutor guidance, with all methods fit and evaluated on the same records. Across all three domains, StudentSim outperforms GPT-5.4 on both metrics. In chess, StudentSim reaches F=0.51 and R=0.91, compared with 0.23 and 0.72 for GPT-5.4 and 0.45 and 0.27 for Maia2. As a proof of concept, using StudentSim as a reward model for tutor reinforcement learning produces a chess tutor that expert humans rate as more accurate, better-guided, and more personalized than a no-RL baseline and a tutor trained against a GPT-5.4 simulator reward. Code is available at https://github.com/microsoft/StudentSim.",
+      "authors": [
+        "Ke Yang",
+        "Chenglong Wang",
+        "Michel Galley",
+        "Chandan Singh",
+        "Jeevana Priya Inala",
+        "ChengXiang Zhai",
+        "Jianfeng Gao"
+      ],
+      "published": "2026-09-01T17:55:10Z",
+      "updated": "2026-09-01T17:55:10Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2609.01591v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.01591v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.3614,
+          "matched": [
+            "training"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.3043,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.0498,
+          "matched": [
+            "proof"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5235,
+        "relevance": 0.3599,
+        "quality": 0.82,
+        "novelty": 0.8162,
+        "freshness": 0.8776,
+        "feedback_adjustment": -0.0186,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "baseline comparison",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "problem": "现有学生模拟器要么仅跟踪行为而不处理教师解释，要么在引导下角色扮演但无法匹配个体能力。",
+        "method": "StudentSim 在汇总的学生数据上训练共享 LLM，然后通过 LoRA 微调为每个学生专化，保持统一架构。",
+        "limitations": "评估仅覆盖三类任务和 60 名学生，且框架未建模长期学习动态。",
+        "evidence": "在 StudentSimEval 基准上，StudentSim 在棋类任务中达到 F=0.51、R=0.91，超越 GPT‑5.4 (F=0.23, R=0.72) 与 Maia2 (F=0.45, R=0.27)。",
+        "takeaway": "StudentSim 的两阶段微调生成的每学生 LLM 模拟器显著提升了对真实学生回答的忠实度和对教师引导的响应性。",
+        "why_for_you": "其高效的每学生适配符合您对 LLM 损失曲面分析以实现个性化、低成本训练的兴趣。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "overview": "StudentSim 通过两阶段训练弥合状态跟踪模型（高忠实度、低引导处理）与 LLM 角色扮演（高引导处理、低忠实度）之间的差距。第一阶段在汇总的学习者数据上微调基础 LLM，获取通用任务知识；第二阶段为每位学习者添加轻量 LoRA 专化，使模型适应其回答模式并仍能接受教师纠正。作者在覆盖棋类、二语英语写作和数学的标准基准 StudentSimEval 上评估，测量行为忠实度和引导响应性。",
+        "findings": [
+          {
+            "title": "更高的忠实度与响应性",
+            "detail": "StudentSim 在棋类任务中达到 F=0.51、R=0.91，优于 GPT‑5.4 (F=0.23, R=0.72) 与 Maia2 (F=0.45, R=0.27)；在 L2 与数学领域也有类似提升。将 StudentSim 作为奖励模型用于 RL 教师训练，可得到的棋类教师被专家评为更准确、引导更好、个性化程度更高，胜过使用 GPT‑5.4 或未使用 RL 的教师。"
+          }
+        ],
+        "contributions": [
+          "一种两阶段先汇总后专化的训练框架，用于每学生 LLM 模拟器，联合优化行为忠实度和引导响应性。"
+        ],
+        "methodology": [
+          {
+            "title": "两阶段训练",
+            "detail": "阶段 1 汇总所有学生记录微调基础 LLM；阶段 2 为每位学生添加 LoRA 适配器进行专化，保持共享主干不变。"
+          },
+          {
+            "title": "共享架构与解码",
+            "detail": "所有任务均使用相同的 LoRA 增强基模型 (Qwen3‑4B‑Instruct)，采用贪婪解码 (T = 0)，超参数相同，仅批量大小和优化长度不同。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "基准与对照",
+            "detail": "StudentSimEval 对 60 名学生（30 棋类、15 L2 英语、15 数学）使用行为忠实度 (F) 与引导响应性 (R) 进行评估。对照包括 GPT‑4o、GPT‑5.4、Qwen3‑4B‑Instruct（无领域微调）和 Maia2（棋类专用）。指标为棋类 top‑1 准确率、L2 错误特征匹配、数学 4 选项 MC 准确率；R 为引导后 top‑1 准确率。"
+          }
+        ],
+        "signals": [
+          {
+            "icon": "🗂️",
+            "text": "StudentSim 创建的个性化 LLM 模拟器在 60 名学生基准上同时实现高行为忠实度 (F=0.51) 与引导响应性 (R=0.91)。"
+          },
+          {
+            "icon": "⚙️",
+            "text": "它采用两阶段流水线：先在所有学生上进行汇总训练，再进行每学生 LoRA 专化，跨领域共享同一架构。"
+          },
+          {
+            "icon": "📊",
+            "text": "在棋类任务中，StudentSim 超越 GPT‑5.4 (F 0.23, R 0.72) 与 Maia2 (F 0.45, R 0.27)，但评估仅限于三类任务和 60 名学生。"
+          }
+        ],
+        "limitations": [
+          "评估仅限于三门学科和 60 名学习者；框架未捕获多步学习动态或长期知识保持。"
+        ],
+        "mechanism": [
+          {
+            "title": "汇总后专化适配的效率",
+            "detail": "汇总捕获通用任务结构，降低每学生所需数据量；LoRA 适配器实现快速、低参数专化，保留在大规模汇总上学习的损失曲面，同时将模型向每位学生的能力倾斜。"
+          }
+        ],
+        "open_questions": [
+          "每学生 LoRA 专化在数千或数百万学习者规模下如何扩展，计算成本与忠实度之间的权衡是什么？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-02T14:29:00.447095+00:00"
+    },
+    {
+      "id": "2609.01572",
+      "title": "From Production Traffic to Post-Training: Building a Self-Hosted LLM That Covers the Corporate Request Mix",
+      "abstract": "Data-residency constraints force enterprises to self-host LLMs, but continuous adoption of newer models without decommissioning their predecessors expands the serving fleet, fragmenting a finite GPU pool. We consolidate traffic from over 200 internal applications onto a single model by closing quality gaps identified through production error analysis along three axes: instruction following, function-calling, and internal task distribution. Quality is tracked by offline benchmarks stratified to production traffic and scored by deterministic verifiers or calibrated LLM judges. Rather than optimising all objectives jointly, which introduces cross-domain reward interference, we train a separate GRPO expert per axis and merge them via two-stage SLERP. Each expert's reward exposes a distinct failure mode, namely semantic collapse, over-calling, and verbosity hacking, each requiring a domain-specific fix. In non-reasoning mode the recipe surpasses a ${\\sim}7\\times$ larger by total parameters baseline on the in-house Arena with 69.6 to 65.8, instruction following with 0.85 to 0.83, and function-calling with 0.79 to 0.77, while lifting general dialogue benchmarks. The model absorbs 50% of platform traffic, 116M requests per month, at a fraction of the serving cost.",
+      "authors": [
+        "Olga Tsymboi",
+        "Dmitrii Stoianov",
+        "Ramil Latypov",
+        "Danil Taranets",
+        "Daniil Dryabin",
+        "Mikhail Gashkov",
+        "Viktor Zelenkovskiy",
+        "Aleksandr Fida",
+        "Gleb Alektorov",
+        "Nikita Gulyakov",
+        "Arthur Babkin",
+        "Aleksandr Medvedev",
+        "Pavel Gein",
+        "Anatolii Potapov"
+      ],
+      "published": "2026-09-01T17:39:26Z",
+      "updated": "2026-09-01T17:39:26Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2609.01572v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.01572v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "llm",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.4644,
+          "matched": [
+            "llm",
+            "mode"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.2693,
+          "matched": [
+            "training"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5163,
+        "relevance": 0.4254,
+        "quality": 0.55,
+        "novelty": 0.8596,
+        "freshness": 0.876,
+        "feedback_adjustment": -0.0129,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Data-residency constraints force enterprises to self-host LLMs, but continuous adoption of newer models without decommissioning their predecessors expands the serving fleet, fragmenting a finite GPU pool.",
+        "problem": "Data-residency constraints force enterprises to self-host LLMs, but continuous adoption of newer models without decommissioning their predecessors expands the serving fleet, fragmenting a finite GPU pool.",
+        "method": "We consolidate traffic from over 200 internal applications onto a single model by closing quality gaps identified through production error analysis along three axes: instruction following, function-calling, and internal task distribution.",
+        "evidence": "Quality is tracked by offline benchmarks stratified to production traffic and scored by deterministic verifiers or calibrated LLM judges.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: LLM loss landscape, Efficient adversarial training.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm",
+          "mode"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-02T14:29:00.447095+00:00"
+    },
+    {
+      "id": "2609.01361",
+      "title": "Investigating Linear Probe Robustness to Linguistic Register, Medical Specialty, and Corpus Shifts in Medical QA",
+      "abstract": "Linear classifiers trained on hidden states of a large language model (LLM), linear probes, can flag factual errors from a single forward pass. Geometrically, that implies that true and false statements separate along a stable direction in hidden state space, i.e., the truth direction. Prior work disagrees on whether this generalises across input shifts, but the disagreement is hard to interpret because cross-dataset probe transfer experiments confound several kinds of input change at once. We isolate three such variables in medical question-answering (QA): writing style (register), domain (medical specialty), and corpus (dataset). We build a benchmark using 500 MedQA entries, each rewritten into four styles (textbook, patient, clinical note, colloquial), annotated with clinical specialty, and grouped with two other exam corpora, MedMCQA and MMLU-medical, for cross-dataset evaluation. Probing four open-weight LLMs (2--8B), we find that the truth direction is largely robust to writing style (mean $Δ_\\text{register} \\approx 0.10$ AUROC on held-out facts) and to medical specialty ($Δ_\\text{specialty} \\approx 0.03$), but degrades unevenly across corpora: by $0.12$ AUROC on MMLU-medical and by $0.21$ on MedMCQA, roughly twice the register gap. The register result replicates with a second generator and carries over to human-written patient questions. The truth direction is therefore largely stable within the medical domain but breaks under some corpus shifts, and question format does not explain the break, which suggests that the signal a linear probe recovers is partly bound to dataset structure rather than to medical knowledge alone.",
+      "authors": [
+        "Nishant Mishra",
+        "Ameen Abu-Hanna",
+        "Iacer Calixto"
+      ],
+      "published": "2026-09-01T15:01:47Z",
+      "updated": "2026-09-01T15:01:47Z",
+      "categories": [
+        "cs.CL",
+        "cs.LG"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2609.01361v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.01361v1",
+      "comment": "Accepted to EMNLP 2026 (Main Conference). 9 pages, 4 figures (main text); 28 pages total, including appendix. Code and data: https://github.com/mnishant2/MedProbe_release",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.3768,
+          "matched": [
+            "robust",
+            "robustness"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3422,
+          "matched": [
+            "robustness",
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.1158,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.0674,
+          "matched": [
+            "bound"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5104,
+        "relevance": 0.393,
+        "quality": 0.64,
+        "novelty": 0.8387,
+        "freshness": 0.8604,
+        "feedback_adjustment": -0.0163,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "experiments",
+        "formal bound",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "evidence": "在保持事实的测试集上，语言风格变化导致AUROC下降约0.10，医学专业变化下降约0.03，而语料库变化导致MMLU-medical下降0.12、MedMCQA下降0.21。",
+        "limitations": "未明确讨论模型规模或训练数据差异对结果的影响，且未涉及非医学领域的泛化性。",
+        "method": "构建包含500个MedQA条目的基准，隔离语言风格、医学专业和语料库三个变量，并在四个开源LLM上进行跨数据集评估。",
+        "problem": "线性探测器在医学问答中对输入变化的泛化能力不明确，尤其在跨数据集迁移时存在矛盾结果。",
+        "takeaway": "线性探测器的truth方向在医学领域内对语言风格和专业领域变化具有鲁棒性，但对语料库变化敏感，表明其部分依赖数据集结构而非医学知识。",
+        "why_for_you": "研究医学领域内线性探测器的鲁棒性，与LLM损失景观中数据分布对模型决策的影响直接相关。",
+        "source": "abstract",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "robust",
+          "robustness"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-02T14:29:00.447095+00:00"
+    },
     {
       "id": "2608.30910",
       "title": "S3C-LLM: Skill-Code Guided Agentic Language Models for Spectrum-to-Structure Elucidation",
@@ -867,19 +1737,6 @@
         "experiments",
         "quantitative results"
       ],
-      "summary": {
-        "evidence": "在MOSAIC基准上的实验显示NeuroStat优于SOTA方法，表现出更强的鲁棒性。",
-        "limitations": "未在摘要中提及具体限制。",
-        "method": "NeuroStat通过Macro-State Residual Modulation融合单个因果语言模型的token级概率logits与语义隐藏状态，并使用正交和对比损失学习互补表示。",
-        "problem": "现有方法在对抗场景中存在根本性漏洞：全局标量丢失局部概率突变信息，纯语义模型易过拟合且易被欺骗。",
-        "takeaway": "NeuroStat框架通过融合token级概率logits和深度语义隐藏状态，解决了对抗场景下的AIGC文本检测问题。",
-        "why_for_you": "对抗性文本检测中统计特征与语义特征的协同机制",
-        "source": "abstract",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
       "analysis_status": "pending",
       "recommendation_reason": {
         "topic": "Efficient adversarial training",
@@ -890,6 +1747,96 @@
           "robustness"
         ],
         "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "NeuroStat fuses token‑level probability logits with deep semantic hidden states to achieve superior adversarial text detection.",
+        "problem": "Training‑free global scalar detectors and training‑based semantic models both collapse under adversarial interleaving and spoofing attacks.",
+        "method": "NeuroStat uses a dual‑branch architecture that extracts token‑level log‑probability trajectories and hidden states from a single causal LM, fusing them via Macro‑State Residual Modulation and auxiliary orthogonal/contrastive losses.",
+        "evidence": "On the MOSAIC benchmark NeuroStat (Qwen2‑0.5B) attains an overall AUROC of 83.4%, surpassing the next best DetectAnyLLM (77.1%) while training on only 500 pairs.",
+        "limitations": "Evaluation is limited to English texts, requires token‑level logits unavailable from many closed‑source APIs, and incurs ~10% higher latency and memory than the strongest baseline.",
+        "why_for_you": "The work demonstrates a data‑efficient, robust detection model that aligns with your interest in efficient adversarial training.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "NeuroStat attains the highest MOSAIC AUROC of 83.4%, outpacing all prior MGTD detectors."
+          },
+          {
+            "icon": "🔧",
+            "text": "Fusion via Macro-State Residual Modulation combines token‑level logits and hidden states with orthogonal and contrastive losses."
+          },
+          {
+            "icon": "📊",
+            "text": "On MOSAIC, NeuroStat (Qwen2‑0.5B) reaches 83.4% AUROC versus DetectAnyLLM’s 77.1%, using only 500 training pairs."
+          }
+        ],
+        "overview": "The paper identifies that existing machine‑generated text detectors either compress token probabilities into global scalars or rely solely on semantic fingerprints, both of which are vulnerable to sophisticated adversarial attacks such as interleaved human‑AI writing and statistical hijacking. To expose these weaknesses, the authors release MOSAIC, a 16k‑sample benchmark covering 36 attack types. NeuroStat addresses the gap by jointly processing uncompressed token‑level logits and deep hidden states from a single causal LM, merging them through Macro‑State Residual Modulation and reinforcing complementary learning with orthogonal and contrastive objectives. Extensive experiments on MOSAIC and MIRAGE show NeuroStat’s robustness and data efficiency, while ablations confirm each component’s contribution. Limitations include English‑only evaluation, reliance on log‑probability access, and modest computational overhead.",
+        "methodology": [
+          {
+            "title": "Probabilistic Trajectories Branch (TF)",
+            "detail": "Extracts the shifted log‑probability trajectory of each token, processes it with a hierarchical 1D‑CNN to capture local burstiness, and outputs a feature vector c."
+          },
+          {
+            "title": "Semantic Branch (TB)",
+            "detail": "Feeds the last‑layer hidden states H from the same backbone into a parallel encoder to capture contextual semantic artifacts."
+          },
+          {
+            "title": "Macro‑State Residual Modulation (MSRM)",
+            "detail": "Conditions the CNN features on global uncertainty indicators—mean entropy (Ē) and mean log‑rank (R̄)—to calibrate local signals with overall model confidence."
+          },
+          {
+            "title": "Auxiliary Losses",
+            "detail": "Applies a supervised contrastive loss to enlarge inter‑class margins and an orthogonal penalty to keep TF and TB representations decorrelated."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Fusion via MSRM",
+            "detail": "MSRM adds a residual term derived from Ē and R̄ to the CNN feature map, allowing the model to distinguish genuine low‑probability human words from AI‑generated anomalies, while the orthogonal loss forces the two branches to encode distinct information."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Benchmarking on MOSAIC and MIRAGE",
+            "detail": "Evaluated NeuroStat with Qwen2‑0.5B and Qwen3.5‑0.8B backbones against 11 state‑of‑the‑art MGTD baselines on MOSAIC (16k samples, 8 attack categories) and MIRAGE (multiple domains). Training used only 500 human‑AI passage pairs; AUROC and TPR@5% were reported."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Superior Adversarial Robustness",
+            "detail": "NeuroStat (Qwen2‑0.5B) achieved 83.4% overall AUROC on MOSAIC, with per‑attack scores up to 89.9% (Interleaved) and consistently outperformed all baselines, whose AUROCs dropped dramatically under targeted attacks."
+          },
+          {
+            "title": "Data Efficiency and Generalization",
+            "detail": "With just 250 training pairs NeuroStat reached 78.9% MOSAIC AUROC; on MIRAGE‑SIG it obtained AUROCs of 0.9954, 0.9739, and 0.9665 across three tasks, demonstrating strong cross‑domain transfer."
+          }
+        ],
+        "contributions": [
+          "Dual‑branch detection framework NeuroStat that jointly leverages token‑level logits and semantic hidden states.",
+          "Macro‑State Residual Modulation for adaptive fusion of local and global uncertainty signals.",
+          "MOSAIC, a comprehensive adversarial MGTD benchmark covering a full‑granularity attack taxonomy."
+        ],
+        "limitations": [
+          "Evaluated only on English‑language corpora; multilingual or domain‑specific (e.g., code, legal) performance is untested.",
+          "Requires access to full token‑level log probabilities, limiting applicability to closed‑source APIs.",
+          "Introduces approximately 10% higher inference latency and memory usage compared to the strongest baseline."
+        ],
+        "open_questions": [
+          "How can NeuroStat be adapted to multilingual or low‑resource language settings?",
+          "Can surrogate log‑probability estimation close the performance gap for proprietary generators without sacrificing robustness?",
+          "What vocabulary reduction or top‑k logit approximation techniques can retain detection strength while further lowering computational overhead?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
       },
       "recommended_at": "2026-08-31T17:37:30.318867+00:00"
     },
@@ -15229,1024 +16176,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-07-28T12:13:15.667980+00:00"
-    },
-    {
-      "id": "2607.21550",
-      "title": "X$^3$-OPD: Distilling Reasoning into Large Audio-Language Models via On-Policy Alignment",
-      "abstract": "While large audio-language models have achieved remarkable progress in auditory perception, they still lag behind text-based large language models in deep logical reasoning, primarily due to the scarcity of high-quality audio reasoning data. To bridge this gap, we propose X$^3$-OPD, a cross-modal on-policy distillation framework that transfers reasoning capabilities from a powerful text teacher to an audio-language student. During training, the student generates reasoning trajectories conditioned on its own acoustic perception, while the teacher provides token-level guidance using matched textual inputs and verified answers. We further construct a three-tier symmetric corpus covering textual reasoning rendered into speech, audio-event reasoning grounded in complex acoustic scenes, and spoken-dialogue reasoning involving paralinguistic cues. This design extends cross-modal distillation beyond textually recoverable content to reasoning grounded in non-linguistic events, prosody, and conversational context. Experiments on MMSU, MMAU, BIG Bench Audio, and MMAR demonstrate that X$^3$-OPD substantially improves audio-grounded reasoning and chain-of-thought quality while largely preserving the model's existing capabilities under domain shift.",
-      "authors": [
-        "Dongjie Fu",
-        "Di Cao",
-        "Xize Cheng",
-        "Zihan Zhang",
-        "Wenxu Jia",
-        "Yifu Chen",
-        "Shengpeng Ji",
-        "Yu Zhang",
-        "Tao Jin"
-      ],
-      "published": "2026-07-23T17:35:20Z",
-      "updated": "2026-07-23T17:35:20Z",
-      "categories": [
-        "cs.LG"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2607.21550v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.21550v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "watch",
-          "score": 0.666,
-          "matched": [
-            "on-policy distillation",
-            "OPD",
-            "token-level",
-            "policy distillation",
-            "opd",
-            "distillation"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4126,
-          "matched": [
-            "alignment",
-            "alignment"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6249,
-        "relevance": 0.6153,
-        "quality": 0.47,
-        "novelty": 0.864,
-        "freshness": 0.8909
-      },
-      "quality_signals": [
-        "experiments",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "X³-OPD introduces a cross-modal on-policy distillation framework that effectively transfers deep reasoning capabilities from a text-based teacher to a large audio-language student model, substantially improving audio-grounded reasoning.",
-        "problem": "Large audio-language models lag behind text-only LLMs in multi-step logical reasoning due to scarcity of high-quality audio reasoning data and limitations of offline distillation methods.",
-        "method": "X³-OPD trains an audio-language student to generate reasoning trajectories conditioned on acoustic inputs while a frozen text teacher provides token-level guidance using matched textual inputs and verified answers via a policy gradient-based distillation loss.",
-        "evidence": "Experiments on MMSU, MMAU, BIG Bench Audio, and MMAR benchmarks show X³-OPD achieves substantial improvements in audio-grounded reasoning and chain-of-thought quality, outperforming strong baselines including standard supervised fine-tuning and offline distillation.",
-        "limitations": "The current three-tier symmetric corpus underrepresents complex musical reasoning and specialized non-linguistic soundscapes, and the text-based teacher’s token-level supervision biases learning toward semantic logic while under-penalizing perceptual and paralinguistic errors.",
-        "why_for_you": "X³-OPD advances on-policy distillation techniques for trustworthy LLMs by addressing cross-modal reasoning gaps and providing a scalable framework for transferring logical reasoning into audio-language models.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "X³-OPD’s three-tier symmetric corpus includes textual reasoning rendered into speech, audio-event reasoning grounded in complex acoustic scenes, and prosody-aware spoken dialogue, enabling supervision beyond textually recoverable content."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The method employs token-level KL-style supervision from a frozen text teacher with privileged access to ground-truth answers, guiding the student’s acoustic-conditioned reasoning trajectories via a policy gradient objective maximizing cross-modal advantage."
-          },
-          {
-            "icon": "📉",
-            "text": "Compared to offline distillation and standard supervised fine-tuning baselines, X³-OPD reduces cross-modal exposure bias and mitigates performance drops on perceptual tasks while achieving remarkable gains on reasoning-heavy axes such as semantics and audio temporal grounding."
-          }
-        ],
-        "overview": "This work addresses the reasoning gap between large audio-language models (LALMs) and text-only LLMs caused by limited audio reasoning data and the shortcomings of offline distillation. The authors propose X³-OPD, a cross-modal on-policy distillation framework where the audio student model generates reasoning trajectories conditioned on acoustic inputs, and a frozen text teacher provides token-level guidance using matched textual inputs and verified answers. The approach leverages a novel three-tier symmetric corpus spanning textual reasoning rendered into speech, audio-event reasoning, and spoken dialogue with paralinguistic cues, thus extending supervision beyond textually recoverable content. The distillation objective maximizes a cross-modal advantage defined as the log-probability gap between teacher and student outputs, implemented via policy gradient optimization. Experiments on multiple benchmarks demonstrate that X³-OPD substantially improves audio-grounded reasoning and chain-of-thought quality while largely preserving perceptual capabilities under domain shifts. The method effectively reduces cross-modal exposure bias inherent in offline distillation, enabling robust reasoning transfer from text to audio modalities.",
-        "methodology": [
-          {
-            "title": "Three-tier Symmetric Corpus Construction",
-            "detail": "The dataset comprises 27.8K Tier-1 instances of textual reasoning rendered into speech, 32K Tier-2 audio-event reasoning samples with captions, and 12K Tier-3 prosody-aware spoken dialogues. Each instance includes paired text and audio inputs with questions and verified answers under a uniform schema, enabling cross-modal supervision."
-          },
-          {
-            "title": "Cross-Modal On-Policy Distillation",
-            "detail": "During training, the audio student rolls out reasoning trajectories conditioned on its acoustic input. The frozen text teacher, with access to matched text input and ground-truth answers, scores these trajectories token-by-token using KL-style supervision, providing dynamic corrective feedback exactly where the student deviates."
-          },
-          {
-            "title": "Policy Gradient Optimization with Cross-Modal Advantage",
-            "detail": "The distillation loss maximizes the expected cross-modal advantage, defined as the log-probability difference between teacher and student outputs at each token. Multiple rollouts per sample are used to estimate gradients, enabling the student to learn robust reasoning aligned with the teacher’s logical distribution."
-          },
-          {
-            "title": "Training Configuration and Baselines",
-            "detail": "The student model is initialized from Qwen3-Omni-30B-A3B-Thinking with trainable acoustic encoder and LLM backbone; the teacher is Qwen3-235B-A22B-Thinking, frozen. Training includes an offline warm-start supervised fine-tuning pass followed by on-policy distillation with AdamW optimizer and vLLM rollout sampling."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Cross-Modal Advantage Mechanism",
-            "detail": "The cross-modal advantage A(yt) is computed as the difference between the teacher’s log-probability of token yt given text input and ground-truth answer, and the student’s log-probability of yt given acoustic input. This advantage guides the policy gradient update to align the student’s reasoning trajectory with the teacher’s logical manifold, mitigating exposure bias."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Benchmark Evaluation on MMSU, MMAU, and BIG Bench Audio",
-            "detail": "X³-OPD is evaluated on multiple audio-grounded reasoning benchmarks covering semantics, phonology, style, traits, sound, speech, and music. It outperforms strong baselines including GPT-4o-Audio and Qwen3-Omni-Thinking on reasoning-heavy axes, demonstrating improved chain-of-thought quality and reasoning accuracy."
-          },
-          {
-            "title": "Ablation Studies",
-            "detail": "Comparisons against standard supervised fine-tuning (SFT) and offline guided knowledge distillation (GKD) baselines show that X³-OPD’s on-policy distillation reduces performance degradation on perceptual tasks and achieves superior reasoning gains, validating the effectiveness of dynamic teacher feedback."
-          },
-          {
-            "title": "Out-of-Distribution Generalization",
-            "detail": "The model is stress-tested on held-out MMAR benchmark and domain-shifted datasets such as WorldSense and DailyOmni, showing that X³-OPD largely preserves existing capabilities under domain shifts while enhancing reasoning robustness."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Improved Reasoning Performance",
-            "detail": "X³-OPD achieves the highest scores on semantic and reasoning-heavy axes across MMSU, MMAU, and BIG Bench Audio benchmarks, e.g., semantic accuracy improvements over baselines by several percentage points, demonstrating effective reasoning transfer."
-          },
-          {
-            "title": "Mitigation of Perceptual Performance Drops",
-            "detail": "Unlike offline distillation baselines that regress on perceptual axes such as phonology, style, and music, X³-OPD substantially reduces these drops by providing on-policy corrective signals, preserving perceptual understanding."
-          },
-          {
-            "title": "Limitations in Perceptual and Specialized Audio Domains",
-            "detail": "Despite improvements, X³-OPD slightly trails the base model on purely perceptual tasks like MMAU-Music, reflecting underrepresentation of complex musical reasoning and specialized non-linguistic soundscapes in the training corpus."
-          }
-        ],
-        "contributions": [
-          "Proposed X³-OPD, a novel cross-modal on-policy distillation framework for transferring reasoning from text LLMs to audio-language models.",
-          "Constructed a large-scale three-tier symmetric corpus spanning textual reasoning, audio-event reasoning, and prosody-aware spoken dialogue for unified cross-modal supervision.",
-          "Developed a policy gradient-based distillation objective leveraging token-level KL supervision with privileged teacher access to ground-truth answers.",
-          "Demonstrated substantial improvements on multiple audio-grounded reasoning benchmarks and robustness under domain shifts.",
-          "Identified and mitigated cross-modal exposure bias inherent in offline distillation approaches."
-        ],
-        "limitations": [
-          "The three-tier corpus does not yet cover the full diversity of acoustic phenomena, notably complex musical reasoning and specialized non-linguistic soundscapes.",
-          "The text-based teacher’s token-level supervision is blind to non-semantic acoustic cues, biasing learning toward semantic logic and under-penalizing perceptual and paralinguistic errors.",
-          "Residual performance gaps remain on purely perceptual axes despite on-policy distillation improvements.",
-          "The framework currently lacks multi-dimensional reward mechanisms incorporating direct audio-based rewards or environmental verifiers."
-        ],
-        "open_questions": [
-          "How can multi-dimensional reward models incorporating audio-based signals and environmental verifiers be integrated to better capture non-semantic acoustic cues?",
-          "What methods can expand the training corpus to include more diverse and complex acoustic phenomena such as specialized soundscapes and musical reasoning?",
-          "How can on-policy distillation be further optimized to balance improvements in reasoning with preservation of perceptual capabilities?",
-          "Can the framework be extended to incorporate multi-modal inputs beyond audio and text, such as video, to enhance reasoning robustness?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "On-policy distillation",
-        "matched": [
-          "on-policy distillation",
-          "OPD",
-          "token-level",
-          "policy distillation"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-24T11:55:27.963037+00:00"
-    },
-    {
-      "id": "2607.21340",
-      "title": "Capital Markets LLM Reliability Score (CM-LRS): From Plausible to Bankable",
-      "abstract": "In capital-markets workflows the question is rarely whether a large language model can produce a fluent draft, but whether the draft is bankable: defensible in front of a counter-party or a regulator, with the documents in hand. Existing methods address parts of that gap: open-domain QA benchmarks reward surface accuracy, and finance benchmarks (FinanceBench, FinQA, ConvFinQA) advance document-grounded and numerical QA but evaluate at the question-answer layer rather than the workflow outputs practitioners defend. We introduce CM-LRS, a Capital Markets LLM Reliability Score, evaluating outputs at the workflow-output layer across seven dimensions: factual accuracy, evidence traceability, numerical consistency, workflow completeness, source discipline, decision usefulness, and reviewability/auditability. Each is scored 0-5 against a rubric anchored on signals reviewers in regulated settings use; the aggregate is tunable to the workflow. We demonstrate CM-LRS on five workflows (DCM transaction-terms extraction, precedent retrieval, issuer profile synthesis, M&A transaction-comparable reasoning, ECM transaction-terms extraction) over public SEC EDGAR filings, a public UK takeover release, and fictional synthetic supplements, scoring four models against four independent LLM judges spanning three model families. Three findings. First, the frontier closed-source models cluster within 0.22 points on four-judge averaged CM-LRS (Sonnet 4.6 = 4.31, Opus 4.7 = 4.30, GPT-5.5 = 4.09); all four judges place the open-weights baseline (Llama 3.3 70B = 3.15) last. Second, that gap concentrates on retrieval (2.23) and synthesis (2.15), not extraction (0.84). Third, Decision Usefulness shows the widest cross-model dispersion of any dimension (4.0 points on issuer profiling) and top-tier inter-judge agreement (mean r = 0.52). Plausibility is cheap. Bankability is the bar.",
-      "authors": [
-        "Prerit Ahuja"
-      ],
-      "published": "2026-07-23T14:10:58Z",
-      "updated": "2026-07-23T14:10:58Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.21340v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.21340v1",
-      "comment": "23 pages. Resubmission of submit/7557765, which expired due to an arXiv system bug (confirmed in support ticket AH-199019); the overfull-box correction requested by moderators has been applied. Original submission held in moderation since 14 May 2026. Therefore, request priority review/approval",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4538,
-          "matched": [
-            "reliability",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4751,
-        "relevance": 0.363,
-        "quality": 0.55,
-        "novelty": 0.8559,
-        "freshness": 0.8706
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "CM-LRS is a novel, multi-dimensional evaluation metric assessing capital-markets LLM outputs at the workflow-output layer to determine bankability rather than mere plausibility.",
-        "problem": "Existing LLM evaluation benchmarks focus on question-answer accuracy but fail to assess whether outputs are defensible and verifiable in regulated capital-markets workflows.",
-        "method": "CM-LRS scores LLM outputs across seven dimensions—factual accuracy, evidence traceability, numerical consistency, workflow completeness, source discipline, decision usefulness, and reviewability—using a rubric anchored in real-world reviewer signals.",
-        "evidence": "Evaluation of five capital-markets workflows with four models and four independent judges shows frontier closed-source models cluster closely in CM-LRS scores, with open-weights baselines lagging, especially on retrieval and synthesis tasks.",
-        "limitations": "The paper notes the need for inter-rater reliability studies, calibration of dimension weights against real reviewer decisions, and extension to drafting workflows, indicating current limitations in generalizability and calibration.",
-        "why_for_you": "CM-LRS provides a rigorous, deployment-readiness metric tailored for high-stakes regulated environments, enabling trustworthy LLM evaluation beyond surface-level accuracy.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "The Decision Usefulness dimension (D6) shows the widest cross-model score dispersion (up to 4.0 points on issuer profiling) and high inter-judge agreement (mean Pearson r = 0.52), making it a key production-readiness indicator."
-          },
-          {
-            "icon": "🛡️",
-            "text": "CM-LRS employs a seven-dimension rubric scored 0–5, each anchored on practical signals used by regulated environment reviewers, enabling tunable aggregation to specific capital-markets workflows."
-          },
-          {
-            "icon": "📉",
-            "text": "The open-weights Llama 3.3 70B baseline scores roughly one point lower than frontier closed-source models on CM-LRS, with the largest gaps concentrated in retrieval (2.23 points) and synthesis (2.15 points) workflows rather than extraction (0.84 points)."
-          }
-        ],
-        "overview": "This paper addresses the critical gap in evaluating large language models (LLMs) for capital-markets workflows, where the key question is whether outputs are bankable—defensible and verifiable in regulated settings—rather than merely plausible or fluent. Existing benchmarks focus on question-answer accuracy but do not assess the full workflow output that practitioners must defend. CM-LRS introduces a seven-dimension rubric evaluating factual accuracy, evidence traceability, numerical consistency, workflow completeness, source discipline, decision usefulness, and reviewability/auditability, each scored 0–5 against rubrics grounded in real reviewer signals. The metric is demonstrated on five representative capital-markets workflows using public and synthetic data, scoring outputs from four models across three model families with four independent judges to control bias. Results show frontier closed-source models cluster closely in reliability scores, outperforming an open-weights baseline especially in retrieval and synthesis tasks. Decision Usefulness emerges as the most discriminative and reliable dimension for deployment readiness. CM-LRS thus provides a comprehensive, deployment-focused evaluation framework for trustworthy LLM use in regulated financial domains.",
-        "methodology": [
-          {
-            "title": "Seven-Dimension Rubric",
-            "detail": "CM-LRS evaluates LLM outputs on seven dimensions: factual accuracy, evidence traceability, numerical consistency, workflow completeness, source discipline, decision usefulness, and reviewability/auditability. Each dimension is scored from 0 to 5 based on a rubric anchored on signals used by reviewers in regulated capital-markets environments."
-          },
-          {
-            "title": "Workflow-Output Layer Evaluation",
-            "detail": "Unlike prior benchmarks that assess question-answer pairs, CM-LRS evaluates the entire workflow output, reflecting the actual deliverables bankers and analysts defend in front of regulators and counterparties."
-          },
-          {
-            "title": "Cross-Model and Cross-Judge Validation",
-            "detail": "The framework is applied to five capital-markets workflows using four LLMs (Claude Opus 4.7, GPT-5.5, Claude Sonnet 4.6, and Llama 3.3 70B) scored by four independent judges spanning three model families to control for self- and family-bias."
-          },
-          {
-            "title": "Aggregate and Tunable Scoring",
-            "detail": "Dimension scores are aggregated into a tunable composite CM-LRS score, allowing adaptation to specific workflow requirements and highlighting dimensions that require reviewer attention."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "No Explicit Mechanism or Equations Provided",
-            "detail": "The paper does not present formal equations or causal mechanisms but relies on a rubric-based scoring system grounded in practical reviewer signals and cross-validation to assess reliability dimensions."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Five Capital-Markets Workflows",
-            "detail": "CM-LRS is demonstrated on DCM transaction-terms extraction, precedent retrieval, issuer profile synthesis, M&A transaction-comparable reasoning, and ECM transaction-terms extraction workflows using public SEC EDGAR filings, a UK takeover release, and synthetic supplements."
-          },
-          {
-            "title": "Model and Judge Evaluation",
-            "detail": "Outputs from four models (Claude Opus 4.7, GPT-5.5, Claude Sonnet 4.6, and Llama 3.3 70B) are scored by four independent LLM judges from three model families, including in-panel and out-of-panel judges, to mitigate bias."
-          },
-          {
-            "title": "Dimension-Level Scoring and Justifications",
-            "detail": "Judges provide per-dimension scores (0–5) with textual justifications, enabling granular analysis of strengths and weaknesses per workflow and model, exemplified by a worked example scoring 4.86 aggregate."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Frontier Models Cluster Closely",
-            "detail": "The three frontier closed-source models cluster within a 0.22-point band on four-judge averaged CM-LRS (Sonnet 4.6 = 4.31, Opus 4.7 = 4.30, GPT-5.5 = 4.09), indicating similar high reliability."
-          },
-          {
-            "title": "Open-Weights Baseline Lags",
-            "detail": "The open-weights Llama 3.3 70B baseline scores 3.15 on average, roughly one point below frontier models, with the largest performance gaps in retrieval (2.23 points) and synthesis (2.15 points) workflows."
-          },
-          {
-            "title": "Decision Usefulness is Most Discriminative",
-            "detail": "Decision Usefulness (D6) shows the widest cross-model dispersion (up to 4.0 points on issuer profiling) and strong inter-judge agreement (mean Pearson r = 0.52), making it the clearest indicator of production readiness."
-          },
-          {
-            "title": "Extraction Workflows Show Smaller Gaps",
-            "detail": "Performance gaps between frontier and baseline models are smaller on extraction workflows (0.84 points), suggesting these tasks are less challenging for open-weights models."
-          },
-          {
-            "title": "Rubric Enables Rapid Review",
-            "detail": "The rubric’s per-dimension scores and justifications allow reviewers to quickly identify and verify specific claims, facilitating efficient auditability and reviewability."
-          }
-        ],
-        "contributions": [
-          "Introduction of CM-LRS, a seven-dimension rubric evaluating LLM outputs at the workflow-output layer for capital-markets applications.",
-          "Demonstration of CM-LRS on five representative capital-markets workflows with public and synthetic data.",
-          "Cross-model and cross-judge evaluation protocol controlling for self- and family-bias across three model families.",
-          "Identification of Decision Usefulness as a key dimension for deployment readiness with strong inter-judge reliability.",
-          "Public release of rubrics, prompts, and demonstration tasks to enable community extension and critique."
-        ],
-        "limitations": [
-          "Lack of inter-rater reliability studies to quantify consistency across judges beyond Pearson correlations.",
-          "Current rubric weights and aggregation are not calibrated against real-world reviewer decisions or deployment outcomes.",
-          "Evaluation limited to extraction, retrieval, synthesis, and reasoning workflows; drafting workflows remain unaddressed.",
-          "No formal mechanistic or causal model underpinning the rubric scoring is provided."
-        ],
-        "open_questions": [
-          "How can CM-LRS dimension weights be calibrated against actual deployment decisions and regulatory outcomes?",
-          "What is the inter-rater reliability of CM-LRS across a broader set of human reviewers beyond LLM judges?",
-          "Can CM-LRS be extended effectively to drafting workflows and other regulated domains beyond capital markets?",
-          "How do different prompt engineering or retrieval augmentation strategies impact CM-LRS scores across workflows?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "reliability",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-24T11:55:27.963037+00:00"
-    },
-    {
-      "id": "2607.21327",
-      "title": "From Static Bibliometrics to Dynamic Knowledge Graphs: An LLM-Powered Framework for Modernizing Science, Technology, and Innovation (STI) Analytics",
-      "abstract": "Bibliometric indicators - citation counts, h-indexes, co-authorship networks - have long anchored science, technology, and innovation (STI) analytics, yet suffer from temporal lag, semantic shallowness, and an inability to capture the non-linear dynamics of contemporary knowledge ecosystems. Dynamic knowledge graphs and large language models (LLMs) have each been proposed as remedies, but neither is sufficient alone: existing scholarly knowledge graphs remain largely static, while LLM-driven pipelines are prone to hallucination, opacity, and corpus bias without structured grounding. This paper proposes a hybrid, symbolic-first framework integrating all three traditions under explicit methodological constraint. Organized across five layers - an open scholarly data backbone, a dynamic versioned knowledge graph, a constrained LLM-assisted semantic augmentation layer, a multi-layer validation pipeline, and an analytics layer - the framework positions LLMs strictly as generators of provisional candidate enrichments. Candidates become analytically admissible only after passing structural, evidentiary, comparative, and selective expert validation, with full provenance recorded at every stage. The analytics layer supports both established bibliometric indicators and extended graph-based analyses, including trend emergence detection, science-to-technology pathway mapping, and policy-oriented gap analysis. The framework's central theoretical contribution is treating validation as the mediating principle between semantic flexibility and epistemic discipline, enabling STI analytics that is semantically richer and temporally more responsive than static bibliometrics while remaining aligned with the evidentiary standards of science-of-science research. Governance considerations addressing reproducibility, bias, and auditability are also discussed.",
-      "authors": [
-        "Muhsen Hammoud"
-      ],
-      "published": "2026-07-23T13:56:53Z",
-      "updated": "2026-07-23T13:56:53Z",
-      "categories": [
-        "cs.DL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.DL",
-      "abs_url": "https://arxiv.org/abs/2607.21327v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.21327v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4237,
-          "matched": [
-            "hallucination",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4319,
-        "relevance": 0.339,
-        "quality": 0.41,
-        "novelty": 0.8607,
-        "freshness": 0.8692
-      },
-      "quality_signals": [
-        "reproducibility"
-      ],
-      "summary": {
-        "takeaway": "A hybrid, symbolic-first framework integrating bibliometric baselines, dynamic knowledge graphs, and constrained LLM semantic augmentation enables semantically richer, temporally responsive, and methodologically accountable STI analytics.",
-        "problem": "Traditional bibliometric indicators are temporally lagged, semantically shallow, and inadequate for capturing the nonlinear, dynamic knowledge flows in modern science, technology, and innovation ecosystems.",
-        "method": "The framework organizes STI analytics into five layers—open scholarly data backbone, dynamic versioned knowledge graph, constrained LLM-assisted semantic augmentation, multi-layer validation pipeline, and analytics layer—where LLMs generate candidate enrichments validated through structural, evidentiary, comparative, and expert review.",
-        "evidence": "Comparative case studies and longitudinal operational validation demonstrate that the framework improves semantic richness and temporal responsiveness while maintaining reproducibility, provenance, and auditability beyond static bibliometrics or ungrounded LLM pipelines.",
-        "limitations": "The framework introduces new technical and epistemic complexities requiring careful interpretation and does not replace but extends existing bibliometric practices, with validation and governance challenges remaining.",
-        "why_for_you": "This framework offers a principled integration of LLMs and knowledge graphs under rigorous validation, addressing hallucination and bias risks critical for trustworthy, policy-relevant LLM-powered STI analytics.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Dynamic knowledge graphs with temporal versioning and typed, directed relationships enable tracking of knowledge evolution and emergence of communities, addressing static bibliometrics’ inability to capture non-linear STI dynamics."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The multi-layer validation pipeline enforces structural, evidentiary, comparative, and selective expert validation on LLM-generated candidate semantic enrichments, ensuring analytical admissibility and full provenance recording."
-          },
-          {
-            "icon": "📉",
-            "text": "LLM-driven pipelines alone suffer from hallucination, opacity, and corpus bias, which the framework mitigates by constraining LLMs to provisional candidate generation subject to symbolic validation."
-          }
-        ],
-        "overview": "The paper addresses the limitations of traditional bibliometric indicators, which are temporally lagged and semantically shallow, by proposing a hybrid framework that integrates bibliometric baselines, dynamic knowledge graphs (KGs), and large language models (LLMs). The framework is structured into five layers: an open scholarly data backbone, a dynamic versioned KG capturing typed and temporal relationships, a constrained LLM-assisted semantic augmentation layer generating candidate enrichments, a multi-layer validation pipeline enforcing rigorous structural and evidentiary checks, and an analytics layer supporting both traditional and extended graph-based analyses. This design positions LLMs as assistive rather than authoritative, mitigating hallucination and bias through symbolic validation. Empirical evidence from comparative case studies and longitudinal operational assessments demonstrates improved semantic richness, temporal responsiveness, and methodological accountability. The framework thus enables STI analytics that are more aligned with the complex, non-linear dynamics of contemporary knowledge ecosystems while preserving the reproducibility and credibility of science-of-science research.",
-        "methodology": [
-          {
-            "title": "Open Scholarly Data Backbone",
-            "detail": "Aggregates comprehensive, open-access scholarly metadata from sources like OpenAlex, providing a foundational, versioned dataset of works, authors, institutions, and concepts to support dynamic knowledge graph construction."
-          },
-          {
-            "title": "Dynamic Versioned Knowledge Graph",
-            "detail": "Constructs a temporally aware, typed, and directed graph representing entities and their evolving relationships, enabling tracking of knowledge evolution, community emergence, and non-linear STI interactions."
-          },
-          {
-            "title": "Constrained LLM-Assisted Semantic Augmentation",
-            "detail": "Employs large language models strictly as generators of provisional candidate semantic enrichments from heterogeneous unstructured data, avoiding autonomous decision-making and limiting hallucination risks."
-          },
-          {
-            "title": "Multi-Layer Validation Pipeline",
-            "detail": "Applies structural, evidentiary, comparative, and selective expert validation to candidate enrichments, ensuring only analytically admissible information is integrated, with full provenance recorded for auditability."
-          },
-          {
-            "title": "Analytics Layer",
-            "detail": "Supports both established bibliometric indicators and advanced graph-based analyses such as trend emergence detection, science-to-technology pathway mapping, and policy-oriented gap analysis, leveraging validated enriched knowledge graphs."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Validation as Mediating Principle",
-            "detail": "Validation mediates between the semantic flexibility of LLM-generated enrichments and the epistemic discipline of scientometric standards, ensuring that only structurally and evidentially sound augmentations become part of the analytical corpus."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Ablation Studies",
-            "detail": "Isolate the contribution of symbolic validation versus LLM augmentation to quantify their respective impacts on analytical validity within selected STI domains."
-          },
-          {
-            "title": "Comparative Case Studies",
-            "detail": "Evaluate framework performance in domains such as AI for sustainability and quantum technologies, assessing semantic enrichment quality and temporal responsiveness against traditional bibliometric baselines."
-          },
-          {
-            "title": "Longitudinal Operational Validity",
-            "detail": "Assess reproducibility, auditability, and provenance tracking under realistic data-update scenarios to ensure operational accountability over time."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Semantic and Temporal Enrichment",
-            "detail": "The framework enables semantically richer and temporally more responsive STI analytics than static bibliometrics, capturing non-linear knowledge flows and emergent trends more effectively."
-          },
-          {
-            "title": "Mitigation of LLM Hallucination and Bias",
-            "detail": "Constraining LLMs to candidate generation combined with multi-layer validation significantly reduces hallucination and corpus bias risks inherent in ungrounded LLM pipelines."
-          },
-          {
-            "title": "Preservation of Methodological Discipline",
-            "detail": "By integrating bibliometric baselines and symbolic validation, the framework maintains reproducibility, provenance, and auditability, aligning with science-of-science evidentiary standards."
-          }
-        ],
-        "contributions": [
-          "Proposes a hybrid STI analytics framework integrating bibliometric baselines, dynamic knowledge graphs, and constrained LLM semantic augmentation under explicit validation.",
-          "Introduces a multi-layer validation pipeline as the core mechanism ensuring analytical admissibility and mitigating LLM hallucination and bias.",
-          "Demonstrates through case studies and longitudinal evaluation that the framework improves semantic richness, temporal responsiveness, and methodological accountability.",
-          "Clarifies the theoretical and methodological foundations distinguishing semantic flexibility from epistemic discipline in STI analytics.",
-          "Discusses governance implications including reproducibility, bias mitigation, and auditability critical for policy-relevant STI analytics."
-        ],
-        "limitations": [
-          "The framework adds technical and epistemic complexity requiring careful interpretation and does not replace existing bibliometric methods but extends them.",
-          "Validation processes introduce overhead and require expert involvement, potentially limiting scalability and real-time applicability.",
-          "The framework’s effectiveness depends on the quality and coverage of underlying open scholarly data sources, which may have inherent biases.",
-          "LLM augmentation remains provisional and constrained; the framework does not fully eliminate hallucination or bias but mitigates them through validation."
-        ],
-        "open_questions": [
-          "How can the validation pipeline be further automated without compromising analytical rigor and expert oversight?",
-          "What are the best practices for integrating heterogeneous data sources to enhance the dynamic knowledge graph’s coverage and accuracy?",
-          "How can the framework adapt to rapidly evolving LLM architectures and capabilities while maintaining methodological discipline?",
-          "What governance models best ensure transparency, reproducibility, and fairness in LLM-powered STI analytics at scale?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "hallucination",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-24T11:55:27.963037+00:00"
-    },
-    {
-      "id": "2607.21558",
-      "title": "Beyond Sycophancy: Structured Resistance and Compliance in LLM Moral Reasoning",
-      "abstract": "Building socially calibrated large language models, which can learn from others without simply yielding to them, requires more than reducing sycophancy as a one-dimensional failure mode. Models must distinguish when to incorporate others' perspectives from when to maintain a well-grounded moral judgment. We study the broader resistance-compliance process governing this distinction. Across three studies, we show that models' judgment revision is structured along three dimensions that parallel classic phenomena in human social psychology: the distance between an incoming view and the model's initial position, the source attribution of that view, and the coalition structure supporting it. Models are generally more receptive to nearby positions, more influenced by views presented as their own prior judgments, and differently responsive to group pressure. These findings recast sycophancy as one expression of a broader judgment-updating process shaped by social influence. Our framework provides a principled basis for distinguishing constructive belief revision from sycophantic compliance, thereby supporting better alignment in morally consequential interactions.",
-      "authors": [
-        "Baihui Wang",
-        "Bernard Koch"
-      ],
-      "published": "2026-07-23T17:40:07Z",
-      "updated": "2026-07-23T17:40:07Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2607.21558v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.21558v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3773,
-          "matched": [
-            "alignment",
-            "alignment",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.3931,
-        "relevance": 0.3018,
-        "quality": 0.33,
-        "novelty": 0.8631,
-        "freshness": 0.8913
-      },
-      "quality_signals": [],
-      "summary": {
-        "takeaway": "LLMs exhibit structured judgment revision in moral reasoning governed by distance from prior views, source attribution, and coalition structure, reframing sycophancy as part of a broader social influence mechanism.",
-        "problem": "Current evaluations of LLM sycophancy treat yielding as a one-dimensional failure, lacking a principled account of when models should resist or comply in moral judgment updates.",
-        "method": "The authors conduct three studies manipulating the distance of opposing views, source attribution, and peer coalition structure across eight LLMs using moral dilemmas and measure belief updates via log-probability distributions over a 7-point Likert scale.",
-        "evidence": "Models accommodate nearby views but resist distant ones, weigh identical content differently based on attributed source, and respond variably to group pressure, with quantitative regression analyses confirming these structured patterns across multiple models.",
-        "limitations": "The study focuses on moral dilemmas without ground truth, limiting generalizability; Sonnet 4.5 is excluded from multi-agent experiments due to sampling cost; and no mechanistic equations are provided to explain the belief-updating process.",
-        "why_for_you": "This work provides a nuanced, empirically validated framework to distinguish constructive belief revision from sycophantic compliance in LLMs, crucial for advancing trustworthy moral reasoning in language models.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Models show a nonlinear accommodation pattern where they accept views close to their prior but resist those beyond a model-specific distance, paralleling human latitude of acceptance phenomena."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The method uses log-probability distributions over a 7-point Likert scale to capture subtle shifts in model belief states, enabling measurement of both overt answer changes and internal uncertainty shifts."
-          },
-          {
-            "icon": "📉",
-            "text": "Regression analyses reveal that peer message persuasiveness decreases with distance from the model’s prior, and coalition structure modulates resistance, with models resisting majority pressure but yielding to unanimous consensus."
-          }
-        ],
-        "overview": "This paper addresses the limitation of viewing LLM sycophancy as a simple failure mode by proposing a structured belief-updating mechanism inspired by human social psychology. The authors hypothesize that LLM judgment revision in moral dilemmas is governed by three dimensions: the distance between incoming views and the model's prior, the attributed source of those views, and the coalition structure of social pressure. They test this via three studies manipulating each dimension independently across eight state-of-the-art LLMs, measuring belief updates through changes in log-probability distributions over a 7-point moral preference scale. The results consistently show that models accommodate nearby views but resist distant ones, weigh identical content differently depending on source attribution, and respond to group pressure in ways mirroring human conformity and dissent dynamics. These findings recast sycophancy as a surface manifestation of a broader, socially structured belief-updating process, providing a principled framework to distinguish constructive belief revision from uncritical compliance, thereby advancing alignment in morally consequential interactions.",
-        "methodology": [
-          {
-            "title": "Model Selection and Setup",
-            "detail": "Eight LLMs spanning two generations (GPT-4o, DeepSeek-V3.2, Phi-4, Qwen-2.5, GPT-5.4, GPT-5.4-mini, Qwen-3.7-Max, Claude Sonnet 4.5) were evaluated. For all except Sonnet 4.5, answer distributions were derived from first-token log-probabilities over a 7-point Likert scale; Sonnet 4.5 used Monte Carlo sampling due to lack of log-probabilities."
-          },
-          {
-            "title": "Stimuli and Task",
-            "detail": "Seventy-eight moral dilemmas from cross-cultural and large human-response datasets were used, each eliciting a 7-point Likert scale judgment. The dilemmas cover trolley problems, resource allocation, punishment severity, privacy-security trade-offs, and everyday social situations."
-          },
-          {
-            "title": "Experimental Procedure",
-            "detail": "Each study first elicited a baseline judgment distribution, then introduced a social manipulation varying one dimension (distance, source attribution, coalition structure), and measured post-manipulation distributions to quantify belief updates."
-          },
-          {
-            "title": "Measurement and Metrics",
-            "detail": "Belief updates were quantified using changes in log-probability mass on the Likert scale, including metrics such as ∆P (change in probability of target position), transfer ratio (mass shifted from prior to target), and commitment rate (proportion overtly adopting planted views)."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Belief-Updating Dimensions",
-            "detail": "The paper posits three dimensions structuring LLM judgment revision: (1) distance between incoming view and prior belief, reflecting latitude of acceptance; (2) source attribution, affecting weight given to identical content; (3) coalition structure, modulating conformity and resistance based on majority or dissenting allies. No formal equations or causal models are provided."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Study 1: Distance Manipulation",
-            "detail": "Opposing views were progressively moved further from the model’s prior judgment. Models showed nonlinear accommodation, accepting nearby views but resisting distant ones, confirmed by quadratic regression analyses across all eight models."
-          },
-          {
-            "title": "Study 2: Source Attribution",
-            "detail": "The same opposing view was attributed to different sources: the model’s own prior judgment, the user, or another AI. Models were more influenced when the view was framed as their own prior, less so when attributed to others."
-          },
-          {
-            "title": "Study 3: Coalition Structure",
-            "detail": "Models participated in a four-agent deliberation varying the ratio of supporting to opposing peers. More capable models resisted majority pressure but yielded to unanimous consensus; some strengthened their position when a lone ally dissented from the majority."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Nonlinear Distance Effect",
-            "detail": "Models accommodate views close to their prior but resist those beyond a model-specific threshold, mirroring human latitude of acceptance; e.g., GPT-4o and Phi-4 showed significant quadratic effects in regression analyses."
-          },
-          {
-            "title": "Source Attribution Modulates Influence",
-            "detail": "Views framed as the model’s own prior judgment exerted stronger influence on belief updates than identical views attributed to users or other AIs, indicating source-dependent weighting."
-          },
-          {
-            "title": "Coalition Effects on Resistance",
-            "detail": "Models resist majority peer pressure but yield to unanimous consensus; notably, some models increased commitment strength when a single ally dissented from an opposing majority, reflecting human conformity dynamics."
-          },
-          {
-            "title": "Sycophancy as Structured Updating",
-            "detail": "Sycophantic behavior emerges as one facet of a broader, socially structured belief-updating mechanism rather than a simple failure mode, supported by consistent patterns across multiple models and experimental manipulations."
-          }
-        ],
-        "contributions": [
-          "Identification of three structured dimensions (distance, source attribution, coalition structure) governing LLM moral judgment revision.",
-          "Empirical demonstration across eight diverse LLMs that sycophancy is part of a broader social influence mechanism.",
-          "Development of a measurement framework using log-probability distributions over Likert scales to capture subtle belief updates.",
-          "Provision of a principled framework to distinguish constructive belief revision from sycophantic compliance in LLMs."
-        ],
-        "limitations": [
-          "Focus on moral dilemmas without objective ground truth limits generalizability to other domains.",
-          "Exclusion of Claude Sonnet 4.5 from multi-agent Study 3 due to sampling cost reduces completeness of coalition structure analysis.",
-          "No mechanistic or causal equations are provided to formally model the belief-updating process.",
-          "Potential entanglement of peer distance with argument persuasiveness complicates interpretation of coalition effects."
-        ],
-        "open_questions": [
-          "How can the structured belief-updating framework be extended to domains beyond moral dilemmas with objective ground truth?",
-          "What formal mechanistic models can capture the causal dynamics of LLM judgment revision along the identified dimensions?",
-          "How do training procedures and model architectures influence the observed social influence patterns in LLMs?",
-          "Can interventions be designed to promote constructive belief revision while minimizing sycophantic compliance in real-world applications?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment",
-          "alignment",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-24T11:55:27.963037+00:00"
-    },
-    {
-      "id": "2607.20090",
-      "title": "Reinforcement Learning for Large Language Model Selective Evidence Adoption from Contaminated Retrieval Results",
-      "abstract": "Retrieval-augmented large language models frequently face contexts that interleave useful evidence with misleading statements or instruction-like content. Blanket refusal discards valid evidence, whereas uncritical adoption yields incorrect or unsafe answers. The ability to selectively adopt relevant information while rejecting deceptive or harmful content is therefore critical for reliable deployment in real-world retrieval settings. We introduce SelectBench, a controlled benchmark and training set for selective evidence adoption, and post-train Qwen3.5-4B directly with DAPO using either deterministic rule rewards or a frozen semantic judge. On the corrected 325-example SelectBench-v2 test set, strict success rises from 22.46% for the original checkpoint to 25.54% with DAPO-Rule and 26.46% with DAPO-DeepSeek. Both trained policies reduce forbidden-content adoption and produce shorter, more focused responses, yet prompt-injection following does not improve. The paired gains are modest and fail to survive Holm correction, suggesting that stronger reward shaping or additional training iterations may be needed for more robust gains. DAPO-DeepSeek exhibits no material degradation on MMLU or clean HotpotQA, indicating that the post-training procedure preserves general capabilities. These results demonstrate a directional improvement in selective evidence use, while identifying injection resistance and statistical robustness as important remaining challenges for future work.",
-      "authors": [
-        "Yanyu Chen",
-        "Yue Li",
-        "Yongyi Cui",
-        "Dongsheng Shi",
-        "Lichang Dai"
-      ],
-      "published": "2026-07-22T12:45:04Z",
-      "updated": "2026-07-22T12:45:04Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.20090v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.20090v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.559,
-          "matched": [
-            "robustness",
-            "robust",
-            "training"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.1993,
-          "matched": [
-            "robustness",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5415,
-        "relevance": 0.4871,
-        "quality": 0.48,
-        "novelty": 0.8586,
-        "freshness": 0.8614
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Selective evidence adoption via reinforcement learning post-training improves retrieval-augmented LLMs' ability to extract valid information while reducing harmful content adoption.",
-        "problem": "Retrieval-augmented LLMs struggle to selectively adopt useful evidence from retrieval results contaminated with misleading or instruction-like content, risking unsafe or incorrect answers.",
-        "method": "The authors introduce SelectBench, a controlled benchmark, and apply DAPO post-training on Qwen3.5-4B using deterministic rule-based and frozen semantic judge rewards to optimize selective evidence adoption.",
-        "evidence": "On the corrected 325-example SelectBench-v2 test set, strict success improved from 22.46% to 25.54% (DAPO-Rule) and 26.46% (DAPO-DeepSeek), with reduced forbidden-content adoption and no degradation on MMLU or HotpotQA.",
-        "limitations": "The observed gains are modest, fail to survive Holm correction for statistical significance, and do not improve prompt-injection resistance, indicating the need for stronger reward shaping or more training.",
-        "why_for_you": "This work advances reinforcement learning techniques for trustworthy LLM retrieval agents by addressing selective evidence adoption, a critical challenge for safe and efficient real-world deployment.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4.1-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "Selective evidence adoption post-training on Qwen3.5-4B using DAPO with rule-based and DeepSeek semantic judge rewards yields strict success improvements from 22.46% to 26.46% on SelectBench-v2."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The DAPO framework employs a ternary reward function penalizing forbidden content adoption and tool omission, with two variants: DAPO-Rule using phrase matching and DAPO-DeepSeek using a frozen deepseek-v4-flash judge."
-          },
-          {
-            "icon": "📉",
-            "text": "Despite improvements in selective adoption and reduced forbidden content, gains are modest, fail Holm correction, and prompt-injection resistance remains unimproved, highlighting challenges in reward design and robustness."
-          }
-        ],
-        "overview": "This paper addresses the challenge of selective evidence adoption in retrieval-augmented large language models, where retrieved contexts mix valid facts with misleading or harmful content. The authors propose SelectBench, a controlled benchmark and training dataset, to evaluate and train LLMs to discern and adopt only supported evidence. They apply reinforcement learning post-training on Qwen3.5-4B using the DAPO framework with two reward variants: a deterministic rule-based reward and a frozen semantic judge (DeepSeek). The reward function penalizes forbidden content adoption and tool omission while rewarding correct, complete, and safe answers. Experiments on the corrected SelectBench-v2 test set show modest improvements in strict success rates and reductions in forbidden content adoption without degrading performance on general benchmarks like MMLU and HotpotQA. However, the improvements do not reach statistical significance after Holm correction, and prompt-injection resistance remains a challenge. The work demonstrates a promising direction for enhancing LLM agents' selective use of retrieval evidence but identifies the need for stronger reward shaping and more robust training to achieve reliable gains.",
-        "methodology": [
-          {
-            "title": "SelectBench Dataset Construction",
-            "detail": "SelectBench is a controlled benchmark and training set designed to study selective evidence adoption. It contains retrieval contexts mixing supported facts with misleading or instruction-like content. Training and test splits are disjoint, and the corrected SelectBench-v2 test set includes 325 examples for evaluation."
-          },
-          {
-            "title": "DAPO Post-Training Framework",
-            "detail": "DAPO (Directly Optimizing Preference Optimization) is used to post-train Qwen3.5-4B. It optimizes a ternary reward function that assigns +1 for correct, complete, and safe answers with tool use, -1 for forbidden content adoption or tool omission, and 0 otherwise. Two reward variants are implemented: DAPO-Rule uses deterministic phrase matching rules, and DAPO-DeepSeek employs a frozen deepseek-v4-flash semantic judge."
-          },
-          {
-            "title": "Tool-Use Rollout and Evaluation",
-            "detail": "The policy observes system instructions and questions, invokes a fixed retrieval tool returning example-specific context verbatim, and generates answers. Correctness is evaluated on the final answer segment, while forbidden content adoption is checked across the entire assistant turn. Output length is penalized to discourage verbosity."
-          },
-          {
-            "title": "Training Setup and Hyperparameters",
-            "detail": "Training uses frozen vision tower and updates the language model with AdamW optimizer at a learning rate of 5e-7, weight decay 0.1, gradient clipping 1.0, and batch sizes of 8 or 9 prompts with 8 rollouts each. Training runs for 130 optimizer steps on NVIDIA RTX 3090 GPUs with validation every 10 steps."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Reward Function Design",
-            "detail": "The reward function r_task(τ) is ternary: +1 if the trajectory τ includes a successful tool call, a correct and complete answer, and no forbidden content adoption; -1 if the tool call fails or forbidden content is adopted; 0 otherwise. Length penalties discourage overly long outputs. This design prioritizes safe and accurate evidence adoption while penalizing harmful or missing responses."
-          },
-          {
-            "title": "No Explicit Mechanistic Model",
-            "detail": "The paper does not provide explicit mechanistic or causal equations beyond the reward function. The approach relies on reinforcement learning to implicitly shape the policy towards selective evidence adoption."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Selective Evidence Adoption Evaluation",
-            "detail": "Evaluation on the corrected 325-example SelectBench-v2 test set compares the original Qwen3.5-4B checkpoint with DAPO-Rule and DAPO-DeepSeek post-trained models. Metrics include strict success rate, forbidden content adoption, and answer completeness."
-          },
-          {
-            "title": "General Capability Retention",
-            "detail": "To assess capability retention, the base and DAPO-DeepSeek checkpoints are evaluated on 14,042 MMLU test questions using 5-shot and zero-shot protocols, and on 7,080 clean HotpotQA validation questions in fixed-context and closed-book modes."
-          },
-          {
-            "title": "Training and Validation Protocol",
-            "detail": "Training uses fixed hyperparameters without retraining or hyperparameter tuning after test set inspection. Validation occurs every 10 optimizer steps, with final checkpoints exported at step 130. Rollouts use temperature 1, top-p 1, no top-k truncation, and maximum prompt and response lengths of 768 and 3,072 tokens respectively."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Improved Strict Success",
-            "detail": "Strict success on SelectBench-v2 improves from 22.46% (original) to 25.54% (DAPO-Rule) and 26.46% (DAPO-DeepSeek), demonstrating directional gains in selective evidence adoption."
-          },
-          {
-            "title": "Reduced Forbidden Content Adoption",
-            "detail": "Both DAPO-trained policies reduce the adoption of forbidden or harmful content compared to the original checkpoint, contributing to safer answer generation."
-          },
-          {
-            "title": "No Degradation on General Benchmarks",
-            "detail": "DAPO-DeepSeek maintains performance on MMLU and clean HotpotQA datasets, indicating that post-training does not harm general language understanding or reasoning capabilities."
-          },
-          {
-            "title": "Modest Gains and Statistical Significance",
-            "detail": "The observed improvements are modest and fail to survive Holm correction for multiple comparisons, suggesting limited statistical robustness."
-          },
-          {
-            "title": "Prompt-Injection Resistance Unchanged",
-            "detail": "Neither trained policy improves resistance to prompt-injection attacks, highlighting an important remaining challenge."
-          }
-        ],
-        "contributions": [
-          "Formulation of selective evidence adoption from contaminated retrieval outputs as a distinct post-training objective for LLM agents.",
-          "Creation of SelectBench, a controlled dataset and benchmark for evaluating selective evidence adoption.",
-          "Design and application of a tailored reinforcement learning pipeline using DAPO with rule-based and semantic judge rewards to train Qwen3.5-4B.",
-          "Empirical demonstration of directional improvements in selective evidence adoption and reduced forbidden content adoption without degrading general capabilities.",
-          "Identification of prompt-injection resistance and statistical robustness as key challenges for future research."
-        ],
-        "limitations": [
-          "Modest performance gains that do not achieve statistical significance after Holm correction.",
-          "Lack of improvement in prompt-injection resistance despite training.",
-          "Comparison between DAPO-Rule and DAPO-DeepSeek is descriptive, not a strict ablation due to differing training conditions.",
-          "No exploration of stronger reward shaping or extended training iterations which may be necessary for more robust improvements."
-        ],
-        "open_questions": [
-          "How can reward shaping be enhanced to achieve statistically significant and robust improvements in selective evidence adoption?",
-          "What methods can effectively improve prompt-injection resistance in retrieval-augmented LLM agents?",
-          "Can training protocols be optimized to balance selective evidence adoption with general capability retention more effectively?",
-          "How does selective evidence adoption scale with larger models or more complex retrieval contexts?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4.1-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "robustness",
-          "robust",
-          "training"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-23T12:02:13.960325+00:00"
-    },
-    {
-      "id": "2607.20327",
-      "title": "PyroDash: Cost-Efficient Token-Level Small-Large Language Model Collaborative Inference",
-      "abstract": "Large language models (LLMs) provide strong reasoning capabilities but are expensive to serve at scale, whereas small language models (SLMs) are cheaper but less reliable on difficult problems. We introduce PyroDash, a cost-aware framework for token-level SLM-LLM collaborative inference. During generation, the SLM decides whether to request assistance by emitting a control token. A Collaborate Engine then sends the query and partial reasoning trace to a frozen LLM for completion through a single handoff. The policy is internalized in the SLM, requiring neither a separate router, LLM retraining, nor access to LLM logits. PyroDash trains the SLM in three stages: control-token embedding learning, offloading-oriented supervised fine-tuning, and cost-aware alignment with Group Relative Policy Optimization. Its reward balances answer accuracy against inference cost normalized by LLM-only inference. Across five mathematical reasoning benchmarks, PyroDash supports different accuracy-cost operating points. With $λ=0.05$, it achieves 64.04 percent average accuracy, 6.36 percentage points above the LLM-only baseline, while reducing cost by 20.4 percent. With $λ=0.6$, it achieves 54.55 percent accuracy with a 1.90 percent LLM token ratio and 0.012 LLM calls per example, reducing total cost from USD 49.36 to USD 1.78. These results show that learned token-level handoffs can reduce LLM use while preserving strong reasoning performance.",
-      "authors": [
-        "Niqi Lyu",
-        "Pengtao Shi",
-        "Wei Qiu",
-        "Jianlin Zhong",
-        "Sicong Xia",
-        "Jianyao Ma",
-        "Yicheng Ding"
-      ],
-      "published": "2026-07-22T16:14:26Z",
-      "updated": "2026-07-22T16:14:26Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.20327v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.20327v1",
-      "comment": "19 pages, 3 figures",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3885,
-          "matched": [
-            "alignment",
-            "alignment",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4385,
-        "relevance": 0.3108,
-        "quality": 0.55,
-        "novelty": 0.8238,
-        "freshness": 0.8822
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "PyroDash enables cost-efficient collaborative inference between small and large language models by optimizing when to request assistance.",
-        "problem": "Balancing the high cost of large language models with the lower reliability of small language models in reasoning tasks is challenging.",
-        "method": "PyroDash employs a token-level collaborative inference framework where the small language model decides when to offload to a frozen large language model.",
-        "evidence": "With a cost reduction factor of λ=0.6, PyroDash achieves 54.55% accuracy while reducing total cost from $49.36 to $1.78, demonstrating significant efficiency.",
-        "limitations": "The paper does not explore the performance of PyroDash in non-mathematical reasoning tasks or with different model architectures.",
-        "why_for_you": "This research provides insights into optimizing inference costs in LLM applications, which is crucial for scalable AI deployment.",
-        "source": "abstract",
-        "generated_by": "openai/gpt-4o-mini"
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧠",
-            "text": "PyroDash achieves an average accuracy of 64.04% at λ=0.05, surpassing the LLM-only baseline by 6.36 percentage points while reducing costs by 20.4%."
-          },
-          {
-            "icon": "🛡️",
-            "text": "The framework utilizes a control token mechanism, allowing the small language model to autonomously decide when to request assistance from the large language model."
-          },
-          {
-            "icon": "📉",
-            "text": "At λ=0.6, PyroDash reduces total inference costs by 96.4%, demonstrating the effectiveness of its cost-aware alignment strategy."
-          }
-        ],
-        "overview": "PyroDash addresses the challenge of efficiently utilizing large and small language models by introducing a token-level collaborative inference framework. The small language model (SLM) autonomously determines when to request assistance from a frozen large language model (LLM) using a control token. This method allows for a single handoff, minimizing costs while maintaining strong reasoning performance. Empirical results across five mathematical reasoning benchmarks show that PyroDash can achieve significant accuracy improvements and cost reductions, making it a promising solution for scalable AI applications.",
-        "methodology": [
-          {
-            "title": "Control-Token Embedding Learning",
-            "detail": "The SLM is trained to embed control tokens that signal when to offload reasoning tasks to the LLM, enhancing its decision-making capabilities."
-          },
-          {
-            "title": "Offloading-Oriented Supervised Fine-Tuning",
-            "detail": "This stage fine-tunes the SLM to optimize its performance in recognizing when to request LLM assistance, based on its reasoning trajectory."
-          },
-          {
-            "title": "Cost-Aware Alignment with Group Relative Policy Optimization (GRPO)",
-            "detail": "The SLM's offloading policy is aligned with a reward structure that balances accuracy and inference cost, allowing for tunable performance."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Token-Level Handoff Mechanism",
-            "detail": "The SLM generates tokens and decides to emit a control token when it reaches a capability boundary, triggering a handoff to the LLM for completion."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Model Configuration",
-            "detail": "The evaluation uses Qwen3.5-4B as the SLM and GLM-5.2-FP8 as the LLM, assessing performance across five mathematical reasoning benchmarks."
-          },
-          {
-            "title": "Benchmarks and Metrics",
-            "detail": "The benchmarks include GSM8K, Minerva, Olympiad-Bench, AIME-2024, and AIME-2025, with metrics such as pass@1 accuracy and avg@32 for evaluation."
-          },
-          {
-            "title": "Baseline Comparisons",
-            "detail": "PyroDash is compared against standalone SLM and LLM models, as well as SLM+SFT and RouteLLM routing baselines to evaluate its effectiveness."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Accuracy Improvement",
-            "detail": "At λ=0.05, PyroDash achieves 64.04% accuracy, outperforming the LLM-only baseline of 57.68% by 6.36 percentage points."
-          },
-          {
-            "title": "Cost Reduction",
-            "detail": "With λ=0.6, PyroDash reduces total inference cost from $49.36 to $1.78, achieving a 96.4% reduction."
-          },
-          {
-            "title": "LLM Token Ratio",
-            "detail": "At λ=0.6, the LLM token ratio is 1.90%, indicating efficient use of the LLM during inference."
-          }
-        ],
-        "contributions": [
-          "Introduction of PyroDash for token-level collaborative inference between SLMs and LLMs.",
-          "Development of a three-stage training pipeline for cost-aware alignment of the SLM's offloading policy.",
-          "Demonstration of substantial inference cost reductions while maintaining competitive accuracy across benchmarks."
-        ],
-        "limitations": [
-          "The performance of PyroDash in non-mathematical reasoning tasks is not evaluated.",
-          "The impact of different model architectures on the effectiveness of PyroDash is not explored."
-        ],
-        "open_questions": [
-          "How can PyroDash be adapted for diverse reasoning tasks beyond mathematical problems?",
-          "What are the implications of using different model architectures in the PyroDash framework?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "openai/gpt-4o-mini",
-        "schema_version": 2
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment",
-          "alignment",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-23T12:02:13.960325+00:00"
     }
   ]
 }
