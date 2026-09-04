@@ -1,6 +1,840 @@
 {
-  "generated_at": "2026-09-03T14:33:58.532938+00:00",
+  "generated_at": "2026-09-04T14:21:26.438741+00:00",
   "papers": [
+    {
+      "id": "2609.04172",
+      "title": "Rethinking On-Policy Distillation of Large Language Models II: One Training Example",
+      "abstract": "On-policy distillation (OPD) combines student-generated rollouts with dense token-level supervision from a teacher. Existing work has mainly studied its algorithmic behavior, leaving the role of training data unclear. We examine this role at the data-minimal limit by training on a single query. One-shot OPD keeps improving for hundreds of steps and recovers most of full-data OPD's gain across task domains and model families. We explain this result through the states visited during training and the rate at which the student aligns with the teacher. We measure \\emph{state coverage}, the fraction of the states full-data OPD visits that a query set's rollouts reach. A single query already reaches \\(71.5\\%\\), most of it within the first 100 steps. Adding semantically distinct queries raises coverage and validation accuracy together, until 16 queries reach \\(98.9\\%\\) and match full-data training. Yet alignment slows at a similar pace whether OPD trains on one query or the whole dataset, and even a fixed set of states takes hundreds of steps to absorb. OPD is therefore data-overfed but algorithm-starved. Its rollouts quickly expose broad supervision, while the student absorbs that supervision increasingly slowly. The state-coverage result extends to multi-teacher OPD, where 16 semantically diverse queries per domain match full-data MOPD. As a further stress test, content-light templates and off-domain WildChat queries also approach the real-query baseline. Task content and induced state coverage can therefore come apart. We hope these findings direct future work toward the step efficiency of OPD, and prompt a re-examination of the data and the mechanisms behind its recent successes in frontier post-training.",
+      "authors": [
+        "Zixuan Fu",
+        "Bingxiang He",
+        "Yuxin Zuo",
+        "Haohuan Huang",
+        "Jinqian Zhang",
+        "Ruhang Xiao",
+        "Cheng Qian",
+        "Qinyu Luo",
+        "Huan-ang Gao",
+        "Yudong Wang",
+        "Zhiyuan Liu",
+        "Ning Ding",
+        "Chaojun Xiao"
+      ],
+      "published": "2026-09-03T17:54:38Z",
+      "updated": "2026-09-03T17:54:38Z",
+      "categories": [
+        "cs.AI",
+        "cs.CL"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2609.04172v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.04172v1",
+      "comment": "29 pages, 20 figures",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "emerging",
+          "score": 0.6637,
+          "matched": [
+            "On-policy distillation",
+            "on-policy distillation",
+            "OPD",
+            "distillation",
+            "on-policy",
+            "opd"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.585,
+          "matched": [
+            "training"
+          ]
+        },
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.3838,
+          "matched": [
+            "training data",
+            "data"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.7005,
+        "relevance": 0.7247,
+        "quality": 0.52,
+        "novelty": 0.8156,
+        "freshness": 0.8783,
+        "feedback_adjustment": -0.0187,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "使用单一查询的一次性 on-policy 蒸馏可恢复全数据 OPD 在任务和模型系列中的大部分性能提升。",
+        "method": "作者在单一查询（一次性）和小规模语义多样的查询集上训练 OPD，测量 state coverage 与 alignment dynamics。",
+        "problem": "训练数据的数量和多样性对 OPD 效果的影响尚未系统研究。",
+        "limitations": "state coverage 基于全数据 rollout 构建的参考进行评估，且对所有簇一视同仁；MOPD 实验仅覆盖三个领域，每个领域只有一个 teacher。",
+        "evidence": "单一查询实现 71.5% 的 state coverage 并恢复全数据 OPD 大部分验证增益，16 个查询则达到 98.9% 覆盖率并匹配全数据性能。",
+        "why_for_you": "鉴于您关注 on-policy 蒸馏和数据选择，该工作表明 state-coverage 指标可用于指导最小查询选择，以实现高效 OPD。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "一次性 OPD 使用单查询可恢复约 71.5% 的 state coverage 与大部分全数据增益。"
+          },
+          {
+            "icon": "🔧",
+            "text": "state coverage 通过对全数据状态聚类并评估查询集的 rollouts 来衡量。"
+          },
+          {
+            "icon": "📊",
+            "text": "16 个语义多样查询实现 98.9% 覆盖率并匹配全数据性能，但 coverage 仅为代理指标。"
+          }
+        ],
+        "overview": "本文通过将数据集缩减至单查询（一次性 OPD）或小规模语义多样查询集，研究 OPD 实际所需的训练数据量。提出了 state‑coverage 指标，用于量化全数据 OPD 访问的状态中有多少被有限查询的 rollouts 覆盖。四个任务域和三种模型系列的实验表明，单查询已覆盖 71.5% 的状态空间并恢复大部分验证增益，16 个查询则达到 98.9% 覆盖率并完全匹配全数据结果。作者认为 OPD 数据充裕但算法受限，teacher 信号的吸收速率限制了训练时长。",
+        "methodology": [
+          {
+            "title": "单次 OPD 训练",
+            "detail": "在单个查询生成的 rollout 上训练 student，最多 1000 步，在每个访问的状态施加密集的 token‑level teacher 监督。"
+          },
+          {
+            "title": "状态覆盖度测量",
+            "detail": "对 full‑data OPD 运行期间访问的所有状态进行聚类，然后计算给定查询集的 rollout 所到达的聚类比例。"
+          },
+          {
+            "title": "固定状态消融",
+            "detail": "复用一次从初始 student 采样的 64 条静态轨迹，以检验长时间训练是否需要新状态。"
+          },
+          {
+            "title": "多教师扩展 (MOPD)",
+            "detail": "对 multi‑teacher OPD 进行相同的 query‑diversity 分析，在三个领域中每个领域使用 16 条查询。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "数据过载、算法受限假设",
+            "detail": "查询在早期会产生大量状态，提供丰富的监督（data‑overfed），但无论查询数量多少，student 与 teacher 的对齐率都会类似下降，使得优化器成为瓶颈（algorithm‑starved）。"
+          },
+          {
+            "title": "吸收率",
+            "detail": "定义为每次更新中减少的剩余 teacher‑student token‑level 差距的比例；在单次和 full‑data 运行中均观察到该比例在数百步内稳步下降。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "领域与模型套件",
+            "detail": "四个领域（math、code generation、instruction following、agentic tool use），配有学生‑教师对，例如 R1‑Distill‑1.5B ↔ JustRL‑1.5B、Llama‑3B‑It ↔ GT‑Llama‑3B‑Math、以及 Qwen‑Coder‑1.5B ↔ Hammer‑1.5B。"
+          },
+          {
+            "title": "指标与基线",
+            "detail": "验证准确率（%）、state coverage（%）、top‑16 token overlap、以及 overlap‑token advantage；基线为 full‑data OPD 和 full‑data MOPD。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "单查询有效性",
+            "detail": "One‑shot OPD 在前 100 步内达到 71.5% 的 state coverage，并在所有领域恢复了大部分 full‑data OPD 的增益。"
+          },
+          {
+            "title": "查询多样性扩展",
+            "detail": "加入语义上不同的查询可同步提升 coverage 与 accuracy；16 条查询实现 98.9% 的 coverage，并匹配 full‑data OPD/MOPD 的性能。"
+          },
+          {
+            "title": "固定状态运行",
+            "detail": "使用静态状态集合得到相似长度的学习曲线，表明新生成状态并非导致训练延长的原因。"
+          }
+        ],
+        "contributions": [
+          "展示 OPD 只需一次查询即可实现接近完整性能，引入 state coverage 作为 data‑efficiency 指标，并揭示 OPD 的 data‑overfed/algorithm‑starved 特性。"
+        ],
+        "limitations": [
+          "state coverage 是相对于 full‑data rollout 的语义层代理，等权所有簇，未反映内在信号强度。",
+          "影响 absorption rate 的因素尚未确定。",
+          "MOPD 实验仅覆盖三个领域且每个仅有一位 teacher，尚未验证对更多 teacher 与领域的可扩展性。"
+        ],
+        "open_questions": [
+          "如何在没有 full‑data 参考的情况下估计 state coverage，以实现主动数据选择？",
+          "哪些算法改进可提升 absorption rate，使 OPD 更具 step‑efficiency？",
+          "query‑diversity 的结论是否在多 teacher、多 domain 场景以及更大 student model 中仍然成立？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "On-policy distillation",
+        "matched": [
+          "On-policy distillation",
+          "on-policy distillation",
+          "OPD",
+          "distillation"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-04T14:21:26.438741+00:00"
+    },
+    {
+      "id": "2609.04047",
+      "title": "The Dice Roll Method: A Standardized Protocol for Repeated-Query Auditing of Large Language Model Brand Recommendations",
+      "abstract": "Background: Researchers increasingly use repeated identical prompts to audit stochastic variation in large language model (LLM) brand recommendations, yet no standardized protocol exists for setting iteration counts, selecting stability metrics, or establishing reliability thresholds. Objective: We formalize the Dice Roll Method as a reusable protocol for repeated-query auditing of LLM brand recommendations, grounded in a generative model of temperature-scaled nucleus sampling. Methods: Total response variance is decomposed into sampling, prompt-phrasing, run-to-run, and model-version components. The stack: a negative-binomial mixed model with iterations as repeated measures; Cliff's delta as the distribution-free effect size; dependence-preserving bootstrap; simulation-based power; a generalizability-theory decomposition; drift diagnostics on pinned snapshots. We reanalyse five brand-recommendation auditing studies: approximately 190,000 observations, 270+ brands, 6 languages, iteration counts 5 to 40. Results: Three tiers of iteration guidance emerge from the D-study: exploratory (n = 5, G = 0.58), confirmatory (n = 10, G = 0.74), and rigorous (n = 15, G = 0.81), tied to effect-size and generalizability targets. The four metric families (count, set, embedding, fairness-adjusted PASOR) are complementary, motivating a compact metric battery over single indicators. A pre-registered external validation on three independent corpora (Motoki et al., 100-round; Rozado, 24 models; llm-stability) reproduces the D-study reliability prediction in 37 of 39 cells with no failures and the n = 5 power value to two decimals; the fixed tiers do not transfer, supporting a pilot-then-solve reading. Conclusion: The protocol gives repeated-query auditing of LLM brand recommendations a statistically principled footing under the conditional, non-Gaussian structure of real autoregressive generation.",
+      "authors": [
+        "Dmitrij Żatuchin"
+      ],
+      "published": "2026-09-03T16:22:06Z",
+      "updated": "2026-09-03T16:22:06Z",
+      "categories": [
+        "cs.IR",
+        "cs.CL"
+      ],
+      "primary_category": "cs.IR",
+      "abs_url": "https://arxiv.org/abs/2609.04047v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.04047v1",
+      "comment": "30 pages, 2 figures, 19 tables. Substantially revised; supersedes the Research Square preprint 10.21203/rs.3.rs-8883056/v1. Includes a pre-registered external validation on three independent corpora (Motoki et al., Rozado, llm-stability)",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4819,
+          "matched": [
+            "auditing",
+            "reliability",
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.3518,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5255,
+        "relevance": 0.4559,
+        "quality": 0.49,
+        "novelty": 0.8769,
+        "freshness": 0.8691,
+        "feedback_adjustment": -0.0125,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "reproducibility",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Dice Roll Method 通过方差分解和可推广性理论，使对 LLM 品牌推荐的重复查询审计标准化。",
+        "method": "使用负二项混合模型、Cliff's delta、保持依赖性的 bootstrap 以及可推广性理论分解来分析方差成分。",
+        "problem": "在 LLM 品牌推荐审计中缺乏迭代次数、稳定性指标和可靠性阈值的标准化协议。",
+        "limitations": "领域特定性限制了向非品牌推荐任务的迁移；model-dependent stochastic properties 可能随架构而异。",
+        "evidence": "三种迭代层级 (n=5, 10, 15) 的可推广性系数 G=0.58, 0.74, 0.81 已在 190,000 条观测和三个外部语料库中得到验证。",
+        "why_for_you": "LLM 损失曲面专家将看重该统计框架，以在 non-Gaussian autoregressive generation 下量化变异性。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "Dice Roll Method 通过可推广性理论将迭代层级 (n=5/10/15) 正式化为 G=0.58/0.74/0.81"
+          },
+          {
+            "icon": "🔧",
+            "text": "负二项混合模型结合保持依赖性的 bootstrap 解决 LLM 输出中的条件依赖。"
+          },
+          {
+            "icon": "📊",
+            "text": "37/39 的外部验证单元复现了 D-study 可靠性预测，n=5 的功效精确到两位小数。"
+          }
+        ],
+        "overview": "本文提出了一套统计学原理的 LLM 品牌推荐审计协议，通过将响应方差分解为 sampling、prompt-phrasing、run-to-run 和 model-version 四个组成部分。基于可推广性系数，引入探索性、确认性、严格性三种迭代层级，并在五项研究共计 190,000 条观测中验证了该方法。该方法结合 negative-binomial mixed models、Cliff's delta 效应量和 bootstrap 技术，以处理 non-Gaussian 分布和 autoregressive generation 中的条件依赖。",
+        "methodology": [
+          {
+            "detail": "使用负二项广义线性混合模型（以迭代为重复测量），将总体响应方差分解为 token-level sampling、prompt-phrasing、run-to-run 和 model-version 组成部分。",
+            "title": "方差分解框架"
+          },
+          {
+            "detail": "计算可推广系数 (G)，以确定迭代阈值 (n=5/10/15)，并与 Cliff's δ 效应大小目标对齐。",
+            "title": "Generalizability-theory D-study"
+          },
+          {
+            "detail": "使用 moving-block 和 parametric bootstrap，在重抽样过程中保持顺序 LLM 输出的 conditional dependencies。",
+            "title": "Dependence-preserving bootstrap"
+          }
+        ],
+        "mechanism": [
+          {
+            "detail": "承认 LLM 输出遵循 conditional、non-Gaussian 分布，需要专门的统计方法。",
+            "title": "非高斯自回归结构"
+          },
+          {
+            "detail": "通过 bootstrap-corrected Spearman 相关，补充 count、set、embedding 和 fairness-adjusted PASOR 指标。",
+            "title": "稳定性指标族"
+          }
+        ],
+        "experiments": [
+          {
+            "detail": "5 项品牌推荐研究（190k 观察值，270+ 品牌，6 种语言，迭代 5-40），使用 3-5 个 LLMs",
+            "title": "多研究再分析"
+          },
+          {
+            "detail": "3 个语料库（Motoki et al. 100-round，Rozado 24-model，llm-stability），用于测试 D-study 可靠性预测",
+            "title": "外部验证"
+          },
+          {
+            "detail": "基于 simr 的仿真功效计算，迭代次数 5-50，指标包括 CV、Jaccard、cosine similarity、PASOR",
+            "title": "功效分析"
+          }
+        ],
+        "findings": [
+          {
+            "detail": "37/39 的外部验证单元匹配 D-study 可靠性预测；n=5 的功效值精确到两位小数",
+            "title": "迭代层级验证"
+          },
+          {
+            "detail": "Bootstrap 校正的 Spearman 相关显示 count、set、embedding 和 PASOR 指标在统计上互补",
+            "title": "指标互补性"
+          },
+          {
+            "detail": "Kolmogorov-Smirnov 与 Population Stability Index 检验检测固定快照中的模型版本漂移",
+            "title": "漂移诊断"
+          }
+        ],
+        "contributions": [
+          "将 Dice Roll Method 正式化为 LLM 品牌推荐审计的标准化协议",
+          "引入基于 generalizability-theory 的迭代层级并进行实证验证",
+          "开发了保持依赖性的 bootstrap 技术用于自回归输出"
+        ],
+        "limitations": [
+          "领域特异性限制了其在 brand-recommendation auditing 之外的适用性",
+          "模型依赖的 stochastic 属性可能需要对新架构进行重新分析",
+          "有限的收敛窗口（n=10 主分析，n=50 外部）可能无法捕获 asymptotic 行为"
+        ],
+        "open_questions": [
+          "迭代需求如何随 temperature 设置 (t=0.0 至 t=1.0) 缩放？",
+          "LLM 的 stochastic 属性在模型更新中是否保持稳定，或需要针对每个版本进行功效分析？",
+          "低资源语言是否需要比高资源语言更多的迭代以达到等效精度？",
+          "如何针对具有目标功效阈值的顺序检验调整设计？",
+          "当前集成覆盖中缺失了哪些 embedding 架构？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "auditing",
+          "reliability",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-04T14:21:26.438741+00:00"
+    },
+    {
+      "id": "2609.04180",
+      "title": "Knowledge Acquisition During Pre-training? Large Language Models Learn Better With Auxiliary Views",
+      "abstract": "Gaps remain in our understanding of how large language models (LLMs) acquire knowledge during pre-training. We posit that auxiliary views, reformulations of knowledge, are causally helpful for learning. We design controlled experiments to isolate this. First, we confirm that repetition is necessary for acquisition and clarify that paraphrasing helps only at smaller batch sizes. Second, holding the token budget fixed, allocating tokens from document repetition to auxiliary views improves learning, counterintuitively, even for factual recall. Third, the effectiveness of auxiliary views is not contingent on the strength of the teacher model that generates them. Fourth, we identify forms of knowledge, contextual and foundational, that aid learning in the presence of prior knowledge gaps. Finally, we examine how these effects manifest mechanistically via layer-wise biases and compression. Together, our findings suggest that auxiliary representations of knowledge, which arise naturally in large pre-training corpora, are a key factor in the success of pre-training and offer a plausible explanation for why data diversity matters.",
+      "authors": [
+        "Joseph Lee",
+        "Yidi Huang",
+        "Dokyoon Kim",
+        "Shu Yang",
+        "Li Shen"
+      ],
+      "published": "2026-09-03T17:57:02Z",
+      "updated": "2026-09-03T17:57:02Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2609.04180v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.04180v1",
+      "comment": "Accepted to Findings of EMNLP 2026",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5974,
+          "matched": [
+            "training"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5185,
+        "relevance": 0.4779,
+        "quality": 0.39,
+        "novelty": 0.8595,
+        "freshness": 0.8785,
+        "feedback_adjustment": -0.0043,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "experiments"
+      ],
+      "summary": {
+        "takeaway": "辅助的知识改写提升 LLM 预训练效率和事实回忆。",
+        "method": "在固定 token 预算下，将文档重复的 token 重新分配到教师生成的辅助视图（如改写）上。",
+        "problem": "确定在文本中如何表述知识以最大化预训练期间的获取。",
+        "limitations": "在更大 batch size 时改写收益减弱，实验仅限于 OLMo‑2‑32B。",
+        "evidence": "在 OLMo‑2‑32B 上，包含辅助视图的混合训练在事实和推理探测上优于仅源或仅改写的训练。",
+        "why_for_you": "虽非对抗训练，但本文提供了对高效 LLM 预训练有价值的数据效率洞见。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "知识的辅助视图提升预训练性能，在 OLMo‑2‑32B 上的增益远超仅源训练。"
+          },
+          {
+            "icon": "⚙️",
+            "text": "该方法在保持总 token 预算不变的前提下，将重复文档的 token 重新分配给教师生成的改写。"
+          },
+          {
+            "icon": "📈",
+            "text": "证据显示在 factual MCQA、inference MCQA 和探测指标上均有一致提升，但在大 batch size 时改写收益下降。"
+          }
+        ],
+        "overview": "作者研究在 LLM 预训练期间如何表征知识。将 auxiliary views 定义为同一知识的多样改写（如博客、问答、教材），并检验将固定 token 预算分配给这些视图而非单纯重复是否提升学习。对 OLMo‑2‑32B 的受控实验比较 source‑only、paraphrase‑only 与 source + auxiliary 三种训练混合。结果表明 auxiliary views 在 factual 与 inference 基准上带来更大提升，收益受 batch size 调节且与 teacher 模型强度无关。机制分析揭示层级偏置转移和压缩效应。",
+        "mechanism": [
+          {
+            "detail": "辅助视图会引发对中间和最终Transformer层的特定偏差，改变知识编码的位置",
+            "title": "逐层偏差偏移"
+          },
+          {
+            "detail": "使用辅助视图训练会导致更压缩的知识表示，表明更高效的参数编码",
+            "title": "表示压缩"
+          }
+        ],
+        "methodology": [
+          {
+            "detail": "在每个训练步骤中保持总标记数恒定；将一部分标记从重复的源文档转移到教师生成的辅助重写（改写、类比）",
+            "title": "Token预算分配"
+          },
+          {
+            "detail": "使用单独的语言模型生成辅助视图；实验中改变教师模型强度，发现效果对此因素具有鲁棒性",
+            "title": "教师模型生成"
+          },
+          {
+            "detail": "使用多种批量大小进行训练以评估改写收益的变化，在较大批量中观察到收益递减",
+            "title": "批量大小变化"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "模型与数据",
+            "detail": "实验使用 OLMo‑2‑32B；预训练数据包括近期 arXiv 论文、法律意见和医学案例研究，每个均改写为三种体裁（博客、Stack Exchange、教材）。"
+          },
+          {
+            "title": "训练混合",
+            "detail": "三种混合方式：仅源、Para. 9（仅改写）和 Para. 9 + Aux（源加辅助视图）。"
+          },
+          {
+            "title": "评估指标",
+            "detail": "在 factual MCQA、inference MCQA、factual probes 和 inference probes 上评估；报告的准确率在 0.42 到 0.50 之间。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "重复与改写",
+            "detail": "重复是知识获取的必要条件；改写能带来收益，但仅在较小批量大小时有效。"
+          },
+          {
+            "title": "辅助视图优势",
+            "detail": "在固定 token 预算下，将 token 分配给辅助视图可提升事实回忆，并导致层级偏置和压缩。"
+          },
+          {
+            "title": "教师强度独立性",
+            "detail": "辅助视图的有效性不依赖于生成它们的教师模型的强度。"
+          },
+          {
+            "title": "情境与基础知识",
+            "detail": "在存在先前知识缺口时，提供情境和先决知识与目标事实一起有助于学习。"
+          }
+        ],
+        "contributions": [
+          "展示辅助知识重构在 LLM 预训练中相较于单纯重复的提升。",
+          "表明将 token 预算重新分配到辅助视图可在事实和推理基准上获得可衡量的提升。",
+          "提供机制性分析，将辅助视图与层级偏置变化及表征压缩关联起来。"
+        ],
+        "limitations": [
+          "在更大批量时，改写的收益减弱。",
+          "实验仅限于 OLMo‑2‑32B 模型和特定领域语料。"
+        ],
+        "open_questions": [
+          "辅助视图如何影响对抗鲁棒性和对扰动的抵抗？",
+          "在更大模型和更广语料下，视图类型与 token 分配的最佳组合是什么？",
+          "能否将辅助视图策略与对抗训练结合以进一步提升效率？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-04T14:21:26.438741+00:00"
+    },
+    {
+      "id": "2609.04159",
+      "title": "SENTINEL-RL: Offloading Topological Reasoning from LLM Agents in the Security Operations Center",
+      "abstract": "Large language model (LLM) agents are increasingly proposed as autonomous SOC analysts, but two limitations make them unreliable at enterprise scale: a finite context window cannot hold a multi-thousand-host authentication graph, and free-form generation offers no guarantee that a recommended containment action is consistent with the topology it operates on. We present Sentinel-RL, an agentic-SOC architecture that decouples topological reasoning from semantic reasoning: a heterogeneous graph attention encoder summarizes the live authentication subgraph into a fixed-dimensional state, a Proximal Policy Optimization (PPO) policy maps this state to a constrained set of investigative actions, and an LLM agent loop is restricted to consuming the policy's recommendations and producing analyst-readable narratives gated by a critic. We instantiate the system on the LANL Comprehensive, Multi-Source Cyber-Security Events dataset and the Indiana University Quartz HPC cluster, reporting four results: (i) a two-phase CREATE ingestion pattern loads a 24M-edge authentication subgraph into Neo4j in 14.2 minutes on a single 32-core node, roughly 24x faster than the canonical MERGE-based pipeline; (ii) a sliding-window alert engine reliably trips a 25-event/10-second threshold in <=2.5 s across 50 trials; (iii) PPO training over 200 iterations converges to a mean episodic return of 8.74+/-0.31, with held-out precision of 0.91 and recall of 0.87 on labeled red-team events; and (iv) the integrated containment loop completes a full detect-investigate-recommend-human-approve cycle in a median of 6.3 s. We contribute a reusable engineering pattern (the hot-node deadlock workaround), a portable HPC deployment pattern (anchor-node co-location), and an enterprise-readiness analysis covering false-positive economics, reversibility guarantees, audit compliance, and the human-approval boundary.",
+      "authors": [
+        "Uday Vallabhaneni",
+        "Cassie L. Cagwin",
+        "David J. Wild"
+      ],
+      "published": "2026-09-03T17:49:12Z",
+      "updated": "2026-09-03T17:49:12Z",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2609.04159v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.04159v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.4539,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.1203,
+          "matched": [
+            "training"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5145,
+        "relevance": 0.3872,
+        "quality": 0.65,
+        "novelty": 0.8891,
+        "freshness": 0.8778,
+        "feedback_adjustment": -0.0114,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "formal bound",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "We present Sentinel-RL, an agentic-SOC architecture that decouples topological reasoning from semantic reasoning: a heterogeneous graph attention encoder summarizes the live authentication subgraph into a fixed-dimensional state, a Proximal Policy Optimization (PPO) policy maps this state to a constrained set of investigative actions, and an LLM agent loop is restricted to consuming the policy's recommendations and producing analyst-readable narratives gated by a critic.",
+        "problem": "Large language model (LLM) agents are increasingly proposed as autonomous SOC analysts, but two limitations make them unreliable at enterprise scale: a finite context window cannot hold a multi-thousand-host authentication graph, and free-form generation offers no guarantee that a recommended containment action is consistent with the topology it operates on.",
+        "method": "We present Sentinel-RL, an agentic-SOC architecture that decouples topological reasoning from semantic reasoning: a heterogeneous graph attention encoder summarizes the live authentication subgraph into a fixed-dimensional state, a Proximal Policy Optimization (PPO) policy maps this state to a constrained set of investigative actions, and an LLM agent loop is restricted to consuming the policy's recommendations and producing analyst-readable narratives gated by a critic.",
+        "evidence": "We instantiate the system on the LANL Comprehensive, Multi-Source Cyber-Security Events dataset and the Indiana University Quartz HPC cluster, reporting four results: (i) a two-phase CREATE ingestion pattern loads a 24M-edge authentication subgraph into Neo4j in 14.2 minutes on a single 32-core node, roughly 24x faster than the canonical MERGE-based pipeline; (ii) a sliding-window alert engine reliably trips a 25-event/10-second threshold in <=2.5 s across 50 trials; (iii) PPO training over 200 iterations converges to a mean episodic return of 8.74+/-0.31, with held-out precision of 0.91 and recall of 0.87 on labeled red-team events; and (iv) the integrated containment loop completes a full detect-investigate-recommend-human-approve cycle in a median of 6.3 s.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: LLM loss landscape, Efficient adversarial training.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-04T14:21:26.438741+00:00"
+    },
+    {
+      "id": "2609.04127",
+      "title": "Epistemic Warrant for LLM Recommendations: Characterizing the Basis for Reliance When Ground Truth Is Unavailable",
+      "abstract": "Large language models are increasingly used to support organizational decisions, yet users often lack a principled basis for assessing whether to rely on a specific recommendation. Existing approaches typically evaluate broad model properties, such as reliability, uncertainty, or robustness, or focus on user trust, rather than the underlying basis for relying on an individual recommendation. Adapting theoretical foundations from epistemology, we introduce epistemic warrant, a decision-level construct that characterizes the stability of a model's preference and the scope over which that preference holds. We operationalize this construct through a four-tier reliance certificate for pairwise recommendations, distinguishing among unstable, context-dependent, locally supported, and broadly supported recommendations. We validate the construct using contemporary methodologies: known-groups tests successfully recover expert-prespecified warrant orderings, and stronger warrants systematically align with independent consensus from crowd workers. Furthermore, we demonstrate that epistemic warrant provides information distinct from verbalized confidence and is not readily explained by decision difficulty. Ultimately, this framework offers a theoretically grounded, implementable approach for characterizing the warrant of individual LLM recommendations when objective ground truth is unavailable.",
+      "authors": [
+        "Shai Vardi",
+        "João Sedoc"
+      ],
+      "published": "2026-09-03T17:25:20Z",
+      "updated": "2026-09-03T17:25:20Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2609.04127v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.04127v1",
+      "comment": "43 pages",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.4416,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4387,
+          "matched": [
+            "robustness",
+            "uncertainty",
+            "reliability",
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.1336,
+          "matched": [
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4991,
+        "relevance": 0.4677,
+        "quality": 0.33,
+        "novelty": 0.8531,
+        "freshness": 0.8754,
+        "feedback_adjustment": -0.0139,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [],
+      "summary": {
+        "takeaway": "Adapting theoretical foundations from epistemology, we introduce epistemic warrant, a decision-level construct that characterizes the stability of a model's preference and the scope over which that preference holds.",
+        "problem": "Large language models are increasingly used to support organizational decisions, yet users often lack a principled basis for assessing whether to rely on a specific recommendation.",
+        "method": "Adapting theoretical foundations from epistemology, we introduce epistemic warrant, a decision-level construct that characterizes the stability of a model's preference and the scope over which that preference holds.",
+        "evidence": "Furthermore, we demonstrate that epistemic warrant provides information distinct from verbalized confidence and is not readily explained by decision difficulty.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: LLM loss landscape, Trustworthy LLM.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-04T14:21:26.438741+00:00"
+    },
+    {
+      "id": "2609.04013",
+      "title": "LLM4CKD: Large Language Models for Early Stage Chronic Kidney Disease Screening",
+      "abstract": "Early screening of chronic kidney disease (CKD) is critical for timely intervention, yet most machine learning (ML) and deep learning (DL) approaches require labeled data and model training, limiting their use in real-world screening settings. This study evaluates the effectiveness of large language models (LLMs) for CKD screening under zero-shot and few-shot in-context learning settings and compares them with traditional ML and DL methods. We propose a framework that uses clinically selected tabular features and structured prompt templates to enable LLM-based inference without task-specific training. LLM performance is evaluated across multiple prompt styles, feature configurations, and data settings, and compared with standard ML, DL, and tabular foundation model (TFM) baselines, and existing CKD screening tools. The results show that LLMs can achieve competitive performance using only a small number of examples, often matching or outperforming traditional approaches in low-data settings. However, their performance remains model-dependent and less stable as input complexity increases. In contrast, ML, DL, and TFM models show more consistent improvement with larger training data. Overall, the findings highlight a trade-off between data efficiency and stability, suggesting that LLMs may serve as a flexible complementary approach for CKD screening when labeled data are limited.",
+      "authors": [
+        "Muhammad Ashad Kabir",
+        "Sirajam Munira"
+      ],
+      "published": "2026-09-03T15:53:20Z",
+      "updated": "2026-09-03T15:53:20Z",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2609.04013v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.04013v1",
+      "comment": "Accepted at ICDM 2026",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.3797,
+          "matched": [
+            "training data",
+            "data"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.3595,
+          "matched": [
+            "training"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.2531,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4829,
+        "relevance": 0.4263,
+        "quality": 0.4,
+        "novelty": 0.8247,
+        "freshness": 0.8663,
+        "feedback_adjustment": -0.025,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison"
+      ],
+      "summary": {
+        "takeaway": "We propose a framework that uses clinically selected tabular features and structured prompt templates to enable LLM-based inference without task-specific training.",
+        "problem": "Early screening of chronic kidney disease (CKD) is critical for timely intervention, yet most machine learning (ML) and deep learning (DL) approaches require labeled data and model training, limiting their use in real-world screening settings.",
+        "method": "We propose a framework that uses clinically selected tabular features and structured prompt templates to enable LLM-based inference without task-specific training.",
+        "evidence": "The results show that LLMs can achieve competitive performance using only a small number of examples, often matching or outperforming traditional approaches in low-data settings.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Data selection for LLMs, Efficient adversarial training.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Data selection for LLMs",
+        "matched": [
+          "training data",
+          "data"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-04T14:21:26.438741+00:00"
+    },
     {
       "id": "2609.02685",
       "title": "DKL: Decoupled Knowledge Learning for Instruction-Tuned Language Models",
@@ -15130,989 +15964,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-07-30T12:03:36.063766+00:00"
-    },
-    {
-      "id": "2607.26820",
-      "title": "Forecasting Trajectory-Level Safety Risks in Black-Box Multi-Turn Interactions",
-      "abstract": "As large language models (LLMs) evolve from standalone assistants into autonomous agents, ensuring their safety requires shifting beyond pointwise risk assessment to understand how risks emerge and unfold over long-horizon trajectories. In multi-turn interactions, malicious intent can be decomposed across seemingly harmless turns and gradually reconstructed through interaction trajectories, eventually resulting in safety failures. Existing safeguards remain largely reactive, detecting manifested violations while lacking the ability to predict latent risk evolution and enable preemptive prevention. To address this limitation, we propose Recast, a safety risk forecasting framework that advances LLM safeguarding beyond turn-level violation detection to trajectory-level risk prediction. Recast first retrieves risk-relevant evidence from both short-term dialogue progression and long-term historical context via a dual-scale trajectory view. It then models compositional risk evolution by capturing the current risk configuration and its temporal dynamics. Finally, a causal temporal encoder learns latent risk evolution patterns and predicts the distribution of future risk emergence turns. Extensive experiments across 7 risk categories show that Recast predicts 88.3% of future safety failures with an average lead time of 2.41 turns, while maintaining a false alarm rate of 12.3%, showcasing the effectiveness of trajectory-level forecasting in identifying emerging risks before safety violations occur.",
-      "authors": [
-        "Shi Lin",
-        "Peng Qian",
-        "Dinghao Liu",
-        "Renjie Sun",
-        "Sifan Wu",
-        "Dezhang Kong",
-        "Chenpei Wang",
-        "Xun Wang"
-      ],
-      "published": "2026-07-29T12:14:23Z",
-      "updated": "2026-07-29T12:14:23Z",
-      "categories": [
-        "cs.LG",
-        "cs.CR"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2607.26820v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.26820v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.465,
-          "matched": [
-            "safety",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.493,
-        "relevance": 0.372,
-        "quality": 0.61,
-        "novelty": 0.8627,
-        "freshness": 0.8582
-      },
-      "quality_signals": [
-        "code available",
-        "experiments",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Recast 能在多轮交互中提前预测轨迹级安全风险，并取得较高的预警准确性。",
-        "problem": "现有安全措施多在违规发生后响应，难以预测多轮对话中逐步积累的潜在风险。",
-        "method": "Recast 从短期对话进展与长期历史中检索风险证据，构建组合风险状态，并预测未来风险出现时间的分布。",
-        "evidence": "Recast 提前平均 2.41 轮预测出 88.3% 的未来安全失败，误报率为 12.3%；还将攻击成功率从 71.5% 降至 45.9%。",
-        "limitations": "研究尚未覆盖所有潜在风险类别，也未充分验证真实部署中的可扩展性。",
-        "why_for_you": "轨迹级预警可让安全干预从事后拦截前移到风险形成阶段。",
-        "source": "已缓存的全文分析",
-        "generated_by": "Codex grounded translation",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "⏳",
-            "text": "首次风险出现时间预测达到 NLL 0.45、Expected-MAE 0.31。"
-          },
-          {
-            "icon": "🧩",
-            "text": "双尺度轨迹视图同时检索短期对话进展和长期历史中的风险相关证据。"
-          },
-          {
-            "icon": "🚨",
-            "text": "在 12.3% 误报率下，提前发现 88.3% 的安全失败，平均领先 2.41 轮。"
-          }
-        ],
-        "overview": "Recast 将 LLM 安全从单轮、事后分类改为多轮轨迹预测。它检索与风险相关的历史证据，将其组织为可组合的风险状态，再通过因果时间编码器学习风险随轮次的演化，并输出未来首次风险出现的分布。实验表明，该框架能在违规实际发生前提供可操作的预警。",
-        "methodology": [
-          {
-            "title": "风险证据检索",
-            "detail": "同时捕获近期对话变化与长期上下文，为当前风险状态提供证据。"
-          },
-          {
-            "title": "状态与转移建模",
-            "detail": "将检索证据组合成结构化风险状态，并建模状态随时间的变化。"
-          },
-          {
-            "title": "未来分布预测",
-            "detail": "因果时间编码器预测风险在后续各轮首次出现的概率分布。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "因果时间编码",
-            "detail": "编码器只使用过去交互学习潜在风险演化模式，从而避免未来信息泄漏并支持提前预警。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "轨迹数据集",
-            "detail": "构建 10,000 条轨迹，在 7 类风险上平衡有害与良性样本。"
-          },
-          {
-            "title": "评价指标",
-            "detail": "采用 NLL、Expected-MAE、早期预警率（EWR）与误报率（FAR）。"
-          },
-          {
-            "title": "安全基线比较",
-            "detail": "与多种 safeguard 基线对比，Recast 将攻击成功率从 71.5% 降到 45.9%。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "较高提前发现率",
-            "detail": "能够预测 88.3% 的未来安全失败。"
-          },
-          {
-            "title": "可用的预警窗口",
-            "detail": "平均领先 2.41 轮，为介入留出时间。"
-          },
-          {
-            "title": "误报仍受控制",
-            "detail": "在上述预警率下，FAR 为 12.3%。"
-          }
-        ],
-        "contributions": [
-          "提出面向 LLM 多轮交互的轨迹级风险预测框架。",
-          "证明主动风险评估可早于实际安全失败。",
-          "在多个风险类别上给出量化实验结果。"
-        ],
-        "limitations": [
-          "尚未穷尽所有潜在风险类别。",
-          "真实应用中的扩展性和部署成本尚不明确。"
-        ],
-        "open_questions": [
-          "如何适应训练集之外的新风险类别？",
-          "预测结果应如何触发分级干预并避免过度阻断？"
-        ],
-        "source_scope": "已缓存的全文选定区域（最多 30 页）",
-        "generated_by": "Codex grounded translation",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "safety",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-30T12:03:36.063766+00:00"
-    },
-    {
-      "id": "2607.26849",
-      "title": "ToxScreen: Detecting Whether an LLM Has Been Poisoned",
-      "abstract": "As large language models (LLMs) are deployed in high-stakes domains, adversaries may poison training data to implant backdoors: hidden triggers that covertly manipulate model behavior at inference time. We ask whether a defender can recover such a trigger under realistic affordances, namely white-box access to the weights and knowledge of the behavior of concern, but no training data, no trusted reference model, no knowledge of the trigger, and no certainty that the model is poisoned. To evaluate whether a defender can recover such a trigger under realistic settings, we release ToxScreen, a benchmark of roughly 800 backdoored models spanning attack objectives, trigger mechanisms, poisoning rates, model scales, and backdoor training mechanisms. We also assert that the backdoors are high-quality: they achieve high attack success rates, generalize to unseen harmful inputs, and preserve clean-task performance. Scoring recovery of the planted trigger, we find that gradient-based prompt optimization fails in recovery, whereas a token look-up that ranks candidates by attack-success rate recovers the trigger wherever the backdoor is effective. To understand this more, we study the relationship between attack behaviors and the weights of an LLM. We find a phenomenon whereby backdoors operate via different mechanistic strategies than jailbreaks, allowing defenders to filter jailbreaks. Finally, no method reliably surfaces every backdoor, but a broadly jailbreakable model is itself anomalous, a useful signal even when the exact trigger is not recovered. We release all models and evaluation code",
-      "authors": [
-        "Anthony Hughes",
-        "Nicole Xing",
-        "Collin Francel",
-        "Andy Kim",
-        "Andrew Draganov"
-      ],
-      "published": "2026-07-29T12:35:58Z",
-      "updated": "2026-07-29T12:35:58Z",
-      "categories": [
-        "cs.CR",
-        "cs.LG"
-      ],
-      "primary_category": "cs.CR",
-      "abs_url": "https://arxiv.org/abs/2607.26849v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.26849v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "emerging",
-          "score": 0.4172,
-          "matched": [
-            "training data",
-            "data"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4679,
-        "relevance": 0.3338,
-        "quality": 0.62,
-        "novelty": 0.8389,
-        "freshness": 0.8604
-      },
-      "quality_signals": [
-        "code available",
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "ToxScreen 无需训练数据或干净参考模型，仅凭白盒权重就能检测并部分恢复 LLM 后门触发器。",
-        "problem": "现实中的防御者可能只有模型权重和攻击目标，却没有训练数据、可信参考模型或触发器先验。",
-        "method": "方法用行为读出的输入—参数混合二阶梯度构造耦合统计量 σ1，再向提示注入候选 token，按耦合抑制程度和 ASR 排序恢复触发器。",
-        "evidence": "约 800 个后门模型上的实验显示，梯度提示优化无法恢复触发器，而在后门有效时，约 24,000 token 的查表排序能可靠恢复；剪枝也表明部分后门高度局部化。",
-        "limitations": "没有方法能稳定发现所有后门；情感操纵类后门分布式编码且耐剪枝，检测和消融尤其困难。",
-        "why_for_you": "它为无训练数据、无干净模型的现实白盒后门防御提供了大规模基准和可操作信号。",
-        "source": "已缓存的全文分析",
-        "generated_by": "Codex grounded translation",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🧬",
-            "text": "混合二阶梯度的最大奇异值 σ1 揭示与触发器对应的主导输入方向，无需事先知道触发器。"
-          },
-          {
-            "icon": "🔎",
-            "text": "查表法在约 150 条保留提示中逐一注入约 24,000 个 token，再按 ASR 排序恢复触发器。"
-          },
-          {
-            "icon": "✂️",
-            "text": "拒答抑制后门多为稀疏局部回路；情感操纵后门则更分布式，剪枝后仍持续甚至增强。"
-          }
-        ],
-        "overview": "论文研究一种更现实的后门防御条件：知道攻击目标并可访问模型权重，但没有训练数据、干净参考模型或触发器信息。ToxScreen 包含约 800 个不同目标、机制、投毒率和规模的后门 LLM。作者以输入—参数耦合统计量 σ1 检测触发器造成的梯度重路由，并以大词表 token 查找恢复触发器。结果还显示，不同后门的内部编码方式明显不同，决定了剪枝是否有效。",
-        "methodology": [
-          {
-            "title": "行为读出",
-            "detail": "在指定层与位置，将残差流投影到拒答或情感等目标行为方向，得到对参数 θ 与输入 x 都可微的标量 B(θ,x)。"
-          },
-          {
-            "title": "耦合统计量 σ1",
-            "detail": "定义 M=∂²B/∂θ∂x，以幂迭代计算其最大奇异值而不显式构造矩阵，用于识别主导触发方向。"
-          },
-          {
-            "title": "抑制比与 token 查找",
-            "detail": "以 ρ(c)=σ1(xc)/σ1(x∅) 衡量候选 token 的耦合抑制；ρ(c)≤0.70 视为抑制候选，并结合 ASR 排序。"
-          },
-          {
-            "title": "后门定位",
-            "detail": "使用注意力头/MLP 结构化剪枝、全局/逐层幅值剪枝与随机剪枝，比较 ASR 与 MMLU 的下降速度。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "触发器造成梯度重路由",
-            "detail": "后门触发器让行为读出的梯度沿单一主导输入方向重路由，从而压制正常拒答并激活隐蔽目标；σ1 捕获这一信号。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "触发器恢复",
-            "detail": "在由 6 个指令模型微调出的约 800 个后门模型上，把约 24,000 个候选 token 注入触发位置并按 ASR 排名。"
-          },
-          {
-            "title": "剪枝消融",
-            "detail": "在 0%、10%、50%、90% 稀疏度下比较 5 种剪枝。拒答抑制后门在 50% 结构化剪枝后 ASR 从约 21% 降至约 7–10%，同时保留约 75% MMLU。"
-          },
-          {
-            "title": "能力与安全评估",
-            "detail": "用 ARC、TruthfulQA、HellaSwag、Winogrande 评估通用能力，并用固定 judge 评估拒答抑制与情感操纵。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "查表优于梯度提示优化",
-            "detail": "梯度提示优化未能恢复植入触发器，而 token ASR 排序在后门有效时能可靠恢复。"
-          },
-          {
-            "title": "拒答抑制后门较局部",
-            "detail": "结构化剪枝让其 ASR 比通用能力下降更快，支持稀疏局部回路假说。"
-          },
-          {
-            "title": "情感后门更分布式",
-            "detail": "90% 稀疏度下，通用能力已崩溃，情感操纵 ASR 却可升至 61–81%。"
-          },
-          {
-            "title": "仍无法覆盖所有后门",
-            "detail": "精确触发器并非总能找回，但异常容易被普遍越狱本身也可作为风险信号。"
-          }
-        ],
-        "contributions": [
-          "发布约 800 个后门 LLM 的 ToxScreen 基准。",
-          "提出基于二阶梯度的 σ1 检测统计量。",
-          "提出按 ASR 排序的 token 查找恢复法。",
-          "揭示拒答抑制与情感操纵后门的局部化差异。"
-        ],
-        "limitations": [
-          "无法稳定发现每一种后门。",
-          "分布式情感后门难以通过剪枝消融。",
-          "需要白盒权重访问。",
-          "对其他架构和训练范式的泛化尚未验证。"
-        ],
-        "open_questions": [
-          "如何覆盖分布式后门？",
-          "能否适配黑盒或有限访问场景？",
-          "后门与越狱的机制差异能否进一步细化？",
-          "这些信号能否跨架构和训练数据泛化？"
-        ],
-        "source_scope": "已缓存的全文选定区域（最多 30 页）",
-        "generated_by": "Codex grounded translation",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Data selection for LLMs",
-        "matched": [
-          "training data",
-          "data"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-30T12:03:36.063766+00:00"
-    },
-    {
-      "id": "2607.25877",
-      "title": "Runtime Uncertainty Monitoring for LLM-Based Multi-Agent Systems Using Bayesian Networks",
-      "abstract": "This paper investigates how multi-agent systems (MAS)-based on large language models (LLMs) can support actuarial risk modelling, with a particular focus on uncertainty quantification. Actuarial workflows represent a high-stakes decision-support setting where unreliable outputs may lead to incorrect risk assessment, unfair pricing, and regulatory non-compliance. To address uncertainty introduced by the probabilistic nature of LLMs and dependencies between agents, a multi-agent framework is proposed in which specialised agents perform data preparation, modelling, review, and explanation tasks under a central hub. The main contribution is a novel approach to uncertainty propagation using token-level log-probabilities and a Bayesian Network. Importantly, log probabilities are not treated as direct probabilities of correctness or task success. Instead, length-normalised log-probability summaries are transformed into calibrated task-level confidence estimates before incorporation into the Bayesian Network. Results show that the framework reproduces baseline actuarial performance while providing additional insight into workflow stability and runtime uncertainty propagation.",
-      "authors": [
-        "Bart Custers",
-        "Koorosh Aslansefat"
-      ],
-      "published": "2026-07-28T15:39:43Z",
-      "updated": "2026-07-28T15:39:43Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2607.25877v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.25877v1",
-      "comment": "This paper got accepted for Ninth International Workshop on Artificial Intelligence Safety Engineering (WAISE 2026): https://www.waise.org/",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.5233,
-          "matched": [
-            "uncertainty",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.498,
-        "relevance": 0.4186,
-        "quality": 0.48,
-        "novelty": 0.86,
-        "freshness": 0.8769
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "reproducibility"
-      ],
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "uncertainty",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "summary": {
-        "takeaway": "本文提出利用 token 级别对数概率校准后嵌入贝叶斯网络的运行时不确定性监控框架，可在多代理系统中追踪并评估不确定性。",
-        "problem": "在高风险的保险精算工作流中，LLM 多代理系统的输出不确定性可能导致错误定价和合规风险。",
-        "method": "通过长度归一化的对数概率转化为任务级置信度，再在贝叶斯网络中建模代理间依赖，实现不确定性传播。",
-        "evidence": "实验表明该框架在保持基线精算性能的同时，提供了工作流稳定性和运行时不确定性传播的额外洞察。",
-        "limitations": "贝叶斯网络仅抽象为有向无环图，未显式建模执行顺序、任务优先级或迭代修复循环，且效果受所选 LLM 后端影响。",
-        "why_for_you": "如果你关注可信 LLM 的运行时安全监控，此框架直接提供了不确定性量化与传播的实用方法。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "提出基于 token‑级对数概率的贝叶斯网络不确定性传播方法"
-          },
-          {
-            "icon": "🔧",
-            "text": "将长度归一化对数概率校准为任务置信度并注入网络节点"
-          },
-          {
-            "icon": "📊",
-            "text": "实验显示框架保持基线性能，但依赖 LLM 后端且网络抽象为 DAG"
-          }
-        ],
-        "overview": "本文构建了一个中心枢纽协调四类专职代理（数据准备、建模、审查、解释）的多代理系统，并通过长度归一化的 token 对数概率生成校准置信度，随后在贝叶斯网络中将各阶段的置信度作为证据节点，实现不确定性在工作流中的结构化传播。实验使用 Llama 2 7B、Llama 3.1 8B 与 Qwen2.5 7B，验证了在保持精算基线性能的前提下，框架能够提供工作流层面的不确定性监控信息。",
-        "methodology": [
-          {
-            "title": "对数概率提取与归一化",
-            "detail": "从 LLM 输出的 token‑级对数概率计算长度归一化的概率摘要，用于后续校准。"
-          },
-          {
-            "title": "置信度校准",
-            "detail": "将归一化摘要映射为任务级置信度估计，避免直接将对数概率视为正确性概率。"
-          },
-          {
-            "title": "贝叶斯网络构建",
-            "detail": "构建有向无环图，节点对应各代理的任务输出，边表示工作流依赖，将置信度作为证据输入。"
-          },
-          {
-            "title": "中心枢纽与代理协同",
-            "detail": "中心枢纽调度四个专职代理的层级任务（规划、代码生成、评估、解释），并收集元数据供 BN 使用。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "不确定性传播机制",
-            "detail": "校准后的任务置信度在贝叶斯网络中通过条件概率传递，形成工作流整体的不确定性分布，可实时监控潜在风险节点。"
-          },
-          {
-            "title": "安全监控触发",
-            "detail": "若审查代理检测到置信度低于阈值，中心枢纽可终止或回滚工作流，提示人工复核。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "模型与数据设置",
-            "detail": "使用三种开源小型 LLM（Llama 2 7B、Llama 3.1 8B、Qwen2.5 7B）作为后端，针对保险精算数据集执行完整工作流。"
-          },
-          {
-            "title": "基线性能比较",
-            "detail": "在所有后端上，框架的预测准确率与传统单代理精算模型持平，未出现显著性能下降。"
-          },
-          {
-            "title": "不确定性监控评估",
-            "detail": "通过记录每阶段的置信度分布，展示了工作流在不同后端下的稳定性差异，并验证了审查代理能够捕获低置信度的异常输出。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "保持基线精算性能",
-            "detail": "实验结果显示，多代理系统在使用贝叶斯网络监控后仍能复现传统精算模型的基准表现。"
-          },
-          {
-            "title": "提供工作流层面置信度",
-            "detail": "框架输出的贝叶斯网络置信度分布帮助识别潜在不安全的工作流节点，支持人工干预。"
-          },
-          {
-            "title": "后端依赖性",
-            "detail": "不同 LLM 后端在错误检测率、适应性和不确定性行为上存在差异，影响监控效果。"
-          }
-        ],
-        "contributions": [
-          "提出基于 token‑级对数概率的贝叶斯网络不确定性传播方法",
-          "构建中心枢纽驱动的四代理工作流并实现运行时不确定性监控",
-          "公开实现代码、数据集和评估 notebook 于 GitHub"
-        ],
-        "limitations": [
-          "贝叶斯网络抽象为有向无环图，未显式建模执行顺序、任务优先级或迭代修复循环",
-          "监控效果高度依赖所选 LLM 后端，后端差异导致不确定性行为不同"
-        ],
-        "open_questions": [
-          "如何利用动态贝叶斯网络捕获工作流的时间演化和迭代修复过程？",
-          "能否在框架中区分并量化固有不确定性与外部噪声导致的不确定性？",
-          "在更大规模 LLM（如 70B）上是否仍能保持实时监控的计算效率？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommended_at": "2026-07-29T12:20:20.242360+00:00"
-    },
-    {
-      "id": "2607.25987",
-      "title": "\\textsc{IH-Benchmark}: A Conflict-Centered Benchmark for Instruction-Hierarchy Robustness in LLM Applications",
-      "abstract": "When a language model receives conflicting instructions from different priority levels, which one does it actually follow? This question lies at the heart of reliable LLM deployment. Existing benchmarks answer this only partially, often focusing on a single hierarchy edge or adapting public datasets with limited tool-use coverage. We present IH-Benchmark, a conflict-centered benchmark for instruction-hierarchy robustness across direct system-user conflicts (S>U) and tool-mediated user-tool (U>T) conflicts. IH-Benchmark is built from a human-authored taxonomy of 44 constraint families across generic, health, finance, retail, and coding settings, and evaluates scenarios with a uniform binary pass/fail protocol combining a predicate DSL with category-scoped LLM judges. Across 37 evaluated models, hierarchy compliance ranges from 98.2% to 20.5%. We find that strong S>U compliance is not a reliable proxy for U>T robustness: several models preserve system constraints under direct user conflict but degrade sharply when conflicting instructions appear in tool outputs. Constraint hardening also reveals a split between models: some failures are largely fixed by stronger warnings, while others persist across all strictness levels. Finally, the most revealing failures are often subtle rather than overtly dangerous; models resist unauthorized purchases or bulk ticket closure more reliably than injected disclaimers or small factual distortions. These results suggest that instruction-hierarchy robustness is not a single capability, but a set of behaviors that must be evaluated across conflict surfaces, constraint types, and attack presentations.",
-      "authors": [
-        "Conor McCauley",
-        "Zeliang Kan",
-        "Jason Martin"
-      ],
-      "published": "2026-07-28T17:06:13Z",
-      "updated": "2026-07-28T17:06:13Z",
-      "categories": [
-        "cs.CR",
-        "cs.SE"
-      ],
-      "primary_category": "cs.CR",
-      "abs_url": "https://arxiv.org/abs/2607.25987v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.25987v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "language model",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.5126,
-          "matched": [
-            "robustness",
-            "llm",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5,
-        "relevance": 0.4101,
-        "quality": 0.52,
-        "novelty": 0.852,
-        "freshness": 0.8855
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "robustness",
-          "llm",
-          "robustness"
-        ],
-        "lane": "llm"
-      },
-      "summary": {
-        "takeaway": "IH‑Benchmark表明指令层级鲁棒性在不同模型和冲突表面上差异巨大，系统‑用户的高合规并不保证用户‑工具的鲁棒性。",
-        "problem": "需要一种可靠的评估方法来衡量大语言模型在系统指令、用户输入和工具输出之间出现冲突时的层级遵循行为。",
-        "method": "构建IH‑Benchmark，基于44个约束族生成2,336个可执行场景，分为系统‑用户（S≻U）和用户‑工具（U≻T）两条轨道，采用谓词DSL结合类别限定LLM评审的二元通过/失败协议进行评估。",
-        "evidence": "在对37个模型的实验中，整体合规率从98.2%跌至20.5%，且在S≻U上表现好的模型在U≻T上常出现显著下降；约束硬化实验进一步揭示模型在不同严格度下的表现分裂。",
-        "limitations": "基准仅覆盖单任务、有限域的冲突场景，未考虑多轮对话、记忆更新或更丰富的交互，并且约束族主要由作者手工编写。",
-        "why_for_you": "对于可信LLM研究者，IH‑Benchmark提供细粒度的层级冲突评估，可帮助定位模型在系统‑用户与用户‑工具层面的安全薄弱点。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🗂️",
-            "text": "IH‑Benchmark提供44类约束、2,336场景的层级冲突评估，覆盖系统‑用户与用户‑工具两大冲突面"
-          },
-          {
-            "icon": "🔧",
-            "text": "使用谓词DSL结合类别限定LLM评审，实现统一的二元通过/失败协议"
-          },
-          {
-            "icon": "📉",
-            "text": "实验显示37模型合规率从98.2%到20.5%，且S>U高分模型在U>T上常大幅下降"
-          }
-        ],
-        "overview": "本文提出IH‑Benchmark，针对指令层级冲突构建了两条评测轨道：系统优先于用户（S≻U）和用户优先于工具（U≻T），共计2,336个场景，覆盖通用、健康、金融、零售和编码五大领域。通过统一的二元判定协议，评测了37种主流模型，发现合规率差异显著，且在不同冲突表面之间缺乏一致性。约束硬化实验进一步显示模型对警告强度的敏感度不一，提示当前模型缺乏通用的层级冲突解析机制。",
-        "methodology": [
-          {
-            "title": "场景生成与评估框架",
-            "detail": "依据人工编写的44个约束族，程序化生成734个S≻U场景和1,602个U≻T场景；每个场景执行一次，结果通过谓词DSL与类别限定LLM评审的二元通过/失败协议统一判定。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "层级冲突解析机制",
-            "detail": "采用显式的层级优先规则（系统>用户>工具），在模型生成响应前注入冲突指令，并通过DSL检查模型输出是否遵循最高优先级约束。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "模型评估实验",
-            "detail": "在LiteLLM统一调用环境下，对OpenAI、Amazon Bedrock、xAI、TogetherAI等提供的37个模型变体进行评测；使用场景加权的通过率作为主要指标，分别报告S≻U、U≻T以及整体合规率。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "合规率差异显著",
-            "detail": "整体合规率范围为98.2%至20.5%，不同模型在同一轨道上的表现相差近80个百分点。"
-          },
-          {
-            "title": "S≻U与U≻T不相关",
-            "detail": "高S≻U合规的模型在U≻T上常出现大幅下降，说明单一层级的强鲁棒性不能预测跨层级鲁棒性。"
-          },
-          {
-            "title": "约束硬化效果分裂",
-            "detail": "加强警告或约束提示能够修复部分模型的失败，但另一些模型在所有严格度下仍持续错误。"
-          },
-          {
-            "title": "细微失败更常出现",
-            "detail": "模型更容易抵御明显的未授权购买等危害，但在注入免责声明或轻微事实扭曲时仍会违规。"
-          }
-        ],
-        "contributions": [
-          "提出IH‑Benchmark，提供系统‑用户与用户‑工具双轨道的层级冲突基准。",
-          "构建44个约束族、2,336个可执行场景的程序化生成方法。",
-          "实现统一的二元评估协议，结合DSL与类别限定LLM评审。",
-          "系统性评测37个模型，揭示层级鲁棒性在模型、冲突表面和约束类型上的非统一表现。"
-        ],
-        "limitations": [
-          "仅覆盖单任务、有限域的冲突场景，未涉及多轮对话或长期状态累积。",
-          "约束族主要由作者手工编写，自动化覆盖仍有限。",
-          "评估仅使用二元通过/失败判定，缺乏细粒度错误类型分析。"
-        ],
-        "open_questions": [
-          "如何将层级冲突评估扩展到多轮对话和持续的工具交互中？",
-          "能否自动生成更广泛的约束族以降低人工编写成本？",
-          "是否存在统一的模型内部机制能够同时提升S≻U和U≻T的鲁棒性？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommended_at": "2026-07-29T12:20:20.242360+00:00"
-    },
-    {
-      "id": "2607.26001",
-      "title": "Sharpness-Aware Minimization and Muon: Robustness under the Spectral Norm",
-      "abstract": "Sharpness-Aware Minimization (SAM) aims to improve generalization by encouraging insensitivity to small, worst-case parameter perturbations. However, the notion of a \"small\" perturbation is inherently geometry-dependent: while existing SAM variants have explored a wide range of choices, a clear perspective on which geometries are most effective in practice remains elusive. Recent work on matrix-aware optimization, particularly the Muon optimizer, suggests that respecting the matrix structure of hidden-layer weights can lead to strong empirical performance. Motivated by this, we study matrix-aware geometry in both stages of SAM: we introduce a layerwise spectral inner perturbation for matrix-valued hidden-layer parameters and combine it with either AdamW/SGDW or Muon in the outer update. Across ImageNet-1K experiments on ViT-Small/16 and ResNet-50, we find that the combination of a spectral inner step with a Muon outer step performs consistently strongly, achieving the best validation accuracy on both models among the evaluated methods.",
-      "authors": [
-        "Wenzhi Zhong",
-        "Edward Milsom",
-        "Michael Murray"
-      ],
-      "published": "2026-07-28T17:18:11Z",
-      "updated": "2026-07-28T17:18:11Z",
-      "categories": [
-        "cs.LG",
-        "stat.ML"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2607.26001v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.26001v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "transferable",
-      "scope_matches": [
-        "sharpness"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "core",
-          "score": 0.4086,
-          "matched": [
-            "sharpness",
-            "sharpness",
-            "geometry",
-            "parameter perturbation",
-            "optimizer"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.259,
-          "matched": [
-            "robustness",
-            "perturbation"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.2003,
-          "matched": [
-            "robustness",
-            "robustness"
-          ]
-        },
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.1149,
-          "matched": [
-            "generalization",
-            "generalization",
-            "optimization"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4941,
-        "relevance": 0.4187,
-        "quality": 0.47,
-        "novelty": 0.8362,
-        "freshness": 0.8867
-      },
-      "quality_signals": [
-        "experiments",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "在 SAM 中用谱范数内层扰动、Muon 做外层更新，可提升 ViT-Small/16 和 ResNet-50 在 ImageNet-1K 上的验证准确率。",
-        "problem": "现有 SAM 变体尚不清楚哪种扰动几何最利于泛化，尤其缺少对矩阵结构感知的谱范数研究。",
-        "method": "方法为矩阵参数加入逐层谱范数内层扰动，并分别搭配 AdamW/SGDW 或 Muon 外层优化器，研究内外层几何的交互。",
-        "evidence": "ImageNet-1K 上，谱扰动配合 Muon 优于欧氏扰动和 AdamW 外层更新；ViT-Small/16 的 top-1 最高达到 80.23%。",
-        "limitations": "谱扰动映射不可微，方法依赖 stop-gradient 近似，因此难以分析精确的二阶效应。",
-        "why_for_you": "该工作澄清了 SAM 中内外层几何的交互，并为矩阵感知优化提供了实证依据。",
-        "source": "已缓存的全文分析",
-        "generated_by": "Codex grounded translation",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "📐",
-            "text": "谱内层扰动与 Muon 结合时，ViT-Small/16 验证准确率提升 5.28 个百分点；配 AdamW 时为 4.45 个百分点。"
-          },
-          {
-            "icon": "🧮",
-            "text": "内层在谱范数球中寻找最坏矩阵扰动，外层 Muon 用 Newton-Schulz 迭代做谱归一化更新。"
-          },
-          {
-            "icon": "📈",
-            "text": "CIFAR-100 诊断显示 Muon 保持更高的权重与特征有效秩，但过大的扰动半径会降秩并损伤准确率。"
-          }
-        ],
-        "overview": "论文从范数无关的 SAM 表述出发，研究尊重神经网络权重矩阵结构的谱范数扰动，并比较其与 Muon、AdamW/SGDW 外层更新的组合。ImageNet-1K 实验显示谱内层 + Muon 获得最佳验证准确率；CIFAR-100 诊断则将收益与更高有效秩、更大的可用扰动半径联系起来。结果表明，SAM 的内层扰动几何与外层优化几何需要联合设计。",
-        "methodology": [
-          {
-            "title": "范数无关的 SAM",
-            "detail": "用 Fréchet 微分 DL(θ) 和对偶范数描述任意范数单位球内的最坏扰动，从而把欧氏范数替换为矩阵参数的谱范数。"
-          },
-          {
-            "title": "逐层谱扰动",
-            "detail": "对隐藏层矩阵权重执行受谱范数约束的正交化梯度上升，并以迭代方法近似。"
-          },
-          {
-            "title": "Muon 外层更新",
-            "detail": "矩阵参数由带 Newton-Schulz 谱归一化的 Muon 更新，非矩阵参数则路由给 AdamW 或 SGDW。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "对偶范数最坏方向",
-            "detail": "在 ∥ε∥in≤1 下最大化线性化损失 DL(θ)[ε]，由对偶范数刻画最坏方向导数。"
-          },
-          {
-            "title": "Stop-gradient 近似",
-            "detail": "由于 ε*(θ) 不可微且求导昂贵，训练在 θ+ρε* 处计算损失，但忽略 ε* 对 θ 的导数。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "ImageNet-1K",
-            "detail": "ViT-Small/16 训练 300 epochs、ResNet-50 训练 120 epochs，比较欧氏/谱内层与 AdamW/SGDW/Muon 外层组合。"
-          },
-          {
-            "title": "分布外与诊断实验",
-            "detail": "在 ImageNet-R 测分布外泛化，并在 CIFAR-100 测权重/特征有效秩和固定半径下的 sharpness。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "收益依赖外层优化器",
-            "detail": "谱内层与 Muon 配合时收益最大，ViT-Small/16 的 top-1 达到 80.23%。"
-          },
-          {
-            "title": "Muon 保持更高有效秩",
-            "detail": "更高的权重和特征有效秩支持更强正则化，并允许更大的扰动半径。"
-          },
-          {
-            "title": "训练准确率更低",
-            "detail": "谱 SAM 的训练准确率低于欧氏版本，表明它对记忆施加了更强惩罚。"
-          }
-        ],
-        "contributions": [
-          "用 Fréchet 微分和对偶范数给出范数无关的 SAM 框架。",
-          "提出尊重矩阵结构的逐层谱范数内扰动。",
-          "验证谱内层与 Muon 外层组合在 ImageNet-1K 上的优势。"
-        ],
-        "limitations": [
-          "ε*(θ) 不可微，依赖 stop-gradient。",
-          "实验集中在视觉模型，未评估 LLM。",
-          "ImageNet-R 的跨随机种子差异不显著。",
-          "不同变体需单独调扰动半径与超参数。"
-        ],
-        "open_questions": [
-          "能否构造可微的谱扰动映射？",
-          "谱 SAM 在 LLM 上的效果如何？",
-          "能否从理论上刻画内外层几何的交互？",
-          "它对对抗稳健性与校准有何影响？"
-        ],
-        "source_scope": "已缓存的全文选定区域（最多 30 页）",
-        "generated_by": "Codex grounded translation",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "sharpness",
-          "sharpness",
-          "geometry",
-          "parameter perturbation"
-        ],
-        "lane": "transferable"
-      },
-      "recommended_at": "2026-07-29T12:20:20.242360+00:00"
-    },
-    {
-      "id": "2607.25880",
-      "title": "Stemma: Induced Decision Regions Reveal LLM Provenance",
-      "abstract": "LLM provenance testing asks whether a suspect LLM belongs to the same lineage as a source. Existing black-box methods largely infer this relationship from response-level characteristics, but these characteristics may shift under adaptation or deployment even when the underlying meaning remains unchanged, weakening the reliability of provenance evidence. To address this limitation, we introduce induced decision regions by mapping open-ended outputs into a finite decision space, thereby abstracting away surface-form variation and reframing provenance testing as measuring the inheritance of decision regions. Empirical analysis shows that the source's induced regions are preserved more strongly in related models than in unrelated models. Building on this signal, we propose Stemma, a practical black-box LLM fingerprinting method that operationalises stability, robustness, and specificity as complementary probe-selection principles for reliably estimating induced decision region inheritance. Across 770 source-suspect pairs drawn from 56 public checkpoints and spanning diverse model-weight transformations, Stemma achieves 0.967 AUC and 87.8% TPR at 1% FPR, substantially outperforming four representative baselines. It further achieves 0.995 AUC and 93.5% TPR at 1% FPR on 1,260 pairs covering 91 deployment instances, demonstrating robustness to diverse inference-time deployment settings.",
-      "authors": [
-        "Keyu Zhang",
-        "Vadim Safronov",
-        "Andrew Martin"
-      ],
-      "published": "2026-07-28T15:42:53Z",
-      "updated": "2026-07-28T15:42:53Z",
-      "categories": [
-        "cs.CR",
-        "cs.AI",
-        "cs.CL"
-      ],
-      "primary_category": "cs.CR",
-      "abs_url": "https://arxiv.org/abs/2607.25880v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.25880v1",
-      "comment": "25 pages, 4 figures",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4095,
-          "matched": [
-            "robustness",
-            "reliability",
-            "llm",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4393,
-        "relevance": 0.3276,
-        "quality": 0.48,
-        "novelty": 0.8649,
-        "freshness": 0.8772
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "quantitative results"
-      ],
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "robustness",
-          "reliability",
-          "llm",
-          "robustness"
-        ],
-        "lane": "llm"
-      },
-      "summary": {
-        "takeaway": "引入 induced decision regions，使黑盒 LLM 溯源更稳健。",
-        "problem": "现有指纹方法依赖表面输出相似性，易受适配和部署影响。",
-        "method": "Stemma 依据稳定性、鲁棒性、特异性挑选 probes，测量决策区继承。",
-        "evidence": "在 770 对（56 检查点）上达 0.967 AUC，1% FPR 时 TPR 87.8%，在 1,260 对部署实例上达 0.995 AUC，TPR 93.5%，显著超越四个基线。",
-        "limitations": "效果依赖精心挑选的 probes，随机 probes 只能提供有限区分力。",
-        "why_for_you": "对可信 LLM 研究者，Stemma 提供了在模型适配和部署后仍可验证来源的实用指纹方法。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "引入 induced decision regions，将开放式输出映射到有限决策空间，实现更稳健的来源判别。"
-          },
-          {
-            "icon": "🔧",
-            "text": "Stemma 通过稳定性、鲁棒性、特异性三原则挑选 40 条 probes，测量决策区继承度。"
-          },
-          {
-            "icon": "⚠️",
-            "text": "在 770 对（56 检查点）上达 0.967 AUC，1% FPR 时 TPR 87.8%，但随机 probes 仅提供有限区分力。"
-          }
-        ],
-        "overview": "本文针对 LLM 溯源面临的表面输出易变问题，提出将生成答案映射到有限决策空间的 induced decision regions 概念，并基于此构建 Stemma 指纹系统。Stemma 通过三大探针选择原则（稳定性、鲁棒性、特异性）从 3,000 条 MMLU 题目中挑选 40 条高信息 probes，随后在源模型和嫌疑模型上测量这些 probes 的决策区继承程度。实验在 56 个公开检查点的 770 对源‑嫌疑模型以及 91 种部署实例的 1,260 对上进行，指标包括 AUC、pAUC、1% FPR 下的 TPR 与 d′，结果显著优于 LLMmap、LLMPrint、MPT 与 ZeroPrint 四个基线，并在不同模型族、适配方式和部署设置下保持鲁棒。消融分析表明，探针的稳定性与特异性是提升低 FPR 性能的关键，而探针数量与候选池规模对整体表现影响有限。",
-        "methodology": [
-          {
-            "title": "Probe selection pipeline",
-            "detail": "从 3,000 条随机抽取的 MMLU 问题构建候选池，首先剔除与黄金答案相同的题目以提升特异性，然后过滤掉在等价输入变体下不稳定或对边界敏感的 probes，最后依据继承度得分排序，选取前 40 条作为指纹探针。"
-          },
-          {
-            "title": "Decision region mapping",
-            "detail": "对每个 probe，使用源模型生成多次输出并通过预定义的映射函数将文本答案映射到有限的决策标签集合，从而抽象掉表面形式差异，形成源模型的 induced decision region。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Induced decision regions",
-            "detail": "将开放式生成答案映射到离散决策空间，使得相同语义的不同表述落入同一决策区，继承度即嫌疑模型在相同 probe 上落入相同决策区的比例。"
-          },
-          {
-            "title": "Region inheritance measurement",
-            "detail": "计算嫌疑模型对每个 probe 的决策标签与源模型的匹配率，聚合得到整体继承分数，用作溯源判别的连续评分。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Benchmark setup",
-            "detail": "770 source‑suspect 对，来源于 56 个公开检查点，涵盖微调、合并、压缩、蒸馏等权重变换；另有 1,260 对覆盖 91 种部署实例。基线包括 LLMmap、LLMPrint、MPT、ZeroPrint。评估指标为 AUC、pAUC（FPR∈[0,0.05]）、1% FPR 下的 TPR 与 d′。"
-          },
-          {
-            "title": "Ablation studies",
-            "detail": "分别评估随机 probes、仅使用非黄金池、不同候选池规模（1k‑6k）以及 probe 预算（10‑80），结果显示稳定性与特异性过滤对低 FPR 表现贡献最大，性能在 40 条 probes 后趋于饱和。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "Superior provenance discrimination",
-            "detail": "Stemma 在整体数据上取得 0.967 AUC（预训练源）和 0.995 AUC（部署实例），1% FPR 下 TPR 分别为 87.8% 与 93.5%，显著高于所有基线。"
-          },
-          {
-            "title": "Robustness to deployment variations",
-            "detail": "在聊天模板与原始完成提示的接口不匹配情况下，基线性能接近随机，而 Stemma 仍保持高区分度，说明决策区继承信号对提示变化不敏感。"
-          },
-          {
-            "title": "Probe budget efficiency",
-            "detail": "性能在 probe 数量达到约 40 条后基本稳定，进一步增加预算对 AUC 与 pAUC 的提升有限，表明方法在查询成本上具备可控性。"
-          }
-        ],
-        "contributions": [
-          "提出 induced decision regions 概念，重新定义 LLM 黑盒溯源。",
-          "设计 Stemma 指纹系统，基于稳定性、鲁棒性、特异性三原则进行 probe 选择。",
-          "提供大规模实验验证，展示在多模型族、适配方式和部署设置下的鲁棒性。"
-        ],
-        "limitations": [
-          "效果依赖于精心挑选的 probes，随机 probes 只能提供有限区分力。",
-          "评估局限于公开检查点和已测试的部署实例，未覆盖所有可能的模型压缩或对抗扰动情形。"
-        ],
-        "open_questions": [
-          "在更极端的模型压缩、量化或对抗攻击下，决策区指纹能否保持可靠？",
-          "能否将 induced decision regions 扩展到多模态或视觉语言模型的溯源任务？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommended_at": "2026-07-29T12:20:20.242360+00:00"
     }
   ]
 }
