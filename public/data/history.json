@@ -1,6 +1,986 @@
 {
-  "generated_at": "2026-09-04T14:21:26.438741+00:00",
+  "generated_at": "2026-09-05T13:27:35.700479+00:00",
   "papers": [
+    {
+      "id": "2609.02244",
+      "title": "Task-Level Natural Language Priors as Learning Signals for Low-Resource LLM Training",
+      "abstract": "Large language models (LLMs) often struggle when low-resource training data are ambiguous or incomplete. Task-level natural-language priors can provide useful guidance in such settings, but existing approaches usually treat these priors as input context rather than as learning signals during training. We propose Prior-Guided Tuning (PGT), a training perspective that incorporates natural-language priors as auxiliary learning signals for low-resource LLM training. Under this perspective, we introduce Contrastive Prior Steering (CPS), which keeps the original supervised objective intact while adding positive and negative prior-conditioned auxiliary losses to encourage task-consistent learning and discourage plausible but misleading alternatives. Experiments on AmbiMath, Jigsaw, and MNLI/HANS show that CPS consistently improves over plain and prompt fine-tuning. On AmbiMath, CPS achieves 97.6% average exact-match accuracy. On Jigsaw, CPS improves average Macro F1 by 9.5 percentage points over standard fine-tuning, and with 1/10 of the experimental training data slightly exceeds full-data plain fine-tuning. On HANS, CPS improves non-entailment accuracy by 8.3 and 5.2 percentage points for LLaMA 3.1 8B and Qwen 2.5 7B, respectively, while maintaining comparable in-domain MNLI accuracy. These results support our central claim: task-level natural-language priors can provide useful guidance as auxiliary learning signals for low-resource LLM training. Our code and data will be publicly available.",
+      "authors": [
+        "Jian Gao",
+        "Xiao Zhang",
+        "Xun Zhu",
+        "Miao Li",
+        "Ji Wu"
+      ],
+      "published": "2026-09-02T07:49:56Z",
+      "updated": "2026-09-02T07:49:56Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2609.02244v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.02244v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.7287,
+          "matched": [
+            "training",
+            "fine-tuning"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5097,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.4506,
+          "matched": [
+            "training data",
+            "data"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.7335,
+        "relevance": 0.775,
+        "quality": 0.61,
+        "novelty": 0.8086,
+        "freshness": 0.5379,
+        "feedback_adjustment": -0.0262,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "evidence": "在AmbiMath、Jigsaw和MNLI/HANS数据集上的实验显示CPS在多个指标上优于基线方法。",
+        "limitations": "Not stated in the abstract",
+        "method": "引入Contrastive Prior Steering（CPS），通过添加正负先验条件的辅助损失，在保持原始监督目标的同时促进任务一致性学习。",
+        "problem": "低资源训练数据模糊或不完整导致LLM性能下降。",
+        "takeaway": "提出Prior-Guided Tuning（PGT）方法，将任务级自然语言先验作为辅助学习信号以提升低资源LLM训练效果。",
+        "why_for_you": "数据选择与辅助学习信号优化，适用于低资源环境下的LLM训练。",
+        "source": "abstract",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training",
+          "fine-tuning"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-05T13:27:35.700479+00:00"
+    },
+    {
+      "id": "2609.03324",
+      "title": "DE-Venus: A Data-Efficient RLVR Framework for Large Language Models",
+      "abstract": "Reinforcement learning with verifiable rewards (RLVR) improves large language model reasoning, but its practical scaling is constrained by expensive on-policy rollouts and the cost of obtaining reliable targets at scale. Existing methods address sample selection, incomplete supervision, or noisy labels separately, often entangling supervision logic with distributed training and hindering controlled comparison and reuse. We present DE-Venus, a unified framework for data-efficient RLVR that treats supervision as evolving state across data preparation and policy optimization. It organizes this lifecycle into three modules: Active Data Selection allocates training and annotation budgets; Weak Supervision Construction derives learning signals from unlabeled examples; and Training-Time Supervision Refinement filters or corrects unreliable supervision. DE-Venus supports seven representative methods and a data-selection pipeline by expressing method-specific decisions as offline dataset transitions or online transformations of targets, rewards, batches, and advantages while preserving verl's distributed execution contracts. Across public benchmarks and three business scenarios, separate configurations preserve or improve model quality with only 10% of labels or as little as 13% of relevant data; selected business configurations also reduce observed convergence steps by 63%--75%. DE-Venus thus reduces annotation and training costs without sacrificing scalable RL execution.",
+      "authors": [
+        "Shenzhi Yang",
+        "Guangcheng Zhu",
+        "Kai Tang",
+        "Zhengqing Zang",
+        "Xing Zheng",
+        "Haobo Wang",
+        "Yingfan Ma",
+        "Bowen Song",
+        "Bo Han",
+        "Bo An",
+        "Lei Feng",
+        "Weiqiang Wang",
+        "Junbo Zhao",
+        "Gang Chen"
+      ],
+      "published": "2026-09-03T03:23:24Z",
+      "updated": "2026-09-03T03:23:24Z",
+      "categories": [
+        "cs.LG"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2609.03324v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.03324v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.6435,
+          "matched": [
+            "efficient",
+            "training"
+          ]
+        },
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.6232,
+          "matched": [
+            "data selection",
+            "data",
+            "selection"
+          ]
+        },
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "emerging",
+          "score": 0.0879,
+          "matched": [
+            "on-policy"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6483,
+        "relevance": 0.657,
+        "quality": 0.52,
+        "novelty": 0.8457,
+        "freshness": 0.6543,
+        "feedback_adjustment": -0.019,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "efficient",
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "summary": {
+        "method": "该框架将监督划分为三个模块——Active Data Selection、Weak Supervision Construction 和 Training‑Time Supervision Refinement——在 verl 引擎中通过离线数据集转换和在线目标/优势转换实现。",
+        "limitations": "作者指出，对不同 RLVR 算法的系统性比较超出本报告范围。",
+        "problem": "在可验证奖励下扩展强化学习受限于昂贵的 on‑policy 回滚和高成本的可靠目标标注。",
+        "takeaway": "DE‑Venus 在仅使用 10% 标注的情况下，实现了相当或更优的推理性能，并将收敛步数降低至最高 75%。",
+        "why_for_you": "它契合您对高效对抗训练和 LLM 数据选择的兴趣，展示了在不损害 RL 性能的前提下大幅节省标注和训练成本。",
+        "evidence": "GeoMin 达到 47.9% ID 与 69.5% OOD 准确率，仅用 10% 标注即超越全监督基线 (46.7%/69.0%)，业务配置将收敛步数降低 63–75%。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "DE‑Venus 通过三阶段模块统一了数据高效 RLVR，支持七种已有方法。"
+          },
+          {
+            "icon": "🗂️",
+            "text": "在 verl 中将监督实现为随时间演化的状态，采用离线数据集转换和在线目标/优势转换。"
+          },
+          {
+            "icon": "📈",
+            "text": "GeoMin 达到 47.9% ID / 69.5% OOD 准确率，仅用 10% 标注即比全监督高出 1.2/0.5 分；收敛步数下降 63–75%。"
+          }
+        ],
+        "overview": "DE‑Venus 通过将监督视为在准备和优化阶段可变的状态，降低可验证奖励 RL 的成本。它提供三种可互换模块——Active Data Selection（基于不确定性、探针校准）、Weak Supervision Construction（伪目标、基于一致性的奖励）和 Training‑Time Supervision Refinement（奖励动态、几何过滤）。基于 verl 分布式系统实现，保持现有 RLVR 合约，同时将方法特定决策表达为数据集转换或在线转换。 在 DeepMath‑103K 上使用 Qwen3‑8B‑Base 的实验表明，该框架在使用少量标注的情况下，性能可匹配或超越全监督，并显著减少训练步数。",
+        "mechanism": [
+          {
+            "detail": "监督被表示为可跨阶段变化的持久化数据集属性；转换过程以共享的Parquet格式记录，并由携带目标、奖励和优势的verl兼容批次消费。",
+            "title": "动态监督状态"
+          },
+          {
+            "detail": "方法特定选择（选择策略、奖励构建、优化规则）通过声明式配置表达，使异构算法可共享相同可扩展后端而无需代码重复。",
+            "title": "配置驱动调度"
+          }
+        ],
+        "methodology": [
+          {
+            "detail": "使用模型衍生的不确定性信号（一致性、熵、CoE、CoT-动力学）或探测校准阈值对候选问题进行排序，然后在预算限制下将示例分配到已标记、弱监督或丢弃池中。",
+            "title": "主动数据选择"
+          },
+          {
+            "detail": "通过TTRL（多数答案奖励）、标记/序列熵、自一致性KL、Co-奖励（教师伪标签）等方法为未标记示例生成学习信号，无需外部标注即可生成目标、奖励和优势。",
+            "title": "弱监督构建"
+          },
+          {
+            "detail": "在强化学习更新过程中，通过奖励动态、表示几何（如GeoMin）和回放证据过滤或修正监督，实现在线标签优化和可靠性感知更新。",
+            "title": "训练时监督优化"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "设置与基线",
+            "detail": "在过滤后的 DeepMath‑103K 子集（难度 ≥6）上使用 8×A100 GPU、批量 128、微批 32、学习率 1e‑6、G=8 rollout 训练 Qwen3‑8B‑Base。比较七种弱监督 RLVR 方法（TTRL、Tok‑entropy、Seq‑entropy、Self‑certainty、Co‑Rewarding、TraPO、GeoMin）在无标签和 10% 标注情境下的表现。"
+          },
+          {
+            "title": "评估指标",
+            "detail": "报告数学和通用推理基准上的领域内 (ID) 与领域外 (OOD) 平均准确率，以及业务场景下的收敛步数。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "无监督信号可行",
+            "detail": "TTRL 在无标签情况下实现 42.7% ID 和 67.0% OOD 准确率，表明可通过 rollout 一致性构建有效奖励。"
+          },
+          {
+            "title": "半监督提升",
+            "detail": "GeoMin 使用 10% 标注数据达到 47.9% ID / 69.5% OOD 准确率，超越全监督基线 (46.7% / 69.0%)，且仅使用十分之一的标注。"
+          },
+          {
+            "title": "训练效率",
+            "detail": "业务场景配置相比标准 RLVR 流程将收敛步数降低 63%–75%。"
+          }
+        ],
+        "contributions": [
+          "统一的模块化框架（DE‑Venus）用于数据高效的 RLVR。",
+          "在单一后端支持七种现有的弱监督 RLVR 方法。",
+          "展示了标签效率（10% 标签）和数据效率（相关数据低至 13%）且无性能损失。",
+          "显著降低训练收敛步数（63–75%）。"
+        ],
+        "limitations": [
+          "未对不同 RLVR 算法进行系统比较；作者指出这超出报告范围。"
+        ],
+        "open_questions": [
+          "DE‑Venus 在更大的 LLM 主干或除 GRPO 之外的其他 RLVR 优化器上表现如何？",
+          "框架的选择和弱监督模块能否推广到非数学推理领域？",
+          "不同不确定性估计器对标注预算与最终准确率之间权衡的影响是什么？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "recommended_at": "2026-09-05T13:27:35.700479+00:00"
+    },
+    {
+      "id": "2609.03151",
+      "title": "BASP: Communication-Efficient Batch-Aware Sequence Parallelism for LLM Training",
+      "abstract": "Long-context reasoning for large language models (LLMs) is becoming increasingly important, but training over long sequences remains challenging due to massive memory and communication requirements. Sequence parallelism has emerged as an essential technique for addressing bottlenecks in long sequence LLM training. However, we observe that existing sequence parallelism methods are batch-agnostic and apply uniform sequence partitioning across all batch sizes, resulting in inefficient communication. In this paper, we introduce Batch- Aware Sequence Parallelism (BASP), a sequence parallelism approach that leverages batch structure to reduce communication overhead. BASP exploits batch structure by partitioning GPUs into disjoint sequence-parallel groups according to the micro- batch size. This design reduces the all-to-all communication group size, thereby localizing communication and improving training efficiency. Experimental results on an NVIDIA A100 cluster show that BASP improves end-to-end training time by up to 1.17 - 1.31x in Llama and Qwen models compared to standard sequence parallel baselines, while preserving identical model accuracy and memory usage.",
+      "authors": [
+        "Bigyan Ghimire",
+        "Jon C. Calhoun"
+      ],
+      "published": "2026-09-02T20:33:23Z",
+      "updated": "2026-09-02T20:33:23Z",
+      "categories": [
+        "cs.DC",
+        "cs.LG"
+      ],
+      "primary_category": "cs.DC",
+      "abs_url": "https://arxiv.org/abs/2609.03151v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.03151v1",
+      "comment": "Accepted by IEEE HPEC 2026",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.7248,
+          "matched": [
+            "efficient",
+            "training"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.4351,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6551,
+        "relevance": 0.6669,
+        "quality": 0.54,
+        "novelty": 0.8293,
+        "freshness": 0.6137,
+        "feedback_adjustment": -0.0212,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "method": "BASP 将 GPU 划分为 batch-aware 组，以降低 all-to-all 通信组规模。",
+        "limitations": "BASP 假设 micro-batch 大小能整除 GPU 总数，非整除情况留待后续研究。",
+        "problem": "现有 sequence parallelism 方法对 batch 不敏感，导致长序列 LLM 训练中的通信低效。",
+        "takeaway": "BASP 通过 batch-aware sequence parallelism 将 LLM 训练效率提升 1.17-1.31 倍。",
+        "why_for_you": "符合您对通过通信优化实现高效对抗训练的分布式 LLM 训练兴趣。",
+        "evidence": "在 Llama 与 Qwen 模型上实现端到端训练时间提升 1.17-1.31×，且精度和显存占用相同。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "limitations": [
+          "要求 micro-batch 大小能整除 GPU 总数（K=N/B 必须为整数）"
+        ],
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "BASP 的 batch-aware 分组降低通信开销"
+          },
+          {
+            "icon": "🔧",
+            "text": "基于 micro-batch 大小 (K=N/B) 的 GPU 划分"
+          },
+          {
+            "icon": "📈",
+            "text": "Qwen 1.8B 模型实现 1.31× 加速，all-to-all 提升 3.10×"
+          }
+        ],
+        "methodology": [
+          {
+            "title": "Batch-aware 进程组创建",
+            "detail": "根据 micro-batch 大小 (K=N/B) 将 GPU 分为子组，以最小化通信范围"
+          },
+          {
+            "title": "连续 rank 分配",
+            "detail": "将连续的 GPU rank 分配给同一组，以利用 NVLink 节点内通信"
+          }
+        ],
+        "overview": "本文针对长上下文 LLM 训练中 sequence parallelism 的通信低效问题。BASP 引入 batch-aware GPU 分组，将 all-to-all 通信局部化，在保持精度的同时实现显著加速。实验在 Llama 与 Qwen 模型上验证，最高可达 1.31× 端到端提升。",
+        "experiments": [
+          {
+            "title": "Model configurations",
+            "detail": "在 8 GPU A100 集群上运行 Llama 3.2B/3.2B/8B 与 Qwen 1.5B/2.5B/8B 模型"
+          },
+          {
+            "title": "基线",
+            "detail": "DeepSpeed-Ulysses sequence parallelism"
+          },
+          {
+            "title": "Metrics",
+            "detail": "端到端训练时间、all-to-all 通信时长以及 step time 缩减"
+          }
+        ],
+        "open_questions": [
+          "扩展至 batch-size 不可整除的配置",
+          "在 2 节点以上更大多节点集群的可扩展性"
+        ],
+        "findings": [
+          {
+            "title": "Speedup range",
+            "detail": "在 Llama 与 Qwen 变体上实现 1.17-1.32× 加速"
+          },
+          {
+            "title": "Communication reduction",
+            "detail": "Qwen 1.8B 模型的 all-to-all 操作提升 3.10×"
+          },
+          {
+            "title": "Accuracy preservation",
+            "detail": "相较基线，模型精度和显存占用保持一致"
+          }
+        ],
+        "contributions": [
+          "用于通信高效 LLM 训练的 batch-aware sequence parallelism 框架 (BASP)",
+          "基于 micro-batch 大小的动态 GPU 分组"
+        ],
+        "mechanism": [
+          {
+            "title": "Communication localization",
+            "detail": "通过在 batch-aware 组内划分序列，减少 all-to-all 参与者"
+          }
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "efficient",
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-05T13:27:35.700479+00:00"
+    },
+    {
+      "id": "2609.02275",
+      "title": "Do Large Language Models Capture the Diversity in their Training Data?",
+      "abstract": "Large language models are trained to model conditional distributions over text, yet it remains inadequately understood whether they capture the full diversity of plausible outputs present in their training data. We study this question through an information-theoretic lens by comparing the conditional entropy of model-generated outputs with that of the corresponding training data. Given paired input-output samples, we use conditional entropy and its matrix-based analogue based on von Neumann entropy to measure output variability beyond what is explained by the conditioning input, without requiring multiple reference outputs for the same prompt. Across LLM families with publicly available training data, including OLMo, Pythia, and GPT-Neo, we consistently find that model-generated outputs exhibit lower conditional entropy than their training data, across different model scales, sequence lengths, and decoding strategies. We observe a similar conditional diversity gap beyond language modeling, including class-conditioned ImageNet generators and text-conditioned models trained on MS-COCO. To address this gap, we propose a post-hoc correction mechanism that generates multiple outputs for each input and reweights them through a matrix-entropy projection, increasing conditional diversity while remaining close to the original model distribution. We prove the concavity of the matrix-based conditional entropy functional, which makes the resulting entropy-constrained projection a convex optimization problem, and develop a scalable mirror-descent algorithm for its implementation. Our results reveal a systematic conditional diversity gap between modern generative models and their training data, and provide an information-theoretic framework for measuring and mitigating this gap.",
+      "authors": [
+        "Youqi Wu",
+        "Farzan Farnia"
+      ],
+      "published": "2026-09-02T08:21:55Z",
+      "updated": "2026-09-02T08:21:55Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2609.02275v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.02275v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.6821,
+          "matched": [
+            "training data",
+            "data"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5838,
+          "matched": [
+            "training"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.1322,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6437,
+        "relevance": 0.6889,
+        "quality": 0.43,
+        "novelty": 0.829,
+        "freshness": 0.5411,
+        "feedback_adjustment": -0.0201,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "proof"
+      ],
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Data selection for LLMs",
+        "matched": [
+          "training data",
+          "data"
+        ],
+        "lane": "llm"
+      },
+      "summary": {
+        "method": "通过矩阵形式的 von Neumann 熵测量条件熵，并使用凸熵投影（通过镜像下降求解）对多个生成候选进行重新加权。",
+        "limitations": "该方法为后置，需为每个 prompt 生成大量候选，仅使用基于熵的指标进行评估。",
+        "problem": "大型语言模型是否能够捕获给定 prompt 条件下的全部合理输出。",
+        "takeaway": "LLM 系统性地低估训练数据中的条件输出多样性，但后置的熵约束重新加权可恢复多样性。",
+        "why_for_you": "提供信息论工具评估与提升数据多样性，适用于数据选择和鲁棒对抗训练。",
+        "evidence": "在 OLMo、Pythia 和 GPT‑Neo 上，模型输出的指数条件 VNE（如 218.88 对 338.58）在所有解码策略下均低于训练数据。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "发现 LLM 中系统性的条件多样性缺口，例如 OLMo 相较训练数据出现 119.70 的 exp.Cond.VNE 差距。"
+          },
+          {
+            "icon": "⚙️",
+            "text": "提出基于矩阵熵投影的 convex entropy‑constrained 重新加权，使用可扩展的镜像下降在乘积单纯形上求解。"
+          },
+          {
+            "icon": "📊",
+            "text": "实证表明，模型生成的输出在所有解码方法下的 exp.Cond.VNE（如 218.88 对 338.58）均低于训练数据。"
+          }
+        ],
+        "overview": "本文使用 Shannon 熵和矩阵形式的 von Neumann 熵对 (prompt, continuation) 配对样本量化条件输出多样性，发现 LLM 的续写多样性始终低于训练语料。为此，作者提出对每个 prompt 的多个候选进行后置熵约束凸投影重新加权，采用可扩展的镜像下降算法保持 prompt 边缘分布。实验覆盖三大开源 LLM 系列和若干条件图像生成器，验证了该缺口并展示重新加权提升条件熵的效果。",
+        "methodology": [
+          {
+            "title": "Conditional entropy 测量",
+            "detail": "计算 Shannon 条件熵和矩阵式类比（von Neumann entropy），基于配对 (X,Y) 特征的 product kernel，避免每个 prompt 需要多个参考。"
+          },
+          {
+            "title": "Entropy‑constrained 重加权",
+            "detail": "对每个 prompt 生成 m 个候选，然后求解一个凸优化，使 matrix‑based 条件熵最大化，同时保持 prompt 边际，使用在 simplex 笛卡尔积上的 mirror‑descent 并结合 sketch 的联合特征。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "matrix‑based 熵的凸性",
+            "detail": "作者证明了 matrix‑based 条件熵函数的凹性，使得 entropy‑constrained 投影成为可通过 mirror‑descent 高效求解的凸问题。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "多样性差距评估",
+            "detail": "模型：OLMo (Dolma)、Pythia 和 GPT‑Neo (The Pile)；解码方式：greedy、nucleus (p=0.9)、ancestral；指标：exp.Cond.VNE、exp.Cond.RKE、Distinct‑2；结果显示正向差距（例如，OLMo greedy exp.Cond.VNE 218.88 对比 training 338.58）。还评估了 class‑conditioned ImageNet 生成器 (LDM、ADM、BigGAN、DiT‑XL‑2) 和 text‑conditioned MS‑COCO 模型 (U‑ViT、SDXL、PixArt) 的类似差距。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "系统性条件多样性差距",
+            "detail": "模型生成的续写在所有模型、规模、序列长度和解码策略下，一致表现出低于对应训练数据的条件 von Neumann 熵。"
+          },
+          {
+            "title": "重新加权提升条件熵",
+            "detail": "熵投影重新加权在保持接近原始模型分布的同时，提高了经验输出分布的条件熵，在相同的 LLM 上已有验证。"
+          }
+        ],
+        "contributions": [
+          "使用 conditional entropy 和 matrix‑based von Neumann entropy 的条件多样性评估公式。",
+          "在文本和图像 generative models 中实证发现一致的 conditional diversity 差距。",
+          "对 matrix‑based conditional entropy 函数的凹性提供理论证明。",
+          "用于 entropy‑constrained reweighting 的可扩展 mirror‑descent 算法，采用 sketched joint features。"
+        ],
+        "limitations": [
+          "后置方法需要为每个提示生成多个候选，导致推理成本上升。",
+          "评估仅依赖 entropy‑based metrics，未衡量对 downstream task 性能或 alignment 的影响。",
+          "可扩展性取决于所选 sketch dimension；虽然避免了完整 tensor‑product 表示，但可能影响 fidelity。"
+        ],
+        "open_questions": [
+          "提升 conditional diversity 会如何影响 downstream task 的准确性、alignment 或鲁棒性？",
+          "entropy‑constrained reweighting 能否在训练中集成，而非后置应用？",
+          "在非常大模型下，sketch dimension、计算开销与 reweighted distribution 质量之间的权衡是什么？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "recommended_at": "2026-09-05T13:27:35.700479+00:00"
+    },
+    {
+      "id": "2609.02293",
+      "title": "SEAL: Reinforcing Global Safety in Mixture-of-Experts through Shared Expert ALignment",
+      "abstract": "Mixture-of-Experts (MoE) is a scaling architecture for large language models that activates only a small subset of expert modules per token, enabling massive parameter growth with nearly constant computation. Recent Hybrid MoE architecture adds \\textit{shared experts} to capture consistently useful representations, further improving stability and generalization. MoE now powers many flagship open-source and commercial models, yet remains vulnerable to adversarial attacks. Specifically, sparse routing introduces a structural vulnerability: MoE safety hinges on which experts are activated, and adversaries can subvert this selection through jailbreak prompts, malicious fine-tuning, and weight-level pruning of safety-critical neurons. Existing defenses primarily focus on hardening the router, but an adversary may still manipulate or bypass the routing trajectory due to the routing process's nondeterministic nature, thereby collapsing the defense. To cope with this problem, we first identify theoretically and empirically that shared expert, an always-activated component containing a small proportion of safety-critical neurons, can overcome the uncertainty of sparsely activated routing path and serve as a router-independent anchor to enhance global safety alignment. Based on this insight, we propose SEAL, a training-time parameter-efficient defense that produces a plug-and-play adapter attached to shared expert, and SEAL++, a variant that adds an orthogonal constraint preserving pre-existing safety subspaces during training. We evaluate SEAL and SEAL++ across six attack scenarios that combine three adversarial inputs (harmful prompting, jailbreak, malicious fine-tuning) with and without neuron pruning. SEAL reduces attack success rate (ASR) by up to 60\\%, at a capability cost of at most 1.4\\% on a five-benchmark average. Additionally, SEAL can seamlessly integrate with router-level ......",
+      "authors": [
+        "Qingyu Meng",
+        "Yiwei Zha",
+        "Jiahuan Pei",
+        "Koen Hindriks",
+        "Herbert Bos",
+        "Min Chen"
+      ],
+      "published": "2026-09-02T08:40:19Z",
+      "updated": "2026-09-02T08:40:19Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CR"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2609.02293v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.02293v1",
+      "comment": "Accepted at ACM CCS 2026",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.6478,
+          "matched": [
+            "adversarial",
+            "efficient",
+            "training",
+            "fine-tuning",
+            "jailbreak"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.1873,
+          "matched": [
+            "generalization",
+            "scaling"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6161,
+        "relevance": 0.6022,
+        "quality": 0.56,
+        "novelty": 0.8552,
+        "freshness": 0.5429,
+        "feedback_adjustment": -0.0172,
+        "semantic_feedback": 0.3103
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "open source",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "SEAL adds a lightweight shared‑expert adapter that markedly improves MoE safety against diverse attacks.",
+        "problem": "Hybrid Mixture‑of‑Experts models are vulnerable because safety depends on sparsely activated routed experts.",
+        "method": "SEAL trains a parameter‑efficient adapter on always‑executed shared experts, with SEAL++ adding an orthogonal safety‑subspace constraint.",
+        "evidence": "Across four MoE models and six attack scenarios, SEAL cuts attack success rate up to 60% with ≤1.4% capability loss and, combined with router defenses, reaches 4.8% ASR.",
+        "limitations": "Not stated in the available source.",
+        "why_for_you": "Matches your interest in efficient adversarial training by offering a low‑overhead, statistically grounded defense for MoE LLMs.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "SEAL introduces a plug‑and‑play shared‑expert adapter reducing ASR by up to 60% with ≤1.4% capability loss."
+          },
+          {
+            "icon": "⚙️",
+            "text": "SEAL++ adds an orthogonal constraint preserving pre‑existing safety subspaces during shared‑expert training."
+          },
+          {
+            "icon": "📈",
+            "text": "When combined with router‑level defenses, SEAL lowers ASR to 4.8%, a >5× improvement over router‑only defenses."
+          }
+        ],
+        "overview": "The paper identifies the structural weakness of hybrid MoE models: safety relies on sparsely routed experts that adversaries can evade or prune. It proposes SEAL, a training‑time, parameter‑efficient adapter attached to always‑activated shared experts, and SEAL++, which further enforces orthogonal preservation of safety subspaces. Empirical evaluation on four hybrid MoE architectures (14B‑35B) across six attack scenarios (prompt injection, jailbreak, malicious fine‑tuning, each with/without neuron pruning) shows substantial ASR reductions and minimal capability degradation, and demonstrates seamless composability with existing router‑level defenses.",
+        "methodology": [
+          {
+            "title": "SEAL adapter training",
+            "detail": "A lightweight adapter is trained exclusively on shared‑expert parameters using DPO alignment on the PKU‑SafeRLHF dataset, leaving routed experts frozen."
+          },
+          {
+            "title": "SEAL++ orthogonal constraint",
+            "detail": "An additional loss term enforces orthogonality between updated shared‑expert weights and the original safety subspace, preserving pre‑existing safety neurons."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Unconditional execution guarantee",
+            "detail": "Shared experts run for every token regardless of routing, providing a router‑independent safety anchor (Property 1)."
+          },
+          {
+            "title": "Defense isolation",
+            "detail": "By restricting updates to the small shared‑expert fraction, SEAL avoids destabilizing routing weights and prevents new attack surfaces (Property 3)."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Evaluation setup",
+            "detail": "Four hybrid MoE models (Qwen1.5‑MoE, DeepSeek‑MoE, GLM‑4.7‑Flash, Qwen3.5‑30B) spanning 14B‑35B parameters; six attack scenarios combining three adversarial inputs (harmful prompting, jailbreak, malicious fine‑tuning) with/without neuron pruning; safety classified by GPT‑5‑nano with 98.1% inter‑run agreement; capability measured on five standard benchmarks."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Attack success reduction",
+            "detail": "SEAL reduces ASR by up to 60% across all scenarios; combined with router‑level defenses, ASR drops to 4.8% (≈5× lower than router‑only)."
+          },
+          {
+            "title": "Capability preservation",
+            "detail": "Capability loss remains ≤1.4% on average across the five benchmarks."
+          },
+          {
+            "title": "Safety neuron stability",
+            "detail": "Jaccard overlap of safety neuron identity after SEAL training exceeds 80% for models with concentrated shared‑expert safety encoding."
+          }
+        ],
+        "contributions": [
+          "SEAL: a plug‑and‑play shared‑expert adapter for MoE safety.",
+          "SEAL++: orthogonal constraint variant preserving safety subspaces.",
+          "Empirical demonstration of shared‑expert defenses across multiple MoE architectures and attack vectors."
+        ],
+        "limitations": [],
+        "open_questions": [
+          "How does SEAL scale to MoE models with larger numbers or different configurations of shared experts?",
+          "What is the impact of SEAL on downstream task performance beyond the five evaluated benchmarks?",
+          "Can the shared‑expert defense be combined with other alignment techniques (e.g., RLHF) without interference?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "adversarial",
+          "efficient",
+          "training",
+          "fine-tuning"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-05T13:27:35.700479+00:00"
+    },
+    {
+      "id": "2609.03322",
+      "title": "How Perturbations Propagate: A Multi-Level Analysis of Robustness in Large Language Models",
+      "abstract": "Language models encounter typos, corrupted text, altered words, and disrupted token order, yet robustness is usually evaluated only through output behavior. We study how six naturalistic and synthetic input perturbations propagate through decoder-only language models at three levels: output behavior, hidden-state geometry, and attention-head function. We evaluate behavioral effects across four GPT-2 and two Qwen2.5 checkpoints by analyzing layerwise geometry using centered kernel alignment and intrinsic dimension, and examine attention-head responses in GPT-2. Perturbation types produce distinguishable metric profiles that are not fully captured by output measures and are only partly consistent across the tested checkpoints. Copying scores are especially associated with activation-patching recovery under token substitution and shuffling. Gradient-guided HotFlip perturbations also cause stronger behavioral and representational disruption than rate-matched random token substitutions in GPT-2; their behavioral effects are consistent across all six tested checkpoints. Our results show that robustness claims based on a single behavioral or representational metric can be misleading, and motivate multi-level evaluation of how perturbations alter language-model computation.",
+      "authors": [
+        "Dun Li Chan",
+        "Emily Liu",
+        "Niyathi Allu",
+        "Christian Hoang"
+      ],
+      "published": "2026-09-03T03:17:25Z",
+      "updated": "2026-09-03T03:17:25Z",
+      "categories": [
+        "cs.CL",
+        "stat.ML"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2609.03322v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.03322v1",
+      "comment": "12 pages, 4 figures",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.5209,
+          "matched": [
+            "robustness",
+            "alignment"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5201,
+          "matched": [
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6084,
+        "relevance": 0.5834,
+        "quality": 0.55,
+        "novelty": 0.8652,
+        "freshness": 0.6538,
+        "feedback_adjustment": -0.0127,
+        "semantic_feedback": 0.4178
+      },
+      "quality_signals": [
+        "code available",
+        "quantitative results"
+      ],
+      "summary": {
+        "method": "分析输出行为、隐藏状态几何（CKA、intrinsic dimension）以及注意力头功能，覆盖六种扰动类型。",
+        "limitations": "结果仅在检查点间部分一致，且仅使用单一数据集（WikiText-2）。",
+        "problem": "鲁棒性评估常依赖单一行为或表征指标，可能误导对扰动影响的判断。",
+        "takeaway": "多层次分析揭示 LLM 的不同扰动特征，挑战单指标鲁棒性评估。",
+        "why_for_you": "符合您对对抗鲁棒性和多层次评估以实现可信 LLM 的兴趣。",
+        "evidence": "不同扰动类型产生可区分的指标分布，梯度引导扰动比随机替换破坏更强。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "limitations": [
+          "检查点间指标部分一致",
+          "仅使用 WikiText-2 数据集和有限模型族",
+          "缺乏对架构因素的机制分析"
+        ],
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "对 6 种扰动进行行为、几何和注意力的多层次分析"
+          },
+          {
+            "icon": "🔧",
+            "text": "使用 CKA 与 intrinsic dimension 衡量隐藏状态几何变化"
+          },
+          {
+            "icon": "📊",
+            "text": "梯度引导扰动在 30% 率下比随机替换导致更强破坏"
+          }
+        ],
+        "methodology": [
+          {
+            "title": "Perturbation types",
+            "detail": "字符替换、键盘错别字、标记/词/同义词替换以及标记洗牌，比例为 5%/30%/50%"
+          },
+          {
+            "title": "Geometry metrics",
+            "detail": "使用中心核对齐（CKA）和 2-NN 估计的 intrinsic dimension 变化"
+          },
+          {
+            "title": "Attention analysis",
+            "detail": "注意力头功能得分（previous-token、duplicate、induction）与激活补丁"
+          }
+        ],
+        "overview": "本文提出多层次框架，分析输入扰动对语言模型的影响，结合行为指标、表征几何（CKA、intrinsic dimension）和注意力头功能。评估六种扰动（字符替换、错别字、标记洗牌等）在 GPT-2 与 Qwen2.5 上，揭示不同的指标分布，挑战单一指标的鲁棒性评估。",
+        "experiments": [
+          {
+            "title": "Models",
+            "detail": "GPT-2（4 种规模）和 Qwen2.5（2 种规模）"
+          },
+          {
+            "title": "Metrics",
+            "detail": "NLL、输出差异、CKA、intrinsic dimension、注意力头得分"
+          },
+          {
+            "title": "Baselines",
+            "detail": "等比例随机替换 vs. 梯度引导 HotFlip 扰动"
+          }
+        ],
+        "open_questions": [
+          "扰动下模型行为分歧的机制原因",
+          "对抗扰动效果在其他替换类型上的泛化",
+          "在更广文本领域和架构上的评估"
+        ],
+        "findings": [
+          {
+            "title": "Metric profiles",
+            "detail": "扰动类型呈现不同的 NLL/输出差异模式（如字符替换在 50% 时最大输出差异）"
+          },
+          {
+            "title": "Geometry changes",
+            "detail": "CKA 随扰动强度下降；洗牌相比替换型腐败保持更高相似度"
+          },
+          {
+            "title": "Attention responses",
+            "detail": "Induction 分数与熵变化呈强负相关（-0.609），在多数扰动中成立"
+          }
+        ],
+        "contributions": [
+          "提出用于扰动效应的多层次分析框架",
+          "比较梯度引导对抗扰动与随机替换",
+          "展示 GPT-2 各规模和 Qwen2.5 模型间的部分一致性"
+        ],
+        "mechanism": [
+          {
+            "title": "Perturbation propagation",
+            "detail": "不同扰动类型以独特方式改变隐藏状态几何和注意力模式，梯度引导方法破坏更大"
+          }
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "robustness",
+          "alignment"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-05T13:27:35.700479+00:00"
+    },
     {
       "id": "2609.04172",
       "title": "Rethinking On-Policy Distillation of Large Language Models II: One Training Example",
@@ -15009,961 +15989,6 @@
         "schema_version": 5
       },
       "recommended_at": "2026-07-31T12:16:26.321275+00:00"
-    },
-    {
-      "id": "2607.28137",
-      "title": "Asymmetric Communication: Large Language Models and Language Games",
-      "abstract": "Contemporary AI discourse attributes to language models properties they cannot bear: general intelligence as substrate-independent cognition, hallucination as cognitive failure, agency as autonomous goal-pursuit, sentience as emergent inner life, alignment as goal synchronization. This paper argues that these are instances of a single category mistake--properties constituted within human communicative practice are projected onto the machine side--and explains its structure. Human-LLM interaction constitutes a language game in which one side bears all normative activity. We call this configuration asymmetric communication since model outputs circulate communicatively, entering further exchanges, without the system undertaking commitments, bearing entitlements, or performing the assessment on which discursive standing depends. Three conditions define the asymmetry: (i) correctness is enforced exclusively by the receiver; (ii) accountability is borne by human participants alone; and (iii) the practical standing of any output depends entirely on human uptake. These conditions are structural, hold independently of capability, and remain unchanged as more powerful models raise the stakes of misattribution. The framework draws on Wittgenstein (meaning enacted in shared practices), Luhmann (communication completed on the receiver's side), Esposito (algorithmic contingency sufficient for uptake), and Brandom (normative scorekeeping as the source of discursive standing). Applied to all five, it reclassifies each as a receiver-side phenomenon, grounds guardrails as structural necessities rather than manifestations of machine moral agency, and yields an implication for AI governance. Alignment is institutional constraint engineering, not goal synchronization between agents, while responsibility remains with human institutions.",
-      "authors": [
-        "Enzo Fenoglio"
-      ],
-      "published": "2026-07-30T12:45:50Z",
-      "updated": "2026-07-30T12:45:50Z",
-      "categories": [
-        "cs.CY",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CY",
-      "abs_url": "https://arxiv.org/abs/2607.28137v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.28137v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4338,
-          "matched": [
-            "alignment",
-            "hallucination",
-            "alignment",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4194,
-        "relevance": 0.347,
-        "quality": 0.33,
-        "novelty": 0.8481,
-        "freshness": 0.8601
-      },
-      "quality_signals": [],
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment",
-          "hallucination",
-          "alignment",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "summary": {
-        "takeaway": "非对称通信框架表明LLM不具备规范主体性，责任始终在人工侧。",
-        "problem": "当前AI话语倾向将人类沟通规范误投射到LLM上，导致认知与责任错位。",
-        "method": "利用Wittgenstein语言游戏、Luhmann通信、Esposito算法通信与Brandom推理主义的哲学分析，定义三条不对称条件。",
-        "evidence": "对 hallucination、AGI、agentic AI、情感投射、alignment 五个常见叙事进行概念性重新分类，展示框架的解释力。",
-        "limitations": "缺乏实证验证，框架停留在概念层面且不介入具体工程争论。",
-        "why_for_you": "对可信LLM研究者，这篇提供了重新定位机器责任的概念工具，有助于区分模型行为与人类规范。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "提出非对称通信框架，将LLM输出视为仅在人类侧承担规范意义"
-          },
-          {
-            "icon": "🔬",
-            "text": "基于Wittgenstein、Luhmann、Esposito、Brandom构建概念机制，定义三条不对称条件"
-          },
-          {
-            "icon": "📊",
-            "text": "通过对 hallucination、AGI、agentic AI、情感投射、alignment 五个叙事的重新分类展示框架"
-          }
-        ],
-        "overview": "本文通过哲学视角阐释人机交互的结构性不对称，提出三条条件：正确性仅由接收者评估、责任全由人承担、输出的实际效力取决于人类采纳。以Wittgenstein的语言游戏、Luhmann的通信理论、Esposito的算法通信以及Brandom的推理主义为理论支撑，对五大AI叙事进行概念重构，主张对齐是制度约束而非机器目标同步。",
-        "methodology": [
-          {
-            "title": "哲学综合框架",
-            "detail": "结合Wittgenstein的语言游戏、Luhmann的通信完成论、Esposito的算法通信以及Brandom的规范推理，形成统一的概念模型。"
-          },
-          {
-            "title": "不对称条件定义",
-            "detail": "明确三条结构性条件：①正确性仅由接收者强制；②责任仅在人类；③输出的实际站位完全依赖人类采纳。"
-          },
-          {
-            "title": "叙事重分类",
-            "detail": "将 hallucination、人工通用智能、agentic AI、情感投射、alignment 五个常见议题映射到接收者侧现象，展示框架的解释范围。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "语言游戏中的意义生成",
-            "detail": "意义通过人类共享实践而非模型内部状态产生，模型仅提供统计上连贯的语言片段。"
-          },
-          {
-            "title": "接收者侧的规范评估",
-            "detail": "Luhmann的视角指出通信的完成在接收者的解释上，模型不承担评估或承诺的功能。"
-          },
-          {
-            "title": "制度约束的对齐概念",
-            "detail": "依据Brandom的规范记分机制，‘对齐’被视为人类制度对模型行为的约束工程，而非机器目标同步。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "概念案例分析",
-            "detail": "对五个AI叙事进行理论性重新分类，未使用实验模型、数据集或量化指标，仅提供哲学论证。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "不对称本质的普遍性",
-            "detail": "三条结构性条件独立于模型能力，随着模型更强大仍保持不变。"
-          },
-          {
-            "title": "叙事重新定位",
-            "detail": "hallucination 被解释为缺乏认知授权的流畅生成；AGI 与 agentic AI 被视为人类投射的概念；alignment 被定位为制度约束工具。"
-          },
-          {
-            "title": "治理启示",
-            "detail": "责任永远归属人类机构，治理应聚焦于人类侧的规范设计而非赋予机器道德主体性。"
-          }
-        ],
-        "contributions": [
-          "提出‘非对称通信’概念框架，系统化解释LLM与人类交互的规范结构。",
-          "定义三条结构性不对称条件，提供分析LLM叙事的统一标准。",
-          "对五大AI常见叙事进行概念性重新分类，展示框架的解释力。"
-        ],
-        "limitations": [
-          "作者声明框架不介入具体工程争论，缺乏实证实验支持。",
-          "概念分析未提供可操作的度量或验证方法。"
-        ],
-        "open_questions": [
-          "如何将非对称通信框架转化为可量化的治理指标？",
-          "在人机协作系统中，如何评估人类对模型输出的‘uptake’程度？",
-          "在实际政策制定中，如何平衡制度约束与技术创新的张力？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommended_at": "2026-07-31T12:16:26.321275+00:00"
-    },
-    {
-      "id": "2607.28272",
-      "title": "MemHarness: Memory Is Reconstructed, Not Replayed",
-      "abstract": "Retrieving past experiences has become a common strategy to enhance large language model agents. However, most existing memory-augmented agents treat retrieved experiences as static records to be replayed verbatim, injecting them into the context regardless of whether they align with the agent's current situation. This ``replay'' paradigm ignores the gap between the abstract, general nature of stored experience and the concrete, ever-changing states encountered at decision time, frequently causing negative transfer. In contrast, humans rarely recall past experiences verbatim; instead, they reorganize and adapt retrieved memories to fit the present context. Inspired by this, we propose MemHarness, a framework that equips LLM agents to actively harness and reconstruct past experiences based on the present context. At each decision step, a unified policy model critiques and reconstructs the retrieved experience conditioned on the current state, producing context-grounded guidance before acting. This reconstructive ability emerges naturally through end-to-end training with GRPO. Experiments on ALFWorld and WebShop show that MemHarness substantially outperforms pure RL and static memory-augmented baselines, demonstrating strong robustness in out-of-distribution (OOD) scenarios. Furthermore, our analyses reveal that this reconstruction objective not only prevents negative transfer but also serves as latent guidance during training, fundamentally improving the agent's intrinsic reasoning capabilities.",
-      "authors": [
-        "Rong Wu",
-        "Daocheng Fu",
-        "Licheng Wen",
-        "Xuemeng Yang",
-        "Shu Zou",
-        "Jianbiao Mei",
-        "Yuxin Wang",
-        "Hairong Zhang",
-        "Yu Yang",
-        "Tao Hu",
-        "Cong Zhang",
-        "Botian Shi",
-        "Pinlong Cai"
-      ],
-      "published": "2026-07-30T14:25:49Z",
-      "updated": "2026-07-30T14:25:49Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2607.28272v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.28272v1",
-      "comment": "20 pages, 13 figures",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.3087,
-          "matched": [
-            "robustness",
-            "training"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.2182,
-          "matched": [
-            "robustness",
-            "llm",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4104,
-        "relevance": 0.2906,
-        "quality": 0.46,
-        "novelty": 0.86,
-        "freshness": 0.87
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "experiments"
-      ],
-      "summary": {
-        "takeaway": "Inspired by this, we propose MemHarness, a framework that equips LLM agents to actively harness and reconstruct past experiences based on the present context.",
-        "problem": "Retrieving past experiences has become a common strategy to enhance large language model agents.",
-        "method": "Inspired by this, we propose MemHarness, a framework that equips LLM agents to actively harness and reconstruct past experiences based on the present context.",
-        "evidence": "Experiments on ALFWorld and WebShop show that MemHarness substantially outperforms pure RL and static memory-augmented baselines, demonstrating strong robustness in out-of-distribution (OOD) scenarios.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Efficient adversarial training, Trustworthy LLM.",
-        "source": "abstract",
-        "generated_by": "extractive"
-      },
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "robustness",
-          "training"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-31T12:16:26.321275+00:00"
-    },
-    {
-      "id": "2607.27081",
-      "title": "On-Policy Distillation for LLM Safety: A Routing Approach to Template-Robust Realignment",
-      "abstract": "Fine-tuning is the dominant paradigm for specializing large language models (LLMs), yet it exposes a critical vulnerability: malicious data providers can embed harmful behaviors into downstream corpora, creating models that retain professional skills while violating human values on demand. Existing safety-realignment defenses often fail in practice due to three key limitations: they frequently cause catastrophic forgetting of specialized skills; their effectiveness collapses when the defender cannot observe the attacker's prompt template; and successfully realigned models remain susceptible to re-jailbreaking via simple system prompt switches. To address these challenges, we propose Routing-based On-Policy Distillation (ROPD), a novel realignment framework that models the divergence between aligned and compromised output probability distributions rather than fitting specific prompt templates. We conduct extensive experiments comparing ROPD against four state-of-the-art baselines across three datasets and three base models with varying alignment strengths. Our results demonstrate that when baseline defenses face template mismatches, often accompanied by severe degradation in downstream task performance. In contrast, ROPD substantially mitigates template-mismatch risks, maintaining superior robustness in both defense effectiveness and capability preservation. While our analysis indicates ROPD is not entirely immune to template shifts, its performance degradation is negligible compared to existing methods, establishing a new standard for robust LLM realignment.",
-      "authors": [
-        "Yongjian Guo",
-        "Wanlun Ma",
-        "Lingyu Shen",
-        "Xi Xiao",
-        "Sheng Wen"
-      ],
-      "published": "2026-07-29T16:07:19Z",
-      "updated": "2026-07-29T16:07:19Z",
-      "categories": [
-        "cs.AI",
-        "cs.CL",
-        "cs.CR",
-        "cs.LG"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2607.27081v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.27081v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.6642,
-          "matched": [
-            "llm safety",
-            "LLM safety",
-            "robustness",
-            "alignment",
-            "alignment",
-            "safety"
-          ]
-        },
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "watch",
-          "score": 0.6547,
-          "matched": [
-            "on-policy distillation",
-            "policy distillation",
-            "distillation",
-            "on-policy"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.6096,
-          "matched": [
-            "robustness",
-            "robust",
-            "fine-tuning"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.7031,
-        "relevance": 0.7314,
-        "quality": 0.5,
-        "novelty": 0.836,
-        "freshness": 0.8813
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "experiments",
-        "dataset evidence"
-      ],
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "llm safety",
-          "LLM safety",
-          "robustness",
-          "alignment"
-        ],
-        "lane": "llm"
-      },
-      "summary": {
-        "takeaway": "ROPD 通过双教师在线策略蒸馏实现对提示模板变化更稳健的安全再对齐，同时保留下游能力。",
-        "problem": "微调后的 LLM 可能带有有害行为；当攻击提示模板未知时，现有防御常失效，还可能损失技能或再次被越狱。",
-        "method": "ROPD 按样本来源在冻结的安全教师与任务教师之间路由，并用 top-K KL 损失训练学生模型。",
-        "evidence": "在 3 个任务和 3 个基础模型上，ROPD 将 ASR 降至 2.4%，同时保持 0.626 等任务分数；4 个 SOTA 基线的 ASR 均超过 6%，且任务表现有时降为 0。",
-        "limitations": "ROPD 并非完全免疫模板变化；防御模板与攻击模板不匹配时仍有小幅退化。",
-        "why_for_you": "它展示了一种兼顾安全与能力、且较少依赖提示模板的高效对齐方案。",
-        "source": "已缓存的全文分析",
-        "generated_by": "Codex grounded translation",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🛡️",
-            "text": "模板不匹配时，ROPD 仍把 ASR 压到 2.4% 的个位数水平，并保留任务能力。"
-          },
-          {
-            "icon": "🔀",
-            "text": "每个训练样本被路由到冻结的安全教师或任务教师，再以 top-K KL 进行蒸馏。"
-          },
-          {
-            "icon": "📊",
-            "text": "在 Llama-2-7B-Chat 的 SQL 任务上达到 0.626 任务分数 / 2.4% ASR，优于 soft-SFT 的 0.358 / 6.3%。"
-          }
-        ],
-        "overview": "论文提出 Routing-based On-Policy Distillation（ROPD），不依赖某个固定攻击模板，而是蒸馏原始对齐模型的拒答分布。框架使用冻结的安全教师与任务教师，在 SQL、SAMSum、NL2Bash 三类任务以及 Llama-2、Qwen2.5、Gemma2 三类基础模型上，相比 rollback、RESTA、soft-SFT、SSRD 获得更好的安全—能力权衡。",
-        "methodology": [
-          {
-            "title": "双教师配置",
-            "detail": "以误对齐后的模型作为任务教师、原始对齐模型作为安全教师；训练学生模型时两位教师均冻结。"
-          },
-          {
-            "title": "路由与损失",
-            "detail": "依据样本来源选择教师（式 1），计算学生与所选教师之间的 top-K KL 散度（式 2），再按式 3 做梯度更新。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "模板无关的拒答先验",
-            "detail": "安全教师在不同提示格式下都把概率集中到拒答输出，蒸馏该分布可减少安全行为对具体模板的绑定。"
-          },
-          {
-            "title": "任务能力保留",
-            "detail": "路由到任务教师时，学生继承误对齐模型已经学到的下游技能，从而缓解灾难性遗忘。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "实验设置",
-            "detail": "覆盖 text-to-SQL、对话摘要、NL2Bash，加入 1,500 条 BeaverTails 有害样本，并比较 3 类基础模型和 4 个防御基线。"
-          },
-          {
-            "title": "模板条件",
-            "detail": "防御使用 raw 与 self 两种合法模板，攻击模板则变化；另用与攻击相同模板的防御作为 oracle 上界。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "更好的安全—能力权衡",
-            "detail": "ROPD 最低达到 2.4% ASR，同时保持 0.626 等任务分数；基线可能因防御而把任务表现降为 0。"
-          },
-          {
-            "title": "仍有轻微模板敏感性",
-            "detail": "未见模板会令 ASR 小幅上升，但仍显著低于所有对比基线。"
-          }
-        ],
-        "contributions": [
-          "提出双教师在线策略蒸馏框架 ROPD。",
-          "将对齐模型的拒答分布转化为较少依赖模板的安全信号。",
-          "跨模型、任务与基线验证了更优的安全—任务权衡。"
-        ],
-        "limitations": [
-          "尚未完全消除模板偏移带来的性能下降。"
-        ],
-        "open_questions": [
-          "如何进一步强化模板无关的安全信号？",
-          "ROPD 扩展到更大或多模态模型时的成本与上限是什么？",
-          "能否与 RLHF 结合以提高长期对齐稳健性？"
-        ],
-        "source_scope": "已缓存的全文选定区域（最多 30 页）",
-        "generated_by": "Codex grounded translation",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommended_at": "2026-07-30T12:03:36.063766+00:00"
-    },
-    {
-      "id": "2607.26831",
-      "title": "Language Models are not Equally Robust to Non-Canonical Tokenization across Languages",
-      "abstract": "Despite the existence of exponentially many valid tokenizations for a given string, language models operate on a single canonical sequence deterministically produced by the tokenizer, leaving the broader tokenization space largely uncharacterized. In this paper, we investigate this overlooked space by studying the behavior of language models under non-canonical tokenizations across diverse languages. For English, prior work shows that models are largely invariant to alternative tokenizations that represent the same underlying string. We ask whether this invariance generalizes to other languages beyond English. We conduct a multilingual study across 27 languages spanning diverse scripts and evaluate LLM behavior under alternative tokenizations across six downstream tasks. We find that tokenization invariance does not generalize: model behavior varies substantially across languages with instruction-tuned models exhibiting an average relative performance drop of 23.7% for Llama-3.1-8B, 11.4% for Qwen3-8B, and 9.9% for Gemma-3-12B. The variation of tokenization invariance is systematic across languages. Languages that exhibit higher token fragmentation show significantly greater sensitivity to non-canonical tokenizations. Our study of tokenization robustness serves as a diagnostic of how tightly a model is coupled to its tokenizer. These results demonstrate that tokenization robustness is not a universal property of language models, but depends strongly on the language and its interaction with the tokenizer. We also show that LoRA fine-tuning with multi-tokenization training data provides an effective mitigation for tokenization sensitivity. Fine-tuning on English alone improves tokenization robustness across languages, while systematically sampling diverse non-canonical tokenizations achieves the strongest overall performance.",
-      "authors": [
-        "Poulami Ghosh",
-        "Preethi Jyothi"
-      ],
-      "published": "2026-07-29T12:23:15Z",
-      "updated": "2026-07-29T12:23:15Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.26831v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.26831v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "core",
-          "score": 0.7224,
-          "matched": [
-            "robustness",
-            "robust",
-            "fine-tuning",
-            "training"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4512,
-          "matched": [
-            "robustness",
-            "llm",
-            "robustness"
-          ]
-        },
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "emerging",
-          "score": 0.3186,
-          "matched": [
-            "sampling",
-            "training data",
-            "data"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6816,
-        "relevance": 0.7319,
-        "quality": 0.41,
-        "novelty": 0.8097,
-        "freshness": 0.8591
-      },
-      "quality_signals": [
-        "quantitative results"
-      ],
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "robustness",
-          "robust",
-          "fine-tuning",
-          "training"
-        ],
-        "lane": "llm"
-      },
-      "summary": {
-        "method": "作者使用多值决策图均匀抽样随机非规范分词，评估指令微调模型，并在多分词训练数据上进行 LoRA 微调。",
-        "evidence": "在随机非规范分词下，指令微调的 Llama‑3.1‑8B 相对性能下降 23.7%，Qwen‑3‑8B 下降 11.4%，Gemma‑3‑12B 下降 9.9%，且分词碎片化程度越高，下降幅度越大。",
-        "why_for_you": "与高效对抗训练和数据选择相关，因为分词扰动提供低成本对抗样本，LoRA 提供轻量化的缓解方案。",
-        "takeaway": "分词鲁棒性随语言而异，但可通过 LoRA 在多分词数据上的微调加以缓解。",
-        "problem": "在非规范分词下，LLM 可能出现显著性能下降，尤其是分词碎片化程度高的语言。",
-        "limitations": "本研究仅限于三种指令微调模型、27 种语言和六个下游任务，且聚焦随机非规范分词，而非针对性对抗攻击。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "contributions": [
-          "首次系统性多语言分析非规范分词对 LLM 的影响。",
-          "将分词碎片化识别为导致敏感性的关键因素。",
-          "展示 LoRA 在多分词数据上的微调可缓解分词脆弱性。"
-        ],
-        "signals": [
-          {
-            "icon": "🌐",
-            "text": "本文首次系统性多语言研究非规范分词，覆盖 27 种语言、六个任务和三类模型。"
-          },
-          {
-            "icon": "⚙️",
-            "text": "在多分词数据上进行 LoRA 微调，尤其是系统性多样抽样，显著降低对分词扰动的敏感性。"
-          },
-          {
-            "icon": "📉",
-            "text": "在随机非规范分词下，指令微调的 Llama‑3.1‑8B 性能下降 23.7%，Qwen‑3‑8B 下降 11.4%，Gemma‑3‑12B 下降 9.9%。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Token fragmentation sensitivity",
-            "detail": "平均每词 token 数更高的语言在非规范分词下表现出更大性能下降，表明模型与分词器耦合更紧密。"
-          },
-          {
-            "title": "LoRA mitigation",
-            "detail": "在多分词数据上训练的 LoRA 适配器通过在微调时让模型接触多样的 token 切分，提升鲁棒性。"
-          }
-        ],
-        "overview": "作者使用多值决策图在完整分词空间中均匀抽样，研究多语言 LLM 在不同合法分词下的表现。跨 27 种语言和六个下游任务，指令微调模型出现显著相对性能下降，下降幅度与语言的分词碎片化率相关。进一步证明，即使仅在英文上进行 LoRA 微调，使用多样非规范分词增强的数据也能显著恢复鲁棒性，表明分词敏感性是 LLM 的语言依赖属性。",
-        "methodology": [
-          {
-            "title": "Non‑canonical tokenization sampling",
-            "detail": "使用多值决策图 (MDD) 表示字符串的所有合法分词集合，并对每个输入均匀抽样 N 种替代分词。"
-          },
-          {
-            "title": "Fragmentation metric",
-            "detail": "计算每种语言的平均每词 token 数，以量化分词碎片化。"
-          },
-          {
-            "title": "Evaluation framework",
-            "detail": "扩展 lm‑evaluation‑harness 以接受替代分词，并在五个随机种子上报告平均性能。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Model and data setup",
-            "detail": "评估指令微调的 Llama‑3.1‑8B‑Instruct、Qwen‑3‑8B 和 gemma‑3‑12b‑it，覆盖 27 种语言（FLORES‑200）和六个下游任务。"
-          },
-          {
-            "title": "Perturbation types",
-            "detail": "对比标准分词与从 MDD 均匀抽样的随机非规范分词；检索实验中还使用字符级分词。"
-          },
-          {
-            "title": "Metrics",
-            "detail": "相对性能下降百分比；跨语言句子检索的 accuracy@1；碎片化率与下降幅度的相关性。"
-          }
-        ],
-        "open_questions": [
-          "分词鲁棒性如何与提示注入等其他对抗扰动交互？",
-          "是否通过分词器重新设计或词表重新分配即可消除敏感性，而无需微调？",
-          "观察到的缓解效果是否能扩展到更大模型和更丰富的下游应用？"
-        ],
-        "findings": [
-          {
-            "title": "Performance degradation",
-            "detail": "平均相对下降：在随机非规范分词下，Llama‑3.1‑8B 下降 23.7%，Qwen‑3‑8B 下降 11.4%，Gemma‑3‑12B 下降 9.9%。"
-          },
-          {
-            "title": "Fragmentation correlation",
-            "detail": "分词碎片化程度更高的语言对非规范分词表现出显著更大的敏感性。"
-          },
-          {
-            "title": "Robustness improvement",
-            "detail": "仅在英文上进行 LoRA 微调即可提升所有语言的鲁棒性；系统性抽样多样非规范分词可获得最强整体性能。"
-          }
-        ],
-        "limitations": [
-          "实验仅限于三类指令微调模型。",
-          "覆盖范围仅限于 27 种语言和六个下游任务。",
-          "聚焦随机非规范分词，未评估对抗性构造的分词。"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommended_at": "2026-07-30T12:03:36.063766+00:00"
-    },
-    {
-      "id": "2607.26981",
-      "title": "OptimismBench: Forecasting Bias and the Alignment Effect in Language Model Judgment",
-      "abstract": "Large language models are increasingly used as decision aids whose probability judgments shape downstream choices. Whether those judgments carry a systematic directional tilt has been hard to detect: calibration metrics aggregate unsigned errors, and naturalistic uncertainty offers no ground-truth probability. When an LLM rates a startup's success at 70% but its failure at 15%, the missing 15 points expose a distortion no aggregate score flags. We introduce OptimismBench, which detects directional bias with inverted pairs: each scenario elicits both P(success) and P(failure), and asymmetry between the two framings yields a signed bias score without ground truth. Across 16 models from 8 providers, fourteen are optimistic; pessimism appears only in Anthropic's frontier tier. Eleven matched base-versus-chat pairs across four families show post-training sets the sign of the bias, with opposite shifts in different families. The pattern survives prompt, temperature, perspective, and self-debiasing ablations. A seventeen-model six-language comparison further shows model identity dominates language, with inter-model variance at 4.7x inter-language variance. We release 3,870 items across 10 languages for per-model directional-bias auditing. When alignment makes a model more helpful, it also tilts its probabilities; downstream pipelines inherit the tilt by default.",
-      "authors": [
-        "Seonglae Cho",
-        "Adriano Koshiyama"
-      ],
-      "published": "2026-07-29T14:38:55Z",
-      "updated": "2026-07-29T14:38:55Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2607.26981v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.26981v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.5909,
-          "matched": [
-            "alignment",
-            "auditing",
-            "uncertainty",
-            "calibration",
-            "alignment",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5383,
-        "relevance": 0.4727,
-        "quality": 0.51,
-        "novelty": 0.854,
-        "freshness": 0.8726
-      },
-      "quality_signals": [
-        "ablation study",
-        "quantitative results"
-      ],
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment",
-          "auditing",
-          "uncertainty",
-          "calibration"
-        ],
-        "lane": "llm"
-      },
-      "summary": {
-        "takeaway": "LLM 在概率判断上普遍表现出乐观偏差，只有 Anthropic 前沿模型呈现悲观倾向。",
-        "problem": "现有校准指标无法捕捉 LLM 概率判断的方向性偏差。",
-        "method": "OptimismBench 通过倒置对（成功/失败）计算 Skew = P⁺ − (100−P⁻) 来量化有符号偏差，并在基线/聊天模型对比中评估对齐影响。",
-        "evidence": "在 16 个模型中 14 个乐观（Skew +4.2~+16.6），仅 Anthropic 的 Opus 与 Sonnet 悲观（-5.1、-7.7），且该模式在提示、温度、视角和自去偏干预下保持稳定。",
-        "limitations": "族内方向性结论仅基于 Qwen 与 Llama 的少数配对，跨语言实验受限于六种本地提示语言加四种英文提示。",
-        "why_for_you": "该工作揭示对齐过程可能引入系统性乐观偏差，对构建可信赖的 LLM 决策辅助系统至关重要。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "提出OptimismBench，用倒置对检测LLM概率方向偏差，覆盖10语言、16模型"
-          },
-          {
-            "icon": "🔧",
-            "text": "利用Skew = P⁺ − (100−P⁻)并在基线/聊天对比中评估对齐影响"
-          },
-          {
-            "icon": "📊",
-            "text": "14模型乐观（Skew +4.2~+16.6），仅Anthropic前沿模型悲观（-5.1、-7.7），但族内结论仅基于少数配对"
-          }
-        ],
-        "overview": "本文通过倒置对设计构建 OptimismBench，量化 LLM 在概率判断中的有符号偏差。实验覆盖 16 种模型、10 种语言、以及基线‑聊天配对，发现大多数模型呈现乐观倾向，且该倾向在提示、温度、视角及自去偏干预下保持稳健。对齐训练被证实会改变偏差符号，模型身份对跨语言差异的贡献远大于语言本身。",
-        "methodology": [
-          {
-            "title": "倒置对设计",
-            "detail": "对每个情景同时询问 P(success) 与 P(failure)，计算 Skew = P⁺ − (100−P⁻) 作为方向性偏差得分。"
-          },
-          {
-            "title": "鲁棒性检查",
-            "detail": "在系统提示（最小/标准/扩展）、温度 (0.7 vs 1.0)、视角（第三人称/第二人称/朋友）以及显式自去偏干预下验证方向保持不变。"
-          },
-          {
-            "title": "基线‑聊天对比",
-            "detail": "在 Qwen、Llama、Gemma、Mistral 四个家族中匹配 11 对基线与聊天模型，仅改变后训练阶段，以因果方式探查对齐对偏差符号的影响。"
-          },
-          {
-            "title": "跨语言扩展",
-            "detail": "在 10 种语言上执行相同 60 条倒置对，评估模型身份与语言对 Skew 方差的贡献。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "对齐效应",
-            "detail": "后训练（RLHF 等对齐）会系统性地设定偏差符号：Qwen 对齐压缩偏差，Llama 对齐放大乐观；同一家族内部的基线‑聊天差异呈现一致的方向性转变。"
-          },
-          {
-            "title": "模型属性主导",
-            "detail": "方差分解显示模型本身解释 35.3% 的 Skew 方差，远高于语言（3.7%）和情景（24.2%），说明偏差主要是模型固有属性。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "模型与数据集",
-            "detail": "评估 16 个模型（包括 OpenAI GPT‑5.4、Anthropic Claude 系列、Meta Llama 3.3‑70B、Mistral Large 等）在 60 条倒置对情景上，覆盖 10 种语言，另有 3,870 条项目公开。"
-          },
-          {
-            "title": "基线‑聊天配对",
-            "detail": "对 Qwen、Llama、Gemma、Mistral 四个家族的 11 对基线‑聊天模型进行比较，保持架构与预训练不变，仅改变对齐阶段。"
-          },
-          {
-            "title": "评估指标",
-            "detail": "主要指标为 Skew（有符号偏差），辅以概率公理检验（conjunction 与 dose‑response monotonicity）以及 ANOVA‑style 方差分解。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "方向性偏差普遍存在",
-            "detail": "所有 16 个模型均显著偏离零，14 个乐观（Skew +4.2 至 +16.6），仅 Anthropic 的 Opus (-5.1) 与 Sonnet (-7.7) 悲观。"
-          },
-          {
-            "title": "对齐改变偏差符号",
-            "detail": "基线‑聊天对比显示 Qwen 对齐使偏差趋向负向，Llama 对齐则使偏差更正向，说明后训练阶段决定偏差方向。"
-          },
-          {
-            "title": "跨语言方差较小",
-            "detail": "模型间方差是语言间方差的 4.7 倍，表明选择模型比选择语言对偏差影响更大。"
-          },
-          {
-            "title": "鲁棒性验证",
-            "detail": "提示、温度、视角及自去偏干预均未改变偏差符号，证实结果稳健。"
-          }
-        ],
-        "contributions": [
-          "提出 OptimismBench 基准，能够在无真实概率标签的情况下测量 LLM 的方向性偏差。",
-          "揭示对齐训练会系统性地倾斜模型概率输出，形成乐观或悲观倾向。",
-          "提供跨模型、跨语言的大规模实验数据（3,870 项），并公开用于后续审计。"
-        ],
-        "limitations": [
-          "族内方向性结论仅基于 Qwen 5 对和 Llama 4 对，Gemma 与 Mistral 仅有单对实验，缺乏统计力量。",
-          "跨语言实验使用六种本地提示语言加四种英文提示，可能混入提示语言的系统性偏差。",
-          "Skew 衡量的是内部对称性而非与人类判断的偏差，缺少人类基准比较。"
-        ],
-        "open_questions": [
-          "LLM 的乐观/悲观偏差与人类认知偏差（如 Weinstein 的乐观偏差）在幅度和机制上是否一致？",
-          "如何在保持对齐帮助性的同时消除或校正方向性偏差？",
-          "该偏差在实际决策流水线（如风险评估、项目规划）中的累计影响有多大？",
-          "是否存在更通用的评估框架能够同时捕获方向性偏差与其他概率一致性问题？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommended_at": "2026-07-30T12:03:36.063766+00:00"
-    },
-    {
-      "id": "2607.27155",
-      "title": "OmegaUse-OfficeVal: Benchmarking LLM Agents on Long-Horizon Office-Suite Tasks with Economic Grounding",
-      "abstract": "Large language model (LLM) agents are increasingly expected to assist users in completing tasks. However, existing benchmarks provide limited support for evaluating whether agents can carry out office-suite workflows at a reasonable cost. We introduce OmegaUse-OfficeVal, a benchmark for evaluating LLM agents on long-horizon office-suite tasks with task-level economic grounding. The benchmark comprises 100 tasks derived from office-suite requests proposed by practitioners and adapted through a privacy-preserving process. On average, these tasks require 2.32 hours of human labor to complete. An important feature of the benchmark is that each task is paired with two economic signals: human labor time and task price proxy. These signals enable direct comparisons between human costs and LLM inference costs, as well as value-weighted evaluation. To support stable evaluation, we develop code-based verifiers from fine-grained rubrics. We evaluate several frontier LLMs together with a human baseline. Although all evaluated LLMs are substantially cheaper and faster than human workers, they have not yet approached human-level deliverable quality. The code and dataset are fully open-sourced, and more information is available on our project website: https://omegause-officeval.github.io.",
-      "authors": [
-        "Jingbo Zhou",
-        "Yusai Zhao",
-        "Qi Bao",
-        "Jingjia Cao",
-        "Zhenghai Chen",
-        "Chang Gao",
-        "Kaiqi Guo",
-        "Muxin Guo",
-        "Mingxuan Li",
-        "Xinjiang Lu",
-        "Yanru Ma",
-        "Yixiong Xiao",
-        "Zenghui Zhang",
-        "Le Zhang",
-        "Hua Wu"
-      ],
-      "published": "2026-07-29T17:33:47Z",
-      "updated": "2026-07-29T17:33:47Z",
-      "categories": [
-        "cs.AI",
-        "cs.CL",
-        "cs.HC"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2607.27155v1",
-      "pdf_url": "https://arxiv.org/pdf/2607.27155v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.475,
-          "matched": [
-            "privacy",
-            "privacy",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5368,
-        "relevance": 0.38,
-        "quality": 0.81,
-        "novelty": 0.8326,
-        "freshness": 0.8899
-      },
-      "quality_signals": [
-        "code available",
-        "baseline comparison",
-        "benchmark evaluation",
-        "dataset evidence",
-        "open source"
-      ],
-      "summary": {
-        "takeaway": "OmegaUse-OfficeVal 提供 100 个长流程办公任务，并用经济信号评估 LLM agent 的成本—质量—时间权衡。",
-        "problem": "现有基准难以衡量 agent 完成复杂办公流程的能力，也缺少与人工劳动和市场价值对应的经济依据。",
-        "method": "基准结合从从业者需求提炼的任务、人类工时与任务价格代理，并用细粒度 rubric 的确定性代码检查最终交付物。",
-        "evidence": "评估显示 LLM 明显比人类便宜、快速，但在多种办公领域中尚未达到人类交付质量。",
-        "limitations": "模型跨领域表现不均；基准只评最终文件，尚未覆盖统一能力与执行轨迹层面的评估。",
-        "why_for_you": "它为真实长流程办公 agent 提供了更贴近生产价值的可信评估方式。",
-        "source": "已缓存的全文分析",
-        "generated_by": "Codex grounded translation",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "⏱️",
-            "text": "100 个任务平均需要人类 2.32 小时，并同时标注人工时间和任务价格代理。"
-          },
-          {
-            "icon": "✅",
-            "text": "每个任务约含 20 条专家修订 rubric，由确定性代码检查最终文件，允许多种有效执行路径。"
-          },
-          {
-            "icon": "💸",
-            "text": "LLM 更快且更便宜，但所有受测模型的交付质量仍未达到人类水平。"
-          }
-        ],
-        "overview": "OmegaUse-OfficeVal 收集 100 个源于真实从业者需求的长流程办公任务，为每项任务标注人工时间和任务价格代理。它不限定 agent 的执行路径，而以专家 rubric 和代码验证最终交付物，并报告原始、时间加权和价格加权分数。多款前沿模型的实验表明，当前 LLM 具有明显成本与速度优势，但质量仍低于人类，而且能力在领域、文件类型和操作意图之间不均衡。",
-        "methodology": [
-          {
-            "title": "任务与经济标注",
-            "detail": "20% 的任务有显式市场价格，其余由 3 名领域专家依据职业、复杂度和典型报酬估价，并在剔除不一致异常值后取均值。"
-          },
-          {
-            "title": "代码化交付验收",
-            "detail": "约 20 条 rubric/任务用于确定性检查 Word、Excel、PPT 等最终文件，重点评估结果而非固定轨迹。"
-          },
-          {
-            "title": "价值加权评分",
-            "detail": "同时报告原始任务分、按人工时间加权分和按价格代理加权分。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "混合价格代理",
-            "detail": "显式市场价格与一致性筛选后的专家估计结合，在提高覆盖率的同时降低极端估值影响。"
-          },
-          {
-            "title": "多路径验证",
-            "detail": "只验证最终文件是否满足 rubric，因此不同工作流都可能得到正确评分。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "模型与人类基线",
-            "detail": "比较 GLM-5.2、Qwen3.7-Plus、DeepSeek-V4-Pro、Kimi K2.6、MiniMax M3 与人类完成者。"
-          },
-          {
-            "title": "细分分析",
-            "detail": "按 Engineering、Business、Academic 等领域，Word/Excel/PPT 文件类型及标注、抽取、美化等意图分析。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "成本与质量仍有落差",
-            "detail": "所有 LLM 都显著更便宜、更快，但尚未达到人类最终交付质量。"
-          },
-          {
-            "title": "能力高度不均",
-            "detail": "不同模型分别在工程、商业运营、学术论文等领域领先，没有统一赢家。"
-          },
-          {
-            "title": "结构化任务更易处理",
-            "detail": "Excel、Word、标注和抽取总体更容易，而美化类任务更具挑战。"
-          }
-        ],
-        "contributions": [
-          "发布含 100 个真实长流程办公任务的经济化评估基准。",
-          "提供稳定、可复现的代码验证协议。",
-          "提出时间与价格加权指标并量化成本—质量—时间权衡。"
-        ],
-        "limitations": [
-          "不评估执行轨迹，可能遗漏策略与恢复行为。",
-          "部分经济标注依赖专家主观估计。",
-          "未覆盖动态、交互式办公流程。"
-        ],
-        "open_questions": [
-          "如何让 agent 在不同办公领域都达到人类交付质量？",
-          "怎样把经济信号用于训练和决策？",
-          "如何纳入轨迹、错误恢复和交互式流程评估？"
-        ],
-        "source_scope": "已缓存的全文选定区域（最多 30 页）",
-        "generated_by": "Codex grounded translation",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "privacy",
-          "privacy",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-07-30T12:03:36.063766+00:00"
     }
   ]
 }
