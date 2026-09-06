@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-05T13:27:35.700479+00:00",
+  "generated_at": "2026-09-06T13:40:46.504954+00:00",
   "papers": [
     {
       "id": "2609.02244",
@@ -79,19 +79,6 @@
         "experiments",
         "quantitative results"
       ],
-      "summary": {
-        "evidence": "在AmbiMath、Jigsaw和MNLI/HANS数据集上的实验显示CPS在多个指标上优于基线方法。",
-        "limitations": "Not stated in the abstract",
-        "method": "引入Contrastive Prior Steering（CPS），通过添加正负先验条件的辅助损失，在保持原始监督目标的同时促进任务一致性学习。",
-        "problem": "低资源训练数据模糊或不完整导致LLM性能下降。",
-        "takeaway": "提出Prior-Guided Tuning（PGT）方法，将任务级自然语言先验作为辅助学习信号以提升低资源LLM训练效果。",
-        "why_for_you": "数据选择与辅助学习信号优化，适用于低资源环境下的LLM训练。",
-        "source": "abstract",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
       "analysis_status": "pending",
       "recommendation_reason": {
         "topic": "Efficient adversarial training",
@@ -100,6 +87,103 @@
           "fine-tuning"
         ],
         "lane": "llm"
+      },
+      "summary": {
+        "evidence": "CPS achieves 97.6% AmbiMath accuracy, 9.5% F1 improvement on Jigsaw, and 8.3-5.2% HANS accuracy gains over baselines.",
+        "limitations": "The method's effectiveness depends on task-specific prior formulations, and its generalization to unseen priors remains unexplored.",
+        "method": "PGT frames natural-language priors as explicit learning signals, while CPS uses contrastive losses to align training with task principles.",
+        "problem": "Low-resource training data often lack sufficient evidence to disambiguate task solutions, leading to spurious correlations.",
+        "takeaway": "Prior-Guided Tuning (PGT) with Contrastive Prior Steering (CPS) improves low-resource LLM training by incorporating task-level natural-language priors as auxiliary signals.",
+        "why_for_you": "This addresses data selection for LLMs by demonstrating how priors enhance low-resource training efficiency and robustness.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "contributions": [
+          "Developed PGT to treat natural-language priors as explicit learning signals",
+          "Introduced CPS with contrastive prior-conditioned losses for task-consistent learning",
+          "Demonstrated effectiveness across AmbiMath, Jigsaw, and HANS benchmarks"
+        ],
+        "experiments": [
+          {
+            "detail": "Evaluates rule ambiguity resolution with 97.6% exact-match accuracy using CPS, compared to lower stability in plain/prompt fine-tuning.",
+            "title": "AmbiMath Benchmark"
+          },
+          {
+            "detail": "CPS improves Macro F1 by 9.5% with 1/10 data, outperforming full-data baselines while addressing identity-term spurious correlations.",
+            "title": "Jigsaw Toxicity Classification"
+          },
+          {
+            "detail": "CPS boosts HANS non-entailment accuracy by 8.3-5.2% for LLaMA and Qwen, maintaining in-domain MNLI performance.",
+            "title": "MNLI/HANS NLI Robustness"
+          }
+        ],
+        "findings": [
+          {
+            "detail": "CPS with 1/30 Jigsaw data achieves 0.71 Macro F1, outperforming plain fine-tuning (0.50) and exceeding full-data baselines with 1/10 data.",
+            "title": "Data Efficiency Gains"
+          },
+          {
+            "detail": "CPS enhances HANS non-entailment accuracy from 39.2% to 47.5% (LLaMA) and 45.1% to 50.3% (Qwen), demonstrating better heuristic alignment.",
+            "title": "Robustness Improvements"
+          },
+          {
+            "detail": "CPS maintains strong performance across manually rewritten priors, indicating resilience to wording variations as long as task principles are preserved.",
+            "title": "Prior Formulation Flexibility"
+          }
+        ],
+        "limitations": [
+          "Dependence on task-specific prior formulations limits generalization to unseen priors",
+          "No analysis of computational efficiency or scalability beyond Jigsaw experiments"
+        ],
+        "mechanism": [
+          {
+            "detail": "CPS employs positive and negative priors to create contrastive losses, encouraging models to align with intended task principles while avoiding misleading alternatives.",
+            "title": "Contrastive Prior Steering"
+          },
+          {
+            "detail": "By embedding prior knowledge into the loss function, CPS ensures training adheres to explicit task rules, reducing reliance on spurious data patterns.",
+            "title": "Task-Level Alignment"
+          }
+        ],
+        "methodology": [
+          {
+            "detail": "PGT redefines natural-language priors as explicit learning signals rather than contextual inputs, enabling task-level guidance when data is insufficient.",
+            "title": "PGT Framework"
+          },
+          {
+            "detail": "CPS integrates contrastive objectives with standard supervised loss, using positive and negative prior-conditioned signals to steer learning toward task-consistent solutions.",
+            "title": "CPS Architecture"
+          }
+        ],
+        "open_questions": [
+          "How to generalize prior formulations across diverse tasks without task-specific customization?",
+          "What are the theoretical limits of prior-guided learning in high-dimensional LLM loss landscapes?",
+          "Can CPS be adapted to dynamic priors or real-time feedback during training?"
+        ],
+        "overview": "The paper proposes Prior-Guided Tuning (PGT) to address low-resource training challenges by treating task-level natural-language priors as auxiliary signals. Contrastive Prior Steering (CPS) combines standard supervised loss with contrastive objectives, improving performance on ambiguous tasks like AmbiMath, toxicity classification (Jigsaw), and NLI robustness (HANS). Experiments show CPS outperforms plain and prompt fine-tuning, particularly in data-scarce settings, while maintaining in-domain accuracy. The method's effectiveness is validated across multiple models (LLaMA 3.1 8B, Qwen 2.5 7B) and tasks, demonstrating its utility for data-efficient LLM training.",
+        "signals": [
+          {
+            "icon": "🌐",
+            "text": "PGT introduces natural-language priors as explicit learning signals for low-resource LLMs"
+          },
+          {
+            "icon": "🔧",
+            "text": "CPS uses contrastive prior-conditioned losses to encourage task-consistent learning"
+          },
+          {
+            "icon": "📈",
+            "text": "CPS achieves 97.6% AmbiMath exact-match accuracy with 1/10 data, outperforming full-data baselines"
+          }
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
       },
       "recommended_at": "2026-09-05T13:27:35.700479+00:00"
     },
@@ -989,454 +1073,6 @@
       "recommended_at": "2026-09-05T13:27:35.700479+00:00"
     },
     {
-      "id": "2608.25429",
-      "title": "Distance Is Not Enough: Forget-Retain Alignment Gap Predicts LLM Relearning Robustness",
-      "abstract": "Machine unlearning aims to make a model forget specific data, yet unlearned LLMs often fail to stay unlearned: brief fine-tuning can revive removed knowledge. Existing robustness predictors rely on global weight-space displacement, but distance alone can be misleading when random or destructive updates collapse performance. We argue that relearning robustness depends on update structure: robust unlearning should affect forget-critical weights while sparing retain-critical ones. We introduce the Forget-Retain Alignment Gap (FRAG), a training-free predictor that scores an update's forget-retain alignment without running a relearning attack, and separates selective from dense updates more reliably than global distance. Building on the forget-critical, retain-sparing principle, Forget-Retain Pruning (FRP) improves relearning robustness. Our results suggest that weight selectivity better explains robustness than distance alone. Code is available at https://github.com/Yi1-Chen/FRAG.",
-      "authors": [
-        "Yi Chen",
-        "Hanna Hsieh",
-        "Shuhong Liu",
-        "Chuanbo Hua",
-        "Zihan Ma",
-        "Kun Wang",
-        "Joo-Young Kim"
-      ],
-      "published": "2026-08-26T06:39:49Z",
-      "updated": "2026-08-26T06:39:49Z",
-      "categories": [
-        "cs.AI",
-        "cs.LG"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2608.25429v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.25429v1",
-      "comment": "Accepted to EMNLP 2026 Main Conference",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "llm",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.5819,
-          "matched": [
-            "training",
-            "fine-tuning",
-            "robust",
-            "robustness"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4728,
-          "matched": [
-            "robustness",
-            "alignment",
-            "llm"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.273,
-          "matched": [
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6387,
-        "relevance": 0.6147,
-        "quality": 0.63,
-        "novelty": 0.8706,
-        "freshness": 0.5214,
-        "feedback_adjustment": -0.0132,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "GitHub link"
-      ],
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "training",
-          "fine-tuning",
-          "robust",
-          "robustness"
-        ],
-        "lane": "llm"
-      },
-      "summary": {
-        "why_for_you": "高效对抗训练专家会看重 FRAG 的 training-free 对齐指标，用于在无需重新学习攻击的情况下评估忘记鲁棒性。",
-        "limitations": "FRAG 需要校准数据，且主要在 transformer 架构上进行评估。",
-        "problem": "现有的忘记方法因对权重更新缺乏足够的结构性保证，无法防止重新学习攻击。",
-        "method": "FRAG 通过 activation-normalized 权重重要性得分计算忘记-保留对齐差距；FRP 根据这些得分剪枝权重。",
-        "evidence": "在多种忘记方法和模型中，FRAG 与实际重新学习鲁棒性的相关性比全局距离更可靠。",
-        "takeaway": "FRAG 与 FRP 通过优先考虑忘记-保留对齐而非全局距离，提升重新学习鲁棒性。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "experiments": [
-          {
-            "detail": "TOFU (LLaMA3.2-1B/3B) 与 WMDP-cyber (Qwen2.5-14BInstruct) 在 forget01/05/10、retain 和 forget+retain 攻击下",
-            "title": "忘记基准"
-          },
-          {
-            "detail": "GA、GradDiff、NPO、RMU、SP；指标 ES/∆ES/utility（TOFU），Acc/∆Acc/MMLU（WMDP）",
-            "title": "基线"
-          },
-          {
-            "detail": "相较于全局 ℓ2 距离，FRAG 在不同模型规模（1B、3B、14B）上与实际鲁棒性的相关性更强",
-            "title": "FRAG 评估"
-          }
-        ],
-        "limitations": [
-          "FRAG 需要用于 activation norm 估计的校准数据",
-          "评估仅限于 transformer 架构（Llama/Qwen）"
-        ],
-        "overview": "本文质疑全局权重距离能够预测重新学习鲁棒性的假设。作者提出 FRAG，一种 training-free 指标，通过衡量忘记关键权重与保留关键权重的对齐程度来评估更新结构。实验表明 FRAG 与实际鲁棒性的相关性优于距离度量，并展示了其在 FRP（剪枝方法）中的应用，FRP 在提升鲁棒性的同时控制效用损失。工作强调在忘记保证中权重的选择性而非仅仅大小。",
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "FRAG：training-free 忘记-保留对齐差距预测器"
-          },
-          {
-            "icon": "🔬",
-            "text": "activation-normalized 权重重要性得分的余弦相似度"
-          },
-          {
-            "icon": "📈",
-            "text": "FRAG 在攻击前 ES 降低方面比全局距离提升 2.6-4.0 倍"
-          }
-        ],
-        "open_questions": [
-          "FRAG 能否在无需校准过程的实时忘记中使用？",
-          "忘记-保留对齐在非 transformer 架构上的泛化如何？"
-        ],
-        "contributions": [
-          "将忘记鲁棒性重新定义为结构化更新问题，而非距离优化",
-          "提出 FRAG 作为 training-free 的忘记对齐指标",
-          "展示 FRP 在可控效用权衡下提升鲁棒性的能力"
-        ],
-        "mechanism": [
-          {
-            "detail": "如果权重的幅度与 forget activation norm 的相关性高于 retain norm，则视为忘记关键权重；反之则为保留关键权重",
-            "title": "忘记-保留重要性对比"
-          }
-        ],
-        "findings": [
-          {
-            "detail": "FRAG 与实际重新学习鲁棒性的相关性比全局距离更可靠（在 3B 时，综合 FRAG 分数 -0.74 对比 ℓ2 -0.10）",
-            "title": "FRAG 相关性"
-          },
-          {
-            "detail": "在相同稀疏度下，FRP 的攻击前 ES 比 SP 低 2.6-4.0 倍，且效用相当",
-            "title": "FRP 效果"
-          }
-        ],
-        "methodology": [
-          {
-            "detail": "FRAG 通过 |Wij| * (xfj/(xrj+ϵ)) 与 |Wij| * (xrj/(xfj+ϵ)) 计算忘记/保留重要性，使用校准数据的输入通道 activation norm",
-            "title": "activation-normalized 重要性评分"
-          },
-          {
-            "detail": "FRAG 使用更新向量与重要性图的余弦相似度计算全局对齐分数 Af 与 Ar，公式为 A_f = Σ(ΔWℓ² * Fℓ)/||ΔWℓ²||||Fℓ||",
-            "title": "余弦对齐计算"
-          }
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "recommended_at": "2026-08-29T15:03:50.069527+00:00"
-    },
-    {
-      "id": "2608.25727",
-      "title": "Are LLM-Enhanced GNNs Privacy-Safe?",
-      "abstract": "Large language models (LLMs) have recently advanced graph neural networks (GNNs) by enriching node representations with semantic information, giving rise to LLM-enhanced GNNs that achieve substantial performance gains. However, their vulnerability to privacy attacks, in which adversaries infer sensitive information from model outputs, remains largely underexplored. To bridge this gap, we present a systematic evaluation of privacy risks in LLM-enhanced GNNs through a unified framework consisting of five stages: (1) dataset preparation, (2) victim model training, (3) privacy attack, (4) risk assessment, and (5) defense analysis. Specifically, we conduct experiments on six real-world text-attributed graph datasets covering diverse domains. We consider six representative privacy attack methods targeting three fundamental threats, namely link, label, and membership inference, and construct 42 victim model configurations by combining multiple LLM-based feature enhancers with representative GNN backbones. Extensive experiments show that, despite their utility improvements, LLM-enhanced GNNs consistently exhibit increased vulnerability to privacy attacks compared to shallow text representation baselines. Further analysis reveals that semantic enrichment amplifies link-, label-, and membership-related signals in the embedding space, making them more exploitable by inference attacks. Finally, we evaluate differential privacy as a defense strategy and show that, while it can partially mitigate privacy risks, it introduces significant utility degradation, highlighting a fundamental privacy-utility trade-off in LLM-enhanced graph learning. Overall, this work provides a comprehensive understanding of privacy risks in LLM-enhanced GNNs and offers practical insights for developing more secure and trustworthy graph learning systems.",
-      "authors": [
-        "Longzhu He",
-        "Zelang Wen",
-        "Chaozhuo Li",
-        "Sen Su"
-      ],
-      "published": "2026-08-26T12:42:21Z",
-      "updated": "2026-08-26T12:42:21Z",
-      "categories": [
-        "cs.LG",
-        "cs.CR"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2608.25727v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.25727v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.5843,
-          "matched": [
-            "llm"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.5723,
-          "matched": [
-            "privacy",
-            "llm"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.1345,
-          "matched": [
-            "training"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6381,
-        "relevance": 0.634,
-        "quality": 0.58,
-        "novelty": 0.8211,
-        "freshness": 0.5574,
-        "feedback_adjustment": -0.0174,
-        "semantic_feedback": 0.168
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "experiments",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "LLM‑增强的 GNN 在提升节点分类准确率的同时，会显著增加对链接、标签和成员推断攻击的易感性，差分隐私只能在高代价的实用性损失下部分缓解。",
-        "why_for_you": "符合您对可信 LLM 的兴趣，揭示了 LLM‑增强图学习中的隐私漏洞及其权衡。",
-        "method": "作者提出统一的五阶段框架，在六个文本属性图数据集、42 种受害模型配置和六类代表性推断攻击上评估隐私，并考察差分隐私作为防御手段。",
-        "limitations": "在可获取的来源中未说明。",
-        "evidence": "大量实验表明，LLM‑增强的 GNN 相较于浅层基线泄露更多隐私，使用差分隐私可降低泄露但会显著下降分类准确率。",
-        "problem": "尚未系统研究融合 LLM‑生成节点嵌入的图神经网络的隐私风险。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🗂️",
-            "text": "提出统一的五阶段框架，在六个数据集上评估 42 种 LLM‑增强 GNN 配置的隐私风险。"
-          },
-          {
-            "icon": "🔧",
-            "text": "将基于解释和基于嵌入的 LLM 增强与标准 GNN 主干结合，测试链接、标签和成员推断攻击。"
-          },
-          {
-            "icon": "📈",
-            "text": "实证结果显示，相比浅层基线，隐私泄露持续增加，差分隐私虽能减轻泄露但会导致显著的效用损失。"
-          }
-        ],
-        "overview": "本文提供系统的 LLM‑增强图神经网络隐私评估流水线，涵盖数据集准备、使用解释式和嵌入式 LLM 增强的受害模型训练、针对链接、标签和成员信息的六种推断攻击、定量风险评估以及差分隐私防御研究。六个真实文本属性图的实验表明，语义增强提升分类性能的同时也放大了隐私泄露信号，且差分隐私只能在牺牲准确率的情况下提供部分保护。",
-        "methodology": [
-          {
-            "title": "五阶段评估框架",
-            "detail": "阶段：(1) 数据集准备，(2) 受害模型训练（LLM 增强器 + GNN 主干），(3) 隐私攻击执行，(4) 风险评估（隐私 vs 实用性指标），(5) 使用差分隐私的防御分析。"
-          },
-          {
-            "title": "受害模型配置",
-            "detail": "通过将多种基于 LLM 的特征增强器（基于解释或基于嵌入）与代表性 GNN 主干（如 GAT）配对，创建了 42 种配置，采用两层架构（隐藏维度 256，dropout 0.5，学习率 0.001）。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "语义增强放大泄漏信号",
-            "detail": "LLM 生成的嵌入强化了潜在空间中的结构、标签和成员关系模式，使其更易被推断攻击利用。"
-          }
-        ],
-        "experiments": [
-          {
-            "detail": "六个真实世界文本属性图数据集；六种隐私攻击（链接、标签、成员推理变体）；指标包括节点分类准确率和攻击AUC；每次运行使用不同种子重复五次。",
-            "title": "实证研究"
-          },
-          {
-            "detail": "对目标模型应用DP机制，测量隐私风险降低与效用退化（ noted as substantial）。",
-            "title": "差分隐私防御"
-          }
-        ],
-        "findings": [
-          {
-            "detail": "LLM增强的GNNs在节点分类准确率上始终优于浅层BoW/Word2Vec基线（例如，高达~95.7%）。",
-            "title": "效用提升"
-          },
-          {
-            "detail": "所有攻击中，LLM增强模型表现出比浅层基线更高的泄露，证实了隐私风险的放大。",
-            "title": "隐私脆弱性增加"
-          },
-          {
-            "detail": "差分隐私部分缓解了攻击，但导致分类性能显著下降。",
-            "title": "隐私-效用权衡"
-          }
-        ],
-        "contributions": [
-          "统一的五阶段框架，用于系统评估 LLM‑enhanced GNNs 的隐私风险。",
-          "全面的实证基准，涵盖六个数据集、42 种模型配置和六种攻击方法。",
-          "分析表明，LLM‑driven 语义增强会放大隐私泄漏信号。"
-        ],
-        "limitations": [
-          "在可用来源中未说明。"
-        ],
-        "open_questions": [
-          "如何设计 privacy‑preserving LLM 增强，使其在保持效用的同时不放大泄漏？",
-          "在 differential privacy 之外，哪些替代防御机制对 LLM‑enhanced GNNs 有效？",
-          "观察到的隐私风险是否可推广到更大的 LLM 或其他图任务，如 link prediction？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-29T15:03:50.069527+00:00"
-    },
-    {
-      "id": "2608.27397",
-      "title": "Making Clinical Language Models Auditable: Concept-Guided Fine-Tuning for Robust Prediction",
-      "abstract": "Clinical language models can achieve strong in-hospital accuracy yet fail under deployment shifts because they exploit note-specific artifacts (e.g., templates, separators, boilerplate) that do not reflect patient state. We propose CAST (Concept-guided Artifact Suppression Tuning), an SAE-based framework for auditable clinical text classification. CAST uses Sparse Autoencoders to expose sparse, human-auditable features from intermediate Transformer activations, labels SAE latents with an LLM-assisted interpretation pipeline and ICD-10 retrieval constraints, suppresses verified artifact latents via residual subtraction during fine-tuning, and provides post-hoc per-concept attributions for auditing model decisions. On MIMIC-IV discharge-note mortality prediction, CAST improves over its corresponding fine-tuned encoder baselines and remains competitive with strong LLM baselines, while producing a feature-level audit trail of the clinical concepts that support each prediction and the artifact concepts suppressed during training.",
-      "authors": [
-        "Jin Mu",
-        "Guanhua Chen"
-      ],
-      "published": "2026-08-27T17:28:35Z",
-      "updated": "2026-08-27T17:28:35Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2608.27397v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.27397v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "language model",
-        "language models",
-        "llm",
-        "transformer"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.6765,
-          "matched": [
-            "training",
-            "fine-tuning",
-            "robust"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.2533,
-          "matched": [
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6329,
-        "relevance": 0.5919,
-        "quality": 0.62,
-        "novelty": 0.8774,
-        "freshness": 0.7286,
-        "feedback_adjustment": -0.0254,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "baseline comparison",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "We propose CAST (Concept-guided Artifact Suppression Tuning), an SAE-based framework for auditable clinical text classification.",
-        "problem": "Clinical language models can achieve strong in-hospital accuracy yet fail under deployment shifts because they exploit note-specific artifacts (e.g., templates, separators, boilerplate) that do not reflect patient state.",
-        "method": "We propose CAST (Concept-guided Artifact Suppression Tuning), an SAE-based framework for auditable clinical text classification.",
-        "evidence": "On MIMIC-IV discharge-note mortality prediction, CAST improves over its corresponding fine-tuned encoder baselines and remains competitive with strong LLM baselines, while producing a feature-level audit trail of the clinical concepts that support each prediction and the artifact concepts suppressed during training.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Efficient adversarial training, LLM loss landscape.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "training",
-          "fine-tuning",
-          "robust"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-29T15:03:50.069527+00:00"
-    },
-    {
       "id": "2608.28009",
       "title": "Beyond Global Scalars: Synergizing Token-Level Statistics and Deep Semantics for Adversarial AIGC Text Detection",
       "abstract": "The rapid evolution of large language models necessitates robust machine-generated text detection. Existing paradigms typically follow two isolated tracks. Training-free methods rely on global statistical scalars such as perplexity, while training-based methods utilize semantic hidden states. Both approaches exhibit fundamental vulnerabilities in adversarial scenarios. Global scalars act as lossy compressions that obscure local probabilistic burstiness in interleaved texts, whereas pure semantic models overfit to specific fingerprints and remain susceptible to spoofing. To expose these flaws, we introduce MOSAIC, a comprehensive adversarial benchmark comprising 16000 samples across a full-granularity attack spectrum. To address these challenges, we propose NeuroStat, an end-to-end framework bridging the statistical and semantic gap. NeuroStat captures uncompressed token-level probabilistic logits alongside deep semantic hidden states from a single causal language model backbone. We fuse these heterogeneous signals through Macro-State Residual Modulation, which adaptively calibrates local convolutional features using global uncertainty indicators. Orthogonal and contrastive losses further ensure the learning of complementary representations. Extensive experiments demonstrate that NeuroStat maintains exceptional robustness on MOSAIC compared to the severe degradation of state-of-the-art methods, establishing a new standard for adversarial text detection. Code and the MOSAIC benchmark are available at https://github.com/TencentBAC/NeuroStat.",
@@ -1603,173 +1239,6 @@
       "recommended_at": "2026-08-31T17:37:30.318867+00:00"
     },
     {
-      "id": "2608.26008",
-      "title": "A Self-Evolving Multi-Agent Framework Defense against LLM Jailbreak Attacks",
-      "abstract": "Large language models (LLMs) remain vulnerable to jailbreak attacks that exploit techniques such as role-playing, obfuscation, code transformation, and multi-step indirection to elicit harmful outputs. As jailbreak strategies keep emerging, defenses have proliferated in an ongoing cat-and-mouse game, yet most remain static: their safety behavior is fixed at deployment, so they cannot accumulate defensive experience or adapt to unseen strategies. We propose a self-evolving test-time defense built around a persistent, cross-interaction rule memory: when an attack succeeds, the framework abstracts that failure into a method-level rule capturing the structural attack wrapper rather than the harmful topic, and reuses it against future inputs. Because rules are method-level, one induced rule generalizes across an entire attack family, and the label space expands as novel wrappers appear. The mechanism operates entirely through external memory and prompting, with no parameter updates, and applies to both open-weight and black-box API models. We realize it as four cooperating modules, but the contribution is the memory-based adaptation mechanism, not the module decomposition. Across four black-box jailbreak families and multiple models, our method substantially reduces attack success rates while preserving benign utility, remains robust under an adaptive composite-wrapper attack, and does not increase over-refusal as the memory grows.",
-      "authors": [
-        "Tongyan Hu",
-        "Bryan Hooi"
-      ],
-      "published": "2026-08-26T16:52:06Z",
-      "updated": "2026-08-26T16:52:06Z",
-      "categories": [
-        "cs.CR",
-        "cs.CL"
-      ],
-      "primary_category": "cs.CR",
-      "abs_url": "https://arxiv.org/abs/2608.26008v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.26008v1",
-      "comment": "8 pages (main), with appendix",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.6355,
-          "matched": [
-            "jailbreak",
-            "robust"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.3359,
-          "matched": [
-            "llm"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.265,
-          "matched": [
-            "safety",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6178,
-        "relevance": 0.6286,
-        "quality": 0.47,
-        "novelty": 0.8608,
-        "freshness": 0.5822,
-        "feedback_adjustment": -0.0249,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available"
-      ],
-      "summary": {
-        "takeaway": "一种基于记忆的测试时防御，能够从 jailbreak 失败中学习，在不修改模型参数的情况下显著降低攻击成功率。",
-        "why_for_you": "符合您对 LLM 自适应、parameter‑free 防御的兴趣，提供一种 test‑time 方法来缓解 jailbreak。",
-        "method": "持久的外部规则记忆将失败的攻击抽象为方法级规则，并在 inference 时通过四个提示式代理应用。",
-        "limitations": "评估仅限于四个攻击家族和有限的模型集合，每个标签的规则容量为 4 条。",
-        "evidence": "在四个 black‑box jailbreak 家族中，系统在首批后将 ASR‑gpt 降至接近零，同时保持良好的实用性。",
-        "problem": "静态安全机制无法在 inference 期间适应新出现的 jailbreak 策略。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🛡️",
-            "text": "引入持久规则记忆，将攻击包装器抽象化，在首次暴露后实现接近零的攻击成功率。"
-          },
-          {
-            "icon": "🔎",
-            "text": "实现四个提示式代理，分别进行分类、检索、执行和反思，以在不更新模型权重的情况下生成 method‑level 规则。"
-          },
-          {
-            "icon": "⚠️",
-            "text": "在四个 black‑box jailbreak 家族中将 ASR‑gpt 降至接近零，尽管结果仅限于这些攻击和模型。"
-          }
-        ],
-        "overview": "本文提出一种自演化的 test‑time 防御，将 method‑level 规则存储在外部记忆中。当 jailbreak 成功时，reflection 代理将结构化包装抽象为规则，triggering 代理据此检测未来相似输入。policy 代理根据匹配规则执行硬拒或软拒，response 代理生成最终输出。模型参数不被修改，可部署于 open‑weight 与 black‑box LLM API。",
-        "mechanism": [
-          {
-            "detail": "而非特定主题的过滤器，规则抽象了结构化的攻击方法（例如，角色扮演-嵌套人格），使单个规则能够跨所有共享相同包装器的提示进行泛化，无论其有害意图如何。",
-            "title": "方法级规则抽象"
-          }
-        ],
-        "methodology": [
-          {
-            "detail": "规则记忆Rt存储形式为[标签=Li] 如果请求使用Pi则Di的条目，其中Pi捕获攻击包装器，Di为拒绝约束；通过归纳增长，并按标签限制（C=4）。",
-            "title": "规则记忆与操作符"
-          },
-          {
-            "detail": "A1（规则触发）运行分类器ϕ对输入进行标记并检索最多K=2个匹配规则；A2（策略决策）将触发规则映射为硬拒绝、软拒绝或允许；A3（响应生成）将策略作为动态系统指令注入；A4（自我反思）检测违规行为，通过操作符F生成新规则，并通过U更新记忆。",
-            "title": "四个提示代理"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "评估设置",
-            "detail": "基准：AdvBench 与 CodeChameleon；模型：Qwen2.5‑7B、Llama3.1‑8B、Gemini‑3‑Flash‑Preview；攻击：四类黑盒 jailbreak 家族及 DeepInception；基线：No Defense、Defense Prompt、Self‑Reminder、AutoDefense；指标：ASR‑rej、ASR‑gpt、任务性能（MMLU、GSM8K）。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "攻击成功率降低",
-            "detail": "ASR‑gpt 在首批 20 次攻击后降至接近零，并在所有四个家族中保持低水平；消融实验表明，移除任意代理都会显著提升 ASR，验证了其互补作用。"
-          },
-          {
-            "title": "效用保持",
-            "detail": "良性任务性能与基模型相当，且随着规则记忆扩展，过度拒绝并未增加。"
-          }
-        ],
-        "contributions": [
-          "在测试时，Persistent external rule memory 累积结构化防御知识。",
-          "Method‑level rule abstraction 使跨 attack families 泛化。",
-          "Multi‑agent prompting architecture 在无需 parameter updates 的情况下实现 classification、retrieval、enforcement 和 reflection。"
-        ],
-        "limitations": [
-          "实验仅覆盖四个 black‑box jailbreak families 以及有限的 LLMs。",
-          "Per‑label capacity (C=4) 可能限制对大量多样化 attack methods 的可扩展性。",
-          "缺乏针对 memory 的 formal safety guarantees 或对 adaptive adversaries 的分析。"
-        ],
-        "open_questions": [
-          "当 rule memory 扩展至数百种多样化 wrappers 时，该方法的可扩展性如何？",
-          "adaptive attackers 能否构造提示规避或污染 rule induction process？",
-          "test‑time memory 与现有对齐技术（如 RLHF）之间的交互是什么？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "jailbreak",
-          "robust"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-29T15:03:50.069527+00:00"
-    },
-    {
       "id": "2609.02293",
       "title": "SEAL: Reinforcing Global Safety in Mixture-of-Experts through Shared Expert ALignment",
       "abstract": "Mixture-of-Experts (MoE) is a scaling architecture for large language models that activates only a small subset of expert modules per token, enabling massive parameter growth with nearly constant computation. Recent Hybrid MoE architecture adds \\textit{shared experts} to capture consistently useful representations, further improving stability and generalization. MoE now powers many flagship open-source and commercial models, yet remains vulnerable to adversarial attacks. Specifically, sparse routing introduces a structural vulnerability: MoE safety hinges on which experts are activated, and adversaries can subvert this selection through jailbreak prompts, malicious fine-tuning, and weight-level pruning of safety-critical neurons. Existing defenses primarily focus on hardening the router, but an adversary may still manipulate or bypass the routing trajectory due to the routing process's nondeterministic nature, thereby collapsing the defense. To cope with this problem, we first identify theoretically and empirically that shared expert, an always-activated component containing a small proportion of safety-critical neurons, can overcome the uncertainty of sparsely activated routing path and serve as a router-independent anchor to enhance global safety alignment. Based on this insight, we propose SEAL, a training-time parameter-efficient defense that produces a plug-and-play adapter attached to shared expert, and SEAL++, a variant that adds an orthogonal constraint preserving pre-existing safety subspaces during training. We evaluate SEAL and SEAL++ across six attack scenarios that combine three adversarial inputs (harmful prompting, jailbreak, malicious fine-tuning) with and without neuron pruning. SEAL reduces attack success rate (ASR) by up to 60\\%, at a capability cost of at most 1.4\\% on a five-benchmark average. Additionally, SEAL can seamlessly integrate with router-level ......",
@@ -1843,92 +1312,6 @@
         "open source",
         "quantitative results"
       ],
-      "summary": {
-        "takeaway": "SEAL adds a lightweight shared‑expert adapter that markedly improves MoE safety against diverse attacks.",
-        "problem": "Hybrid Mixture‑of‑Experts models are vulnerable because safety depends on sparsely activated routed experts.",
-        "method": "SEAL trains a parameter‑efficient adapter on always‑executed shared experts, with SEAL++ adding an orthogonal safety‑subspace constraint.",
-        "evidence": "Across four MoE models and six attack scenarios, SEAL cuts attack success rate up to 60% with ≤1.4% capability loss and, combined with router defenses, reaches 4.8% ASR.",
-        "limitations": "Not stated in the available source.",
-        "why_for_you": "Matches your interest in efficient adversarial training by offering a low‑overhead, statistically grounded defense for MoE LLMs.",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "SEAL introduces a plug‑and‑play shared‑expert adapter reducing ASR by up to 60% with ≤1.4% capability loss."
-          },
-          {
-            "icon": "⚙️",
-            "text": "SEAL++ adds an orthogonal constraint preserving pre‑existing safety subspaces during shared‑expert training."
-          },
-          {
-            "icon": "📈",
-            "text": "When combined with router‑level defenses, SEAL lowers ASR to 4.8%, a >5× improvement over router‑only defenses."
-          }
-        ],
-        "overview": "The paper identifies the structural weakness of hybrid MoE models: safety relies on sparsely routed experts that adversaries can evade or prune. It proposes SEAL, a training‑time, parameter‑efficient adapter attached to always‑activated shared experts, and SEAL++, which further enforces orthogonal preservation of safety subspaces. Empirical evaluation on four hybrid MoE architectures (14B‑35B) across six attack scenarios (prompt injection, jailbreak, malicious fine‑tuning, each with/without neuron pruning) shows substantial ASR reductions and minimal capability degradation, and demonstrates seamless composability with existing router‑level defenses.",
-        "methodology": [
-          {
-            "title": "SEAL adapter training",
-            "detail": "A lightweight adapter is trained exclusively on shared‑expert parameters using DPO alignment on the PKU‑SafeRLHF dataset, leaving routed experts frozen."
-          },
-          {
-            "title": "SEAL++ orthogonal constraint",
-            "detail": "An additional loss term enforces orthogonality between updated shared‑expert weights and the original safety subspace, preserving pre‑existing safety neurons."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Unconditional execution guarantee",
-            "detail": "Shared experts run for every token regardless of routing, providing a router‑independent safety anchor (Property 1)."
-          },
-          {
-            "title": "Defense isolation",
-            "detail": "By restricting updates to the small shared‑expert fraction, SEAL avoids destabilizing routing weights and prevents new attack surfaces (Property 3)."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Evaluation setup",
-            "detail": "Four hybrid MoE models (Qwen1.5‑MoE, DeepSeek‑MoE, GLM‑4.7‑Flash, Qwen3.5‑30B) spanning 14B‑35B parameters; six attack scenarios combining three adversarial inputs (harmful prompting, jailbreak, malicious fine‑tuning) with/without neuron pruning; safety classified by GPT‑5‑nano with 98.1% inter‑run agreement; capability measured on five standard benchmarks."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Attack success reduction",
-            "detail": "SEAL reduces ASR by up to 60% across all scenarios; combined with router‑level defenses, ASR drops to 4.8% (≈5× lower than router‑only)."
-          },
-          {
-            "title": "Capability preservation",
-            "detail": "Capability loss remains ≤1.4% on average across the five benchmarks."
-          },
-          {
-            "title": "Safety neuron stability",
-            "detail": "Jaccard overlap of safety neuron identity after SEAL training exceeds 80% for models with concentrated shared‑expert safety encoding."
-          }
-        ],
-        "contributions": [
-          "SEAL: a plug‑and‑play shared‑expert adapter for MoE safety.",
-          "SEAL++: orthogonal constraint variant preserving safety subspaces.",
-          "Empirical demonstration of shared‑expert defenses across multiple MoE architectures and attack vectors."
-        ],
-        "limitations": [],
-        "open_questions": [
-          "How does SEAL scale to MoE models with larger numbers or different configurations of shared experts?",
-          "What is the impact of SEAL on downstream task performance beyond the five evaluated benchmarks?",
-          "Can the shared‑expert defense be combined with other alignment techniques (e.g., RLHF) without interference?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
       "analysis_status": "pending",
       "recommendation_reason": {
         "topic": "Efficient adversarial training",
@@ -1940,7 +1323,707 @@
         ],
         "lane": "llm"
       },
+      "summary": {
+        "takeaway": "SEAL and SEAL++ add a lightweight adapter to shared experts, providing a router‑independent safety anchor for hybrid MoE LLMs.",
+        "problem": "Sparse routing in Mixture‑of‑Experts models lets adversaries bypass safety by manipulating expert selection, fine‑tuning, or pruning.",
+        "method": "SEAL trains a parameter‑efficient plug‑and‑play adapter on shared experts, while SEAL++ adds an orthogonal constraint to preserve existing safety subspaces.",
+        "evidence": "Across six attack scenarios, SEAL cuts attack success rate by up to 60% with ≤1.4% average capability loss, and combined with router‑level defenses lowers ASR to 4.8% (≈5× improvement).",
+        "limitations": "Evaluation is limited to four hybrid MoE models (14B‑35B) and six predefined attack scenarios.",
+        "why_for_you": "If you seek efficient adversarial defenses for MoE LLMs, SEAL offers a concrete, low‑overhead method targeting the shared‑expert component.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🛡️",
+            "text": "SEAL introduces a shared‑expert‑only adapter that reduces MoE attack success up to 60%."
+          },
+          {
+            "icon": "⚙️",
+            "text": "SEAL++ adds an orthogonal constraint preserving pre‑existing safety subspaces during training."
+          },
+          {
+            "icon": "📉",
+            "text": "Combined with router‑level defenses, ASR drops to 4.8%, a >5× reduction, with ≤1.4% capability cost."
+          }
+        ],
+        "overview": "The paper identifies the unconditional execution of shared experts as a reliable safety anchor in hybrid Mixture‑of‑Experts LLMs. Building on this insight, SEAL trains a lightweight adapter attached solely to shared experts, and SEAL++ further enforces orthogonal preservation of safety subspaces. Experiments on four diverse MoE models (14B‑35B) under six attack configurations—prompt injection, jailbreak, malicious fine‑tuning, each with/without neuron pruning—show substantial ASR reductions while incurring minimal performance loss. The approach integrates seamlessly with existing router‑level defenses.",
+        "methodology": [
+          {
+            "title": "SEAL adapter training",
+            "detail": "A parameter‑efficient plug‑and‑play module is inserted into each shared expert and trained with DPO on the PKU‑SafeRLHF dataset, leaving routed experts frozen."
+          },
+          {
+            "title": "SEAL++ orthogonal constraint",
+            "detail": "During adapter training, an orthogonal regularizer enforces that updates remain orthogonal to the subspace spanned by pre‑existing safety neurons, preserving prior safety alignment."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Unconditional execution guarantee",
+            "detail": "Shared experts run on every token regardless of routing, ensuring safety‑critical neurons are always active even if the router is compromised."
+          },
+          {
+            "title": "Attack surface reduction",
+            "detail": "Because safety resides in a component that cannot be bypassed, adversaries must target the always‑executed shared experts, raising the effort required for successful attacks."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Model and attack setup",
+            "detail": "Four hybrid MoE models (Qwen1.5‑MoE, DeepSeek‑MoE, GLM‑4.7‑Flash, Qwen3.5‑30B) spanning 14B‑35B parameters and 1‑2 shared experts were evaluated. Six attack scenarios combined three adversarial inputs (harmful prompting, jailbreak, malicious fine‑tuning) with/without neuron pruning. Safety responses were classified by GPT‑5‑nano with 98.1% inter‑run agreement."
+          },
+          {
+            "title": "Metrics",
+            "detail": "Attack Success Rate (ASR) measured as worst‑case across conditions; capability cost measured as average performance drop on five downstream benchmarks."
+          }
+        ],
+        "findings": [
+          {
+            "title": "SEAL effectiveness",
+            "detail": "SEAL reduces ASR by up to 60% while incurring at most 1.4% average capability loss across the five‑benchmark suite."
+          },
+          {
+            "title": "Synergy with router defenses",
+            "detail": "When combined with a router‑level defense, overall ASR falls to 4.8%, more than five times lower than router defense alone."
+          },
+          {
+            "title": "Safety neuron preservation",
+            "detail": "Models with concentrated shared‑expert safety encoding (Qwen1.5, DeepSeek) retain >80% of safety neuron identity after SEAL training, indicating minimal subspace drift."
+          }
+        ],
+        "contributions": [
+          "Identification of shared experts as a router‑independent safety anchor.",
+          "SEAL: a plug‑and‑play adapter for shared experts that improves MoE safety.",
+          "SEAL++: orthogonal regularization to preserve existing safety subspaces.",
+          "Comprehensive evaluation across multiple MoE architectures and attack vectors."
+        ],
+        "limitations": [
+          "Experiments cover only four hybrid MoE models up to 35B parameters.",
+          "Evaluation limited to six predefined attack scenarios; broader threat models not explored."
+        ],
+        "open_questions": [
+          "How does shared‑expert augmentation scale to trillion‑parameter MoE systems?",
+          "Can adaptive adversaries learn to circumvent the shared‑expert safety anchor?",
+          "What are the interactions between SEAL and other alignment techniques such as RLHF or instruction tuning?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
       "recommended_at": "2026-09-05T13:27:35.700479+00:00"
+    },
+    {
+      "id": "2608.30910",
+      "title": "S3C-LLM: Skill-Code Guided Agentic Language Models for Spectrum-to-Structure Elucidation",
+      "abstract": "Spectroscopic structure elucidation is central to molecular analysis, but recent Large Language Model (LLM)-based methods mostly formulate it as direct spectrum-to-SMILES generation. Although this paradigm can leverage paired spectral data, it does not explicitly model the analytical workflow used by spectroscopists, such as diagnostic peak interpretation, fragment reasoning, formula constraints, and chemical consistency checking. In this paper, we introduce S3C-LLM, a skill-guided and code-grounded agentic LLM for spectrum-to-structure elucidation. Rather than directly predicting a molecule, S3C-LLM retrieves modality-specific spectroscopy skills, executes analysis code to instantiate these skills on the input spectra, and integrates the resulting peak-level evidence and formula constraints before generating SMILES. Specifically, we contribute a self-evolving spectroscopy skill library, a thinking-augmented skill-code trajectory construction pipeline, and a two-stage training strategy that teaches Qwen3-4B through supervised fine-tuning (SFT) followed by our proposed step-level reinforcement learning (RL). Experiments on diverse benchmarks show that S3C-LLM consistently outperforms current general LLMs and spectrum-specific models across spectra, while using less than 1/10th of SpectraLLM's training corpus.",
+      "authors": [
+        "Xuanle Zhao",
+        "Xinyuan Cai",
+        "Xiang Cheng",
+        "Bo Xu"
+      ],
+      "published": "2026-08-31T14:55:32Z",
+      "updated": "2026-08-31T14:55:32Z",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2608.30910v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.30910v1",
+      "comment": "Accepted by EMNLP 2026 Findings",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "language models",
+        "llm",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5819,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.362,
+          "matched": [
+            "training",
+            "fine-tuning"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6138,
+        "relevance": 0.5379,
+        "quality": 0.68,
+        "novelty": 0.8531,
+        "freshness": 0.8574,
+        "feedback_adjustment": -0.0224,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "benchmark evaluation",
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "In this paper, we introduce S3C-LLM, a skill-guided and code-grounded agentic LLM for spectrum-to-structure elucidation.",
+        "problem": "Spectroscopic structure elucidation is central to molecular analysis, but recent Large Language Model (LLM)-based methods mostly formulate it as direct spectrum-to-SMILES generation.",
+        "method": "In this paper, we introduce S3C-LLM, a skill-guided and code-grounded agentic LLM for spectrum-to-structure elucidation.",
+        "evidence": "Experiments on diverse benchmarks show that S3C-LLM consistently outperforms current general LLMs and spectrum-specific models across spectra, while using less than 1/10th of SpectraLLM's training corpus.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: LLM loss landscape, Efficient adversarial training.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-01T14:52:59.157232+00:00"
+    },
+    {
+      "id": "2609.03322",
+      "title": "How Perturbations Propagate: A Multi-Level Analysis of Robustness in Large Language Models",
+      "abstract": "Language models encounter typos, corrupted text, altered words, and disrupted token order, yet robustness is usually evaluated only through output behavior. We study how six naturalistic and synthetic input perturbations propagate through decoder-only language models at three levels: output behavior, hidden-state geometry, and attention-head function. We evaluate behavioral effects across four GPT-2 and two Qwen2.5 checkpoints by analyzing layerwise geometry using centered kernel alignment and intrinsic dimension, and examine attention-head responses in GPT-2. Perturbation types produce distinguishable metric profiles that are not fully captured by output measures and are only partly consistent across the tested checkpoints. Copying scores are especially associated with activation-patching recovery under token substitution and shuffling. Gradient-guided HotFlip perturbations also cause stronger behavioral and representational disruption than rate-matched random token substitutions in GPT-2; their behavioral effects are consistent across all six tested checkpoints. Our results show that robustness claims based on a single behavioral or representational metric can be misleading, and motivate multi-level evaluation of how perturbations alter language-model computation.",
+      "authors": [
+        "Dun Li Chan",
+        "Emily Liu",
+        "Niyathi Allu",
+        "Christian Hoang"
+      ],
+      "published": "2026-09-03T03:17:25Z",
+      "updated": "2026-09-03T03:17:25Z",
+      "categories": [
+        "cs.CL",
+        "stat.ML"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2609.03322v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.03322v1",
+      "comment": "12 pages, 4 figures",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.5209,
+          "matched": [
+            "robustness",
+            "alignment"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5201,
+          "matched": [
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6084,
+        "relevance": 0.5834,
+        "quality": 0.55,
+        "novelty": 0.8652,
+        "freshness": 0.6538,
+        "feedback_adjustment": -0.0127,
+        "semantic_feedback": 0.4178
+      },
+      "quality_signals": [
+        "code available",
+        "quantitative results"
+      ],
+      "summary": {
+        "method": "分析输出行为、隐藏状态几何（CKA、intrinsic dimension）以及注意力头功能，覆盖六种扰动类型。",
+        "limitations": "结果仅在检查点间部分一致，且仅使用单一数据集（WikiText-2）。",
+        "problem": "鲁棒性评估常依赖单一行为或表征指标，可能误导对扰动影响的判断。",
+        "takeaway": "多层次分析揭示 LLM 的不同扰动特征，挑战单指标鲁棒性评估。",
+        "why_for_you": "符合您对对抗鲁棒性和多层次评估以实现可信 LLM 的兴趣。",
+        "evidence": "不同扰动类型产生可区分的指标分布，梯度引导扰动比随机替换破坏更强。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "limitations": [
+          "检查点间指标部分一致",
+          "仅使用 WikiText-2 数据集和有限模型族",
+          "缺乏对架构因素的机制分析"
+        ],
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "对 6 种扰动进行行为、几何和注意力的多层次分析"
+          },
+          {
+            "icon": "🔧",
+            "text": "使用 CKA 与 intrinsic dimension 衡量隐藏状态几何变化"
+          },
+          {
+            "icon": "📊",
+            "text": "梯度引导扰动在 30% 率下比随机替换导致更强破坏"
+          }
+        ],
+        "methodology": [
+          {
+            "title": "Perturbation types",
+            "detail": "字符替换、键盘错别字、标记/词/同义词替换以及标记洗牌，比例为 5%/30%/50%"
+          },
+          {
+            "title": "Geometry metrics",
+            "detail": "使用中心核对齐（CKA）和 2-NN 估计的 intrinsic dimension 变化"
+          },
+          {
+            "title": "Attention analysis",
+            "detail": "注意力头功能得分（previous-token、duplicate、induction）与激活补丁"
+          }
+        ],
+        "overview": "本文提出多层次框架，分析输入扰动对语言模型的影响，结合行为指标、表征几何（CKA、intrinsic dimension）和注意力头功能。评估六种扰动（字符替换、错别字、标记洗牌等）在 GPT-2 与 Qwen2.5 上，揭示不同的指标分布，挑战单一指标的鲁棒性评估。",
+        "experiments": [
+          {
+            "title": "Models",
+            "detail": "GPT-2（4 种规模）和 Qwen2.5（2 种规模）"
+          },
+          {
+            "title": "Metrics",
+            "detail": "NLL、输出差异、CKA、intrinsic dimension、注意力头得分"
+          },
+          {
+            "title": "Baselines",
+            "detail": "等比例随机替换 vs. 梯度引导 HotFlip 扰动"
+          }
+        ],
+        "open_questions": [
+          "扰动下模型行为分歧的机制原因",
+          "对抗扰动效果在其他替换类型上的泛化",
+          "在更广文本领域和架构上的评估"
+        ],
+        "findings": [
+          {
+            "title": "Metric profiles",
+            "detail": "扰动类型呈现不同的 NLL/输出差异模式（如字符替换在 50% 时最大输出差异）"
+          },
+          {
+            "title": "Geometry changes",
+            "detail": "CKA 随扰动强度下降；洗牌相比替换型腐败保持更高相似度"
+          },
+          {
+            "title": "Attention responses",
+            "detail": "Induction 分数与熵变化呈强负相关（-0.609），在多数扰动中成立"
+          }
+        ],
+        "contributions": [
+          "提出用于扰动效应的多层次分析框架",
+          "比较梯度引导对抗扰动与随机替换",
+          "展示 GPT-2 各规模和 Qwen2.5 模型间的部分一致性"
+        ],
+        "mechanism": [
+          {
+            "title": "Perturbation propagation",
+            "detail": "不同扰动类型以独特方式改变隐藏状态几何和注意力模式，梯度引导方法破坏更大"
+          }
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "robustness",
+          "alignment"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-05T13:27:35.700479+00:00"
+    },
+    {
+      "id": "2608.27960",
+      "title": "When Teacher Guidance Misleads: Reward-Aligned On-Policy Distillation",
+      "abstract": "On-policy distillation (OPD) has recently emerged as a popular post-training paradigm for large language models (LLMs), providing an efficient way to transfer the knowledge and capabilities of teacher models into student models. However, teacher guidance on student-generated prefixes is not always reliable. Training should optimize the model to generate responses that are more likely to be correct, or equivalently, to get higher outcome rewards. But during OPD, the teacher model may provide guidance that discourages the student from moving toward correct trajectories or moves the student toward incorrect ones, which is misaligned with outcome reward. Such misaligned guidance is unreliable, as it would mislead the optimization process and ultimately degrade model performance. To mitigate misaligned teacher guidance, we propose Reward-Aligned On-Policy Distillation (RA-OPD). The key insight is to keep only trajectories whose induced updates move the student toward correct trajectories or discourage the student from moving toward incorrect ones. Specifically, for each sampled trajectory, RA-OPD checks whether its trajectory-level distillation return is consistent with its outcome reward and then filters out the misaligned trajectories. RA-OPD selects more reliable trajectories to improve student model performance without requiring additional computational cost. We evaluate RA-OPD on math and code benchmarks using models from the Qwen3 family and the DeepSeek-R1 family. Across seven math benchmarks and three code benchmarks, RA-OPD significantly outperforms standard OPD and other tested OPD variants.",
+      "authors": [
+        "Siyuan Gan",
+        "Yuhan Li",
+        "Xiran Wang",
+        "Linjian Meng",
+        "Boyan Wang",
+        "Zhen Zhao",
+        "Jing Huo",
+        "Yang Gao"
+      ],
+      "published": "2026-08-28T06:05:50Z",
+      "updated": "2026-08-28T06:05:50Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2608.27960v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.27960v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "emerging",
+          "score": 0.6412,
+          "matched": [
+            "On-policy distillation",
+            "on-policy distillation",
+            "OPD",
+            "distillation",
+            "on-policy",
+            "opd"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.3518,
+          "matched": [
+            "efficient",
+            "training"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5955,
+        "relevance": 0.5833,
+        "quality": 0.54,
+        "novelty": 0.8318,
+        "freshness": 0.5028,
+        "feedback_adjustment": -0.0169,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "benchmark evaluation"
+      ],
+      "summary": {
+        "why_for_you": "如果你从事 on‑policy distillation，RA-OPD 直接解决教师指导不对齐的问题，这是你研究中的关键障碍。",
+        "limitations": "该方法依赖外部 verifier 提供二元奖励，当所有轨迹被过滤时可能导致更新为零。",
+        "problem": "标准 OPD 可能被与 outcome rewards 冲突的教师指导误导，导致 student 性能下降。",
+        "method": "RA-OPD 计算轨迹层面的 distillation return，并丢弃其符号与二元 outcome reward 不一致的轨迹。",
+        "evidence": "在七个数学和三个代码基准上，RA-OPD 将 avg@k 提升最高 5.20 分，优于标准 OPD。",
+        "takeaway": "RA-OPD 在 on‑policy distillation 过程中筛除 reward‑misaligned 轨迹，实现持续的性能提升。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🗂️",
+            "text": "RA-OPD 筛除 reward‑misaligned 轨迹，使 OPD avg@k 在数学基准上提升最高 5.20 分。"
+          },
+          {
+            "icon": "🔧",
+            "text": "RA-OPD 使用二元掩码 mi = 1[(2Ri‑1)Gi ≥0] 仅保留对齐轨迹，无需额外 rollout。"
+          },
+          {
+            "icon": "📈",
+            "text": "在 Qwen3‑4B‑Base 上，RA-OPD 达到 avg@k 45.88，较标准 OPD 高出 5.20 分；但其依赖 verifier 提供二元奖励。"
+          }
+        ],
+        "overview": "本文指出 on‑policy distillation (OPD) 中的教师指导可能在轨迹层面与真实 outcome reward 不对齐，导致性能下降。提出 Reward‑Aligned OPD (RA‑OPD)，筛除其 distillation return 与 verifier 提供的二元正确性信号不一致的轨迹。该方法复用已有 OPD rollout，无需额外模型评估，并进行绝对一致性检查。对 Qwen3 与 DeepSeek‑R1 模型在多个数学和代码基准的实验表明，相较标准 OPD 和已有变体，性能持续提升。",
+        "methodology": [
+          {
+            "title": "轨迹采样与回报计算",
+            "detail": "对于每个提示 qi，从 πθ 采样学生轨迹 τi，计算逐标记 reverse‑KL 项 ri,t，并聚合为轨迹层面的蒸馏回报 Gi = average_t ri,t。"
+          },
+          {
+            "title": "结果验证与掩码创建",
+            "detail": "获取二元奖励 Ri = Verify(qi, τi) ∈ {0,1}。定义掩码 mi = 1[(2Ri‑1)Gi ≥ 0]；若 mi=1 则保留轨迹，否则丢弃。"
+          },
+          {
+            "title": "策略更新",
+            "detail": "如果有轨迹被保留 (Z = Σ_i mi/|τi| > 0)，则最小化 RA‑OPD 损失 (Eq. 3)；否则将梯度设为零。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "绝对奖励对齐准则",
+            "detail": "RA‑OPD 不采用多次 rollout 的相对一致性，而是逐条检查每条轨迹：正的蒸馏回报必须与正确的结果 (Ri=1) 对齐，负的回报必须与错误的结果 (Ri=0) 对齐。"
+          },
+          {
+            "title": "零成本过滤",
+            "detail": "该方法复用已为 OPD 计算的教师概率，因此对齐检查不增加额外的前向传播或 rollout。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "基准、模型和基线",
+            "detail": "数学：AIME24/25/26、AMC、MATH、Minerva Math、OlympiadBench，使用 Qwen3‑8B‑Base‑GRPO‑Math 教师和 Qwen3‑4B/8B‑Base 学生；代码：HumanEval+、MBPP+、LiveCodeBench v6，使用 Qwen3‑8B‑Base‑GRPO‑Code 教师和 DeepSeek‑R1‑Distill‑Qwen‑7B 学生。基线：standard OPD、ExOPD、G‑OPD、Uni‑OPD。"
+          },
+          {
+            "title": "指标",
+            "detail": "报告数学的 avg@k（k=32 或 8）和代码的 pass@k（k=4）。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "数学性能提升",
+            "detail": "在 Qwen3‑4B‑Base 上，RA‑OPD 达到 avg@k 45.88，比 standard OPD 提升 5.20 分，比 ExOPD 提升 3.52 分；在 Qwen3‑8B‑Base 上，平均提升 5.09 分（相较于 OPD）。"
+          },
+          {
+            "title": "在各基准上持续优势",
+            "detail": "RA‑OPD 在七个数学基准中的六个以及全部三个代码基准上均领先所有竞争方法，显著提升包括 AIME24 上 +6.04、OlympiadBench 上 +2.08。"
+          },
+          {
+            "title": "无额外计算成本",
+            "detail": "过滤步骤复用已有的 OPD rollout，因此训练时间与 standard OPD 相同。"
+          }
+        ],
+        "contributions": [
+          "引入 RA‑OPD，一种用于 on‑policy 蒸馏的轨迹级奖励对齐过滤器。",
+          "证明蒸馏回报与结果奖励的绝对一致性可提升学生模型性能。",
+          "在多样的数学和代码任务上提供大量实证验证，且无需额外计算。"
+        ],
+        "limitations": [
+          "需要可靠的验证器为每条轨迹生成二元结果奖励。",
+          "若所有采样轨迹均被过滤 (Z=0)，方法将产生零梯度更新。",
+          "仅在可验证正确性的任务（数学、代码）上评估；对开放式生成的适用性尚未测试。"
+        ],
+        "open_questions": [
+          "当验证器噪声较大或仅提供概率奖励时，RA‑OPD 的表现如何？",
+          "对不可验证或主观任务，能否扩展对齐过滤器？",
+          "轨迹过滤对收敛性和样本效率的理论影响是什么？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "On-policy distillation",
+        "matched": [
+          "On-policy distillation",
+          "on-policy distillation",
+          "OPD",
+          "distillation"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-31T17:37:30.318867+00:00"
+    },
+    {
+      "id": "2608.28511",
+      "title": "Training Communication-Efficient Mixture-of-Experts Language Models with Layer Re-Configuration",
+      "abstract": "When training Mixture-of-Experts (MoE) language models with expert parallelism, all-to-all token dispatch and combine collectives can consume a substantial fraction of end-to-end training time. In this work, we study communication-efficient MoE models (CE-MoE), in which we adopt a heterogeneous layer pattern that decouples token-mixing and channel-mixing depth. Compared to conventional models which interleave MoE layers after each token-mixing layer (e.g., attention, Mamba-2), CE-MoE models concentrate expert capacity in a select few routed MoE layers, while maintaining depth by adding additional token-mixing and dense-FFN layers. Across a scaling ladder from 2B to 31.5B total parameters, under matched total and activated parameters, CE-MoE models consistently reduce training cost while matching validation loss and downstream benchmarks with full-MoE baselines. At the 31.5B scale, CE-MoE uses 33.3\\% fewer GPU-hours while improving average downstream score and inference throughput.",
+      "authors": [
+        "Simeng Sun",
+        "Roger Waleffe"
+      ],
+      "published": "2026-08-28T16:44:50Z",
+      "updated": "2026-08-28T16:44:50Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2608.28511v1",
+      "pdf_url": "https://arxiv.org/pdf/2608.28511v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.6746,
+          "matched": [
+            "efficient",
+            "training"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.1279,
+          "matched": [
+            "loss"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5903,
+        "relevance": 0.5653,
+        "quality": 0.55,
+        "novelty": 0.8456,
+        "freshness": 0.5662,
+        "feedback_adjustment": -0.0073,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "why_for_you": "与高效 LLM 训练优化相关，尤其是通信高效的 MoE 架构。",
+        "limitations": "聚焦特定 MoE 架构；未对对抗鲁棒性或损失曲面动态进行显式分析。",
+        "problem": "MoE 训练中因 all-to-all token 分发与合并导致通信成本高。",
+        "method": "使用 phased-greedy 算法的异构层模式，重新配置 token-mixing 与 MoE 层分布。",
+        "evidence": "31.5B 规模的 CE-MoE 节省 33.3% GPU-hours，同时提升下游得分和推理吞吐。",
+        "takeaway": "CE-MoE 通过解耦 token-mixing 与 channel-mixing 深度降低训练成本，保持性能。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "experiments": [
+          {
+            "detail": "在 2B‑31.5B 模型上测试，总参数/激活参数匹配，对比 full-MoE 基线。",
+            "title": "参数规模评估"
+          }
+        ],
+        "limitations": [
+          "未分析 adversarial robustness 或 loss landscape 曲率",
+          "聚焦特定 MoE 架构（如 Mamba-2 token-mixers）"
+        ],
+        "overview": "本研究通过异构层布局将 token-mixing 与 channel-mixing 深度解耦，缓解 MoE 训练的通信瓶颈。方法通过增加 token-mixing 与 dense-FFN 层，在保持模型容量的同时减少 MoE 层数。实验在 2B‑31.5B 参数规模上均显示训练成本下降，31.5B 时实现 33.3% GPU-hours 节省并提升下游性能。",
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "CE-MoE 的异构层模式将 MoE 深度降低 65.2%"
+          },
+          {
+            "icon": "⚙️",
+            "text": "Phased-greedy 算法生成 token-mixing 为主的层模式"
+          },
+          {
+            "icon": "📈",
+            "text": "31.5B 规模的 CE-MoE 实现 33.3% GPU-hours 减少并提升吞吐"
+          }
+        ],
+        "open_questions": [
+          "CE-MoE 架构如何影响 adversarial vulnerability？",
+          "异构层模式能否推广至非 MoE 架构？"
+        ],
+        "contributions": [
+          "用于通信高效 MoE 训练的异构层模式",
+          "用于层模式生成的 phased-greedy 算法",
+          "在 31.5B 规模上实证验证 33.3% GPU-hours 减少"
+        ],
+        "mechanism": [
+          {
+            "detail": "将 token-mixing (Mamba-2) 与 channel-mixing (MoE) 层分离，以降低与 LE·S·GBS·K 成正比的 all-to-all 通信量",
+            "title": "解耦混合深度"
+          }
+        ],
+        "findings": [
+          {
+            "detail": "31.5B 规模的 CE-MoE 相比 full-MoE 基线节省 33.3% GPU-hours",
+            "title": "训练成本降低"
+          },
+          {
+            "detail": "Mamba-2 token-mixers 的通信量比 Switch-style MoE 低 47.8%",
+            "title": "稳定性提升"
+          }
+        ],
+        "methodology": [
+          {
+            "detail": "将 token-mixing 与 MoE 比例调至 α=4，以降低 LE 并保持总层数 L=52，配置为 (a=30, b=8, c=6, d=8)",
+            "title": "层组合优化"
+          },
+          {
+            "detail": "通过四个阶段生成层模式：attention block 放置、regular block 分布、residual block 处理、attention block 均匀划分",
+            "title": "Phased-greedy 算法"
+          }
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "efficient",
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-08-31T17:37:30.318867+00:00"
     }
   ]
 }
