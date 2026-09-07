@@ -1,6 +1,218 @@
 {
-  "generated_at": "2026-09-06T13:40:46.504954+00:00",
+  "generated_at": "2026-09-07T15:50:52.906983+00:00",
   "papers": [
+    {
+      "id": "2609.05275",
+      "title": "Don't Drop Dropout: Optimizing Layer Sparsity for Efficient LLM Training and Inference",
+      "abstract": "Layer dropout (a.k.a. stochastic depth) has been shown to enable faster training, higher accuracy, and robustness to zero-shot layer pruning in both language and vision transformers. However, as models and datasets have scaled, dropout - particularly layer dropout - has largely disappeared from large language models (LLMs) pre-training recipes. While some prior work has reported that dropout can degrade accuracy, no comprehensive study has quantified, let alone mitigated, this effect. In this study, we show that layer dropout should be used in state-of-the-art LLM training, establishing best practices and scaling analysis for both training and post-training benefits. Concretely, with optimal layer distribution, time schedule, and optimizer hyperparameters, we observe that at the same training FLOPs layer dropout leads to lower loss. For a given number of training steps, LLMs can achieve lower or similar validation loss while saving upto 25% of training FLOPs. Moreover, layer dropout enables significant post-training optimizations, such as early exit, intermediate-layer skipping, and self-speculative decoding, yielding up to 1.5x inference speedup with negligible accuracy loss. Across more than 2400 training experiments, spanning models from 271M to 8.2B parameters and datasets up to 160B tokens, we demonstrate that these findings extend reliably to large-scale training regimes. All pre-training experiments were run on Cerebras CS-3 systems.",
+      "authors": [
+        "Mostafa Elhoushi",
+        "Alex Pretko",
+        "Nolan Dey",
+        "Bin Claire Zhang",
+        "Gavia Gray",
+        "Gurpreet Gosal",
+        "Abdulrahman Mahmoud",
+        "Shane Bergsma",
+        "Joel Hestness"
+      ],
+      "published": "2026-09-04T15:30:47Z",
+      "updated": "2026-09-04T15:30:47Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2609.05275v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.05275v1",
+      "comment": "This is a slightly extended version of the paper published at ICML 2026",
+      "journal_ref": "Proceedings of the 43rd International Conference on Machine Learning (ICML 2026)",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.7658,
+          "matched": [
+            "efficient",
+            "training",
+            "robustness"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.646,
+          "matched": [
+            "llm",
+            "loss"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3672,
+          "matched": [
+            "robustness",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.7555,
+        "relevance": 0.8126,
+        "quality": 0.57,
+        "novelty": 0.848,
+        "freshness": 0.5694,
+        "feedback_adjustment": -0.0187,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "experiments",
+        "dataset evidence",
+        "quantitative results",
+        "publication metadata"
+      ],
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "efficient",
+          "training",
+          "robustness"
+        ],
+        "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "最佳配置的 layer dropout 可将训练 FLOPs 降低最多 25%，同时保持或提升 validation loss，并实现最高 1.5 倍的推理加速。",
+        "method": "作者系统性地调节 layer‑wise dropout 率、时间调度、优化器超参数以及粒度（per‑sequence 与 per‑batch），覆盖多种模型规模。",
+        "why_for_you": "本研究提供高效的训练技术和 loss‑landscape 见解，对 adversarial training 与可信 LLM 部署具有参考价值。",
+        "problem": "大规模 LLM 预训练已放弃 dropout，尽管其在效率和鲁棒性方面具备潜力。",
+        "limitations": "动态 early‑exit、更广硬件平台以及 sub‑layer dropout 表现不佳的原因留待后续研究。",
+        "evidence": "在 2400+ 次实验（271M‑8.2B 参数）中，实现了更低的 validation loss，FLOPs 减少 25%，并在几乎无精度损失的情况下获得最高 1.5 倍的 inference 加速。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "在最佳配置下，layer dropout 将训练 FLOPs 降低最多 25%，并在 271M‑8.2B 参数 LLM 上保持或提升 validation loss。"
+          },
+          {
+            "icon": "🔬",
+            "text": "作者将 optimal layer‑wise dropout 分布、递减的 temporal schedule 与 per‑sequence 粒度确定为关键机制。"
+          },
+          {
+            "icon": "📉",
+            "text": "2400+ 次实验显示最高 1.5 倍的 inference 加速，精度损失可忽略，但所有训练均在 Cerebras CS‑3 系统上完成。"
+          }
+        ],
+        "overview": "本文对 decoder‑only LLM 的 stochastic depth（layer dropout）进行大规模实证研究，覆盖 271M‑8.2B 参数模型及最高 160B token。通过联合优化跨深度的 dropout 分布、训练步骤的递减 schedule 以及匹配的 optimizer 设置，实现显著计算节省，并支持 zero‑shot 推理优化，如 early exit、intermediate‑layer skipping 与 self‑speculative decoding。分析还比较了 per‑batch 与 per‑sequence dropout 粒度，并对比了 layer dropout 与 sub‑layer dropout。",
+        "methodology": [
+          {
+            "title": "超参数搜索",
+            "detail": "系统地调整 dropout 率、depth‑wise 分布和 temporal 调度，同时在 20 tokens‑per‑parameter 的计算最优预算下调优 optimizer 超参数。"
+          },
+          {
+            "title": "粒度比较",
+            "detail": "实现并评估 per‑batch（所有序列使用相同 mask）和 per‑sequence（每个序列使用独立 mask）两种 layer dropout。"
+          },
+          {
+            "title": "训练设置",
+            "detail": "使用 Decoder‑only transformer，配合 ALiBi 位置嵌入、平方 ReLU 激活和 Llama3 词表；所有运行在 Cerebras CS‑3 硬件上。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "通过随机深度实现结构鲁棒性",
+            "detail": "在训练期间随机跳过整个 transformer block，迫使模型学习在推理时移除层后仍保持准确的表征，从而实现 elastic depth 而无需架构更改。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "全尺度训练扫描",
+            "detail": "2400+ 预训练运行，覆盖模型规模 271M‑8.2B、token 预算最高 160B，以及多种 dropout 配置。"
+          },
+          {
+            "title": "早退出评估",
+            "detail": "在所有层上测量的静态 early‑exit 损失（Fig. 5）显示，dropout 训练的模型保持的损失低于 dense 基线，即使在提前多层退出时亦如此。"
+          },
+          {
+            "title": "粒度消融",
+            "detail": "Table 1 和 Fig. 4 对比 per‑batch 与 per‑sequence dropout，显示 per‑sequence 在验证损失上更佳。"
+          },
+          {
+            "title": "子层 vs 层 dropout",
+            "detail": "层 dropout 在训练和验证损失降低方面均优于子层 dropout（分别 dropout attention/FFN）。"
+          },
+          {
+            "title": "推理加速",
+            "detail": "后训练优化（early exit、intermediate‑layer skipping、self‑speculative decoding）可实现最高 1.5× 的推理加速，且损失增加可忽略不计。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "计算‑精度权衡",
+            "detail": "合理配置的 layer dropout 可节省最高 25% 的训练 FLOPs，同时在验证损失上与 dense 训练持平或更低。"
+          },
+          {
+            "title": "早退出鲁棒性",
+            "detail": "使用 layer dropout 训练的模型在 early‑exit 各层保持稳定损失，且在每个退出点均优于 dense 基线。"
+          },
+          {
+            "title": "调度优势",
+            "detail": "递减的 dropout schedule（前期 dropout 较高，后期降低）在固定 FLOP 预算下实现最低验证损失。"
+          },
+          {
+            "title": "粒度影响",
+            "detail": "per‑sequence dropout 持续优于 per‑batch dropout，得到更低损失。"
+          },
+          {
+            "title": "层 vs 子层 dropout",
+            "detail": "整体 dropout transformer block 能提供比分别 dropout attention 与 FFN 子块更高的准确率。"
+          }
+        ],
+        "contributions": [
+          "对 LLM 训练与推理的 layer dropout 进行大规模综合评估。",
+          "提供 dropout rate、depth distribution、temporal schedule 与 optimizer settings 的最佳实践指南。",
+          "演示 layer dropout 可实现无需架构修改的 zero‑shot depth‑elastic inference。",
+          "对 per‑batch 与 per‑sequence dropout 粒度以及 layer 与 sub‑layer dropout 进行实证比较。"
+        ],
+        "limitations": [
+          "未评估 dynamic early‑exit strategies。",
+          "所有实验在 Cerebras CS‑3 系统上进行，硬件通用性未测试。",
+          "sub‑layer dropout 表现不佳的原因及其他 dropout 位置（如 attention‑only）留待未来研究。"
+        ],
+        "open_questions": [
+          "layer dropout 如何与 adversarial training objectives 交互并影响 model robustness？",
+          "layer dropout 对 LLM loss landscape 的几何形状和 convergence dynamics 有何影响？",
+          "报告的 training and inference efficiency gains 能否在其他硬件平台和不同 optimizer families 上复现？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "recommended_at": "2026-09-07T15:50:52.906983+00:00"
+    },
     {
       "id": "2609.02244",
       "title": "Task-Level Natural Language Priors as Learning Signals for Low-Resource LLM Training",
@@ -89,12 +301,12 @@
         "lane": "llm"
       },
       "summary": {
-        "evidence": "CPS achieves 97.6% AmbiMath accuracy, 9.5% F1 improvement on Jigsaw, and 8.3-5.2% HANS accuracy gains over baselines.",
-        "limitations": "The method's effectiveness depends on task-specific prior formulations, and its generalization to unseen priors remains unexplored.",
-        "method": "PGT frames natural-language priors as explicit learning signals, while CPS uses contrastive losses to align training with task principles.",
-        "problem": "Low-resource training data often lack sufficient evidence to disambiguate task solutions, leading to spurious correlations.",
-        "takeaway": "Prior-Guided Tuning (PGT) with Contrastive Prior Steering (CPS) improves low-resource LLM training by incorporating task-level natural-language priors as auxiliary signals.",
-        "why_for_you": "This addresses data selection for LLMs by demonstrating how priors enhance low-resource training efficiency and robustness.",
+        "evidence": "CPS achieves 97.6% AmbiMath exact-match accuracy, 9.5% F1 improvement on Jigsaw, and 8.3-5.2% non-entailment accuracy gains on HANS.",
+        "limitations": "The paper does not analyze CPS's sensitivity to prior formulation beyond basic ablations, and its mechanism for resolving ambiguous data remains partially opaque.",
+        "method": "PGT introduces CPS, which combines standard supervised loss with contrastive positive/negative prior-conditioned objectives to guide task-consistent learning.",
+        "problem": "Low-resource training data often lack sufficient evidence to resolve task ambiguities or prevent spurious correlations.",
+        "takeaway": "Prior-Guided Tuning (PGT) with Contrastive Prior Steering (CPS) improves low-resource LLM training by treating natural-language priors as auxiliary learning signals.",
+        "why_for_you": "This directly addresses data selection for LLMs by demonstrating how task-level priors improve low-resource training efficiency and robustness.",
         "source": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
         "language": "en",
@@ -103,80 +315,80 @@
       },
       "deep_dive": {
         "contributions": [
-          "Developed PGT to treat natural-language priors as explicit learning signals",
-          "Introduced CPS with contrastive prior-conditioned losses for task-consistent learning",
-          "Demonstrated effectiveness across AmbiMath, Jigsaw, and HANS benchmarks"
+          "Developed PGT as a training perspective that treats natural-language priors as explicit learning signals",
+          "Introduced CPS, a contrastive method that combines standard loss with prior-conditioned objectives",
+          "Demonstrated effectiveness across three diverse low-resource benchmarks"
         ],
         "experiments": [
           {
-            "detail": "Evaluates rule ambiguity resolution with 97.6% exact-match accuracy using CPS, compared to lower stability in plain/prompt fine-tuning.",
-            "title": "AmbiMath Benchmark"
+            "detail": "Evaluates rule ambiguity resolution with 97.6% exact-match accuracy. Uses positional and semantic priors to test prior-guided learning.",
+            "title": "AmbiMath Synthetic Benchmark"
           },
           {
-            "detail": "CPS improves Macro F1 by 9.5% with 1/10 data, outperforming full-data baselines while addressing identity-term spurious correlations.",
+            "detail": "Tests low-resource toxicity detection with 9.5% Macro F1 improvement. Focuses on identity-term spurious correlations in user comments.",
             "title": "Jigsaw Toxicity Classification"
           },
           {
-            "detail": "CPS boosts HANS non-entailment accuracy by 8.3-5.2% for LLaMA and Qwen, maintaining in-domain MNLI performance.",
+            "detail": "Measures heuristic robustness with 8.3-5.2% non-entailment accuracy gains. HANS tests shallow lexical/syntactic heuristics in natural language inference.",
             "title": "MNLI/HANS NLI Robustness"
           }
         ],
         "findings": [
           {
-            "detail": "CPS with 1/30 Jigsaw data achieves 0.71 Macro F1, outperforming plain fine-tuning (0.50) and exceeding full-data baselines with 1/10 data.",
+            "detail": "CPS achieves 97.6% AmbiMath accuracy, 9.5% F1 improvement on Jigsaw, and 8.3-5.2% HANS non-entailment gains while maintaining MNLI accuracy.",
+            "title": "CPS Outperforms Baselines"
+          },
+          {
+            "detail": "With 1/10 data, CPS exceeds full-data plain fine-tuning on Jigsaw (0.767 vs 0.75 Macro F1), demonstrating improved data efficiency.",
             "title": "Data Efficiency Gains"
           },
           {
-            "detail": "CPS enhances HANS non-entailment accuracy from 39.2% to 47.5% (LLaMA) and 45.1% to 50.3% (Qwen), demonstrating better heuristic alignment.",
-            "title": "Robustness Improvements"
-          },
-          {
-            "detail": "CPS maintains strong performance across manually rewritten priors, indicating resilience to wording variations as long as task principles are preserved.",
-            "title": "Prior Formulation Flexibility"
+            "detail": "CPS maintains strong performance across different prior formulations, suggesting it captures task principles rather than specific wording.",
+            "title": "Prior Robustness"
           }
         ],
         "limitations": [
-          "Dependence on task-specific prior formulations limits generalization to unseen priors",
-          "No analysis of computational efficiency or scalability beyond Jigsaw experiments"
+          "No detailed analysis of CPS's sensitivity to prior formulation beyond basic ablations",
+          "No explicit exploration of how priors affect the LLM loss landscape"
         ],
         "mechanism": [
           {
-            "detail": "CPS employs positive and negative priors to create contrastive losses, encouraging models to align with intended task principles while avoiding misleading alternatives.",
-            "title": "Contrastive Prior Steering"
+            "detail": "By incorporating explicit priors as learning signals, CPS directs models to prioritize task-specific principles over data-driven heuristics, particularly in low-resource scenarios where data alone is insufficient.",
+            "title": "Task-Consistent Learning Guidance"
           },
           {
-            "detail": "By embedding prior knowledge into the loss function, CPS ensures training adheres to explicit task rules, reducing reliance on spurious data patterns.",
-            "title": "Task-Level Alignment"
+            "detail": "The positive/negative prior contrast helps models distinguish between correct and spurious solution paths, reducing vulnerability to ambiguous or incomplete training data.",
+            "title": "Contrastive Disambiguation"
           }
         ],
         "methodology": [
           {
-            "detail": "PGT redefines natural-language priors as explicit learning signals rather than contextual inputs, enabling task-level guidance when data is insufficient.",
-            "title": "PGT Framework"
+            "detail": "CPS augments standard supervised loss with contrastive objectives: positive-prior losses encourage alignment with desired task principles, while negative-prior losses suppress spurious alternatives. This maintains the original objective while adding directional guidance.",
+            "title": "Contrastive Prior Steering (CPS)"
           },
           {
-            "detail": "CPS integrates contrastive objectives with standard supervised loss, using positive and negative prior-conditioned signals to steer learning toward task-consistent solutions.",
-            "title": "CPS Architecture"
+            "detail": "CPS constructs two contrastive views - one conditioned on positive priors (task principles) and one on negative priors (plausible but incorrect alternatives) - to shape the model's learning trajectory.",
+            "title": "Prior-Conditioned Objectives"
           }
         ],
         "open_questions": [
-          "How to generalize prior formulations across diverse tasks without task-specific customization?",
-          "What are the theoretical limits of prior-guided learning in high-dimensional LLM loss landscapes?",
-          "Can CPS be adapted to dynamic priors or real-time feedback during training?"
+          "How do task-level priors interact with adversarial training in low-resource settings?",
+          "Can CPS's contrastive mechanism be generalized to other types of auxiliary signals?",
+          "What are the limits of prior-guided learning when data scarcity combines with complex task distributions?"
         ],
-        "overview": "The paper proposes Prior-Guided Tuning (PGT) to address low-resource training challenges by treating task-level natural-language priors as auxiliary signals. Contrastive Prior Steering (CPS) combines standard supervised loss with contrastive objectives, improving performance on ambiguous tasks like AmbiMath, toxicity classification (Jigsaw), and NLI robustness (HANS). Experiments show CPS outperforms plain and prompt fine-tuning, particularly in data-scarce settings, while maintaining in-domain accuracy. The method's effectiveness is validated across multiple models (LLaMA 3.1 8B, Qwen 2.5 7B) and tasks, demonstrating its utility for data-efficient LLM training.",
+        "overview": "The paper proposes PGT, a training framework that converts task-level natural-language priors into auxiliary signals for low-resource LLMs. CPS, its core method, adds contrastive objectives to standard supervised learning, improving performance across three benchmarks. The approach addresses data ambiguity by explicitly guiding models toward task-specific principles rather than relying solely on sparse data patterns.",
         "signals": [
           {
             "icon": "🌐",
-            "text": "PGT introduces natural-language priors as explicit learning signals for low-resource LLMs"
+            "text": "PGT treats natural-language priors as explicit learning signals"
           },
           {
             "icon": "🔧",
-            "text": "CPS uses contrastive prior-conditioned losses to encourage task-consistent learning"
+            "text": "CPS uses contrastive prior-conditioned losses with positive/negative priors"
           },
           {
-            "icon": "📈",
-            "text": "CPS achieves 97.6% AmbiMath exact-match accuracy with 1/10 data, outperforming full-data baselines"
+            "icon": "📊",
+            "text": "97.6% AmbiMath accuracy with 1/10 data exceeds full-data fine-tuning"
           }
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
@@ -1135,7 +1347,7 @@
         "experiments",
         "quantitative results"
       ],
-      "analysis_status": "pending",
+      "analysis_status": "complete",
       "recommendation_reason": {
         "topic": "Efficient adversarial training",
         "matched": [
@@ -1147,92 +1359,96 @@
         "lane": "llm"
       },
       "summary": {
-        "takeaway": "NeuroStat fuses token‑level probability logits with deep semantic hidden states to achieve superior adversarial text detection.",
-        "problem": "Training‑free global scalar detectors and training‑based semantic models both collapse under adversarial interleaving and spoofing attacks.",
-        "method": "NeuroStat uses a dual‑branch architecture that extracts token‑level log‑probability trajectories and hidden states from a single causal LM, fusing them via Macro‑State Residual Modulation and auxiliary orthogonal/contrastive losses.",
-        "evidence": "On the MOSAIC benchmark NeuroStat (Qwen2‑0.5B) attains an overall AUROC of 83.4%, surpassing the next best DetectAnyLLM (77.1%) while training on only 500 pairs.",
-        "limitations": "Evaluation is limited to English texts, requires token‑level logits unavailable from many closed‑source APIs, and incurs ~10% higher latency and memory than the strongest baseline.",
-        "why_for_you": "The work demonstrates a data‑efficient, robust detection model that aligns with your interest in efficient adversarial training.",
+        "takeaway": "NeuroStat 通过结合令牌级统计与深层语义，并使用 Macro-State Residual Modulation，提升对抗 AIGC 文本检测。",
+        "method": "NeuroStat 通过 Macro-State Residual Modulation 将令牌级对数概率与语义隐藏状态融合，并使用正交/对比损失。",
+        "why_for_you": "通过稳健的双分支特征提取和对抗基准，实现高效的对抗训练。",
+        "problem": "现有的免训练和有训练方法因全局标量信息损失和语义过拟合，在对抗攻击下表现不佳。",
+        "limitations": "评估仅限于英文文本和闭源替代场景；内存开销比基线高 10%。",
+        "evidence": "NeuroStat 在 MOSAIC 上达到 83.4% AUROC，强基线为 77.1%；在闭源目标上达到 95.5% AUROC。",
         "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
         "schema_version": 3,
         "prompt_version": 2
       },
       "deep_dive": {
-        "signals": [
+        "findings": [
           {
-            "icon": "💡",
-            "text": "NeuroStat attains the highest MOSAIC AUROC of 83.4%, outpacing all prior MGTD detectors."
+            "detail": "NeuroStat 在 MOSAIC 上实现 83.4% AUROC，DetectAnyLLM 为 77.1%，在闭源目标上达到 95.5% AUROC",
+            "title": "对抗鲁棒性"
           },
           {
-            "icon": "🔧",
-            "text": "Fusion via Macro-State Residual Modulation combines token‑level logits and hidden states with orthogonal and contrastive losses."
-          },
-          {
-            "icon": "📊",
-            "text": "On MOSAIC, NeuroStat (Qwen2‑0.5B) reaches 83.4% AUROC versus DetectAnyLLM’s 77.1%, using only 500 training pairs."
-          }
-        ],
-        "overview": "The paper identifies that existing machine‑generated text detectors either compress token probabilities into global scalars or rely solely on semantic fingerprints, both of which are vulnerable to sophisticated adversarial attacks such as interleaved human‑AI writing and statistical hijacking. To expose these weaknesses, the authors release MOSAIC, a 16k‑sample benchmark covering 36 attack types. NeuroStat addresses the gap by jointly processing uncompressed token‑level logits and deep hidden states from a single causal LM, merging them through Macro‑State Residual Modulation and reinforcing complementary learning with orthogonal and contrastive objectives. Extensive experiments on MOSAIC and MIRAGE show NeuroStat’s robustness and data efficiency, while ablations confirm each component’s contribution. Limitations include English‑only evaluation, reliance on log‑probability access, and modest computational overhead.",
-        "methodology": [
-          {
-            "title": "Probabilistic Trajectories Branch (TF)",
-            "detail": "Extracts the shifted log‑probability trajectory of each token, processes it with a hierarchical 1D‑CNN to capture local burstiness, and outputs a feature vector c."
-          },
-          {
-            "title": "Semantic Branch (TB)",
-            "detail": "Feeds the last‑layer hidden states H from the same backbone into a parallel encoder to capture contextual semantic artifacts."
-          },
-          {
-            "title": "Macro‑State Residual Modulation (MSRM)",
-            "detail": "Conditions the CNN features on global uncertainty indicators—mean entropy (Ē) and mean log‑rank (R̄)—to calibrate local signals with overall model confidence."
-          },
-          {
-            "title": "Auxiliary Losses",
-            "detail": "Applies a supervised contrastive loss to enlarge inter‑class margins and an orthogonal penalty to keep TF and TB representations decorrelated."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Fusion via MSRM",
-            "detail": "MSRM adds a residual term derived from Ē and R̄ to the CNN feature map, allowing the model to distinguish genuine low‑probability human words from AI‑generated anomalies, while the orthogonal loss forces the two branches to encode distinct information."
+            "detail": "在 250 对训练样本下达到 78.9 AUROC，随训练对数在 2,000‑5,000 对时趋于饱和（见表 10）",
+            "title": "效率提升"
           }
         ],
         "experiments": [
           {
-            "title": "Benchmarking on MOSAIC and MIRAGE",
-            "detail": "Evaluated NeuroStat with Qwen2‑0.5B and Qwen3.5‑0.8B backbones against 11 state‑of‑the‑art MGTD baselines on MOSAIC (16k samples, 8 attack categories) and MIRAGE (multiple domains). Training used only 500 human‑AI passage pairs; AUROC and TPR@5% were reported."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Superior Adversarial Robustness",
-            "detail": "NeuroStat (Qwen2‑0.5B) achieved 83.4% overall AUROC on MOSAIC, with per‑attack scores up to 89.9% (Interleaved) and consistently outperformed all baselines, whose AUROCs dropped dramatically under targeted attacks."
+            "detail": "16k 样本，覆盖 36 种攻击类型，包括交叉文本、统计劫持和翻译洗白",
+            "title": "MOSAIC 基准"
           },
           {
-            "title": "Data Efficiency and Generalization",
-            "detail": "With just 250 training pairs NeuroStat reached 78.9% MOSAIC AUROC; on MIRAGE‑SIG it obtained AUROCs of 0.9954, 0.9739, and 0.9665 across three tasks, demonstrating strong cross‑domain transfer."
+            "detail": "11 种最新方法，包括 Likelihood、LogRank、RoBERTa、ImBD 和 DetectAnyLLM",
+            "title": "基线"
+          },
+          {
+            "detail": "AUROC、TPR@5% 以及在 NVIDIA H20 GPU 上的计算成本",
+            "title": "评估指标"
+          }
+        ],
+        "overview": "本工作通过结合令牌级概率轨迹 (TF) 与语义隐藏状态 (TB) 来解决对抗 AIGC 检测。NeuroStat 的双分支架构使用 1D-CNN 进行局部异常检测，并通过 Macro-State Residual Modulation (MSRM) 融合全局不确定性指标（平均熵、log‑rank）。该框架在 16k 样本的 MOSAIC 对抗基准上实现 83.4% AUROC，覆盖 8 类攻击，达到最新水平。主要创新包括：1）保留原始令牌概率而非全局标量；2）MSRM 的上下文感知特征校准；3）正交/对比损失以实现互补表征学习。",
+        "open_questions": [
+          "在多语言及低资源语言上的泛化能力",
+          "在无法获取完整对数概率的闭源 API 上的优化",
+          "在代码/法律等特化分布领域的可扩展性"
+        ],
+        "limitations": [
+          "评估仅限于英文文本和特定领域",
+          "依赖于闭源生成器的替代模型",
+          "内存使用比基线高 10%"
+        ],
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "NeuroStat 以 83.4% MOSAIC AUROC 缩小统计‑语义差距"
+          },
+          {
+            "icon": "🔧",
+            "text": "Macro-State Residual Modulation 使用熵/ log‑rank 指标校准 CNN 特征"
+          },
+          {
+            "icon": "⚠️",
+            "text": "尽管内存开销高 10%，在闭源生成器上仍达 95.5% AUROC"
           }
         ],
         "contributions": [
-          "Dual‑branch detection framework NeuroStat that jointly leverages token‑level logits and semantic hidden states.",
-          "Macro‑State Residual Modulation for adaptive fusion of local and global uncertainty signals.",
-          "MOSAIC, a comprehensive adversarial MGTD benchmark covering a full‑granularity attack taxonomy."
+          "推出含 16k 对抗样本的 MOSAIC 基准",
+          "提出 NeuroStat 的双分支统计‑语义融合架构",
+          "研发 Macro-State Residual Modulation 实现上下文感知特征校准"
         ],
-        "limitations": [
-          "Evaluated only on English‑language corpora; multilingual or domain‑specific (e.g., code, legal) performance is untested.",
-          "Requires access to full token‑level log probabilities, limiting applicability to closed‑source APIs.",
-          "Introduces approximately 10% higher inference latency and memory usage compared to the strongest baseline."
+        "mechanism": [
+          {
+            "detail": "保留完整的序列概率轨迹，而非压缩为 perplexity 等全局标量",
+            "title": "令牌级概率保留"
+          },
+          {
+            "detail": "使用 MSRM 将全局熵/ log‑rank 指标条件化于局部 CNN 特征，以识别对抗模式",
+            "title": "上下文感知异常检测"
+          }
         ],
-        "open_questions": [
-          "How can NeuroStat be adapted to multilingual or low‑resource language settings?",
-          "Can surrogate log‑probability estimation close the performance gap for proprietary generators without sacrificing robustness?",
-          "What vocabulary reduction or top‑k logit approximation techniques can retain detection strength while further lowering computational overhead?"
+        "methodology": [
+          {
+            "detail": "使用单一 CausalLM 主干，将概率机制 (TF) 与上下文语义 (TB) 分离，提取完整词表 logits 与最后一层隐藏状态",
+            "title": "双分支架构"
+          },
+          {
+            "detail": "利用全局不确定性指标（平均熵 Ē 与平均 log‑rank R̄）校准 1D-CNN 特征，以区分自然语言稀有性和 AI 幻觉",
+            "title": "Macro-State Residual Modulation"
+          }
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
         "schema_version": 6,
         "prompt_version": 2
       },
@@ -1687,27 +1903,23 @@
       "recommended_at": "2026-09-05T13:27:35.700479+00:00"
     },
     {
-      "id": "2608.27960",
-      "title": "When Teacher Guidance Misleads: Reward-Aligned On-Policy Distillation",
-      "abstract": "On-policy distillation (OPD) has recently emerged as a popular post-training paradigm for large language models (LLMs), providing an efficient way to transfer the knowledge and capabilities of teacher models into student models. However, teacher guidance on student-generated prefixes is not always reliable. Training should optimize the model to generate responses that are more likely to be correct, or equivalently, to get higher outcome rewards. But during OPD, the teacher model may provide guidance that discourages the student from moving toward correct trajectories or moves the student toward incorrect ones, which is misaligned with outcome reward. Such misaligned guidance is unreliable, as it would mislead the optimization process and ultimately degrade model performance. To mitigate misaligned teacher guidance, we propose Reward-Aligned On-Policy Distillation (RA-OPD). The key insight is to keep only trajectories whose induced updates move the student toward correct trajectories or discourage the student from moving toward incorrect ones. Specifically, for each sampled trajectory, RA-OPD checks whether its trajectory-level distillation return is consistent with its outcome reward and then filters out the misaligned trajectories. RA-OPD selects more reliable trajectories to improve student model performance without requiring additional computational cost. We evaluate RA-OPD on math and code benchmarks using models from the Qwen3 family and the DeepSeek-R1 family. Across seven math benchmarks and three code benchmarks, RA-OPD significantly outperforms standard OPD and other tested OPD variants.",
+      "id": "2609.05235",
+      "title": "PRICE: A Systematic Study of LLM Adaptation Choices for Bitcoin Price Forecasting",
+      "abstract": "Cryptocurrency markets exhibit extreme volatility and non-stationary dynamics that challenge conventional forecasting methods. Although Large Language Models (LLMs) have shown promise for time series forecasting, the combined effects of adaptation choices remain largely unexplored in financial settings. This study introduces PRICE, a structured approach for adapting LLMs to short-term Bitcoin price forecasting. Built on a 4-bit quantized LLaMA-3 8B model, PRICE investigates how fine-tuning, numerical representation, prompting, inference, and decoding jointly influence forecasting performance. PRICE integrates Parameter-efficient fine-tuning with Low-Rank Adaptation (LoRA), Recursive multi-step inference, Integer-rounded numerical representation, Context-Task-Format (CTF) prompting, and Exact zero-temperature decoding. Ablation studies show that each component contributes to forecasting accuracy and reliability. LoRA enables efficient training on limited hardware, recursive inference improves accuracy, integer-rounded values reduce errors, CTF prompting outperforms Chain-of-Thought, Implicit Chain-of-Thought (iCoT), and few-shot prompting, and zero-temperature decoding improves stability during recursive forecasting. Comparative evaluation against eight transformer-based and time-series foundation models shows that PRICE achieves the lowest forecasting errors on both validation and test sets while maintaining robust performance across evaluation periods. Despite being based on a model primarily pretrained on text rather than time-series data, PRICE achieves competitive or superior performance relative to specialized foundation models. These findings demonstrate that adaptation choices critically determine the accuracy and robustness of LLMs for numerical time-series forecasting.",
       "authors": [
-        "Siyuan Gan",
-        "Yuhan Li",
-        "Xiran Wang",
-        "Linjian Meng",
-        "Boyan Wang",
-        "Zhen Zhao",
-        "Jing Huo",
-        "Yang Gao"
+        "Maryam Fakhari",
+        "Mehran Safayani"
       ],
-      "published": "2026-08-28T06:05:50Z",
-      "updated": "2026-08-28T06:05:50Z",
+      "published": "2026-09-04T15:01:38Z",
+      "updated": "2026-09-04T15:01:38Z",
       "categories": [
-        "cs.AI"
+        "cs.LG",
+        "cs.AI",
+        "math.NA"
       ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2608.27960v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.27960v1",
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2609.05235v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.05235v1",
       "comment": "",
       "journal_ref": "",
       "source": "arxiv",
@@ -1720,296 +1932,141 @@
         "large language models",
         "language model",
         "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "emerging",
-          "score": 0.6412,
-          "matched": [
-            "On-policy distillation",
-            "on-policy distillation",
-            "OPD",
-            "distillation",
-            "on-policy",
-            "opd"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.3518,
-          "matched": [
-            "efficient",
-            "training"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5955,
-        "relevance": 0.5833,
-        "quality": 0.54,
-        "novelty": 0.8318,
-        "freshness": 0.5028,
-        "feedback_adjustment": -0.0169,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "benchmark evaluation"
-      ],
-      "summary": {
-        "why_for_you": "如果你从事 on‑policy distillation，RA-OPD 直接解决教师指导不对齐的问题，这是你研究中的关键障碍。",
-        "limitations": "该方法依赖外部 verifier 提供二元奖励，当所有轨迹被过滤时可能导致更新为零。",
-        "problem": "标准 OPD 可能被与 outcome rewards 冲突的教师指导误导，导致 student 性能下降。",
-        "method": "RA-OPD 计算轨迹层面的 distillation return，并丢弃其符号与二元 outcome reward 不一致的轨迹。",
-        "evidence": "在七个数学和三个代码基准上，RA-OPD 将 avg@k 提升最高 5.20 分，优于标准 OPD。",
-        "takeaway": "RA-OPD 在 on‑policy distillation 过程中筛除 reward‑misaligned 轨迹，实现持续的性能提升。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🗂️",
-            "text": "RA-OPD 筛除 reward‑misaligned 轨迹，使 OPD avg@k 在数学基准上提升最高 5.20 分。"
-          },
-          {
-            "icon": "🔧",
-            "text": "RA-OPD 使用二元掩码 mi = 1[(2Ri‑1)Gi ≥0] 仅保留对齐轨迹，无需额外 rollout。"
-          },
-          {
-            "icon": "📈",
-            "text": "在 Qwen3‑4B‑Base 上，RA-OPD 达到 avg@k 45.88，较标准 OPD 高出 5.20 分；但其依赖 verifier 提供二元奖励。"
-          }
-        ],
-        "overview": "本文指出 on‑policy distillation (OPD) 中的教师指导可能在轨迹层面与真实 outcome reward 不对齐，导致性能下降。提出 Reward‑Aligned OPD (RA‑OPD)，筛除其 distillation return 与 verifier 提供的二元正确性信号不一致的轨迹。该方法复用已有 OPD rollout，无需额外模型评估，并进行绝对一致性检查。对 Qwen3 与 DeepSeek‑R1 模型在多个数学和代码基准的实验表明，相较标准 OPD 和已有变体，性能持续提升。",
-        "methodology": [
-          {
-            "title": "轨迹采样与回报计算",
-            "detail": "对于每个提示 qi，从 πθ 采样学生轨迹 τi，计算逐标记 reverse‑KL 项 ri,t，并聚合为轨迹层面的蒸馏回报 Gi = average_t ri,t。"
-          },
-          {
-            "title": "结果验证与掩码创建",
-            "detail": "获取二元奖励 Ri = Verify(qi, τi) ∈ {0,1}。定义掩码 mi = 1[(2Ri‑1)Gi ≥ 0]；若 mi=1 则保留轨迹，否则丢弃。"
-          },
-          {
-            "title": "策略更新",
-            "detail": "如果有轨迹被保留 (Z = Σ_i mi/|τi| > 0)，则最小化 RA‑OPD 损失 (Eq. 3)；否则将梯度设为零。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "绝对奖励对齐准则",
-            "detail": "RA‑OPD 不采用多次 rollout 的相对一致性，而是逐条检查每条轨迹：正的蒸馏回报必须与正确的结果 (Ri=1) 对齐，负的回报必须与错误的结果 (Ri=0) 对齐。"
-          },
-          {
-            "title": "零成本过滤",
-            "detail": "该方法复用已为 OPD 计算的教师概率，因此对齐检查不增加额外的前向传播或 rollout。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "基准、模型和基线",
-            "detail": "数学：AIME24/25/26、AMC、MATH、Minerva Math、OlympiadBench，使用 Qwen3‑8B‑Base‑GRPO‑Math 教师和 Qwen3‑4B/8B‑Base 学生；代码：HumanEval+、MBPP+、LiveCodeBench v6，使用 Qwen3‑8B‑Base‑GRPO‑Code 教师和 DeepSeek‑R1‑Distill‑Qwen‑7B 学生。基线：standard OPD、ExOPD、G‑OPD、Uni‑OPD。"
-          },
-          {
-            "title": "指标",
-            "detail": "报告数学的 avg@k（k=32 或 8）和代码的 pass@k（k=4）。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "数学性能提升",
-            "detail": "在 Qwen3‑4B‑Base 上，RA‑OPD 达到 avg@k 45.88，比 standard OPD 提升 5.20 分，比 ExOPD 提升 3.52 分；在 Qwen3‑8B‑Base 上，平均提升 5.09 分（相较于 OPD）。"
-          },
-          {
-            "title": "在各基准上持续优势",
-            "detail": "RA‑OPD 在七个数学基准中的六个以及全部三个代码基准上均领先所有竞争方法，显著提升包括 AIME24 上 +6.04、OlympiadBench 上 +2.08。"
-          },
-          {
-            "title": "无额外计算成本",
-            "detail": "过滤步骤复用已有的 OPD rollout，因此训练时间与 standard OPD 相同。"
-          }
-        ],
-        "contributions": [
-          "引入 RA‑OPD，一种用于 on‑policy 蒸馏的轨迹级奖励对齐过滤器。",
-          "证明蒸馏回报与结果奖励的绝对一致性可提升学生模型性能。",
-          "在多样的数学和代码任务上提供大量实证验证，且无需额外计算。"
-        ],
-        "limitations": [
-          "需要可靠的验证器为每条轨迹生成二元结果奖励。",
-          "若所有采样轨迹均被过滤 (Z=0)，方法将产生零梯度更新。",
-          "仅在可验证正确性的任务（数学、代码）上评估；对开放式生成的适用性尚未测试。"
-        ],
-        "open_questions": [
-          "当验证器噪声较大或仅提供概率奖励时，RA‑OPD 的表现如何？",
-          "对不可验证或主观任务，能否扩展对齐过滤器？",
-          "轨迹过滤对收敛性和样本效率的理论影响是什么？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "On-policy distillation",
-        "matched": [
-          "On-policy distillation",
-          "on-policy distillation",
-          "OPD",
-          "distillation"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-31T17:37:30.318867+00:00"
-    },
-    {
-      "id": "2608.28511",
-      "title": "Training Communication-Efficient Mixture-of-Experts Language Models with Layer Re-Configuration",
-      "abstract": "When training Mixture-of-Experts (MoE) language models with expert parallelism, all-to-all token dispatch and combine collectives can consume a substantial fraction of end-to-end training time. In this work, we study communication-efficient MoE models (CE-MoE), in which we adopt a heterogeneous layer pattern that decouples token-mixing and channel-mixing depth. Compared to conventional models which interleave MoE layers after each token-mixing layer (e.g., attention, Mamba-2), CE-MoE models concentrate expert capacity in a select few routed MoE layers, while maintaining depth by adding additional token-mixing and dense-FFN layers. Across a scaling ladder from 2B to 31.5B total parameters, under matched total and activated parameters, CE-MoE models consistently reduce training cost while matching validation loss and downstream benchmarks with full-MoE baselines. At the 31.5B scale, CE-MoE uses 33.3\\% fewer GPU-hours while improving average downstream score and inference throughput.",
-      "authors": [
-        "Simeng Sun",
-        "Roger Waleffe"
-      ],
-      "published": "2026-08-28T16:44:50Z",
-      "updated": "2026-08-28T16:44:50Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2608.28511v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.28511v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "language model",
-        "language models"
+        "llm"
       ],
       "topics": [
         {
           "id": "efficient_adversarial_training",
           "name": "Efficient adversarial training",
           "status": "emerging",
-          "score": 0.6746,
+          "score": 0.659,
           "matched": [
             "efficient",
-            "training"
+            "training",
+            "fine-tuning",
+            "robust",
+            "robustness"
           ]
         },
         {
           "id": "llm_loss_landscape",
           "name": "LLM loss landscape",
           "status": "emerging",
-          "score": 0.1279,
+          "score": 0.3434,
           "matched": [
-            "loss"
+            "llm"
           ]
         }
       ],
       "scores": {
-        "total": 0.5903,
-        "relevance": 0.5653,
-        "quality": 0.55,
-        "novelty": 0.8456,
-        "freshness": 0.5662,
-        "feedback_adjustment": -0.0073,
+        "total": 0.6003,
+        "relevance": 0.5959,
+        "quality": 0.51,
+        "novelty": 0.8262,
+        "freshness": 0.5665,
+        "feedback_adjustment": -0.0176,
         "semantic_feedback": 0.0
       },
       "quality_signals": [
-        "baseline comparison",
-        "benchmark evaluation",
+        "ablation study",
         "quantitative results"
       ],
       "summary": {
-        "why_for_you": "与高效 LLM 训练优化相关，尤其是通信高效的 MoE 架构。",
-        "limitations": "聚焦特定 MoE 架构；未对对抗鲁棒性或损失曲面动态进行显式分析。",
-        "problem": "MoE 训练中因 all-to-all token 分发与合并导致通信成本高。",
-        "method": "使用 phased-greedy 算法的异构层模式，重新配置 token-mixing 与 MoE 层分布。",
-        "evidence": "31.5B 规模的 CE-MoE 节省 33.3% GPU-hours，同时提升下游得分和推理吞吐。",
-        "takeaway": "CE-MoE 通过解耦 token-mixing 与 channel-mixing 深度降低训练成本，保持性能。",
+        "takeaway": "PRICE 表明，系统组合 LoRA 微调、递归推理、整数四舍五入输入、CTF 提示和零温度解码，可在所有评估基线中实现最低的比特币价格预测误差。",
+        "method": "在 4‑bit 量化 LLaMA‑3 8B 模型上集成参数高效 LoRA 微调、递归多步推理、整数四舍五入数值表示、Context‑Task‑Format 提示以及精确零温度解码。",
+        "why_for_you": "与高效训练相关，因为它量化了基于 LoRA 的参数高效微调及其他适配选择如何提升 LLM 在高难度时间序列任务上的表现。",
+        "problem": "在高度波动、非平稳的市场环境中准确预测短期比特币价格，传统方法难以胜任。",
+        "limitations": "在可得资料中未说明。",
+        "evidence": "消融研究和与八个 transformer‑based 与 time‑series 基础模型的基准比较表明，PRICE 达到最低的验证和测试预测误差。",
         "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
         "language": "zh",
         "schema_version": 3,
         "prompt_version": 2
       },
       "deep_dive": {
-        "experiments": [
-          {
-            "detail": "在 2B‑31.5B 模型上测试，总参数/激活参数匹配，对比 full-MoE 基线。",
-            "title": "参数规模评估"
-          }
-        ],
-        "limitations": [
-          "未分析 adversarial robustness 或 loss landscape 曲率",
-          "聚焦特定 MoE 架构（如 Mamba-2 token-mixers）"
-        ],
-        "overview": "本研究通过异构层布局将 token-mixing 与 channel-mixing 深度解耦，缓解 MoE 训练的通信瓶颈。方法通过增加 token-mixing 与 dense-FFN 层，在保持模型容量的同时减少 MoE 层数。实验在 2B‑31.5B 参数规模上均显示训练成本下降，31.5B 时实现 33.3% GPU-hours 节省并提升下游性能。",
         "signals": [
           {
             "icon": "💡",
-            "text": "CE-MoE 的异构层模式将 MoE 深度降低 65.2%"
+            "text": "PRICE 整合五个适配组件，在八个基线中实现最低的比特币预测误差。"
           },
           {
             "icon": "⚙️",
-            "text": "Phased-greedy 算法生成 token-mixing 为主的层模式"
+            "text": "LoRA 微调结合递归多步推理和整数四舍五入输入提升了准确性。"
           },
           {
-            "icon": "📈",
-            "text": "31.5B 规模的 CE-MoE 实现 33.3% GPU-hours 减少并提升吞吐"
+            "icon": "📊",
+            "text": "消融和基准测试显示 PRICE 获得最低的验证和测试误差，但未公开具体数值。"
           }
         ],
-        "open_questions": [
-          "CE-MoE 架构如何影响 adversarial vulnerability？",
-          "异构层模式能否推广至非 MoE 架构？"
-        ],
-        "contributions": [
-          "用于通信高效 MoE 训练的异构层模式",
-          "用于层模式生成的 phased-greedy 算法",
-          "在 31.5B 规模上实证验证 33.3% GPU-hours 减少"
+        "overview": "本文提出 PRICE 框架，系统地将 4‑bit 量化 LLaMA‑3 8B 模型适配用于短期比特币价格预测。它将 LoRA 参数高效微调、递归多步推理、整数四舍五入价格表示、Context‑Task‑Format 提示和精确零温度解码五个正交适配选择整合为一条流水线。通过受控消融分析评估各选择的影响，并在与八个 transformer 与 time‑series 基础模型的广泛基准测试中评估整体性能。结果表明，各组件均带来可测量的提升，完整系统在验证集和测试集上均实现最低预测误差。",
+        "methodology": [
+          {
+            "title": "LoRA 微调",
+            "detail": "对量化的 LLaMA‑3 8B 模型应用低秩适配，实现参数高效训练，适用于硬件受限环境，同时保持模型容量。"
+          }
         ],
         "mechanism": [
           {
-            "detail": "将 token-mixing (Mamba-2) 与 channel-mixing (MoE) 层分离，以降低与 LE·S·GBS·K 成正比的 all-to-all 通信量",
-            "title": "解耦混合深度"
+            "title": "递归多步推理",
+            "detail": "逐步生成预测，将每个预测价格作为下一步输入，降低相较于直接多步生成的误差累积。"
+          },
+          {
+            "title": "整数四舍五入数值表示",
+            "detail": "在输入 LLM 前将价格值四舍五入为整数，保留原始尺度并去除多余精度，从而降低预测误差。"
+          },
+          {
+            "title": "Context‑Task‑Format (CTF) 提示",
+            "detail": "使用明确的上下文、任务描述和格式规范构建提示；在微调后仍优于 Chain‑of‑Thought、Implicit CoT 和 few‑shot 提示。"
+          },
+          {
+            "title": "精确零温度解码",
+            "detail": "生成时使用确定性 token 选择（temperature=0），消除抽样方差，提高递归预测的稳定性。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "消融研究",
+            "detail": "在相同条件下系统性地禁用每个适配组件（LoRA、recursion、integer rounding、CTF prompting、zero‑temp decoding），以量化其对预测误差和可靠性的影响。"
+          },
+          {
+            "title": "对比基准",
+            "detail": "在比特币价格数据集上，将 PRICE 与八个 transformer‑based 和 time‑series foundation models 进行评估，报告验证集和测试集的预测误差。"
           }
         ],
         "findings": [
           {
-            "detail": "31.5B 规模的 CE-MoE 相比 full-MoE 基线节省 33.3% GPU-hours",
-            "title": "训练成本降低"
+            "title": "组件贡献",
+            "detail": "每种适配选择均带来可测量的误差降低；LoRA 相较 zero‑shot 提升准确性，recursion 相较直接多步降低误差，integer rounding 始终优于原始或归一化输入。"
           },
           {
-            "detail": "Mamba-2 token-mixers 的通信量比 Switch-style MoE 低 47.8%",
-            "title": "稳定性提升"
+            "title": "提示优势",
+            "detail": "在微调设置下，CTF prompting 在所有评估的提示策略中实现了最强性能。"
+          },
+          {
+            "title": "解码稳定性",
+            "detail": "zero‑temperature decoding 在递归预测期间降低输出变异性，提升预测可靠性。"
+          },
+          {
+            "title": "整体表现",
+            "detail": "PRICE 在验证集和测试集上实现了最低或并列最低的预测误差，尽管基于文本预训练 LLM，仍优于专门的 time‑series foundation models。"
           }
         ],
-        "methodology": [
-          {
-            "detail": "将 token-mixing 与 MoE 比例调至 α=4，以降低 LE 并保持总层数 L=52，配置为 (a=30, b=8, c=6, d=8)",
-            "title": "层组合优化"
-          },
-          {
-            "detail": "通过四个阶段生成层模式：attention block 放置、regular block 分布、residual block 处理、attention block 均匀划分",
-            "title": "Phased-greedy 算法"
-          }
+        "contributions": [
+          "统一框架（PRICE），将五个适配组件结合用于基于LLM的比特币预测。",
+          "受控消融方法，以隔离每个适配选择的影响。",
+          "实证表明，适配决策可以超越 pretraining domain mismatches 的影响。"
+        ],
+        "limitations": [
+          "在可获得的来源中未说明。"
+        ],
+        "open_questions": [
+          "所识别的适配选择能否推广到其他金融工具或更长的预测时段？",
+          "这些适配策略如何影响 LLM 的损失曲面和训练稳定性？",
+          "PRICE 对价格数据中对抗扰动的鲁棒性如何？"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
         "language": "zh",
         "schema_version": 6,
         "prompt_version": 2
@@ -2019,11 +2076,13 @@
         "topic": "Efficient adversarial training",
         "matched": [
           "efficient",
-          "training"
+          "training",
+          "fine-tuning",
+          "robust"
         ],
         "lane": "llm"
       },
-      "recommended_at": "2026-08-31T17:37:30.318867+00:00"
+      "recommended_at": "2026-09-07T15:50:52.906983+00:00"
     }
   ]
 }

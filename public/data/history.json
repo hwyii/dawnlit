@@ -1,6 +1,1050 @@
 {
-  "generated_at": "2026-09-06T13:40:46.504954+00:00",
+  "generated_at": "2026-09-07T15:50:52.906983+00:00",
   "papers": [
+    {
+      "id": "2609.05275",
+      "title": "Don't Drop Dropout: Optimizing Layer Sparsity for Efficient LLM Training and Inference",
+      "abstract": "Layer dropout (a.k.a. stochastic depth) has been shown to enable faster training, higher accuracy, and robustness to zero-shot layer pruning in both language and vision transformers. However, as models and datasets have scaled, dropout - particularly layer dropout - has largely disappeared from large language models (LLMs) pre-training recipes. While some prior work has reported that dropout can degrade accuracy, no comprehensive study has quantified, let alone mitigated, this effect. In this study, we show that layer dropout should be used in state-of-the-art LLM training, establishing best practices and scaling analysis for both training and post-training benefits. Concretely, with optimal layer distribution, time schedule, and optimizer hyperparameters, we observe that at the same training FLOPs layer dropout leads to lower loss. For a given number of training steps, LLMs can achieve lower or similar validation loss while saving upto 25% of training FLOPs. Moreover, layer dropout enables significant post-training optimizations, such as early exit, intermediate-layer skipping, and self-speculative decoding, yielding up to 1.5x inference speedup with negligible accuracy loss. Across more than 2400 training experiments, spanning models from 271M to 8.2B parameters and datasets up to 160B tokens, we demonstrate that these findings extend reliably to large-scale training regimes. All pre-training experiments were run on Cerebras CS-3 systems.",
+      "authors": [
+        "Mostafa Elhoushi",
+        "Alex Pretko",
+        "Nolan Dey",
+        "Bin Claire Zhang",
+        "Gavia Gray",
+        "Gurpreet Gosal",
+        "Abdulrahman Mahmoud",
+        "Shane Bergsma",
+        "Joel Hestness"
+      ],
+      "published": "2026-09-04T15:30:47Z",
+      "updated": "2026-09-04T15:30:47Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2609.05275v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.05275v1",
+      "comment": "This is a slightly extended version of the paper published at ICML 2026",
+      "journal_ref": "Proceedings of the 43rd International Conference on Machine Learning (ICML 2026)",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.7658,
+          "matched": [
+            "efficient",
+            "training",
+            "robustness"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.646,
+          "matched": [
+            "llm",
+            "loss"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3672,
+          "matched": [
+            "robustness",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.7555,
+        "relevance": 0.8126,
+        "quality": 0.57,
+        "novelty": 0.848,
+        "freshness": 0.5694,
+        "feedback_adjustment": -0.0187,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "experiments",
+        "dataset evidence",
+        "quantitative results",
+        "publication metadata"
+      ],
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "efficient",
+          "training",
+          "robustness"
+        ],
+        "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "最佳配置的 layer dropout 可将训练 FLOPs 降低最多 25%，同时保持或提升 validation loss，并实现最高 1.5 倍的推理加速。",
+        "method": "作者系统性地调节 layer‑wise dropout 率、时间调度、优化器超参数以及粒度（per‑sequence 与 per‑batch），覆盖多种模型规模。",
+        "why_for_you": "本研究提供高效的训练技术和 loss‑landscape 见解，对 adversarial training 与可信 LLM 部署具有参考价值。",
+        "problem": "大规模 LLM 预训练已放弃 dropout，尽管其在效率和鲁棒性方面具备潜力。",
+        "limitations": "动态 early‑exit、更广硬件平台以及 sub‑layer dropout 表现不佳的原因留待后续研究。",
+        "evidence": "在 2400+ 次实验（271M‑8.2B 参数）中，实现了更低的 validation loss，FLOPs 减少 25%，并在几乎无精度损失的情况下获得最高 1.5 倍的 inference 加速。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "在最佳配置下，layer dropout 将训练 FLOPs 降低最多 25%，并在 271M‑8.2B 参数 LLM 上保持或提升 validation loss。"
+          },
+          {
+            "icon": "🔬",
+            "text": "作者将 optimal layer‑wise dropout 分布、递减的 temporal schedule 与 per‑sequence 粒度确定为关键机制。"
+          },
+          {
+            "icon": "📉",
+            "text": "2400+ 次实验显示最高 1.5 倍的 inference 加速，精度损失可忽略，但所有训练均在 Cerebras CS‑3 系统上完成。"
+          }
+        ],
+        "overview": "本文对 decoder‑only LLM 的 stochastic depth（layer dropout）进行大规模实证研究，覆盖 271M‑8.2B 参数模型及最高 160B token。通过联合优化跨深度的 dropout 分布、训练步骤的递减 schedule 以及匹配的 optimizer 设置，实现显著计算节省，并支持 zero‑shot 推理优化，如 early exit、intermediate‑layer skipping 与 self‑speculative decoding。分析还比较了 per‑batch 与 per‑sequence dropout 粒度，并对比了 layer dropout 与 sub‑layer dropout。",
+        "methodology": [
+          {
+            "title": "超参数搜索",
+            "detail": "系统地调整 dropout 率、depth‑wise 分布和 temporal 调度，同时在 20 tokens‑per‑parameter 的计算最优预算下调优 optimizer 超参数。"
+          },
+          {
+            "title": "粒度比较",
+            "detail": "实现并评估 per‑batch（所有序列使用相同 mask）和 per‑sequence（每个序列使用独立 mask）两种 layer dropout。"
+          },
+          {
+            "title": "训练设置",
+            "detail": "使用 Decoder‑only transformer，配合 ALiBi 位置嵌入、平方 ReLU 激活和 Llama3 词表；所有运行在 Cerebras CS‑3 硬件上。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "通过随机深度实现结构鲁棒性",
+            "detail": "在训练期间随机跳过整个 transformer block，迫使模型学习在推理时移除层后仍保持准确的表征，从而实现 elastic depth 而无需架构更改。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "全尺度训练扫描",
+            "detail": "2400+ 预训练运行，覆盖模型规模 271M‑8.2B、token 预算最高 160B，以及多种 dropout 配置。"
+          },
+          {
+            "title": "早退出评估",
+            "detail": "在所有层上测量的静态 early‑exit 损失（Fig. 5）显示，dropout 训练的模型保持的损失低于 dense 基线，即使在提前多层退出时亦如此。"
+          },
+          {
+            "title": "粒度消融",
+            "detail": "Table 1 和 Fig. 4 对比 per‑batch 与 per‑sequence dropout，显示 per‑sequence 在验证损失上更佳。"
+          },
+          {
+            "title": "子层 vs 层 dropout",
+            "detail": "层 dropout 在训练和验证损失降低方面均优于子层 dropout（分别 dropout attention/FFN）。"
+          },
+          {
+            "title": "推理加速",
+            "detail": "后训练优化（early exit、intermediate‑layer skipping、self‑speculative decoding）可实现最高 1.5× 的推理加速，且损失增加可忽略不计。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "计算‑精度权衡",
+            "detail": "合理配置的 layer dropout 可节省最高 25% 的训练 FLOPs，同时在验证损失上与 dense 训练持平或更低。"
+          },
+          {
+            "title": "早退出鲁棒性",
+            "detail": "使用 layer dropout 训练的模型在 early‑exit 各层保持稳定损失，且在每个退出点均优于 dense 基线。"
+          },
+          {
+            "title": "调度优势",
+            "detail": "递减的 dropout schedule（前期 dropout 较高，后期降低）在固定 FLOP 预算下实现最低验证损失。"
+          },
+          {
+            "title": "粒度影响",
+            "detail": "per‑sequence dropout 持续优于 per‑batch dropout，得到更低损失。"
+          },
+          {
+            "title": "层 vs 子层 dropout",
+            "detail": "整体 dropout transformer block 能提供比分别 dropout attention 与 FFN 子块更高的准确率。"
+          }
+        ],
+        "contributions": [
+          "对 LLM 训练与推理的 layer dropout 进行大规模综合评估。",
+          "提供 dropout rate、depth distribution、temporal schedule 与 optimizer settings 的最佳实践指南。",
+          "演示 layer dropout 可实现无需架构修改的 zero‑shot depth‑elastic inference。",
+          "对 per‑batch 与 per‑sequence dropout 粒度以及 layer 与 sub‑layer dropout 进行实证比较。"
+        ],
+        "limitations": [
+          "未评估 dynamic early‑exit strategies。",
+          "所有实验在 Cerebras CS‑3 系统上进行，硬件通用性未测试。",
+          "sub‑layer dropout 表现不佳的原因及其他 dropout 位置（如 attention‑only）留待未来研究。"
+        ],
+        "open_questions": [
+          "layer dropout 如何与 adversarial training objectives 交互并影响 model robustness？",
+          "layer dropout 对 LLM loss landscape 的几何形状和 convergence dynamics 有何影响？",
+          "报告的 training and inference efficiency gains 能否在其他硬件平台和不同 optimizer families 上复现？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "recommended_at": "2026-09-07T15:50:52.906983+00:00"
+    },
+    {
+      "id": "2609.05235",
+      "title": "PRICE: A Systematic Study of LLM Adaptation Choices for Bitcoin Price Forecasting",
+      "abstract": "Cryptocurrency markets exhibit extreme volatility and non-stationary dynamics that challenge conventional forecasting methods. Although Large Language Models (LLMs) have shown promise for time series forecasting, the combined effects of adaptation choices remain largely unexplored in financial settings. This study introduces PRICE, a structured approach for adapting LLMs to short-term Bitcoin price forecasting. Built on a 4-bit quantized LLaMA-3 8B model, PRICE investigates how fine-tuning, numerical representation, prompting, inference, and decoding jointly influence forecasting performance. PRICE integrates Parameter-efficient fine-tuning with Low-Rank Adaptation (LoRA), Recursive multi-step inference, Integer-rounded numerical representation, Context-Task-Format (CTF) prompting, and Exact zero-temperature decoding. Ablation studies show that each component contributes to forecasting accuracy and reliability. LoRA enables efficient training on limited hardware, recursive inference improves accuracy, integer-rounded values reduce errors, CTF prompting outperforms Chain-of-Thought, Implicit Chain-of-Thought (iCoT), and few-shot prompting, and zero-temperature decoding improves stability during recursive forecasting. Comparative evaluation against eight transformer-based and time-series foundation models shows that PRICE achieves the lowest forecasting errors on both validation and test sets while maintaining robust performance across evaluation periods. Despite being based on a model primarily pretrained on text rather than time-series data, PRICE achieves competitive or superior performance relative to specialized foundation models. These findings demonstrate that adaptation choices critically determine the accuracy and robustness of LLMs for numerical time-series forecasting.",
+      "authors": [
+        "Maryam Fakhari",
+        "Mehran Safayani"
+      ],
+      "published": "2026-09-04T15:01:38Z",
+      "updated": "2026-09-04T15:01:38Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "math.NA"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2609.05235v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.05235v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.659,
+          "matched": [
+            "efficient",
+            "training",
+            "fine-tuning",
+            "robust",
+            "robustness"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.3434,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6003,
+        "relevance": 0.5959,
+        "quality": 0.51,
+        "novelty": 0.8262,
+        "freshness": 0.5665,
+        "feedback_adjustment": -0.0176,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "ablation study",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "PRICE 表明，系统组合 LoRA 微调、递归推理、整数四舍五入输入、CTF 提示和零温度解码，可在所有评估基线中实现最低的比特币价格预测误差。",
+        "method": "在 4‑bit 量化 LLaMA‑3 8B 模型上集成参数高效 LoRA 微调、递归多步推理、整数四舍五入数值表示、Context‑Task‑Format 提示以及精确零温度解码。",
+        "why_for_you": "与高效训练相关，因为它量化了基于 LoRA 的参数高效微调及其他适配选择如何提升 LLM 在高难度时间序列任务上的表现。",
+        "problem": "在高度波动、非平稳的市场环境中准确预测短期比特币价格，传统方法难以胜任。",
+        "limitations": "在可得资料中未说明。",
+        "evidence": "消融研究和与八个 transformer‑based 与 time‑series 基础模型的基准比较表明，PRICE 达到最低的验证和测试预测误差。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "PRICE 整合五个适配组件，在八个基线中实现最低的比特币预测误差。"
+          },
+          {
+            "icon": "⚙️",
+            "text": "LoRA 微调结合递归多步推理和整数四舍五入输入提升了准确性。"
+          },
+          {
+            "icon": "📊",
+            "text": "消融和基准测试显示 PRICE 获得最低的验证和测试误差，但未公开具体数值。"
+          }
+        ],
+        "overview": "本文提出 PRICE 框架，系统地将 4‑bit 量化 LLaMA‑3 8B 模型适配用于短期比特币价格预测。它将 LoRA 参数高效微调、递归多步推理、整数四舍五入价格表示、Context‑Task‑Format 提示和精确零温度解码五个正交适配选择整合为一条流水线。通过受控消融分析评估各选择的影响，并在与八个 transformer 与 time‑series 基础模型的广泛基准测试中评估整体性能。结果表明，各组件均带来可测量的提升，完整系统在验证集和测试集上均实现最低预测误差。",
+        "methodology": [
+          {
+            "title": "LoRA 微调",
+            "detail": "对量化的 LLaMA‑3 8B 模型应用低秩适配，实现参数高效训练，适用于硬件受限环境，同时保持模型容量。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "递归多步推理",
+            "detail": "逐步生成预测，将每个预测价格作为下一步输入，降低相较于直接多步生成的误差累积。"
+          },
+          {
+            "title": "整数四舍五入数值表示",
+            "detail": "在输入 LLM 前将价格值四舍五入为整数，保留原始尺度并去除多余精度，从而降低预测误差。"
+          },
+          {
+            "title": "Context‑Task‑Format (CTF) 提示",
+            "detail": "使用明确的上下文、任务描述和格式规范构建提示；在微调后仍优于 Chain‑of‑Thought、Implicit CoT 和 few‑shot 提示。"
+          },
+          {
+            "title": "精确零温度解码",
+            "detail": "生成时使用确定性 token 选择（temperature=0），消除抽样方差，提高递归预测的稳定性。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "消融研究",
+            "detail": "在相同条件下系统性地禁用每个适配组件（LoRA、recursion、integer rounding、CTF prompting、zero‑temp decoding），以量化其对预测误差和可靠性的影响。"
+          },
+          {
+            "title": "对比基准",
+            "detail": "在比特币价格数据集上，将 PRICE 与八个 transformer‑based 和 time‑series foundation models 进行评估，报告验证集和测试集的预测误差。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "组件贡献",
+            "detail": "每种适配选择均带来可测量的误差降低；LoRA 相较 zero‑shot 提升准确性，recursion 相较直接多步降低误差，integer rounding 始终优于原始或归一化输入。"
+          },
+          {
+            "title": "提示优势",
+            "detail": "在微调设置下，CTF prompting 在所有评估的提示策略中实现了最强性能。"
+          },
+          {
+            "title": "解码稳定性",
+            "detail": "zero‑temperature decoding 在递归预测期间降低输出变异性，提升预测可靠性。"
+          },
+          {
+            "title": "整体表现",
+            "detail": "PRICE 在验证集和测试集上实现了最低或并列最低的预测误差，尽管基于文本预训练 LLM，仍优于专门的 time‑series foundation models。"
+          }
+        ],
+        "contributions": [
+          "统一框架（PRICE），将五个适配组件结合用于基于LLM的比特币预测。",
+          "受控消融方法，以隔离每个适配选择的影响。",
+          "实证表明，适配决策可以超越 pretraining domain mismatches 的影响。"
+        ],
+        "limitations": [
+          "在可获得的来源中未说明。"
+        ],
+        "open_questions": [
+          "所识别的适配选择能否推广到其他金融工具或更长的预测时段？",
+          "这些适配策略如何影响 LLM 的损失曲面和训练稳定性？",
+          "PRICE 对价格数据中对抗扰动的鲁棒性如何？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "efficient",
+          "training",
+          "fine-tuning",
+          "robust"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-07T15:50:52.906983+00:00"
+    },
+    {
+      "id": "2609.05363",
+      "title": "Distill Globally, Adapt Locally: Reasoning Distillation and Product-Type Test-Time Training for Scalable Trade-Up Recommendation",
+      "abstract": "Trade-up recommendation identifies higher-quality alternatives that preserve a customer's purchase intent while offering upgraded benefits. Large language models (LLMs) can reason about such distinctions, but applying them directly to hundreds of millions of product pairs is operationally impractical. We introduce a two-level framework that distills LLM reasoning into an efficient non-generative student and adapts its decision boundary to product-type-specific trade-up criteria. At Level 1, a retrieval-augmented few-shot LLM teacher generates structured relation labels and natural-language rationales. These rationales supervise a compact embedding-pair classifier through alignment and contrastive objectives; at inference, the student uses only two precomputed 768-dimensional product embeddings, with no LLM calls or text generation. On a fixed human-annotated benchmark of 8,352 pairs, a 15.5M-parameter four-class reasoning-distilled student achieves AUC 0.924 (95% CI [0.918, 0.929]), compared with 0.912 for the four-class label-only student. At Level 2, product-type test-time training (PT-TTT) uses few-shot demonstrations to optimize lightweight category-specific adapters over the frozen student. PT-TTT improves AUC from 0.924 to 0.941 and average precision from 0.920 to 0.940. On a 100K-pair proxy catalog, the distilled student on a single eight-GPU machine is approximately 5,000x faster and 10,000x lower in estimated cost than direct LLM inference.",
+      "authors": [
+        "Siliang Liu",
+        "Mohammad Ghasemi",
+        "Sapan Patel",
+        "Amin Banitalebi-Dehkordi"
+      ],
+      "published": "2026-09-04T17:08:50Z",
+      "updated": "2026-09-04T17:08:50Z",
+      "categories": [
+        "cs.LG"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2609.05363v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.05363v1",
+      "comment": "Accepted at the Third Workshop on Agentic and Generative AI for E-Commerce (GenAIECommerce 2026), co-located with ACM RecSys 2026",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5189,
+          "matched": [
+            "efficient",
+            "training"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.3645,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "emerging",
+          "score": 0.2332,
+          "matched": [
+            "distillation"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5687,
+        "relevance": 0.5347,
+        "quality": 0.54,
+        "novelty": 0.8418,
+        "freshness": 0.5792,
+        "feedback_adjustment": -0.0196,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "formal bound",
+        "quantitative results"
+      ],
+      "summary": {
+        "evidence": "15.5M-parameter student achieves 0.924 AUC, improved to 0.941 with PT-TTT, and 5,000× faster inference than direct LLM calls.",
+        "limitations": "Relies on expert-annotated benchmarks and specific product-type demonstration sets for adaptation.",
+        "method": "Reasoning distillation into a compact classifier followed by product-type-specific test-time training with LoRA adapters.",
+        "problem": "Direct LLM inference on large product catalogs is computationally impractical due to scale and cost.",
+        "takeaway": "A two-level framework for scalable trade-up recommendation using LLM reasoning distillation and product-type test-time adaptation.",
+        "why_for_you": "Matches interest in efficient distillation methods and on-policy adaptation for large-scale LLM deployment.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "contributions": [
+          "Two-level framework for scalable trade-up recommendation",
+          "Rationale-guided representation distillation without text generation",
+          "Product-type test-time training with amortized adapter updates"
+        ],
+        "experiments": [
+          {
+            "detail": "15.5M-parameter shallow classifier vs. 65.9M-parameter deep model, evaluated on 8,352 human-annotated pairs",
+            "title": "Student models"
+          },
+          {
+            "detail": "29 product types with 928 support examples, using LoRA rank=8 and alpha=16 for parameter-efficient tuning",
+            "title": "Adaptation sets"
+          },
+          {
+            "detail": "AUC, average precision, F1, precision, and recall with 95% bootstrap CIs on golden benchmark",
+            "title": "Metrics"
+          }
+        ],
+        "findings": [
+          {
+            "detail": "Reasoning-distilled student (AUC 0.924) outperforms label-only student (0.912) on 8,352 pairs",
+            "title": "Distillation effectiveness"
+          },
+          {
+            "detail": "AUC increases from 0.924 to 0.941 and AP from 0.920 to 0.940 with product-type adaptation",
+            "title": "PT-TTT improvement"
+          },
+          {
+            "detail": "100K-pair catalog inference 5,000× faster and 10,000× cheaper than direct LLM calls on same hardware",
+            "title": "Scalability gain"
+          }
+        ],
+        "limitations": [
+          "Requires expert-annotated benchmarks for adaptation",
+          "Performance depends on product-type-specific demonstration quality",
+          "Limited analysis of loss landscape dynamics"
+        ],
+        "mechanism": [
+          {
+            "detail": "Teacher rationales are projected into student embedding space through alignment layers, preserving discriminative pair geometry without text generation",
+            "title": "Representation alignment"
+          },
+          {
+            "detail": "Gradient-based adaptation updates lightweight adapters during inference, modifying decision boundaries without retraining the full model",
+            "title": "Test-time optimization"
+          }
+        ],
+        "methodology": [
+          {
+            "detail": "LLM-generated rationales are encoded into fixed-dimensional representations and transferred to a student pair classifier via pointwise alignment and contrastive relational matching",
+            "title": "Reasoning distillation"
+          },
+          {
+            "detail": "Product-type-specific LoRA adapters are optimized over frozen students using few-shot demonstrations, with adaptation amortized across category pairs rather than per-query",
+            "title": "PT-TTT adaptation"
+          }
+        ],
+        "open_questions": [
+          "Generalization to non-product recommendation tasks",
+          "Reduction of expert annotation dependency in adaptation",
+          "Theoretical analysis of PT-TTT's impact on LLM loss landscapes"
+        ],
+        "overview": "The paper presents a scalable trade-up recommendation system combining global reasoning distillation and local product-type adaptation. A compact embedding-pair classifier is trained via alignment and contrastive losses using LLM-generated rationales, then refined with few-shot test-time training per product type. The approach achieves high accuracy while enabling 5,000× faster inference through frozen student models and precomputed embeddings.",
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "Two-level framework distills LLM reasoning into 15.5M-parameter classifier with 0.924 AUC"
+          },
+          {
+            "icon": "🔧",
+            "text": "PT-TTT uses LoRA adapters for product-type-specific test-time adaptation"
+          },
+          {
+            "icon": "📊",
+            "text": "5,000× speedup and 10,000× cost reduction on 100K-pair catalog vs. direct LLM inference"
+          }
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "efficient",
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-07T15:50:52.906983+00:00"
+    },
+    {
+      "id": "2609.04715",
+      "title": "PLUME: Parameter-Efficient Personalization of Large Language Models via Low-Rank User Modulation in Shared Subspaces",
+      "abstract": "Personalizing large language models (LLMs) is essential for delivering AI assistance that aligns with individual users' styles, intents, and preferences. While per-user fine-tuning can substantially enhance personalization quality, it introduces significant parameter and storage overhead, limiting scalability to large user populations. We propose PLUME (Personalized Low-Rank Adaptation through User Modulation and Shared Subspace), a lightweight framework that achieves efficient and expressive per-user adaptation by leveraging a shared task-specific subspace. Specifically, PLUME first learns a global task subspace from aggregated user data. Personalization is then achieved by training only a lightweight small square matrix within this subspace, enabling each user to obtain a tailored model while keeping shared components fixed. Cross-layer shared parameters and rank-1 residual terms are further introduced to significantly reduce redundancy while maintaining expressiveness. Experiments on multiple personalized text generation benchmarks demonstrate that PLUME achieves comparable or superior performance to strong baselines, while reducing per-user parameters by over 95%. These results establish shared-subspace modulation with minimal residuals as a scalable and semantically grounded approach to LLM personalization.",
+      "authors": [
+        "Xinyu Li",
+        "Hao Zhou",
+        "Jianfeng Zhu",
+        "Julina Maharjan",
+        "Ruixin Guo",
+        "Feodor Dragan",
+        "Ruoming Jin"
+      ],
+      "published": "2026-09-04T04:38:50Z",
+      "updated": "2026-09-04T04:38:50Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2609.04715v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.04715v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5871,
+          "matched": [
+            "efficient",
+            "training",
+            "fine-tuning"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.1333,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5547,
+        "relevance": 0.4963,
+        "quality": 0.61,
+        "novelty": 0.8485,
+        "freshness": 0.5048,
+        "feedback_adjustment": -0.02,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation",
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "PLUME 实现了超过 95% 的每用户参数削减，同时在个性化文本生成上匹配或超越强基线。",
+        "method": "PLUME 学习全局低秩任务子空间，并为每位用户配备一个小型方阵 (USM) 与秩‑1 残差，用于调节该子空间。",
+        "why_for_you": "这种参数高效的适配符合您对高效对抗训练和探究 LLM 损失曲面的兴趣。",
+        "problem": "对 LLM 进行每用户微调会导致大规模用户群体的存储和过拟合成本过高。",
+        "limitations": "评估仅限于 LLaMA2‑7B 与 Mistral‑7B 的生成任务，未分析对抗鲁棒性或损失曲面影响。",
+        "evidence": "在五个生成基准上，PLUME 在使用更少参数的情况下仍获得与 OPPU、CoPE 相当或更高的 ROUGE‑L / METEOR 分数。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "PLUME 将每用户参数量削减超过 95%，同时保持个性化质量。"
+          },
+          {
+            "icon": "🔧",
+            "text": "引入用户条件子空间混合器 (USM)——共享 LoRA 子空间中的小型方阵。"
+          },
+          {
+            "icon": "📊",
+            "text": "基准 (LongLaMP, LaMP) 表明 PLUME 在使用秩‑4 残差的情况下，ROUGE‑L 与 METEOR 上匹配或超越 OPPU/CoPE。"
+          }
+        ],
+        "overview": "PLUME 通过将共享任务知识与用户特定调制解耦，解决了每用户 LLM 微调的可扩展性瓶颈。全局低秩子空间一次学习完成；随后每位用户仅学习轻量 USM 矩阵和秩‑1 残差路径，大幅压缩存储。对 LLaMA2‑7B 与 Mistral‑7B 的五个个性化生成任务实验表明，该紧凑适配的性能与或优于重量级基线，消融实验验证了各组件的贡献。但研究仍局限于生成基准，未探讨鲁棒性或损失曲面动态。",
+        "mechanism": [
+          {
+            "detail": "USM作为重新索引算子，在共享的LoRA列空间内重新组合潜在任务方向，实现用户特定的风格控制而不改变共享基底。",
+            "title": "子空间调制"
+          },
+          {
+            "detail": "共享参数在各层间复用，而秩-1残差提供统一、低成本的表达增强，与USM互补。",
+            "title": "跨层共享"
+          }
+        ],
+        "methodology": [
+          {
+            "detail": "在聚合用户数据上训练一个全局LoRA子空间（秩 = 64）；矩阵A(l)将输入投影到此低维空间，B(l)将其映射回隐藏表示。",
+            "title": "共享任务子空间学习"
+          },
+          {
+            "detail": "为每个用户，在A(l)和B(l)之间插入一个小的方阵cu ∈ ℝ^{r_g×r_g}，得到ΔW_u = s B(l) cu A(l)，通过可忽略参数重新加权任务方向。",
+            "title": "用户条件子空间混合器（USM）"
+          },
+          {
+            "detail": "在USM之上添加一个秩-1更新（Resid），在保持参数预算最小的同时增强表达能力。",
+            "title": "秩-1残差路径"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "基准套件",
+            "detail": "五个个性化生成任务：Abstract Generation、Product Review、Topic Writing (LongLaMP)；News Headline、Scholarly Title (LaMP)。"
+          },
+          {
+            "title": "基线",
+            "detail": "非个性化：base model、LoRA、AdaLoRA、PiSSA、QLoRA、LoRA‑One。个性化：RAG、OPPU、CoPE。PLUME 变体：PLUME（residual rank 4）和 PLUME‑s（residual rank 1，shared rank 8）。"
+          },
+          {
+            "title": "模型与指标",
+            "detail": "在 LLaMA2‑7B 和 Mistral‑7B‑Instruct‑v0.2 上评估，使用 ROUGE‑1、ROUGE‑L 和 METEOR。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "性能 vs 参数效率",
+            "detail": "PLUME 在 ROUGE‑L/METEOR 分数上可与 OPPU 和 CoPE 相当或更高，同时使用的每用户参数减少 >95%。"
+          },
+          {
+            "title": "组件消融",
+            "detail": "移除 USM、PCLS 或 Resid 均会降低 ROUGE‑L 和 METEOR；其中 Resid 的影响最大，尤其在长文本任务上。"
+          },
+          {
+            "title": "残差秩敏感性",
+            "detail": "在摘要生成任务中，residual rank 4 时性能达到峰值，随后随秩增大而下降，表明更大残差维度的收益有限。"
+          }
+        ],
+        "contributions": [
+          "为所有用户共享 low‑rank 任务子空间",
+          "User‑Conditioned Subspace Mixer (USM) 用于 per‑user 调制",
+          "跨层共享参数，使用 rank‑1 残差，以平衡 expressivity 与 efficiency"
+        ],
+        "limitations": [
+          "实验仅限于文本生成任务和两种模型规模",
+          "未评估 adversarial 鲁棒性或对 loss‑landscape 几何的影响",
+          "对 residual rank 的敏感性表明可能存在 over‑parameterization 风险"
+        ],
+        "open_questions": [
+          "USM 基于的调制在微调期间如何影响 LLM loss landscape 的曲率和稳定性？",
+          "PLUME 的共享子空间能否用于提升 adversarial 训练效率或鲁棒性？",
+          "将 PLUME 扩展到多模态或指令跟随场景时的权衡是什么？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "efficient",
+          "training",
+          "fine-tuning"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-07T15:50:52.906983+00:00"
+    },
+    {
+      "id": "2609.04343",
+      "title": "A Removal Based Approach to Improve LLM Faithfulness at Test-Time",
+      "abstract": "Large language models (LLMs) are increasingly used for consequential decisions, making their explanations an important tool for auditing model behavior. Unfortunately, these explanations can be unfaithful, failing to reflect the actual reasoning underlying the model's decisions. We consider a setting in which an LLM provides both an answer and an explanation in response to a question. We identify two distinct dimensions of unfaithful explanations: incompleteness, meaning that the explanation omits factors that influence the answer, and unsoundness, meaning that the explanation cites factors that did not influence the model's answer. Existing approaches to improving LLM faithfulness include training-time methods, which require access to model weights and extensive computational resources, and test-time methods that largely focus on addressing unsoundness. We introduce a test-time approach that directly targets incompleteness. We remove from the input the concepts not credited in the model's explanation and re-query the model on the reduced input. This eliminates unmentioned influences while preserving the influence of mentioned concepts. Across two datasets, multiple model families, and two independent faithfulness metrics, our approach improves explanation faithfulness compared to both standard prompting and prompting to encourage faithfulness. Our method is model-agnostic and can be applied at inference time without modifying model parameters, providing a flexible mechanism for reducing hidden influences and improving the reliability and safety of LLM-assisted decision making.",
+      "authors": [
+        "Qinglan Luo",
+        "S M A Nahian",
+        "John Guttag",
+        "S. Mazdak Abulnaga",
+        "Katie Matton"
+      ],
+      "published": "2026-09-03T18:09:26Z",
+      "updated": "2026-09-03T18:09:26Z",
+      "categories": [
+        "cs.AI",
+        "cs.CL"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2609.04343v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.04343v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5671,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4441,
+          "matched": [
+            "auditing",
+            "safety",
+            "reliability",
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.1103,
+          "matched": [
+            "training"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5472,
+        "relevance": 0.5646,
+        "quality": 0.37,
+        "novelty": 0.841,
+        "freshness": 0.4423,
+        "feedback_adjustment": -0.0372,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "dataset evidence"
+      ],
+      "summary": {
+        "evidence": "在两个数据集、多个模型家族和两个独立忠实性指标上，该方法优于标准提示和鼓励忠实性的提示。",
+        "limitations": "未提及具体限制，如计算资源需求或特定场景下的有效性。",
+        "method": "在测试时移除输入中未被模型解释提及的概念，并对简化后的输入重新查询模型。",
+        "problem": "大语言模型的解释存在不完整性和不严谨性，导致无法准确反映模型决策的实际推理过程。",
+        "takeaway": "提出一种测试时方法，通过移除输入中未被模型解释提及的概念来改善大语言模型解释的忠实性。",
+        "why_for_you": "针对可信大语言模型的忠实性提升，提供无需修改模型参数的高效测试时调整方法。",
+        "source": "abstract",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-07T15:50:52.906983+00:00"
+    },
+    {
+      "id": "2609.04866",
+      "title": "LLM-Assisted Behavioural and Scenario Augmentation for Agent-Based Energy Adoption Models",
+      "abstract": "Recent advances in large language models (LLMs) create opportunities to enrich simulation-based energy policy analysis, particularly by supporting structured behavioural assumptions and exploratory techno-economic scenarios. However, directly replacing adoption models with LLM reasoning raises concerns regarding interpretability, reproducibility, and behavioural validity. This paper proposes a hybrid framework for LLM-assisted specification design, integrating bounded behavioural rubrics and structured scenario specifications into a calibrated agent-based model (ABM) of solar photovoltaic (PV) adoption by Irish dairy farms. The proposed approach preserves the original techno-economic adoption mechanism while augmenting it with bounded behavioural modulation and scenario-driven uncertainty analysis. Behavioural effects are represented through interpretable conservative, balanced, and optimistic rubrics, while future policy and market conditions are explored through fixed, rule-validated scenario specifications. Experimental results across multiple policy settings, Monte Carlo worlds, and random seeds demonstrate stable and economically plausible behaviour, with adoption outcomes remaining bounded and monotonic across behavioural regimes. The framework achieves up to approximately 13% behavioural adoption increase relative to the corresponding logistic case without producing unstable or unrealistic saturation dynamics. The results demonstrate that LLM-assisted specifications can be integrated into calibrated energy ABMs in a controlled, reproducible, and policy-relevant manner.",
+      "authors": [
+        "Iias Faiud",
+        "Hossein Khaleghy",
+        "Michael Schukat",
+        "Karl Mason"
+      ],
+      "published": "2026-09-04T08:26:20Z",
+      "updated": "2026-09-04T08:26:20Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2609.04866v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.04866v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5873,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5412,
+        "relevance": 0.4698,
+        "quality": 0.61,
+        "novelty": 0.8747,
+        "freshness": 0.5273,
+        "feedback_adjustment": -0.0169,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "experiments",
+        "formal bound",
+        "reproducibility",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "LLM 辅助的行为和情景规范可增强已校准的 ABM，实现适度的采纳提升且保持稳定。",
+        "method": "作者通过受限的离线 LLM 提示生成有界的行为评分表和情景输入，并将其作为乘法调整应用于 logistic 采纳概率。",
+        "why_for_you": "如果你研究 LLM 损失曲面，本文展示了限制 LLM 输出变异性的受控提示流程，对安全集成具有参考价值。",
+        "problem": "能源政策 ABM 缺乏灵活、可复现的行为假设和情景结构。",
+        "limitations": "本研究使用离线 LLM 生成，未将评分表与专家设计对比，且规范可能受提示偏差影响。",
+        "evidence": "在 Monte Carlo 运行和政策设置下，增强模型实现最高约 13% 的采纳提升，且无不稳定饱和。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "混合框架通过离线 LLM 生成的行为评分表和情景规范来增强已校准的 ABM。"
+          },
+          {
+            "icon": "🔧",
+            "text": "受限的 JSON 提示生成保守、平衡、乐观的评分表，以乘法方式调整基线 logistic 采纳概率。"
+          },
+          {
+            "icon": "⚠️",
+            "text": "实验显示采纳提升最高约 13%，且动态受限；局限在于未进行实时 LLM 推理或与专家评分表比较。"
+          }
+        ],
+        "overview": "本文提出一种受控工作流，利用离线 large language model 设计结构化行为评分表和技术‑经济情景规范。这些确定性输入经验证后，以有界乘法方式应用于已校准的 logistic 采纳概率，进而用于爱尔兰乳业农场太阳能光伏扩散的 agent‑based model。Monte Carlo 在不同政策设置和随机种子下的仿真显示采纳轨迹稳定单调，提升最高约 13%，且不存在不现实的饱和。",
+        "mechanism": [
+          {
+            "detail": "规范的multiplier_min和multiplier_max限制行为因素可以放大或抑制pbase的程度，确保采用曲线单调且有界。",
+            "title": "有界乘法调整"
+          },
+          {
+            "detail": "所有LLM生成的规范在模拟前转换为显式模型参数，防止实时LLM的随机性。",
+            "title": "规则验证输入集成"
+          }
+        ],
+        "methodology": [
+          {
+            "detail": "校准的基于代理的模型计算逻辑采用概率 pbase = 1/(1+exp[−(α·U+β)])，使用NPV基础效用，α和β固定。",
+            "title": "基线ABM"
+          },
+          {
+            "detail": "ChatGPT-5.5被提示使用约束JSON模式生成三种行为规范（保守、平衡、乐观）和情景配置；输出结果经过人工验证有效性。",
+            "title": "离线LLM规范设计"
+          },
+          {
+            "detail": "每个规范提供乘数范围和因子权重；所选乘数应用于pbase，产生调整后的采用概率。",
+            "title": "行为增强层"
+          },
+          {
+            "detail": "固定政策变量（补贴支持、FiT水平、贷款利率、电价增长、光伏成本轨迹、出口假设）按情景设置并输入ABM。",
+            "title": "情景规范"
+          },
+          {
+            "detail": "对世界现实和随机种子的蒙特卡洛抽样评估采用结果的稳健性。",
+            "title": "不确定性评估"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "政策与行为模式扫描",
+            "detail": "ABM 在多种政策设置（如补贴撤回、能源危机）下运行，并结合三种行为准则；每种配置在 Monte Carlo 世界和随机种子中复制。"
+          },
+          {
+            "title": "指标",
+            "detail": "记录截至2040年的累计采用者和累计公共成本（grant + FiT 支出）；报告相对于 logistic baseline 的采用增长百分比。"
+          },
+          {
+            "title": "基线",
+            "detail": "不含行为增强的 logistic adoption 情况作为主要基线。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "采用增益",
+            "detail": "乐观规则相较于 logistic baseline，累计采用量约高出13 %。"
+          },
+          {
+            "title": "稳定性与有界性",
+            "detail": "所有行为模式产生单调的采用顺序，并在所有 Monte Carlo 运行中避免不现实的饱和动态。"
+          },
+          {
+            "title": "可重复性",
+            "detail": "由于 LLM 输出在仿真前已固定，结果在不同种子和世界样本间可重复。"
+          }
+        ],
+        "contributions": [
+          "离线 LLM 辅助行为与情景规范的混合框架，适用于校准能源 ABM",
+          "受限 JSON 提示协议，生成有界、可解释的 behavioural rubrics",
+          "实证展示在不牺牲 model transparency 前提下，稳定且单调的 adoption 改进"
+        ],
+        "limitations": [
+          "LLM 仅在离线使用；未评估实时推理或自适应 LLM 代理",
+          "behavioural rubrics 为近似，未基于实证农户数据",
+          "未与专家构建的 rubrics 或其他提示输出比较；规范可能受提示措辞和模型偏差影响"
+        ],
+        "open_questions": [
+          "在仿真中集成实时 LLM 推理会如何影响 adoption 动力学和可重复性？",
+          "LLM 生成的 rubrics 相较专家设计的规范，是否提升实证 behavioural 有效性？",
+          "受控提示与增强方法能否推广至其他领域或更大、更强的 LLM？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-07T15:50:52.906983+00:00"
+    },
     {
       "id": "2609.03874",
       "title": "STAIR (STructure Aware Information Retriever): A novel dataset and LLM based retriever for document structure augmentation",
@@ -1022,12 +2066,12 @@
         "lane": "llm"
       },
       "summary": {
-        "evidence": "CPS achieves 97.6% AmbiMath accuracy, 9.5% F1 improvement on Jigsaw, and 8.3-5.2% HANS accuracy gains over baselines.",
-        "limitations": "The method's effectiveness depends on task-specific prior formulations, and its generalization to unseen priors remains unexplored.",
-        "method": "PGT frames natural-language priors as explicit learning signals, while CPS uses contrastive losses to align training with task principles.",
-        "problem": "Low-resource training data often lack sufficient evidence to disambiguate task solutions, leading to spurious correlations.",
-        "takeaway": "Prior-Guided Tuning (PGT) with Contrastive Prior Steering (CPS) improves low-resource LLM training by incorporating task-level natural-language priors as auxiliary signals.",
-        "why_for_you": "This addresses data selection for LLMs by demonstrating how priors enhance low-resource training efficiency and robustness.",
+        "evidence": "CPS achieves 97.6% AmbiMath exact-match accuracy, 9.5% F1 improvement on Jigsaw, and 8.3-5.2% non-entailment accuracy gains on HANS.",
+        "limitations": "The paper does not analyze CPS's sensitivity to prior formulation beyond basic ablations, and its mechanism for resolving ambiguous data remains partially opaque.",
+        "method": "PGT introduces CPS, which combines standard supervised loss with contrastive positive/negative prior-conditioned objectives to guide task-consistent learning.",
+        "problem": "Low-resource training data often lack sufficient evidence to resolve task ambiguities or prevent spurious correlations.",
+        "takeaway": "Prior-Guided Tuning (PGT) with Contrastive Prior Steering (CPS) improves low-resource LLM training by treating natural-language priors as auxiliary learning signals.",
+        "why_for_you": "This directly addresses data selection for LLMs by demonstrating how task-level priors improve low-resource training efficiency and robustness.",
         "source": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
         "language": "en",
@@ -1036,80 +2080,80 @@
       },
       "deep_dive": {
         "contributions": [
-          "Developed PGT to treat natural-language priors as explicit learning signals",
-          "Introduced CPS with contrastive prior-conditioned losses for task-consistent learning",
-          "Demonstrated effectiveness across AmbiMath, Jigsaw, and HANS benchmarks"
+          "Developed PGT as a training perspective that treats natural-language priors as explicit learning signals",
+          "Introduced CPS, a contrastive method that combines standard loss with prior-conditioned objectives",
+          "Demonstrated effectiveness across three diverse low-resource benchmarks"
         ],
         "experiments": [
           {
-            "detail": "Evaluates rule ambiguity resolution with 97.6% exact-match accuracy using CPS, compared to lower stability in plain/prompt fine-tuning.",
-            "title": "AmbiMath Benchmark"
+            "detail": "Evaluates rule ambiguity resolution with 97.6% exact-match accuracy. Uses positional and semantic priors to test prior-guided learning.",
+            "title": "AmbiMath Synthetic Benchmark"
           },
           {
-            "detail": "CPS improves Macro F1 by 9.5% with 1/10 data, outperforming full-data baselines while addressing identity-term spurious correlations.",
+            "detail": "Tests low-resource toxicity detection with 9.5% Macro F1 improvement. Focuses on identity-term spurious correlations in user comments.",
             "title": "Jigsaw Toxicity Classification"
           },
           {
-            "detail": "CPS boosts HANS non-entailment accuracy by 8.3-5.2% for LLaMA and Qwen, maintaining in-domain MNLI performance.",
+            "detail": "Measures heuristic robustness with 8.3-5.2% non-entailment accuracy gains. HANS tests shallow lexical/syntactic heuristics in natural language inference.",
             "title": "MNLI/HANS NLI Robustness"
           }
         ],
         "findings": [
           {
-            "detail": "CPS with 1/30 Jigsaw data achieves 0.71 Macro F1, outperforming plain fine-tuning (0.50) and exceeding full-data baselines with 1/10 data.",
+            "detail": "CPS achieves 97.6% AmbiMath accuracy, 9.5% F1 improvement on Jigsaw, and 8.3-5.2% HANS non-entailment gains while maintaining MNLI accuracy.",
+            "title": "CPS Outperforms Baselines"
+          },
+          {
+            "detail": "With 1/10 data, CPS exceeds full-data plain fine-tuning on Jigsaw (0.767 vs 0.75 Macro F1), demonstrating improved data efficiency.",
             "title": "Data Efficiency Gains"
           },
           {
-            "detail": "CPS enhances HANS non-entailment accuracy from 39.2% to 47.5% (LLaMA) and 45.1% to 50.3% (Qwen), demonstrating better heuristic alignment.",
-            "title": "Robustness Improvements"
-          },
-          {
-            "detail": "CPS maintains strong performance across manually rewritten priors, indicating resilience to wording variations as long as task principles are preserved.",
-            "title": "Prior Formulation Flexibility"
+            "detail": "CPS maintains strong performance across different prior formulations, suggesting it captures task principles rather than specific wording.",
+            "title": "Prior Robustness"
           }
         ],
         "limitations": [
-          "Dependence on task-specific prior formulations limits generalization to unseen priors",
-          "No analysis of computational efficiency or scalability beyond Jigsaw experiments"
+          "No detailed analysis of CPS's sensitivity to prior formulation beyond basic ablations",
+          "No explicit exploration of how priors affect the LLM loss landscape"
         ],
         "mechanism": [
           {
-            "detail": "CPS employs positive and negative priors to create contrastive losses, encouraging models to align with intended task principles while avoiding misleading alternatives.",
-            "title": "Contrastive Prior Steering"
+            "detail": "By incorporating explicit priors as learning signals, CPS directs models to prioritize task-specific principles over data-driven heuristics, particularly in low-resource scenarios where data alone is insufficient.",
+            "title": "Task-Consistent Learning Guidance"
           },
           {
-            "detail": "By embedding prior knowledge into the loss function, CPS ensures training adheres to explicit task rules, reducing reliance on spurious data patterns.",
-            "title": "Task-Level Alignment"
+            "detail": "The positive/negative prior contrast helps models distinguish between correct and spurious solution paths, reducing vulnerability to ambiguous or incomplete training data.",
+            "title": "Contrastive Disambiguation"
           }
         ],
         "methodology": [
           {
-            "detail": "PGT redefines natural-language priors as explicit learning signals rather than contextual inputs, enabling task-level guidance when data is insufficient.",
-            "title": "PGT Framework"
+            "detail": "CPS augments standard supervised loss with contrastive objectives: positive-prior losses encourage alignment with desired task principles, while negative-prior losses suppress spurious alternatives. This maintains the original objective while adding directional guidance.",
+            "title": "Contrastive Prior Steering (CPS)"
           },
           {
-            "detail": "CPS integrates contrastive objectives with standard supervised loss, using positive and negative prior-conditioned signals to steer learning toward task-consistent solutions.",
-            "title": "CPS Architecture"
+            "detail": "CPS constructs two contrastive views - one conditioned on positive priors (task principles) and one on negative priors (plausible but incorrect alternatives) - to shape the model's learning trajectory.",
+            "title": "Prior-Conditioned Objectives"
           }
         ],
         "open_questions": [
-          "How to generalize prior formulations across diverse tasks without task-specific customization?",
-          "What are the theoretical limits of prior-guided learning in high-dimensional LLM loss landscapes?",
-          "Can CPS be adapted to dynamic priors or real-time feedback during training?"
+          "How do task-level priors interact with adversarial training in low-resource settings?",
+          "Can CPS's contrastive mechanism be generalized to other types of auxiliary signals?",
+          "What are the limits of prior-guided learning when data scarcity combines with complex task distributions?"
         ],
-        "overview": "The paper proposes Prior-Guided Tuning (PGT) to address low-resource training challenges by treating task-level natural-language priors as auxiliary signals. Contrastive Prior Steering (CPS) combines standard supervised loss with contrastive objectives, improving performance on ambiguous tasks like AmbiMath, toxicity classification (Jigsaw), and NLI robustness (HANS). Experiments show CPS outperforms plain and prompt fine-tuning, particularly in data-scarce settings, while maintaining in-domain accuracy. The method's effectiveness is validated across multiple models (LLaMA 3.1 8B, Qwen 2.5 7B) and tasks, demonstrating its utility for data-efficient LLM training.",
+        "overview": "The paper proposes PGT, a training framework that converts task-level natural-language priors into auxiliary signals for low-resource LLMs. CPS, its core method, adds contrastive objectives to standard supervised learning, improving performance across three benchmarks. The approach addresses data ambiguity by explicitly guiding models toward task-specific principles rather than relying solely on sparse data patterns.",
         "signals": [
           {
             "icon": "🌐",
-            "text": "PGT introduces natural-language priors as explicit learning signals for low-resource LLMs"
+            "text": "PGT treats natural-language priors as explicit learning signals"
           },
           {
             "icon": "🔧",
-            "text": "CPS uses contrastive prior-conditioned losses to encourage task-consistent learning"
+            "text": "CPS uses contrastive prior-conditioned losses with positive/negative priors"
           },
           {
-            "icon": "📈",
-            "text": "CPS achieves 97.6% AmbiMath exact-match accuracy with 1/10 data, outperforming full-data baselines"
+            "icon": "📊",
+            "text": "97.6% AmbiMath accuracy with 1/10 data exceeds full-data fine-tuning"
           }
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
@@ -5503,7 +6547,7 @@
         "experiments",
         "quantitative results"
       ],
-      "analysis_status": "pending",
+      "analysis_status": "complete",
       "recommendation_reason": {
         "topic": "Efficient adversarial training",
         "matched": [
@@ -5515,92 +6559,96 @@
         "lane": "llm"
       },
       "summary": {
-        "takeaway": "NeuroStat fuses token‑level probability logits with deep semantic hidden states to achieve superior adversarial text detection.",
-        "problem": "Training‑free global scalar detectors and training‑based semantic models both collapse under adversarial interleaving and spoofing attacks.",
-        "method": "NeuroStat uses a dual‑branch architecture that extracts token‑level log‑probability trajectories and hidden states from a single causal LM, fusing them via Macro‑State Residual Modulation and auxiliary orthogonal/contrastive losses.",
-        "evidence": "On the MOSAIC benchmark NeuroStat (Qwen2‑0.5B) attains an overall AUROC of 83.4%, surpassing the next best DetectAnyLLM (77.1%) while training on only 500 pairs.",
-        "limitations": "Evaluation is limited to English texts, requires token‑level logits unavailable from many closed‑source APIs, and incurs ~10% higher latency and memory than the strongest baseline.",
-        "why_for_you": "The work demonstrates a data‑efficient, robust detection model that aligns with your interest in efficient adversarial training.",
+        "takeaway": "NeuroStat 通过结合令牌级统计与深层语义，并使用 Macro-State Residual Modulation，提升对抗 AIGC 文本检测。",
+        "method": "NeuroStat 通过 Macro-State Residual Modulation 将令牌级对数概率与语义隐藏状态融合，并使用正交/对比损失。",
+        "why_for_you": "通过稳健的双分支特征提取和对抗基准，实现高效的对抗训练。",
+        "problem": "现有的免训练和有训练方法因全局标量信息损失和语义过拟合，在对抗攻击下表现不佳。",
+        "limitations": "评估仅限于英文文本和闭源替代场景；内存开销比基线高 10%。",
+        "evidence": "NeuroStat 在 MOSAIC 上达到 83.4% AUROC，强基线为 77.1%；在闭源目标上达到 95.5% AUROC。",
         "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
         "schema_version": 3,
         "prompt_version": 2
       },
       "deep_dive": {
-        "signals": [
+        "findings": [
           {
-            "icon": "💡",
-            "text": "NeuroStat attains the highest MOSAIC AUROC of 83.4%, outpacing all prior MGTD detectors."
+            "detail": "NeuroStat 在 MOSAIC 上实现 83.4% AUROC，DetectAnyLLM 为 77.1%，在闭源目标上达到 95.5% AUROC",
+            "title": "对抗鲁棒性"
           },
           {
-            "icon": "🔧",
-            "text": "Fusion via Macro-State Residual Modulation combines token‑level logits and hidden states with orthogonal and contrastive losses."
-          },
-          {
-            "icon": "📊",
-            "text": "On MOSAIC, NeuroStat (Qwen2‑0.5B) reaches 83.4% AUROC versus DetectAnyLLM’s 77.1%, using only 500 training pairs."
-          }
-        ],
-        "overview": "The paper identifies that existing machine‑generated text detectors either compress token probabilities into global scalars or rely solely on semantic fingerprints, both of which are vulnerable to sophisticated adversarial attacks such as interleaved human‑AI writing and statistical hijacking. To expose these weaknesses, the authors release MOSAIC, a 16k‑sample benchmark covering 36 attack types. NeuroStat addresses the gap by jointly processing uncompressed token‑level logits and deep hidden states from a single causal LM, merging them through Macro‑State Residual Modulation and reinforcing complementary learning with orthogonal and contrastive objectives. Extensive experiments on MOSAIC and MIRAGE show NeuroStat’s robustness and data efficiency, while ablations confirm each component’s contribution. Limitations include English‑only evaluation, reliance on log‑probability access, and modest computational overhead.",
-        "methodology": [
-          {
-            "title": "Probabilistic Trajectories Branch (TF)",
-            "detail": "Extracts the shifted log‑probability trajectory of each token, processes it with a hierarchical 1D‑CNN to capture local burstiness, and outputs a feature vector c."
-          },
-          {
-            "title": "Semantic Branch (TB)",
-            "detail": "Feeds the last‑layer hidden states H from the same backbone into a parallel encoder to capture contextual semantic artifacts."
-          },
-          {
-            "title": "Macro‑State Residual Modulation (MSRM)",
-            "detail": "Conditions the CNN features on global uncertainty indicators—mean entropy (Ē) and mean log‑rank (R̄)—to calibrate local signals with overall model confidence."
-          },
-          {
-            "title": "Auxiliary Losses",
-            "detail": "Applies a supervised contrastive loss to enlarge inter‑class margins and an orthogonal penalty to keep TF and TB representations decorrelated."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Fusion via MSRM",
-            "detail": "MSRM adds a residual term derived from Ē and R̄ to the CNN feature map, allowing the model to distinguish genuine low‑probability human words from AI‑generated anomalies, while the orthogonal loss forces the two branches to encode distinct information."
+            "detail": "在 250 对训练样本下达到 78.9 AUROC，随训练对数在 2,000‑5,000 对时趋于饱和（见表 10）",
+            "title": "效率提升"
           }
         ],
         "experiments": [
           {
-            "title": "Benchmarking on MOSAIC and MIRAGE",
-            "detail": "Evaluated NeuroStat with Qwen2‑0.5B and Qwen3.5‑0.8B backbones against 11 state‑of‑the‑art MGTD baselines on MOSAIC (16k samples, 8 attack categories) and MIRAGE (multiple domains). Training used only 500 human‑AI passage pairs; AUROC and TPR@5% were reported."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Superior Adversarial Robustness",
-            "detail": "NeuroStat (Qwen2‑0.5B) achieved 83.4% overall AUROC on MOSAIC, with per‑attack scores up to 89.9% (Interleaved) and consistently outperformed all baselines, whose AUROCs dropped dramatically under targeted attacks."
+            "detail": "16k 样本，覆盖 36 种攻击类型，包括交叉文本、统计劫持和翻译洗白",
+            "title": "MOSAIC 基准"
           },
           {
-            "title": "Data Efficiency and Generalization",
-            "detail": "With just 250 training pairs NeuroStat reached 78.9% MOSAIC AUROC; on MIRAGE‑SIG it obtained AUROCs of 0.9954, 0.9739, and 0.9665 across three tasks, demonstrating strong cross‑domain transfer."
+            "detail": "11 种最新方法，包括 Likelihood、LogRank、RoBERTa、ImBD 和 DetectAnyLLM",
+            "title": "基线"
+          },
+          {
+            "detail": "AUROC、TPR@5% 以及在 NVIDIA H20 GPU 上的计算成本",
+            "title": "评估指标"
+          }
+        ],
+        "overview": "本工作通过结合令牌级概率轨迹 (TF) 与语义隐藏状态 (TB) 来解决对抗 AIGC 检测。NeuroStat 的双分支架构使用 1D-CNN 进行局部异常检测，并通过 Macro-State Residual Modulation (MSRM) 融合全局不确定性指标（平均熵、log‑rank）。该框架在 16k 样本的 MOSAIC 对抗基准上实现 83.4% AUROC，覆盖 8 类攻击，达到最新水平。主要创新包括：1）保留原始令牌概率而非全局标量；2）MSRM 的上下文感知特征校准；3）正交/对比损失以实现互补表征学习。",
+        "open_questions": [
+          "在多语言及低资源语言上的泛化能力",
+          "在无法获取完整对数概率的闭源 API 上的优化",
+          "在代码/法律等特化分布领域的可扩展性"
+        ],
+        "limitations": [
+          "评估仅限于英文文本和特定领域",
+          "依赖于闭源生成器的替代模型",
+          "内存使用比基线高 10%"
+        ],
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "NeuroStat 以 83.4% MOSAIC AUROC 缩小统计‑语义差距"
+          },
+          {
+            "icon": "🔧",
+            "text": "Macro-State Residual Modulation 使用熵/ log‑rank 指标校准 CNN 特征"
+          },
+          {
+            "icon": "⚠️",
+            "text": "尽管内存开销高 10%，在闭源生成器上仍达 95.5% AUROC"
           }
         ],
         "contributions": [
-          "Dual‑branch detection framework NeuroStat that jointly leverages token‑level logits and semantic hidden states.",
-          "Macro‑State Residual Modulation for adaptive fusion of local and global uncertainty signals.",
-          "MOSAIC, a comprehensive adversarial MGTD benchmark covering a full‑granularity attack taxonomy."
+          "推出含 16k 对抗样本的 MOSAIC 基准",
+          "提出 NeuroStat 的双分支统计‑语义融合架构",
+          "研发 Macro-State Residual Modulation 实现上下文感知特征校准"
         ],
-        "limitations": [
-          "Evaluated only on English‑language corpora; multilingual or domain‑specific (e.g., code, legal) performance is untested.",
-          "Requires access to full token‑level log probabilities, limiting applicability to closed‑source APIs.",
-          "Introduces approximately 10% higher inference latency and memory usage compared to the strongest baseline."
+        "mechanism": [
+          {
+            "detail": "保留完整的序列概率轨迹，而非压缩为 perplexity 等全局标量",
+            "title": "令牌级概率保留"
+          },
+          {
+            "detail": "使用 MSRM 将全局熵/ log‑rank 指标条件化于局部 CNN 特征，以识别对抗模式",
+            "title": "上下文感知异常检测"
+          }
         ],
-        "open_questions": [
-          "How can NeuroStat be adapted to multilingual or low‑resource language settings?",
-          "Can surrogate log‑probability estimation close the performance gap for proprietary generators without sacrificing robustness?",
-          "What vocabulary reduction or top‑k logit approximation techniques can retain detection strength while further lowering computational overhead?"
+        "methodology": [
+          {
+            "detail": "使用单一 CausalLM 主干，将概率机制 (TF) 与上下文语义 (TB) 分离，提取完整词表 logits 与最后一层隐藏状态",
+            "title": "双分支架构"
+          },
+          {
+            "detail": "利用全局不确定性指标（平均熵 Ē 与平均 log‑rank R̄）校准 1D-CNN 特征，以区分自然语言稀有性和 AI 幻觉",
+            "title": "Macro-State Residual Modulation"
+          }
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
         "schema_version": 6,
         "prompt_version": 2
       },
@@ -15106,944 +16154,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-08-08T10:50:42.806974+00:00"
-    },
-    {
-      "id": "2608.04439",
-      "title": "ExeCRE: Execution-Consistency Guided Reliability Estimation for Self-Correcting Code Generation",
-      "abstract": "Large language models (LLMs) have made notable progress in code generation, but they still struggle on challenging tasks that require sophisticated algorithms or complex implementations. Recent methods increasingly use code execution as feedback, especially in self-correction pipelines that construct verification signals from generated code. However, these pipelines often depend on supervision signals whose reliability is unknown, which can introduce misleading feedback, unnecessary revisions, and incorrect final answers. To address this issue, we propose ExeCRE, an Execution-Consistency guided code Reliability Estimation framework. Instead of judging candidate code by tests or LLM feedback, ExeCRE estimates code reliability by statistically analyzing consistency patterns in execution outputs over a large number of randomly generated inputs. It collects execution outputs over generated inputs, projects them into consistency signals, and applies the Dawid-Skene model to infer latent code reliability. We integrate ExeCRE into self-correction for code generation. Experiments show that ExeCRE consistently improves both effectiveness and stability, while substantially reducing misleading correction signals. Under GPT-5.2 on LiveCodeBench, the average number of misleading feedback cases on already correct code drops from 113.2 with a representative self-correction baseline to 14.0 with ExeCRE. As an additional study, we apply the same reliability estimation strategy to code-based mathematical reasoning and observe similar benefits. These results suggest that ExeCRE enables more reliable use of generated code in execution-based pipelines.",
-      "authors": [
-        "Yiru Dong",
-        "Richong Zhang",
-        "Fanshuang Kong",
-        "Si Chen"
-      ],
-      "published": "2026-08-05T04:29:30Z",
-      "updated": "2026-08-05T04:29:30Z",
-      "categories": [
-        "cs.SE",
-        "cs.AI"
-      ],
-      "primary_category": "cs.SE",
-      "abs_url": "https://arxiv.org/abs/2608.04439v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.04439v1",
-      "comment": "13 pages, 5 figures. Accepted at the 41st IEEE/ACM International Conference on Automated Software Engineering (ASE 2026)",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3948,
-          "matched": [
-            "reliability"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4542,
-        "relevance": 0.3158,
-        "quality": 0.68,
-        "novelty": 0.8627,
-        "freshness": 0.5336,
-        "feedback_adjustment": -0.0297,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "baseline comparison",
-        "experiments",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "ExeCRE通过统计执行一致性并使用Dawid‑Skene模型估计代码可靠性，从而显著降低自纠正过程中的误导反馈。",
-        "problem": "现有自纠正代码生成方法依赖未量化的测试或LLM判断，导致错误的监督信号。",
-        "method": "ExeCRE生成大量随机结构化输入，收集执行输出，转化为一致性信号并用Dawid‑Skene推断潜在可靠性分数。",
-        "evidence": "在LiveCodeBench上，GPT‑5.2的误导反馈案例从113.2降至14.0，且整体Pass@1提升。",
-        "limitations": "未在论文中明确列出限制。",
-        "why_for_you": "该工作提供了针对代码生成的可靠性估计机制，直接关联到可信LLM的核心需求。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "ExeCRE利用执行一致性统计估计代码可靠性，误导反馈从113.2降至14.0"
-          },
-          {
-            "icon": "🔧",
-            "text": "采用Dawid‑Skene模型聚合随机输入的执行输出，生成可靠性分数"
-          },
-          {
-            "icon": "📉",
-            "text": "在LiveCodeBench上GPT‑5.2的误导反馈显著下降，但需大量随机测试输入"
-          }
-        ],
-        "overview": "本文提出ExeCRE框架，以执行一致性为核心信号，通过大规模随机输入的执行输出构建一致性矩阵，并利用Dawid‑Skene EM算法推断每段候选代码的可靠性分数。该可靠性估计被嵌入自纠正循环，过滤不可靠的参考代码，从而提升代码生成的有效性和稳定性，并在代码数学推理任务中展示可迁移性。",
-        "methodology": [
-          {
-            "title": "结构化随机输入生成",
-            "detail": "基于模式驱动的schema，自动生成约1000个满足语义约束的测试输入，以覆盖多样化的执行路径。"
-          },
-          {
-            "title": "执行输出收集与一致性投影",
-            "detail": "对每个候选代码在所有输入上运行，形成执行矩阵O，将输出映射为二元一致性信号（相同/不同）。"
-          },
-          {
-            "title": "Dawid‑Skene可靠性推断",
-            "detail": "将每段代码视为“标注者”，执行一致性信号视为“标注”，使用EM迭代估计潜在真实一致性并输出代码可靠性α∈[0,1]。"
-          },
-          {
-            "title": "自纠正集成",
-            "detail": "在自纠正循环中，仅使用α高于阈值的参考代码构造测试，避免误导性修正。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "执行一致性作为可靠性信号",
-            "detail": "可靠代码在多样输入上表现出稳定的输出一致性；不可靠代码则出现高变异性，形成可区分的统计模式。"
-          },
-          {
-            "title": "聚合噪声标注的DS模型",
-            "detail": "DS模型在假设标注条件独立的前提下，通过最大似然估计同时恢复真实一致性标签和每段代码的可信度。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "LiveCodeBench 主实验",
-            "detail": "使用LiveCodeBench v6的182道算法题，模型包括GPT‑5.2等，比较ExeCRE与ConTested等基线，指标为Pass@1和误导反馈计数。"
-          },
-          {
-            "title": "GSM8K 代码数学推理",
-            "detail": "在GSM8K 1,319题的Program‑of‑Thought设置下，ExeCRE作为可靠性门控，仅对高α代码执行，报告答案准确率。"
-          },
-          {
-            "title": "鲁棒性与依赖分析",
-            "detail": "通过改变错误代码组数评估DS对标注依赖的敏感性，发现错误采纳率在3.1%–14.3%之间保持稳定。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "误导反馈显著降低",
-            "detail": "在GPT‑5.2上，已正确代码的误导反馈案例从113.2降至14.0，约下降87%。"
-          },
-          {
-            "title": "整体性能提升",
-            "detail": "ExeCRE在所有评估模型上均提升最终Pass@1，且自纠正过程更稳定，错误修正次数减少。"
-          },
-          {
-            "title": "跨任务可迁移",
-            "detail": "在GSM8K的PoT实验中，使用ExeCRE的可靠性门控提升了答案准确率，表明机制对代码数学推理同样有效。"
-          }
-        ],
-        "contributions": [
-          "提出ExeCRE框架，将执行一致性用于代码可靠性估计",
-          "将Dawid‑Skene模型引入代码自纠正的监督信号建模",
-          "在大规模代码生成基准上验证了显著的误导反馈降低和性能提升"
-        ],
-        "limitations": [
-          "未在论文中明确列出限制"
-        ],
-        "open_questions": [
-          "在更大规模或跨语言环境下，ExeCRE的可靠性估计是否仍保持同等效果？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "reliability"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-08T10:50:42.806974+00:00"
-    },
-    {
-      "id": "2608.05040",
-      "title": "Private Direct Preference Optimization for LLM Alignment",
-      "abstract": "Direct preference optimization (DPO) is now a standard method for aligning large language models (LLMs) using human preference data. Each DPO example contains a prompt and a pair of candidate model responses. While prompts and responses are often public or model-generated, the relative preference between responses reflects subjective judgments and can reveal sensitive attributes of annotators or end users. Off-the-shelf privacy-preserving approaches are not well matched to this structure, leading to unnecessary noise injection and biased updates in training. In this paper, we formalize preference privacy, a label-DP-style privacy notion for DPO that protects only the relative preference between candidate responses, assuming an adversary who already knows the prompt and responses. We then design PrivDPO, a DPO variant that enforces preference privacy while remaining compatible with large-scale LLM training. Our main observation is that, for neighboring examples differing only in their preference signal, the gradient difference lies on a one-dimensional preference axis determined solely by the text; all preference information flows through this axis. PrivDPO adds calibrated randomness only along this axis via an unbiased randomized rescaling of the DPO objective, avoiding per-example gradient operations. Our experiments on three alignment benchmarks and three LLM families show that PrivDPO consistently achieves strong privacy-utility trade-offs compared with privacy-preserving baselines.",
-      "authors": [
-        "Yangfan Jiang",
-        "Fei Wei",
-        "Ergute Bao",
-        "Xiaokui Xiao",
-        "Yaliang Li",
-        "Bolin Ding"
-      ],
-      "published": "2026-08-05T16:51:02Z",
-      "updated": "2026-08-05T16:51:02Z",
-      "categories": [
-        "cs.CR"
-      ],
-      "primary_category": "cs.CR",
-      "abs_url": "https://arxiv.org/abs/2608.05040v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.05040v1",
-      "comment": "accepted for publication at CCS 2026, extended version",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4368,
-          "matched": [
-            "privacy",
-            "alignment"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.45,
-        "relevance": 0.3494,
-        "quality": 0.53,
-        "novelty": 0.8649,
-        "freshness": 0.6072,
-        "feedback_adjustment": -0.0297,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "benchmark evaluation",
-        "experiments"
-      ],
-      "summary": {
-        "takeaway": "PrivDPO 通过仅在一维偏好轴上注入校准噪声，实现了对 DPO 偏好标签的高效差分隐私保护且保持对齐质量。",
-        "problem": "在 DPO 对齐中，用户的偏好标签可能泄露敏感信息，需要保护而不损失模型效用。",
-        "method": "PrivDPO 对 DPO 目标进行无偏随机重标定，只在由文本决定的偏好轴上添加高斯噪声。",
-        "evidence": "在 Anthropic‑HH、TL;DR、UltraFeedback 三个基准以及 Llama、Pythia、Qwen（3B‑32B）上，PrivDPO 的隐私‑效用权衡显著优于 DP‑SGD 等基线。",
-        "limitations": "隐私分析假设每个样本仅使用一次，未考虑组合或子抽样放大效应。",
-        "why_for_you": "对关注 LLM 对齐隐私的研究者，PrivDPO 提供了针对偏好标签的可扩展高效隐私方案。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "提出偏好隐私概念并实现 PrivDPO，首次在 32B LLM 上提供可行的隐私对齐"
-          },
-          {
-            "icon": "🔧",
-            "text": "仅在一维偏好轴上加入校准噪声，通过无偏随机重标定 DPO 目标实现"
-          },
-          {
-            "icon": "📊",
-            "text": "在 3 个基准和 3 种 LLM（3B‑32B）上，PrivDPO 超越 DP‑SGD 等基线，隐私‑效用权衡显著"
-          }
-        ],
-        "overview": "本文针对 DPO 对齐中的偏好标签隐私风险，定义了仅保护相对偏好的 label‑DP 风格的 Preference Privacy。通过理论分析发现，邻近样本的梯度差仅沿由 (x, y_w, y_l) 文本决定的一维偏好轴分布。基于此，PrivDPO 在该轴上加入 calibrated Gaussian noise (σ=0.37)，实现无偏随机重标定的 DPO 目标，避免对全参数空间的噪声注入，从而在保持训练效率的同时提供严格的隐私保证。实验在三大公开基准和三类 LLM（参数规模 3B‑32B）上验证了其优越的隐私‑效用权衡。",
-        "methodology": [
-          {
-            "title": "偏好轴识别",
-            "detail": "通过分析 DPO 目标，证明两邻近样本的梯度差向量完全对齐于由文本三元组 (x, y_w, y_l) 决定的单一方向，即偏好轴。"
-          },
-          {
-            "title": "无偏随机重标定",
-            "detail": "在偏好轴上乘以服从 N(1, σ²) 的随机因子，实现对 DPO 损失的无偏放大，等价于在该轴上添加高斯噪声。"
-          },
-          {
-            "title": "隐私会计",
-            "detail": "采用分析性高斯框架，因每个样本仅使用一次，直接得到 ε‑Preference‑Privacy，噪声标准差 σ=0.37。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "梯度信息单维流动",
-            "detail": "在保持提示和候选响应不变的前提下，偏好标签的唯一信息通过梯度差的偏好轴传递，使得仅扰动该轴即可实现隐私。"
-          },
-          {
-            "title": "噪声局部注入",
-            "detail": "相较于 DP‑SGD 对全梯度的各维度注入同尺度噪声，PrivDPO 只在偏好轴上注入噪声，显著降低效用损失。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "实验设置",
-            "detail": "使用 8× H20 GPU（96 GB）和 PyTorch FSDP；数据集为 Anthropic‑HH (161k), TL;DR (92k), UltraFeedback‑Binarized (64k)。模型族 Llama、Pythia、Qwen，规模 3B‑32B。基线包括 DP‑SGD、随机响应 (RR) 等。"
-          },
-          {
-            "title": "评估指标",
-            "detail": "对齐质量采用奖励模型得分、人工评估等；隐私效用通过 ε‑privacy 与模型性能下降幅度比较；攻击实验使用准确率和 MemAdv 指标。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "隐私‑效用权衡优势",
-            "detail": "PrivDPO 在所有三类基准和三种模型上均实现比 DP‑SGD 更低的性能下降，同时满足相同或更严格的 ε‑Preference‑Privacy。"
-          },
-          {
-            "title": "可扩展性",
-            "detail": "实验表明 PrivDPO 能在 32B 参数模型上完成对齐训练，训练效率与非隐私 DPO 相当。"
-          },
-          {
-            "title": "攻击鲁棒性",
-            "detail": "在基于模型 logits 的偏好推断攻击中，PrivDPO 将攻击准确率降低至接近随机水平，MemAdv 增益显著受限。"
-          }
-        ],
-        "contributions": [
-          "定义并形式化 Preference Privacy，用于 DPO 场景的标签级差分隐私。",
-          "提出 PrivDPO 机制，利用偏好轴实现高效噪声注入。",
-          "在大规模 LLM（最高 32B）上实现实用的隐私对齐，验证了强隐私‑效用权衡。"
-        ],
-        "limitations": [
-          "隐私分析基于单次使用假设，未考虑多轮训练或子抽样的组合效应。",
-          "攻击评估使用的攻击模型非最坏情况，仅提供下界。",
-          "数据集可能与公开对齐数据有重叠，影响公平性评估。"
-        ],
-        "open_questions": [
-          "在更严格的 ε 预算下，如何进一步提升对齐性能？",
-          "偏好轴概念能否推广至 RLHF、奖励模型训练等其他对齐方法？",
-          "在真实部署环境中面对更强对手时，PrivDPO 的鲁棒性如何保证？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "privacy",
-          "alignment"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-08T10:50:42.806974+00:00"
-    },
-    {
-      "id": "2608.05578",
-      "title": "Detecting Safety Training Modification in Language Models via Activation Analysis",
-      "abstract": "We introduce AMS (Activation-based Model Scanner), a tool that detects modifications to safety training in language models by measuring the geometric structure of safety-relevant concepts in activation space. Safety training creates measurable separation between harmful and benign content classes; certain safety modifications collapse or rotate this structure, while others leave it intact. We validate AMS across 14 model configurations spanning 4 architecture families (Llama, Gemma, Qwen, Mistral) and four safety-modification categories (instruction-tuned, base, abliterated, uncensored fine-tunes). Leave-one-out cross-validation of thresholds achieves 71% accuracy (10/14); bootstrap 95% confidence intervals on sigma point estimates have median width 3.4 sigma. We measure behavioral compliance on 20 stratified JailbreakBench prompts per model and find that sigma on the harmful-content concept predicts compliance with Pearson r = -0.546 (p = 0.043), directionally but with meaningful noise. Mechanistic analysis identifies a four-class taxonomy of safety-training modifications distinguished by activation-space signature: training removal collapses cluster separation; weight-orthogonalization abliteration both collapses separation and rotates the refusal direction; rotation-without-collapse abliteration preserves separation while rotating direction; and behavioral fine-tuning preserves both magnitude and direction. AMS's Tier 1 sigma-threshold detects the first two classes; Tier 2 direction-similarity verification detects the third. The fourth is undetectable by activation-only probing and represents a documented failure mode. We discuss threshold calibration, limitations of single-run measurement, and the open problem of detecting behavioral-only safety modifications.",
-      "authors": [
-        "Glen Messenger"
-      ],
-      "published": "2026-08-06T03:57:38Z",
-      "updated": "2026-08-06T03:57:38Z",
-      "categories": [
-        "cs.CR"
-      ],
-      "primary_category": "cs.CR",
-      "abs_url": "https://arxiv.org/abs/2608.05578v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.05578v1",
-      "comment": "",
-      "journal_ref": "IEEE Access, vol. 14, pp. 91723-91737, 2026",
-      "lane": "llm",
-      "scope_matches": [
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.388,
-          "matched": [
-            "calibration",
-            "safety"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.418,
-        "relevance": 0.3104,
-        "quality": 0.47,
-        "novelty": 0.8862,
-        "freshness": 0.6733,
-        "feedback_adjustment": -0.0164,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "quantitative results",
-        "publication metadata"
-      ],
-      "summary": {
-        "takeaway": "AMS 能在无需行为测试的情况下，通过激活空间几何结构检测多数安全训练修改，整体准确率约 71%。",
-        "problem": "缺乏高效、不可规避的手段来识别开源模型的安全训练被削弱或篡改。",
-        "method": "AMS 通过在模型中层对安全概念的对比提示计算方向向量和聚合标准差 σ，并使用阈值与方向相似性进行分层检测。",
-        "evidence": "在 14 种 Llama、Gemma、Qwen、Mistral 模型上，LOOCV 准确率 71%（10/14），σ 与违规率相关系数 r = -0.546。",
-        "limitations": "对仅通过行为微调保留几何结构的安全修改（类 iv）以及单次测量噪声导致的误判缺乏检测能力。",
-        "why_for_you": "若你关注 LLM 可信性，AMS 提供一种基于激活的预部署安全检测手段，可补充传统行为评估。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🛡️",
-            "text": "提出四类安全训练修改的激活空间签名并用σ阈值检测前两类"
-          },
-          {
-            "icon": "🔧",
-            "text": "AMS 计算安全概念向量和σ，分层阈值与余弦相似度实现检测"
-          },
-          {
-            "icon": "📊",
-            "text": "在14模型上LOOCV 71%准确，σ 与违规率 r=-0.546，但类 iv 完全不可检测"
-          }
-        ],
-        "overview": "AMS 利用安全概念的对比提示在模型中层提取激活向量，计算聚合标准差 σ 表征有害与良性内容的分离程度，并通过阈值判断结构是否被削弱；进一步比较方向向量余弦相似度以捕捉仅旋转而未塌陷的修改。作者在 14 种 Llama、Gemma、Qwen、Mistral 模型上验证，展示了检测不同安全改动的机制与局限。",
-        "methodology": [
-          {
-            "title": "激活空间扫描流程",
-            "detail": "对每个安全概念使用 16 对对比提示，遍历 40‑80% 深度层，选取分离最大层，计算方向向量 v 与聚合 σ，随后 Tier 1 基于 σ 阈值分类，Tier 2 通过余弦相似度与距离漂移进一步验证。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "激活几何结构假设",
-            "detail": "安全训练在激活空间形成有害‑良性概念的线性分离（约 4‑8σ），删除或削弱安全训练会导致簇间距离塌陷或方向旋转，不同改动产生可辨识的几何签名。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "实验设置与评估指标",
-            "detail": "评估 14 种模型（1‑9B 参数）覆盖四类安全修改；使用 σ、95% bootstrap CI、PASS/WARNING/CRITICAL 分类；行为合规率通过 20 条 JailbreakBench 提示测得，并计算 Pearson r 与 Spearman ρ。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "主要发现",
-            "detail": "Tier 1 检测训练移除和权重正交化两类可达 71% LOOCV 准确率；σ 与合规率呈负相关 r = -0.546；方向相似性成功捕获旋转不塌陷的 abliteration；行为微调类保持几何结构，AMS 无法检测。"
-          }
-        ],
-        "contributions": [
-          "四类安全训练修改的激活空间分类法",
-          "基于 σ 与方向相似性的 AMS 检测框架",
-          "在多模型上验证的实证结果与行为相关性分析"
-        ],
-        "limitations": [
-          "类 iv（行为微调）在激活空间无可检测信号",
-          "单次测量噪声导致部分阈值跨越",
-          "仅针对 1‑9B 开源模型，未验证大模型或量化模型的鲁棒性"
-        ],
-        "open_questions": [
-          "如何在仅改变行为而不影响激活几何的安全微调中实现可靠检测"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "calibration",
-          "safety"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-08T10:50:42.806974+00:00"
-    },
-    {
-      "id": "2608.06202",
-      "title": "What Current AI Benchmarks Leave Unmeasured: Modality, Search, Citations, and Implications (for Safety Evaluations)",
-      "abstract": "Large language model (LLM) benchmark evaluations are routinely used to support claims about model safety, reliability, and deployment readiness. Yet most evaluations rely on a single access modality (model APIs), perform a single run per prompt, and report accuracy as the primary outcome metric, without accounting for conditions such as web search that may have effects on model behavior in deployment. We audit these assumptions for one of the most widely-used LLMs, comparing two modalities, ChatGPT's chat UI and OpenAI's API, with and without web search enabled. We use a stratified total sample of 401 prompts from two popular benchmarks, BBQ and SafetyBench, collecting 4,812 total responses across three repeated runs per prompt. Beyond standard performance measures, we evaluate model output dimensions including response consistency, response text similarity, citation grounding, and abstention behavior. For instance, chat UI responses were less accurate than API responses on both benchmarks with search disabled. Enabling web search reduced accuracy by up to 8 percentage points, and even reversed the direction of modality performance trends for one benchmark. Repeated runs of the same prompt produced inconsistent responses in up to 21\\% of prompts. The two modalities also grounded answers in different citations, and abstention behavior was also inconsistent across both modalities. These results illustrate that, even within a model family, reporting only simple accuracy metrics can obscure important forms of model behavioral variation relevant to AI safety assessments. We argue that AI safety evaluations should systematically account for modality, multi-run consistency, search conditions, and response-level behaviors to better reflect how deployed AI systems behave in practice.",
-      "authors": [
-        "Ro Encarnación",
-        "Tina Behzad",
-        "Emma Lurie",
-        "Danaé Metaxa"
-      ],
-      "published": "2026-08-06T15:58:32Z",
-      "updated": "2026-08-06T15:58:32Z",
-      "categories": [
-        "cs.HC",
-        "cs.AI"
-      ],
-      "primary_category": "cs.HC",
-      "abs_url": "https://arxiv.org/abs/2608.06202v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.06202v1",
-      "comment": "18 pages",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3822,
-          "matched": [
-            "safety",
-            "reliability"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4276,
-        "relevance": 0.3058,
-        "quality": 0.48,
-        "novelty": 0.8855,
-        "freshness": 0.886,
-        "feedback_adjustment": -0.0231,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "单一API准确率不足以捕捉LLM在不同访问方式、搜索条件和多次运行下的安全行为差异。",
-        "problem": "现有安全基准只使用单一访问模态、单次响应并以准确率为唯一指标，忽视了部署环境中的关键行为维度。",
-        "method": "对ChatGPT的聊天界面和OpenAI API在有无网络搜索的条件下，对401条BBQ和SafetyBench提示进行三次重复，收集4812条响应并评估一致性、文本相似度、引用依据和拒答行为。",
-        "evidence": "启用网络搜索使准确率下降最多8个百分点，且高达21%的提示出现响应不一致，API与UI在引用来源上显著不同。",
-        "limitations": "仅针对一个模型家族、两套安全/偏见基准和单一数据收集时期进行实验。",
-        "why_for_you": "该工作直接揭示了可信LLM评估中被忽视的模态和一致性因素，适合关注安全可靠性的研究者阅读。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🛡️",
-            "text": "首次系统审计ChatGPT UI与API在安全基准上的行为差异，采集401个提示共4812条响应"
-          },
-          {
-            "icon": "🔎",
-            "text": "比较两种访问模态并在有/无网络搜索条件下进行三次重复实验"
-          },
-          {
-            "icon": "📉",
-            "text": "启用网络搜索导致准确率下降最多8%，21%提示出现响应不一致"
-          }
-        ],
-        "overview": "本文审计了ChatGPT的聊天UI与API两种访问模态在BBQ和SafetyBench两套安全/偏见基准上的表现，分别在开启和关闭网络搜索的条件下进行三次重复，共收集4812条响应。除传统准确率外，作者额外测量了响应一致性、文本相似度、引用依据以及拒答行为，发现模态、搜索与多次运行均会显著影响这些安全相关维度，单一准确率指标难以反映真实部署风险。",
-        "methodology": [
-          {
-            "title": "数据采样",
-            "detail": "从BBQ和SafetyBench两套公开基准中分层抽取共401条提示，确保覆盖不同难度和主题。"
-          },
-          {
-            "title": "实验设置",
-            "detail": "在ChatGPT聊天界面和OpenAI API两种模态下，分别在开启和关闭网络搜索的条件下，对每条提示执行三次独立生成，得到4,812 条完整响应。"
-          },
-          {
-            "title": "评估维度",
-            "detail": "除准确率外，计算响应一致性（是否在三次运行中给出相同答案）、文本相似度（余弦相似度）、引用 grounding（是否提供相同来源）以及 abstention（是否拒答）。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "模态差异来源",
-            "detail": "聊天UI引入系统提示和内容审查策略，API则直接返回模型输出，这导致两者在答案措辞、引用选择和安全过滤上产生系统性差异。"
-          },
-          {
-            "title": "搜索条件影响",
-            "detail": "开启网络搜索会让模型检索外部文档后再生成答案，增加信息来源多样性，却也引入检索噪声，导致一致性下降和准确率下降。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "模型与基准",
-            "detail": "使用ChatGPT（同一模型家族）在两种访问方式下评估，基准为Bias Benchmark BBQ (Parrish et al., 2022) 与 Safety Benchmark SafetyBench (Zhang et al., 2024)。"
-          },
-          {
-            "title": "对照与指标",
-            "detail": "比较API vs UI、搜索开启 vs 关闭的准确率差异（2–3% 小幅但在SafetyBench上显著），以及一致性下降最高至21%，引用差异显著，拒答行为在不同条件下不一致。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "准确率差异",
-            "detail": "在关闭搜索时，Chat UI的准确率低于API；开启搜索后，两者差异可逆转，最高下降8个百分点。"
-          },
-          {
-            "title": "响应一致性",
-            "detail": "重复运行中，最多21%的提示出现答案不一致，搜索条件普遍增加不一致性。"
-          },
-          {
-            "title": "引用 grounding 差异",
-            "detail": "相同提示下，API 与 UI 常引用不同来源，即使答案相同。"
-          },
-          {
-            "title": "拒答行为不稳定",
-            "detail": "同一提示在一种模态下被拒答，在另一模态下却给出答案，显示安全机制执行不一致。"
-          }
-        ],
-        "contributions": [
-          "系统审计了同一模型在不同访问模态、搜索条件和多次运行下的安全相关行为差异。",
-          "提出了超越准确率的四个评估维度：一致性、文本相似度、引用 grounding 与 abstention。",
-          "提供了实证证据表明仅报告单一准确率会掩盖重要的安全风险。"
-        ],
-        "limitations": [
-          "实验仅覆盖ChatGPT单一模型家族。",
-          "仅使用BBQ和SafetyBench两套基准，未覆盖更广泛任务。",
-          "数据收集在单一时间窗口进行，未考察模型更新或季节性变化的影响。"
-        ],
-        "open_questions": [
-          "不同模型（如Claude、Gemini）在相同模态和搜索条件下是否表现出类似差异？",
-          "在多轮对话或真实用户交互场景中，这些维度的波动是否更为显著？",
-          "如何设计标准化的模态‑搜索‑一致性评估框架，以便在行业治理中广泛采用？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "safety",
-          "reliability"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-07T11:07:09.814314+00:00"
-    },
-    {
-      "id": "2608.02171",
-      "title": "From Profiling to Synthesis: Benchmarking Implicit Behavioral Alignment in Personalized LLM Agents",
-      "abstract": "Large Language Models have enabled increasingly capable autonomous agents, yet personalization remains critical for making such agents practically useful. Recent benchmarks have begun evaluating personalization in agents, but they largely rely on static preference snapshots, fixed interaction logs, or question answering over predefined user profiles. Such designs fail to capture the complexity of evolving user preferences and neglect preference-conditioned task execution-a discrepancy we term as the knowledge-to-action gap. To address this challenge, we introduce IBA-Bench, a benchmark for implicit behavioral alignment constructed from longitudinal interaction histories that contain noise, implicit cues, and temporal inconsistencies. Unlike prior work, IBA-Bench evaluates whether an agent can execute tasks while satisfying implicit user constraints inferred from historical interactions. We further propose IBA-Agent, an agent framework that reconciles conflicting priorities through broad retrieval and trajectory-level alignment. Experiment results on IBA-Bench show that effective personalization remains a significant challenge for state-of-the-art LLM agents, and the proposed IBA-Agent substantially improves behavioral alignment in complex scenarios across nine application domains.",
-      "authors": [
-        "Jiajia Song",
-        "Bobo Li",
-        "Haiwen Yi",
-        "Zibo Ji",
-        "Meishan Zhang",
-        "Hao Fei",
-        "Min Zhang",
-        "Mong-Li Lee",
-        "Wynne Hsu"
-      ],
-      "published": "2026-08-03T12:52:04Z",
-      "updated": "2026-08-03T12:52:04Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2608.02171v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.02171v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3997,
-          "matched": [
-            "alignment"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.429,
-        "relevance": 0.3198,
-        "quality": 0.46,
-        "novelty": 0.8616,
-        "freshness": 0.8605,
-        "feedback_adjustment": -0.0267,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "experiments"
-      ],
-      "summary": {
-        "takeaway": "IBA-Agent 显著提升了在隐式行为对齐基准上的个性化任务成功率。",
-        "problem": "现有评估忽视用户偏好随时间演变的隐式约束，导致知识到行动的鸿沟。",
-        "method": "IBA-Agent 结合深度检索、广泛思考与深度对齐以及轨迹级合成，以从噪声交互历史中提取并综合隐式信号。",
-        "evidence": "在 IBA-BENCH 上，完整模型得分 78.8%，去除深度检索后降至 70.5%，下降 8.3 分，且在九个领域均有提升。",
-        "limitations": "作者指出即使使用 IBA-Agent，现有大型语言模型的有效个性化仍是重大挑战。",
-        "why_for_you": "对可信 LLM 研究者而言，该工作提供了评估隐式对齐的基准和提升方法，直接关联行为安全与个性化。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🗂️",
-            "text": "提出 IBA-BENCH 基准，覆盖交互历史、隐式线索、时间不一致等全部维度。"
-          },
-          {
-            "icon": "🔎",
-            "text": "IBA-Agent 通过深度检索 + 广泛思考与深度对齐，实现轨迹级信号合成。"
-          },
-          {
-            "icon": "📉",
-            "text": "去除深度检索使整体得分从 78.8 降至 70.5，下降 8.3 分，显示检索关键。"
-          }
-        ],
-        "overview": "本文针对个性化 LLM 代理的知识‑到‑行动缺口，构建了 IBA-BENCH 基准，利用纵向交互历史中的噪声、隐式线索和时间冲突来评估代理能否在执行任务时满足隐式约束。随后提出 IBA-Agent 框架，核心包括深度检索、广泛思考与深度对齐以及轨迹级合成，旨在从长历史中抽取相关信号并在行动层面进行统一。实验在九个应用域上展示了该框架相较于传统 RAG 与主流 LLM 的显著提升，同时也揭示了当前模型在隐式个性化方面仍存挑战。",
-        "methodology": [
-          {
-            "title": "Deep Retrieval",
-            "detail": "使用 bge-m3 检索器从噪声交互历史中定位与当前任务最相关的证据片段。"
-          },
-          {
-            "title": "Broad Thinking & Deep Alignment",
-            "detail": "在检索到的证据基础上进行广泛推理并深度对齐，以形成一致的行为轨迹。"
-          },
-          {
-            "title": "Trajectory‑level Synthesis",
-            "detail": "将对齐后的信号在动作空间（文本生成或 API 调用）中进行轨迹级合成，替代传统 RAG 的单轮合成。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "信号隔离与融合",
-            "detail": "深度检索先过滤掉无关噪声，再通过广泛思考将长期偏好、短期状态等多维信号统一映射到任务约束上。"
-          },
-          {
-            "title": "冲突调解",
-            "detail": "深度对齐模块评估不同信号之间的冲突（如喜辣 vs. 牙齿手术），并在生成或 API 参数中自动做出妥协。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "实验设置",
-            "detail": "使用 DeepSeek‑V3.2 作为骨干 LLM，bge‑m3 作为检索器，对比标准 RAG（QwQ‑32B、GPT‑4o、GPT‑5.1）以及去除各组件的变体，评估指标为行为成功率（Score %）。"
-          },
-          {
-            "title": "数据与领域",
-            "detail": "IBA-BENCH 包含 9 个应用域（写作、日常消费、规划、健康、交通、医疗、休闲、信息管理等），共 6,962 条交互记录，覆盖 15‑30 条证据与约束的任务实例。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "整体提升",
-            "detail": "完整 IBA‑Agent 在 IBA‑BENCH 上取得 78.8% 的行为成功率，显著高于第二佳模型的约 70%（Δ≈5.7‑12.7%）。"
-          },
-          {
-            "title": "组件贡献",
-            "detail": "去除 Deep Retrieval 导致得分从 78.8 降至 70.5（‑8.3 分），是所有组件中影响最大的一项；去除 Broad Thinking & Deep Alignment 降至 76.3（‑2.5 分），替换轨迹级合成降至 73.3（‑5.5 分）。"
-          },
-          {
-            "title": "领域差异",
-            "detail": "在 Medical、Transportation、Daily 三个领域的下降最为明显，说明这些场景对精确检索尤为敏感。"
-          }
-        ],
-        "contributions": [
-          "提出覆盖全部维度的 IBA‑BENCH 基准，用于评估隐式行为对齐。",
-          "设计 IBA‑Agent 框架，实现从噪声历史到任务执行的端到端信号合成。",
-          "提供系统性实验，量化各组件对个性化任务成功率的贡献。"
-        ],
-        "limitations": [
-          "作者指出即使使用 IBA‑Agent，现有大型语言模型的有效个性化仍是重大挑战。",
-          "基准交互历史由多代理生成，缺乏真实用户数据的验证。"
-        ],
-        "open_questions": [
-          "如何将 IBA‑BENCH 的合成交互迁移到真实用户对话中以验证可行性？",
-          "在更复杂的多约束冲突场景下，如何提升冲突调解的鲁棒性？",
-          "能否将行为对齐的安全性度量纳入评估，以进一步支持可信 LLM 研究？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-04T12:18:11.004611+00:00"
-    },
-    {
-      "id": "2608.02154",
-      "title": "Auditing Data Provenance in LLM Fine-tuning via Intrinsic Distributional Fingerprints",
-      "abstract": "The proliferation of customized Large Language Models (LLMs) poses critical risks of Data Intellectual Property (Data IP) infringement via unauthorized fine-tuning on proprietary data. Existing audit techniques are limited, as they require intervention during data preparation or training and remain fragile under malicious obfuscations such as data paraphrasing and knowledge distillation. We propose \\textit{Distribution Provenance Audit (DPA)}, a post-hoc framework for auditing data IP infringement in LLM fine-tuning under black-box and malicious settings. DPA is grounded in a critical insight: regardless of fine-tuning tactics to evade provenance, the practical necessity of maintaining utility constrains the model to preserve the fundamental intersection of semantic substance and lexical form. Accordingly, DPA captures this persistent lexical-semantic intersection as intrinsic distributional fingerprints. The framework formulates the audit as a statistical hypothesis test, effectively quantifying these fingerprints via unbiased output sampling to reliably reject the null hypothesis of non-usage. Extensive experiments on medical and legal fine-tuning tasks show that DPA consistently outperforms existing baselines, remaining robust against adversarial trainers employing paraphrasing and knowledge distillation. We further highlight a fundamental dual-use tension: the same high-fidelity distributional fingerprints enabling reliable auditing may also facilitate privacy attacks.",
-      "authors": [
-        "Zirui Huang",
-        "Yunlong Mao",
-        "Wei Tong",
-        "Tingting Wu",
-        "Xin Ge",
-        "Sheng Zhong"
-      ],
-      "published": "2026-08-03T12:35:51Z",
-      "updated": "2026-08-03T12:35:51Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2608.02154v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.02154v1",
-      "comment": "This is the extended version of CCS'26 paper https://doi.org/10.1145/3830454.3832639",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3968,
-          "matched": [
-            "privacy",
-            "auditing"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4274,
-        "relevance": 0.3174,
-        "quality": 0.46,
-        "novelty": 0.8609,
-        "freshness": 0.8589,
-        "feedback_adjustment": -0.0313,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "experiments"
-      ],
-      "summary": {
-        "takeaway": "DPA通过内在分布指纹实现黑盒LLM的可靠数据来源审计，且在对抗改写和蒸馏时保持优势。",
-        "problem": "需要在不干预训练过程的情况下检测专有数据是否被用于LLM微调，尤其在黑盒和恶意环境中。",
-        "method": "利用JSLS度量捕获词汇‑语义交叉指纹，并通过SIDE抽取模型潜在分布，构建统计假设检验。",
-        "evidence": "在医学与法律微调任务上，使用Pythia‑2.8B、Qwen3‑4B‑Instruct、Llama3‑8B‑Instruct的实验表明DPA显著优于现有基线，且在改写和蒸馏攻击下仍保持高置信度。",
-        "limitations": "高保真指纹同样可被用于分布式隐私攻击，存在双重使用风险。",
-        "why_for_you": "该工作直接涉及可信LLM的数据来源可追溯性与知识产权保护，符合你的研究兴趣。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "DPA首次利用内在分布指纹实现黑盒LLM数据来源审计"
-          },
-          {
-            "icon": "🔧",
-            "text": "通过JSLS度量结合SIDE抽取，构建统计假设检验"
-          },
-          {
-            "icon": "📊",
-            "text": "在医学与法律任务上，DPA在对抗改写和蒸馏时保持显著优势"
-          }
-        ],
-        "overview": "本论文提出Distribution Provenance Audit（DPA），一种后置审计框架，利用模型在保持实用性的前提下必然保留的词汇‑语义交叉特征，定义为内在分布指纹。通过Joint Semantic‑Lexical Similarity（JSLS）度量捕获词频与语义偏差的联合相似性，并使用Self‑Instruct Data Extraction（SIDE）从模型输出中重建潜在分布，无需访问训练数据。随后将指纹量化为统计假设检验，以判定模型是否使用了特定专有数据。实验在医学和法律微调任务上，覆盖Pythia‑2.8B、Qwen3‑4B‑Instruct、Llama3‑8B‑Instruct三种基模型，比较多种基线，展示在数据改写和知识蒸馏攻击下仍保持高置信度的审计能力。",
-        "methodology": [
-          {
-            "title": "Joint Semantic‑Lexical Similarity (JSLS)",
-            "detail": "计算词汇相关度 r(w) 并结合词频偏差与语义嵌入的加权KL散度，形成统一的分布相似度度量 ΔJSLS(D0,D1)。"
-          },
-          {
-            "title": "Self‑Instruct Data Extraction (SIDE)",
-            "detail": "通过高置信度输出采样，重建模型的潜在分布并校准抽样偏差，实现无干预的指纹恢复。"
-          },
-          {
-            "title": "统计假设检验",
-            "detail": "以 JSLS 与 SIDE 提取的指纹为统计量，构建原假设（未使用专有数据）并通过显著性水平检验拒绝或接受。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "实用性约束导致指纹保留",
-            "detail": "作者认为，为保持微调后模型的专业效用，必须保留语义实质与词形形式的交叉统计特征，即内在分布指纹。"
-          },
-          {
-            "title": "相关度加权的语义近似",
-            "detail": "将词汇相关度 r(w) 融入嵌入聚类的概率质量，抑制通用高频模式，突出分布特有的专业知识。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "实验设置",
-            "detail": "模型：Pythia‑2.8B、Qwen3‑4B‑Instruct、Llama3‑8B‑Instruct；微调方式：LoRA (rank=16, α=32)。数据集：MedAlpaca、ChatDoctor、CaseLaw（Delaware、Arizona）。对抗手段：LLM‑paraphrasing 与知识蒸馏。评估指标：JSLS 分数、MAUVE、Pearson r=0.83、AUC 等。"
-          },
-          {
-            "title": "基线比较",
-            "detail": "与传统 Membership Inference Attack、数据水印等方法对比，DPA 在所有设置下均实现更高的检出率和更低的误报率。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "审计效果优于基线",
-            "detail": "在医学任务上，DPA 对专有数据的检测置信度显著高于基线，即使在 paraphrasing 攻击下仍保持 >0.9 的 AUC。"
-          },
-          {
-            "title": "指纹对抗鲁棒性",
-            "detail": "SIDE 重建的分布在知识蒸馏场景中仍能捕获原始语义‑词汇特征，验证了实用性约束的理论假设。"
-          },
-          {
-            "title": "双重使用张力",
-            "detail": "实验表明，同一高保真指纹可被用于分布式隐私攻击，凸显审计与隐私之间的冲突。"
-          }
-        ],
-        "contributions": [
-          "提出 Distribution Provenance Audit (DPA) 框架，实现黑盒 LLM 数据来源审计。",
-          "设计 Joint Semantic‑Lexical Similarity (JSLS) 作为分布指纹度量。",
-          "开发 Self‑Instruct Data Extraction (SIDE) 用于无干预的潜在分布恢复。",
-          "在医学与法律微调任务上进行严格对抗实验，验证 DPA 的有效性与鲁棒性。"
-        ],
-        "limitations": [
-          "高保真指纹可能被用于隐私攻击，存在双重使用风险。",
-          "实验仅覆盖医学和法律两个领域，未评估在其他专业或通用领域的适用性。"
-        ],
-        "open_questions": [
-          "如何在保持审计有效性的同时防止指纹被用于隐私泄露？",
-          "DPA 能否扩展至更大规模模型（如 70B）或多语言环境？",
-          "在缺乏明确专有数据基准的情况下，如何设定统计检验的阈值？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "privacy",
-          "auditing"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-04T12:18:11.004611+00:00"
     }
   ]
 }
