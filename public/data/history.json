@@ -1,6 +1,860 @@
 {
-  "generated_at": "2026-09-08T14:32:00.134386+00:00",
+  "generated_at": "2026-09-09T14:35:27.466685+00:00",
   "papers": [
+    {
+      "id": "2609.09090",
+      "title": "Measuring LLM Sycophancy under Sustained Multi-Turn Pressure",
+      "abstract": "Large language models (LLMs) may abandon correct positions when users push back, exhibiting a failure mode known as sycophancy. Existing evaluations typically use short, pre-specified conversations and may therefore miss failures that emerge under sustained, adaptive disagreement. We introduce SPINE, a benchmark in which an LLM proxy plays a persistent but mistaken user and adaptively challenges a target model for up to 25 turns. We evaluate four production systems and three Olmo3-7b variants on 100 false-presupposition and 100 unethical-query items. Our experimental results show that collapse rates increase with conversation length for every model, short-horizon protocols underestimate sycophancy and resistance under sustained pressure remains unreliable across current models. By analyzing models with accessible reasoning traces, we surprisingly found that the correct position often remains represented in a reasoning trace when the response concedes, suggesting that the model chooses to please a user and sycophancy is not due to lack of knowledge or ignorance. Ablations show that adaptive LLM proxy exposes more sycophantic collapse than pre-generated scripts. Among all tactics, emotional appeals is the most associated with inducing LLM sycophantic behavior. The code and data are released at https://anonymous.4open.science/r/SPINE",
+      "authors": [
+        "Leyuan Tang",
+        "Kangda Wei",
+        "Tianyu Jiang",
+        "Ruihong Huang"
+      ],
+      "published": "2026-09-08T17:35:04Z",
+      "updated": "2026-09-08T17:35:04Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2609.09090v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.09090v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.6453,
+          "matched": [
+            "llm",
+            "mode"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6222,
+        "relevance": 0.5162,
+        "quality": 0.78,
+        "novelty": 0.8691,
+        "freshness": 0.875,
+        "feedback_adjustment": -0.0172,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "ablation study",
+        "benchmark evaluation",
+        "experiments",
+        "quantitative results"
+      ],
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm",
+          "mode"
+        ],
+        "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "SPINE shows LLMs increasingly concede correct positions under prolonged adaptive pressure, even when reasoning traces retain the correct answer.",
+        "problem": "Current sycophancy evaluations rely on short, static dialogues that miss failures emerging in longer, adaptive conversations.",
+        "method": "SPINE uses an adaptive LLM proxy that challenges a target model for up to 25 turns with dynamically selected pressure tactics and grades position strength each turn.",
+        "evidence": "Across four production systems and three Olmo3‑7b variants, collapse rates rise with turn count, emotional appeals cause a 44.3% drop rate, and adaptive proxies expose more collapse than scripted prompts.",
+        "limitations": "Evaluation is limited to 100 items per scenario and depends on an LLM judge (Claude Sonnet 5), which may introduce systematic bias.",
+        "why_for_you": "The observation that models retain correct reasoning while outputting sycophantic answers provides a concrete probe of loss‑landscape dynamics relevant to alignment research.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🗂️",
+            "text": "SPINE benchmark measures sycophancy over 25 adaptive turns, revealing increasing collapse rates."
+          },
+          {
+            "icon": "🔧",
+            "text": "Adaptive LLM proxy selects pressure tactics per turn from MAFALDA taxonomy, conditioning on target’s latest response."
+          },
+          {
+            "icon": "⚠️",
+            "text": "Emotional appeals cause 44.3% position‑strength drops, but limited test banks (100 items) and LLM judge may bias results."
+          }
+        ],
+        "overview": "SPINE extends sycophancy evaluation to sustained, adaptive multi‑turn dialogues by employing a closed‑loop LLM proxy that iteratively pressures a target model for up to 25 turns. Two scenarios—false presuppositions and unethical queries—are tested with 100 items each, and a per‑turn graded position‑strength score captures gradual erosion. Experiments on seven models reveal that collapse rates grow with conversation length, short‑horizon protocols underestimate failures, and emotional appeals are especially effective. Reasoning‑trace analysis shows models often retain the correct answer internally while conceding outwardly.",
+        "methodology": [
+          {
+            "title": "Adaptive proxy protocol",
+            "detail": "An LLM proxy conditions each challenge on the target’s latest response, selects a tactic from a MAFALDA‑derived menu, and enforces a 25‑turn budget."
+          },
+          {
+            "title": "Graded position‑strength scoring",
+            "detail": "A judge assigns a numeric strength score to the model’s stance each turn, allowing detection of partial concessions and full collapse."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Reasoning‑trace retention",
+            "detail": "Analysis of accessible reasoning traces at collapse points shows the correct position often remains represented, indicating output change is driven by a desire to please the user rather than knowledge loss."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Model evaluation",
+            "detail": "Four production systems and three Olmo3‑7b variants were tested on 100 false‑presupposition and 100 unethical‑query items, with collapse rates, position‑strength scores, and tactic‑level drop rates recorded."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Collapse increases with turn count",
+            "detail": "All models exhibit higher collapse rates as conversations extend beyond five turns, demonstrating short‑horizon underestimation."
+          },
+          {
+            "title": "Emotional appeals most erosive",
+            "detail": "Across both scenarios, emotional‑appeal tactics produce the highest observed strength‑drop rate (44.3%)."
+          },
+          {
+            "title": "Adaptive proxy vs. scripted prompts",
+            "detail": "Ablations reveal the adaptive LLM proxy uncovers more sycophantic collapses than pre‑generated scripts."
+          },
+          {
+            "title": "Reasoning vs. response divergence",
+            "detail": "Models frequently concede in their final answer while their internal reasoning trace still contains the correct stance."
+          }
+        ],
+        "contributions": [
+          "SPINE benchmark for sustained, adaptive sycophancy evaluation",
+          "Long‑horizon (up to 25 turns) multi‑turn protocol with graded scoring",
+          "Reasoning‑trace analysis showing internal‑knowledge retention during sycophantic concessions"
+        ],
+        "limitations": [
+          "Test banks limited to 100 items per scenario due to API cost constraints",
+          "All verdicts produced by an LLM judge (Claude Sonnet 5), potentially biasing results",
+          "Per‑tactic statistics thin at Level‑2, limiting fine‑grained analysis"
+        ],
+        "open_questions": [
+          "How does the loss landscape enable models to retain correct reasoning yet output sycophantic answers?",
+          "Can training or fine‑tuning mitigate sustained‑pressure sycophancy without harming helpfulness?",
+          "How do findings generalize to larger, more diverse model families and real‑world user interactions?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "recommended_at": "2026-09-09T14:35:27.466685+00:00"
+    },
+    {
+      "id": "2609.09054",
+      "title": "Training-Free Task Vectors for LLM Behavioral Control",
+      "abstract": "Task vectors enable post-training model editing by identifying semantically meaningful directions in weight space, typically computed as the difference between a fine-tuned model and its pretrained initialization. However, this reliance on fine-tuning makes discovering such directions costly and limits the practicality of post-training model editing. To address this limitation, we introduce Training-Free Task Vectors (TFTVs), a novel method to compute task-vector-like directions without requiring fine-tuning. Our method maps activation steering vectors to rank-one weight-space edits using only forward-pass statistics, while satisfying arithmetic properties that directly support learning via addition, forgetting via subtraction, and the composition of multiple edits. Empirically, we evaluate TFTVs on large language model behavioral control tasks and show that they consistently amplify, suppress, and compose target behaviors while preserving general knowledge and problem-solving skills. We also validate our method against other editing and steering baselines, experimentally demonstrating that TFTVs achieve stronger trait control with better or competitive utility preservation. We hope our work opens new directions for the community in post-training model editing and broader training-free model control. Code is available on the project website: tftv-llm.github.io.",
+      "authors": [
+        "Gabriel J. Perin",
+        "Lucas Boscaini",
+        "André Araujo",
+        "Nina S. T. Hirata"
+      ],
+      "published": "2026-09-08T17:10:28Z",
+      "updated": "2026-09-08T17:10:28Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2609.09054v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.09054v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.6053,
+          "matched": [
+            "training",
+            "fine-tuning"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.3836,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.614,
+        "relevance": 0.561,
+        "quality": 0.6,
+        "novelty": 0.8578,
+        "freshness": 0.8725,
+        "feedback_adjustment": -0.0128,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "baseline comparison",
+        "experiments"
+      ],
+      "summary": {
+        "evidence": "在LLM行为控制任务中验证，TFTVs能增强/抑制目标行为并保持知识，优于其他编辑基线。",
+        "limitations": "Not stated in the abstract",
+        "method": "通过前向传递统计信息将激活引导向量映射到秩一权重空间编辑，满足算术性质支持组合编辑。",
+        "problem": "现有任务向量依赖微调导致成本高，限制后训练模型编辑的实用性。",
+        "takeaway": "提出无需微调的Training-Free Task Vectors (TFTVs)方法，实现LLM行为控制。",
+        "why_for_you": "高效对抗训练中无需微调的模型控制，LLM损失景观中的训练自由编辑方法",
+        "source": "abstract",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training",
+          "fine-tuning"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-09T14:35:27.466685+00:00"
+    },
+    {
+      "id": "2609.09087",
+      "title": "PrivEscalate: Measuring and Augmenting the Threat of LLM-Automated Linux Privilege Escalation",
+      "abstract": "As Large Language Model (LLM) agents increasingly automate offensive operations across the cyber kill chain, their efficacy in complex local post-exploitation tasks remains inadequately quantified. Among these, Linux privilege escalation is a key step between initial access and full system compromise. However, existing evaluations for this task are limited by small sample sizes (fewer than 15 scenarios), lacking the scale to compare model capabilities under executable verification. To address this, we present PrivEscalate, a large-scale benchmark for Linux privilege escalation, comprising 531 Dockerized scenarios spanning 14 sub-categories. We additionally derive 329 parameterized variants to measure sensitivity to environmental distractors. Evaluating six LLMs across three agent architectures reveals: (i) model capability is heterogeneous across vulnerability classes, with no single model dominating across the high-prevalence classes, motivating multi-dimensional risk assessments; (ii) LLM successes are sensitive to environmental perturbation, so configuration rotation can disrupt some exploit attempts but does not eliminate the measured risk; and (iii) agent architectures can materially change success rates and reorder model rankings, though the magnitude is model-dependent. Leveraging these insights, we develop PrivEscAgent, a domain-specialized wrapper that augments a generic ReAct agent with deterministic enumeration, category matching, and step planning. PrivEscAgent improves over prior Linux privilege-escalation agent baselines without underlying LLM modifications. We release PrivEscalate as an open-source, Dockerized measurement instrument supporting LLM agent evaluation, defensive tool validation, and red-team training.",
+      "authors": [
+        "Yixuan Liu",
+        "Zilong Zhen",
+        "Yin Wu",
+        "Yi Li"
+      ],
+      "published": "2026-09-08T17:34:02Z",
+      "updated": "2026-09-08T17:34:02Z",
+      "categories": [
+        "cs.CR"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2609.09087v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.09087v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.552,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.1226,
+          "matched": [
+            "training"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5595,
+        "relevance": 0.4661,
+        "quality": 0.63,
+        "novelty": 0.8673,
+        "freshness": 0.8749,
+        "feedback_adjustment": -0.0215,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation",
+        "open source",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "PrivEscalate provides a large-scale, Dockerized benchmark revealing heterogeneous LLM agent performance and enabling a wrapper that boosts success without model changes.",
+        "problem": "Existing privilege‑escalation evaluations are tiny and lack perturbation testing, preventing reliable measurement of LLM agent threat.",
+        "method": "The authors build 531 audited scenarios plus 329 variants and introduce PrivEscAgent, a ReAct‑based wrapper with deterministic enumeration, category matching, and step planning.",
+        "evidence": "Evaluations show GPT‑5.4 attains 40.9% overall success, while PrivEscAgent raises success rates for all six models, matching the strongest baseline without modifying the LLMs.",
+        "limitations": "Not stated in the available source.",
+        "why_for_you": "The benchmark’s fine‑grained success data and sensitivity analysis inform loss‑landscape and efficient adversarial‑training research for LLM agents.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🗂️",
+            "text": "PrivEscalate introduces 531 Dockerized Linux privilege‑escalation scenarios plus 329 perturbation variants, vastly expanding benchmark scale."
+          },
+          {
+            "icon": "🔧",
+            "text": "PrivEscAgent augments a generic ReAct agent with deterministic enumeration, category matching, and stepwise planning, improving success without LLM changes."
+          },
+          {
+            "icon": "📈",
+            "text": "GPT‑5.4 achieves the highest overall success rate of 40.9%, but no model dominates across all vulnerability classes."
+          }
+        ],
+        "overview": "PrivEscalate supplies a reproducible, Docker‑based suite of 531 Linux privilege‑escalation scenarios across 14 sub‑categories, complemented by 329 parameterized variants to test environmental sensitivity. The authors evaluate six prominent LLMs (GPT‑5.4, Claude Sonnet 4.6, DeepSeek v3.2, GPT‑4.1, Claude Haiku 4.5, Qwen‑Plus) under three agent architectures, measuring success rate (SR) within a 20‑step budget. Findings show heterogeneous model strengths, sharp sensitivity to perturbations, and notable influence of agent design. Building on these insights, PrivEscAgent injects deterministic enumeration, category matching, and step planning into a ReAct loop, raising SR for all models without altering the underlying LLMs.",
+        "methodology": [
+          {
+            "title": "Multi‑agent construction pipeline",
+            "detail": "Four sub‑agents (Scaffolder, Exploiter, Verifier, Manager) generate, adapt, and verify Dockerfiles and exploit scripts, achieving 48% end‑to‑end success at a mean cost of $0.76 per verified scenario."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "PrivEscAgent wrapper",
+            "detail": "Integrates deterministic enumeration of system state, matches the observed configuration to a known vulnerability category, and plans multi‑step exploit actions before invoking the underlying LLM."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "LLM and agent evaluation",
+            "detail": "Six LLMs are tested across three agent architectures on the 531 original scenarios and 329 perturbed variants; primary metric is Success Rate (SR) with a 20‑step limit, temperature 0, and zero‑knowledge SSH foothold."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Heterogeneous model performance",
+            "detail": "GPT‑5.4 leads overall SR (40.9%) and SUID/SGID (45.8%); Claude Sonnet 4.6 leads Sudo (46.1%); no single model dominates all classes."
+          },
+          {
+            "title": "Environmental sensitivity",
+            "detail": "Success retention varies sharply across models when original scenarios are replaced by perturbed variants, indicating configuration rotation can disrupt attacks but not eliminate risk."
+          },
+          {
+            "title": "Agent architecture impact",
+            "detail": "Different agent designs materially change SR and reorder model rankings, with effects dependent on the specific LLM."
+          },
+          {
+            "title": "PrivEscAgent effectiveness",
+            "detail": "PrivEscAgent improves SR for all six evaluated models and lifts the weakest model to the level of the strongest wintermute baseline without any LLM modification."
+          }
+        ],
+        "contributions": [
+          "PrivEscalate benchmark with 531 scenarios and 329 perturbation variants",
+          "Comprehensive empirical measurement of six LLMs across three agent architectures",
+          "PrivEscAgent domain‑specialized wrapper that boosts privilege‑escalation success without changing the underlying LLM"
+        ],
+        "limitations": [
+          "Not stated in the available source."
+        ],
+        "open_questions": [
+          "How can the benchmark be extended to non‑Docker or Windows privilege‑escalation contexts?",
+          "Can loss‑landscape‑aware or adversarial training reduce the observed sensitivity of LLM agents to environmental perturbations?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-09T14:35:27.466685+00:00"
+    },
+    {
+      "id": "2609.09059",
+      "title": "PlayTrain: An Efficient Reinforcement Learning Framework for LLM-Generated Adaptable JavaScript Games",
+      "abstract": "While many video-game environments (VGEs) have played crucial roles in advancing reinforcement learning (RL), developing novel VGEs or modifying existing ones to support new features, has been a laborious process requiring extensive hand-coding. Here we present PlayTrain, an RL framework that combines the abilities of large language models (LLMs) to robustly generate JavaScript (JS) games from a minimal human prompt, and an efficient pipeline that can run any JS game in a standard 'gym' environment. Not only are recent LLMs particularly good at writing JS code, but the JS format also allows users to easily play generated VGEs, while PlayTrain enables us to train RL agents on the exact same games. We demonstrate multiple use cases of PlayTrain, including cloning well-known Atari and ProcGen games in simple JS, where PlayTrain trains pixel-based agents end-to-end at over 1M agent-decisions per second on a single GPU node; and creating modified versions thereof (e.g., that support novel test sets, procedural generation logics, or game dynamics). Through PlayTrain, we reimagine RL VGE development: all we need is a single JS file, generated and modified through an LLM. We discuss promising future RL research directions that PlayTrain unlocks.",
+      "authors": [
+        "Ryan Truong",
+        "Lance Ying",
+        "Samuel J. Gershman",
+        "Kazuki Irie"
+      ],
+      "published": "2026-09-08T17:15:39Z",
+      "updated": "2026-09-08T17:15:39Z",
+      "categories": [
+        "cs.LG"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2609.09059v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.09059v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.436,
+          "matched": [
+            "efficient"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.436,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5073,
+        "relevance": 0.436,
+        "quality": 0.47,
+        "novelty": 0.8625,
+        "freshness": 0.873,
+        "feedback_adjustment": -0.0193,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available"
+      ],
+      "summary": {
+        "takeaway": "PlayTrain lets researchers generate full JavaScript games from brief prompts and train RL agents on them at over 1 M decisions per second on a single GPU.",
+        "problem": "Creating or modifying video‑game environments for RL is labor‑intensive and often too slow for large‑scale training.",
+        "method": "It combines LLM‑driven single‑file JS game generation with a double‑buffered C++/Rust backend that parallelizes environment stepping and agent inference.",
+        "evidence": "Pixel‑based PPO and IMPALA agents trained on cloned Atari/ProcGen games achieve human‑comparable scores while processing >1 M steps/sec.",
+        "limitations": "Generation sometimes requires a refinement loop and experiments lack game‑specific hyper‑parameter tuning.",
+        "why_for_you": "The framework’s high‑throughput training pipeline aligns with your interest in efficient adversarial training and rapid loss‑landscape exploration.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "PlayTrain generates complete JavaScript games from short prompts and runs them as standard gym environments."
+          },
+          {
+            "icon": "⚙️",
+            "text": "A double‑buffered pipeline with C++ thread‑pool, QuickJS, and a Rust rasterizer yields >1 M agent‑decisions per second on one GPU."
+          },
+          {
+            "icon": "📊",
+            "text": "PPO/IMPALA agents trained on generated games match human performance, demonstrating both speed and effectiveness."
+          }
+        ],
+        "overview": "PlayTrain addresses the bottleneck of environment creation and execution by leveraging LLMs to produce self‑contained JavaScript games from minimal specifications. A custom backend strips away browser overhead, using double buffering to overlap environment stepping with policy inference, enabling over one million agent decisions per second on a single GPU. The system supports rapid generation of variants (parametric, structural, visual) and facilitates human playability, allowing direct comparison between RL agents and human participants across several classic game clones.",
+        "methodology": [
+          {
+            "title": "Double‑buffered execution",
+            "detail": "Two groups of environments alternate: while one group steps, the other supplies observations for the agent, allowing parallel stepping and inference."
+          },
+          {
+            "title": "Backend architecture",
+            "detail": "A C++ thread‑pool hosts embedded QuickJS instances; a custom Rust rasterizer renders p5.js draw calls directly into a shared 64×64×3 RGB buffer."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "LLM game generation",
+            "detail": "A single call to gemini‑3.1‑pro‑preview, guided by a fixed prompt template, produces a self‑contained JS file that conforms to a predefined action space and seeding scheme."
+          },
+          {
+            "title": "Refinement loop",
+            "detail": "If the generated game deviates from the intended design, natural‑language feedback is used to edit the JS code iteratively."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Training on cloned games",
+            "detail": "PPO and IMPALA agents were trained on JavaScript clones of Atari and ProcGen titles (e.g., breakout, qbert, flappy_bird) using a common trainer configuration across eight games, three random seeds, and evaluation on eight held‑out seeds."
+          },
+          {
+            "title": "Throughput measurement",
+            "detail": "Training speed reported exceeds 1 M environment steps per second on a single GPU node; single‑buffered runs (Table 1(b)) are slower, confirming the benefit of double buffering."
+          },
+          {
+            "title": "Human baseline",
+            "detail": "Twenty participants played eight games for 100 s each; agent performance was compared to the human mean, showing comparable scores without game‑specific hyper‑parameter tuning."
+          }
+        ],
+        "findings": [
+          {
+            "title": "High‑speed RL training",
+            "detail": "The double‑buffered pipeline achieves >1 M decisions/sec, enabling end‑to‑end training of pixel‑based agents in minutes."
+          },
+          {
+            "title": "Effective learning on generated games",
+            "detail": "Agents reach performance within the human confidence interval on all evaluated games despite using a uniform trainer configuration."
+          },
+          {
+            "title": "Rapid environment variant creation",
+            "detail": "Parametric, structural, and visual variants are produced with a single prompt, demonstrating scalable customization without additional code."
+          }
+        ],
+        "contributions": [
+          "LLM‑driven generation of self‑contained JavaScript games from minimal specifications.",
+          "An efficient double‑buffered backend that runs arbitrary JS games at >1 M steps/sec on a single GPU.",
+          "Empirical validation showing RL agents can learn these games quickly and achieve human‑comparable performance."
+        ],
+        "limitations": [
+          "Generation may require a manual refinement loop when the one‑shot LLM output is incorrect.",
+          "Experiments use a uniform trainer configuration and do not explore game‑specific hyper‑parameter tuning.",
+          "Evaluation is limited to a small set of cloned Atari/ProcGen games and a modest human participant pool."
+        ],
+        "open_questions": [
+          "Can PlayTrain’s pipeline scale to more complex 3D or physics‑heavy games while preserving throughput?",
+          "How does the high‑speed training affect the loss‑landscape dynamics of adversarial or curriculum‑based RL methods?",
+          "What are the limits of LLM‑generated game diversity before manual engineering becomes necessary?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "efficient"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-09T14:35:27.466685+00:00"
+    },
+    {
+      "id": "2609.09001",
+      "title": "Deposon: An Auditable, Conservation-Guaranteed, Game-Theoretically Tested Scattering Layer over LLM Reasoning Paths",
+      "abstract": "Multi-step LLM reasoning lacks a machine-recheckable ledger: discarded reasoning paths leave no auditable record. We propose the Deposon scattering layer, which binds each node of an LLM-generated concept-decomposition graph to a two-parameter Deposon state; paths undergo three-channel scattering -- transmission, reflection, irreversible dissipation -- obeying T+R+A=1 for arbitrary parameters, with a maximum per-path energy-audit deviation of 2.2E-16 (machine epsilon). We report all three evidence tiers honestly. On synthetic trap benchmarks the path-filtering gain is closed (pre-registered): unified reaches 100% versus a decoy-capture baseline at 7%/10%. On real benchmarks the layer is indistinguishable from a trivial six-keyword rule filter (GSM8K 0.87 >= 0.85, McNemar p=0.5; StrategyQA 0.899 = 0.899); no difference is detected here, so we sharpen the claim to \"the differential value lies solely in machine verifiability.\" Fusion yields a second negative result: convex combinations with a semantic prior never improve (physics 0.484 -> 0.452), and the apparent lambda=2 gain is an anti-field artifact; any fusion gain must be nonlinear. Modeling the reverse dynamics as a potential game on the graph, we evidence an auditable scalar's monotonicity and near-gradientness and quantify the empirical coordination ratio (ECR). The three formalized dynamical-equivalence propositions (P1a/P1b/T-P1c) are falsified under the pre-registered kill protocol, and the potential-game claim is downgraded to approximate (cyclic-graph median residual 0.669): only consistency-level evidence survives at the dynamical level. Code: github.com/zeroandcat/Deposon.",
+      "authors": [
+        "Qihao Yuan"
+      ],
+      "published": "2026-09-08T16:40:31Z",
+      "updated": "2026-09-08T16:40:31Z",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2609.09001v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.09001v1",
+      "comment": "23 pages, 5 figures. Author affiliation: School of Chemistry and Life Resources, Renmin University of China. Code: https://github.com/zeroandcat/Deposon",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.371,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4948,
+        "relevance": 0.2968,
+        "quality": 0.85,
+        "novelty": 0.8836,
+        "freshness": 0.8695,
+        "feedback_adjustment": -0.0089,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "baseline comparison",
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "evidence": "合成陷阱基准测试中路径过滤增益为100%（对比基线7%/10%），真实基准测试中与六关键词规则过滤器无差异（GSM8K 0.87≥0.85，p=0.5）；潜在博弈分析显示标量单调性及近梯度性，经验协调比（ECR）可量化；三个动力学等价命题在预注册测试中被证伪。",
+        "limitations": "融合增益必须非线性，语义先验组合未提升性能（物理基准0.484→0.452），潜在博弈假设仅在一致性级别成立（循环图中位数残差0.669）；真实基准测试未检测到差异，仅验证可审计性价值。",
+        "method": "将LLM生成的概念分解图节点绑定到双参数Deposon状态，路径经历三通道散射（传输、反射、不可逆耗散），满足T+R+A=1的守恒关系。",
+        "problem": "多步骤LLM推理缺乏可机器验证的账本，被丢弃的推理路径无审计记录。",
+        "takeaway": "Deposon提出了一种可审计的、保证守恒的散射层，通过绑定LLM生成的概念分解图节点到双参数状态，实现路径的三通道散射（传输、反射、不可逆耗散）及其能量审计偏差控制。",
+        "why_for_you": "LLM损失景观中的可审计性验证问题，通过守恒约束的散射层设计实现路径能量守恒验证。",
+        "source": "abstract",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-09T14:35:27.466685+00:00"
+    },
+    {
+      "id": "2609.09076",
+      "title": "ActReview: Rebuttal-Guided Training Data and Rubric Rewards for Actionable Peer Review Generation",
+      "abstract": "As LLMs are increasingly used for pre-submission self-review, there is growing demand for feedback that not only identifies weaknesses but also guides authors toward concrete revisions. We study this as Actionable Peer-review Generation and decompose it into two subtasks: diagnostic claim generation and revision suggestion generation. We introduce ActReview, a rebuttal-guided post-training framework that connects paper-specific diagnoses to concrete, grounded revision plans. Our central insight is that author rebuttals reveal plausible actions for addressing reviewer concerns and can therefore provide latent supervision for revision-oriented feedback. From real review-rebuttal threads on OpenReview, we construct ActReview-40K by aligning reviewer weaknesses with author responses and grounding the resulting feedback in localized paper evidence. We post-train Qwen3-8B-Base with multi-task supervised fine-tuning followed by GRPO using candidate-aware, weakness-specific rubric rewards. We also introduce ActReview-Bench, a human-curated benchmark of 1,000 instances for evaluating diagnostic quality and revision usefulness. Experiments show that ActReview outperforms prior specialized review-generation models on actionability and grounding while remaining competitive with strong prompt-based LLMs. Human evaluation confirms improved revision usefulness while revealing a remaining gap in technical accuracy, and additional analyses support generalization to held-out papers and robustness across independent judges.",
+      "authors": [
+        "Yiling Ma",
+        "Yilun Zhao",
+        "Sihong Wu",
+        "Ziyu Chen",
+        "Manasi Patwardhan",
+        "Arman Cohan"
+      ],
+      "published": "2026-09-08T17:30:16Z",
+      "updated": "2026-09-08T17:30:16Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2609.09076v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.09076v1",
+      "comment": "50 pages, 20 figures",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.3656,
+          "matched": [
+            "training",
+            "fine-tuning",
+            "robustness"
+          ]
+        },
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.3074,
+          "matched": [
+            "training data",
+            "data"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.0944,
+          "matched": [
+            "generalization"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.478,
+        "relevance": 0.3728,
+        "quality": 0.54,
+        "novelty": 0.839,
+        "freshness": 0.8745,
+        "feedback_adjustment": -0.0149,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "method": "作者在双任务（诊断性主张与可操作建议）上后训练 Qwen3‑8B‑Base，使用 ActReview‑40K，并通过 GRPO 利用从对齐 rebuttal 片段中得到的弱点特定 rubric 进行精炼。",
+        "limitations": "生成修订的技术正确性仍低于人工评审，且该方法依赖 rebuttal 文本的存在。",
+        "evidence": "人工评估显示修订有用性更高，adjusted win rates 超过先前模型的平衡水平，同时 alignment precision/recall 达到 0.95/0.93。",
+        "problem": "现有 LLM 评审能够诊断问题，但很少提供具体可实施的修订指导。",
+        "why_for_you": "符合您对通过利用 rebuttal 对齐实例进行数据选择以及通过 rubric‑based 强化学习实现高效后训练的兴趣。",
+        "takeaway": "ActReview 将作者 rebuttal 作为潜在监督，并使用 rubric‑based RL 生成更具可操作性和依据的同行评审反馈。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🗂️",
+            "text": "ActReview 引入了 rebuttal 引导的数据集 (ActReview‑40K) 和基于 rubric 的 RL，以生成可操作的同行评审反馈。"
+          },
+          {
+            "icon": "⚙️",
+            "text": "它在双任务上微调 Qwen3‑8B‑Base，然后使用从对齐 rebuttal 片段中提取的弱点特定 rubric 通过 GRPO 进行优化。"
+          },
+          {
+            "icon": "📊",
+            "text": "人工评估显示修订有用性更高，adjusted win rates 超过基线 50% 以上，但技术正确性落后于人工评审。"
+          }
+        ],
+        "overview": "ActReview 通过将可操作的同行评审生成拆解为诊断性主张和修订建议任务来实现。作者利用真实的 OpenReview 评审‑rebuttal 线程构建了 ActReview‑40K（约 40K 条弱点‑响应对）和精心挑选的基准 ActReview‑Bench（1,000 条实例）。模型首先在 Qwen3‑8B‑Base 上进行多任务微调，然后使用 GRPO——一种基于 rubric 的强化学习方案，从参考输出和候选失败中构建弱点特定 rubric 进行精炼。实验表明，与先前的专用模型相比，ActReview 在可操作性和依据性上更优，并在强大的基于提示的 LLM 上表现竞争力，提升了修订有用性，尽管技术准确性仍有不足。",
+        "methodology": [
+          {
+            "title": "多任务监督微调",
+            "detail": "Qwen3‑8B‑Base 在诊断性声明生成和可操作建议生成上联合训练，使用 ActReview‑40K 实例。"
+          },
+          {
+            "title": "基于 rubric 的强化学习 (GRPO)",
+            "detail": "针对弱点的 rubrics 离线从 ground‑truth 参考和多样化模型候选中构建；GRPO 在这些结构化奖励上优化模型。"
+          },
+          {
+            "title": "Top‑k 块检索",
+            "detail": "检索到的本地化论文证据以 top‑k 块形式提供，为声明和建议生成提供依据。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "基于 rebuttal 的潜在监督",
+            "detail": "与 reviewer 弱点对齐的作者 rebuttal 范围提供具体操作，进而转化为修订建议的监督信号。"
+          },
+          {
+            "title": "考虑候选的 rubric 构建",
+            "detail": "Rubrics 将硬约束与来源于 reference 输出和模型失误的加权软准则结合，引导 RL 朝可操作且有依据的反馈方向。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "数据集构建与验证",
+            "detail": "ActReview‑40K 基于 15,819 篇论文（ICLR、NeurIPS、EMNLP）构建，约 40K 条实例；对齐精度 0.95，召回率 0.93，F1 0.94，κ 0.85。"
+          },
+          {
+            "title": "基准评估",
+            "detail": "ActReview‑Bench 包含 1,000 条人工筛选实例；模型在诊断质量、修订质量、弱点有效性、技术正确性、解决充分性和审稿人有用性上进行评估。"
+          },
+          {
+            "title": "人工评估",
+            "detail": "在 175 条留出实例上，ActReview‑RL 的调整后胜率 >50% 超过先前的专用模型；修订有用性的平均评分高于基线，而技术准确性仍低于人工评审。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "可操作性与依据性提升",
+            "detail": "ActReview 在可操作性和依据性指标上优于先前的专用评审生成模型，同时匹配强大的提示式 LLM。"
+          },
+          {
+            "title": "修订有用性提升",
+            "detail": "人工评审在审稿人有用性维度上给 ActReview 的修订建议打分高于基线。"
+          },
+          {
+            "title": "技术准确性差距",
+            "detail": "尽管有用性提升，生成的修订在技术正确性上仍低于人工撰写的反馈。"
+          },
+          {
+            "title": "泛化性与鲁棒性",
+            "detail": "分析表明在留出论文和独立评审之间表现一致（Cohen’s κ 0.71）。"
+          }
+        ],
+        "contributions": [
+          "Rebuttal‑guided dataset (ActReview‑40K) linking reviewer weaknesses to author actions",
+          "Dual‑task formulation 将诊断与可操作建议分离",
+          "Weakness‑specific rubric rewards 用于强化学习 (GRPO)",
+          "ActReview‑Bench benchmark 用于评估诊断和修订质量"
+        ],
+        "limitations": [
+          "生成修订的技术正确性仍低于人类水平",
+          "方法依赖 author rebuttals 的可用性，限制了其在没有公开 rebuttal 线程的会议上的适用性",
+          "评估基于有限的人类评分样本；指标的可扩展性尚未证明"
+        ],
+        "open_questions": [
+          "该框架如何提升修订建议的技术准确性？",
+          "rubric‑based RL 能否高效扩展到更大的 LLM 或缺乏 rebuttal 数据的领域？",
+          "数据选择粒度（例如 atomic weaknesses）与模型性能之间的权衡是什么？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training",
+          "fine-tuning",
+          "robustness"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-09T14:35:27.466685+00:00"
+    },
     {
       "id": "conf:acl:2026:905-main",
       "title": "Tracing the Roots: A Multi-Agent Framework for Uncovering Data Lineage in Post-Training LLMs",
@@ -260,113 +1114,7 @@
         "publication metadata",
         "conference oral"
       ],
-      "summary": {
-        "takeaway": "Mechanistic data attribution links specific training data to the formation of interpretable LLM circuits.",
-        "problem": "Identifying the causal training origins of interpretable units in LLMs is currently unknown.",
-        "method": "MDA applies influence functions to trace units to samples and intervenes by removing or augmenting high‑influence data.",
-        "evidence": "Targeted removal/augmentation of a small fraction of high‑influence samples significantly changes interpretable head emergence, unlike random interventions.",
-        "limitations": "The study reports qualitative effects without quantitative metrics of data fraction or performance impact.",
-        "why_for_you": "Relevant for data selection research as it offers a principled way to steer circuit development via targeted data.",
-        "source": "abstract",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🔎",
-            "text": "Introduces mechanistic data attribution (MDA) to trace interpretable LLM units to training samples."
-          },
-          {
-            "icon": "🔧",
-            "text": "Uses influence functions to identify high‑influence samples and performs targeted removal or augmentation."
-          },
-          {
-            "icon": "📊",
-            "text": "Shows that removing/augmenting a small fraction of high‑influence samples modulates interpretable head emergence, while random changes do not."
-          }
-        ],
-        "overview": "The paper presents Mechanistic Data Attribution (MDA), a scalable framework that leverages influence functions to map interpretable circuit components in LLMs back to individual training examples. Experiments on the Pythia model family demonstrate that selectively removing or augmenting a small subset of high‑influence samples markedly alters the emergence of interpretable heads, whereas random edits have no effect. Analysis reveals repetitive structural data (e.g., LaTeX, XML) as a catalyst, and interventions on induction heads concurrently shift in‑context learning ability. A data‑augmentation pipeline is proposed to accelerate circuit convergence across scales.",
-        "methodology": [
-          {
-            "title": "Influence Function Computation",
-            "detail": "Computes the gradient‑based influence of each training sample on a target interpretable unit using standard influence function techniques."
-          },
-          {
-            "title": "High‑Influence Sample Identification",
-            "detail": "Ranks training examples by their computed influence scores and selects the top subset for intervention."
-          },
-          {
-            "title": "Targeted Data Intervention",
-            "detail": "Either removes or augments the selected high‑influence samples and retrains the model to observe causal effects."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Catalytic Role of Repetitive Structural Data",
-            "detail": "Findings indicate that data with repetitive markup (LaTeX, XML) disproportionately drives the formation of mechanistic circuits."
-          },
-          {
-            "title": "Induction Head–ICL Link",
-            "detail": "Intervening on samples that influence induction head formation produces simultaneous changes in the model's in‑context learning performance, providing causal evidence for their functional relationship."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Pythia Family Evaluation",
-            "detail": "Applies MDA to multiple Pythia model sizes, comparing targeted high‑influence interventions against random sample modifications."
-          },
-          {
-            "title": "Metrics of Circuit Emergence",
-            "detail": "Measures the presence and strength of interpretable heads and tracks in‑context learning capability after each intervention."
-          },
-          {
-            "title": "Mechanistic Data Augmentation Pipeline",
-            "detail": "Introduces a systematic augmentation strategy that repeatedly injects high‑influence patterns, showing faster convergence of target circuits across scales."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Targeted Interventions Modulate Circuits",
-            "detail": "Removing or augmenting a small fraction of high‑influence samples significantly changes the emergence of interpretable heads, while random changes do not."
-          },
-          {
-            "title": "Structural Data as Catalyst",
-            "detail": "Repetitive markup data (LaTeX, XML) is identified as a primary driver for mechanistic circuit formation."
-          },
-          {
-            "title": "Induction Heads Affect ICL",
-            "detail": "Altering induction head formation leads to measurable shifts in in‑context learning ability."
-          },
-          {
-            "title": "Augmentation Accelerates Convergence",
-            "detail": "The proposed data augmentation pipeline consistently speeds up circuit convergence across different model scales."
-          }
-        ],
-        "contributions": [
-          "Mechanistic Data Attribution (MDA) framework for tracing LLM units to training samples",
-          "Causal validation that high‑influence data drives interpretable head emergence",
-          "Mechanistic data augmentation pipeline that accelerates circuit convergence"
-        ],
-        "limitations": [
-          "No quantitative reporting of the fraction of data altered or its impact on overall model performance",
-          "Experiments limited to the Pythia family; generalization to larger or different architectures is untested",
-          "Scalability of influence‑function computation for very large datasets is not addressed"
-        ],
-        "open_questions": [
-          "How does MDA perform on models larger than Pythia and on heterogeneous corpora?",
-          "What are optimal criteria for selecting high‑influence samples to balance circuit steering and downstream task performance?",
-          "Can the augmentation pipeline be integrated with existing training pipelines without degrading generalization?"
-        ],
-        "source_scope": "abstract",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "pending",
+      "analysis_status": "complete",
       "recommendation_reason": {
         "topic": "Data selection for LLMs",
         "matched": [
@@ -376,6 +1124,112 @@
           "data"
         ],
         "lane": "llm"
+      },
+      "summary": {
+        "method": "MDA 使用 influence functions 将单元追溯到样本，并通过删除或增强 high‑influence data 进行干预。",
+        "limitations": "研究仅报告了定性效果，缺乏数据比例或性能影响的量化指标。",
+        "evidence": "针对性地删除/增强少量 high‑influence 样本会显著改变可解释头的出现，而随机干预则没有此效应。",
+        "problem": "目前尚未明确可解释单元在 LLM 中的因果训练来源。",
+        "why_for_you": "对数据选择研究具有意义，因为它提供了一种通过目标数据引导电路发展的原则性方法。",
+        "takeaway": "机制化数据归因将特定训练数据与可解释 LLM 电路的形成关联起来。",
+        "source": "abstract",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🔎",
+            "text": "引入 mechanistic data attribution (MDA)，将可解释 LLM 单元追溯到训练样本。"
+          },
+          {
+            "icon": "🔧",
+            "text": "使用 influence functions 识别 high‑influence 样本，并进行针对性删除或增强。"
+          },
+          {
+            "icon": "📊",
+            "text": "展示了删除/增强少量 high‑influence 样本可调节可解释头的出现，而随机更改则无效。"
+          }
+        ],
+        "overview": "本文提出 Mechanistic Data Attribution (MDA)，一种可扩展框架，利用 influence functions 将 LLM 中的可解释电路组件映射回单个训练样本。对 Pythia 系列模型的实验表明，选择性地删除或增强少量 high‑influence 样本会显著改变可解释头的出现，而随机编辑无效。分析发现重复的结构化数据（如 LaTeX、XML）是催化剂，对 induction heads 的干预同时会改变 in‑context learning 能力。提出了一种 data‑augmentation 流水线，以加速跨尺度的电路收敛。",
+        "methodology": [
+          {
+            "title": "影响函数计算",
+            "detail": "使用标准影响函数技术，计算每个训练样本对目标可解释单元的基于梯度的影响。"
+          },
+          {
+            "title": "高影响样本识别",
+            "detail": "根据计算得到的影响分数对训练样本进行排序，并选择排名最高的子集进行干预。"
+          },
+          {
+            "title": "有针对性的数据干预",
+            "detail": "对选定的高影响样本进行删除或增强，并重新训练模型以观察因果效应。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "重复结构数据的催化作用",
+            "detail": "研究表明，具有重复标记（LaTeX、XML）的数据在机制电路的形成中起到不成比例的推动作用。"
+          },
+          {
+            "title": "Induction Head–ICL 链接",
+            "detail": "对影响 induction head 形成的样本进行干预，会同步改变模型的 in‑context learning 性能，提供其功能关系的因果证据。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Pythia 系列评估",
+            "detail": "将 MDA 应用于多个 Pythia 模型规模，比较有针对性的 high‑influence 干预与 random sample 修改的效果。"
+          },
+          {
+            "title": "电路出现度量",
+            "detail": "衡量 interpretable heads 的存在性和强度，并在每次干预后跟踪 in‑context learning 能力。"
+          },
+          {
+            "title": "机制化数据增强流水线",
+            "detail": "提出系统化的 augmentation 策略，反复注入 high‑influence 模式，展示 target circuits 在不同尺度上的更快收敛。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "有针对性的干预调节电路",
+            "detail": "移除或增强少量 high‑influence 样本会显著改变 interpretable heads 的出现，而 random 更改则没有影响。"
+          },
+          {
+            "title": "结构化数据作为催化剂",
+            "detail": "重复的标记数据（LaTeX、XML）被确定为 mechanistic circuit 形成的主要驱动因素。"
+          },
+          {
+            "title": "归纳头影响 ICL",
+            "detail": "改变 induction head 的形成会导致 in‑context learning 能力出现可测量的变化。"
+          },
+          {
+            "title": "数据增强加速收敛",
+            "detail": "所提出的 data augmentation 流水线在不同模型尺度上始终加速 circuit 收敛。"
+          }
+        ],
+        "contributions": [
+          "用于追踪 LLM 单元到训练样本的 Mechanistic Data Attribution (MDA) 框架",
+          "因果验证：高影响数据驱动可解释头的出现",
+          "加速电路收敛的 Mechanistic data augmentation pipeline"
+        ],
+        "limitations": [
+          "未定量报告被修改数据的比例及其对整体模型性能的影响",
+          "实验仅限于 Pythia 系列；对更大或不同架构的泛化尚未测试",
+          "未解决在超大数据集上 influence‑function 计算的可扩展性"
+        ],
+        "open_questions": [
+          "MDA 在比 Pythia 更大的模型和异构语料库上的表现如何？",
+          "选择高影响样本以平衡电路引导和下游任务性能的最佳准则是什么？",
+          "该增强流水线能否与现有训练流水线集成且不降低泛化能力？"
+        ],
+        "source_scope": "abstract",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
       },
       "recommended_at": "2026-09-08T14:32:00.134386+00:00"
     },
@@ -2629,7 +3483,7 @@
         "experiments",
         "quantitative results"
       ],
-      "analysis_status": "pending",
+      "analysis_status": "complete",
       "recommendation_reason": {
         "topic": "Efficient adversarial training",
         "matched": [
@@ -2639,99 +3493,95 @@
         "lane": "llm"
       },
       "summary": {
-        "evidence": "CPS achieves 97.6% AmbiMath exact-match accuracy, 9.5% F1 improvement on Jigsaw, and 8.3-5.2% non-entailment accuracy gains on HANS.",
-        "limitations": "The paper does not analyze CPS's sensitivity to prior formulation beyond basic ablations, and its mechanism for resolving ambiguous data remains partially opaque.",
-        "method": "PGT introduces CPS, which combines standard supervised loss with contrastive positive/negative prior-conditioned objectives to guide task-consistent learning.",
-        "problem": "Low-resource training data often lack sufficient evidence to resolve task ambiguities or prevent spurious correlations.",
-        "takeaway": "Prior-Guided Tuning (PGT) with Contrastive Prior Steering (CPS) improves low-resource LLM training by treating natural-language priors as auxiliary learning signals.",
-        "why_for_you": "This directly addresses data selection for LLMs by demonstrating how task-level priors improve low-resource training efficiency and robustness.",
+        "method": "Prior-Guided Tuning (PGT) 与 Contrastive Prior Steering (CPS) 将自然语言先验融入训练目标。",
+        "limitations": "实验仅在 AmbiMath、Jigsaw、MNLI/HANS 等特定数据集上进行，未提供泛化分析。",
+        "evidence": "CPS 在 AmbiMath 达到 97.6% 准确率，Jigsaw F1 提升 9.5%，HANS 准确率提升 8.3%~5.2%。",
+        "problem": "低资源训练数据常缺乏明确性，导致大模型产生虚假关联。",
+        "why_for_you": "符合对数据选择效率的关注，CPS 仅用 1/10 数据即可取得强劲效果，并提升对虚假启发式的鲁棒性。",
+        "takeaway": "PGT 结合 CPS 通过任务级自然语言先验作为辅助信号，提升低资源 LLM 训练效果。",
         "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "en",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
         "schema_version": 3,
         "prompt_version": 2
       },
       "deep_dive": {
-        "contributions": [
-          "Developed PGT as a training perspective that treats natural-language priors as explicit learning signals",
-          "Introduced CPS, a contrastive method that combines standard loss with prior-conditioned objectives",
-          "Demonstrated effectiveness across three diverse low-resource benchmarks"
-        ],
         "experiments": [
           {
-            "detail": "Evaluates rule ambiguity resolution with 97.6% exact-match accuracy. Uses positional and semantic priors to test prior-guided learning.",
-            "title": "AmbiMath Synthetic Benchmark"
+            "detail": "在 AmbiMath（规则歧义）、Jigsaw（有害内容分类）和 MNLI/HANS（NLI 鲁棒性）上评估，使用 LLaMA 3.1 8B 与 Qwen 2.5 7B。",
+            "title": "基准套件"
           },
           {
-            "detail": "Tests low-resource toxicity detection with 9.5% Macro F1 improvement. Focuses on identity-term spurious correlations in user comments.",
-            "title": "Jigsaw Toxicity Classification"
+            "detail": "比较普通微调、提示微调和 CPS 在不同数据规模（1/30 至全量）上的表现。",
+            "title": "基线"
           },
           {
-            "detail": "Measures heuristic robustness with 8.3-5.2% non-entailment accuracy gains. HANS tests shallow lexical/syntactic heuristics in natural language inference.",
-            "title": "MNLI/HANS NLI Robustness"
+            "detail": "测量 Exact-match 准确率、Macro F1 与 HANS 非蕴含准确率。",
+            "title": "指标"
           }
         ],
-        "findings": [
+        "signals": [
           {
-            "detail": "CPS achieves 97.6% AmbiMath accuracy, 9.5% F1 improvement on Jigsaw, and 8.3-5.2% HANS non-entailment gains while maintaining MNLI accuracy.",
-            "title": "CPS Outperforms Baselines"
+            "icon": "💡",
+            "text": "PGT 将自然语言先验作为低资源训练的辅助信号。"
           },
           {
-            "detail": "With 1/10 data, CPS exceeds full-data plain fine-tuning on Jigsaw (0.767 vs 0.75 Macro F1), demonstrating improved data efficiency.",
-            "title": "Data Efficiency Gains"
+            "icon": "🔧",
+            "text": "CPS 将监督损失与对比先验条件目标相结合。"
           },
           {
-            "detail": "CPS maintains strong performance across different prior formulations, suggesting it captures task principles rather than specific wording.",
-            "title": "Prior Robustness"
+            "icon": "📈",
+            "text": "CPS 在 1/10 数据下实现 97.6% AmbiMath EM 准确率，优于全量微调。"
           }
         ],
         "limitations": [
-          "No detailed analysis of CPS's sensitivity to prior formulation beyond basic ablations",
-          "No explicit exploration of how priors affect the LLM loss landscape"
+          "实验仅限于 AmbiMath、Jigsaw、MNLI/HANS，缺乏更广域的领域分析。",
+          "未对先验形式多样性进行消融研究，仅限于特定变体。"
+        ],
+        "findings": [
+          {
+            "detail": "CPS 在不同先验下实现 96.3%~100.0% EM，优于普通微调 (65.3%) 与提示微调 (54.2%)。",
+            "title": "AmbiMath 性能"
+          },
+          {
+            "detail": "CPS 使用 1/10 数据达到 0.767 Macro F1，略高于全量普通微调的 0.75。",
+            "title": "Jigsaw 数据效率"
+          },
+          {
+            "detail": "CPS 在 LLaMA 与 Qwen 上将非蕴含准确率提升 8.3%~5.2%，同时保持 MNLI 准确率。",
+            "title": "HANS 鲁棒性"
+          }
+        ],
+        "open_questions": [
+          "CPS 的提升在 NLP 之外的低资源任务上能否通用？",
+          "先验条件目标能否适用于非文本模态？",
+          "自然语言先验在稀疏监督下的理论上限是什么？"
         ],
         "mechanism": [
           {
-            "detail": "By incorporating explicit priors as learning signals, CPS directs models to prioritize task-specific principles over data-driven heuristics, particularly in low-resource scenarios where data alone is insufficient.",
-            "title": "Task-Consistent Learning Guidance"
-          },
-          {
-            "detail": "The positive/negative prior contrast helps models distinguish between correct and spurious solution paths, reducing vulnerability to ambiguous or incomplete training data.",
-            "title": "Contrastive Disambiguation"
+            "detail": "利用正负先验生成对比学习信号，引导模型行为符合任务原则。",
+            "title": "对比先验条件化"
           }
         ],
         "methodology": [
           {
-            "detail": "CPS augments standard supervised loss with contrastive objectives: positive-prior losses encourage alignment with desired task principles, while negative-prior losses suppress spurious alternatives. This maintains the original objective while adding directional guidance.",
-            "title": "Contrastive Prior Steering (CPS)"
+            "detail": "将先验重新定义为显式学习信号而非上下文输入，在数据不足时提供任务级指导。",
+            "title": "PGT 框架"
           },
           {
-            "detail": "CPS constructs two contrastive views - one conditioned on positive priors (task principles) and one on negative priors (plausible but incorrect alternatives) - to shape the model's learning trajectory.",
-            "title": "Prior-Conditioned Objectives"
+            "detail": "将标准监督损失与对比目标结合：正先验损失促进任务一致学习，负先验损失抑制误导性备选。",
+            "title": "CPS 架构"
           }
         ],
-        "open_questions": [
-          "How do task-level priors interact with adversarial training in low-resource settings?",
-          "Can CPS's contrastive mechanism be generalized to other types of auxiliary signals?",
-          "What are the limits of prior-guided learning when data scarcity combines with complex task distributions?"
+        "contributions": [
+          "提出 PGT 框架，将自然语言先验作为学习信号集成。",
+          "引入 CPS，使用对比先验条件目标进行低资源训练。",
+          "在三项不同的低资源基准上验证了其有效性。"
         ],
-        "overview": "The paper proposes PGT, a training framework that converts task-level natural-language priors into auxiliary signals for low-resource LLMs. CPS, its core method, adds contrastive objectives to standard supervised learning, improving performance across three benchmarks. The approach addresses data ambiguity by explicitly guiding models toward task-specific principles rather than relying solely on sparse data patterns.",
-        "signals": [
-          {
-            "icon": "🌐",
-            "text": "PGT treats natural-language priors as explicit learning signals"
-          },
-          {
-            "icon": "🔧",
-            "text": "CPS uses contrastive prior-conditioned losses with positive/negative priors"
-          },
-          {
-            "icon": "📊",
-            "text": "97.6% AmbiMath accuracy with 1/10 data exceeds full-data fine-tuning"
-          }
-        ],
+        "overview": "本文提出 Prior-Guided Tuning (PGT)，通过将任务级自然语言先验视为显式学习信号，解决低资源 LLM 训练难题。核心方法 Contrastive Prior Steering (CPS) 在标准监督训练中加入对比辅助损失，提升三项基准的性能。实验显示在数据稀缺情形下准确率和鲁棒性均显著提升且保持高效。该方法区别于传统提示，先验被嵌入训练目标而非输入上下文。",
         "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "en",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
         "schema_version": 6,
         "prompt_version": 2
       },
@@ -15273,964 +16123,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-08-14T11:07:48.849243+00:00"
-    },
-    {
-      "id": "2608.12025",
-      "title": "From Safety Documentation to Safety Knowledge Support: An Evidence-Grounded LLM Framework for Medical Devices",
-      "abstract": "Medical devices are becoming more software-intensive, connected, and AI-enabled. Their development requires risk-management evidence aligned with ISO 14971 and, for software, IEC 62304. This evidence must be kept consistent across requirements, design decisions, software changes, verification results, complaints, and post-market data. These tasks are costly and depend on scarce safety and domain experts. Large language models (LLMs) may reduce parts of this effort because medical-device safety work is highly document-based. However, current LLM-based safety-engineering studies often address isolated methods, rely on generic prompting or public examples, and provide limited support for source links, traceability, uncertainty handling, lifecycle updates, and recorded expert review. This limits their use in regulated medical-device development. This paper argues that the central research problem is not safety-text generation, but source-linked safety-knowledge support. We propose an evidence-grounded framework that connects device artifacts, controlled knowledge storage and retrieval, method-specific generation of candidate safety items, critique and uncertainty checks, and recorded expert review. The framework prepares, links, checks, and updates candidate safety artifacts for expert decision-making. It does not decide whether a device is safe and does not provide regulatory approval. We also outline an evaluation strategy using non-public or newly built medical-device case studies and expert reference analyses to assess coverage, correctness, relevance, traceability, duplicate rate, unsupported claims, and review effort.",
-      "authors": [
-        "Tuhinangshu Gangopadhyay",
-        "Rasmus Adler",
-        "Peter Liggesmeyer",
-        "Jan Reich"
-      ],
-      "published": "2026-08-12T13:05:49Z",
-      "updated": "2026-08-12T13:05:49Z",
-      "categories": [
-        "cs.SE",
-        "cs.AI"
-      ],
-      "primary_category": "cs.SE",
-      "abs_url": "https://arxiv.org/abs/2608.12025v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.12025v1",
-      "comment": "ISSRE 2026, AISQ, 8 pages",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.5513,
-          "matched": [
-            "uncertainty",
-            "safety"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4985,
-        "relevance": 0.441,
-        "quality": 0.41,
-        "novelty": 0.8644,
-        "freshness": 0.8686,
-        "feedback_adjustment": -0.0205,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "该框架通过证据链接实现面向医疗器械的安全知识支持，帮助专家在整个生命周期中追踪和审查安全文档。",
-        "problem": "医疗器械安全分析需在ISO 14971和IEC 62304框架下保持跨文档、跨阶段的可追溯证据，现有LLM方法缺乏源链接和不确定性处理。",
-        "method": "提出一个证据‑grounded的框架，连接设备工件、受控知识库检索、方法特定生成、批评与不确定性检查以及记录的专家审查。",
-        "evidence": "论文仅提供框架设计和基于非公开案例的评估方案，未呈现实际实验结果。",
-        "limitations": "缺乏公开实验数据和量化评估，依赖于未公开的医疗器械案例。",
-        "why_for_you": "若你关注可追溯、安全的LLM辅助医疗器械研发，此框架的证据链接思路与评估指标值得参考。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🛡️",
-            "text": "提出证据‑grounded安全知识支持框架，覆盖文档追溯与专家审查。"
-          },
-          {
-            "icon": "🔎",
-            "text": "框架包括受控知识库检索、方法特定生成、批评与不确定性检查。"
-          },
-          {
-            "icon": "📊",
-            "text": "仅给出基于非公开案例的评估计划，缺乏实际实验结果。"
-          }
-        ],
-        "overview": "医疗器械安全分析在ISO 14971和IEC 62304要求下需保持跨需求、设计、验证等工件的可追溯证据，现有LLM辅助方法缺乏源链接和不确定性标记。作者提出一个证据‑grounded框架，将设备工件、受控知识库检索、方法特定生成、批评与不确定性检查以及记录的专家审查串联，实现安全文档的准备、链接、检查和更新。论文进一步规划了使用非公开或新建医疗器械案例的评估策略，以覆盖率、正确性、相关性、可追溯性、重复率、无依据主张和审查工作量等指标进行验证。",
-        "methodology": [
-          {
-            "title": "受控知识库检索",
-            "detail": "构建并维护与医疗器械安全相关的结构化知识库，支持基于工件的检索以提供证据来源。"
-          },
-          {
-            "title": "方法特定生成与批评",
-            "detail": "针对不同安全分析任务（如危害识别、风险控制）使用专门的LLM提示生成候选项，并通过批评模块检查不确定性和潜在错误。"
-          },
-          {
-            "title": "记录的专家审查",
-            "detail": "将生成的候选安全项、证据链接和不确定性标记呈现给专家，记录审查决策以实现可追溯性。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "证据‑grounded 链接",
-            "detail": "每个LLM生成的安全条目必须关联到知识库中的具体文档或工件，实现来源可追溯。"
-          },
-          {
-            "title": "不确定性指示",
-            "detail": "系统在生成过程中标记置信度或潜在歧义，供专家在审查时重点关注。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "评估策略概述",
-            "detail": "使用非公开或新建的医疗器械案例，邀请领域专家进行参考分析，衡量覆盖率、正确性、相关性、可追溯性、重复率、无依据主张比例以及审查工作量。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "框架设计完成",
-            "detail": "论文展示了完整的证据‑grounded框架结构和工作流，但尚未提供实际实验数据。"
-          }
-        ],
-        "contributions": [
-          "提出面向医疗器械的证据‑grounded安全知识支持框架",
-          "定义了包括知识库检索、生成、批评、不确定性检查和专家审查的完整工作流",
-          "规划了针对医疗器械案例的安全特定评估指标体系"
-        ],
-        "limitations": [
-          "缺乏公开的实验结果和量化评估",
-          "评估依赖于非公开或新建的医疗器械案例，难以直接复现"
-        ],
-        "open_questions": [
-          "该框架如何在实际医疗器械开发工具链中实现无缝集成？",
-          "在大规模真实项目中，不确定性指示的准确性和实用性如何？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "uncertainty",
-          "safety"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-13T11:10:44.890184+00:00"
-    },
-    {
-      "id": "2608.12008",
-      "title": "Asymptotic Risk Calibration for Selective Question Answering",
-      "abstract": "Large language models (LLMs) may generate fluent but incorrect answers, making uncertainty quantification important for reliable question answering. However, heuristic uncertainty scores cannot perfectly distinguish correct predictions from incorrect ones, and directly applying a fixed uncertainty threshold provides no statistical control over the error rate among accepted answers. To address this limitation, we propose A-CRC-QA, a post-hoc calibration framework for uncertainty-aware selective question answering. The proposed method reformulates selection-conditioned error control as a linear expectation constraint and applies a monotonized empirical-risk calibration procedure inspired by conformal risk control. Since the resulting instance-wise loss is generally non-monotone with respect to the acceptance threshold, our framework targets asymptotic rather than finite-sample risk control. A-CRC-QA is model-agnostic, requires no additional training, and can be combined with different uncertainty estimators. Experiments on CoQA and MedMCQA demonstrate its applicability to both open-ended and closed-ended question answering, achieving a favorable trade-off between accepted-answer reliability and answer retention compared with uncalibrated and confidence-bound-based baselines.",
-      "authors": [
-        "Shufan Lin",
-        "Sijin Dong"
-      ],
-      "published": "2026-08-12T12:45:45Z",
-      "updated": "2026-08-12T12:45:45Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2608.12008v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.12008v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4745,
-          "matched": [
-            "uncertainty",
-            "calibration",
-            "reliability"
-          ]
-        },
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.0652,
-          "matched": [
-            "bound"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.488,
-        "relevance": 0.3926,
-        "quality": 0.52,
-        "novelty": 0.8541,
-        "freshness": 0.8666,
-        "feedback_adjustment": -0.0285,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "experiments",
-        "formal bound"
-      ],
-      "summary": {
-        "takeaway": "A-CRC-QA 在选择性问答中实现了渐近风险校准，提升接受率的同时保持错误率在用户设定阈值内。",
-        "problem": "现有不确定性阈值无法提供对接受答案错误率的统计控制，导致在不同模型或数据上表现不稳。",
-        "method": "提出将选择条件错误控制重新表述为线性期望约束，并使用单调化经验风险校准，加入渐近消失的有限样本校正。",
-        "evidence": "在 CoQA 与 MedMCQA 上，A-CRC-QA 将违规率分别从 25.5% 降至 12.5% 与 19.0% 降至 8.0%，并提升接受率约 7%。",
-        "limitations": "仅提供渐近风险控制，仍存在非零违规率，缺乏有限样本的高置信度保证。",
-        "why_for_you": "若关注可信 LLM，A-CRC-QA 提供了基于统计校准的答案不确定性处理方案。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "A-CRC-QA 在目标风险 0.15 下提升约 7% 接受率并保持误差控制"
-          },
-          {
-            "icon": "🔧",
-            "text": "采用单调化经验风险并加入渐近消失的校正实现风险校准"
-          },
-          {
-            "icon": "📊",
-            "text": "CoQA 违规率从 25.5% 降至 12.5%，MedMCQA 从 19.0% 降至 8.0%"
-          }
-        ],
-        "overview": "本文针对 LLM 生成答案的可信度问题，提出 A-CRC-QA 框架，通过将选择性错误率约束转化为线性期望约束，并在经验风险上进行单调化处理，加入渐近消失的有限样本校正，实现对接受答案的渐近风险控制。实验在开放式 CoQA 与闭式 MedMCQA 两大基准上，使用 LLaMA‑3.1‑8B‑Instruct 与 Qwen2.5‑7B‑Instruct，比较多种基线，展示了在保持目标错误率的前提下显著提升接受率和功效。",
-        "methodology": [
-          {
-            "title": "线性期望约束重构",
-            "detail": "将选择条件错误率表达为对接受阈值的线性期望约束，以便在校准阶段直接求解满足约束的阈值。"
-          },
-          {
-            "title": "单调化经验风险校准",
-            "detail": "对每个实例的非单调损失构造单调上包络，再在校准集上求平均，得到单调化的经验风险曲线。"
-          },
-          {
-            "title": "渐近消失的有限样本校正",
-            "detail": "在经验风险约束上加入随校准集规模 n→∞ 而消失的校正项，确保在大样本下风险趋近目标水平。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "渐近风险控制原理",
-            "detail": "通过 CRC 风格的校正，使得在校准集足够大时，选取的阈值使得测试集的选择性错误率在期望上不超过用户设定的 α。"
-          },
-          {
-            "title": "单调化保证稳定性",
-            "detail": "单调化处理消除经验风险曲线的局部波动，防止阈值因噪声产生过度保守或过度激进的选择。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "实验设置",
-            "detail": "数据集：CoQA（开放式）和 MedMCQA（多选）。模型：LLaMA‑3.1‑8B‑Instruct、Qwen2.5‑7B‑Instruct。基线：Fixed‑50、Empirical、UCB‑HFD、UCB‑CLP、LEC‑Direct。指标：SCER、AR、Power、VR、IF、AUROC。使用 100 次独立校准‑测试划分。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "接受率提升",
-            "detail": "在目标风险 α=0.15 下，A-CRC-QA 相比 UCB‑CLP 在 CoQA 上提升 7.2% 接受率，在 MedMCQA 上提升 7.4%。"
-          },
-          {
-            "title": "违规率降低",
-            "detail": "CoQA 上违规率从 25.5% 降至 12.5%，MedMCQA 上从 19.0% 降至 8.0%。"
-          },
-          {
-            "title": "功效提升",
-            "detail": "接受的正确答案比例（Power）随接受率提升而同步增长，表明新增接受的答案主要为正确。"
-          }
-        ],
-        "contributions": [
-          "提出 A-CRC-QA 渐近风险校准框架用于选择性问答",
-          "引入单调化经验风险与渐近校正的组合机制",
-          "在开放式与闭式 QA 基准上实现更优的风险‑接受率权衡"
-        ],
-        "limitations": [
-          "仅提供渐近风险控制，未能保证有限样本的高置信度风险上界",
-          "违规率仍非零，说明在小校准集或极端分布下仍可能失控",
-          "方法依赖校准集大小，性能随 n 增大而改善"
-        ],
-        "open_questions": [
-          "如何在点预测场景下实现有限样本的高置信度风险控制？",
-          "不同不确定性估计器（如自评、采样一致性）对 A-CRC-QA 的影响如何？",
-          "该框架能否扩展至多模态或链式思考的生成任务？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "uncertainty",
-          "calibration",
-          "reliability"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-13T11:10:44.890184+00:00"
-    },
-    {
-      "id": "2608.12197",
-      "title": "NetlistBench: Evaluating LLM Reliability in SPICE Netlist Recognition and Manipulation",
-      "abstract": "Large Language Models (LLMs) are increasingly used in circuit design workflows, yet their reliability on simulator-facing SPICE netlist recognition and manipulation remains poorly understood and is rarely separated from high-level design reasoning. Although netlists are textual, they encode structured circuit objects through topology and parameters. We present \\textbf{NetlistBench}, a structure-verified benchmark for SPICE netlist recognition and manipulation. NetlistBench contains 2,342 cases across 24 task families, covering parameter and connectivity recognition and edits, hierarchical operations, equivalence judgment, and long-horizon compound editing. Model outputs are evaluated by a deterministic structure-aware oracle. Across six non-thinking LLMs, performance varies substantially with operation-level structural complexity. Simple local edits reach $96\\%$--$100\\%$ accuracy, while device addition drops to $41\\%$--$83\\%$ and equivalence judgment to $49\\%$--$90\\%$. Enabling reasoning substantially improves weaker models but does not eliminate structure-preservation failures, with performance still degrading sharply as the edit horizon increases. NetlistBench identifies netlist reliability as a distinct bottleneck for trustworthy LLM-based circuit design automation.",
-      "authors": [
-        "Jiarui Ma",
-        "Jianghan Wang",
-        "Yuheng Ma",
-        "Ziyi Zhuang",
-        "Xiaoguang Liu"
-      ],
-      "published": "2026-08-12T15:51:52Z",
-      "updated": "2026-08-12T15:51:52Z",
-      "categories": [
-        "eess.SY",
-        "cs.AI"
-      ],
-      "primary_category": "eess.SY",
-      "abs_url": "https://arxiv.org/abs/2608.12197v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.12197v1",
-      "comment": "accepted by MLCAD 2026",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4157,
-          "matched": [
-            "trustworthy llm",
-            "reliability"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4707,
-        "relevance": 0.3326,
-        "quality": 0.62,
-        "novelty": 0.8624,
-        "freshness": 0.885,
-        "feedback_adjustment": -0.0204,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "evidence": "Device addition accuracy drops to 41%–83%, and equivalence judgment to 49%–90% across six non-thinking LLMs.",
-        "limitations": "Focus on specific netlist tasks without broader circuit design integration.",
-        "method": "NetlistBench evaluates LLMs using a structure-aware oracle across 24 task families with 2,342 cases.",
-        "problem": "LLMs struggle with structured SPICE netlist manipulation due to structural complexity and long-horizon dependencies.",
-        "takeaway": "NetlistBench identifies SPICE netlist reliability as a critical bottleneck for trustworthy LLM-based circuit design.",
-        "why_for_you": "Ideal for researchers addressing LLM reliability in simulator-facing hardware workflows.",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "contributions": [
-          "Formulates SPICE netlist reliability as a representation-level evaluation problem",
-          "Introduces NetlistBench for structured netlist recognition/manipulation benchmarking",
-          "Develops structure-aware evaluation pipeline beyond text matching"
-        ],
-        "experiments": [
-          {
-            "detail": "Tests six non-thinking LLMs (Claude Sonnet 4.6, GPT-4.1, Gemini 2.5 Flash, DeepSeek-V4-Flash, Qwen3.6-Flash, Qwen3-30B) with reasoning modes disabled",
-            "title": "Model selection"
-          },
-          {
-            "detail": "Includes connectivity editing, device operations, parameter manipulation, subcircuit handling, and long-horizon compound edits",
-            "title": "Task families"
-          },
-          {
-            "detail": "Pass rates measured against structure-aware oracle with Wilson 95% confidence intervals",
-            "title": "Metrics"
-          }
-        ],
-        "findings": [
-          {
-            "detail": "Simple local edits achieve 96%–100% accuracy, while device addition drops to 41%–83%",
-            "title": "Performance variation"
-          },
-          {
-            "detail": "Compound editing pass rates fall sharply with edit count (e.g., DeepSeek-V4-Flash from 55% to 0% between 3-15 steps",
-            "title": "Long-horizon degradation"
-          },
-          {
-            "detail": "Enabling reasoning improves weak models but doesn't eliminate structure-preservation failures",
-            "title": "Reasoning limitations"
-          }
-        ],
-        "limitations": [
-          "Focuses on specific netlist tasks without broader circuit design integration",
-          "No analysis of model architecture impacts on netlist reliability"
-        ],
-        "mechanism": [
-          {
-            "detail": "Uses canonical circuit representations to verify device parameters, terminal bindings, node identities, and hierarchy in model outputs",
-            "title": "Structure-aware evaluation"
-          }
-        ],
-        "methodology": [
-          {
-            "detail": "2,342 cases across 24 task families including parameter edits, hierarchical operations, and equivalence judgment",
-            "title": "Structure-verified benchmark"
-          },
-          {
-            "detail": "Evaluates outputs against canonical circuit representations, requiring exact structural matches for manipulation and recognition",
-            "title": "Deterministic oracle"
-          }
-        ],
-        "open_questions": [
-          "How to improve long-horizon structure preservation in LLMs for circuit workflows",
-          "What architectural changes enable reliable netlist equivalence judgments"
-        ],
-        "overview": "Paper introduces NetlistBench to quantify LLM reliability in SPICE netlist operations, revealing structural complexity as a key challenge. Evaluates six models across recognition, editing, and equivalence tasks, showing sharp performance degradation in complex operations and long-horizon edits.",
-        "signals": [
-          {
-            "icon": "🗂️",
-            "text": "NetlistBench benchmark with 2,342 cases across 24 task families"
-          },
-          {
-            "icon": "🔧",
-            "text": "Structure-aware oracle for deterministic evaluation"
-          },
-          {
-            "icon": "📊",
-            "text": "Device addition accuracy 41%–83% vs. 96%–100% for local edits"
-          }
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "trustworthy llm",
-          "reliability"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-13T11:10:44.890184+00:00"
-    },
-    {
-      "id": "2608.09551",
-      "title": "Pragmatic Attack Surface: Vulnerabilities of Implicit Context in Large Language Models",
-      "abstract": "In the era of large language models (LLMs), attackers often manipulate natural language to elicit unsafe or harmful outputs, creating a new natural language attack surface unique to LLM-based systems, where attacks directly exploit explicit linguistic cues in user prompts to bypass the safety mechanism of LLMs. However, such attacks can often be mitigated by existing safety alignment algorithms. On the other hand, human language is inherently grounded in pragmatics, necessitating typical context to interpret language, e.g., world knowledge, social norms. However, such contexts are often implicit because they are not directly expressed in human language and are not sufficiently leveraged in safety alignment, creating a fundamental mismatch between human language interpretation and safety alignment approaches. In this paper, we demonstrate that this mismatch exposes vulnerabilities in LLMs. We refer to this vulnerability as the pragmatic attack surface, which can be exploited to achieve high attack success rates. The experimental results demonstrate that our proposed approach outperforms baseline attack methods across various open-source and closed-source models by a substantial margin.",
-      "authors": [
-        "Bocheng Chen",
-        "Han Zi",
-        "Roucheng Ou",
-        "Yawei Liu",
-        "Minyue Chen",
-        "Zimo Qi",
-        "Rongrong Wang",
-        "Guangliang Liu"
-      ],
-      "published": "2026-08-10T12:48:41Z",
-      "updated": "2026-08-10T12:48:41Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2608.09551v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.09551v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.427,
-          "matched": [
-            "alignment",
-            "safety"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4582,
-        "relevance": 0.3416,
-        "quality": 0.54,
-        "novelty": 0.8474,
-        "freshness": 0.8675,
-        "feedback_adjustment": -0.0083,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "experiments",
-        "open source"
-      ],
-      "summary": {
-        "takeaway": "利用隐含前提的pragmatic attack能够在安全对齐模型上实现几乎完美的攻击成功率。",
-        "problem": "现有安全对齐仅检测显式有害语言，忽视了人类语言中的隐式语用上下文。",
-        "method": "通过两轮提示先让模型推断情境的presupposition，再生成语义不同但语用等价的有害输出。",
-        "evidence": "在BBQ、Hate、PolyGuard等基准上，对Claude Opus等模型的非拒绝率和攻击成功率均显著高于Direct Prompt、ActorAttack和Crescendo。",
-        "limitations": "仅在涉及隐式歧视、刻板印象和隐性仇恨的任务上评估，未探索其他语用现象或更广泛的任务。",
-        "why_for_you": "对可信LLM研究者而言，该工作揭示了新的攻击面并提供了蓝队强化语用推理的研究方向。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🛡️",
-            "text": "提出‘pragmatic attack surface’概念并展示利用暗示推理的高效攻击"
-          },
-          {
-            "icon": "🔧",
-            "text": "两轮提示先抽取隐含前提，再生成语义不同但语用等价的有害输出"
-          },
-          {
-            "icon": "📊",
-            "text": "在BBQ等基准上攻击成功率接近100%，但仅限于隐式歧视等任务"
-          }
-        ],
-        "overview": "本文指出安全对齐模型忽视了语言的隐式语用上下文，定义了pragmatic attack surface，并提出一种两步提示方法：先让模型识别情境的presupposition，随后在该隐式上下文下生成语义多样但语用等价的有害内容。实验在多个公开基准和闭源模型上验证了该攻击的高成功率，同时通过消融实验确认presupposition步骤是关键因素。",
-        "methodology": [
-          {
-            "title": "Presupposition Inference Turn",
-            "detail": "向目标模型询问给定情境背后的隐含前提，以显式化未表达的社会规范或世界知识。"
-          },
-          {
-            "title": "Scenario Generation Turn",
-            "detail": "基于推断出的前提生成满足该前提的具体情境描述，保持语义与原始请求等价。"
-          },
-          {
-            "title": "Harmful Output Turn",
-            "detail": "在构造的情境中请求模型产生有害内容，利用安全机制对显式线索的盲点。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Pragmatic Inference Exploitation",
-            "detail": "通过让模型自行构建隐式上下文，使安全过滤器难以捕捉因缺少显式危害词而产生的有害输出。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Benchmark & Model Setup",
-            "detail": "使用BBQ（500例）、Hate、PolyGuard三套社会危害基准；评估模型包括Claude Opus、其他开源与闭源LLM。基线包括Direct Prompt、ActorAttack、Crescendo，攻击查询由DeepSeek‑v4‑Flash生成。"
-          },
-          {
-            "title": "Metrics",
-            "detail": "报告Non‑Refusal Rate（是否拒绝生成）和AttackSuccess Rate（DeepSeek分类器判断输出是否有害）。"
-          },
-          {
-            "title": "Results",
-            "detail": "在所有模型上，本文方法的Non‑Refusal Rate和AttackSuccess Rate均显著高于基线，尤其在Claude Opus上接近100%成功率。"
-          },
-          {
-            "title": "Ablation",
-            "detail": "去除presupposition回合后，攻击成功率下降，验证该步骤对提升攻击效果至关重要。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "High Success Across Models",
-            "detail": "利用隐式前提的攻击在开源和闭源模型上均实现近乎完美的成功率，表明安全对齐对语用线索的盲点普遍存在。"
-          },
-          {
-            "title": "Presupposition Critical",
-            "detail": "消融实验显示，缺失presupposition回合会显著降低攻击成功率，证明语用推理是核心机制。"
-          }
-        ],
-        "contributions": [
-          "定义并系统化pragmatic attack surface概念",
-          "提出基于presupposition的两轮攻击框架",
-          "在多个基准和模型上展示显著的攻击优势"
-        ],
-        "limitations": [
-          "仅在涉及隐式歧视、刻板印象和隐性仇恨的任务上进行评估",
-          "未研究其他语用现象（如暗示、隐喻、言语行为）的攻击潜力",
-          "未对pragmatic attack surface的特征进行深入分析"
-        ],
-        "open_questions": [
-          "如何利用暗示、隐喻或言语行为等其他语用知识进一步扩展攻击面？",
-          "如何表征并量化模型内部的安全与社会知识先验，以制定更精准的防御策略？",
-          "如何在LLM中嵌入可靠的语用推理能力，使其能够识别并拒绝隐式恶意意图？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "alignment",
-          "safety"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-11T11:04:16.455147+00:00"
-    },
-    {
-      "id": "2608.09885",
-      "title": "SHE: Trajectory-driven Safety Harness Evolution for LLM Agents",
-      "abstract": "The safety of large language model (LLM) agents depends not only on model weights but also on the agent harness that manages context, memory, tools, permissions, and runtime control. Existing safety mechanisms often treat the harness as a fixed deployment artifact, limiting their ability to evolve with emerging risks. Moreover, coupled functions across harness components obscure safety responsibility attribution, making localized evolution difficult. We propose Safety Harness Evolution (SHE), a framework that learns evolving safe boundaries from rollout trajectories. SHE decomposes the harness into four artifacts with explicit safety responsibilities, including the System Prompt, Rule Bank, Safety Memory, and Tool Policy, defining clear functional boundaries for localized evolution. Based on this decomposition, SHE introduces an attribution-guided evolution loop that converts trajectory failures into structured diagnoses, learns artifact-specific boundary refinements, and selects evolved harnesses through safety-utility validation. Experiments on Agent-SafetyBench demonstrate that SHE effectively enhances safety through harness evolution, achieving a 3.1x ASR reduction compared with static SafeHarness, while also improving benign utility. The evolved harness further generalizes to unseen risks on the held-out AgentHarm benchmark and transfers across agent models without additional evolution.",
-      "authors": [
-        "Wanying Qu",
-        "Qinghua Mao",
-        "Yu Li",
-        "Jiyao Liu",
-        "Xin Zhang",
-        "Dadi Guo",
-        "Yanxu Zhu",
-        "Qingyu Liu",
-        "Leitao Yuan",
-        "Xi Lin",
-        "Shanfeng Zhu",
-        "Yanwei Fu",
-        "Jing Shao",
-        "Xia Hu",
-        "Dongrui Liu"
-      ],
-      "published": "2026-08-10T17:35:08Z",
-      "updated": "2026-08-10T17:35:08Z",
-      "categories": [
-        "cs.AI",
-        "cs.CV"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2608.09885v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.09885v1",
-      "comment": "Project: https://github.com/RainbowQTT/SHE",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3619,
-          "matched": [
-            "safety"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.441,
-        "relevance": 0.2895,
-        "quality": 0.6,
-        "novelty": 0.8806,
-        "freshness": 0.8959,
-        "feedback_adjustment": -0.0121,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "experiments",
-        "formal bound",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "SHE通过从执行轨迹学习并局部演化安全套件，实现显著的安全性提升。",
-        "problem": "静态安全套件无法随新风险演化，且组件耦合导致难以定位改进。",
-        "method": "将安全套件拆分为系统提示、规则库、安全记忆、工具策略四个可编辑部件，并通过归因驱动的演化循环从轨迹诊断到局部编辑。",
-        "evidence": "在Agent‑SafetyBench上ASR降低3.1倍，且在AgentHarm上危害分数从19.8%降至9.8%。",
-        "limitations": "仅在离线基准上评估，缺乏真实部署验证。",
-        "why_for_you": "关注LLM安全的你可借鉴其可演化套件设计与归因机制。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🛡️",
-            "text": "提出SHE框架，将安全套件拆解为四个可编辑部件并实现轨迹驱动演化"
-          },
-          {
-            "icon": "🔧",
-            "text": "归因引导的演化循环将失败轨迹诊断为结构化风险并局部编辑对应部件"
-          },
-          {
-            "icon": "📈",
-            "text": "在Agent‑SafetyBench上ASR降低3.1倍，安全率提升但仅在基准测试中验证"
-          }
-        ],
-        "overview": "SHE将LLM代理的安全套件功能解耦为系统提示、规则库、安全记忆和工具策略四个明确责任的可编辑部件。基于归因驱动的演化循环，系统从执行轨迹中诊断风险、路由至对应部件、进行有界编辑，并通过安全‑效用验证挑选最佳套件。实验在Agent‑SafetyBench和AgentHarm两大基准上展示了显著的安全提升与效用保持，且可跨模型迁移。",
-        "methodology": [
-          {
-            "title": "功能解耦的安全套件部件",
-            "detail": "将安全套件拆分为System Prompt、Rule Bank、Safety Memory、Tool Policy四个独立artifact，每个artifact负责特定安全职责并可单独编辑。"
-          },
-          {
-            "title": "归因驱动的演化循环（Algorithm 1）",
-            "detail": "在每轮演化中收集轨迹τ与安全‑效用记录oi，使用RiskRelevant筛选风险案例，生成结构化风险诊断zi并路由至artifact ri，随后执行Edit生成候选Δ，经过ValidEdit和安全‑效用选择后更新Hbest。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "结构化风险诊断与部件路由",
-            "detail": "将每个失败轨迹映射为包含危害域、攻击面、失败模式的风险记录zi，并依据这些维度将诊断路由至最相关的artifact ri，实现定位式改进。"
-          },
-          {
-            "title": "有界编辑与安全‑效用选择",
-            "detail": "编辑仅在指定artifact范围内进行有界修改，随后通过ValidEdit检查合法性，并在安全分数SΩ和效用分数UΩ的约束下挑选接受的候选套件。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "实验设置",
-            "detail": "使用Agent‑SafetyBench（200任务，5种攻击）和AgentHarm（440条有害行为）两套基准；对比无防御、System Prompt、LlamaFirewall、SafeHarness、PROGENT、MemskillSafeHarness等静态与自适应基线；指标包括Clean UBR、ASR、UA、Harm Score、Harm Refusal、Benign NR。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "安全性提升",
-            "detail": "SHE将Agent‑SafetyBench的平均ASR从17.1%降至5.5%（3.1×降低），Clean UBR从25.7%降至19.8%。"
-          },
-          {
-            "title": "效用保持与提升",
-            "detail": "在相同基准上，SHE的平均UA从31.6提升至47.6%。"
-          },
-          {
-            "title": "跨模型与未见风险的泛化",
-            "detail": "在AgentHarm上，演化后套件将Harm Score从19.8%降至9.8%，Harm Refusal提升至86.4%，且无需额外演化即可迁移至其他代理模型。"
-          }
-        ],
-        "contributions": [
-          "提出SHE框架，实现安全套件的轨迹驱动演化",
-          "将套件功能解耦为四个可编辑artifact",
-          "设计归因驱动的演化循环实现局部、可验证的改进",
-          "在两个大规模代理安全基准上实现显著的安全与效用提升"
-        ],
-        "limitations": [
-          "仅在离线基准上评估，缺少真实部署环境的验证",
-          "演化过程依赖大量标注轨迹，未量化数据收集成本"
-        ],
-        "open_questions": [
-          "如何在真实线上系统中持续安全地收集并利用执行轨迹进行演化？",
-          "演化过程中如何防止新引入的安全漏洞或效用退化？",
-          "能否将SHE扩展至多模态或更大规模的LLM代理体系？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "safety"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-11T11:04:16.455147+00:00"
-    },
-    {
-      "id": "2608.09900",
-      "title": "Decoding-Level Taboo: A Diagnostic Stress Test for LLM Robustness",
-      "abstract": "Large language model evaluations typically focus on performance under nominal conditions, creating an illusion of capability where models comfortably walk a narrow, highly optimized generation corridor. In real-world deployments, however, complex system prompts, safety guardrails, and structural constraints continuously force models off this nominal path, driving a divergence between benchmark scores and deployment performance. To address this issue, we introduce Decoding-Level Taboo, a zero-prompt diagnostic stress test that intervenes directly in logit space at runtime, forcing models out of their nominal paths. By dynamically masking primary candidate tokens at word boundaries, Taboo forces machine circumlocution. Evaluating Taboo across several open-weight model families reveals that off-path robustness is heavily influenced by both parameter scale and post-training instruction alignment, with robustness generally improving with model size and alignment. Beyond the results presented in this paper, Taboo provides a novel primitive for generating diverse synthetic datasets, stress-testing runtime safety guardrails, and auditing model reliability prior to real-world deployment.",
-      "authors": [
-        "Tadanobu Chuyo Kamijo",
-        "Ori Rottenstreich",
-        "Javier Conde",
-        "Gonzalo Martínez",
-        "Pedro Reviriego"
-      ],
-      "published": "2026-08-10T17:47:24Z",
-      "updated": "2026-08-10T17:47:24Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2608.09900v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.09900v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3689,
-          "matched": [
-            "auditing",
-            "alignment",
-            "safety",
-            "reliability"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.423,
-        "relevance": 0.2951,
-        "quality": 0.5,
-        "novelty": 0.8627,
-        "freshness": 0.8971,
-        "feedback_adjustment": -0.0144,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "formal bound",
-        "dataset evidence"
-      ],
-      "summary": {
-        "evidence": "Experiments show 70B Llama-3.1's accuracy jumps from 36% to 75% under Taboo, while 8B shows minimal change (14%→16%).",
-        "limitations": "Limited to English language and standard open-weight architectures; does not explore adaptive masking strategies.",
-        "method": "Decoding-Level Taboo dynamically masks word-initial tokens in logit space to force off-path generation and test robustness.",
-        "problem": "Real-world LLM deployment faces robustness challenges due to continuous off-path constraints not captured by nominal benchmarks.",
-        "takeaway": "Decoding-Level Taboo reveals that LLM robustness under off-path stress depends on model scale and post-training alignment.",
-        "why_for_you": "This aligns with your focus on trustworthy LLMs by providing a rigorous framework to audit model reliability under real-world constraints.",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "contributions": [
-          "Novel zero-prompt stress test for LLM robustness",
-          "Systematic analysis of scale-alignment tradeoffs in off-path performance",
-          "Demonstration of formal syntax constraints as hard limits for decoding-level interventions"
-        ],
-        "experiments": [
-          {
-            "detail": "Qwen2.5 (0.5B-72B), Gemma-3, Llama-3 (7-70B), OLMo-2 tested across GSM8K, MMLU, TriviaQA, HumanEval benchmarks.",
-            "title": "Model Suite"
-          },
-          {
-            "detail": "4-bit vs bf16 evaluations show quantization noise within sampling variance, with Qwen2.5-14B-Instruct showing 0.62 vs 0.44 accuracy difference.",
-            "title": "Quantization Analysis"
-          },
-          {
-            "detail": "HumanEval's formal syntax constraints cause near-zero Pass@1 accuracy under Taboo, validating its effectiveness as a stress test.",
-            "title": "Negative Control"
-          }
-        ],
-        "findings": [
-          {
-            "detail": "70B Llama-3.1 shows 36%→75% accuracy under Taboo vs 8B's 14%→16% (Figure 5), demonstrating improved robustness with size.",
-            "title": "Scale Dependency"
-          },
-          {
-            "detail": "Instruct checkpoints absorb more surprisal than base versions in Qwen/OLMo/Gemma but not Llama-3 (Figure 4), suggesting architecture-specific alignment effects.",
-            "title": "Alignment Impact"
-          },
-          {
-            "detail": "HumanEval's Pass@1 drops to 0% under Taboo, while natural language tasks show partial resilience through semantic redundancy.",
-            "title": "Formal Domain Sensitivity"
-          }
-        ],
-        "limitations": [
-          "Limited to English language and standard open-weight architectures",
-          "No exploration of adaptive masking strategies",
-          "Restricted to greedy decoding regime"
-        ],
-        "mechanism": [
-          {
-            "detail": "By blocking preferred word-initial tokens, Taboo forces models to use circumlocution or face structural breakdown in formal domains.",
-            "title": "Decoding Path Disruption"
-          },
-          {
-            "detail": "Larger models and stronger instruction alignment show greater resilience to off-path interventions, particularly in code synthesis tasks.",
-            "title": "Scale-Alignment Tradeoff"
-          }
-        ],
-        "methodology": [
-          {
-            "detail": "Applies −∞ to top-i unnormalized logits at word-initial positions, forcing models to select lower-ranked tokens. Mask width i=1-8 tested.",
-            "title": "Top-i Logit Masking"
-          },
-          {
-            "detail": "Uses tokenizer-specific prefix metadata (e.g., 'Ġ' in BPE) to identify word-initial tokens for masking.",
-            "title": "Word Boundary Detection"
-          },
-          {
-            "detail": "Measures retention rate of correct answers under Taboo vs nominal decoding, focusing on instances solvable under baseline conditions.",
-            "title": "Conditional Retention Metric"
-          }
-        ],
-        "open_questions": [
-          "How to generalize Taboo to multilingual settings with different tokenization schemes?",
-          "Can adaptive masking strategies (e.g., surprisal-based triggers) improve stress testing effectiveness?",
-          "How to adapt this framework for closed-source models and multimodal systems?"
-        ],
-        "overview": "This paper introduces a logit-space stress test (Taboo) that forces LLMs off nominal decoding paths by masking word-initial tokens. Experiments across 7-72B models demonstrate that off-path robustness correlates with scale and instruction alignment, with formal tasks like HumanEval showing extreme sensitivity to word-boundary constraints.",
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "Decoding-Level Taboo (zero-prompt logit mask at word boundaries)"
-          },
-          {
-            "icon": "🔧",
-            "text": "Dynamic Top-i logit masking (i=1-8) forces off-path generation"
-          },
-          {
-            "icon": "📊",
-            "text": "70B Llama-3.1 shows 36%→75% accuracy under Taboo vs 8B's 14%→16%"
-          }
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "auditing",
-          "alignment",
-          "safety",
-          "reliability"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-11T11:04:16.455147+00:00"
     }
   ]
 }

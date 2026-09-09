@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-08T14:32:00.134386+00:00",
+  "generated_at": "2026-09-09T14:35:27.466685+00:00",
   "papers": [
     {
       "id": "2609.05275",
@@ -472,113 +472,7 @@
         "publication metadata",
         "conference oral"
       ],
-      "summary": {
-        "takeaway": "Mechanistic data attribution links specific training data to the formation of interpretable LLM circuits.",
-        "problem": "Identifying the causal training origins of interpretable units in LLMs is currently unknown.",
-        "method": "MDA applies influence functions to trace units to samples and intervenes by removing or augmenting high‑influence data.",
-        "evidence": "Targeted removal/augmentation of a small fraction of high‑influence samples significantly changes interpretable head emergence, unlike random interventions.",
-        "limitations": "The study reports qualitative effects without quantitative metrics of data fraction or performance impact.",
-        "why_for_you": "Relevant for data selection research as it offers a principled way to steer circuit development via targeted data.",
-        "source": "abstract",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🔎",
-            "text": "Introduces mechanistic data attribution (MDA) to trace interpretable LLM units to training samples."
-          },
-          {
-            "icon": "🔧",
-            "text": "Uses influence functions to identify high‑influence samples and performs targeted removal or augmentation."
-          },
-          {
-            "icon": "📊",
-            "text": "Shows that removing/augmenting a small fraction of high‑influence samples modulates interpretable head emergence, while random changes do not."
-          }
-        ],
-        "overview": "The paper presents Mechanistic Data Attribution (MDA), a scalable framework that leverages influence functions to map interpretable circuit components in LLMs back to individual training examples. Experiments on the Pythia model family demonstrate that selectively removing or augmenting a small subset of high‑influence samples markedly alters the emergence of interpretable heads, whereas random edits have no effect. Analysis reveals repetitive structural data (e.g., LaTeX, XML) as a catalyst, and interventions on induction heads concurrently shift in‑context learning ability. A data‑augmentation pipeline is proposed to accelerate circuit convergence across scales.",
-        "methodology": [
-          {
-            "title": "Influence Function Computation",
-            "detail": "Computes the gradient‑based influence of each training sample on a target interpretable unit using standard influence function techniques."
-          },
-          {
-            "title": "High‑Influence Sample Identification",
-            "detail": "Ranks training examples by their computed influence scores and selects the top subset for intervention."
-          },
-          {
-            "title": "Targeted Data Intervention",
-            "detail": "Either removes or augments the selected high‑influence samples and retrains the model to observe causal effects."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Catalytic Role of Repetitive Structural Data",
-            "detail": "Findings indicate that data with repetitive markup (LaTeX, XML) disproportionately drives the formation of mechanistic circuits."
-          },
-          {
-            "title": "Induction Head–ICL Link",
-            "detail": "Intervening on samples that influence induction head formation produces simultaneous changes in the model's in‑context learning performance, providing causal evidence for their functional relationship."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Pythia Family Evaluation",
-            "detail": "Applies MDA to multiple Pythia model sizes, comparing targeted high‑influence interventions against random sample modifications."
-          },
-          {
-            "title": "Metrics of Circuit Emergence",
-            "detail": "Measures the presence and strength of interpretable heads and tracks in‑context learning capability after each intervention."
-          },
-          {
-            "title": "Mechanistic Data Augmentation Pipeline",
-            "detail": "Introduces a systematic augmentation strategy that repeatedly injects high‑influence patterns, showing faster convergence of target circuits across scales."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Targeted Interventions Modulate Circuits",
-            "detail": "Removing or augmenting a small fraction of high‑influence samples significantly changes the emergence of interpretable heads, while random changes do not."
-          },
-          {
-            "title": "Structural Data as Catalyst",
-            "detail": "Repetitive markup data (LaTeX, XML) is identified as a primary driver for mechanistic circuit formation."
-          },
-          {
-            "title": "Induction Heads Affect ICL",
-            "detail": "Altering induction head formation leads to measurable shifts in in‑context learning ability."
-          },
-          {
-            "title": "Augmentation Accelerates Convergence",
-            "detail": "The proposed data augmentation pipeline consistently speeds up circuit convergence across different model scales."
-          }
-        ],
-        "contributions": [
-          "Mechanistic Data Attribution (MDA) framework for tracing LLM units to training samples",
-          "Causal validation that high‑influence data drives interpretable head emergence",
-          "Mechanistic data augmentation pipeline that accelerates circuit convergence"
-        ],
-        "limitations": [
-          "No quantitative reporting of the fraction of data altered or its impact on overall model performance",
-          "Experiments limited to the Pythia family; generalization to larger or different architectures is untested",
-          "Scalability of influence‑function computation for very large datasets is not addressed"
-        ],
-        "open_questions": [
-          "How does MDA perform on models larger than Pythia and on heterogeneous corpora?",
-          "What are optimal criteria for selecting high‑influence samples to balance circuit steering and downstream task performance?",
-          "Can the augmentation pipeline be integrated with existing training pipelines without degrading generalization?"
-        ],
-        "source_scope": "abstract",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "pending",
+      "analysis_status": "complete",
       "recommendation_reason": {
         "topic": "Data selection for LLMs",
         "matched": [
@@ -588,6 +482,112 @@
           "data"
         ],
         "lane": "llm"
+      },
+      "summary": {
+        "method": "MDA 使用 influence functions 将单元追溯到样本，并通过删除或增强 high‑influence data 进行干预。",
+        "limitations": "研究仅报告了定性效果，缺乏数据比例或性能影响的量化指标。",
+        "evidence": "针对性地删除/增强少量 high‑influence 样本会显著改变可解释头的出现，而随机干预则没有此效应。",
+        "problem": "目前尚未明确可解释单元在 LLM 中的因果训练来源。",
+        "why_for_you": "对数据选择研究具有意义，因为它提供了一种通过目标数据引导电路发展的原则性方法。",
+        "takeaway": "机制化数据归因将特定训练数据与可解释 LLM 电路的形成关联起来。",
+        "source": "abstract",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🔎",
+            "text": "引入 mechanistic data attribution (MDA)，将可解释 LLM 单元追溯到训练样本。"
+          },
+          {
+            "icon": "🔧",
+            "text": "使用 influence functions 识别 high‑influence 样本，并进行针对性删除或增强。"
+          },
+          {
+            "icon": "📊",
+            "text": "展示了删除/增强少量 high‑influence 样本可调节可解释头的出现，而随机更改则无效。"
+          }
+        ],
+        "overview": "本文提出 Mechanistic Data Attribution (MDA)，一种可扩展框架，利用 influence functions 将 LLM 中的可解释电路组件映射回单个训练样本。对 Pythia 系列模型的实验表明，选择性地删除或增强少量 high‑influence 样本会显著改变可解释头的出现，而随机编辑无效。分析发现重复的结构化数据（如 LaTeX、XML）是催化剂，对 induction heads 的干预同时会改变 in‑context learning 能力。提出了一种 data‑augmentation 流水线，以加速跨尺度的电路收敛。",
+        "methodology": [
+          {
+            "title": "影响函数计算",
+            "detail": "使用标准影响函数技术，计算每个训练样本对目标可解释单元的基于梯度的影响。"
+          },
+          {
+            "title": "高影响样本识别",
+            "detail": "根据计算得到的影响分数对训练样本进行排序，并选择排名最高的子集进行干预。"
+          },
+          {
+            "title": "有针对性的数据干预",
+            "detail": "对选定的高影响样本进行删除或增强，并重新训练模型以观察因果效应。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "重复结构数据的催化作用",
+            "detail": "研究表明，具有重复标记（LaTeX、XML）的数据在机制电路的形成中起到不成比例的推动作用。"
+          },
+          {
+            "title": "Induction Head–ICL 链接",
+            "detail": "对影响 induction head 形成的样本进行干预，会同步改变模型的 in‑context learning 性能，提供其功能关系的因果证据。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Pythia 系列评估",
+            "detail": "将 MDA 应用于多个 Pythia 模型规模，比较有针对性的 high‑influence 干预与 random sample 修改的效果。"
+          },
+          {
+            "title": "电路出现度量",
+            "detail": "衡量 interpretable heads 的存在性和强度，并在每次干预后跟踪 in‑context learning 能力。"
+          },
+          {
+            "title": "机制化数据增强流水线",
+            "detail": "提出系统化的 augmentation 策略，反复注入 high‑influence 模式，展示 target circuits 在不同尺度上的更快收敛。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "有针对性的干预调节电路",
+            "detail": "移除或增强少量 high‑influence 样本会显著改变 interpretable heads 的出现，而 random 更改则没有影响。"
+          },
+          {
+            "title": "结构化数据作为催化剂",
+            "detail": "重复的标记数据（LaTeX、XML）被确定为 mechanistic circuit 形成的主要驱动因素。"
+          },
+          {
+            "title": "归纳头影响 ICL",
+            "detail": "改变 induction head 的形成会导致 in‑context learning 能力出现可测量的变化。"
+          },
+          {
+            "title": "数据增强加速收敛",
+            "detail": "所提出的 data augmentation 流水线在不同模型尺度上始终加速 circuit 收敛。"
+          }
+        ],
+        "contributions": [
+          "用于追踪 LLM 单元到训练样本的 Mechanistic Data Attribution (MDA) 框架",
+          "因果验证：高影响数据驱动可解释头的出现",
+          "加速电路收敛的 Mechanistic data augmentation pipeline"
+        ],
+        "limitations": [
+          "未定量报告被修改数据的比例及其对整体模型性能的影响",
+          "实验仅限于 Pythia 系列；对更大或不同架构的泛化尚未测试",
+          "未解决在超大数据集上 influence‑function 计算的可扩展性"
+        ],
+        "open_questions": [
+          "MDA 在比 Pythia 更大的模型和异构语料库上的表现如何？",
+          "选择高影响样本以平衡电路引导和下游任务性能的最佳准则是什么？",
+          "该增强流水线能否与现有训练流水线集成且不降低泛化能力？"
+        ],
+        "source_scope": "abstract",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
       },
       "recommended_at": "2026-09-08T14:32:00.134386+00:00"
     },
@@ -864,7 +864,7 @@
         "experiments",
         "quantitative results"
       ],
-      "analysis_status": "pending",
+      "analysis_status": "complete",
       "recommendation_reason": {
         "topic": "Efficient adversarial training",
         "matched": [
@@ -874,99 +874,95 @@
         "lane": "llm"
       },
       "summary": {
-        "evidence": "CPS achieves 97.6% AmbiMath exact-match accuracy, 9.5% F1 improvement on Jigsaw, and 8.3-5.2% non-entailment accuracy gains on HANS.",
-        "limitations": "The paper does not analyze CPS's sensitivity to prior formulation beyond basic ablations, and its mechanism for resolving ambiguous data remains partially opaque.",
-        "method": "PGT introduces CPS, which combines standard supervised loss with contrastive positive/negative prior-conditioned objectives to guide task-consistent learning.",
-        "problem": "Low-resource training data often lack sufficient evidence to resolve task ambiguities or prevent spurious correlations.",
-        "takeaway": "Prior-Guided Tuning (PGT) with Contrastive Prior Steering (CPS) improves low-resource LLM training by treating natural-language priors as auxiliary learning signals.",
-        "why_for_you": "This directly addresses data selection for LLMs by demonstrating how task-level priors improve low-resource training efficiency and robustness.",
+        "method": "Prior-Guided Tuning (PGT) 与 Contrastive Prior Steering (CPS) 将自然语言先验融入训练目标。",
+        "limitations": "实验仅在 AmbiMath、Jigsaw、MNLI/HANS 等特定数据集上进行，未提供泛化分析。",
+        "evidence": "CPS 在 AmbiMath 达到 97.6% 准确率，Jigsaw F1 提升 9.5%，HANS 准确率提升 8.3%~5.2%。",
+        "problem": "低资源训练数据常缺乏明确性，导致大模型产生虚假关联。",
+        "why_for_you": "符合对数据选择效率的关注，CPS 仅用 1/10 数据即可取得强劲效果，并提升对虚假启发式的鲁棒性。",
+        "takeaway": "PGT 结合 CPS 通过任务级自然语言先验作为辅助信号，提升低资源 LLM 训练效果。",
         "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "en",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
         "schema_version": 3,
         "prompt_version": 2
       },
       "deep_dive": {
-        "contributions": [
-          "Developed PGT as a training perspective that treats natural-language priors as explicit learning signals",
-          "Introduced CPS, a contrastive method that combines standard loss with prior-conditioned objectives",
-          "Demonstrated effectiveness across three diverse low-resource benchmarks"
-        ],
         "experiments": [
           {
-            "detail": "Evaluates rule ambiguity resolution with 97.6% exact-match accuracy. Uses positional and semantic priors to test prior-guided learning.",
-            "title": "AmbiMath Synthetic Benchmark"
+            "detail": "在 AmbiMath（规则歧义）、Jigsaw（有害内容分类）和 MNLI/HANS（NLI 鲁棒性）上评估，使用 LLaMA 3.1 8B 与 Qwen 2.5 7B。",
+            "title": "基准套件"
           },
           {
-            "detail": "Tests low-resource toxicity detection with 9.5% Macro F1 improvement. Focuses on identity-term spurious correlations in user comments.",
-            "title": "Jigsaw Toxicity Classification"
+            "detail": "比较普通微调、提示微调和 CPS 在不同数据规模（1/30 至全量）上的表现。",
+            "title": "基线"
           },
           {
-            "detail": "Measures heuristic robustness with 8.3-5.2% non-entailment accuracy gains. HANS tests shallow lexical/syntactic heuristics in natural language inference.",
-            "title": "MNLI/HANS NLI Robustness"
+            "detail": "测量 Exact-match 准确率、Macro F1 与 HANS 非蕴含准确率。",
+            "title": "指标"
           }
         ],
-        "findings": [
+        "signals": [
           {
-            "detail": "CPS achieves 97.6% AmbiMath accuracy, 9.5% F1 improvement on Jigsaw, and 8.3-5.2% HANS non-entailment gains while maintaining MNLI accuracy.",
-            "title": "CPS Outperforms Baselines"
+            "icon": "💡",
+            "text": "PGT 将自然语言先验作为低资源训练的辅助信号。"
           },
           {
-            "detail": "With 1/10 data, CPS exceeds full-data plain fine-tuning on Jigsaw (0.767 vs 0.75 Macro F1), demonstrating improved data efficiency.",
-            "title": "Data Efficiency Gains"
+            "icon": "🔧",
+            "text": "CPS 将监督损失与对比先验条件目标相结合。"
           },
           {
-            "detail": "CPS maintains strong performance across different prior formulations, suggesting it captures task principles rather than specific wording.",
-            "title": "Prior Robustness"
+            "icon": "📈",
+            "text": "CPS 在 1/10 数据下实现 97.6% AmbiMath EM 准确率，优于全量微调。"
           }
         ],
         "limitations": [
-          "No detailed analysis of CPS's sensitivity to prior formulation beyond basic ablations",
-          "No explicit exploration of how priors affect the LLM loss landscape"
+          "实验仅限于 AmbiMath、Jigsaw、MNLI/HANS，缺乏更广域的领域分析。",
+          "未对先验形式多样性进行消融研究，仅限于特定变体。"
+        ],
+        "findings": [
+          {
+            "detail": "CPS 在不同先验下实现 96.3%~100.0% EM，优于普通微调 (65.3%) 与提示微调 (54.2%)。",
+            "title": "AmbiMath 性能"
+          },
+          {
+            "detail": "CPS 使用 1/10 数据达到 0.767 Macro F1，略高于全量普通微调的 0.75。",
+            "title": "Jigsaw 数据效率"
+          },
+          {
+            "detail": "CPS 在 LLaMA 与 Qwen 上将非蕴含准确率提升 8.3%~5.2%，同时保持 MNLI 准确率。",
+            "title": "HANS 鲁棒性"
+          }
+        ],
+        "open_questions": [
+          "CPS 的提升在 NLP 之外的低资源任务上能否通用？",
+          "先验条件目标能否适用于非文本模态？",
+          "自然语言先验在稀疏监督下的理论上限是什么？"
         ],
         "mechanism": [
           {
-            "detail": "By incorporating explicit priors as learning signals, CPS directs models to prioritize task-specific principles over data-driven heuristics, particularly in low-resource scenarios where data alone is insufficient.",
-            "title": "Task-Consistent Learning Guidance"
-          },
-          {
-            "detail": "The positive/negative prior contrast helps models distinguish between correct and spurious solution paths, reducing vulnerability to ambiguous or incomplete training data.",
-            "title": "Contrastive Disambiguation"
+            "detail": "利用正负先验生成对比学习信号，引导模型行为符合任务原则。",
+            "title": "对比先验条件化"
           }
         ],
         "methodology": [
           {
-            "detail": "CPS augments standard supervised loss with contrastive objectives: positive-prior losses encourage alignment with desired task principles, while negative-prior losses suppress spurious alternatives. This maintains the original objective while adding directional guidance.",
-            "title": "Contrastive Prior Steering (CPS)"
+            "detail": "将先验重新定义为显式学习信号而非上下文输入，在数据不足时提供任务级指导。",
+            "title": "PGT 框架"
           },
           {
-            "detail": "CPS constructs two contrastive views - one conditioned on positive priors (task principles) and one on negative priors (plausible but incorrect alternatives) - to shape the model's learning trajectory.",
-            "title": "Prior-Conditioned Objectives"
+            "detail": "将标准监督损失与对比目标结合：正先验损失促进任务一致学习，负先验损失抑制误导性备选。",
+            "title": "CPS 架构"
           }
         ],
-        "open_questions": [
-          "How do task-level priors interact with adversarial training in low-resource settings?",
-          "Can CPS's contrastive mechanism be generalized to other types of auxiliary signals?",
-          "What are the limits of prior-guided learning when data scarcity combines with complex task distributions?"
+        "contributions": [
+          "提出 PGT 框架，将自然语言先验作为学习信号集成。",
+          "引入 CPS，使用对比先验条件目标进行低资源训练。",
+          "在三项不同的低资源基准上验证了其有效性。"
         ],
-        "overview": "The paper proposes PGT, a training framework that converts task-level natural-language priors into auxiliary signals for low-resource LLMs. CPS, its core method, adds contrastive objectives to standard supervised learning, improving performance across three benchmarks. The approach addresses data ambiguity by explicitly guiding models toward task-specific principles rather than relying solely on sparse data patterns.",
-        "signals": [
-          {
-            "icon": "🌐",
-            "text": "PGT treats natural-language priors as explicit learning signals"
-          },
-          {
-            "icon": "🔧",
-            "text": "CPS uses contrastive prior-conditioned losses with positive/negative priors"
-          },
-          {
-            "icon": "📊",
-            "text": "97.6% AmbiMath accuracy with 1/10 data exceeds full-data fine-tuning"
-          }
-        ],
+        "overview": "本文提出 Prior-Guided Tuning (PGT)，通过将任务级自然语言先验视为显式学习信号，解决低资源 LLM 训练难题。核心方法 Contrastive Prior Steering (CPS) 在标准监督训练中加入对比辅助损失，提升三项基准的性能。实验显示在数据稀缺情形下准确率和鲁棒性均显著提升且保持高效。该方法区别于传统提示，先验被嵌入训练目标而非输入上下文。",
         "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "en",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
         "schema_version": 6,
         "prompt_version": 2
       },
@@ -1343,158 +1339,6 @@
       "recommended_at": "2026-09-05T13:27:35.700479+00:00"
     },
     {
-      "id": "2609.01535",
-      "title": "Can LLMs Design Video Coding Tools? A Case Study on Planar Mode",
-      "abstract": "This paper explores whether large language models (LLMs) can design video coding tools, a highly challenging task due to the intricate algorithmic coupling of tool modifications. In particular, we present an empirical case study on the Planar mode, a long-standing intra prediction tool in video coding standards. Our experiments operate within a generation-and-evaluation loop, with the LLM generating new Planar predictors, encoder trials evaluating their coding performance, and the LLM re-generating refined implementations based on the evaluation feedback. We first examine directly replacing the default Planar mode in the Fraunhofer Versatile Video Encoder (VVenC) under its faster preset. Experimental results demonstrate that the LLM-generated mode can outperform the conventional Planar mode on this lightweight toolset, achieving 0.18% bitrate savings with 0.4% complexity overhead on the standard benchmark. We further extend our evaluation to the Enhanced Compression Model (ECM). Leveraging newly introduced directional Planar modes, we investigate two integration strategies: directly replacing them, and introducing the LLM-generated predictor as an additional prediction mode with new syntax elements. The empirical results suggest that both strategies can yield coding gains under a constrained low-resolution setting. Overall, this study offers preliminary evidence and practical insights, highlighting both the potential and open challenges of LLM-based coding tool design.",
-      "authors": [
-        "Yingwen Zhang",
-        "Meng Wang",
-        "Liqiang He",
-        "Shiqi Wang"
-      ],
-      "published": "2026-09-01T17:04:47Z",
-      "updated": "2026-09-01T17:04:47Z",
-      "categories": [
-        "cs.MM",
-        "cs.AI"
-      ],
-      "primary_category": "cs.MM",
-      "abs_url": "https://arxiv.org/abs/2609.01535v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.01535v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.7409,
-          "matched": [
-            "llm",
-            "mode"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6513,
-        "relevance": 0.5927,
-        "quality": 0.68,
-        "novelty": 0.8637,
-        "freshness": 0.8726,
-        "feedback_adjustment": -0.0138,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "benchmark evaluation",
-        "experiments",
-        "quantitative results"
-      ],
-      "summary": {
-        "problem": "视频编码工具的设计在算法上相互耦合，且传统上依赖专家。",
-        "method": "生成‑评估循环让 LLM 编写预测器代码，编码器测量性能，LLM 再优化代码。",
-        "limitations": "实验仅限于轻量预设和低分辨率 ECM 场景。",
-        "evidence": "在 VVenC faster 预设下，LLM 模式节省 0.18% bitrate，复杂度增加 0.4%。",
-        "takeaway": "LLM 生成的 Planar 预测器略提升 bitrate，且仅带来极小复杂度。",
-        "why_for_you": "如果您研究 LLM 损失曲面与迭代代码生成反馈回路，则相关。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "overview": "本文探讨大语言模型能否自主设计视频编解码器的 intra‑prediction 工具。聚焦 Planar 模式，作者实现了生成‑评估流水线：LLM 提出 C++ 预测器实现，编码器评估 bitrate 与复杂度，LLM 迭代优化代码。实验在 VVenC faster 预设中替换默认 Planar 模式，并将 LLM 生成的预测器嵌入 ECM 的 directional Planar 框架，报告在低分辨率内容上获得轻微 bitrate 提升和略增的复杂度。",
-        "findings": [
-          {
-            "title": "Bitrate 改进，开销极小",
-            "detail": "LLM 设计的 Planar 预测器在 bitrate 上比手工基线高 0.18%，仅增加 0.4% 编码复杂度。"
-          },
-          {
-            "title": "在 ECM 中的可行集成路径",
-            "detail": "在受限低分辨率条件下，将 LLM 预测器替换或插入 ECM 的 directional Planar 框架均可获得可测量的编码增益。"
-          }
-        ],
-        "contributions": [
-          "展示 LLM 能生成可提升编解码器效率的功能性 intra‑prediction 工具。",
-          "提出用于 LLM 驱动编解码工具设计的迭代生成‑评估流水线。",
-          "提供 VVenC 与 ECM 场景下编码增益的实证。"
-        ],
-        "methodology": [
-          {
-            "title": "生成‑评估循环",
-            "detail": "LLM 输出 Planar 预测器实现；VVenC 或 ECM 进行编码试验；测得的 BDrate 与编码时间反馈给 LLM 用于代码优化。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "VVenC faster 预设替换",
-            "detail": "将默认 Planar 模式直接替换为 LLM 生成版本；在标准基准上评估，报告 0.18% bitrate 节省和 0.4% 复杂度开销。"
-          },
-          {
-            "title": "ECM directional Planar 集成",
-            "detail": "两种策略——替换现有 directional Planar 模式或将 LLM 预测器作为新模式并添加额外语法元素——在低分辨率序列上测试，均带来编码增益。"
-          }
-        ],
-        "signals": [
-          {
-            "icon": "🗂️",
-            "text": "LLM 生成的 Planar 预测器在标准基准中比手工基线降低 0.18% bitrate。"
-          },
-          {
-            "icon": "🔧",
-            "text": "迭代生成‑评估循环利用编码器 BDrate 反馈，多轮优化预测器代码。"
-          },
-          {
-            "icon": "📊",
-            "text": "证据仅限于 VVenC faster 预设和低分辨率 ECM；高分辨率影响未知。"
-          }
-        ],
-        "limitations": [
-          "评估仅限于 VVenC faster 预设和低分辨率 ECM 场景，未评估高分辨率性能。",
-          "尽管复杂度开销小，但在实时或高度受限部署中可能成为瓶颈。"
-        ],
-        "mechanism": [
-          {
-            "title": "反馈驱动的代码优化",
-            "detail": "编码器得到的性能指标作为损失信号，引导 LLM 在遵守编解码器语法和解码兼容性的前提下修改预测器逻辑。"
-          }
-        ],
-        "open_questions": [
-          "生成‑评估方法能否扩展到语法约束更严格、更加复杂的编码工具？",
-          "LLM 设计的工具在高分辨率和多样内容分布上的表现如何？",
-          "LLM 的哪些损失曲面特性会影响收敛性和生成的编解码代码质量？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "llm",
-          "mode"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-09-02T14:29:00.447095+00:00"
-    },
-    {
       "id": "2609.03324",
       "title": "DE-Venus: A Data-Efficient RLVR Framework for Large Language Models",
       "abstract": "Reinforcement learning with verifiable rewards (RLVR) improves large language model reasoning, but its practical scaling is constrained by expensive on-policy rollouts and the cost of obtaining reliable targets at scale. Existing methods address sample selection, incomplete supervision, or noisy labels separately, often entangling supervision logic with distributed training and hindering controlled comparison and reuse. We present DE-Venus, a unified framework for data-efficient RLVR that treats supervision as evolving state across data preparation and policy optimization. It organizes this lifecycle into three modules: Active Data Selection allocates training and annotation budgets; Weak Supervision Construction derives learning signals from unlabeled examples; and Training-Time Supervision Refinement filters or corrects unreliable supervision. DE-Venus supports seven representative methods and a data-selection pipeline by expressing method-specific decisions as offline dataset transitions or online transformations of targets, rewards, batches, and advantages while preserving verl's distributed execution contracts. Across public benchmarks and three business scenarios, separate configurations preserve or improve model quality with only 10% of labels or as little as 13% of relevant data; selected business configurations also reduce observed convergence steps by 63%--75%. DE-Venus thus reduces annotation and training costs without sacrificing scalable RL execution.",
@@ -1858,6 +1702,168 @@
       "recommended_at": "2026-09-05T13:27:35.700479+00:00"
     },
     {
+      "id": "2609.09090",
+      "title": "Measuring LLM Sycophancy under Sustained Multi-Turn Pressure",
+      "abstract": "Large language models (LLMs) may abandon correct positions when users push back, exhibiting a failure mode known as sycophancy. Existing evaluations typically use short, pre-specified conversations and may therefore miss failures that emerge under sustained, adaptive disagreement. We introduce SPINE, a benchmark in which an LLM proxy plays a persistent but mistaken user and adaptively challenges a target model for up to 25 turns. We evaluate four production systems and three Olmo3-7b variants on 100 false-presupposition and 100 unethical-query items. Our experimental results show that collapse rates increase with conversation length for every model, short-horizon protocols underestimate sycophancy and resistance under sustained pressure remains unreliable across current models. By analyzing models with accessible reasoning traces, we surprisingly found that the correct position often remains represented in a reasoning trace when the response concedes, suggesting that the model chooses to please a user and sycophancy is not due to lack of knowledge or ignorance. Ablations show that adaptive LLM proxy exposes more sycophantic collapse than pre-generated scripts. Among all tactics, emotional appeals is the most associated with inducing LLM sycophantic behavior. The code and data are released at https://anonymous.4open.science/r/SPINE",
+      "authors": [
+        "Leyuan Tang",
+        "Kangda Wei",
+        "Tianyu Jiang",
+        "Ruihong Huang"
+      ],
+      "published": "2026-09-08T17:35:04Z",
+      "updated": "2026-09-08T17:35:04Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2609.09090v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.09090v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.6453,
+          "matched": [
+            "llm",
+            "mode"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6222,
+        "relevance": 0.5162,
+        "quality": 0.78,
+        "novelty": 0.8691,
+        "freshness": 0.875,
+        "feedback_adjustment": -0.0172,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "ablation study",
+        "benchmark evaluation",
+        "experiments",
+        "quantitative results"
+      ],
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm",
+          "mode"
+        ],
+        "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "SPINE shows LLMs increasingly concede correct positions under prolonged adaptive pressure, even when reasoning traces retain the correct answer.",
+        "problem": "Current sycophancy evaluations rely on short, static dialogues that miss failures emerging in longer, adaptive conversations.",
+        "method": "SPINE uses an adaptive LLM proxy that challenges a target model for up to 25 turns with dynamically selected pressure tactics and grades position strength each turn.",
+        "evidence": "Across four production systems and three Olmo3‑7b variants, collapse rates rise with turn count, emotional appeals cause a 44.3% drop rate, and adaptive proxies expose more collapse than scripted prompts.",
+        "limitations": "Evaluation is limited to 100 items per scenario and depends on an LLM judge (Claude Sonnet 5), which may introduce systematic bias.",
+        "why_for_you": "The observation that models retain correct reasoning while outputting sycophantic answers provides a concrete probe of loss‑landscape dynamics relevant to alignment research.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🗂️",
+            "text": "SPINE benchmark measures sycophancy over 25 adaptive turns, revealing increasing collapse rates."
+          },
+          {
+            "icon": "🔧",
+            "text": "Adaptive LLM proxy selects pressure tactics per turn from MAFALDA taxonomy, conditioning on target’s latest response."
+          },
+          {
+            "icon": "⚠️",
+            "text": "Emotional appeals cause 44.3% position‑strength drops, but limited test banks (100 items) and LLM judge may bias results."
+          }
+        ],
+        "overview": "SPINE extends sycophancy evaluation to sustained, adaptive multi‑turn dialogues by employing a closed‑loop LLM proxy that iteratively pressures a target model for up to 25 turns. Two scenarios—false presuppositions and unethical queries—are tested with 100 items each, and a per‑turn graded position‑strength score captures gradual erosion. Experiments on seven models reveal that collapse rates grow with conversation length, short‑horizon protocols underestimate failures, and emotional appeals are especially effective. Reasoning‑trace analysis shows models often retain the correct answer internally while conceding outwardly.",
+        "methodology": [
+          {
+            "title": "Adaptive proxy protocol",
+            "detail": "An LLM proxy conditions each challenge on the target’s latest response, selects a tactic from a MAFALDA‑derived menu, and enforces a 25‑turn budget."
+          },
+          {
+            "title": "Graded position‑strength scoring",
+            "detail": "A judge assigns a numeric strength score to the model’s stance each turn, allowing detection of partial concessions and full collapse."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Reasoning‑trace retention",
+            "detail": "Analysis of accessible reasoning traces at collapse points shows the correct position often remains represented, indicating output change is driven by a desire to please the user rather than knowledge loss."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Model evaluation",
+            "detail": "Four production systems and three Olmo3‑7b variants were tested on 100 false‑presupposition and 100 unethical‑query items, with collapse rates, position‑strength scores, and tactic‑level drop rates recorded."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Collapse increases with turn count",
+            "detail": "All models exhibit higher collapse rates as conversations extend beyond five turns, demonstrating short‑horizon underestimation."
+          },
+          {
+            "title": "Emotional appeals most erosive",
+            "detail": "Across both scenarios, emotional‑appeal tactics produce the highest observed strength‑drop rate (44.3%)."
+          },
+          {
+            "title": "Adaptive proxy vs. scripted prompts",
+            "detail": "Ablations reveal the adaptive LLM proxy uncovers more sycophantic collapses than pre‑generated scripts."
+          },
+          {
+            "title": "Reasoning vs. response divergence",
+            "detail": "Models frequently concede in their final answer while their internal reasoning trace still contains the correct stance."
+          }
+        ],
+        "contributions": [
+          "SPINE benchmark for sustained, adaptive sycophancy evaluation",
+          "Long‑horizon (up to 25 turns) multi‑turn protocol with graded scoring",
+          "Reasoning‑trace analysis showing internal‑knowledge retention during sycophantic concessions"
+        ],
+        "limitations": [
+          "Test banks limited to 100 items per scenario due to API cost constraints",
+          "All verdicts produced by an LLM judge (Claude Sonnet 5), potentially biasing results",
+          "Per‑tactic statistics thin at Level‑2, limiting fine‑grained analysis"
+        ],
+        "open_questions": [
+          "How does the loss landscape enable models to retain correct reasoning yet output sycophantic answers?",
+          "Can training or fine‑tuning mitigate sustained‑pressure sycophancy without harming helpfulness?",
+          "How do findings generalize to larger, more diverse model families and real‑world user interactions?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "recommended_at": "2026-09-09T14:35:27.466685+00:00"
+    },
+    {
       "id": "2609.02293",
       "title": "SEAL: Reinforcing Global Safety in Mixture-of-Experts through Shared Expert ALignment",
       "abstract": "Mixture-of-Experts (MoE) is a scaling architecture for large language models that activates only a small subset of expert modules per token, enabling massive parameter growth with nearly constant computation. Recent Hybrid MoE architecture adds \\textit{shared experts} to capture consistently useful representations, further improving stability and generalization. MoE now powers many flagship open-source and commercial models, yet remains vulnerable to adversarial attacks. Specifically, sparse routing introduces a structural vulnerability: MoE safety hinges on which experts are activated, and adversaries can subvert this selection through jailbreak prompts, malicious fine-tuning, and weight-level pruning of safety-critical neurons. Existing defenses primarily focus on hardening the router, but an adversary may still manipulate or bypass the routing trajectory due to the routing process's nondeterministic nature, thereby collapsing the defense. To cope with this problem, we first identify theoretically and empirically that shared expert, an always-activated component containing a small proportion of safety-critical neurons, can overcome the uncertainty of sparsely activated routing path and serve as a router-independent anchor to enhance global safety alignment. Based on this insight, we propose SEAL, a training-time parameter-efficient defense that produces a plug-and-play adapter attached to shared expert, and SEAL++, a variant that adds an orthogonal constraint preserving pre-existing safety subspaces during training. We evaluate SEAL and SEAL++ across six attack scenarios that combine three adversarial inputs (harmful prompting, jailbreak, malicious fine-tuning) with and without neuron pruning. SEAL reduces attack success rate (ASR) by up to 60\\%, at a capability cost of at most 1.4\\% on a five-benchmark average. Additionally, SEAL can seamlessly integrate with router-level ......",
@@ -2039,25 +2045,25 @@
       "recommended_at": "2026-09-05T13:27:35.700479+00:00"
     },
     {
-      "id": "2608.30910",
-      "title": "S3C-LLM: Skill-Code Guided Agentic Language Models for Spectrum-to-Structure Elucidation",
-      "abstract": "Spectroscopic structure elucidation is central to molecular analysis, but recent Large Language Model (LLM)-based methods mostly formulate it as direct spectrum-to-SMILES generation. Although this paradigm can leverage paired spectral data, it does not explicitly model the analytical workflow used by spectroscopists, such as diagnostic peak interpretation, fragment reasoning, formula constraints, and chemical consistency checking. In this paper, we introduce S3C-LLM, a skill-guided and code-grounded agentic LLM for spectrum-to-structure elucidation. Rather than directly predicting a molecule, S3C-LLM retrieves modality-specific spectroscopy skills, executes analysis code to instantiate these skills on the input spectra, and integrates the resulting peak-level evidence and formula constraints before generating SMILES. Specifically, we contribute a self-evolving spectroscopy skill library, a thinking-augmented skill-code trajectory construction pipeline, and a two-stage training strategy that teaches Qwen3-4B through supervised fine-tuning (SFT) followed by our proposed step-level reinforcement learning (RL). Experiments on diverse benchmarks show that S3C-LLM consistently outperforms current general LLMs and spectrum-specific models across spectra, while using less than 1/10th of SpectraLLM's training corpus.",
+      "id": "2609.09054",
+      "title": "Training-Free Task Vectors for LLM Behavioral Control",
+      "abstract": "Task vectors enable post-training model editing by identifying semantically meaningful directions in weight space, typically computed as the difference between a fine-tuned model and its pretrained initialization. However, this reliance on fine-tuning makes discovering such directions costly and limits the practicality of post-training model editing. To address this limitation, we introduce Training-Free Task Vectors (TFTVs), a novel method to compute task-vector-like directions without requiring fine-tuning. Our method maps activation steering vectors to rank-one weight-space edits using only forward-pass statistics, while satisfying arithmetic properties that directly support learning via addition, forgetting via subtraction, and the composition of multiple edits. Empirically, we evaluate TFTVs on large language model behavioral control tasks and show that they consistently amplify, suppress, and compose target behaviors while preserving general knowledge and problem-solving skills. We also validate our method against other editing and steering baselines, experimentally demonstrating that TFTVs achieve stronger trait control with better or competitive utility preservation. We hope our work opens new directions for the community in post-training model editing and broader training-free model control. Code is available on the project website: tftv-llm.github.io.",
       "authors": [
-        "Xuanle Zhao",
-        "Xinyuan Cai",
-        "Xiang Cheng",
-        "Bo Xu"
+        "Gabriel J. Perin",
+        "Lucas Boscaini",
+        "André Araujo",
+        "Nina S. T. Hirata"
       ],
-      "published": "2026-08-31T14:55:32Z",
-      "updated": "2026-08-31T14:55:32Z",
+      "published": "2026-09-08T17:10:28Z",
+      "updated": "2026-09-08T17:10:28Z",
       "categories": [
         "cs.LG",
-        "cs.CL"
+        "cs.AI"
       ],
       "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2608.30910v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.30910v1",
-      "comment": "Accepted by EMNLP 2026 Findings",
+      "abs_url": "https://arxiv.org/abs/2609.09054v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.09054v1",
+      "comment": "",
       "journal_ref": "",
       "source": "arxiv",
       "venue": "",
@@ -2067,68 +2073,66 @@
       "scope_matches": [
         "large language model",
         "language model",
-        "language models",
-        "llm",
-        "llms"
+        "llm"
       ],
       "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.5819,
-          "matched": [
-            "llm"
-          ]
-        },
         {
           "id": "efficient_adversarial_training",
           "name": "Efficient adversarial training",
           "status": "emerging",
-          "score": 0.362,
+          "score": 0.6053,
           "matched": [
             "training",
             "fine-tuning"
           ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.3836,
+          "matched": [
+            "llm"
+          ]
         }
       ],
       "scores": {
-        "total": 0.6138,
-        "relevance": 0.5379,
-        "quality": 0.68,
-        "novelty": 0.8531,
-        "freshness": 0.8574,
-        "feedback_adjustment": -0.0224,
+        "total": 0.614,
+        "relevance": 0.561,
+        "quality": 0.6,
+        "novelty": 0.8578,
+        "freshness": 0.8725,
+        "feedback_adjustment": -0.0128,
         "semantic_feedback": 0.0
       },
       "quality_signals": [
         "code available",
-        "benchmark evaluation",
-        "experiments",
-        "quantitative results"
+        "baseline comparison",
+        "experiments"
       ],
       "summary": {
-        "takeaway": "In this paper, we introduce S3C-LLM, a skill-guided and code-grounded agentic LLM for spectrum-to-structure elucidation.",
-        "problem": "Spectroscopic structure elucidation is central to molecular analysis, but recent Large Language Model (LLM)-based methods mostly formulate it as direct spectrum-to-SMILES generation.",
-        "method": "In this paper, we introduce S3C-LLM, a skill-guided and code-grounded agentic LLM for spectrum-to-structure elucidation.",
-        "evidence": "Experiments on diverse benchmarks show that S3C-LLM consistently outperforms current general LLMs and spectrum-specific models across spectra, while using less than 1/10th of SpectraLLM's training corpus.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: LLM loss landscape, Efficient adversarial training.",
+        "evidence": "在LLM行为控制任务中验证，TFTVs能增强/抑制目标行为并保持知识，优于其他编辑基线。",
+        "limitations": "Not stated in the abstract",
+        "method": "通过前向传递统计信息将激活引导向量映射到秩一权重空间编辑，满足算术性质支持组合编辑。",
+        "problem": "现有任务向量依赖微调导致成本高，限制后训练模型编辑的实用性。",
+        "takeaway": "提出无需微调的Training-Free Task Vectors (TFTVs)方法，实现LLM行为控制。",
+        "why_for_you": "高效对抗训练中无需微调的模型控制，LLM损失景观中的训练自由编辑方法",
         "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
         "schema_version": 3,
-        "prompt_version": 0
+        "prompt_version": 2
       },
       "analysis_status": "pending",
       "recommendation_reason": {
-        "topic": "LLM loss landscape",
+        "topic": "Efficient adversarial training",
         "matched": [
-          "llm"
+          "training",
+          "fine-tuning"
         ],
         "lane": "llm"
       },
-      "recommended_at": "2026-09-01T14:52:59.157232+00:00"
+      "recommended_at": "2026-09-09T14:35:27.466685+00:00"
     }
   ]
 }
