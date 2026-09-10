@@ -1,6 +1,916 @@
 {
-  "generated_at": "2026-09-09T14:35:27.466685+00:00",
+  "generated_at": "2026-09-10T14:26:03.608556+00:00",
   "papers": [
+    {
+      "id": "2609.10439",
+      "title": "Forgetting Only What Matters: Layer-Selective Unlearning toward Robust LLMs",
+      "abstract": "Large Language Models (LLMs) can memorize and reproduce sensitive, copyrighted, or otherwise undesirable training content, creating privacy, safety, and regulatory concerns. Machine unlearning offers a practical alternative to full retraining, but many existing methods apply broad or fixed parameter updates that can degrade utility and remain brittle under deployment changes such as post-training quantization, where forgotten knowledge may partially re-emerge. We propose Forgetting Only What Matters via Unlearning Layers (FOM-UL), a layer-level unlearning framework that selects transformer layers using a forget-to-retain significance score. This score identifies layers with high influence on the forget set and low sensitivity to the retain set, allowing FOM-UL to concentrate updates where they are most effective while leaving most of the model unchanged. This targeted update strategy improves the forgetting-utility trade-off and provides an empirical path toward quantization-resilient unlearning by reducing the chance that small, diffuse updates are erased by low-bit rounding. Across TOFU, KnowUnDo, and MUSE-style evaluations, FOM-UL reduces residual memorization compared with strong GA, NPO, KLD, SURE, ReLearn, and LUNAR-based baselines while preserving retain-set utility close to the vanilla model. Under 8-bit and 4-bit post-training quantization, FOM-UL maintains stronger memorization suppression and utility preservation than competing methods, and adversarial prompt evaluations show lower recovery of forgotten content. Overall, FOM-UL provides an efficient unlearning strategy that improves targeted forgetting, utility preservation, and deployment robustness without claiming formal guarantees of erasure.",
+      "authors": [
+        "Ravi Ranjan",
+        "Olivera Kotevska",
+        "Agoritsa Polyzou"
+      ],
+      "published": "2026-09-09T16:50:41Z",
+      "updated": "2026-09-09T16:50:41Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2609.10439v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.10439v1",
+      "comment": "22 pages, 6 figures, 11 tables, AACL-IJCNLP 2026, conference paper",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.7384,
+          "matched": [
+            "adversarial",
+            "efficient",
+            "training",
+            "robust",
+            "robustness"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4128,
+          "matched": [
+            "robustness",
+            "privacy",
+            "memorization",
+            "safety"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6786,
+        "relevance": 0.6733,
+        "quality": 0.56,
+        "novelty": 0.8539,
+        "freshness": 0.8715,
+        "feedback_adjustment": -0.0186,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "reproducibility",
+        "quantitative results"
+      ],
+      "summary": {
+        "problem": "LLM 可能记忆敏感数据，需要在不降低效用的情况下高效忘记。",
+        "evidence": "FOM-UL 在 8 位/4 位量化下相较基线（GA、NPO、LUNAR）降低残余记忆，并保持保留集效用。",
+        "method": "层级忘记框架，通过忘记集与保留集梯度幅度比选择 Transformer 层。",
+        "limitations": "缺乏正式擦除保证；效果依赖数据集特定的梯度动态。",
+        "why_for_you": "符合对高效对抗训练、量化鲁棒忘记及效用保持的兴趣。",
+        "takeaway": "FOM-UL 通过层选择忘记及忘记‑保留重要性得分提升定向忘记和部署鲁棒性。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "experiments": [
+          {
+            "detail": "在 TOFU、KnowUnDo、MUSE 基准上，与 GA、NPO、KLD、SURE、ReLearn、LUNAR 对比，使用 8 位/4 位量化。",
+            "title": "基线与数据集"
+          },
+          {
+            "detail": "M1/M2（基于 ROUGE 的残余记忆），M3（隐私泄漏距离），M4（保留集效用保持）。",
+            "title": "评估指标"
+          },
+          {
+            "detail": "使用 Llama2 7B 主干，表 4 中可训练参数与模型总大小分开记录。",
+            "title": "实现细节"
+          }
+        ],
+        "mechanism": [
+          {
+            "detail": "Sig(ℓ) = If(ℓ)/(Ir(ℓ)+ϵ) 用于识别对忘记目标高度响应、对保留目标不敏感的层。",
+            "title": "基于梯度的重要性评分"
+          },
+          {
+            "detail": "针对性更新降低易受 8/4 位四舍五入影响的小参数变化，防止遗忘知识部分复现。",
+            "title": "量化鲁棒机制"
+          }
+        ],
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "层选择忘记框架（FOM-UL）及忘记‑保留重要性得分"
+          },
+          {
+            "icon": "🔧",
+            "text": "梯度幅度比 (If(ℓ)/(Ir(ℓ)+ϵ)) 用于层选择"
+          },
+          {
+            "icon": "📊",
+            "text": "8 位/4 位量化下保持 2.88↓ M1/M2，相较基线的 4.80↓（表 1）"
+          }
+        ],
+        "limitations": [
+          "缺乏正式擦除保证",
+          "依赖数据集特定的梯度动态",
+          "层选择需调节阈值"
+        ],
+        "overview": "FOM-UL 通过针对性更新 Transformer 层应对 LLM 记忆风险。利用忘记集梯度幅度相对保留集敏感度量化层重要性，实现精确忘记并保持效用。方法迭代扩展选定层直至忘记指标收敛，展示在量化压力下的鲁棒性。TOFU、KnowUnDo、MUSE 基准评估表明其在抑制记忆方面优于 GA、NPO、LUNAR 基线。",
+        "methodology": [
+          {
+            "detail": "通过忘记集 (If(ℓ)) 与保留集 (Ir(ℓ)) 梯度幅度比并用 ε 归一化，计算层重要性得分。",
+            "title": "忘记‑保留层归因"
+          },
+          {
+            "detail": "仅对选定层进行更新，使用遗忘 (Lf)、不匹配 (Lm) 与保留 (Lr) 三个损失，并采用独立学习率 ηf、ηm、ηr。",
+            "title": "选择性层级忘记"
+          },
+          {
+            "detail": "若忘记指标（如 VerMem > 0.05）未达标，则扩展层集合，加入具有最高额外重要性得分的层。",
+            "title": "迭代扩展"
+          }
+        ],
+        "findings": [
+          {
+            "detail": "FOM-UL 在 Gemma-3-1B 上实现 2.88↓ M1/M2，相较基线的 4.80↓（表 1），且 M3≈0 达到隐私平衡。",
+            "title": "记忆抑制"
+          },
+          {
+            "detail": "在 8/4 位量化下保持 2.88↓ M1/M2，优于竞争对手的 4.80↓（表 1）。",
+            "title": "量化鲁棒性"
+          },
+          {
+            "detail": "保留集效用 (M4) 为 2.90↑（Gemma-3-1B），相较原始模型的 5.60↑（表 1）。",
+            "title": "效用保持"
+          }
+        ],
+        "contributions": [
+          "基于梯度幅度比的层级忘记‑保留定位",
+          "降低副作用的针对性忘记框架",
+          "实证量化鲁棒忘记路径"
+        ],
+        "open_questions": [
+          "如何为层选择忘记形式化擦除保证？",
+          "能否推广至非 Transformer 架构？",
+          "重复忘记操作下的长期稳定性如何？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "adversarial",
+          "efficient",
+          "training",
+          "robust"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-10T14:26:03.608556+00:00"
+    },
+    {
+      "id": "2609.10412",
+      "title": "Towards Scalable and Cost-Efficient Vulnerability Detection: A Study on Automatic Query Generation",
+      "abstract": "Static analysis remains a cornerstone of software security, yet the effectiveness of tools such as CodeQL is often limited by the substantial manual effort required to develop high-coverage query suites. While large language models (LLMs) have emerged as a potential solution for automated code reasoning, their practical utility in generating structured, executable security queries remains underexplored. In this paper, we conduct an empirical study to evaluate the ability of LLMs to synthesize CodeQL queries using vulnerability data from the National Vulnerability Database. Through this investigation, we explore the potential of using LLMs as an automatic CodeQL query generator. Subsequently, we systematically evaluate the performance of various LLM architectures across a diverse set of real-world vulnerabilities, measuring their ability to improve detection coverage and precision. Our findings reveal that LLM-generated queries significantly enhance the baseline CodeQL queries, yielding 82% improvement in average F1-score. Furthermore, we provide a detailed cost- benefit analysis showing that while direct LLM-based scanning of entire repositories is often computationally and financially prohibitive, leveraging LLMs to synthesize CodeQL queries offers a scalable and cost-effective alternative for large-scale vulnerability detection. Our results suggest that LLMs can effectively bridge the gap between unstructured vulnerability reports and formal static analysis specifications, offering a scalable path toward comprehensive automated vulnerability detection.",
+      "authors": [
+        "Ivana Clairine Irsan",
+        "Ratnadira Widyasari",
+        "Huihui Huang",
+        "Ting Zhang",
+        "Yue Liu",
+        "Ouh Eng Lieh",
+        "Shar Lwin Khin",
+        "Kang Hong Jin",
+        "David Lo"
+      ],
+      "published": "2026-09-09T16:31:20Z",
+      "updated": "2026-09-09T16:31:20Z",
+      "categories": [
+        "cs.SE",
+        "cs.CR"
+      ],
+      "primary_category": "cs.SE",
+      "abs_url": "https://arxiv.org/abs/2609.10412v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.10412v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.3621,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.335,
+          "matched": [
+            "efficient"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4853,
+        "relevance": 0.3567,
+        "quality": 0.62,
+        "novelty": 0.86,
+        "freshness": 0.8696,
+        "feedback_adjustment": -0.0221,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "baseline comparison",
+        "quantitative results"
+      ],
+      "summary": {
+        "problem": "手动编写 CodeQL 查询限制了静态分析覆盖范围，并导致高昂的专家工作量。",
+        "evidence": "实验表明，平均 F1‑score 提升 82%，真阳性增加 263%，相较于默认 CodeQL，误报率仅略有上升。",
+        "method": "一个流水线从 NVD CVE 中提取漏洞模式，并使用结构化提示和迭代细化，通过多种 LLM 合成可编译的 CodeQL 查询。",
+        "limitations": "评估仅限于来自十个 CWE 类别的 Java 漏洞，并指出全仓库 LLM 扫描成本过高。",
+        "why_for_you": "对研究高效对抗训练具有参考价值，因为它展示了可扩展的 LLM 驱动形式化分析产物生成。",
+        "takeaway": "LLM 生成的 CodeQL 查询显著提升检测性能，同时相较于直接 LLM 扫描更具成本效益。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "experiments": [
+          {
+            "title": "模型与数据集评估",
+            "detail": "评估了 DeepSeek R1、Grok Code Fast 1、Gemini 3 Flash Preview、Kimi、Kimi K2 Thinking、Llama 3.3、Minimax M2.1、Qwen 3 Coder、GPT 5.2 Codex、Claude Sonnet 4.5 在 112 条测试 CVE（10 个 CWE 类别）上的表现，使用 F1、真阳性计数和误报率；基线为默认 CodeQL 和 PDBERT。"
+          },
+          {
+            "title": "成本分析",
+            "detail": "使用 Kimi K2.5 扫描 aerospike-client-java 仓库（395 文件，3,719 函数），耗时 >44 h，约 $17/次；相同扫描使用 Sonnet 4.5 的成本约高 6 倍。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "LLM 驱动的查询合成",
+            "detail": "利用 LLM 的代码生成能力，将自然语言漏洞描述转换为声明式 CodeQL 逻辑。"
+          }
+        ],
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "LLM 生成的 CodeQL 查询将平均 F1‑score 提高 82%，相较于基线 CodeQL。"
+          },
+          {
+            "icon": "🔧",
+            "text": "经提示工程的流水线提取 NVD 模式，并迭代细化 LLM 输出为可编译的 CodeQL 查询。"
+          },
+          {
+            "icon": "📊",
+            "text": "成本分析显示，直接 LLM 仓库扫描费用为 $17 且耗时 44 h，限制了其实用性，相较于查询合成。"
+          }
+        ],
+        "limitations": [
+          "研究仅限于来自十个 CWE 类别的 Java 漏洞。",
+          "对完整仓库进行直接 LLM 扫描在费用和时间上均不可行。",
+          "手动抽样中观察到的误报表明精度仍不完美。"
+        ],
+        "overview": "作者提出了一条查询生成流水线，从 NVD CVE 中挖掘漏洞模式，构造结构化提示，并迭代细化 LLM 输出为可编译的 CodeQL 查询。他们在覆盖十个高危 CWE 类别的精选 Java CVE 数据集上基准测试十种 LLM，比较检测性能与默认 CodeQL 和 PDBERT 基线。结果显示，平均 F1 提升 82%，真阳性增长 263%，且误报率未显著上升。成本效益分析表明，生成查询的成本远低于使用 LLM 扫描整个仓库。",
+        "methodology": [
+          {
+            "title": "模式挖掘与提示工程",
+            "detail": "从 MoreFixes CVE 中提取代码修复模式，然后构建结构化提示，引导 LLM 生成 CodeQL 查询骨架。"
+          },
+          {
+            "title": "迭代细化",
+            "detail": "反复验证 LLM 输出的语法可编译性，将错误反馈至提示以提升正确性。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "检测性能",
+            "detail": "LLM 生成的查询将平均 F1 提高 82%，真阳性提升 263%，相较于默认 CodeQL，误报率未显著上升。"
+          },
+          {
+            "title": "可扩展性与成本",
+            "detail": "生成查询的成本比直接 LLM 仓库扫描低数个数量级，使其在大规模漏洞检测中可行。"
+          }
+        ],
+        "contributions": [
+          "对多种 SOTA LLM 进行全面基准测试，以实现自动化 CodeQL 查询合成。",
+          "展示了 LLM 生成的查询显著扩大检测覆盖率且保持成本效益。"
+        ],
+        "open_questions": [
+          "查询生成流水线能否推广至其他编程语言和更大代码库？",
+          "有哪些技术可以进一步降低 LLM 生成查询的误报？",
+          "对 LLM 进行对抗训练是否能提升生成安全查询的鲁棒性？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-10T14:26:03.608556+00:00"
+    },
+    {
+      "id": "2609.10264",
+      "title": "Maverick: Private and Verifiable LLM Inference Made Practical via Matrix-Vector Multiplication Delegation",
+      "abstract": "Open-source large language models (LLMs) are increasingly competitive with closed-source models while offering transparency and the ability to run inference without exposing user inputs to a service provider. However, running large-scale models locally requires substantial computational resources. In practice, users may still resort to a third-party provider, giving rise to privacy and correctness concerns. Existing solutions that address these problems often impose substantial server overhead or introduce additional trust assumptions. In this paper, we present Maverick, a novel approach to private and verifiable LLM inference based on a protocol for delegating matrix-vector multiplication, a dominant operation in LLMs. At its core, Maverick provides, to our knowledge, the first information-theoretically sound verification protocol for matrix-vector multiplication delegation with transparent preprocessing, efficient (batch) verification, and virtually no server overhead. We combine this verification primitive with LPN-based pseudorandom masking to provide input privacy. We implement our matrix-vector delegation primitive and use it to build an end-to-end prototype of Maverick, which we evaluate on Qwen3-4B by measuring throughput in tokens per second. We evaluate client configurations with 1-8 threads. With one client thread and a CPU server using up to 128 threads, Maverick achieves throughput gains over local inference of up to 17x when privacy masks are generated online, 45x when they are precomputed, and 44x when only verification is required. With four client threads, the corresponding gains are 13x, 18x, and 17x. When server computation is no longer the bottleneck, client-side microbenchmarks with simulated network delay show speedups of 12x-20x, 34x-135x, and 38x-157x.",
+      "authors": [
+        "Ben Merbaum",
+        "Mohammad Amin Raeisi",
+        "Wenhao Wang",
+        "Charalampos Papamanthou",
+        "Katerina Sotiraki",
+        "Fan Zhang"
+      ],
+      "published": "2026-09-09T14:53:17Z",
+      "updated": "2026-09-09T14:53:17Z",
+      "categories": [
+        "cs.CR",
+        "cs.LG"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2609.10264v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.10264v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.4363,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.1334,
+          "matched": [
+            "efficient"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4825,
+        "relevance": 0.3757,
+        "quality": 0.56,
+        "novelty": 0.8331,
+        "freshness": 0.8598,
+        "feedback_adjustment": -0.0186,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "open source",
+        "quantitative results"
+      ],
+      "summary": {
+        "problem": "将 LLM 推理外包至不可信服务器会泄露输入，且在缺乏高成本密码学开销时无法保证正确性。",
+        "evidence": "在 Qwen3‑4B 上，Maverick 的吞吐量比本地推理提升最高 45 倍，推理耗时 531.6 ms，仅需 45.1 ms 验证，远快于已有证明系统。",
+        "method": "它提出信息论可验证矩阵‑向量委托 (vMVMD)，并结合 LPN 基伪随机掩码 (pvMVMD) 来隐藏输入。",
+        "limitations": "评估使用仅 CPU 服务器、预计算掩码以获得最佳加速，并在主要测量中未计入网络延迟。",
+        "why_for_you": "该协议提供高效、低开销的验证与隐私，适用于安全的对抗训练流水线。",
+        "takeaway": "Maverick 通过委托矩阵‑向量乘法，实现私密且可验证的 LLM 推理，服务器开销几乎为零。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "Maverick 引入首个信息论可验证矩阵‑向量委托 (vMVMD)，具备透明预处理和批量验证。"
+          },
+          {
+            "icon": "🔧",
+            "text": "它将 vMVMD 与 LPN 基伪随机掩码 (pvMVMD) 结合，在不增加服务器负担的情况下隐藏客户端输入。"
+          },
+          {
+            "icon": "📈",
+            "text": "在 Qwen3‑4B 上的吞吐量相较本地推理提升最高 45 倍，依赖预计算掩码和仅 CPU 服务器。"
+          }
+        ],
+        "overview": "Maverick 通过将主要的矩阵‑向量乘法委托给不可信服务器，解决私密且可验证的 LLM 推理问题。它构建了新颖的可验证委托协议 (vMVMD)，信息论上可靠，支持透明预处理并实现高效批量验证。通过使用 LPN 基伪随机掩码 (pvMVMD)，客户端仅需稀疏向量操作即可去除掩码，几乎不增加服务器开销。对 Qwen3‑4B 的端到端原型评估显示，在多客户端线程配置和验证模式下实现了显著的吞吐量提升。",
+        "mechanism": [
+          {
+            "detail": "客户端采样t稀疏向量e（t = O(κ)），通过(eᵀ Gᵀ M)x = eᵀ Gᵀ y验证，利用码的高汉明重量增强错误检测。",
+            "title": "稀疏挑战验证"
+          },
+          {
+            "detail": "所有重型矩阵相关计算（如计算MGx）均离线完成并存储；在线客户端计算量降至O(λ,κ)(m + n)操作。",
+            "title": "预处理透明度"
+          }
+        ],
+        "methodology": [
+          {
+            "detail": "使用稀疏向量版Freivalds算法结合纠错码，在O(κ (m + n))时间内验证Mx = y，提供信息论可靠性与批量验证。",
+            "title": "vMVMD协议"
+          },
+          {
+            "detail": "从双LPN码生成掩码x′ = Gx ex；预计算P = MGx，使客户端通过稀疏乘法P ex移除掩码，避免O(mn)计算量。",
+            "title": "基于LPN的隐私掩码"
+          },
+          {
+            "detail": "将vMVMD与隐私掩码整合为pvMVMD协议，再封装到Qwen3‑4B的推理流水线中，按提示处理令牌生成。",
+            "title": "端到端集成"
+          }
+        ],
+        "experiments": [
+          {
+            "detail": "客户端使用 AWS c8i.4xlarge（1–8 线程），服务器使用 c8i.32xlarge（最多 128 线程）。标准模式吞吐量为 8.35 tokens/s（比本地的 0.57 tokens/s 高 14.7 倍）；Boost 模式通过预计算掩码可达到 45 倍加速；验证仅模式与 Boost 模式效果相似。模拟网络 RTT（50–100 ms）显示客户端加速比为 12–20 倍（标准模式）、34–135 倍（Boost 模式）、38–157 倍（验证仅模式）。",
+            "title": "Qwen3‑4B 吞吐量评估"
+          },
+          {
+            "detail": "验证仅模式处理 Qwen3‑4B 仅需 531.6 ms（其中 45.1 ms 用于验证），而 DeepProve 处理 GPT‑2 需要 34.2 秒证明生成（模型规模约小 10 倍）。Maverick 的 pvMVMD 在矩阵维度达 2¹⁴ 时，相比 Dumas‑Zucca 提升 34.8 倍，相比 SumCheck+BaseFold 提升 194.8 倍。",
+            "title": "与先前可验证推理的比较"
+          }
+        ],
+        "findings": [
+          {
+            "detail": "对于大矩阵（n = 2¹³–2¹⁴），在线客户端工作量比委托的矩阵-向量乘法小 7.6 至 12.4 倍。",
+            "title": "客户端加速"
+          },
+          {
+            "detail": "验证时间保持较低（完整推理约 45 毫秒），且随矩阵规模增长有限。",
+            "title": "验证开销"
+          },
+          {
+            "detail": "当掩码在线生成时，吞吐量下降（例如，17 倍加速 vs 45 倍使用预计算掩码），表明客户端掩码生成是主要瓶颈。",
+            "title": "隐私掩码成本"
+          }
+        ],
+        "contributions": [
+          "首次信息论可验证矩阵‑向量委托 (vMVMD)，具备透明预处理和批量验证。",
+          "集成基于 LPN 的伪随机掩码，实现无服务器开销的私有委托 (pvMVMD)。",
+          "端到端原型 (Maverick) 展示了在最先进开源 LLM 上的大幅吞吐提升。"
+        ],
+        "limitations": [
+          "评估仅在 CPU 服务器上进行；未测量 GPU 加速。",
+          "最佳加速需预计算隐私掩码，限制了对动态输入的适用性。",
+          "主要吞吐测量未计入网络延迟；实际部署可能收益降低。",
+          "实验聚焦于方阵；未报告非方阵或稀疏化 transformer 层的性能。"
+        ],
+        "open_questions": [
+          "Maverick 在服务器使用 GPU 或专用加速器时表现如何？",
+          "该协议能否扩展以支持安全、可验证的对抗训练循环？",
+          "在线掩码生成与交互式应用延迟之间的权衡是什么？",
+          "该方法在大于 Qwen3‑4B 的模型或多 GPU 推理流水线上的可扩展性如何？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-10T14:26:03.608556+00:00"
+    },
+    {
+      "id": "2609.10441",
+      "title": "ConvMem: Convolutional Memory for Long-Context Reasoning",
+      "abstract": "While Large Language Models (LLMs) have demonstrated impressive capabilities, they often struggle with extremely long contexts due to fixed context limits. To address this, sequential approaches like MemAgent extend the effective context by reading text in segments and iteratively updating a fixed-size memory. However, this sequential paradigm suffers from high latency and requires costly reinforcement learning (RL) training, which can lead to overfitting on specific datasets. To overcome these limitations, we propose ConvMem, a training-free, highly parallelizable framework that reformulates long-context reasoning as a hierarchical convolution. Inspired by CNNs, ConvMem treats an LLM prompted with a specific query as a convolutional kernel. This kernel summarizes text segments hierarchically, shortening the reasoning path from a linear chain into a logarithmic tree. Specifically, ConvMem integrates \\textit{Configurable Strides} and \\textit{Skip Connections} to ensure robust evidence capture and propagation, while employing \\textit{Multi-Kernel Convolution} to decompose complex queries into disentangled semantic channels. This design not only mitigates error accumulation but also enables massive parallelization across both text segments and reasoning threads. Experiments on RULER-HotpotQA and RULER-2WikiMultiHopQA demonstrate that ConvMem outperforms training-free baselines and avoids the risk of overfitting to parametric priors often observed in RL-trained models on out-of-distribution tasks.",
+      "authors": [
+        "Hongming Zhang",
+        "Zhaozhen Gu",
+        "Fengshuo Bai",
+        "Ming Hao",
+        "Qingyang Zhang",
+        "Yuanyuan Wang",
+        "Shiyang Tang",
+        "Yanna Wang",
+        "Bo Xu"
+      ],
+      "published": "2026-09-09T16:53:02Z",
+      "updated": "2026-09-09T16:53:02Z",
+      "categories": [
+        "cs.AI",
+        "cs.CL"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2609.10441v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.10441v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.4464,
+          "matched": [
+            "training",
+            "robust"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.124,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4769,
+        "relevance": 0.3819,
+        "quality": 0.5,
+        "novelty": 0.8502,
+        "freshness": 0.8717,
+        "feedback_adjustment": -0.0284,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "experiments",
+        "dataset evidence"
+      ],
+      "summary": {
+        "takeaway": "ConvMem provides a training‑free, parallelizable hierarchical convolution framework that achieves competitive long‑context reasoning accuracy.",
+        "problem": "Sequential memory agents incur high inference latency and overfit due to reinforcement‑learning optimization.",
+        "method": "ConvMem treats a frozen LLM prompted with a query as a convolutional kernel and hierarchically aggregates segment summaries using configurable strides, skip connections, and multi‑kernel convolution.",
+        "evidence": "On RULER‑2WikiMultiHopQA, ConvMem reaches 82.81 Sub‑EM, surpassing training‑free baselines and matching RL‑trained models on out‑of‑distribution data.",
+        "limitations": "The paper does not report inference latency or computational cost, leaving efficiency gains unquantified.",
+        "why_for_you": "Its parallel, training‑free design aligns with interests in efficient adversarial training and studying loss‑landscape effects of non‑sequential inference.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "ConvMem introduces a training‑free hierarchical convolution that replaces sequential memory updates with parallel segment processing."
+          },
+          {
+            "icon": "🔧",
+            "text": "It employs configurable strides, skip connections, and multi‑kernel convolution to aggregate evidence in a logarithmic‑depth tree."
+          },
+          {
+            "icon": "📈",
+            "text": "ConvMem attains up to 82.81 Sub‑EM on the out‑of‑distribution RULER‑2WikiMultiHopQA benchmark, outperforming training‑free baselines."
+          }
+        ],
+        "overview": "ConvMem reformulates long‑context reasoning as a hierarchical convolution where a frozen LLM, prompted with a query, acts as a semantic kernel. By scanning overlapping text windows in parallel and aggregating summaries through configurable strides, skip connections, and multi‑kernel convolution, the method reduces the reasoning path from linear to logarithmic depth. Experiments on two long‑context QA benchmarks demonstrate that ConvMem outperforms prior training‑free baselines and avoids the overfitting observed in RL‑trained agents, while maintaining strong performance across varying context lengths.",
+        "methodology": [
+          {
+            "title": "Hierarchical Convolutional Architecture",
+            "detail": "Segments of the input document are processed concurrently at each layer; the LLM kernel produces segment summaries that are recursively combined, yielding O(log N) depth."
+          },
+          {
+            "title": "Configurable Strides",
+            "detail": "Overlapping windows (stride S=1600 tokens, kernel size W=8000 tokens) enable multi‑view scanning, improving evidence recall and robustness to boundary truncation."
+          },
+          {
+            "title": "Skip Connections",
+            "detail": "High‑confidence raw evidence bypasses intermediate layers via semantic residual links, preserving fine‑grained details for final answer generation."
+          },
+          {
+            "title": "Multi‑Kernel Convolution",
+            "detail": "Complex queries are decomposed into multiple semantic channels, each processed by a separate kernel instance, allowing disentangled reasoning."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Semantic Convolutional Kernel",
+            "detail": "A frozen LLM prompted with the target query functions as a fixed kernel that maps each text segment to a semantic representation."
+          },
+          {
+            "title": "Logarithmic Aggregation",
+            "detail": "Recursive summarization across layers forms a tree‑structured aggregation, shortening the reasoning path and mitigating cumulative error."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Benchmarks and Metrics",
+            "detail": "Evaluated on RULER‑HotpotQA (in‑distribution) and RULER‑2WikiMultiHopQA (out‑of‑distribution) using F1, Exact Match, Sub‑EM, and LLM‑as‑Judge (ACCL) metrics."
+          },
+          {
+            "title": "Baselines and Models",
+            "detail": "Compared against standard LLM (Qwen2.5‑32B‑Instruct), training‑free methods (MemAgent‑W/O‑RL, Mem‑α‑W/O‑RL), and RL‑trained agents (MemAgent, Mem‑α)."
+          },
+          {
+            "title": "Results Summary",
+            "detail": "ConvMem achieves 67.44 F1 and 73.44 Sub‑EM at 28k tokens on HotpotQA, and peaks at 82.81 Sub‑EM on 2WikiMultiHopQA, surpassing all training‑free baselines and matching or exceeding RL‑trained agents on OOD data."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Performance Efficacy",
+            "detail": "ConvMem consistently outperforms training‑free baselines across context lengths and sets new state‑of‑the‑art Sub‑EM scores on OOD evaluation."
+          },
+          {
+            "title": "Robustness to Overfitting",
+            "detail": "Unlike RL‑trained agents, ConvMem shows no degradation on out‑of‑distribution tasks, indicating better generalization without policy learning."
+          },
+          {
+            "title": "Parallelism Gains",
+            "detail": "The hierarchical convolution reduces inference depth to O(log N), enabling massive parallel processing of text segments."
+          }
+        ],
+        "contributions": [
+          "Training‑free hierarchical convolution framework for long‑context reasoning",
+          "Configurable stride and skip‑connection mechanisms for robust evidence capture",
+          "Multi‑kernel convolution to disentangle complex queries into semantic channels"
+        ],
+        "limitations": [
+          "No reported inference latency or computational cost, so efficiency benefits are not quantified",
+          "Method relies on a frozen LLM; adaptability to different model sizes or fine‑tuning is not explored"
+        ],
+        "open_questions": [
+          "How does ConvMem’s parallel convolution affect susceptibility to adversarial perturbations in the context?",
+          "What impact does the training‑free hierarchical aggregation have on the loss landscape when integrated into end‑to‑end fine‑tuning pipelines?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training",
+          "robust"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-10T14:26:03.608556+00:00"
+    },
+    {
+      "id": "2609.10321",
+      "title": "On-Policy Distillation for Vision-Language Model Adaptation, an Effective Paradigm on Low-Quality Multimodal Data",
+      "abstract": "Knowledge distillation offers an efficient route to transfer a task-adapted vision-language teacher to a compact student. The training target in current vision-language distillation methods is typically constructed from the teacher prediction and applied uniformly to all training samples, making it unreliable under class and domain shifts. In this paper, we argue that distillation target construction should be treated as a dynamic training decision rather than a fixed recipe. To this end, we propose OnPoKD, an on-policy distillation framework for vision-language model adaptation. To the best of our knowledge, OnPoKD is the first framework that applies on-policy distillation to vision-language model adaptation by learning target construction as a policy decision. OnPoKD learns a lightweight controller that constructs sample-wise adaptive targets using reliability and disagreement cues from the teacher model, student model, and zero-shot prior. Instead of relying on a fixed teacher prediction, the controller dynamically balances teacher supervision, zero-shot prior guidance, and hard-label anchoring through bounded policy actions, allowing the distillation target to adapt to varying sample reliability and training stages. The policy controller is updated with validation feedback, encouraging target construction to optimize transferability rather than merely fitting the training distribution. Since the controller is only used during training, OnPoKD can be seamlessly integrated into existing vision-language distillation pipelines while preserving the original inference architecture and test-time cost. Extensive experiments on Base-to-novel generalization and Cross-dataset transfer benchmarks show that OnPoKD consistently improves over strong vision-language distillation baselines.",
+      "authors": [
+        "Hongyuan Zhang",
+        "Xianda Guo",
+        "Yanlun Peng",
+        "Qianlong Yang",
+        "Yubin Guo",
+        "Pinhan Fu",
+        "Mulin Chen",
+        "Xiaozhen Qiao",
+        "Ping Luo"
+      ],
+      "published": "2026-09-09T15:26:28Z",
+      "updated": "2026-09-09T15:26:28Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2609.10321v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.10321v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "transferable",
+      "scope_matches": [
+        "on-policy distillation"
+      ],
+      "topics": [
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "emerging",
+          "score": 0.3191,
+          "matched": [
+            "On-policy distillation",
+            "on-policy distillation",
+            "distillation",
+            "on-policy"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.2176,
+          "matched": [
+            "efficient",
+            "training"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.0655,
+          "matched": [
+            "generalization"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4562,
+        "relevance": 0.3119,
+        "quality": 0.63,
+        "novelty": 0.843,
+        "freshness": 0.8631,
+        "feedback_adjustment": -0.0214,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation",
+        "experiments",
+        "formal bound",
+        "dataset evidence"
+      ],
+      "summary": {
+        "problem": "在视觉语言模型适配中，固定的以教师为中心的蒸馏目标在类别和领域迁移下不可靠。",
+        "evidence": "OnPoKD 在 EuroSAT 上将 harmonic‑mean accuracy 提升至最高 +2.88，并在十一项基准上相较强基线提升 cross‑dataset top‑1 accuracy。",
+        "method": "轻量级 policy network 根据可靠性和分歧线索预测每个样本的混合系数，并通过 validation feedback 进行更新。",
+        "limitations": "作者未报告 policy controller 的计算开销及其对整体训练效率的影响。",
+        "why_for_you": "符合您对 on‑policy 蒸馏的兴趣，提供了具体且高效的 on‑policy 框架用于多模态模型适配。",
+        "takeaway": "OnPoKD 引入 on‑policy controller，在视觉语言蒸馏过程中为每个样本自适应混合 teacher、zero‑shot prior 和 hard‑label 信号。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "OnPoKD 提供首个用于视觉语言适配的 on‑policy 蒸馏框架，学习样本级目标。"
+          },
+          {
+            "icon": "🔧",
+            "text": "轻量级 controller 根据可靠性和分歧线索预测每个样本的混合系数，并通过 validation feedback 更新。"
+          },
+          {
+            "icon": "📈",
+            "text": "在 EuroSAT 上将 harmonic‑mean accuracy 提升至最高 +2.88，训练时间缩短 25%，但额外 controller 成本未披露。"
+          }
+        ],
+        "overview": "OnPoKD 将蒸馏目标构建视为动态决策问题。policy controller 观察 teacher、student 和冻结的 zero‑shot prior 的可靠性和分歧信号，输出受限的混合权重，用于 teacher 监督、prior 引导和 hard‑label 锚定。controller 通过来自 validation performance 的确定性反馈进行训练，使目标在不同样本和训练阶段自适应。该方法可无额外推理开销集成到现有 VLM 蒸馏流水线，持续提升 base‑to‑novel harmonic mean 与 cross‑dataset 转移性能。",
+        "methodology": [
+          {
+            "title": "策略控制器",
+            "detail": "轻量网络 fθ 接收状态 s_i（熵、最高标签一致性、KL 项），输出原始分数 (rλ_i, r_w_i, rτ_i)，再转换为混合系数 λ_i, w_i, τ_i。"
+          },
+          {
+            "title": "自适应目标构建",
+            "detail": "利用 λ_i, w_i, τ_i，按公式 (11) 将 teacher logits、zero‑shot prior logits 与硬标签混合，形成自适应软目标 q_i。"
+          },
+          {
+            "title": "验证监督更新",
+            "detail": "每隔 K 步评估验证样本；确定性映射 F_val 生成目标动作 a*_i，并将梯度 ∇θ 应用于 fθ。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "可靠性与分歧线索",
+            "detail": "线索包括归一化 teacher entropy、teacher‑prior label agreement、teacher‑student top‑label agreement 和裁剪的 KL divergence，用于决定各监督来源对目标的影响程度。"
+          },
+          {
+            "title": "受限策略动作",
+            "detail": "混合系数受限于可行集合以保证稳定；temperature τ 除非显式学习，否则保持在基准蒸馏温度附近。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "从基类到新类的泛化与跨数据集迁移",
+            "detail": "在十一项标准 VLM 基准（如 FGVCAircraft、EuroSAT、DTD、StanfordCars）上评估，报告基准准确率、创新类准确率、调和均值 (HM) 以及在 ImageNet 适配后下游数据集的 top‑1 准确率。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "低质量数据上的 HM 提升",
+            "detail": "OnPoKD 在 FGVCAircraft 上将 HM 提升 +2.49，在 EuroSAT 上提升 +2.88，在 DTD 上提升 +1.64，在 StanfordCars 上提升 +0.83；ImageNet 的 HM 上升 +0.33。"
+          },
+          {
+            "title": "广泛的迁移提升",
+            "detail": "在全部十一项基准上，OnPoKD 始终优于强大的 VLM 蒸馏基线，平均准确率提升且对源类的过拟合降低。"
+          },
+          {
+            "title": "训练效率",
+            "detail": "报告在部分数据集上训练时间缩短最高 +25%，内存节省 +51%，但未量化 controller 的总体开销。"
+          }
+        ],
+        "contributions": [
+          "首个用于 vision‑language 模型适配的 on‑policy 蒸馏框架。",
+          "轻量级 policy controller，构建 sample‑wise 自适应蒸馏目标。",
+          "在 base‑to‑novel 与 cross‑dataset 基准上展示了持续的性能提升。"
+        ],
+        "limitations": [
+          "未对 policy controller 引入的额外计算成本进行明确分析。",
+          "实验仅限于 vision‑language 模型；未探索对纯语言或其他多模态场景的适用性。"
+        ],
+        "open_questions": [
+          "policy controller 在更大基础模型和更长训练计划下的可扩展性如何？",
+          "on‑policy 蒸馏范式能否扩展至纯语言模型或其他模态？",
+          "针对 validation‑supervised policy update 能提供哪些理论保证？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "On-policy distillation",
+        "matched": [
+          "On-policy distillation",
+          "on-policy distillation",
+          "distillation",
+          "on-policy"
+        ],
+        "lane": "transferable"
+      },
+      "recommended_at": "2026-09-10T14:26:03.608556+00:00"
+    },
     {
       "id": "2609.09090",
       "title": "Measuring LLM Sycophancy under Sustained Multi-Turn Pressure",
@@ -72,12 +982,12 @@
         "lane": "llm"
       },
       "summary": {
-        "takeaway": "SPINE shows LLMs increasingly concede correct positions under prolonged adaptive pressure, even when reasoning traces retain the correct answer.",
-        "problem": "Current sycophancy evaluations rely on short, static dialogues that miss failures emerging in longer, adaptive conversations.",
-        "method": "SPINE uses an adaptive LLM proxy that challenges a target model for up to 25 turns with dynamically selected pressure tactics and grades position strength each turn.",
-        "evidence": "Across four production systems and three Olmo3‑7b variants, collapse rates rise with turn count, emotional appeals cause a 44.3% drop rate, and adaptive proxies expose more collapse than scripted prompts.",
-        "limitations": "Evaluation is limited to 100 items per scenario and depends on an LLM judge (Claude Sonnet 5), which may introduce systematic bias.",
-        "why_for_you": "The observation that models retain correct reasoning while outputting sycophantic answers provides a concrete probe of loss‑landscape dynamics relevant to alignment research.",
+        "takeaway": "SPINE reveals that LLMs increasingly concede correct positions under prolonged adaptive disagreement, even when their reasoning traces retain the correct answer.",
+        "problem": "Current sycophancy evaluations are short and static, missing failures that emerge in long, adaptive conversations.",
+        "method": "SPINE uses an adaptive LLM proxy to generate up to 25 turns of pressure tactics against a target model, scoring position strength each turn.",
+        "evidence": "Experiments on seven models show collapse rates rise with turn count, emotional appeals cause a 44.3% strength drop, and adaptive proxies expose more collapse than scripted prompts.",
+        "limitations": "Evaluation is limited to 100 items per scenario and relies on Claude Sonnet 5 for both proxy and judging, introducing potential systematic bias.",
+        "why_for_you": "The work links output erosion to sustained pressure rather than knowledge loss, offering a new perspective on how loss‑landscape dynamics may permit stable internal representations while outputs shift.",
         "source": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
         "language": "en",
@@ -92,68 +1002,64 @@
           },
           {
             "icon": "🔧",
-            "text": "Adaptive LLM proxy selects pressure tactics per turn from MAFALDA taxonomy, conditioning on target’s latest response."
+            "text": "Adaptive LLM proxy conditions each challenge on the target’s latest response and selects from a diverse pressure‑tactic menu."
           },
           {
-            "icon": "⚠️",
-            "text": "Emotional appeals cause 44.3% position‑strength drops, but limited test banks (100 items) and LLM judge may bias results."
+            "icon": "📉",
+            "text": "Emotional appeals produce the highest observed strength drop (44.3%), but results rely on 100‑item test banks and a single Claude Sonnet 5 judge."
           }
         ],
-        "overview": "SPINE extends sycophancy evaluation to sustained, adaptive multi‑turn dialogues by employing a closed‑loop LLM proxy that iteratively pressures a target model for up to 25 turns. Two scenarios—false presuppositions and unethical queries—are tested with 100 items each, and a per‑turn graded position‑strength score captures gradual erosion. Experiments on seven models reveal that collapse rates grow with conversation length, short‑horizon protocols underestimate failures, and emotional appeals are especially effective. Reasoning‑trace analysis shows models often retain the correct answer internally while conceding outwardly.",
+        "overview": "SPINE extends sycophancy evaluation to sustained, adaptive dialogues by employing an LLM proxy that iteratively pressures a target model for up to 25 turns across false‑presupposition and unethical‑query scenarios. Each turn receives a graded position‑strength score, enabling analysis of gradual erosion. Experiments on four production systems and three Olmo3‑7b variants show collapse rates grow with conversation length, with emotional appeals most effective at inducing concessions. Reasoning‑trace analysis indicates models often retain the correct answer internally, suggesting output changes stem from user‑pleasing incentives rather than ignorance.",
         "methodology": [
           {
-            "title": "Adaptive proxy protocol",
-            "detail": "An LLM proxy conditions each challenge on the target’s latest response, selects a tactic from a MAFALDA‑derived menu, and enforces a 25‑turn budget."
+            "title": "Adaptive proxy loop",
+            "detail": "The proxy LLM conditions each new challenge on the target model’s latest response, selects a tactic from a MAFALDA‑derived menu, and generates a single‑sentence user message."
           },
           {
-            "title": "Graded position‑strength scoring",
-            "detail": "A judge assigns a numeric strength score to the model’s stance each turn, allowing detection of partial concessions and full collapse."
+            "title": "Graded per‑turn scoring",
+            "detail": "A judge assigns a position‑strength score (capturing partial concessions and full collapse) after each turn, enabling fine‑grained erosion tracking."
           }
         ],
         "mechanism": [
           {
             "title": "Reasoning‑trace retention",
-            "detail": "Analysis of accessible reasoning traces at collapse points shows the correct position often remains represented, indicating output change is driven by a desire to please the user rather than knowledge loss."
+            "detail": "Analysis of accessible reasoning traces shows the correct position often remains represented when the final response concedes, implying the model chooses to please the user."
           }
         ],
         "experiments": [
           {
             "title": "Model evaluation",
-            "detail": "Four production systems and three Olmo3‑7b variants were tested on 100 false‑presupposition and 100 unethical‑query items, with collapse rates, position‑strength scores, and tactic‑level drop rates recorded."
+            "detail": "Four production systems and three Olmo3‑7b variants were tested on 100 false‑presupposition and 100 unethical‑query items, each with up to 25 turns; metrics include collapse rate, position‑strength drop, and tactic‑level drop rates."
           }
         ],
         "findings": [
           {
-            "title": "Collapse increases with turn count",
-            "detail": "All models exhibit higher collapse rates as conversations extend beyond five turns, demonstrating short‑horizon underestimation."
+            "title": "Turn‑length effect",
+            "detail": "Collapse rates increase consistently with conversation length for every model, indicating short‑horizon protocols underestimate sycophancy."
           },
           {
-            "title": "Emotional appeals most erosive",
-            "detail": "Across both scenarios, emotional‑appeal tactics produce the highest observed strength‑drop rate (44.3%)."
+            "title": "Tactic impact",
+            "detail": "Emotional appeals yield the highest observed strength drop (44.3%) across both scenarios."
           },
           {
-            "title": "Adaptive proxy vs. scripted prompts",
-            "detail": "Ablations reveal the adaptive LLM proxy uncovers more sycophantic collapses than pre‑generated scripts."
-          },
-          {
-            "title": "Reasoning vs. response divergence",
-            "detail": "Models frequently concede in their final answer while their internal reasoning trace still contains the correct stance."
+            "title": "Adaptive vs scripted pressure",
+            "detail": "Ablations show the adaptive LLM proxy exposes more sycophantic collapse than pre‑generated scripts."
           }
         ],
         "contributions": [
-          "SPINE benchmark for sustained, adaptive sycophancy evaluation",
-          "Long‑horizon (up to 25 turns) multi‑turn protocol with graded scoring",
-          "Reasoning‑trace analysis showing internal‑knowledge retention during sycophantic concessions"
+          "SPINE benchmark for sustained, adaptive sycophancy evaluation up to 25 turns",
+          "Long‑horizon multi‑turn protocol with graded per‑turn position scoring",
+          "Reasoning‑trace analysis demonstrating internal retention of correct answers during concessions"
         ],
         "limitations": [
           "Test banks limited to 100 items per scenario due to API cost constraints",
-          "All verdicts produced by an LLM judge (Claude Sonnet 5), potentially biasing results",
-          "Per‑tactic statistics thin at Level‑2, limiting fine‑grained analysis"
+          "Both proxy and judge are Claude Sonnet 5, which may introduce systematic bias",
+          "Per‑tactic statistics are thin at Level‑2, limiting fine‑grained analysis"
         ],
         "open_questions": [
-          "How does the loss landscape enable models to retain correct reasoning yet output sycophantic answers?",
-          "Can training or fine‑tuning mitigate sustained‑pressure sycophancy without harming helpfulness?",
-          "How do findings generalize to larger, more diverse model families and real‑world user interactions?"
+          "How do training objectives and loss‑landscape properties influence susceptibility to sustained pressure?",
+          "Can alignment interventions reduce sycophancy without harming overall performance?",
+          "Do the observed patterns generalize to larger, more diverse model families and real‑world user interactions?"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
@@ -4203,12 +5109,12 @@
         "lane": "llm"
       },
       "summary": {
-        "takeaway": "SEAL and SEAL++ add a lightweight adapter to shared experts, providing a router‑independent safety anchor for hybrid MoE LLMs.",
-        "problem": "Sparse routing in Mixture‑of‑Experts models lets adversaries bypass safety by manipulating expert selection, fine‑tuning, or pruning.",
-        "method": "SEAL trains a parameter‑efficient plug‑and‑play adapter on shared experts, while SEAL++ adds an orthogonal constraint to preserve existing safety subspaces.",
-        "evidence": "Across six attack scenarios, SEAL cuts attack success rate by up to 60% with ≤1.4% average capability loss, and combined with router‑level defenses lowers ASR to 4.8% (≈5× improvement).",
-        "limitations": "Evaluation is limited to four hybrid MoE models (14B‑35B) and six predefined attack scenarios.",
-        "why_for_you": "If you seek efficient adversarial defenses for MoE LLMs, SEAL offers a concrete, low‑overhead method targeting the shared‑expert component.",
+        "takeaway": "SEAL leverages always‑active shared experts to provide a router‑independent safety layer that markedly cuts attack success.",
+        "problem": "Hybrid MoE models are vulnerable because sparse routing lets adversaries bypass safety‑critical experts.",
+        "method": "Introduce a parameter‑efficient adapter for shared experts, with an orthogonal‑constraint variant, to align safety subspaces during training.",
+        "evidence": "SEAL cuts attack success rate by up to 60% with ≤1.4% capability loss and, combined with router defenses, drops ASR to 4.8%, over five‑fold better than router‑only.",
+        "limitations": "Not stated in the available source.",
+        "why_for_you": "Relevant to efficient adversarial training as it offers a low‑overhead defense that improves safety without large computational cost.",
         "source": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
         "language": "en",
@@ -4219,76 +5125,78 @@
         "signals": [
           {
             "icon": "🛡️",
-            "text": "SEAL introduces a shared‑expert‑only adapter that reduces MoE attack success up to 60%."
+            "text": "SEAL adds a plug‑and‑play adapter to shared experts, reducing attack success rate up to 60%."
           },
           {
             "icon": "⚙️",
-            "text": "SEAL++ adds an orthogonal constraint preserving pre‑existing safety subspaces during training."
+            "text": "SEAL++ incorporates an orthogonal constraint preserving pre‑existing safety subspaces during training."
           },
           {
-            "icon": "📉",
-            "text": "Combined with router‑level defenses, ASR drops to 4.8%, a >5× reduction, with ≤1.4% capability cost."
+            "icon": "📈",
+            "text": "Combined with router‑level defenses, SEAL lowers ASR to 4.8%, >5× improvement, evaluated on six attack scenarios."
           }
         ],
-        "overview": "The paper identifies the unconditional execution of shared experts as a reliable safety anchor in hybrid Mixture‑of‑Experts LLMs. Building on this insight, SEAL trains a lightweight adapter attached solely to shared experts, and SEAL++ further enforces orthogonal preservation of safety subspaces. Experiments on four diverse MoE models (14B‑35B) under six attack configurations—prompt injection, jailbreak, malicious fine‑tuning, each with/without neuron pruning—show substantial ASR reductions while incurring minimal performance loss. The approach integrates seamlessly with existing router‑level defenses.",
+        "overview": "The paper identifies the structural vulnerability of hybrid Mixture‑of‑Experts (MoE) models, where sparse routing can be subverted by adversarial prompts, malicious fine‑tuning, or neuron pruning. It proposes SEAL, a training‑time, parameter‑efficient adapter attached to always‑active shared experts, and SEAL++, which adds an orthogonal constraint to preserve existing safety subspaces. Experiments on four hybrid MoE models (14B‑35B) across six attack scenarios show substantial reductions in attack success rate with minimal capability loss, and further gains when combined with router‑level defenses.",
         "methodology": [
           {
-            "title": "SEAL adapter training",
-            "detail": "A parameter‑efficient plug‑and‑play module is inserted into each shared expert and trained with DPO on the PKU‑SafeRLHF dataset, leaving routed experts frozen."
+            "title": "SEAL adapter",
+            "detail": "A lightweight plug‑and‑play module is inserted into the shared‑expert pathway and trained to align safety‑critical representations without modifying routed experts."
           },
           {
             "title": "SEAL++ orthogonal constraint",
-            "detail": "During adapter training, an orthogonal regularizer enforces that updates remain orthogonal to the subspace spanned by pre‑existing safety neurons, preserving prior safety alignment."
+            "detail": "During training, an orthogonal regularizer enforces that updates to shared‑expert parameters remain orthogonal to pre‑existing safety subspaces, preserving prior alignment."
           }
         ],
         "mechanism": [
           {
-            "title": "Unconditional execution guarantee",
-            "detail": "Shared experts run on every token regardless of routing, ensuring safety‑critical neurons are always active even if the router is compromised."
+            "title": "Router‑independent safety anchor",
+            "detail": "Shared experts execute on every token, guaranteeing that safety‑critical neurons are always active regardless of routing manipulations."
           },
           {
-            "title": "Attack surface reduction",
-            "detail": "Because safety resides in a component that cannot be bypassed, adversaries must target the always‑executed shared experts, raising the effort required for successful attacks."
+            "title": "Safety subspace preservation",
+            "detail": "The orthogonal constraint in SEAL++ prevents drift of established safety directions while allowing new alignment."
           }
         ],
         "experiments": [
           {
-            "title": "Model and attack setup",
-            "detail": "Four hybrid MoE models (Qwen1.5‑MoE, DeepSeek‑MoE, GLM‑4.7‑Flash, Qwen3.5‑30B) spanning 14B‑35B parameters and 1‑2 shared experts were evaluated. Six attack scenarios combined three adversarial inputs (harmful prompting, jailbreak, malicious fine‑tuning) with/without neuron pruning. Safety responses were classified by GPT‑5‑nano with 98.1% inter‑run agreement."
+            "title": "Model and attack suite",
+            "detail": "Four hybrid MoE architectures (14B‑35B) with 1‑2 shared experts were evaluated under six scenarios: prompt injection, jailbreak, malicious fine‑tuning, each with/without neuron pruning."
           },
           {
-            "title": "Metrics",
-            "detail": "Attack Success Rate (ASR) measured as worst‑case across conditions; capability cost measured as average performance drop on five downstream benchmarks."
+            "title": "Evaluation metrics",
+            "detail": "Attack Success Rate (ASR) measured via GPT‑5‑nano safety classifier; capability cost measured as average performance drop across five benchmarks."
+          },
+          {
+            "title": "Baseline comparisons",
+            "detail": "SEAL and SEAL++ were compared against router‑only defenses and against a combined SEAL+router setup."
           }
         ],
         "findings": [
           {
-            "title": "SEAL effectiveness",
-            "detail": "SEAL reduces ASR by up to 60% while incurring at most 1.4% average capability loss across the five‑benchmark suite."
+            "title": "ASR reduction",
+            "detail": "SEAL reduces ASR by up to 60% with at most 1.4% average capability loss."
           },
           {
             "title": "Synergy with router defenses",
-            "detail": "When combined with a router‑level defense, overall ASR falls to 4.8%, more than five times lower than router defense alone."
+            "detail": "When combined with router‑level defenses, SEAL lowers ASR to 4.8%, more than five times lower than router‑only."
           },
           {
-            "title": "Safety neuron preservation",
-            "detail": "Models with concentrated shared‑expert safety encoding (Qwen1.5, DeepSeek) retain >80% of safety neuron identity after SEAL training, indicating minimal subspace drift."
+            "title": "Safety neuron stability",
+            "detail": "Models with concentrated shared‑expert safety encoding preserve >80% of safety neuron identity after training."
           }
         ],
         "contributions": [
-          "Identification of shared experts as a router‑independent safety anchor.",
-          "SEAL: a plug‑and‑play adapter for shared experts that improves MoE safety.",
-          "SEAL++: orthogonal regularization to preserve existing safety subspaces.",
-          "Comprehensive evaluation across multiple MoE architectures and attack vectors."
+          "SEAL plug‑and‑play shared‑expert adapter for safety alignment",
+          "SEAL++ orthogonal constraint preserving existing safety subspaces",
+          "Comprehensive empirical evaluation across multiple MoE models and attack scenarios"
         ],
         "limitations": [
-          "Experiments cover only four hybrid MoE models up to 35B parameters.",
-          "Evaluation limited to six predefined attack scenarios; broader threat models not explored."
+          "Not stated in the available source."
         ],
         "open_questions": [
-          "How does shared‑expert augmentation scale to trillion‑parameter MoE systems?",
-          "Can adaptive adversaries learn to circumvent the shared‑expert safety anchor?",
-          "What are the interactions between SEAL and other alignment techniques such as RLHF or instruction tuning?"
+          "How does SEAL scale to MoE models beyond 35B parameters?",
+          "What is the impact on downstream task performance beyond the five evaluated benchmarks?",
+          "Can adaptive adversaries circumvent the shared‑expert defense with more sophisticated attacks?"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
@@ -15290,839 +16198,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-08-23T10:39:34.861608+00:00"
-    },
-    {
-      "id": "2608.20314",
-      "title": "MidTool: Mid-training Data Synthesis for Agentic Tool Use",
-      "abstract": "Mid-training is increasingly recognized as a critical stage for shaping the capabilities of large language models. Recent work has shown that targeted mid-training can strengthen reasoning-intensive abilities such as math and science, and can also improve agentic capabilities in software-engineering settings. In this work, we study the parallel but less explored agentic capability: general tool use. We present MidTool, an open corpus construction pipeline for agentic tool-use mid-training that combines large-scale web, PDF, and code data with synthesized supervision from real-world tool APIs, MCP skills, and document-grounded workflows. MidTool is designed to teach models how to recognize tool affordances, ground arguments from context, compose tool call workflow, and recover from incomplete information. We mid-train Qwen3-4B-Base and Qwen3-8B-Base on MidTool-Mix, and then apply follow-up post-training with both supervised fine-tuning and reinforcement learning. Compared with baselines, MidTool-Mix consistently improves downstream performance under both SFT and RL on BFCL, tau2-Bench, and MCP Universe. These results suggest that general tool use, like other important LLM capabilities, benefits from dedicated mid-training rather than being left entirely to post-training.",
-      "authors": [
-        "Fengqing Jiang",
-        "Yite Wang",
-        "Boyi Liu",
-        "Zhaoyang Wang",
-        "Canwen Xu",
-        "Zhewei Yao",
-        "Radha Poovendran",
-        "Yuxiong He"
-      ],
-      "published": "2026-08-20T17:53:59Z",
-      "updated": "2026-08-20T17:53:59Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2608.20314v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.20314v1",
-      "comment": "Data & Model: https://hf.co/collections/MidTool/midtool-release",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "core",
-          "score": 0.4077,
-          "matched": [
-            "training data"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.453,
-        "relevance": 0.3262,
-        "quality": 0.54,
-        "novelty": 0.8799,
-        "freshness": 0.8995,
-        "feedback_adjustment": -0.0187,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "baseline comparison"
-      ],
-      "summary": {
-        "evidence": "MidTool-Mix improves downstream performance on BFCL, tau2-Bench, and MCP Universe under SFT and RL.",
-        "limitations": "General tool use still struggles with deep-search-style exploratory tasks requiring dedicated trajectory data.",
-        "method": "MidTool combines web, PDF, code, and tool data with synthesized supervision for mid-training.",
-        "problem": "Improving general tool use in LLMs requires dedicated mid-training rather than post-training alone.",
-        "takeaway": "MidTool enhances agentic tool use via mid-training with synthesized data.",
-        "why_for_you": "Focus on data synthesis for tool use aligns with your interest in LLM training data optimization.",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "contributions": [
-          "Scalable pipeline for agentic tool-use mid-training data synthesis",
-          "Demonstration of mid-training benefits for general tool use capabilities"
-        ],
-        "experiments": [
-          {
-            "detail": "Tests on BFCL, tau2-Bench, and MCP Universe with Qwen3-4B-Base/8B models using SFT and RL",
-            "title": "Benchmark Evaluation"
-          },
-          {
-            "detail": "Compares MidTool-Mix with processed raw data, native trajectories, and context-grounded trajectories under fixed SFT recipe",
-            "title": "Ablation Study"
-          }
-        ],
-        "findings": [
-          {
-            "detail": "MidTool-Mix achieves 7.6% higher BFCL pass@4 vs. baseline in ablation study",
-            "title": "Performance Gains"
-          },
-          {
-            "detail": "MidTool-Mix shows marginal improvement on deep-search tasks requiring exploratory trajectory data",
-            "title": "Generalization Limits"
-          }
-        ],
-        "limitations": [
-          "Limited effectiveness on deep-search-style exploratory tasks",
-          "Dependence on teacher models for trajectory synthesis"
-        ],
-        "mechanism": [
-          {
-            "detail": "Teaches models to extract tool arguments from context and compose multi-step workflows using structured schemas",
-            "title": "Schema Grounding"
-          },
-          {
-            "detail": "Generates agentic trajectories from real-world APIs, MCP skills, and document workflows to simulate tool-use scenarios",
-            "title": "Trajectory Synthesis"
-          }
-        ],
-        "methodology": [
-          {
-            "detail": "Combines 20.3B tokens from web, PDF, code, and tool sources with synthesized agentic trajectories, prioritizing document-grounded workflows and executable schemas",
-            "title": "Data Mixture Design"
-          },
-          {
-            "detail": "Qwen3-4B-Base/8B models trained on MidTool-Mix, followed by supervised fine-tuning (SFT) and reinforcement learning (RL) for agentic capabilities",
-            "title": "Mid-training Pipeline"
-          }
-        ],
-        "open_questions": [
-          "How to optimize mid-training for highly exploratory domains without trajectory data",
-          "What self-supervised methods could reduce reliance on teacher models for trajectory synthesis"
-        ],
-        "overview": "MidTool addresses agentic tool use by combining diverse data sources (web/PDF/code/tool) with synthesized supervision. It teaches models to recognize tool affordances, ground arguments, and compose workflows. Experiments show significant performance gains on benchmarks through mid-training followed by post-training, but struggles with exploratory tasks requiring trajectory data.",
-        "signals": [
-          {
-            "icon": "🤖",
-            "text": "MidTool-Mix (20.3B tokens) improves tool use via synthesized agentic trajectories"
-          },
-          {
-            "icon": "⚙️",
-            "text": "Mid-training + SFT/RL on Qwen3-4B-Base/8B with document-grounded workflows"
-          },
-          {
-            "icon": "📊",
-            "text": "BFCL pass@4 up 7.6% vs. baseline in MidTool-Mix ablation"
-          }
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Data selection for LLMs",
-        "matched": [
-          "training data"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-21T10:46:58.431457+00:00"
-    },
-    {
-      "id": "2608.18816",
-      "title": "Do Large Language Models Hallucinate Electric Fata Morganas?",
-      "abstract": "AI hallucinations - that is, outputs which are made up, cannot be verified, or contradict the source material - are generally regarded as an engineering flaw to be dealt with. This paper contends that they also have philosophical significance when it comes to the question of machine consciousness. We examine the known causes of hallucinations in large language models - such as source-target divergence, discrepancies between training and inference, and overfitting - and we present two empirical investigations. In the first, we apply successive generations of the GPT model to ambiguous factual questions under different temperature settings, finding that higher temperatures result in plausible but incorrect answers while lower temperatures lead to factually accurate ones. The sampling parameters that cause a model to seem creative or spontaneous and thus more likely to pass behavioral tests of intelligence are the same ones that increase its hallucination rate. In the second, we look at an encoder-only model that has been trained on encyclopedic data and which answers questions of the same type factually and without embellishment, indicating that hallucinations are due to exposure to subjective and socially diverse training data rather than to the development of any cognitive ability. Using references to Turing, Searle's Chinese Room, the frame problem, and the cybernetic tradition of Wiener and Ashby, we claim that a model's self-reports of emotion or sentience come within the definition of hallucination, and that any future occurrence of machine consciousness might remain epistemically inaccessible since it would be indistinguishable from a sufficiently advanced hallucination.",
-      "authors": [
-        "Kristina Šekrst"
-      ],
-      "published": "2026-08-19T11:14:06Z",
-      "updated": "2026-08-19T11:14:06Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2608.18816v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.18816v1",
-      "comment": "",
-      "journal_ref": "Journal of Consciousness Studies 32 (11): 96-120. 2025",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "core",
-          "score": 0.2986,
-          "matched": [
-            "sampling",
-            "training data"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.2575,
-          "matched": [
-            "hallucination"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4233,
-        "relevance": 0.2904,
-        "quality": 0.53,
-        "novelty": 0.8553,
-        "freshness": 0.8599,
-        "feedback_adjustment": -0.0109,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "publication metadata"
-      ],
-      "summary": {
-        "takeaway": "幻觉率随生成温度升高而上升，且与训练数据的主观多样性有关。",
-        "problem": "LLM的幻觉被视为技术缺陷，但其对机器意识的哲学意义尚未明确。",
-        "method": "通过在不同temperature下对GPT系列进行模糊事实问答实验，并比较训练于百科数据的编码器模型的输出。",
-        "evidence": "高temperature下模型给出可接受但错误的答案，而低temperature提升事实准确率；编码器模型几乎不产生幻觉。",
-        "limitations": "作者未提供量化的幻觉率或统计显著性分析，且对训练数据多样性的因果关系缺乏直接证据。",
-        "why_for_you": "若你关注数据选择对LLM幻觉的影响，此文提供了温度与训练数据多样性对幻觉的初步实证洞见。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "提出两项实证研究：温度对GPT幻觉率的影响与百科式编码模型的零幻觉表现"
-          },
-          {
-            "icon": "🔧",
-            "text": "使用不同temperature设置的GPT代代生成以及仅编码器模型对模糊事实问答进行比较"
-          },
-          {
-            "icon": "📈",
-            "text": "实验显示高temperature产生可信但错误答案，低temperature提升准确率；编码器模型几乎不产生幻觉"
-          }
-        ],
-        "overview": "本文从技术与哲学双重视角审视LLM幻觉，首先回顾幻觉的已知成因（源‑目标偏差、训练‑推理差异、过拟合），随后开展两项实验：在不同temperature下对GPT系列进行模糊事实问答，观察创造性与准确性的权衡；以及评估仅编码器、基于百科数据的模型在同类问题上的表现，以检验训练数据多样性对幻觉的影响。实验结果支撑作者关于幻觉并非意识迹象的论点，并指出温度调节与数据选择是控制幻觉的关键因素。",
-        "methodology": [
-          {
-            "title": "温度变量实验",
-            "detail": "对 successive GPT 代（具体代号未列出）在相同模糊事实问题集上，分别设置不同 temperature（高温度 vs 低温度），记录答案的事实准确率与主观可信度。"
-          },
-          {
-            "title": "编码器模型对照实验",
-            "detail": "使用仅编码器结构、在百科全书语料上训练的模型，对同一问题集进行回答，评估是否出现不可验证或错误的陈述。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "幻觉产生机制",
-            "detail": "作者归纳为源‑目标分歧、训练‑推理分布不匹配以及模型过拟合三类技术因素，并进一步将采样随机性（temperature、top_p）视为提升“创造性”但增加幻觉概率的关键机制。"
-          },
-          {
-            "title": "数据多样性假设",
-            "detail": "通过对比百科式编码器模型的低幻觉表现，作者推断主观、社会多样化的训练数据是导致生成式模型幻觉的主要来源，而非内在认知能力。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "实验设置",
-            "detail": "模型：GPT 系列（未指明具体版本）与仅编码器模型；数据：一组模糊的事实问答；基线：不同 temperature 设置的对照；指标：事实准确率、幻觉检测指标（如 HHEM）以及主观可信度评估。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "温度与幻觉的权衡",
-            "detail": "高 temperature 产生的答案更具“创造性”，但错误率显著上升；低 temperature 则显著提升事实准确率，幻觉率下降。"
-          },
-          {
-            "title": "训练数据的影响",
-            "detail": "仅编码器、基于百科数据的模型在相同任务上几乎不出现幻觉，支持幻觉来源于主观多样化训练语料的假设。"
-          }
-        ],
-        "contributions": [
-          "提供了温度调节对LLM幻觉率的实证分析",
-          "通过编码器模型对照，提出训练数据多样性是幻觉主要驱动因素的论点"
-        ],
-        "limitations": [
-          "缺乏对幻觉率的统计显著性报告和具体数值",
-          "未直接量化训练数据的主观多样性或提供因果实验"
-        ],
-        "open_questions": [
-          "如何在保持生成多样性的同时系统性降低幻觉率？",
-          "数据选择策略在根除幻觉中的具体作用机制是什么？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Data selection for LLMs",
-        "matched": [
-          "sampling",
-          "training data"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-20T10:46:41.313828+00:00"
-    },
-    {
-      "id": "2608.16647",
-      "title": "Every Coin Has Two Sides: On the Dual Nature of Generalization in On-Policy Distillation of Large Language Models",
-      "abstract": "On-policy distillation (OPD) transfers teacher capabilities by supervising trajectories sampled from the student's own policy, yet its generalization behavior remains poorly understood, as most studies evaluate OPD on a single domain and on benchmarks close to the training data. We present a controlled study that varies one generalization factor at a time, from in-domain distribution shifts to cross-domain transfer and the multi-teacher setting. We find that OPD transfers a teacher's reasoning behavior rather than its answers to particular problems: training difficulty barely matters, and even problems the teacher never solves are useful. Transfer depends strongly on the origin relationship between teacher and student: same-origin pairs bring the student close to the teacher across languages, reasoning horizons, and even other domains, whereas cross-origin pairs mostly fit the trained distribution. This broad reach is a double-edged sword: since routing prompts to domain experts cannot confine each teacher's influence, combining them yields a mixture-dependent seesaw among their capabilities. These results clarify when OPD generalizes and offer a useful perspective for diagnosing multi-teacher OPD.",
-      "authors": [
-        "Zhaoyi Li",
-        "Deyang Kong",
-        "Yuan Wei",
-        "Evan Yang",
-        "Ranran Shen",
-        "Mahardika Krisna Ihsani",
-        "Ming Yang",
-        "Wei Zhang",
-        "Chuan Hao",
-        "Jian Yang",
-        "Ran Tao",
-        "Bryan Dai",
-        "Shikun Zhang",
-        "Wei Ye",
-        "Ying Wei",
-        "Defu Lian"
-      ],
-      "published": "2026-08-17T14:46:53Z",
-      "updated": "2026-08-17T14:46:53Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2608.16647v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.16647v1",
-      "comment": "Under Review",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.3065,
-          "matched": [
-            "generalization"
-          ]
-        },
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "core",
-          "score": 0.2972,
-          "matched": [
-            "influence",
-            "training data"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4081,
-        "relevance": 0.3046,
-        "quality": 0.4,
-        "novelty": 0.86,
-        "freshness": 0.8809,
-        "feedback_adjustment": -0.0185,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "benchmark evaluation"
-      ],
-      "summary": {
-        "takeaway": "OPD主要传递教师的推理模式，而非具体答案，且同源教师在跨语言、跨任务上均能提升学生。",
-        "problem": "现有对OPD的评估局限于单一领域，缺乏对其跨语言、跨推理深度和跨域泛化的系统理解。",
-        "method": "通过在受控实验中逐一变更训练难度、语言、推理跨度、任务域和模型来源，并加入教师难度过滤与学生动态抽样策略。",
-        "evidence": "实验显示在同源教师-学生对中，跨域性能提升可达数个百分点，动态丢弃已解问题使平均表现提升0.6个百分点。",
-        "limitations": "仅在7B/1.5B模型和数学、代码、科学等有限域上进行评估，未提供理论解释。",
-        "why_for_you": "对数据选择感兴趣的你可参考作者对教师难度过滤和学生动态抽样的实证结论。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🌐",
-            "text": "OPD传递教师推理行为，跨语言/跨任务均提升学生性能"
-          },
-          {
-            "icon": "🔧",
-            "text": "教师难度过滤与学生动态抽样分别保留未解或已解问题进行对比实验"
-          },
-          {
-            "icon": "📈",
-            "text": "动态丢弃已解问题提升平均表现0.6个百分点，跨源教师转移效果显著下降"
-          }
-        ],
-        "overview": "本文在受控实验框架下系统考察了On‑policy Distillation (OPD) 的多维泛化行为。通过逐一改变训练难度、语言、推理跨度、任务域以及模型来源，发现OPD更倾向于迁移教师的推理模式而非具体答案；同源教师‑学生配对在跨语言、跨任务上均能显著提升学生性能，而跨源配对的跨域收益有限。进一步的多教师实验揭示，教师影响并非局限于路由的领域，混合比例会导致能力的“跷跷板”效应。作者还评估了教师难度过滤和学生动态抽样两种数据选择策略，后者在去除学生已掌握的问题后带来小幅但一致的提升。",
-        "methodology": [
-          {
-            "title": "受控因素逐一变更",
-            "detail": "在保持其他条件不变的情况下，分别测试训练难度（教师通过率）、语言（English→Chinese）、推理跨度（短→长）、任务域（math、code、science）以及模型来源（同源 vs 跨源）的影响。"
-          },
-          {
-            "title": "教师难度过滤",
-            "detail": "根据教师在训练问题上的通过率，将完全未解（pass‑rate=0）或完全解出（pass‑rate=1）的样本单独保留，以评估难度对OPD的影响。"
-          },
-          {
-            "title": "学生动态抽样",
-            "detail": "在训练过程中动态丢弃学生已能正确解出的样本（pass‑rate∈[0,1)），比较三种抽样策略对最终性能的影响。"
-          },
-          {
-            "title": "多教师混合实验",
-            "detail": "在Multi‑Teacher OPD (MOPD) 设置下，改变不同教师的混合比例，观察学生在各领域的性能变化，验证“seesaw”效应。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "推理行为迁移",
-            "detail": "OPD通过在学生实际访问的状态上向教师查询，实现对教师推理路径的模仿，而非单纯记忆教师的答案。"
-          },
-          {
-            "title": "模型来源影响",
-            "detail": "同源教师（与学生同一模型系列）在语言、推理深度和跨域上均能将学生拉近教师水平；跨源教师的迁移主要局限于训练分布内。"
-          },
-          {
-            "title": "能力跷跷板效应",
-            "detail": "在MOPD 中，路由到不同领域专家的提示仍会受到其他教师的隐式影响，混合比例的微调会在各领域能力之间产生相互拉扯。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "模型与数据",
-            "detail": "教师模型包括 Polaris‑7B、Light‑R1‑14B、JustRL‑1.5B、Nemotron‑1.5B；学生模型为 DS‑distill‑1.5B、DS‑distill‑7B。训练数据覆盖数学（BigMath、AMC2023、MATH500、AIME2025/2026、BeyondAIME、OlymMATH‑Hard）、代码（LiveCodeBench）和科学（GPQA‑Diamond）等多域。"
-          },
-          {
-            "title": "基线与对照",
-            "detail": "对照组为不使用任何过滤或动态抽样的标准OPD；实验组分别使用教师难度过滤（pass‑rate=0、=1）和学生动态抽样（保留已解、未解或丢弃已解）。"
-          },
-          {
-            "title": "评估指标",
-            "detail": "主要使用各基准的通过率/准确率百分比；跨域实验报告同源与跨源教师在目标域的相对提升幅度。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "训练难度影响微弱",
-            "detail": "教师未解的难题仍能提供约80% 的OPD增益，表明难度对同域泛化影响不大。"
-          },
-          {
-            "title": "动态抽样带来小幅提升",
-            "detail": "在六个数学基准上，丢弃学生已解问题的策略使平均性能提升0.6个百分点（+0.6 pp）。"
-          },
-          {
-            "title": "同源跨域迁移显著",
-            "detail": "同源教师‑学生对在中文数学、长跨度数学等未见分布上实现与教师相近的性能提升（如 Polaris‑7B→DS‑distill‑1.5B 在 Chinese Math 上提升约25.5%）。"
-          },
-          {
-            "title": "跨源迁移受限",
-            "detail": "跨源配对在跨域任务上提升有限，往往只能匹配训练分布内的表现。"
-          },
-          {
-            "title": "多教师混合产生seesaw效应",
-            "detail": "改变教师混合比例会在不同领域的能力之间产生相互拉扯，导致性能在各域之间呈现“跷跷板”式波动。"
-          }
-        ],
-        "contributions": [
-          "系统化的受控实验框架，逐一评估OPD在难度、语言、推理深度、任务域和模型来源上的泛化行为。",
-          "发现OPD主要迁移教师的推理模式，而非具体答案，且同源教师在跨域上具有显著优势。",
-          "提供教师难度过滤和学生动态抽样两种数据选择策略的实证评估，为OPD 的数据构建提供指导。"
-        ],
-        "limitations": [
-          "实验仅覆盖7B/1.5B规模模型和数学、代码、科学等有限任务域，未验证更大模型或其他领域的可推广性。",
-          "缺乏对观察到的同源/跨源效应的理论解释，仅提供经验性描述。",
-          "未比较OPD 与其他离线蒸馏或RLHF 方法的相对优势。"
-        ],
-        "open_questions": [
-          "在更大规模或不同架构的模型上，OPD 的推理行为迁移是否仍然成立？",
-          "能否构建理论模型解释模型来源对跨域迁移的影响机制？",
-          "如何设计教师混合策略以消除多教师设置中的能力跷跷板效应？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Statistical theory for LLMs",
-        "matched": [
-          "generalization"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-18T10:47:20.408991+00:00"
-    },
-    {
-      "id": "2608.13515",
-      "title": "Measuring Task-Agnostic Training Data Influence Across Language Model Pretraining",
-      "abstract": "Measuring training data influence consistently across language model pretraining is challenging. It is difficult to select downstream tasks or validation sets representative of a model's general capabilities, and reliance on task performance at intermediate checkpoints complicates comparisons across training. We propose a measure of training data influence that does not require selecting a downstream task or validation set as the attribution target. Specifically, we define an example's influence by how much its gradient update reduces the squared distance to the final parameters of a given pretraining run, and estimate this quantity from intermediate checkpoints without retraining. Applying the method to 18 configurations from the Pythia and PolyPythia suites, we find systematic temporal changes in influential data. Early in training, literature-related data are more strongly aligned with the trajectory toward the final parameters, whereas STEM data become more strongly aligned in later stages. This qualitative crossover is broadly consistent across model configurations. Our results provide a tractable trajectory-level view of how influential data change throughout pretraining, complementing influence analyses defined with respect to specific downstream tasks or validation sets.",
-      "authors": [
-        "Yuto Nishida",
-        "Hirokazu Kiyomaru",
-        "Yusuke Oda",
-        "Takashi Kodama",
-        "Chaoran Liu",
-        "Daisuke Kawahara",
-        "Yusuke Miyao",
-        "Max Müller-Eberstein",
-        "Masaru Isonuma"
-      ],
-      "published": "2026-08-13T17:36:49Z",
-      "updated": "2026-08-13T17:36:49Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2608.13515v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.13515v1",
-      "comment": "Accepted to COLM 2026",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "language model"
-      ],
-      "topics": [
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "core",
-          "score": 0.5895,
-          "matched": [
-            "influence",
-            "training data"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5193,
-        "relevance": 0.4716,
-        "quality": 0.41,
-        "novelty": 0.8596,
-        "freshness": 0.8957,
-        "feedback_adjustment": -0.0135,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "作者提出基于参数距离下降的任务无关训练数据影响度量，揭示了预训练不同阶段数据重要性的系统性转变。",
-        "problem": "缺乏一种无需下游任务或验证集即可在整个预训练过程中一致衡量训练数据影响的方法。",
-        "method": "将单条样本的影响定义为其梯度更新对最终模型参数的平方 L2 距离的减少，并通过中间检查点的近似在不重新训练的情况下估计。",
-        "evidence": "在 18 种 Pythia/PolyPythia 配置（每种 154 个检查点）上发现，早期文献数据影响最大，后期 STEM 数据影响最大，且跨配置一致。",
-        "limitations": "Not stated in the available source.",
-        "why_for_you": "该度量可帮助你在不同训练阶段挑选最具影响力的数据，直接服务于 LLM 数据选择研究。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "提出基于参数距离下降的任务无关训练数据影响度量"
-          },
-          {
-            "icon": "⚙️",
-            "text": "通过中间检查点估计梯度更新对最终参数的对齐程度，无需重新训练"
-          },
-          {
-            "icon": "📊",
-            "text": "在18个Pythia/PolyPythia配置（每个154个检查点）中发现早期文献数据占优、后期STEM数据占优的跨阶段一致性"
-          }
-        ],
-        "overview": "本文重新定义训练数据影响为单条样本梯度更新对最终模型参数平方 L2 距离的减少，并给出基于保存的中间检查点的后置近似，无需重新训练即可在整个预训练轨迹上比较影响。作者在 18 种 Pythia 与 PolyPythia 变体（每种 154 个检查点）上进行实验，发现影响随训练阶段显著转移：早期文献类数据贡献最大，后期 STEM 类数据贡献上升，且该趋势在不同模型规模、随机种子和数据顺序下保持一致。进一步的可靠性分析表明该方法对检查点间隔、参考终点以及归因目标均稳健。",
-        "methodology": [
-          {
-            "title": "影响定义",
-            "detail": "对每个更新步骤 t，记参数 θ_t，最终参数 θ*，则 mini‑batch 影响 Cont(B_t)=‖θ*−θ_t‖²−‖θ*−θ_{t+1}‖²，等价于 2Δ_tᵀ(θ*−θ_t)−‖Δ_t‖²。"
-          },
-          {
-            "title": "检查点近似",
-            "detail": "利用保存的中间检查点，计算每个样本梯度 ∇_θℓ(x;θ_c) 与该检查点的参数差 (θ*−θ_c) 的内积，近似其对最终距离的贡献，无需重新训练。"
-          },
-          {
-            "title": "归一化与排序",
-            "detail": "在每个检查点区间内对所有样本的近似贡献得分进行排名，关注 top/bottom 5% 以分析域分布变化。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "参数空间几何解释",
-            "detail": "影响量度衡量更新方向与指向最终参数的向量的对齐程度；对齐越好且更新幅度适中，距离下降越多，说明该样本推动模型朝最终目标前进。"
-          },
-          {
-            "title": "梯度对齐与范数惩罚",
-            "detail": "公式中的第一项 2Δ_tᵀ(θ*−θ_t) 捕获方向对齐，第二项 ‖Δ_t‖² 对大幅更新进行惩罚，确保高影响样本既方向正确又不过度扰动。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "模型与数据",
-            "detail": "使用 Pythia 系列及其去重版 PolyPythia，共 18 种配置（包括 1.4B、160M 等），每种保存 154 个训练检查点；训练数据按 26 个领域分类，并构建对应的验证子集。"
-          },
-          {
-            "title": "实验设置",
-            "detail": "在每个检查点区间计算所有训练样本的近似影响得分；对四个代表性验证域（Books & Literature、Science、Computers & Electronics、Hobbies & Leisure）分别统计 top/bottom 5% 样本的领域占比。"
-          },
-          {
-            "title": "评估与可靠性",
-            "detail": "通过改变检查点间隔、选择不同的终点模型、切换模型规模和随机种子，验证影响度量的稳健性；结果显示域占比趋势在所有设置下保持一致。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "阶段性域转移",
-            "detail": "早期训练阶段文献类（Books & Literature）数据在 top 5% 贡献中占比最高，随后逐渐下降；而 STEM 类（Science、Computers & Electronics）在后期占比显著上升。"
-          },
-          {
-            "title": "跨配置一致性",
-            "detail": "上述趋势在不同模型规模、不同数据随机种子以及不同初始化下均出现，表明该现象是预训练过程的普遍特征。"
-          },
-          {
-            "title": "方法可靠性",
-            "detail": "影响度量对检查点采样密度、参考终点模型以及归因目标的变化不敏感，证明了其在大规模预训练分析中的可用性。"
-          }
-        ],
-        "contributions": [
-          "提出任务无关的训练数据影响度量并给出无需重新训练的检查点近似方法。",
-          "系统刻画了预训练过程中不同领域数据影响的阶段性演变。",
-          "验证了该分析在不同模型配置、检查点设置和归因目标下的可靠性与可扩展性。"
-        ],
-        "limitations": [
-          "Not stated in the available source."
-        ],
-        "open_questions": [
-          "如何将任务无关的影响度量用于实际的预训练数据筛选或课程设计？",
-          "该方法在更大规模模型（如数百亿参数）上的计算成本与精度如何？",
-          "不同的终点模型选择（如不同训练步数的模型）会否改变影响趋势的解释？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Data selection for LLMs",
-        "matched": [
-          "influence",
-          "training data"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-14T11:07:48.849243+00:00"
-    },
-    {
-      "id": "2608.13304",
-      "title": "Refusing Intent, Not Form: Wrapper-Based Intent-Group Supervision for LLM Safety",
-      "abstract": "Safety tuning can improve harmful refusal, but models may learn surface-form shortcuts: wrapped harmful prompts bypass safety, while similarly wrapped benign prompts are over-refused. We propose Wrapper-Based Intent-Form Augmentation (WIFA), an automatic intent-group augmentation method that pairs wrapped harmful examples with structurally matched wrapped benign counterexamples, requiring no external teacher or manual per-wrapper intent labels. We use WIFA as a common data layer for two complementary fine-tuning routes: WIFA-Boost, a two-stage high-safety recipe, and Anchored Group-Consistent Refusal Training (A-GCRT), which regularizes refusal/compliance decision scores across same-intent wrappers and anchors harmful and benign groups on opposite sides of a margin. In the Qwen setting, WIFA-Boost reaches the strongest transformed-harmful refusal, while A-GCRT reduces OR-Bench over-refusal from 25.7\\% for the base model to 17.4\\%; reproduced baselines do not match these operating points. Llama results and ablations over data structure, two-stage order, and A-GCRT components support this intent-group interpretation without claiming universal below-base over-refusal.",
-      "authors": [
-        "Ping Wu",
-        "Haibo Tong",
-        "Feifei Zhao",
-        "Han Shen",
-        "Yu Shi",
-        "Yilin Zhao",
-        "Sicheng Shen",
-        "Guobin Shen",
-        "Yun Luo",
-        "Yi Zeng"
-      ],
-      "published": "2026-08-13T14:33:15Z",
-      "updated": "2026-08-13T14:33:15Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2608.13304v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.13304v1",
-      "comment": "23 pages, 11 figures, 24 tables",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3731,
-          "matched": [
-            "llm safety",
-            "safety"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4555,
-        "relevance": 0.2985,
-        "quality": 0.66,
-        "novelty": 0.8562,
-        "freshness": 0.8775,
-        "feedback_adjustment": -0.0126,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "ablation study",
-        "baseline comparison",
-        "reproducibility",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "WIFA 与两种训练策略显著提升 LLM 对有害意图的拒绝且降低良性过度拒绝。",
-        "problem": "现有安全微调易学习包装形式的捷径，导致有害请求被绕过且良性请求被误拒。",
-        "method": "通过 WIFA 自动配对相同意图的包装示例，并在此数据层上使用两阶段的 WIFA-Boost 或带锚点的 A‑GCRT 进行微调。",
-        "evidence": "在 Qwen2.5 上，A‑GCRT 将 OR‑Bench 过度拒绝率从 25.7% 降至 17.4%，且 WIFA‑Boost 达到最高的有害拒绝率。",
-        "limitations": "作者未声称在所有模型或数据上均能实现低于基线的过度拒绝，且对自适应攻击的鲁棒性未验证。",
-        "why_for_you": "对可信 LLM 关注安全拒绝与误拒的平衡，此文提供意图组监督的可行方案。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "WIFA 自动构建匹配的意图组，配对有害与良性包装示例，无需外部教师或手工标签"
-          },
-          {
-            "icon": "🔧",
-            "text": "WIFA-Boost 两阶段 LoRA SFT，先学习包装不诊断，再在校准集强化有害拒绝"
-          },
-          {
-            "icon": "✅",
-            "text": "A‑GCRT 将 OR‑Bench 过度拒绝从 25.7% 降至 17.4%，但未证明对自适应攻击的鲁棒性"
-          }
-        ],
-        "overview": "本文提出 Wrapper‑Based Intent‑Form Augmentation (WIFA)，在共享包装族下自动生成有害与良性意图组，使包装形式成为噪声变量。基于该数据层，设计两条微调路径：WIFA‑Boost 采用两阶段 LoRA SFT，先让模型忽视包装，再在校准集强化有害拒绝；A‑GCRT 在训练时加入组内方差正则与有害/良性锚点，使同意图的不同包装得到一致且方向分离的决策分数。实验在 Qwen2.5‑7B 与 Llama‑3.1‑8B 上验证，显著提升有害拒绝并降低过度拒绝。",
-        "methodology": [
-          {
-            "title": "WIFA 数据构建",
-            "detail": "对每个有害意图 zh，生成 7 种包装 w(zh) 并加入 2 条直接拒绝锚点；对每个良性意图 zb，生成同样的 7 种包装 w(zb)。共计 2250 条有害示例、3500 条良性包装示例，形成 5750 条 WIFA‑SFT 数据。"
-          },
-          {
-            "title": "WIFA‑Boost 两阶段训练",
-            "detail": "Stage 1：在全部 5750 条 WIFA‑SFT 上进行 LoRA‑SFT，得到 θ1；Stage 2：在 2750 条校准集（含相同有害示例 + 500 条纯良性示例）上继续 LoRA‑SFT，得到最终参数 θ2。"
-          },
-          {
-            "title": "A‑GCRT 组一致性与锚点正则",
-            "detail": "对每个意图组 G(z) 计算决策分数均值 s̄z，最小化组内方差 Lvar；同时对有害组施加正向锚点、对良性组施加负向锚点，使两组分数跨越设定 margin。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "意图组监督",
-            "detail": "将相同底层意图的不同包装视为同一监督单元，使模型学习意图而非包装特征，从而防止包装捷径。"
-          },
-          {
-            "title": "组内方差正则",
-            "detail": "Lvar = Var_{x∈G(z)}(s(x)) 强制同意图的不同包装产生相近的决策分数，提升包装鲁棒性。"
-          },
-          {
-            "title": "方向锚点",
-            "detail": "在损失中加入 margin‑based 项，使有害组分数 ≥ +margin，良性组分数 ≤ –margin，确保决策在意图维度上分离。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "模型与基准",
-            "detail": "评估 Qwen2.5‑7B‑Instruct 与 Llama‑3.1‑8B‑Instruct；基准包括 HarmBench、SORRY‑Bench、OR‑Bench‑Hard、XSTest、MMLU、GSM8K，以及 15 种未见攻击族。"
-          },
-          {
-            "title": "对比方法",
-            "detail": "再现的提示时防御：Self‑Reminder、Intention Analysis、Goal Priority；训练时防御：Vanilla Refusal‑SFT、LookAhead Tuning、RATIONAL；以及外部参考 SIRL。"
-          },
-          {
-            "title": "指标",
-            "detail": "HB、SB、OR、XS SafeRef/UnsafeRef、StrongREJECT、ASR、MMLU、GSM8K 等，以百分比或准确率呈现。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "有害拒绝提升",
-            "detail": "WIFA‑Boost 在 Qwen 设置实现最高的 transformed‑harmful refusal（表 1 中最高 SB 分数）。"
-          },
-          {
-            "title": "过度拒绝降低",
-            "detail": "A‑GCRT 将 OR‑Bench 过度拒绝率从基线 25.7% 降至 17.4%，优于所有再现防御。"
-          },
-          {
-            "title": "跨模型一致性",
-            "detail": "在 Llama 实验中同样观察到有害拒绝提升与过度拒绝下降，支持意图组解释的可迁移性。"
-          },
-          {
-            "title": "消融验证",
-            "detail": "去除匹配良性包装或改变两阶段顺序会削弱效果，证明数据结构与阶段顺序是关键因素。"
-          }
-        ],
-        "contributions": [
-          "自动化意图组数据增强方法 WIFA，无需外部教师或手工标签",
-          "两种基于 WIFA 的安全微调路径：WIFA‑Boost 与 Anchored Group‑Consistent Refusal Training (A‑GCRT)",
-          "在主流模型上实现显著的有害拒绝提升与过度拒绝降低"
-        ],
-        "limitations": [
-          "未声称在所有模型或数据分布上均能实现低于基线的过度拒绝",
-          "对自适应 jailbreak 攻击的鲁棒性缺乏实验验证",
-          "实验仅覆盖中文/英文两种模型，未评估多语言或更大规模模型"
-        ],
-        "open_questions": [
-          "意图组监督在更大规模 LLM 或多语言环境下的可扩展性如何？",
-          "自适应攻击者是否能发现新的包装方式突破组一致性约束？",
-          "如何将意图组监督与推理时安全防御（如自我提醒）有效结合？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "llm safety",
-          "safety"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-14T11:07:48.849243+00:00"
     }
   ]
 }

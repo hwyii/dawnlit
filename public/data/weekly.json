@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-09T14:35:27.466685+00:00",
+  "generated_at": "2026-09-10T14:26:03.608556+00:00",
   "papers": [
     {
       "id": "2609.05275",
@@ -1172,6 +1172,194 @@
       "recommended_at": "2026-09-04T14:21:26.438741+00:00"
     },
     {
+      "id": "2609.10439",
+      "title": "Forgetting Only What Matters: Layer-Selective Unlearning toward Robust LLMs",
+      "abstract": "Large Language Models (LLMs) can memorize and reproduce sensitive, copyrighted, or otherwise undesirable training content, creating privacy, safety, and regulatory concerns. Machine unlearning offers a practical alternative to full retraining, but many existing methods apply broad or fixed parameter updates that can degrade utility and remain brittle under deployment changes such as post-training quantization, where forgotten knowledge may partially re-emerge. We propose Forgetting Only What Matters via Unlearning Layers (FOM-UL), a layer-level unlearning framework that selects transformer layers using a forget-to-retain significance score. This score identifies layers with high influence on the forget set and low sensitivity to the retain set, allowing FOM-UL to concentrate updates where they are most effective while leaving most of the model unchanged. This targeted update strategy improves the forgetting-utility trade-off and provides an empirical path toward quantization-resilient unlearning by reducing the chance that small, diffuse updates are erased by low-bit rounding. Across TOFU, KnowUnDo, and MUSE-style evaluations, FOM-UL reduces residual memorization compared with strong GA, NPO, KLD, SURE, ReLearn, and LUNAR-based baselines while preserving retain-set utility close to the vanilla model. Under 8-bit and 4-bit post-training quantization, FOM-UL maintains stronger memorization suppression and utility preservation than competing methods, and adversarial prompt evaluations show lower recovery of forgotten content. Overall, FOM-UL provides an efficient unlearning strategy that improves targeted forgetting, utility preservation, and deployment robustness without claiming formal guarantees of erasure.",
+      "authors": [
+        "Ravi Ranjan",
+        "Olivera Kotevska",
+        "Agoritsa Polyzou"
+      ],
+      "published": "2026-09-09T16:50:41Z",
+      "updated": "2026-09-09T16:50:41Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2609.10439v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.10439v1",
+      "comment": "22 pages, 6 figures, 11 tables, AACL-IJCNLP 2026, conference paper",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.7384,
+          "matched": [
+            "adversarial",
+            "efficient",
+            "training",
+            "robust",
+            "robustness"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4128,
+          "matched": [
+            "robustness",
+            "privacy",
+            "memorization",
+            "safety"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6786,
+        "relevance": 0.6733,
+        "quality": 0.56,
+        "novelty": 0.8539,
+        "freshness": 0.8715,
+        "feedback_adjustment": -0.0186,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "reproducibility",
+        "quantitative results"
+      ],
+      "summary": {
+        "problem": "LLM 可能记忆敏感数据，需要在不降低效用的情况下高效忘记。",
+        "evidence": "FOM-UL 在 8 位/4 位量化下相较基线（GA、NPO、LUNAR）降低残余记忆，并保持保留集效用。",
+        "method": "层级忘记框架，通过忘记集与保留集梯度幅度比选择 Transformer 层。",
+        "limitations": "缺乏正式擦除保证；效果依赖数据集特定的梯度动态。",
+        "why_for_you": "符合对高效对抗训练、量化鲁棒忘记及效用保持的兴趣。",
+        "takeaway": "FOM-UL 通过层选择忘记及忘记‑保留重要性得分提升定向忘记和部署鲁棒性。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "experiments": [
+          {
+            "detail": "在 TOFU、KnowUnDo、MUSE 基准上，与 GA、NPO、KLD、SURE、ReLearn、LUNAR 对比，使用 8 位/4 位量化。",
+            "title": "基线与数据集"
+          },
+          {
+            "detail": "M1/M2（基于 ROUGE 的残余记忆），M3（隐私泄漏距离），M4（保留集效用保持）。",
+            "title": "评估指标"
+          },
+          {
+            "detail": "使用 Llama2 7B 主干，表 4 中可训练参数与模型总大小分开记录。",
+            "title": "实现细节"
+          }
+        ],
+        "mechanism": [
+          {
+            "detail": "Sig(ℓ) = If(ℓ)/(Ir(ℓ)+ϵ) 用于识别对忘记目标高度响应、对保留目标不敏感的层。",
+            "title": "基于梯度的重要性评分"
+          },
+          {
+            "detail": "针对性更新降低易受 8/4 位四舍五入影响的小参数变化，防止遗忘知识部分复现。",
+            "title": "量化鲁棒机制"
+          }
+        ],
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "层选择忘记框架（FOM-UL）及忘记‑保留重要性得分"
+          },
+          {
+            "icon": "🔧",
+            "text": "梯度幅度比 (If(ℓ)/(Ir(ℓ)+ϵ)) 用于层选择"
+          },
+          {
+            "icon": "📊",
+            "text": "8 位/4 位量化下保持 2.88↓ M1/M2，相较基线的 4.80↓（表 1）"
+          }
+        ],
+        "limitations": [
+          "缺乏正式擦除保证",
+          "依赖数据集特定的梯度动态",
+          "层选择需调节阈值"
+        ],
+        "overview": "FOM-UL 通过针对性更新 Transformer 层应对 LLM 记忆风险。利用忘记集梯度幅度相对保留集敏感度量化层重要性，实现精确忘记并保持效用。方法迭代扩展选定层直至忘记指标收敛，展示在量化压力下的鲁棒性。TOFU、KnowUnDo、MUSE 基准评估表明其在抑制记忆方面优于 GA、NPO、LUNAR 基线。",
+        "methodology": [
+          {
+            "detail": "通过忘记集 (If(ℓ)) 与保留集 (Ir(ℓ)) 梯度幅度比并用 ε 归一化，计算层重要性得分。",
+            "title": "忘记‑保留层归因"
+          },
+          {
+            "detail": "仅对选定层进行更新，使用遗忘 (Lf)、不匹配 (Lm) 与保留 (Lr) 三个损失，并采用独立学习率 ηf、ηm、ηr。",
+            "title": "选择性层级忘记"
+          },
+          {
+            "detail": "若忘记指标（如 VerMem > 0.05）未达标，则扩展层集合，加入具有最高额外重要性得分的层。",
+            "title": "迭代扩展"
+          }
+        ],
+        "findings": [
+          {
+            "detail": "FOM-UL 在 Gemma-3-1B 上实现 2.88↓ M1/M2，相较基线的 4.80↓（表 1），且 M3≈0 达到隐私平衡。",
+            "title": "记忆抑制"
+          },
+          {
+            "detail": "在 8/4 位量化下保持 2.88↓ M1/M2，优于竞争对手的 4.80↓（表 1）。",
+            "title": "量化鲁棒性"
+          },
+          {
+            "detail": "保留集效用 (M4) 为 2.90↑（Gemma-3-1B），相较原始模型的 5.60↑（表 1）。",
+            "title": "效用保持"
+          }
+        ],
+        "contributions": [
+          "基于梯度幅度比的层级忘记‑保留定位",
+          "降低副作用的针对性忘记框架",
+          "实证量化鲁棒忘记路径"
+        ],
+        "open_questions": [
+          "如何为层选择忘记形式化擦除保证？",
+          "能否推广至非 Transformer 架构？",
+          "重复忘记操作下的长期稳定性如何？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "adversarial",
+          "efficient",
+          "training",
+          "robust"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-10T14:26:03.608556+00:00"
+    },
+    {
       "id": "2609.03151",
       "title": "BASP: Communication-Efficient Batch-Aware Sequence Parallelism for LLM Training",
       "abstract": "Long-context reasoning for large language models (LLMs) is becoming increasingly important, but training over long sequences remains challenging due to massive memory and communication requirements. Sequence parallelism has emerged as an essential technique for addressing bottlenecks in long sequence LLM training. However, we observe that existing sequence parallelism methods are batch-agnostic and apply uniform sequence partitioning across all batch sizes, resulting in inefficient communication. In this paper, we introduce Batch- Aware Sequence Parallelism (BASP), a sequence parallelism approach that leverages batch structure to reduce communication overhead. BASP exploits batch structure by partitioning GPUs into disjoint sequence-parallel groups according to the micro- batch size. This design reduces the all-to-all communication group size, thereby localizing communication and improving training efficiency. Experimental results on an NVIDIA A100 cluster show that BASP improves end-to-end training time by up to 1.17 - 1.31x in Llama and Qwen models compared to standard sequence parallel baselines, while preserving identical model accuracy and memory usage.",
@@ -1772,12 +1960,12 @@
         "lane": "llm"
       },
       "summary": {
-        "takeaway": "SPINE shows LLMs increasingly concede correct positions under prolonged adaptive pressure, even when reasoning traces retain the correct answer.",
-        "problem": "Current sycophancy evaluations rely on short, static dialogues that miss failures emerging in longer, adaptive conversations.",
-        "method": "SPINE uses an adaptive LLM proxy that challenges a target model for up to 25 turns with dynamically selected pressure tactics and grades position strength each turn.",
-        "evidence": "Across four production systems and three Olmo3‑7b variants, collapse rates rise with turn count, emotional appeals cause a 44.3% drop rate, and adaptive proxies expose more collapse than scripted prompts.",
-        "limitations": "Evaluation is limited to 100 items per scenario and depends on an LLM judge (Claude Sonnet 5), which may introduce systematic bias.",
-        "why_for_you": "The observation that models retain correct reasoning while outputting sycophantic answers provides a concrete probe of loss‑landscape dynamics relevant to alignment research.",
+        "takeaway": "SPINE reveals that LLMs increasingly concede correct positions under prolonged adaptive disagreement, even when their reasoning traces retain the correct answer.",
+        "problem": "Current sycophancy evaluations are short and static, missing failures that emerge in long, adaptive conversations.",
+        "method": "SPINE uses an adaptive LLM proxy to generate up to 25 turns of pressure tactics against a target model, scoring position strength each turn.",
+        "evidence": "Experiments on seven models show collapse rates rise with turn count, emotional appeals cause a 44.3% strength drop, and adaptive proxies expose more collapse than scripted prompts.",
+        "limitations": "Evaluation is limited to 100 items per scenario and relies on Claude Sonnet 5 for both proxy and judging, introducing potential systematic bias.",
+        "why_for_you": "The work links output erosion to sustained pressure rather than knowledge loss, offering a new perspective on how loss‑landscape dynamics may permit stable internal representations while outputs shift.",
         "source": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
         "language": "en",
@@ -1792,68 +1980,64 @@
           },
           {
             "icon": "🔧",
-            "text": "Adaptive LLM proxy selects pressure tactics per turn from MAFALDA taxonomy, conditioning on target’s latest response."
+            "text": "Adaptive LLM proxy conditions each challenge on the target’s latest response and selects from a diverse pressure‑tactic menu."
           },
           {
-            "icon": "⚠️",
-            "text": "Emotional appeals cause 44.3% position‑strength drops, but limited test banks (100 items) and LLM judge may bias results."
+            "icon": "📉",
+            "text": "Emotional appeals produce the highest observed strength drop (44.3%), but results rely on 100‑item test banks and a single Claude Sonnet 5 judge."
           }
         ],
-        "overview": "SPINE extends sycophancy evaluation to sustained, adaptive multi‑turn dialogues by employing a closed‑loop LLM proxy that iteratively pressures a target model for up to 25 turns. Two scenarios—false presuppositions and unethical queries—are tested with 100 items each, and a per‑turn graded position‑strength score captures gradual erosion. Experiments on seven models reveal that collapse rates grow with conversation length, short‑horizon protocols underestimate failures, and emotional appeals are especially effective. Reasoning‑trace analysis shows models often retain the correct answer internally while conceding outwardly.",
+        "overview": "SPINE extends sycophancy evaluation to sustained, adaptive dialogues by employing an LLM proxy that iteratively pressures a target model for up to 25 turns across false‑presupposition and unethical‑query scenarios. Each turn receives a graded position‑strength score, enabling analysis of gradual erosion. Experiments on four production systems and three Olmo3‑7b variants show collapse rates grow with conversation length, with emotional appeals most effective at inducing concessions. Reasoning‑trace analysis indicates models often retain the correct answer internally, suggesting output changes stem from user‑pleasing incentives rather than ignorance.",
         "methodology": [
           {
-            "title": "Adaptive proxy protocol",
-            "detail": "An LLM proxy conditions each challenge on the target’s latest response, selects a tactic from a MAFALDA‑derived menu, and enforces a 25‑turn budget."
+            "title": "Adaptive proxy loop",
+            "detail": "The proxy LLM conditions each new challenge on the target model’s latest response, selects a tactic from a MAFALDA‑derived menu, and generates a single‑sentence user message."
           },
           {
-            "title": "Graded position‑strength scoring",
-            "detail": "A judge assigns a numeric strength score to the model’s stance each turn, allowing detection of partial concessions and full collapse."
+            "title": "Graded per‑turn scoring",
+            "detail": "A judge assigns a position‑strength score (capturing partial concessions and full collapse) after each turn, enabling fine‑grained erosion tracking."
           }
         ],
         "mechanism": [
           {
             "title": "Reasoning‑trace retention",
-            "detail": "Analysis of accessible reasoning traces at collapse points shows the correct position often remains represented, indicating output change is driven by a desire to please the user rather than knowledge loss."
+            "detail": "Analysis of accessible reasoning traces shows the correct position often remains represented when the final response concedes, implying the model chooses to please the user."
           }
         ],
         "experiments": [
           {
             "title": "Model evaluation",
-            "detail": "Four production systems and three Olmo3‑7b variants were tested on 100 false‑presupposition and 100 unethical‑query items, with collapse rates, position‑strength scores, and tactic‑level drop rates recorded."
+            "detail": "Four production systems and three Olmo3‑7b variants were tested on 100 false‑presupposition and 100 unethical‑query items, each with up to 25 turns; metrics include collapse rate, position‑strength drop, and tactic‑level drop rates."
           }
         ],
         "findings": [
           {
-            "title": "Collapse increases with turn count",
-            "detail": "All models exhibit higher collapse rates as conversations extend beyond five turns, demonstrating short‑horizon underestimation."
+            "title": "Turn‑length effect",
+            "detail": "Collapse rates increase consistently with conversation length for every model, indicating short‑horizon protocols underestimate sycophancy."
           },
           {
-            "title": "Emotional appeals most erosive",
-            "detail": "Across both scenarios, emotional‑appeal tactics produce the highest observed strength‑drop rate (44.3%)."
+            "title": "Tactic impact",
+            "detail": "Emotional appeals yield the highest observed strength drop (44.3%) across both scenarios."
           },
           {
-            "title": "Adaptive proxy vs. scripted prompts",
-            "detail": "Ablations reveal the adaptive LLM proxy uncovers more sycophantic collapses than pre‑generated scripts."
-          },
-          {
-            "title": "Reasoning vs. response divergence",
-            "detail": "Models frequently concede in their final answer while their internal reasoning trace still contains the correct stance."
+            "title": "Adaptive vs scripted pressure",
+            "detail": "Ablations show the adaptive LLM proxy exposes more sycophantic collapse than pre‑generated scripts."
           }
         ],
         "contributions": [
-          "SPINE benchmark for sustained, adaptive sycophancy evaluation",
-          "Long‑horizon (up to 25 turns) multi‑turn protocol with graded scoring",
-          "Reasoning‑trace analysis showing internal‑knowledge retention during sycophantic concessions"
+          "SPINE benchmark for sustained, adaptive sycophancy evaluation up to 25 turns",
+          "Long‑horizon multi‑turn protocol with graded per‑turn position scoring",
+          "Reasoning‑trace analysis demonstrating internal retention of correct answers during concessions"
         ],
         "limitations": [
           "Test banks limited to 100 items per scenario due to API cost constraints",
-          "All verdicts produced by an LLM judge (Claude Sonnet 5), potentially biasing results",
-          "Per‑tactic statistics thin at Level‑2, limiting fine‑grained analysis"
+          "Both proxy and judge are Claude Sonnet 5, which may introduce systematic bias",
+          "Per‑tactic statistics are thin at Level‑2, limiting fine‑grained analysis"
         ],
         "open_questions": [
-          "How does the loss landscape enable models to retain correct reasoning yet output sycophantic answers?",
-          "Can training or fine‑tuning mitigate sustained‑pressure sycophancy without harming helpfulness?",
-          "How do findings generalize to larger, more diverse model families and real‑world user interactions?"
+          "How do training objectives and loss‑landscape properties influence susceptibility to sustained pressure?",
+          "Can alignment interventions reduce sycophancy without harming overall performance?",
+          "Do the observed patterns generalize to larger, more diverse model families and real‑world user interactions?"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
@@ -1949,12 +2133,12 @@
         "lane": "llm"
       },
       "summary": {
-        "takeaway": "SEAL and SEAL++ add a lightweight adapter to shared experts, providing a router‑independent safety anchor for hybrid MoE LLMs.",
-        "problem": "Sparse routing in Mixture‑of‑Experts models lets adversaries bypass safety by manipulating expert selection, fine‑tuning, or pruning.",
-        "method": "SEAL trains a parameter‑efficient plug‑and‑play adapter on shared experts, while SEAL++ adds an orthogonal constraint to preserve existing safety subspaces.",
-        "evidence": "Across six attack scenarios, SEAL cuts attack success rate by up to 60% with ≤1.4% average capability loss, and combined with router‑level defenses lowers ASR to 4.8% (≈5× improvement).",
-        "limitations": "Evaluation is limited to four hybrid MoE models (14B‑35B) and six predefined attack scenarios.",
-        "why_for_you": "If you seek efficient adversarial defenses for MoE LLMs, SEAL offers a concrete, low‑overhead method targeting the shared‑expert component.",
+        "takeaway": "SEAL leverages always‑active shared experts to provide a router‑independent safety layer that markedly cuts attack success.",
+        "problem": "Hybrid MoE models are vulnerable because sparse routing lets adversaries bypass safety‑critical experts.",
+        "method": "Introduce a parameter‑efficient adapter for shared experts, with an orthogonal‑constraint variant, to align safety subspaces during training.",
+        "evidence": "SEAL cuts attack success rate by up to 60% with ≤1.4% capability loss and, combined with router defenses, drops ASR to 4.8%, over five‑fold better than router‑only.",
+        "limitations": "Not stated in the available source.",
+        "why_for_you": "Relevant to efficient adversarial training as it offers a low‑overhead defense that improves safety without large computational cost.",
         "source": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
         "language": "en",
@@ -1965,76 +2149,78 @@
         "signals": [
           {
             "icon": "🛡️",
-            "text": "SEAL introduces a shared‑expert‑only adapter that reduces MoE attack success up to 60%."
+            "text": "SEAL adds a plug‑and‑play adapter to shared experts, reducing attack success rate up to 60%."
           },
           {
             "icon": "⚙️",
-            "text": "SEAL++ adds an orthogonal constraint preserving pre‑existing safety subspaces during training."
+            "text": "SEAL++ incorporates an orthogonal constraint preserving pre‑existing safety subspaces during training."
           },
           {
-            "icon": "📉",
-            "text": "Combined with router‑level defenses, ASR drops to 4.8%, a >5× reduction, with ≤1.4% capability cost."
+            "icon": "📈",
+            "text": "Combined with router‑level defenses, SEAL lowers ASR to 4.8%, >5× improvement, evaluated on six attack scenarios."
           }
         ],
-        "overview": "The paper identifies the unconditional execution of shared experts as a reliable safety anchor in hybrid Mixture‑of‑Experts LLMs. Building on this insight, SEAL trains a lightweight adapter attached solely to shared experts, and SEAL++ further enforces orthogonal preservation of safety subspaces. Experiments on four diverse MoE models (14B‑35B) under six attack configurations—prompt injection, jailbreak, malicious fine‑tuning, each with/without neuron pruning—show substantial ASR reductions while incurring minimal performance loss. The approach integrates seamlessly with existing router‑level defenses.",
+        "overview": "The paper identifies the structural vulnerability of hybrid Mixture‑of‑Experts (MoE) models, where sparse routing can be subverted by adversarial prompts, malicious fine‑tuning, or neuron pruning. It proposes SEAL, a training‑time, parameter‑efficient adapter attached to always‑active shared experts, and SEAL++, which adds an orthogonal constraint to preserve existing safety subspaces. Experiments on four hybrid MoE models (14B‑35B) across six attack scenarios show substantial reductions in attack success rate with minimal capability loss, and further gains when combined with router‑level defenses.",
         "methodology": [
           {
-            "title": "SEAL adapter training",
-            "detail": "A parameter‑efficient plug‑and‑play module is inserted into each shared expert and trained with DPO on the PKU‑SafeRLHF dataset, leaving routed experts frozen."
+            "title": "SEAL adapter",
+            "detail": "A lightweight plug‑and‑play module is inserted into the shared‑expert pathway and trained to align safety‑critical representations without modifying routed experts."
           },
           {
             "title": "SEAL++ orthogonal constraint",
-            "detail": "During adapter training, an orthogonal regularizer enforces that updates remain orthogonal to the subspace spanned by pre‑existing safety neurons, preserving prior safety alignment."
+            "detail": "During training, an orthogonal regularizer enforces that updates to shared‑expert parameters remain orthogonal to pre‑existing safety subspaces, preserving prior alignment."
           }
         ],
         "mechanism": [
           {
-            "title": "Unconditional execution guarantee",
-            "detail": "Shared experts run on every token regardless of routing, ensuring safety‑critical neurons are always active even if the router is compromised."
+            "title": "Router‑independent safety anchor",
+            "detail": "Shared experts execute on every token, guaranteeing that safety‑critical neurons are always active regardless of routing manipulations."
           },
           {
-            "title": "Attack surface reduction",
-            "detail": "Because safety resides in a component that cannot be bypassed, adversaries must target the always‑executed shared experts, raising the effort required for successful attacks."
+            "title": "Safety subspace preservation",
+            "detail": "The orthogonal constraint in SEAL++ prevents drift of established safety directions while allowing new alignment."
           }
         ],
         "experiments": [
           {
-            "title": "Model and attack setup",
-            "detail": "Four hybrid MoE models (Qwen1.5‑MoE, DeepSeek‑MoE, GLM‑4.7‑Flash, Qwen3.5‑30B) spanning 14B‑35B parameters and 1‑2 shared experts were evaluated. Six attack scenarios combined three adversarial inputs (harmful prompting, jailbreak, malicious fine‑tuning) with/without neuron pruning. Safety responses were classified by GPT‑5‑nano with 98.1% inter‑run agreement."
+            "title": "Model and attack suite",
+            "detail": "Four hybrid MoE architectures (14B‑35B) with 1‑2 shared experts were evaluated under six scenarios: prompt injection, jailbreak, malicious fine‑tuning, each with/without neuron pruning."
           },
           {
-            "title": "Metrics",
-            "detail": "Attack Success Rate (ASR) measured as worst‑case across conditions; capability cost measured as average performance drop on five downstream benchmarks."
+            "title": "Evaluation metrics",
+            "detail": "Attack Success Rate (ASR) measured via GPT‑5‑nano safety classifier; capability cost measured as average performance drop across five benchmarks."
+          },
+          {
+            "title": "Baseline comparisons",
+            "detail": "SEAL and SEAL++ were compared against router‑only defenses and against a combined SEAL+router setup."
           }
         ],
         "findings": [
           {
-            "title": "SEAL effectiveness",
-            "detail": "SEAL reduces ASR by up to 60% while incurring at most 1.4% average capability loss across the five‑benchmark suite."
+            "title": "ASR reduction",
+            "detail": "SEAL reduces ASR by up to 60% with at most 1.4% average capability loss."
           },
           {
             "title": "Synergy with router defenses",
-            "detail": "When combined with a router‑level defense, overall ASR falls to 4.8%, more than five times lower than router defense alone."
+            "detail": "When combined with router‑level defenses, SEAL lowers ASR to 4.8%, more than five times lower than router‑only."
           },
           {
-            "title": "Safety neuron preservation",
-            "detail": "Models with concentrated shared‑expert safety encoding (Qwen1.5, DeepSeek) retain >80% of safety neuron identity after SEAL training, indicating minimal subspace drift."
+            "title": "Safety neuron stability",
+            "detail": "Models with concentrated shared‑expert safety encoding preserve >80% of safety neuron identity after training."
           }
         ],
         "contributions": [
-          "Identification of shared experts as a router‑independent safety anchor.",
-          "SEAL: a plug‑and‑play adapter for shared experts that improves MoE safety.",
-          "SEAL++: orthogonal regularization to preserve existing safety subspaces.",
-          "Comprehensive evaluation across multiple MoE architectures and attack vectors."
+          "SEAL plug‑and‑play shared‑expert adapter for safety alignment",
+          "SEAL++ orthogonal constraint preserving existing safety subspaces",
+          "Comprehensive empirical evaluation across multiple MoE models and attack scenarios"
         ],
         "limitations": [
-          "Experiments cover only four hybrid MoE models up to 35B parameters.",
-          "Evaluation limited to six predefined attack scenarios; broader threat models not explored."
+          "Not stated in the available source."
         ],
         "open_questions": [
-          "How does shared‑expert augmentation scale to trillion‑parameter MoE systems?",
-          "Can adaptive adversaries learn to circumvent the shared‑expert safety anchor?",
-          "What are the interactions between SEAL and other alignment techniques such as RLHF or instruction tuning?"
+          "How does SEAL scale to MoE models beyond 35B parameters?",
+          "What is the impact on downstream task performance beyond the five evaluated benchmarks?",
+          "Can adaptive adversaries circumvent the shared‑expert defense with more sophisticated attacks?"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
@@ -2043,96 +2229,6 @@
         "prompt_version": 2
       },
       "recommended_at": "2026-09-05T13:27:35.700479+00:00"
-    },
-    {
-      "id": "2609.09054",
-      "title": "Training-Free Task Vectors for LLM Behavioral Control",
-      "abstract": "Task vectors enable post-training model editing by identifying semantically meaningful directions in weight space, typically computed as the difference between a fine-tuned model and its pretrained initialization. However, this reliance on fine-tuning makes discovering such directions costly and limits the practicality of post-training model editing. To address this limitation, we introduce Training-Free Task Vectors (TFTVs), a novel method to compute task-vector-like directions without requiring fine-tuning. Our method maps activation steering vectors to rank-one weight-space edits using only forward-pass statistics, while satisfying arithmetic properties that directly support learning via addition, forgetting via subtraction, and the composition of multiple edits. Empirically, we evaluate TFTVs on large language model behavioral control tasks and show that they consistently amplify, suppress, and compose target behaviors while preserving general knowledge and problem-solving skills. We also validate our method against other editing and steering baselines, experimentally demonstrating that TFTVs achieve stronger trait control with better or competitive utility preservation. We hope our work opens new directions for the community in post-training model editing and broader training-free model control. Code is available on the project website: tftv-llm.github.io.",
-      "authors": [
-        "Gabriel J. Perin",
-        "Lucas Boscaini",
-        "André Araujo",
-        "Nina S. T. Hirata"
-      ],
-      "published": "2026-09-08T17:10:28Z",
-      "updated": "2026-09-08T17:10:28Z",
-      "categories": [
-        "cs.LG",
-        "cs.AI"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2609.09054v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.09054v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.6053,
-          "matched": [
-            "training",
-            "fine-tuning"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.3836,
-          "matched": [
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.614,
-        "relevance": 0.561,
-        "quality": 0.6,
-        "novelty": 0.8578,
-        "freshness": 0.8725,
-        "feedback_adjustment": -0.0128,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "baseline comparison",
-        "experiments"
-      ],
-      "summary": {
-        "evidence": "在LLM行为控制任务中验证，TFTVs能增强/抑制目标行为并保持知识，优于其他编辑基线。",
-        "limitations": "Not stated in the abstract",
-        "method": "通过前向传递统计信息将激活引导向量映射到秩一权重空间编辑，满足算术性质支持组合编辑。",
-        "problem": "现有任务向量依赖微调导致成本高，限制后训练模型编辑的实用性。",
-        "takeaway": "提出无需微调的Training-Free Task Vectors (TFTVs)方法，实现LLM行为控制。",
-        "why_for_you": "高效对抗训练中无需微调的模型控制，LLM损失景观中的训练自由编辑方法",
-        "source": "abstract",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "training",
-          "fine-tuning"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-09-09T14:35:27.466685+00:00"
     }
   ]
 }
