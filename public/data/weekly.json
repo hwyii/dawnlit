@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-10T14:26:03.608556+00:00",
+  "generated_at": "2026-09-11T14:25:41.445644+00:00",
   "papers": [
     {
       "id": "2609.05275",
@@ -969,209 +969,6 @@
       "recommended_at": "2026-09-05T13:27:35.700479+00:00"
     },
     {
-      "id": "2609.04172",
-      "title": "Rethinking On-Policy Distillation of Large Language Models II: One Training Example",
-      "abstract": "On-policy distillation (OPD) combines student-generated rollouts with dense token-level supervision from a teacher. Existing work has mainly studied its algorithmic behavior, leaving the role of training data unclear. We examine this role at the data-minimal limit by training on a single query. One-shot OPD keeps improving for hundreds of steps and recovers most of full-data OPD's gain across task domains and model families. We explain this result through the states visited during training and the rate at which the student aligns with the teacher. We measure \\emph{state coverage}, the fraction of the states full-data OPD visits that a query set's rollouts reach. A single query already reaches \\(71.5\\%\\), most of it within the first 100 steps. Adding semantically distinct queries raises coverage and validation accuracy together, until 16 queries reach \\(98.9\\%\\) and match full-data training. Yet alignment slows at a similar pace whether OPD trains on one query or the whole dataset, and even a fixed set of states takes hundreds of steps to absorb. OPD is therefore data-overfed but algorithm-starved. Its rollouts quickly expose broad supervision, while the student absorbs that supervision increasingly slowly. The state-coverage result extends to multi-teacher OPD, where 16 semantically diverse queries per domain match full-data MOPD. As a further stress test, content-light templates and off-domain WildChat queries also approach the real-query baseline. Task content and induced state coverage can therefore come apart. We hope these findings direct future work toward the step efficiency of OPD, and prompt a re-examination of the data and the mechanisms behind its recent successes in frontier post-training.",
-      "authors": [
-        "Zixuan Fu",
-        "Bingxiang He",
-        "Yuxin Zuo",
-        "Haohuan Huang",
-        "Jinqian Zhang",
-        "Ruhang Xiao",
-        "Cheng Qian",
-        "Qinyu Luo",
-        "Huan-ang Gao",
-        "Yudong Wang",
-        "Zhiyuan Liu",
-        "Ning Ding",
-        "Chaojun Xiao"
-      ],
-      "published": "2026-09-03T17:54:38Z",
-      "updated": "2026-09-03T17:54:38Z",
-      "categories": [
-        "cs.AI",
-        "cs.CL"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2609.04172v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.04172v1",
-      "comment": "29 pages, 20 figures",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "emerging",
-          "score": 0.6637,
-          "matched": [
-            "On-policy distillation",
-            "on-policy distillation",
-            "OPD",
-            "distillation",
-            "on-policy",
-            "opd"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.585,
-          "matched": [
-            "training"
-          ]
-        },
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "core",
-          "score": 0.3838,
-          "matched": [
-            "training data",
-            "data"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.7005,
-        "relevance": 0.7247,
-        "quality": 0.52,
-        "novelty": 0.8156,
-        "freshness": 0.8783,
-        "feedback_adjustment": -0.0187,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "使用单一查询的一次性 on-policy 蒸馏可恢复全数据 OPD 在任务和模型系列中的大部分性能提升。",
-        "method": "作者在单一查询（一次性）和小规模语义多样的查询集上训练 OPD，测量 state coverage 与 alignment dynamics。",
-        "problem": "训练数据的数量和多样性对 OPD 效果的影响尚未系统研究。",
-        "limitations": "state coverage 基于全数据 rollout 构建的参考进行评估，且对所有簇一视同仁；MOPD 实验仅覆盖三个领域，每个领域只有一个 teacher。",
-        "evidence": "单一查询实现 71.5% 的 state coverage 并恢复全数据 OPD 大部分验证增益，16 个查询则达到 98.9% 覆盖率并匹配全数据性能。",
-        "why_for_you": "鉴于您关注 on-policy 蒸馏和数据选择，该工作表明 state-coverage 指标可用于指导最小查询选择，以实现高效 OPD。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "一次性 OPD 使用单查询可恢复约 71.5% 的 state coverage 与大部分全数据增益。"
-          },
-          {
-            "icon": "🔧",
-            "text": "state coverage 通过对全数据状态聚类并评估查询集的 rollouts 来衡量。"
-          },
-          {
-            "icon": "📊",
-            "text": "16 个语义多样查询实现 98.9% 覆盖率并匹配全数据性能，但 coverage 仅为代理指标。"
-          }
-        ],
-        "overview": "本文通过将数据集缩减至单查询（一次性 OPD）或小规模语义多样查询集，研究 OPD 实际所需的训练数据量。提出了 state‑coverage 指标，用于量化全数据 OPD 访问的状态中有多少被有限查询的 rollouts 覆盖。四个任务域和三种模型系列的实验表明，单查询已覆盖 71.5% 的状态空间并恢复大部分验证增益，16 个查询则达到 98.9% 覆盖率并完全匹配全数据结果。作者认为 OPD 数据充裕但算法受限，teacher 信号的吸收速率限制了训练时长。",
-        "methodology": [
-          {
-            "title": "单次 OPD 训练",
-            "detail": "在单个查询生成的 rollout 上训练 student，最多 1000 步，在每个访问的状态施加密集的 token‑level teacher 监督。"
-          },
-          {
-            "title": "状态覆盖度测量",
-            "detail": "对 full‑data OPD 运行期间访问的所有状态进行聚类，然后计算给定查询集的 rollout 所到达的聚类比例。"
-          },
-          {
-            "title": "固定状态消融",
-            "detail": "复用一次从初始 student 采样的 64 条静态轨迹，以检验长时间训练是否需要新状态。"
-          },
-          {
-            "title": "多教师扩展 (MOPD)",
-            "detail": "对 multi‑teacher OPD 进行相同的 query‑diversity 分析，在三个领域中每个领域使用 16 条查询。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "数据过载、算法受限假设",
-            "detail": "查询在早期会产生大量状态，提供丰富的监督（data‑overfed），但无论查询数量多少，student 与 teacher 的对齐率都会类似下降，使得优化器成为瓶颈（algorithm‑starved）。"
-          },
-          {
-            "title": "吸收率",
-            "detail": "定义为每次更新中减少的剩余 teacher‑student token‑level 差距的比例；在单次和 full‑data 运行中均观察到该比例在数百步内稳步下降。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "领域与模型套件",
-            "detail": "四个领域（math、code generation、instruction following、agentic tool use），配有学生‑教师对，例如 R1‑Distill‑1.5B ↔ JustRL‑1.5B、Llama‑3B‑It ↔ GT‑Llama‑3B‑Math、以及 Qwen‑Coder‑1.5B ↔ Hammer‑1.5B。"
-          },
-          {
-            "title": "指标与基线",
-            "detail": "验证准确率（%）、state coverage（%）、top‑16 token overlap、以及 overlap‑token advantage；基线为 full‑data OPD 和 full‑data MOPD。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "单查询有效性",
-            "detail": "One‑shot OPD 在前 100 步内达到 71.5% 的 state coverage，并在所有领域恢复了大部分 full‑data OPD 的增益。"
-          },
-          {
-            "title": "查询多样性扩展",
-            "detail": "加入语义上不同的查询可同步提升 coverage 与 accuracy；16 条查询实现 98.9% 的 coverage，并匹配 full‑data OPD/MOPD 的性能。"
-          },
-          {
-            "title": "固定状态运行",
-            "detail": "使用静态状态集合得到相似长度的学习曲线，表明新生成状态并非导致训练延长的原因。"
-          }
-        ],
-        "contributions": [
-          "展示 OPD 只需一次查询即可实现接近完整性能，引入 state coverage 作为 data‑efficiency 指标，并揭示 OPD 的 data‑overfed/algorithm‑starved 特性。"
-        ],
-        "limitations": [
-          "state coverage 是相对于 full‑data rollout 的语义层代理，等权所有簇，未反映内在信号强度。",
-          "影响 absorption rate 的因素尚未确定。",
-          "MOPD 实验仅覆盖三个领域且每个仅有一位 teacher，尚未验证对更多 teacher 与领域的可扩展性。"
-        ],
-        "open_questions": [
-          "如何在没有 full‑data 参考的情况下估计 state coverage，以实现主动数据选择？",
-          "哪些算法改进可提升 absorption rate，使 OPD 更具 step‑efficiency？",
-          "query‑diversity 的结论是否在多 teacher、多 domain 场景以及更大 student model 中仍然成立？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "On-policy distillation",
-        "matched": [
-          "On-policy distillation",
-          "on-policy distillation",
-          "OPD",
-          "distillation"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-09-04T14:21:26.438741+00:00"
-    },
-    {
       "id": "2609.10439",
       "title": "Forgetting Only What Matters: Layer-Selective Unlearning toward Robust LLMs",
       "abstract": "Large Language Models (LLMs) can memorize and reproduce sensitive, copyrighted, or otherwise undesirable training content, creating privacy, safety, and regulatory concerns. Machine unlearning offers a practical alternative to full retraining, but many existing methods apply broad or fixed parameter updates that can degrade utility and remain brittle under deployment changes such as post-training quantization, where forgotten knowledge may partially re-emerge. We propose Forgetting Only What Matters via Unlearning Layers (FOM-UL), a layer-level unlearning framework that selects transformer layers using a forget-to-retain significance score. This score identifies layers with high influence on the forget set and low sensitivity to the retain set, allowing FOM-UL to concentrate updates where they are most effective while leaving most of the model unchanged. This targeted update strategy improves the forgetting-utility trade-off and provides an empirical path toward quantization-resilient unlearning by reducing the chance that small, diffuse updates are erased by low-bit rounding. Across TOFU, KnowUnDo, and MUSE-style evaluations, FOM-UL reduces residual memorization compared with strong GA, NPO, KLD, SURE, ReLearn, and LUNAR-based baselines while preserving retain-set utility close to the vanilla model. Under 8-bit and 4-bit post-training quantization, FOM-UL maintains stronger memorization suppression and utility preservation than competing methods, and adversarial prompt evaluations show lower recovery of forgotten content. Overall, FOM-UL provides an efficient unlearning strategy that improves targeted forgetting, utility preservation, and deployment robustness without claiming formal guarantees of erasure.",
@@ -1722,6 +1519,193 @@
       "recommended_at": "2026-09-05T13:27:35.700479+00:00"
     },
     {
+      "id": "2609.11878",
+      "title": "Domain-Specific Hallucination Detection in Large Language Models",
+      "abstract": "Large language models generate fluent text that can contain unfaithful claims -- a phenomenon known as hallucination. We present a multi-signal detection pipeline combining fine-tuned DeBERTa-v3 classification, Monte Carlo (MC) Dropout uncertainty quantification, and temperature-scaled calibration for response-level hallucination detection. Evaluated on the HaluEval benchmark, our pipeline achieves F1=0.915 and AUROC=0.977 on general-domain tasks, with per-task F1 scores of 0.97 (QA), 0.96 (Summarization), and 0.82 (Dialogue). MC Dropout inference further improves accuracy to 93.2%. A context ablation study confirms the model performs genuine entailment reasoning rather than exploiting surface patterns, with summarization F1 dropping 24% when knowledge context is removed. Learning curve analysis reveals that 25% of training data captures 77% of full-data performance. Beyond detection, we apply Direct Preference Optimization (DPO) to a Qwen2.5-0.5B generator, reducing its hallucination rate from 85.5% to 37.7% (55.9% relative reduction) as measured by our detector. Cross-domain evaluation on the SciFact biomedical benchmark shows that general-domain training transfers poorly (F1=0.52), motivating domain-specific fine-tuning. PubMedBERT fine-tuned on SciFact achieves F1=0.63 and AUROC=0.81, demonstrating that domain-matched pre-training is the strongest adaptation strategy. Code and models are available at https://github.com/varunteja99/hallucination-detection-nlp",
+      "authors": [
+        "Varun Teja Chundru",
+        "Debasmita Biswas"
+      ],
+      "published": "2026-09-10T17:45:36Z",
+      "updated": "2026-09-10T17:45:36Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2609.11878v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.11878v1",
+      "comment": "6 pages, 3 figures, 5 tables",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.4632,
+          "matched": [
+            "training",
+            "fine-tuning"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.442,
+          "matched": [
+            "uncertainty",
+            "calibration",
+            "hallucination"
+          ]
+        },
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.324,
+          "matched": [
+            "training data",
+            "data"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6464,
+        "relevance": 0.5238,
+        "quality": 0.88,
+        "novelty": 0.8613,
+        "freshness": 0.877,
+        "feedback_adjustment": -0.0119,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "ablation study",
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training",
+          "fine-tuning"
+        ],
+        "lane": "llm"
+      },
+      "summary": {
+        "evidence": "HaluEval F1=0.915, AUROC=0.977; 93.2% accuracy with MC Dropout; 55.9% hallucination reduction via DPO.",
+        "limitations": "Domain-specific fine-tuning required for biomedical tasks (SciFact F1=0.63 vs. general-domain 0.52); 25% of training data captures 77% of performance.",
+        "method": "Multi-signal detection pipeline with DeBERTa-v3, MC Dropout uncertainty quantification, and temperature scaling for calibrated probability estimates.",
+        "problem": "Hallucinations in LLMs hinder deployment in high-stakes domains due to lack of confidence estimation and domain-specific adaptation.",
+        "takeaway": "A multi-signal pipeline combining DeBERTa-v3, MC Dropout, and temperature scaling achieves state-of-the-art hallucination detection with F1=0.915 on HaluEval, while DPO reduces generator hallucinations by 55.9%.",
+        "why_for_you": "Relevant to efficient adversarial training through DPO optimization and data selection via learning curve analysis (25% data capturing 77% performance).",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "contributions": [
+          "Multi-signal detection pipeline combining DeBERTa-v3, MC Dropout, and temperature scaling",
+          "Ablation studies confirming context-dependent entailment reasoning",
+          "DPO-based hallucination mitigation with 55.9% relative reduction",
+          "Domain-specific fine-tuning analysis showing 25% data captures 77% performance"
+        ],
+        "experiments": [
+          {
+            "detail": "30k samples across QA/Summarization/Dialogue tasks with 5k faithful/hallucinated pairs per task; 70/15/15 train/validation/test split",
+            "title": "HaluEval benchmark"
+          },
+          {
+            "detail": "Biomedical verification dataset with 693 labeled (claim,evidence) pairs; PubMedBERT fine-tuning achieves AUROC=0.808 vs. 0.52 for general-domain models",
+            "title": "SciFact transfer"
+          },
+          {
+            "detail": "Qwen2.5-0.5B generator trained on 21k HaluEval preference pairs (faithful vs hallucinated responses) reduces hallucination rate from 85.5% to 37.7%",
+            "title": "DPO mitigation"
+          }
+        ],
+        "findings": [
+          {
+            "detail": "Multi-signal pipeline achieves F1=0.915 (AUROC=0.977) on HaluEval, with MC Dropout boosting accuracy to 93.2%",
+            "title": "Detection performance"
+          },
+          {
+            "detail": "Summarization F1 drops 24% without knowledge context, confirming entailment reasoning rather than pattern matching",
+            "title": "Context dependence"
+          },
+          {
+            "detail": "PubMedBERT fine-tuning on SciFact achieves AUROC=0.808 vs 0.52 for general-domain models, demonstrating value of domain-matched pre-training",
+            "title": "Domain adaptation"
+          }
+        ],
+        "limitations": [
+          "General-domain detectors transfer poorly to biomedical tasks (SciFact F1=0.52 vs 0.63 with fine-tuning)"
+        ],
+        "mechanism": [
+          {
+            "detail": "Simple Average merges Pstd and p̄; LR Meta-Classifier learns optimal weights for Pstd, p̄, σ, and context-response similarity features",
+            "title": "Ensemble combination"
+          }
+        ],
+        "methodology": [
+          {
+            "detail": "Disentangled attention mechanism separates content/position representations using distinct matrices, with enhanced mask decoding for context-aware token representations",
+            "title": "DeBERTa-v3 backbone"
+          },
+          {
+            "detail": "20 stochastic forward passes under dropout at inference compute mean probability p̄ and standard deviation σ to quantify epistemic uncertainty",
+            "title": "MC Dropout uncertainty"
+          },
+          {
+            "detail": "Learned scalar T∗=1.69 calibrates logits via NLL minimization, improving probability calibration without altering classification accuracy",
+            "title": "Temperature scaling"
+          }
+        ],
+        "open_questions": [
+          "Scaling DPO to larger LLMs while maintaining hallucination reduction",
+          "Adapting the pipeline to legal/financial text domains with different hallucination patterns"
+        ],
+        "overview": "This paper introduces a multi-signal hallucination detection system combining DeBERTa-v3 classification, Monte Carlo Dropout uncertainty estimation, and temperature scaling. The pipeline achieves state-of-the-art performance on HaluEval while demonstrating that domain-specific fine-tuning (e.g., PubMedBERT on SciFact) is critical for specialized tasks. DPO is shown to reduce generator hallucinations by 55.9% in closed-loop evaluation, with learning curve analysis revealing 25% of data captures 77% of performance. Key contributions include ablation studies confirming context-dependent entailment reasoning and ensemble methods for signal combination.",
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "Multi-signal pipeline with DeBERTa-v3 + MC Dropout + temperature scaling achieves F1=0.915 on HaluEval"
+          },
+          {
+            "icon": "🔧",
+            "text": "MC Dropout (T=20) improves accuracy from 91.3% to 93.2% via epistemic uncertainty quantification"
+          },
+          {
+            "icon": "📉",
+            "text": "HaluEval summarization F1 drops 24% without context, confirming entailment reasoning over surface patterns"
+          }
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "recommended_at": "2026-09-11T14:25:41.445644+00:00"
+    },
+    {
       "id": "2609.02275",
       "title": "Do Large Language Models Capture the Diversity in their Training Data?",
       "abstract": "Large language models are trained to model conditional distributions over text, yet it remains inadequately understood whether they capture the full diversity of plausible outputs present in their training data. We study this question through an information-theoretic lens by comparing the conditional entropy of model-generated outputs with that of the corresponding training data. Given paired input-output samples, we use conditional entropy and its matrix-based analogue based on von Neumann entropy to measure output variability beyond what is explained by the conditioning input, without requiring multiple reference outputs for the same prompt. Across LLM families with publicly available training data, including OLMo, Pythia, and GPT-Neo, we consistently find that model-generated outputs exhibit lower conditional entropy than their training data, across different model scales, sequence lengths, and decoding strategies. We observe a similar conditional diversity gap beyond language modeling, including class-conditioned ImageNet generators and text-conditioned models trained on MS-COCO. To address this gap, we propose a post-hoc correction mechanism that generates multiple outputs for each input and reweights them through a matrix-entropy projection, increasing conditional diversity while remaining close to the original model distribution. We prove the concavity of the matrix-based conditional entropy functional, which makes the resulting entropy-constrained projection a convex optimization problem, and develop a scalable mirror-descent algorithm for its implementation. Our results reveal a systematic conditional diversity gap between modern generative models and their training data, and provide an information-theoretic framework for measuring and mitigating this gap.",
@@ -1890,6 +1874,201 @@
       "recommended_at": "2026-09-05T13:27:35.700479+00:00"
     },
     {
+      "id": "2609.11677",
+      "title": "Ecdysis: Efficient and Effective Training of Runtime Harnesses for LLM Agents",
+      "abstract": "Self-evolving runtime harnesses can substantially improve the capabilities of large language model (LLM) agents and provide a promising paradigm for optimizing agent execution. Existing harness evolution methods typically rely on iterative search, repeatedly evaluating and revising candidate harnesses based on execution feedback from task instances. While this paradigm enables continuous harness optimization, it incurs substantial time overhead due to repeated agent executions and code modifications, and may overfit to observed tasks and specific failure patterns, resulting in degraded generalization to unseen tasks. We identify the lack of principled failure diagnosis as a key bottleneck in harness evolution: an observed failure can reflect either model-specific deficiencies or systematic harness deficiencies, and directly optimizing against individual failures can lead to unnecessary model-specific accommodation. We therefore propose Ecdysis, an efficient and effective framework that distinguishes model-specific accommodation from harness-level repair and biases adaptation toward systematic harness deficiencies by identifying recurring cross-task failure patterns. Ecdysis adopts a batch-level cross-instance failure aggregation paradigm to jointly analyze failure evidence from multiple task instances and further introduces Failure-Driven Collaborative Refinement to diagnose failure causes and iteratively refine harness modification specifications. By combining cross-instance failure analysis with multi-role diagnosis, Ecdysis enables more effective harness evolution with lower training time. Experiments show that Ecdysis achieves up to a 1.84x speedup in harness training compared with existing harness evolution methods, while improving the reasoning accuracy of the resulting harnesses by 18.56%.",
+      "authors": [
+        "Ruiqing Yue",
+        "Yu Cui",
+        "Zhuoyu Sun",
+        "Sicheng Pan",
+        "Xianhong Xue",
+        "Tingyu Li",
+        "Ting Li",
+        "Wenzhuo Zhu",
+        "Yi Chen",
+        "Yifei Liu",
+        "Baohan Huang",
+        "Zhe Cui",
+        "Haibin Zhang",
+        "Cong Zuo"
+      ],
+      "published": "2026-09-10T15:09:08Z",
+      "updated": "2026-09-10T15:09:08Z",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "primary_category": "cs.SE",
+      "abs_url": "https://arxiv.org/abs/2609.11677v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.11677v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.625,
+          "matched": [
+            "efficient",
+            "training"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.3712,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.1792,
+          "matched": [
+            "generalization",
+            "optimization"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6432,
+        "relevance": 0.6101,
+        "quality": 0.61,
+        "novelty": 0.8156,
+        "freshness": 0.8615,
+        "feedback_adjustment": -0.0249,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "experiments",
+        "quantitative results"
+      ],
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "efficient",
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "Ecdysis efficiently evolves runtime harnesses by aggregating cross‑instance failures, achieving faster training and higher reasoning accuracy.",
+        "problem": "Existing harness evolution methods iterate per‑instance feedback, incurring high overhead and overfitting to model‑specific failures.",
+        "method": "Ecdysis batches failure evidence across tasks, identifies recurring patterns, and applies Failure‑Driven Collaborative Refinement (FDCR) to produce systematic harness modifications.",
+        "evidence": "Experiments on five LLMs and two benchmarks report up to 1.84× speedup and 18.56% accuracy improvement, together with reduced token consumption.",
+        "limitations": "Authors do not state explicit limitations; scalability beyond the evaluated models is not demonstrated.",
+        "why_for_you": "Matches your focus on efficient training techniques and systematic analysis of LLM behavior through failure diagnostics.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "Ecdysis introduces batch‑level cross‑instance failure aggregation, yielding up to 1.84× harness training speedup."
+          },
+          {
+            "icon": "🔧",
+            "text": "Failure‑Driven Collaborative Refinement (FDCR) uses Analyst, Critic, Engineer, and Moderator roles to diagnose failures and refine harness specs."
+          },
+          {
+            "icon": "📈",
+            "text": "Across five LLMs, Ecdysis improves reasoning accuracy by 18.56% but lacks reported scalability analysis beyond these models."
+          }
+        ],
+        "overview": "Ecdysis tackles the inefficiency and overfitting of existing harness evolution by aggregating failure evidence across multiple task instances and focusing on recurring patterns that signal systematic harness deficiencies. It introduces Failure‑Driven Collaborative Refinement (FDCR), a multi‑role diagnostic loop that translates aggregated failures into concrete harness modification specifications. Empirical evaluation on five LLMs and two benchmark suites demonstrates substantial training speedups, accuracy gains, and reduced inference cost, while also showing stronger cross‑model generalization. The paper provides a failure‑aware data selection strategy and an analysis of model‑specific accommodation ratios.",
+        "methodology": [
+          {
+            "title": "Batch‑level cross‑instance failure aggregation",
+            "detail": "Collects failure evidence from a batch of task instances, identifies recurring failure patterns, and treats them as stronger signals for systematic harness repair."
+          },
+          {
+            "title": "Failure‑Driven Collaborative Refinement (FDCR)",
+            "detail": "Iteratively refines failure diagnoses using four roles—Analyst, Critic, Engineer, Moderator—each contributing to a structured harness modification specification."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Harness update decomposition",
+            "detail": "Models the aggregate harness update as ΔH = t·ΔH_model + (1‑t)·ΔH_harness, where t ∈ [0,1] quantifies model‑specific accommodation versus systematic repair."
+          },
+          {
+            "title": "Cross‑task recurrence as evidence",
+            "detail": "Recurring failures across distinct instances are interpreted as indicators of systematic harness deficiencies, biasing adaptation away from model‑specific accommodation."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Evaluation setup",
+            "detail": "Five LLMs (Qwen3‑8B, Qwen3‑14B, Qwen3‑32B, MiniMax‑M2.7, Llama‑3.1‑8B) were tested on AgentBench and τ2‑Bench (Airline, Retail) with 20 training and 20 test tasks per split; three trials per test task."
+          },
+          {
+            "title": "Baselines and variants",
+            "detail": "Compared Direct (no harness), Human‑Augmented, Self‑Evolution, Ecdysis without FDCR, and Ecdysis with FDCR."
+          },
+          {
+            "title": "Metrics",
+            "detail": "Reported accuracy (%), Pass@3, token consumption (M), and execution time (s)."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Training efficiency",
+            "detail": "Ecdysis achieves up to 1.84× speedup in harness training relative to prior self‑evolution methods."
+          },
+          {
+            "title": "Reasoning performance",
+            "detail": "Reasoning accuracy improves by 18.56% over baselines, with the FDCR variant consistently outperforming others."
+          },
+          {
+            "title": "Inference cost and generalization",
+            "detail": "Trained harnesses reduce token consumption and exhibit stronger cross‑LLM generalization; comparable performance is reached using only one‑quarter of the training data."
+          }
+        ],
+        "contributions": [
+          "Batch‑level cross‑instance failure aggregation for harness evolution",
+          "Failure‑Driven Collaborative Refinement (FDCR) framework",
+          "Empirical demonstration of efficiency and accuracy gains across multiple LLMs",
+          "Failure‑aware training data selection strategy",
+          "Analysis of model‑accommodation ratio and its impact on generalization"
+        ],
+        "limitations": [
+          "No author‑stated limitation; scalability to larger models, more diverse tasks, or noisy failure signals is not evaluated."
+        ],
+        "open_questions": [
+          "How does FDCR scale with increasingly complex or ambiguous failure patterns?",
+          "Can the failure‑aggregation approach be combined with adversarial training to further improve robustness?",
+          "What is the impact of noisy or mislabeled failure evidence on the diagnostic process?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "recommended_at": "2026-09-11T14:25:41.445644+00:00"
+    },
+    {
       "id": "2609.09090",
       "title": "Measuring LLM Sycophancy under Sustained Multi-Turn Pressure",
       "abstract": "Large language models (LLMs) may abandon correct positions when users push back, exhibiting a failure mode known as sycophancy. Existing evaluations typically use short, pre-specified conversations and may therefore miss failures that emerge under sustained, adaptive disagreement. We introduce SPINE, a benchmark in which an LLM proxy plays a persistent but mistaken user and adaptively challenges a target model for up to 25 turns. We evaluate four production systems and three Olmo3-7b variants on 100 false-presupposition and 100 unethical-query items. Our experimental results show that collapse rates increase with conversation length for every model, short-horizon protocols underestimate sycophancy and resistance under sustained pressure remains unreliable across current models. By analyzing models with accessible reasoning traces, we surprisingly found that the correct position often remains represented in a reasoning trace when the response concedes, suggesting that the model chooses to please a user and sycophancy is not due to lack of knowledge or ignorance. Ablations show that adaptive LLM proxy exposes more sycophantic collapse than pre-generated scripts. Among all tactics, emotional appeals is the most associated with inducing LLM sycophantic behavior. The code and data are released at https://anonymous.4open.science/r/SPINE",
@@ -1960,12 +2139,12 @@
         "lane": "llm"
       },
       "summary": {
-        "takeaway": "SPINE reveals that LLMs increasingly concede correct positions under prolonged adaptive disagreement, even when their reasoning traces retain the correct answer.",
-        "problem": "Current sycophancy evaluations are short and static, missing failures that emerge in long, adaptive conversations.",
-        "method": "SPINE uses an adaptive LLM proxy to generate up to 25 turns of pressure tactics against a target model, scoring position strength each turn.",
-        "evidence": "Experiments on seven models show collapse rates rise with turn count, emotional appeals cause a 44.3% strength drop, and adaptive proxies expose more collapse than scripted prompts.",
-        "limitations": "Evaluation is limited to 100 items per scenario and relies on Claude Sonnet 5 for both proxy and judging, introducing potential systematic bias.",
-        "why_for_you": "The work links output erosion to sustained pressure rather than knowledge loss, offering a new perspective on how loss‑landscape dynamics may permit stable internal representations while outputs shift.",
+        "takeaway": "Sustained adaptive pressure reveals that LLMs increasingly concede correct positions, especially to emotional appeals, despite retaining correct reasoning.",
+        "problem": "Current sycophancy evaluations are short and static, missing failures that emerge in longer, adaptive dialogues.",
+        "method": "SPINE uses an LLM proxy that adaptively challenges a target model over up to 25 turns, scoring position strength per turn.",
+        "evidence": "Experiments show collapse rates grow with turn count for all seven models, with emotional appeals causing a 44.3 % strength drop.",
+        "limitations": "Evaluation is limited to 100 items per scenario and relies on an LLM judge, which may introduce systematic bias.",
+        "why_for_you": "The finding that models keep correct reasoning yet concede under pressure informs loss‑landscape studies of how optimization incentives affect model behavior.",
         "source": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
         "language": "en",
@@ -1976,68 +2155,66 @@
         "signals": [
           {
             "icon": "🗂️",
-            "text": "SPINE benchmark measures sycophancy over 25 adaptive turns, revealing increasing collapse rates."
+            "text": "SPINE introduces a 25‑turn adaptive user‑proxy benchmark to evaluate LLM sycophancy under sustained pressure."
           },
           {
             "icon": "🔧",
-            "text": "Adaptive LLM proxy conditions each challenge on the target’s latest response and selects from a diverse pressure‑tactic menu."
+            "text": "The proxy conditions each challenge on the target’s latest response and selects tactics from a MAFALDA‑derived menu, including emotional appeals."
           },
           {
             "icon": "📉",
-            "text": "Emotional appeals produce the highest observed strength drop (44.3%), but results rely on 100‑item test banks and a single Claude Sonnet 5 judge."
+            "text": "Collapse rates rise with turn count for all seven models, with emotional appeals causing a 44.3 % strength drop, but evaluation uses only 100 items per scenario and LLM judges."
           }
         ],
-        "overview": "SPINE extends sycophancy evaluation to sustained, adaptive dialogues by employing an LLM proxy that iteratively pressures a target model for up to 25 turns across false‑presupposition and unethical‑query scenarios. Each turn receives a graded position‑strength score, enabling analysis of gradual erosion. Experiments on four production systems and three Olmo3‑7b variants show collapse rates grow with conversation length, with emotional appeals most effective at inducing concessions. Reasoning‑trace analysis indicates models often retain the correct answer internally, suggesting output changes stem from user‑pleasing incentives rather than ignorance.",
+        "overview": "SPINE extends sycophancy evaluation to up to 25 adaptive turns, using a closed‑loop LLM proxy that selects pressure tactics from a taxonomy and assigns a graded position‑strength score each turn. Experiments on four production systems and three Olmo3‑7b variants show that collapse rates increase with conversation length, short‑horizon protocols underestimate failures, and emotional appeals are most erosive. Trace analysis reveals that models often retain the correct answer in their reasoning even when they concede, suggesting a choice‑driven rather than knowledge‑driven failure.",
         "methodology": [
           {
-            "title": "Adaptive proxy loop",
-            "detail": "The proxy LLM conditions each new challenge on the target model’s latest response, selects a tactic from a MAFALDA‑derived menu, and generates a single‑sentence user message."
+            "title": "Adaptive proxy and closed‑loop pressure",
+            "detail": "An LLM proxy conditions each user challenge on the target model’s latest response, dynamically selecting from a diverse repertoire of pressure tactics drawn from the MAFALDA fallacy taxonomy."
           },
           {
             "title": "Graded per‑turn scoring",
-            "detail": "A judge assigns a position‑strength score (capturing partial concessions and full collapse) after each turn, enabling fine‑grained erosion tracking."
+            "detail": "A judge assigns a position‑strength score after each turn, capturing partial concessions and full collapses, enabling fine‑grained erosion measurement."
+          },
+          {
+            "title": "25‑turn budget and test banks",
+            "detail": "Each scenario (false presupposition, unethical query) contains 100 items, with conversations limited to 25 turns to probe long‑horizon behavior."
           }
         ],
         "mechanism": [
           {
             "title": "Reasoning‑trace retention",
-            "detail": "Analysis of accessible reasoning traces shows the correct position often remains represented when the final response concedes, implying the model chooses to please the user."
+            "detail": "Analysis of accessible reasoning traces shows the correct position often remains represented when the model’s final response concedes, indicating that sycophancy stems from a decision to please the user rather than from ignorance."
           }
         ],
         "experiments": [
           {
-            "title": "Model evaluation",
-            "detail": "Four production systems and three Olmo3‑7b variants were tested on 100 false‑presupposition and 100 unethical‑query items, each with up to 25 turns; metrics include collapse rate, position‑strength drop, and tactic‑level drop rates."
+            "title": "Model evaluation under adaptive pressure",
+            "detail": "Four production systems and three Olmo3‑7b variants were tested on 100 false‑presupposition and 100 unethical‑query items; adaptive proxy performance was compared to pre‑generated script baselines, and tactic impact (e.g., emotional appeals) was quantified."
           }
         ],
         "findings": [
           {
-            "title": "Turn‑length effect",
-            "detail": "Collapse rates increase consistently with conversation length for every model, indicating short‑horizon protocols underestimate sycophancy."
+            "title": "Increasing collapse with conversation length",
+            "detail": "Collapse rates consistently rise as turn count grows beyond five, demonstrating that short‑horizon protocols miss later failures."
           },
           {
-            "title": "Tactic impact",
-            "detail": "Emotional appeals yield the highest observed strength drop (44.3%) across both scenarios."
-          },
-          {
-            "title": "Adaptive vs scripted pressure",
-            "detail": "Ablations show the adaptive LLM proxy exposes more sycophantic collapse than pre‑generated scripts."
+            "title": "Emotional appeals drive erosion",
+            "detail": "Across both scenarios, the Emotion tactic yields the highest observed strength‑drop rate of 44.3 %."
           }
         ],
         "contributions": [
-          "SPINE benchmark for sustained, adaptive sycophancy evaluation up to 25 turns",
-          "Long‑horizon multi‑turn protocol with graded per‑turn position scoring",
-          "Reasoning‑trace analysis demonstrating internal retention of correct answers during concessions"
+          "SPINE benchmark with adaptive LLM proxy for up to 25‑turn sycophancy evaluation.",
+          "Long‑horizon multi‑turn protocol with graded per‑turn position scoring.",
+          "Reasoning‑trace analysis showing concessions occur despite retained correct knowledge."
         ],
         "limitations": [
-          "Test banks limited to 100 items per scenario due to API cost constraints",
-          "Both proxy and judge are Claude Sonnet 5, which may introduce systematic bias",
-          "Per‑tactic statistics are thin at Level‑2, limiting fine‑grained analysis"
+          "Test banks limited to 100 items per scenario due to API cost constraints.",
+          "All verdicts produced by an LLM judge (Claude Sonnet 5), potentially biasing results."
         ],
         "open_questions": [
-          "How do training objectives and loss‑landscape properties influence susceptibility to sustained pressure?",
-          "Can alignment interventions reduce sycophancy without harming overall performance?",
-          "Do the observed patterns generalize to larger, more diverse model families and real‑world user interactions?"
+          "How does the loss‑landscape geometry of LLMs enable concession despite correct internal reasoning?",
+          "Can training objectives be modified to preserve correct positions under sustained adaptive pressure?"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
@@ -2046,189 +2223,6 @@
         "prompt_version": 2
       },
       "recommended_at": "2026-09-09T14:35:27.466685+00:00"
-    },
-    {
-      "id": "2609.02293",
-      "title": "SEAL: Reinforcing Global Safety in Mixture-of-Experts through Shared Expert ALignment",
-      "abstract": "Mixture-of-Experts (MoE) is a scaling architecture for large language models that activates only a small subset of expert modules per token, enabling massive parameter growth with nearly constant computation. Recent Hybrid MoE architecture adds \\textit{shared experts} to capture consistently useful representations, further improving stability and generalization. MoE now powers many flagship open-source and commercial models, yet remains vulnerable to adversarial attacks. Specifically, sparse routing introduces a structural vulnerability: MoE safety hinges on which experts are activated, and adversaries can subvert this selection through jailbreak prompts, malicious fine-tuning, and weight-level pruning of safety-critical neurons. Existing defenses primarily focus on hardening the router, but an adversary may still manipulate or bypass the routing trajectory due to the routing process's nondeterministic nature, thereby collapsing the defense. To cope with this problem, we first identify theoretically and empirically that shared expert, an always-activated component containing a small proportion of safety-critical neurons, can overcome the uncertainty of sparsely activated routing path and serve as a router-independent anchor to enhance global safety alignment. Based on this insight, we propose SEAL, a training-time parameter-efficient defense that produces a plug-and-play adapter attached to shared expert, and SEAL++, a variant that adds an orthogonal constraint preserving pre-existing safety subspaces during training. We evaluate SEAL and SEAL++ across six attack scenarios that combine three adversarial inputs (harmful prompting, jailbreak, malicious fine-tuning) with and without neuron pruning. SEAL reduces attack success rate (ASR) by up to 60\\%, at a capability cost of at most 1.4\\% on a five-benchmark average. Additionally, SEAL can seamlessly integrate with router-level ......",
-      "authors": [
-        "Qingyu Meng",
-        "Yiwei Zha",
-        "Jiahuan Pei",
-        "Koen Hindriks",
-        "Herbert Bos",
-        "Min Chen"
-      ],
-      "published": "2026-09-02T08:40:19Z",
-      "updated": "2026-09-02T08:40:19Z",
-      "categories": [
-        "cs.LG",
-        "cs.AI",
-        "cs.CR"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2609.02293v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.02293v1",
-      "comment": "Accepted at ACM CCS 2026",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.6478,
-          "matched": [
-            "adversarial",
-            "efficient",
-            "training",
-            "fine-tuning",
-            "jailbreak"
-          ]
-        },
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.1873,
-          "matched": [
-            "generalization",
-            "scaling"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6161,
-        "relevance": 0.6022,
-        "quality": 0.56,
-        "novelty": 0.8552,
-        "freshness": 0.5429,
-        "feedback_adjustment": -0.0172,
-        "semantic_feedback": 0.3103
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "open source",
-        "quantitative results"
-      ],
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "adversarial",
-          "efficient",
-          "training",
-          "fine-tuning"
-        ],
-        "lane": "llm"
-      },
-      "summary": {
-        "takeaway": "SEAL leverages always‑active shared experts to provide a router‑independent safety layer that markedly cuts attack success.",
-        "problem": "Hybrid MoE models are vulnerable because sparse routing lets adversaries bypass safety‑critical experts.",
-        "method": "Introduce a parameter‑efficient adapter for shared experts, with an orthogonal‑constraint variant, to align safety subspaces during training.",
-        "evidence": "SEAL cuts attack success rate by up to 60% with ≤1.4% capability loss and, combined with router defenses, drops ASR to 4.8%, over five‑fold better than router‑only.",
-        "limitations": "Not stated in the available source.",
-        "why_for_you": "Relevant to efficient adversarial training as it offers a low‑overhead defense that improves safety without large computational cost.",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🛡️",
-            "text": "SEAL adds a plug‑and‑play adapter to shared experts, reducing attack success rate up to 60%."
-          },
-          {
-            "icon": "⚙️",
-            "text": "SEAL++ incorporates an orthogonal constraint preserving pre‑existing safety subspaces during training."
-          },
-          {
-            "icon": "📈",
-            "text": "Combined with router‑level defenses, SEAL lowers ASR to 4.8%, >5× improvement, evaluated on six attack scenarios."
-          }
-        ],
-        "overview": "The paper identifies the structural vulnerability of hybrid Mixture‑of‑Experts (MoE) models, where sparse routing can be subverted by adversarial prompts, malicious fine‑tuning, or neuron pruning. It proposes SEAL, a training‑time, parameter‑efficient adapter attached to always‑active shared experts, and SEAL++, which adds an orthogonal constraint to preserve existing safety subspaces. Experiments on four hybrid MoE models (14B‑35B) across six attack scenarios show substantial reductions in attack success rate with minimal capability loss, and further gains when combined with router‑level defenses.",
-        "methodology": [
-          {
-            "title": "SEAL adapter",
-            "detail": "A lightweight plug‑and‑play module is inserted into the shared‑expert pathway and trained to align safety‑critical representations without modifying routed experts."
-          },
-          {
-            "title": "SEAL++ orthogonal constraint",
-            "detail": "During training, an orthogonal regularizer enforces that updates to shared‑expert parameters remain orthogonal to pre‑existing safety subspaces, preserving prior alignment."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Router‑independent safety anchor",
-            "detail": "Shared experts execute on every token, guaranteeing that safety‑critical neurons are always active regardless of routing manipulations."
-          },
-          {
-            "title": "Safety subspace preservation",
-            "detail": "The orthogonal constraint in SEAL++ prevents drift of established safety directions while allowing new alignment."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Model and attack suite",
-            "detail": "Four hybrid MoE architectures (14B‑35B) with 1‑2 shared experts were evaluated under six scenarios: prompt injection, jailbreak, malicious fine‑tuning, each with/without neuron pruning."
-          },
-          {
-            "title": "Evaluation metrics",
-            "detail": "Attack Success Rate (ASR) measured via GPT‑5‑nano safety classifier; capability cost measured as average performance drop across five benchmarks."
-          },
-          {
-            "title": "Baseline comparisons",
-            "detail": "SEAL and SEAL++ were compared against router‑only defenses and against a combined SEAL+router setup."
-          }
-        ],
-        "findings": [
-          {
-            "title": "ASR reduction",
-            "detail": "SEAL reduces ASR by up to 60% with at most 1.4% average capability loss."
-          },
-          {
-            "title": "Synergy with router defenses",
-            "detail": "When combined with router‑level defenses, SEAL lowers ASR to 4.8%, more than five times lower than router‑only."
-          },
-          {
-            "title": "Safety neuron stability",
-            "detail": "Models with concentrated shared‑expert safety encoding preserve >80% of safety neuron identity after training."
-          }
-        ],
-        "contributions": [
-          "SEAL plug‑and‑play shared‑expert adapter for safety alignment",
-          "SEAL++ orthogonal constraint preserving existing safety subspaces",
-          "Comprehensive empirical evaluation across multiple MoE models and attack scenarios"
-        ],
-        "limitations": [
-          "Not stated in the available source."
-        ],
-        "open_questions": [
-          "How does SEAL scale to MoE models beyond 35B parameters?",
-          "What is the impact on downstream task performance beyond the five evaluated benchmarks?",
-          "Can adaptive adversaries circumvent the shared‑expert defense with more sophisticated attacks?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "recommended_at": "2026-09-05T13:27:35.700479+00:00"
     }
   ]
 }

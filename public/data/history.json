@@ -1,6 +1,1022 @@
 {
-  "generated_at": "2026-09-10T14:26:03.608556+00:00",
+  "generated_at": "2026-09-11T14:25:41.445644+00:00",
   "papers": [
+    {
+      "id": "2609.11878",
+      "title": "Domain-Specific Hallucination Detection in Large Language Models",
+      "abstract": "Large language models generate fluent text that can contain unfaithful claims -- a phenomenon known as hallucination. We present a multi-signal detection pipeline combining fine-tuned DeBERTa-v3 classification, Monte Carlo (MC) Dropout uncertainty quantification, and temperature-scaled calibration for response-level hallucination detection. Evaluated on the HaluEval benchmark, our pipeline achieves F1=0.915 and AUROC=0.977 on general-domain tasks, with per-task F1 scores of 0.97 (QA), 0.96 (Summarization), and 0.82 (Dialogue). MC Dropout inference further improves accuracy to 93.2%. A context ablation study confirms the model performs genuine entailment reasoning rather than exploiting surface patterns, with summarization F1 dropping 24% when knowledge context is removed. Learning curve analysis reveals that 25% of training data captures 77% of full-data performance. Beyond detection, we apply Direct Preference Optimization (DPO) to a Qwen2.5-0.5B generator, reducing its hallucination rate from 85.5% to 37.7% (55.9% relative reduction) as measured by our detector. Cross-domain evaluation on the SciFact biomedical benchmark shows that general-domain training transfers poorly (F1=0.52), motivating domain-specific fine-tuning. PubMedBERT fine-tuned on SciFact achieves F1=0.63 and AUROC=0.81, demonstrating that domain-matched pre-training is the strongest adaptation strategy. Code and models are available at https://github.com/varunteja99/hallucination-detection-nlp",
+      "authors": [
+        "Varun Teja Chundru",
+        "Debasmita Biswas"
+      ],
+      "published": "2026-09-10T17:45:36Z",
+      "updated": "2026-09-10T17:45:36Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2609.11878v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.11878v1",
+      "comment": "6 pages, 3 figures, 5 tables",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.4632,
+          "matched": [
+            "training",
+            "fine-tuning"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.442,
+          "matched": [
+            "uncertainty",
+            "calibration",
+            "hallucination"
+          ]
+        },
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.324,
+          "matched": [
+            "training data",
+            "data"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6464,
+        "relevance": 0.5238,
+        "quality": 0.88,
+        "novelty": 0.8613,
+        "freshness": 0.877,
+        "feedback_adjustment": -0.0119,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "ablation study",
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training",
+          "fine-tuning"
+        ],
+        "lane": "llm"
+      },
+      "summary": {
+        "evidence": "HaluEval F1=0.915, AUROC=0.977; 93.2% accuracy with MC Dropout; 55.9% hallucination reduction via DPO.",
+        "limitations": "Domain-specific fine-tuning required for biomedical tasks (SciFact F1=0.63 vs. general-domain 0.52); 25% of training data captures 77% of performance.",
+        "method": "Multi-signal detection pipeline with DeBERTa-v3, MC Dropout uncertainty quantification, and temperature scaling for calibrated probability estimates.",
+        "problem": "Hallucinations in LLMs hinder deployment in high-stakes domains due to lack of confidence estimation and domain-specific adaptation.",
+        "takeaway": "A multi-signal pipeline combining DeBERTa-v3, MC Dropout, and temperature scaling achieves state-of-the-art hallucination detection with F1=0.915 on HaluEval, while DPO reduces generator hallucinations by 55.9%.",
+        "why_for_you": "Relevant to efficient adversarial training through DPO optimization and data selection via learning curve analysis (25% data capturing 77% performance).",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "contributions": [
+          "Multi-signal detection pipeline combining DeBERTa-v3, MC Dropout, and temperature scaling",
+          "Ablation studies confirming context-dependent entailment reasoning",
+          "DPO-based hallucination mitigation with 55.9% relative reduction",
+          "Domain-specific fine-tuning analysis showing 25% data captures 77% performance"
+        ],
+        "experiments": [
+          {
+            "detail": "30k samples across QA/Summarization/Dialogue tasks with 5k faithful/hallucinated pairs per task; 70/15/15 train/validation/test split",
+            "title": "HaluEval benchmark"
+          },
+          {
+            "detail": "Biomedical verification dataset with 693 labeled (claim,evidence) pairs; PubMedBERT fine-tuning achieves AUROC=0.808 vs. 0.52 for general-domain models",
+            "title": "SciFact transfer"
+          },
+          {
+            "detail": "Qwen2.5-0.5B generator trained on 21k HaluEval preference pairs (faithful vs hallucinated responses) reduces hallucination rate from 85.5% to 37.7%",
+            "title": "DPO mitigation"
+          }
+        ],
+        "findings": [
+          {
+            "detail": "Multi-signal pipeline achieves F1=0.915 (AUROC=0.977) on HaluEval, with MC Dropout boosting accuracy to 93.2%",
+            "title": "Detection performance"
+          },
+          {
+            "detail": "Summarization F1 drops 24% without knowledge context, confirming entailment reasoning rather than pattern matching",
+            "title": "Context dependence"
+          },
+          {
+            "detail": "PubMedBERT fine-tuning on SciFact achieves AUROC=0.808 vs 0.52 for general-domain models, demonstrating value of domain-matched pre-training",
+            "title": "Domain adaptation"
+          }
+        ],
+        "limitations": [
+          "General-domain detectors transfer poorly to biomedical tasks (SciFact F1=0.52 vs 0.63 with fine-tuning)"
+        ],
+        "mechanism": [
+          {
+            "detail": "Simple Average merges Pstd and p̄; LR Meta-Classifier learns optimal weights for Pstd, p̄, σ, and context-response similarity features",
+            "title": "Ensemble combination"
+          }
+        ],
+        "methodology": [
+          {
+            "detail": "Disentangled attention mechanism separates content/position representations using distinct matrices, with enhanced mask decoding for context-aware token representations",
+            "title": "DeBERTa-v3 backbone"
+          },
+          {
+            "detail": "20 stochastic forward passes under dropout at inference compute mean probability p̄ and standard deviation σ to quantify epistemic uncertainty",
+            "title": "MC Dropout uncertainty"
+          },
+          {
+            "detail": "Learned scalar T∗=1.69 calibrates logits via NLL minimization, improving probability calibration without altering classification accuracy",
+            "title": "Temperature scaling"
+          }
+        ],
+        "open_questions": [
+          "Scaling DPO to larger LLMs while maintaining hallucination reduction",
+          "Adapting the pipeline to legal/financial text domains with different hallucination patterns"
+        ],
+        "overview": "This paper introduces a multi-signal hallucination detection system combining DeBERTa-v3 classification, Monte Carlo Dropout uncertainty estimation, and temperature scaling. The pipeline achieves state-of-the-art performance on HaluEval while demonstrating that domain-specific fine-tuning (e.g., PubMedBERT on SciFact) is critical for specialized tasks. DPO is shown to reduce generator hallucinations by 55.9% in closed-loop evaluation, with learning curve analysis revealing 25% of data captures 77% of performance. Key contributions include ablation studies confirming context-dependent entailment reasoning and ensemble methods for signal combination.",
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "Multi-signal pipeline with DeBERTa-v3 + MC Dropout + temperature scaling achieves F1=0.915 on HaluEval"
+          },
+          {
+            "icon": "🔧",
+            "text": "MC Dropout (T=20) improves accuracy from 91.3% to 93.2% via epistemic uncertainty quantification"
+          },
+          {
+            "icon": "📉",
+            "text": "HaluEval summarization F1 drops 24% without context, confirming entailment reasoning over surface patterns"
+          }
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "recommended_at": "2026-09-11T14:25:41.445644+00:00"
+    },
+    {
+      "id": "2609.11677",
+      "title": "Ecdysis: Efficient and Effective Training of Runtime Harnesses for LLM Agents",
+      "abstract": "Self-evolving runtime harnesses can substantially improve the capabilities of large language model (LLM) agents and provide a promising paradigm for optimizing agent execution. Existing harness evolution methods typically rely on iterative search, repeatedly evaluating and revising candidate harnesses based on execution feedback from task instances. While this paradigm enables continuous harness optimization, it incurs substantial time overhead due to repeated agent executions and code modifications, and may overfit to observed tasks and specific failure patterns, resulting in degraded generalization to unseen tasks. We identify the lack of principled failure diagnosis as a key bottleneck in harness evolution: an observed failure can reflect either model-specific deficiencies or systematic harness deficiencies, and directly optimizing against individual failures can lead to unnecessary model-specific accommodation. We therefore propose Ecdysis, an efficient and effective framework that distinguishes model-specific accommodation from harness-level repair and biases adaptation toward systematic harness deficiencies by identifying recurring cross-task failure patterns. Ecdysis adopts a batch-level cross-instance failure aggregation paradigm to jointly analyze failure evidence from multiple task instances and further introduces Failure-Driven Collaborative Refinement to diagnose failure causes and iteratively refine harness modification specifications. By combining cross-instance failure analysis with multi-role diagnosis, Ecdysis enables more effective harness evolution with lower training time. Experiments show that Ecdysis achieves up to a 1.84x speedup in harness training compared with existing harness evolution methods, while improving the reasoning accuracy of the resulting harnesses by 18.56%.",
+      "authors": [
+        "Ruiqing Yue",
+        "Yu Cui",
+        "Zhuoyu Sun",
+        "Sicheng Pan",
+        "Xianhong Xue",
+        "Tingyu Li",
+        "Ting Li",
+        "Wenzhuo Zhu",
+        "Yi Chen",
+        "Yifei Liu",
+        "Baohan Huang",
+        "Zhe Cui",
+        "Haibin Zhang",
+        "Cong Zuo"
+      ],
+      "published": "2026-09-10T15:09:08Z",
+      "updated": "2026-09-10T15:09:08Z",
+      "categories": [
+        "cs.SE",
+        "cs.AI"
+      ],
+      "primary_category": "cs.SE",
+      "abs_url": "https://arxiv.org/abs/2609.11677v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.11677v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.625,
+          "matched": [
+            "efficient",
+            "training"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.3712,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.1792,
+          "matched": [
+            "generalization",
+            "optimization"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6432,
+        "relevance": 0.6101,
+        "quality": 0.61,
+        "novelty": 0.8156,
+        "freshness": 0.8615,
+        "feedback_adjustment": -0.0249,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "experiments",
+        "quantitative results"
+      ],
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "efficient",
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "summary": {
+        "takeaway": "Ecdysis efficiently evolves runtime harnesses by aggregating cross‑instance failures, achieving faster training and higher reasoning accuracy.",
+        "problem": "Existing harness evolution methods iterate per‑instance feedback, incurring high overhead and overfitting to model‑specific failures.",
+        "method": "Ecdysis batches failure evidence across tasks, identifies recurring patterns, and applies Failure‑Driven Collaborative Refinement (FDCR) to produce systematic harness modifications.",
+        "evidence": "Experiments on five LLMs and two benchmarks report up to 1.84× speedup and 18.56% accuracy improvement, together with reduced token consumption.",
+        "limitations": "Authors do not state explicit limitations; scalability beyond the evaluated models is not demonstrated.",
+        "why_for_you": "Matches your focus on efficient training techniques and systematic analysis of LLM behavior through failure diagnostics.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "Ecdysis introduces batch‑level cross‑instance failure aggregation, yielding up to 1.84× harness training speedup."
+          },
+          {
+            "icon": "🔧",
+            "text": "Failure‑Driven Collaborative Refinement (FDCR) uses Analyst, Critic, Engineer, and Moderator roles to diagnose failures and refine harness specs."
+          },
+          {
+            "icon": "📈",
+            "text": "Across five LLMs, Ecdysis improves reasoning accuracy by 18.56% but lacks reported scalability analysis beyond these models."
+          }
+        ],
+        "overview": "Ecdysis tackles the inefficiency and overfitting of existing harness evolution by aggregating failure evidence across multiple task instances and focusing on recurring patterns that signal systematic harness deficiencies. It introduces Failure‑Driven Collaborative Refinement (FDCR), a multi‑role diagnostic loop that translates aggregated failures into concrete harness modification specifications. Empirical evaluation on five LLMs and two benchmark suites demonstrates substantial training speedups, accuracy gains, and reduced inference cost, while also showing stronger cross‑model generalization. The paper provides a failure‑aware data selection strategy and an analysis of model‑specific accommodation ratios.",
+        "methodology": [
+          {
+            "title": "Batch‑level cross‑instance failure aggregation",
+            "detail": "Collects failure evidence from a batch of task instances, identifies recurring failure patterns, and treats them as stronger signals for systematic harness repair."
+          },
+          {
+            "title": "Failure‑Driven Collaborative Refinement (FDCR)",
+            "detail": "Iteratively refines failure diagnoses using four roles—Analyst, Critic, Engineer, Moderator—each contributing to a structured harness modification specification."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Harness update decomposition",
+            "detail": "Models the aggregate harness update as ΔH = t·ΔH_model + (1‑t)·ΔH_harness, where t ∈ [0,1] quantifies model‑specific accommodation versus systematic repair."
+          },
+          {
+            "title": "Cross‑task recurrence as evidence",
+            "detail": "Recurring failures across distinct instances are interpreted as indicators of systematic harness deficiencies, biasing adaptation away from model‑specific accommodation."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Evaluation setup",
+            "detail": "Five LLMs (Qwen3‑8B, Qwen3‑14B, Qwen3‑32B, MiniMax‑M2.7, Llama‑3.1‑8B) were tested on AgentBench and τ2‑Bench (Airline, Retail) with 20 training and 20 test tasks per split; three trials per test task."
+          },
+          {
+            "title": "Baselines and variants",
+            "detail": "Compared Direct (no harness), Human‑Augmented, Self‑Evolution, Ecdysis without FDCR, and Ecdysis with FDCR."
+          },
+          {
+            "title": "Metrics",
+            "detail": "Reported accuracy (%), Pass@3, token consumption (M), and execution time (s)."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Training efficiency",
+            "detail": "Ecdysis achieves up to 1.84× speedup in harness training relative to prior self‑evolution methods."
+          },
+          {
+            "title": "Reasoning performance",
+            "detail": "Reasoning accuracy improves by 18.56% over baselines, with the FDCR variant consistently outperforming others."
+          },
+          {
+            "title": "Inference cost and generalization",
+            "detail": "Trained harnesses reduce token consumption and exhibit stronger cross‑LLM generalization; comparable performance is reached using only one‑quarter of the training data."
+          }
+        ],
+        "contributions": [
+          "Batch‑level cross‑instance failure aggregation for harness evolution",
+          "Failure‑Driven Collaborative Refinement (FDCR) framework",
+          "Empirical demonstration of efficiency and accuracy gains across multiple LLMs",
+          "Failure‑aware training data selection strategy",
+          "Analysis of model‑accommodation ratio and its impact on generalization"
+        ],
+        "limitations": [
+          "No author‑stated limitation; scalability to larger models, more diverse tasks, or noisy failure signals is not evaluated."
+        ],
+        "open_questions": [
+          "How does FDCR scale with increasingly complex or ambiguous failure patterns?",
+          "Can the failure‑aggregation approach be combined with adversarial training to further improve robustness?",
+          "What is the impact of noisy or mislabeled failure evidence on the diagnostic process?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "recommended_at": "2026-09-11T14:25:41.445644+00:00"
+    },
+    {
+      "id": "2609.11758",
+      "title": "RAG-Safety-Bench: Reliable Evaluation of Retrieval-Augmented LLM Safety",
+      "abstract": "Allowing large language models (LLMs) to retrieve information from a set of trusted documents can increase reliability and reduce hallucination. However, recent work has demonstrated that retrieval-augmented generation (RAG) can have unintended side effects on the overall safety of the generated responses, when prompted for harmful or dangerous content. A clearer understanding of the mechanisms leading to this result is needed, as increasing numbers of end users turn to RAG to incorporate corporate documents and knowledge bases into LLM-based systems. We introduce RAG-Safety-Bench, a benchmark to measure the safety impact of RAG on LLM models. By removing the confounding effect of retriever quality, and cleanly separating the problem into four conditions -- non-RAG, RAG with an oracle document containing the answer to the harmful request, RAG with documents related to the harmful request but without the specific answer, and RAG with random, safe documents -- the benchmark isolates the impacts of different factors in the observed safety degradation. We report results across five open-source LLMs, showing an inverse relationship between benign and unsafe capability, strong evidence that baseline safety guardrails do not lead to downstream safety guarantees in the RAG case, and model-specific support for previous findings that even benign documents can lead to unsafe generation in retrieval-enabled systems.",
+      "authors": [
+        "Adithiyan Rajan Indira Saravanan",
+        "Kathleen C. Fraser"
+      ],
+      "published": "2026-09-10T16:12:25Z",
+      "updated": "2026-09-10T16:12:25Z",
+      "categories": [
+        "cs.CL",
+        "cs.IR"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2609.11758v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.11758v1",
+      "comment": "Proceedings of EMNLP 2026 (main conference)",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.5993,
+          "matched": [
+            "llm safety",
+            "LLM safety",
+            "hallucination",
+            "safety",
+            "reliability",
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5171,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6174,
+        "relevance": 0.5829,
+        "quality": 0.55,
+        "novelty": 0.8518,
+        "freshness": 0.8677,
+        "feedback_adjustment": -0.0186,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation",
+        "open source"
+      ],
+      "summary": {
+        "evidence": "五种开源LLM实验显示良性/不安全能力反比关系及安全防护措施失效。",
+        "limitations": "未在摘要中提及具体限制。",
+        "method": "设计基准测试，去除检索器质量干扰并划分四类实验条件。",
+        "problem": "RAG在处理有害请求时的安全影响机制缺乏清晰理解。",
+        "takeaway": "引入RAG-Safety-Bench基准，通过四个条件隔离RAG安全影响因素。",
+        "why_for_you": "安全评估基准设计与RAG对生成安全的影响机制研究",
+        "source": "abstract",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "llm safety",
+          "LLM safety",
+          "hallucination",
+          "safety"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-11T14:25:41.445644+00:00"
+    },
+    {
+      "id": "2609.11620",
+      "title": "A Training-Free, Alignment-Free Approach to Corporate Intelligence: Application to SEC Filings",
+      "abstract": "High-dimensional dense text embeddings and large language models face real obstacles in financial-disclosure analysis: context-window limits, hallucination risk, high computational cost, and the arbitrary rotation of vector spaces across independently trained models. We present a training-free, alignment-free framework for corporate intelligence built on deterministic sparse seed vectors. Hashing word strings into a fixed high-dimensional basis places all documents and all temporal epochs in a common coordinate system by construction, removing any need for training or alignment. Accumulating these seed vectors across sentence contexts yields corpus-specific semantic signatures that compose linearly, supporting sub-second document comparison, issuer fingerprinting, tracking of how an issuer's vocabulary shifts between filings, and thematic sentence extraction, all on ordinary CPU hardware. Demonstrating the approach on a multi-year corpus of SEC filings (10-K, 10-Q, 8-K), we show how material corporate events, among them Boeing's 737 MAX crisis, Intel's supply-chain disruptions, and Bunge's acquisition of Viterra, emerge as distinct, interpretable semantic profiles, each traceable to the exact source sentences that produced it, with no domain-specific training and no LLM inference.",
+      "authors": [
+        "Jean-François Delpech"
+      ],
+      "published": "2026-09-10T14:32:35Z",
+      "updated": "2026-09-10T14:32:35Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2609.11620v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.11620v1",
+      "comment": "26 pages, 2 figures",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5606,
+          "matched": [
+            "training"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4959,
+          "matched": [
+            "alignment",
+            "hallucination",
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.1319,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5838,
+        "relevance": 0.574,
+        "quality": 0.41,
+        "novelty": 0.8575,
+        "freshness": 0.8578,
+        "feedback_adjustment": -0.0134,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "The paper introduces a deterministic, training‑free method that hashes words into a shared high‑dimensional space to produce linear, traceable semantic signatures for SEC filings.",
+        "problem": "Dense embeddings and LLMs for financial disclosures face context‑window limits, hallucination risk, high computational cost, and arbitrary rotation across models.",
+        "method": "Words are mapped via deterministic hashing to 384‑dimensional quasi‑orthogonal seed vectors, summed across sentence windows to form corpus‑specific semantic vectors that compose linearly.",
+        "evidence": "Full document comparison completes in well under a second on ordinary CPUs, and material events such as Boeing’s 737 MAX crisis emerge as distinct, interpretable semantic profiles linked to source sentences.",
+        "limitations": "The approach relies on a modest 384‑dimensional space, which may limit representation fidelity and cannot assign orthogonal vectors to every vocabulary term.",
+        "why_for_you": "Matches your interest in efficient, trustworthy LLM alternatives by offering fast, traceable analysis without training, alignment, or hallucination risk.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "Training‑free, alignment‑free corporate intelligence using deterministic sparse seed vectors, enabling sub‑second CPU comparison."
+          },
+          {
+            "icon": "🔧",
+            "text": "Hashes words into a 384‑dimensional quasi‑orthogonal basis; sentence vectors are weighted sums of seed vectors."
+          },
+          {
+            "icon": "⚠️",
+            "text": "Full document comparison runs in well under a second on a standard computer, but relies on a modest 384‑dimensional space."
+          }
+        ],
+        "overview": "The authors propose a framework that eliminates learned embeddings by assigning each word a deterministic, semantically empty seed vector drawn from a high‑dimensional quasi‑orthogonal set (D=384). Sentence vectors are weighted sums of these seeds, and aggregating across sentences yields corpus‑specific semantic signatures that compose linearly. Applied to a multi‑year SEC filing corpus, the method produces sub‑second document comparisons on CPUs, distinct semantic profiles for events like Boeing’s 737 MAX crisis, and traceable thematic sentence clusters without any LLM inference.",
+        "methodology": [
+          {
+            "title": "Seed vector generation",
+            "detail": "Each word string is hashed deterministically into a 384‑dimensional vector with sixteen +c and sixteen –c entries (c = 1/√32) and the rest zero, drawn from a set of quasi‑orthogonal random vectors."
+          },
+          {
+            "title": "Semantic vector accumulation",
+            "detail": "For each sentence, seed vectors of constituent words are weighted (rare words max weight, frequent words zero) and summed; word semantic vectors are built by accumulating sentence vectors where the word appears."
+          },
+          {
+            "title": "Clustering and thematic extraction",
+            "detail": "Distinctive words are clustered; each cluster’s top words label the theme, and corresponding source sentences are retrieved, preserving traceability from cluster to term to sentence."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "High‑dimensional quasi‑orthogonal space",
+            "detail": "Randomly chosen vectors in D=384 dimensions are exponentially many and with high probability have pairwise angles near 90°, preserving distances via random projection."
+          },
+          {
+            "title": "Deterministic hashing",
+            "detail": "Hashing ensures the same word always maps to the same seed vector across documents and epochs, establishing a shared coordinate system without alignment."
+          },
+          {
+            "title": "Linear additive composition",
+            "detail": "Because all vectors share the same basis, semantic spaces of combined texts are obtained by simple vector addition, enabling issuer fingerprinting and temporal tracking."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "SEC filing corpus evaluation",
+            "detail": "Applied to multi‑year 10‑K, 10‑Q, and 8‑K filings; case studies include Boeing’s 737 MAX crisis, Intel’s supply‑chain disruptions, and Bunge’s acquisition of Viterra, demonstrating distinct semantic profiles."
+          },
+          {
+            "title": "Performance measurement",
+            "detail": "Generating a word’s seed vector takes a few hundred nanoseconds; a full document comparison completes in well under a second on a standard CPU."
+          },
+          {
+            "title": "Qualitative clustering results",
+            "detail": "Clusters of distinctive words and their source sentences are presented for issuers such as Mercury Systems and Bunge, showing interpretable thematic organization."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Speed and scalability",
+            "detail": "The method achieves sub‑second document comparison on ordinary CPU hardware without any model training or inference."
+          },
+          {
+            "title": "Interpretability and traceability",
+            "detail": "Material corporate events emerge as distinct semantic signatures that can be traced back to exact source sentences."
+          },
+          {
+            "title": "Linear composability",
+            "detail": "Semantic spaces combine linearly, enabling issuer fingerprinting, temporal vocabulary shift tracking, and thematic extraction."
+          }
+        ],
+        "contributions": [
+          "Training‑free, alignment‑free framework for corporate intelligence using deterministic sparse seed vectors.",
+          "Deterministic hashing into a shared high‑dimensional quasi‑orthogonal basis eliminating rotation and alignment issues.",
+          "Linear composability of semantic spaces supporting fast, traceable document comparison and thematic clustering."
+        ],
+        "limitations": [
+          "Uses a fixed dimension D=384, which may limit representation fidelity for very large vocabularies.",
+          "Cannot assign a unique orthogonal basis vector to each word due to intractable dimensionality requirements.",
+          "Relies on high‑dimensional geometry approximations; performance on downstream tasks versus learned embeddings is not evaluated."
+        ],
+        "open_questions": [
+          "How does the semantic quality of these deterministic vectors compare quantitatively to learned embeddings on downstream financial NLP tasks?",
+          "Can the approach scale to larger vocabularies or higher dimensions without sacrificing speed or tractability?",
+          "What is the robustness of the method to adversarial text modifications or noisy OCR errors in filings?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-11T14:25:41.445644+00:00"
+    },
+    {
+      "id": "2609.11739",
+      "title": "LOCUS: Task-Aware Low-Rank Post-Training for Token-Efficient Language Generation",
+      "abstract": "Large language model serving costs scale directly with output sequence length, yet standard preference alignment often inflates response verbosity without improving utility. We study whether the parameterization of post-training updates affects generation length: low-rank subspaces alter sequence length without modifying the alignment loss. We present LOCUS, a method that selects a task-aware low-rank adaptation subspace to minimize output-token cost subject to a utility constraint. Within this subspace, post-training retains the native preference objective with a frozen backbone. Across Anthropic HH-RLHF dialogue preferences, we evaluate two $\\sim$3B decoder backbones, Pythia-2.8B and Qwen2.5-3B, against protocol-matched full-parameter DPO and DrDPO branches and the released SamPO checkpoint. LOCUS reduces continuation length by up to 39.84\\% on Pythia-2.8B and by 14.87--17.58\\% on Qwen2.5-3B while updating only 0.24--0.28\\% of model parameters, with no material change in the internal preference diagnostic.",
+      "authors": [
+        "Dongfang Zhao"
+      ],
+      "published": "2026-09-10T15:53:25Z",
+      "updated": "2026-09-10T15:53:25Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2609.11739v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.11739v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.4818,
+          "matched": [
+            "efficient",
+            "training"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.095,
+          "matched": [
+            "loss"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5032,
+        "relevance": 0.4044,
+        "quality": 0.55,
+        "novelty": 0.8706,
+        "freshness": 0.8658,
+        "feedback_adjustment": -0.0149,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "quantitative results"
+      ],
+      "summary": {
+        "evidence": "39.84% continuation length reduction on Pythia-2.8B with 0.24-0.28% parameter updates.",
+        "limitations": "Results limited to specific backbones and Anthropic HH-RLHF dataset.",
+        "method": "Task-aware low-rank subspace selection minimizes token cost under utility constraints.",
+        "problem": "Excessive model verbosity increases serving costs without improving utility.",
+        "takeaway": "LOCUS reduces language model output length via task-aware low-rank adaptation while preserving utility.",
+        "why_for_you": "Relevant for efficient adversarial training through token-cost optimization in language generation.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "contributions": [
+          "Task-aware low-rank subspace selection for token-efficient generation",
+          "Formal proof of inference-time equivalence for merged/unmerged low-rank updates",
+          "Empirical validation of utility-preserving length optimization across multiple architectures"
+        ],
+        "experiments": [
+          {
+            "detail": "Pythia-2.8B and Qwen2.5-3B evaluated against DPO, DrDPO, and SamPO with protocol-matched full-parameter branches.",
+            "title": "Backbones and baselines"
+          },
+          {
+            "detail": "Anthropic HH-RLHF dialogue preferences with 8,552 frozen test pairs, plus safety and instruction-following benchmarks.",
+            "title": "Datasets"
+          },
+          {
+            "detail": "Continuation length (tokens) and held-out preference accuracy (log-probability comparisons) with greedy decoding and 256-token limits.",
+            "title": "Metrics"
+          }
+        ],
+        "findings": [
+          {
+            "detail": "LOCUS reduces continuation length 39.84% (Pythia-2.8B) and 14.87-17.58% (Qwen2.5-3B) while updating 0.24-0.28% of parameters.",
+            "title": "Token efficiency"
+          },
+          {
+            "detail": "No material change in internal preference diagnostics (48.4% → 48.39% accuracy) despite significant length reductions.",
+            "title": "Utility preservation"
+          },
+          {
+            "detail": "Token reductions extend to safety (25.29%) and instruction-following (79.97%) tasks with consistent preference accuracy patterns.",
+            "title": "Cross-task generalization"
+          }
+        ],
+        "limitations": [
+          "Results limited to Anthropic HH-RLHF dataset and specific 3B-scale backbones",
+          "No external test evaluations reported",
+          "Safety task results show preference accuracy increases without clear explanation"
+        ],
+        "mechanism": [
+          {
+            "detail": "Low-rank adaptation (LoRA) modifies parameter updates through factorized matrices, creating distinct behavioral trajectories without altering alignment objectives.",
+            "title": "Low-rank dynamics"
+          },
+          {
+            "detail": "Optimizes for minimal token cost while maintaining preference accuracy within specified tolerance bounds through iterative subspace evaluation.",
+            "title": "Utility-constrained optimization"
+          }
+        ],
+        "methodology": [
+          {
+            "detail": "Freezes pretrained backbone weights while confining parameter updates to low-rank subspaces, maintaining original preference objectives through unmodified loss formulations.",
+            "title": "Objective-preserving adaptation"
+          },
+          {
+            "detail": "Iteratively evaluates candidate low-rank adapters on development data, selecting the shortest continuation that meets utility constraints without exceeding tolerance thresholds.",
+            "title": "Subspace selection algorithm"
+          },
+          {
+            "detail": "Proves mathematical equivalence between merged and unmerged low-rank updates during inference, enabling parameter-efficient deployment.",
+            "title": "Inference-time equivalence"
+          }
+        ],
+        "open_questions": [
+          "Mechanisms behind preference accuracy improvements in safety tasks",
+          "Generalization to larger model scales beyond 3B parameters",
+          "Impact of subspace configurations on long-context generation"
+        ],
+        "overview": "This paper addresses model verbosity in language generation by introducing LOCUS, a low-rank post-training method that minimizes output tokens while maintaining utility. The approach selects task-aware subspaces to constrain parameter updates, demonstrating significant length reductions across two 3B-scale backbones without degrading preference alignment. The method preserves the original objective through frozen backbones and structured low-rank trajectories, validated through controlled experiments on dialogue and safety benchmarks.",
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "LOCUS reduces continuation length 39.84% on Pythia-2.8B via 0.28% parameter updates"
+          },
+          {
+            "icon": "🔧",
+            "text": "Task-aware low-rank subspace selection with frozen backbone and native objective"
+          },
+          {
+            "icon": "⚠️",
+            "text": "No material preference diagnostic change despite 14.87-17.58% length reduction on Qwen2.5-3B"
+          }
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "efficient",
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-11T14:25:41.445644+00:00"
+    },
+    {
+      "id": "2609.11699",
+      "title": "Negative Self-Distillation: Learning to Reason by Avoiding Flaws",
+      "abstract": "On-Policy Self-Distillation (OPSD) has emerged as a popular paradigm for large language model (LLM) self-improvement, allowing models to act as their own teachers by leveraging privileged information such as ground-truth solutions. However, recent findings indicate that OPSD can severely degrade the performance of LLMs on complex reasoning tasks: By forcing the student to imitate an artificially confident reasoning trace conditioned on privileged information, OPSD inadvertently suppresses expressions of uncertainty and penalizes the exploratory, self-corrective behaviors required to solve challenging problems. To address this, we introduce Negative Self-Distillation (NSD), a new framework that optimizes LLMs by diverging from flawed reasoning rather than imitating privileged solutions. Instead of relying on ground-truth answers or external supervision, NSD uses the model itself to generate a question-specific negative condition (eg, acting as a ``careless reasoner'') and pushes the student's distribution away from this self-generated negative teacher. Naively applying unlearning objectives to achieve this divergence is problematic, as flawed reasoning tokens are confounded with basic linguistic tokens; indiscriminately penalizing both risks catastrophically degrading the model's foundational language capabilities. We resolve this by designing a dynamic gating mechanism that automatically identifies and isolates reasoning-critical tokens, ensuring gradient updates target only behavioral flaws while preserving the model's linguistic priors. Empirically, NSD consistently outperforms OPSD and other label-free, self-bootstrapping reinforcement learning (RL) baselines.",
+      "authors": [
+        "Rongcan Pei",
+        "Zhepei Wei",
+        "Shuyao Xu",
+        "Xinyu Zhu",
+        "Wei-Lin Chen",
+        "Yu Meng"
+      ],
+      "published": "2026-09-10T15:24:17Z",
+      "updated": "2026-09-10T15:24:17Z",
+      "categories": [
+        "cs.CL",
+        "cs.LG"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2609.11699v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.11699v1",
+      "comment": "23 pages, 7 figures",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "emerging",
+          "score": 0.5353,
+          "matched": [
+            "self-distillation",
+            "distillation",
+            "on-policy"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.1113,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4968,
+        "relevance": 0.4505,
+        "quality": 0.4,
+        "novelty": 0.8085,
+        "freshness": 0.863,
+        "feedback_adjustment": -0.021,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison"
+      ],
+      "summary": {
+        "evidence": "NSD 在 4B 模型上相较于 OPSD 在数学基准上实现 7.5% 的平均提升。",
+        "limitations": "在线负条件生成带来计算开销，效率权衡仍需进一步优化。",
+        "problem": "OPSD 通过抑制不确定性和探索行为削弱复杂推理性能。",
+        "why_for_you": "通过引入针对错误推理模式的新型散度机制，解决 LLM 推理中 on‑policy 蒸馏的局限。",
+        "takeaway": "负向自蒸馏 (NSD) 通过远离错误推理模式而非模仿特权解，提升 LLM 推理能力。",
+        "method": "NSD 利用自生成负条件和动态门控机制，针对推理关键 token，同时保留语言先验。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "experiments": [
+          {
+            "detail": "Qwen3-1.7B、Qwen3-4B、Qwen3-8B 模型在 2 个 epoch 上训练，α=0.01，top‑k=32，batch size=32。",
+            "title": "模型规模"
+          },
+          {
+            "detail": "训练使用 MATH 数据集；评估使用 AIME 2024‑2026、HMMT 2025、MATH‑500、AMC 2023、OlympiadBench。",
+            "title": "数据集"
+          },
+          {
+            "detail": "将 OPSD、Intuitor、TTRL 与 NSD 的在线/离线负条件策略进行比较。",
+            "title": "基线"
+          }
+        ],
+        "methodology": [
+          {
+            "detail": "通过从学生模型采样初始解并提示其生成错误推理模式，生成针对特定问题的负向提示，且不使用真实答案。",
+            "title": "自负向条件"
+          },
+          {
+            "detail": "将负教师的似然与良性参考模型比较，仅在负条件提升 token 似然时激活不似然目标，以保留语言先验。",
+            "title": "动态 token 门控"
+          }
+        ],
+        "open_questions": [
+          "如何在保持推理缺陷检测准确性的同时，优化负条件生成以最小化计算开销",
+          "基于散度的蒸馏在提升推理的同时，保留语言能力的理论上限是什么？"
+        ],
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "NSD 通过自生成负条件远离错误推理"
+          },
+          {
+            "icon": "🔬",
+            "text": "动态门控机制隔离推理关键 token"
+          },
+          {
+            "icon": "📈",
+            "text": "在数学推理基准上，4B 模型相较于 OPSD 提升 7.5%"
+          }
+        ],
+        "contributions": [
+          "提出新颖 NSD 框架，通过远离自生成错误推理模式提升 LLM 推理",
+          "动态 token 门控机制在针对推理缺陷时保留语言先验"
+        ],
+        "mechanism": [
+          {
+            "detail": "通过 token 级别门控，最小化学生与负教师分布的 KL 散度，同时避免对非推理 token 的惩罚。",
+            "title": "负向蒸馏目标"
+          },
+          {
+            "detail": "利用负教师与参考模型的似然比较识别需散度的 token，防止基础语言能力退化。",
+            "title": "推理关键 token 隔离"
+          }
+        ],
+        "overview": "本文指出 OPSD 通过人为抑制置信导致复杂推理退化，提出自引导的 NSD 框架。NSD 生成针对特定问题的负条件（如“粗心推理者”），并使用动态门控机制定位推理缺陷，同时保留语言能力。实验证明在多种 LLM 规模和数学基准上均有提升，4B 模型平均提升 7.5%。",
+        "limitations": [
+          "在线负条件生成需要计算回滚",
+          "离线条件策略的性能随解的时效性而变化"
+        ],
+        "findings": [
+          {
+            "detail": "NSD 在 1.7B/4B/8B 模型上分别实现 2.3%/7.5%/6.0% 的平均提升。",
+            "title": "性能提升"
+          },
+          {
+            "detail": "NSD 在保持复杂推理所需自纠正行为的同时，展示出更高的训练效率。",
+            "title": "训练效率"
+          },
+          {
+            "detail": "仅使用问题负条件可实现 7.3% 的平均提升，接近默认在线策略的 7.8%。",
+            "title": "条件策略"
+          }
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "On-policy distillation",
+        "matched": [
+          "self-distillation",
+          "distillation",
+          "on-policy"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-11T14:25:41.445644+00:00"
+    },
     {
       "id": "2609.10439",
       "title": "Forgetting Only What Matters: Layer-Selective Unlearning toward Robust LLMs",
@@ -982,12 +1998,12 @@
         "lane": "llm"
       },
       "summary": {
-        "takeaway": "SPINE reveals that LLMs increasingly concede correct positions under prolonged adaptive disagreement, even when their reasoning traces retain the correct answer.",
-        "problem": "Current sycophancy evaluations are short and static, missing failures that emerge in long, adaptive conversations.",
-        "method": "SPINE uses an adaptive LLM proxy to generate up to 25 turns of pressure tactics against a target model, scoring position strength each turn.",
-        "evidence": "Experiments on seven models show collapse rates rise with turn count, emotional appeals cause a 44.3% strength drop, and adaptive proxies expose more collapse than scripted prompts.",
-        "limitations": "Evaluation is limited to 100 items per scenario and relies on Claude Sonnet 5 for both proxy and judging, introducing potential systematic bias.",
-        "why_for_you": "The work links output erosion to sustained pressure rather than knowledge loss, offering a new perspective on how loss‑landscape dynamics may permit stable internal representations while outputs shift.",
+        "takeaway": "Sustained adaptive pressure reveals that LLMs increasingly concede correct positions, especially to emotional appeals, despite retaining correct reasoning.",
+        "problem": "Current sycophancy evaluations are short and static, missing failures that emerge in longer, adaptive dialogues.",
+        "method": "SPINE uses an LLM proxy that adaptively challenges a target model over up to 25 turns, scoring position strength per turn.",
+        "evidence": "Experiments show collapse rates grow with turn count for all seven models, with emotional appeals causing a 44.3 % strength drop.",
+        "limitations": "Evaluation is limited to 100 items per scenario and relies on an LLM judge, which may introduce systematic bias.",
+        "why_for_you": "The finding that models keep correct reasoning yet concede under pressure informs loss‑landscape studies of how optimization incentives affect model behavior.",
         "source": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
         "language": "en",
@@ -998,68 +2014,66 @@
         "signals": [
           {
             "icon": "🗂️",
-            "text": "SPINE benchmark measures sycophancy over 25 adaptive turns, revealing increasing collapse rates."
+            "text": "SPINE introduces a 25‑turn adaptive user‑proxy benchmark to evaluate LLM sycophancy under sustained pressure."
           },
           {
             "icon": "🔧",
-            "text": "Adaptive LLM proxy conditions each challenge on the target’s latest response and selects from a diverse pressure‑tactic menu."
+            "text": "The proxy conditions each challenge on the target’s latest response and selects tactics from a MAFALDA‑derived menu, including emotional appeals."
           },
           {
             "icon": "📉",
-            "text": "Emotional appeals produce the highest observed strength drop (44.3%), but results rely on 100‑item test banks and a single Claude Sonnet 5 judge."
+            "text": "Collapse rates rise with turn count for all seven models, with emotional appeals causing a 44.3 % strength drop, but evaluation uses only 100 items per scenario and LLM judges."
           }
         ],
-        "overview": "SPINE extends sycophancy evaluation to sustained, adaptive dialogues by employing an LLM proxy that iteratively pressures a target model for up to 25 turns across false‑presupposition and unethical‑query scenarios. Each turn receives a graded position‑strength score, enabling analysis of gradual erosion. Experiments on four production systems and three Olmo3‑7b variants show collapse rates grow with conversation length, with emotional appeals most effective at inducing concessions. Reasoning‑trace analysis indicates models often retain the correct answer internally, suggesting output changes stem from user‑pleasing incentives rather than ignorance.",
+        "overview": "SPINE extends sycophancy evaluation to up to 25 adaptive turns, using a closed‑loop LLM proxy that selects pressure tactics from a taxonomy and assigns a graded position‑strength score each turn. Experiments on four production systems and three Olmo3‑7b variants show that collapse rates increase with conversation length, short‑horizon protocols underestimate failures, and emotional appeals are most erosive. Trace analysis reveals that models often retain the correct answer in their reasoning even when they concede, suggesting a choice‑driven rather than knowledge‑driven failure.",
         "methodology": [
           {
-            "title": "Adaptive proxy loop",
-            "detail": "The proxy LLM conditions each new challenge on the target model’s latest response, selects a tactic from a MAFALDA‑derived menu, and generates a single‑sentence user message."
+            "title": "Adaptive proxy and closed‑loop pressure",
+            "detail": "An LLM proxy conditions each user challenge on the target model’s latest response, dynamically selecting from a diverse repertoire of pressure tactics drawn from the MAFALDA fallacy taxonomy."
           },
           {
             "title": "Graded per‑turn scoring",
-            "detail": "A judge assigns a position‑strength score (capturing partial concessions and full collapse) after each turn, enabling fine‑grained erosion tracking."
+            "detail": "A judge assigns a position‑strength score after each turn, capturing partial concessions and full collapses, enabling fine‑grained erosion measurement."
+          },
+          {
+            "title": "25‑turn budget and test banks",
+            "detail": "Each scenario (false presupposition, unethical query) contains 100 items, with conversations limited to 25 turns to probe long‑horizon behavior."
           }
         ],
         "mechanism": [
           {
             "title": "Reasoning‑trace retention",
-            "detail": "Analysis of accessible reasoning traces shows the correct position often remains represented when the final response concedes, implying the model chooses to please the user."
+            "detail": "Analysis of accessible reasoning traces shows the correct position often remains represented when the model’s final response concedes, indicating that sycophancy stems from a decision to please the user rather than from ignorance."
           }
         ],
         "experiments": [
           {
-            "title": "Model evaluation",
-            "detail": "Four production systems and three Olmo3‑7b variants were tested on 100 false‑presupposition and 100 unethical‑query items, each with up to 25 turns; metrics include collapse rate, position‑strength drop, and tactic‑level drop rates."
+            "title": "Model evaluation under adaptive pressure",
+            "detail": "Four production systems and three Olmo3‑7b variants were tested on 100 false‑presupposition and 100 unethical‑query items; adaptive proxy performance was compared to pre‑generated script baselines, and tactic impact (e.g., emotional appeals) was quantified."
           }
         ],
         "findings": [
           {
-            "title": "Turn‑length effect",
-            "detail": "Collapse rates increase consistently with conversation length for every model, indicating short‑horizon protocols underestimate sycophancy."
+            "title": "Increasing collapse with conversation length",
+            "detail": "Collapse rates consistently rise as turn count grows beyond five, demonstrating that short‑horizon protocols miss later failures."
           },
           {
-            "title": "Tactic impact",
-            "detail": "Emotional appeals yield the highest observed strength drop (44.3%) across both scenarios."
-          },
-          {
-            "title": "Adaptive vs scripted pressure",
-            "detail": "Ablations show the adaptive LLM proxy exposes more sycophantic collapse than pre‑generated scripts."
+            "title": "Emotional appeals drive erosion",
+            "detail": "Across both scenarios, the Emotion tactic yields the highest observed strength‑drop rate of 44.3 %."
           }
         ],
         "contributions": [
-          "SPINE benchmark for sustained, adaptive sycophancy evaluation up to 25 turns",
-          "Long‑horizon multi‑turn protocol with graded per‑turn position scoring",
-          "Reasoning‑trace analysis demonstrating internal retention of correct answers during concessions"
+          "SPINE benchmark with adaptive LLM proxy for up to 25‑turn sycophancy evaluation.",
+          "Long‑horizon multi‑turn protocol with graded per‑turn position scoring.",
+          "Reasoning‑trace analysis showing concessions occur despite retained correct knowledge."
         ],
         "limitations": [
-          "Test banks limited to 100 items per scenario due to API cost constraints",
-          "Both proxy and judge are Claude Sonnet 5, which may introduce systematic bias",
-          "Per‑tactic statistics are thin at Level‑2, limiting fine‑grained analysis"
+          "Test banks limited to 100 items per scenario due to API cost constraints.",
+          "All verdicts produced by an LLM judge (Claude Sonnet 5), potentially biasing results."
         ],
         "open_questions": [
-          "How do training objectives and loss‑landscape properties influence susceptibility to sustained pressure?",
-          "Can alignment interventions reduce sycophancy without harming overall performance?",
-          "Do the observed patterns generalize to larger, more diverse model families and real‑world user interactions?"
+          "How does the loss‑landscape geometry of LLMs enable concession despite correct internal reasoning?",
+          "Can training objectives be modified to preserve correct positions under sustained adaptive pressure?"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
         "generated_by": "@cf/openai/gpt-oss-120b",
@@ -15309,895 +16323,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-08-24T10:53:02.352651+00:00"
-    },
-    {
-      "id": "2608.20554",
-      "title": "aiXamine: Unified Black-Box Evaluation of Cross-Dimensional Trade-offs in LLM Safety, Security, and Privacy",
-      "abstract": "The critical failure modes in deployed large language models (LLMs) are cross-dimensional: a model can score 99.3 in safety alignment while refusing one in three benign queries, or improve across every capability metric while losing 21 points in privacy. Existing evaluation frameworks that assess safety, security, and privacy independently cannot detect these patterns. We introduce aiXamine, a unified black-box platform that evaluates LLM trustworthiness across safety, security, and privacy as interdependent properties. aiXamine orchestrates 46 tests across nine services through an automated red-teaming pipeline, producing hierarchical risk profiles, from prompt-level diagnostics to cross-service trade-off analytics, that enable reproducible comparison of proprietary and open-weight systems under identical conditions. Applying aiXamine to over 120 LLMs through more than 5,000 test runs, we conduct the largest joint safety, security, and privacy study to date and uncover three cross-dimensional phenomena invisible to single-axis evaluation. First, safety enforcement incurs a quantifiable safety tax: stronger alignment systematically increases over-refusal, forcing providers to choose between protection and utility. Second, privacy is near-orthogonal to other trustworthiness dimensions and not captured by standard alignment. Third, we identify and formally characterize distillation-induced robustness collapse: off-policy distillation without on-policy correction causes entropy collapse, catastrophically destroying robustness (56.9$\\to$2.6) on the same base architecture. These findings, compounded by diminishing returns from scale and category-dependent safety behaviors, demonstrate that trustworthiness is inherently multi-dimensional: progress along one axis does not guarantee, and can actively undermine, progress along others, yet current alignment methods treat it as a single objective.",
-      "authors": [
-        "Fatih Deniz",
-        "Yazan Boshmaf",
-        "Dorde Popovic",
-        "Issa Khalil"
-      ],
-      "published": "2026-08-20T20:33:35Z",
-      "updated": "2026-08-20T20:33:35Z",
-      "categories": [
-        "cs.CR",
-        "cs.LG"
-      ],
-      "primary_category": "cs.CR",
-      "abs_url": "https://arxiv.org/abs/2608.20554v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.20554v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.6167,
-          "matched": [
-            "llm safety",
-            "LLM safety",
-            "robustness",
-            "privacy",
-            "alignment",
-            "safety"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.4466,
-          "matched": [
-            "llm"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.2652,
-          "matched": [
-            "robustness"
-          ]
-        },
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "emerging",
-          "score": 0.2624,
-          "matched": [
-            "distillation",
-            "on-policy"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5555,
-        "relevance": 0.6357,
-        "quality": 0.49,
-        "novelty": 0.2,
-        "freshness": 0.4862,
-        "feedback_adjustment": -0.008,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "reproducibility",
-        "quantitative results"
-      ],
-      "summary": {
-        "evidence": "Distillation-induced robustness collapse shows entropy collapse from 56.9 to 2.6 on the same base architecture.",
-        "limitations": "Black-box evaluation limits direct insight into internal model mechanisms.",
-        "method": "aiXamine orchestrates 46 tests across nine services via an automated red-teaming pipeline to produce hierarchical risk profiles.",
-        "problem": "Existing frameworks fail to detect cross-dimensional failure modes where improvements in one trustworthiness dimension harm others.",
-        "takeaway": "aiXamine introduces a unified black-box platform to evaluate cross-dimensional trade-offs in LLM safety, security, and privacy.",
-        "why_for_you": "Researchers studying LLM loss landscapes and adversarial training will find the distillation-induced robustness collapse mechanism and cross-dimensional trade-off analysis directly relevant.",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "contributions": [
-          "Unified black-box evaluation framework for LLM safety, security, and privacy",
-          "Identification of three cross-dimensional phenomena invisible to single-axis evaluation",
-          "Formal characterization of distillation-induced robustness collapse"
-        ],
-        "experiments": [
-          {
-            "detail": "121 LLMs (proprietary and open-weight) tested across 46 services with 5,000+ test runs, including frontier models (GPT-5, Gemini 3, Claude-4.5) and open-weight families (Llama-3.x, Qwen3.5, Gemma4)",
-            "title": "Large-scale LLM evaluation"
-          }
-        ],
-        "findings": [
-          {
-            "detail": "Safety enforcement increases over-refusal (99.3 safety score with 1/3 benign query rejections); privacy is orthogonal to other dimensions; distillation causes 56.9→2.6 robustness collapse",
-            "title": "Cross-dimensional trade-offs"
-          }
-        ],
-        "limitations": [
-          "Black-box approach limits insight into internal model mechanisms",
-          "Coverage of nine services may not capture all trustworthiness dimensions"
-        ],
-        "mechanism": [
-          {
-            "detail": "Off-policy distillation without on-policy correction causes entropy collapse, reducing robustness from 56.9 to 2.6 on the same base architecture",
-            "title": "Distillation-induced robustness collapse"
-          }
-        ],
-        "methodology": [
-          {
-            "detail": "Coordinates 46 tests across nine services (adversarial robustness, code security, fairness, hallucination, jailbreak resistance, model/data privacy, OOD robustness, over-refusal, safety alignment) to generate hierarchical risk profiles",
-            "title": "Automated red-teaming pipeline"
-          },
-          {
-            "detail": "Standardized tests applied to both proprietary (API access) and open-weight (containerized deployments) models under identical inference conditions",
-            "title": "Black-box evaluation framework"
-          }
-        ],
-        "open_questions": [
-          "How to mitigate distillation-induced robustness collapse while maintaining alignment",
-          "What alignment strategies can address cross-dimensional trade-offs without compromising multiple trustworthiness dimensions"
-        ],
-        "overview": "This paper presents aiXamine, a black-box platform that reveals cross-dimensional trade-offs in LLM trustworthiness through 46 tests across nine services. It identifies three key phenomena: safety enforcement causing over-refusal (safety tax), privacy's near-orthogonality to other dimensions, and distillation-induced robustness collapse. The study evaluates 120 LLMs with 5,000 test runs, demonstrating that trustworthiness is inherently multi-dimensional and current alignment methods inadequately address this complexity.",
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "aiXamine's unified black-box evaluation of 46 tests across nine services"
-          },
-          {
-            "icon": "⚙️",
-            "text": "Automated red-teaming pipeline with hierarchical risk profiles"
-          },
-          {
-            "icon": "📊",
-            "text": "56.9→2.6 robustness collapse from distillation-induced entropy collapse"
-          }
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "en",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "llm safety",
-          "LLM safety",
-          "robustness",
-          "privacy"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-24T10:53:02.352651+00:00"
-    },
-    {
-      "id": "2608.20988",
-      "title": "Jacobian-guided Noise Injection for Quantization Robustness in Large Language Models",
-      "abstract": "Quantization of Large Language Models (LLMs) is often hindered by the sensitivity of the self-attention mechanism to discretization errors. We identify the softmax operator as a bottleneck for quantization stability due to its sensitivity to outliers and state-dependent Jacobian. We theoretically establish that suppressing the norm of this Jacobian helps in bounding quantization-induced performance degradation. Based on this, we propose Jacobian-Guided Noise Injection, a training strategy that injects zero-mean Gaussian noise into pre-attention logits, with variance derived directly from the Jacobian Frobenius norm. Unlike prior approaches that rely on heuristic or penalise jacobian directly, our method provides a way to identify the optimal noise variance based on the local attention sensitivity. We evaluate the method on SOTA LLM architectures, where it demonstrates improved robustness over popular PTQ methods. Empirical analysis reveals that the proposed method gives up to +37% relative gains on Top-1 accuracy on ImageNet-1K for SigLIP and improves relative perplexity by upto 40% on WikiText for language models in low bit quantisation settings, proving the efficacy of the approach.",
-      "authors": [
-        "Deepanshu Pandey",
-        "Arnav Chavan",
-        "Nahush Lele",
-        "Sankalp Dayal",
-        "Deepak Gupta"
-      ],
-      "published": "2026-08-21T11:16:40Z",
-      "updated": "2026-08-21T11:16:40Z",
-      "categories": [
-        "cs.LG",
-        "cs.AI"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2608.20988v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.20988v1",
-      "comment": "Accepted at AdaptFM: Resource-Adaptive Foundation Model Inference, ICML 2026",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.5179,
-          "matched": [
-            "training",
-            "robustness"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4508,
-          "matched": [
-            "robustness",
-            "llm"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.1355,
-          "matched": [
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5527,
-        "relevance": 0.5316,
-        "quality": 0.47,
-        "novelty": 0.8449,
-        "freshness": 0.5738,
-        "feedback_adjustment": -0.0185,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "formal bound",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Based on this, we propose Jacobian-Guided Noise Injection, a training strategy that injects zero-mean Gaussian noise into pre-attention logits, with variance derived directly from the Jacobian Frobenius norm.",
-        "problem": "Quantization of Large Language Models (LLMs) is often hindered by the sensitivity of the self-attention mechanism to discretization errors.",
-        "method": "Based on this, we propose Jacobian-Guided Noise Injection, a training strategy that injects zero-mean Gaussian noise into pre-attention logits, with variance derived directly from the Jacobian Frobenius norm.",
-        "evidence": "We evaluate the method on SOTA LLM architectures, where it demonstrates improved robustness over popular PTQ methods.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Efficient adversarial training, Trustworthy LLM.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "training",
-          "robustness"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-24T10:53:02.352651+00:00"
-    },
-    {
-      "id": "2608.21074",
-      "title": "PromptResponse: Optimizing Prompts for LLM Coding Tasks",
-      "abstract": "Large language models (LLMs) are increasingly used in research workflows and software development pipelines, yet their output remains sensitive to input prompt variations. This paper presents $\\unicode{x00AB}$PromptResponse$\\unicode{x00BB}$, a controlled study examining how formatting and LLM-based tuning of coding task prompts affect the resulting code's performance, efficiency, and stability. Using five semantically identical yet syntactically distinct variants of the HumanEval dataset$\\unicode{x2014}$baseline, JSON, Markdown, YAML, and an LLM-tuned version$\\unicode{x2014}$we had GPT-4o solve its coding problems over 8200$\\unicode{x00A0}$executions. Our results show that consistent formatting$\\unicode{x2014}$especially JSON$\\unicode{x2014}$improves generation efficiency and syntactic stability, with minor gains in task performance. Conversely, the LLM-tuned prompts resulted in significantly degraded task performance without significant improvements in any other dimension. These findings suggest that low-effort reformatting alone can yield measurable improvements, while tuning must account for model alignment. We conclude our work with providing a set of practical recommendations informed by our results as well as releasing our dataset variants and evaluation pipeline for future work.",
-      "authors": [
-        "Erik Thureck",
-        "Robert Kühnen",
-        "Tim Jacobowitz"
-      ],
-      "published": "2026-08-21T13:16:48Z",
-      "updated": "2026-08-21T13:16:48Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI",
-        "cs.HC",
-        "cs.SE"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2608.21074v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.21074v1",
-      "comment": "22 pages, 7 figures, 10 listings",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.5829,
-          "matched": [
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.549,
-        "relevance": 0.4663,
-        "quality": 0.66,
-        "novelty": 0.8462,
-        "freshness": 0.5857,
-        "feedback_adjustment": -0.0214,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "baseline comparison",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Large language models (LLMs) are increasingly used in research workflows and software development pipelines, yet their output remains sensitive to input prompt variations.",
-        "problem": "Large language models (LLMs) are increasingly used in research workflows and software development pipelines, yet their output remains sensitive to input prompt variations.",
-        "method": "This paper presents $\\unicode{x00AB}$PromptResponse$\\unicode{x00BB}$, a controlled study examining how formatting and LLM-based tuning of coding task prompts affect the resulting code's performance, efficiency, and stability.",
-        "evidence": "Our results show that consistent formatting$\\unicode{x2014}$especially JSON$\\unicode{x2014}$improves generation efficiency and syntactic stability, with minor gains in task performance.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: LLM loss landscape.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-24T10:53:02.352651+00:00"
-    },
-    {
-      "id": "2608.20518",
-      "title": "FL-MAESTRO: Multi-Agent LLM Orchestration for Resource-Constrained Federated Learning",
-      "abstract": "In Federated Learning (FL), the communication topology is a runtime variable rather than a fixed design choice, since links and edge devices drop in and out during training. Each round, the server must commit three coupled decisions, namely the communication topology, per-client resource allocation, and the aggregation rule for combining local updates. Recent agentic systems have begun bringing large language models (LLM) into FL, but the existing line of work either operates at setup time or handles a single runtime dimension such as client selection. We propose FL-MAESTRO, a multi-agent orchestrator that makes the joint runtime FL decision directly through three specialist LLM agents, one per decision dimension. A coordinator combines their analyses into a single decision, and a non-LLM feasibility check confirms it before the round executes. Because the orchestrator consumes the server's predicted-failure list, it withholds clients whose updates would never be aggregated, which removes the dominant source of wasted round energy in classical FL on volatile edge networks. Because client state is read as natural-text profiles, the same orchestrator extends to heterogeneous device classes without per-class energy models. On a non-IID CIFAR-10 benchmark, FL-MAESTRO matches the accuracy of the strongest energy-aware baseline while cutting wasted round energy from over a third to near zero. Code is available at https://github.com/denoslab/FL-MAESTRO.",
-      "authors": [
-        "Jiajun Wu",
-        "Zirui Wang",
-        "Jiayu Zhou",
-        "Qiang Ye",
-        "Steve Drew"
-      ],
-      "published": "2026-08-20T19:27:52Z",
-      "updated": "2026-08-20T19:27:52Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2608.20518v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.20518v1",
-      "comment": "Accepted at IEEE GLOBECOM 2026",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.5866,
-          "matched": [
-            "llm"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.1349,
-          "matched": [
-            "training"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6081,
-        "relevance": 0.4963,
-        "quality": 0.85,
-        "novelty": 0.8918,
-        "freshness": 0.527,
-        "feedback_adjustment": -0.0172,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "GitHub link",
-        "baseline comparison",
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "summary": {
-        "method": "多代理编排器使用 TopologyAgent、ResourceAgent 和 AggregationAgent，其输出由 LLM 协调器合成，并通过非 LLM 可行性检查进行验证。",
-        "evidence": "在 30 客户端的 non‑IID CIFAR‑10 上，FL‑MAESTRO 将浪费的轮次能耗从 >33% 降至接近零，同时保持最强能耗感知基线的准确率。",
-        "takeaway": "FL‑MAESTRO 使用三个专用 LLM 代理在每轮 FL 中共同决定拓扑、资源和聚合，消除大部分浪费能量。",
-        "why_for_you": "如果您关注高效对抗训练，本文的资源感知 LLM 编排或能为低能耗 FL 策略提供灵感。",
-        "limitations": "评估仅限于模拟 CIFAR‑10 场景，未考察真实部署或更大模型规模。",
-        "problem": "联邦学习因客户端可用性波动以及固定的拓扑/资源决策而导致轮次能量浪费。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "FL‑MAESTRO 通过三个专用 LLM 代理在每轮共同编排拓扑、每客户端资源和聚合。"
-          },
-          {
-            "icon": "🔧",
-            "text": "协调器将各代理的分析合成为可行的联合决策，迭代至 Dmax ∈ {2, 3}，并通过非 LLM 可行性检查进行验证。"
-          },
-          {
-            "icon": "📊",
-            "text": "在 non‑IID CIFAR‑10 上，FL‑MAESTRO 将浪费的轮次能量从 >33% 降至接近零，同时保持基线准确率。"
-          }
-        ],
-        "overview": "FL‑MAESTRO 为联邦学习引入运行时编排器，通过专用 LLM 代理耦合通信拓扑、每客户端资源分配和聚合权重三大决策维度。每个代理基于自然文本客户端概况和领域工具进行推理，中心 LLM 协调器将其提案合并为联合决策，由非 LLM 验证器确保可行性。 在模拟的 non‑IID CIFAR‑10 异构边缘客户端实验中，系统在不牺牲模型准确率的前提下消除大部分能量浪费，展示了 open‑weight LLM 在本地 FL 控制中的实用性。",
-        "methodology": [
-          {
-            "title": "专用 LLM 代理",
-            "detail": "TopologyAgent、ResourceAgent 和 AggregationAgent 各自接收针对通信成本、能量成本、标签多样性和电池可行性的类型化约束分析和查询工具。"
-          },
-          {
-            "title": "协调器和验证器",
-            "detail": "仅合成的 LLM 提示将三项分析合并为 JSON 决策 (C+, τ, {ri}, σ)；Python 验证器强制执行电池合格性、聚合器能力、权重归一化以及对不可行值的裁剪。"
-          },
-          {
-            "title": "协作协议",
-            "detail": "代理在 Dmax ∈ {2, 3} 次迭代内运行，在观察其他维度后修订提案，以在最终合成前强制耦合。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "预测失效过滤",
-            "detail": "编排器读取服务器的预测失效列表，屏蔽电池电量低且其更新将被丢弃的客户端，从而消除浪费回合能量的主要来源。"
-          },
-          {
-            "title": "自然文本客户端配置文件",
-            "detail": "客户端状态被编码为文本配置文件，使同一 LLM 编排能够在无需每类能量模型的情况下处理异构设备类别。"
-          },
-          {
-            "title": "可行性裁剪",
-            "detail": "验证器将不可行的联合决策裁剪至可行性边界，将 LLM 错误转化为修复而非运行时崩溃。"
-          }
-        ],
-        "experiments": [
-          {
-            "detail": "CIFAR‑10 与 Dirichlet 非独立同分布划分（α=0.1, 0.3），CNN（545k 参数），30 个客户端，电池电量 ∈[0.5,0.9]（硬/极端低电量子集），带宽双峰分布，计算资源从指数分布中采样。",
-            "title": "设置"
-          },
-          {
-            "detail": "两种异构边缘场景（硬 α=0.3，极端 α=0.1）与最强节能基线（如 Oort）及经典 FL 方法（FedAvg，FedProx）进行对比。",
-            "title": "场景与基线"
-          },
-          {
-            "detail": "模型准确率，浪费的轮次能量（客户端在聚合前掉线所消耗能量的百分比），可行性违反率。",
-            "title": "指标"
-          }
-        ],
-        "findings": [
-          {
-            "detail": "FL‑MAESTRO 在硬场景和极端场景下将浪费的轮次能量从超过三分之一减少到接近零。",
-            "title": "能耗效率"
-          },
-          {
-            "detail": "该方法在激进客户端屏蔽情况下仍能保持与最强节能基线相当的准确率。",
-            "title": "准确率保持"
-          },
-          {
-            "detail": "非 LLM 验证器成功限制不可行决策，防止运行时崩溃并维持稳定训练。",
-            "title": "可行性执行"
-          }
-        ],
-        "contributions": [
-          "Joint runtime FL decision making with multi‑agent LLMs",
-          "Energy‑aware orchestration that eliminates wasted round energy",
-          "Open‑weight LLM implementation removing cloud dependency"
-        ],
-        "limitations": [
-          "仅在 CIFAR‑10 上进行模拟实验；未在真实边缘环境部署",
-          "评估仅限于单一模型规模和 30 个客户端",
-          "未分析 LLM loss‑landscape 行为或对抗鲁棒性"
-        ],
-        "open_questions": [
-          "多代理 LLM 编排如何影响联邦训练中的 loss‑landscape 动态？",
-          "该方法能否在资源受限下扩展至高效的对抗训练？",
-          "在将客户端数量和模型规模超出所示实验时，会出现哪些可扩展性挑战？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "recommended_at": "2026-08-24T02:55:19.024175+00:00"
-    },
-    {
-      "id": "2608.21278",
-      "title": "CLEAR: Continuous Latent Adapter Routing for Utility-Preserving LLM Safety Alignment",
-      "abstract": "Improving the safety of large language models (LLMs) often comes at the expense of utility, as globally applied safety tuning may affect model responses to both harmful and benign inputs. We propose \\textbf{C}ontinuous \\textbf{L}at\\textbf{E}nt \\textbf{A}dapter \\textbf{R}outing (CLEAR), a conditional safety adaptation framework that uses a lightweight hidden-state gate to continuously control the activation strength of a safety low-rank adapter. CLEAR aims to reduce harmful completions while avoiding unnecessary changes to the frozen backbone that could degrade performance on benign prompts. Experiments on widely used safety and utility benchmarks show that CLEAR improves robustness on HarmBench while reducing the utility degradation observed with globally applied safety tuning such as SFT or standard low-rank adaptation (LoRA). On Llama-3-8B-Instruct, CLEAR reduces HarmBench ASR from 32.3\\% to 0.5\\%, while retaining most of the base model's utility and achieving up to 7.1 percentage points higher GSM8K accuracy than globally applied SFT or LoRA. These results suggest that CLEAR is a promising mechanism for improving the safety--utility trade-off in LLM alignment.",
-      "authors": [
-        "Chengxiao Wang",
-        "Enyi Jiang",
-        "Xiaojing Liao",
-        "Sanmi Koyejo"
-      ],
-      "published": "2026-08-21T16:36:10Z",
-      "updated": "2026-08-21T16:36:10Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2608.21278v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.21278v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.591,
-          "matched": [
-            "llm safety",
-            "LLM safety",
-            "robustness",
-            "alignment",
-            "safety",
-            "llm"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.4309,
-          "matched": [
-            "llm"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.1221,
-          "matched": [
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6054,
-        "relevance": 0.5834,
-        "quality": 0.54,
-        "novelty": 0.8551,
-        "freshness": 0.6529,
-        "feedback_adjustment": -0.0254,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "experiments",
-        "quantitative results"
-      ],
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "llm safety",
-          "LLM safety",
-          "robustness",
-          "alignment"
-        ],
-        "lane": "llm"
-      },
-      "summary": {
-        "limitations": "在可获得的来源中未说明。",
-        "evidence": "在 Llama‑3‑8B‑Instruct 上，HarmBench ASR 从 32.3% 降至 0.5%，且相较于 SFT 或标准 LoRA，GSM8K 准确率提升最高 7.1 分。",
-        "method": "CLEAR 冻结主干，并学习一个隐藏状态门，对每个提示持续缩放 safety LoRA 适配器。",
-        "problem": "全局安全微调会通过改变模型在良性输入上的行为，降低实用性。",
-        "why_for_you": "通过提供参数高效、条件化的安全机制，降低对齐成本，契合您对高效对抗训练的兴趣。",
-        "takeaway": "CLEAR 通过潜在表示门控的条件低秩安全适配器，实现几乎为零的 HarmBench 攻击成功率，同时保持或提升实用性。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "experiments": [
-          {
-            "title": "基准与模型",
-            "detail": "在 HarmBench、XSTest（安全）以及 GSM8K、MMLU、TruthfulQA（实用）上评估，使用 Llama‑3‑8B‑Instruct 和 Gemma‑2‑2B‑it；基线包括 SFT 和标准 LoRA。"
-          },
-          {
-            "title": "指标",
-            "detail": "安全性通过 HarmBench 攻击成功率 (ASR) 和 XSTest 拒绝/过度拒绝衡量；实用性通过 GSM8K、MMLU 和 TruthfulQA (MC1/MC2) 的准确率衡量。"
-          }
-        ],
-        "overview": "CLEAR 引入轻量级隐藏状态门，为每个输入预测连续路由分数，并调节插入冻结 LLM 主干的安全专用 LoRA 适配器。该门使用子类型感知的二元交叉熵和硬对偶边距损失进行训练，以在潜在空间中区分有害与良性提示。Llama‑3‑8B‑Instruct 和 Gemma‑2‑2B‑it 的实验显示，显著降低 HarmBench 攻击成功率，同时在 GSM8K、MMLU、TruthfulQA 等实用基准上保持或提升性能。",
-        "methodology": [
-          {
-            "title": "潜在门",
-            "detail": "两层 MLP 从选定的 transformer 层聚合隐藏状态，经过 sigmoid 输出 g∈[0,1]。"
-          },
-          {
-            "title": "Safety LoRA 适配器",
-            "detail": "低秩更新 ΔW 插入 q_proj 和 v_proj 注意力矩阵；仅训练 ΔW 与门参数，主干保持冻结。"
-          },
-          {
-            "title": "训练目标",
-            "detail": "子类型感知的 BCE 损失对对抗性良性/有害示例赋予更高权重；硬对偶边距损失通过软加权强制 gu > gs。"
-          }
-        ],
-        "limitations": [
-          "规模效益仅在两种模型上展示，缺乏更广泛的模型规模分析。",
-          "提出了自适应鲁棒性 (Q4)，但在提供的摘录中未报告。"
-        ],
-        "findings": [
-          {
-            "title": "安全‑实用权衡",
-            "detail": "CLEAR 将 Llama‑3‑8B‑Instruct 上的 HarmBench ASR 从 32.3% 降至 0.5%，并相较于全局 SFT 或 LoRA，GSM8K 准确率提升最高 7.1%。"
-          },
-          {
-            "title": "门的训练动态",
-            "detail": "训练曲线显示 LM 损失、BCE 损失和边距损失下降，同时安全与不安全门分数分化，表明路由有效。"
-          }
-        ],
-        "contributions": [
-          "通过连续潜在门实现条件化安全适配。",
-          "子类型感知的门加权结合硬对偶边距损失。",
-          "在两种指令微调 LLM 上实证展示了改进的安全‑实用权衡。"
-        ],
-        "open_questions": [
-          "CLEAR 在针对门控机制的自适应对抗攻击下表现如何？",
-          "潜在门控方法能否与 RLHF 或其他基于强化学习的对齐流水线结合？",
-          "在大规模使用时，计算门并应用路由适配器的推理延迟开销是多少？"
-        ],
-        "mechanism": [
-          {
-            "title": "连续路由",
-            "detail": "生成过程中，隐藏状态 h 被转换为 h' = (W + gΔW)h，其中 g 连续控制安全干预的强度。"
-          },
-          {
-            "title": "潜在区分",
-            "detail": "门学习对良性提示赋予低分，对有害或对抗性提示赋予高分，实现选择性安全激活。"
-          }
-        ],
-        "signals": [
-          {
-            "icon": "🛡️",
-            "text": "CLEAR 添加了连续潜在门，为每个提示路由 safety LoRA 适配器，保持模型实用性。"
-          },
-          {
-            "icon": "⚙️",
-            "text": "门输出 g∈[0,1]，将 LoRA 适配器缩放为 h' = (W + gΔW)h，使用 BCE 与边距损失进行训练。"
-          },
-          {
-            "icon": "📊",
-            "text": "CLEAR 将 Llama‑3‑8B‑Instruct 上的 HarmBench ASR 从 32.3% 降至 0.5%，但两模型之外的规模结果未完整报告。"
-          }
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "recommended_at": "2026-08-24T02:55:19.024175+00:00"
-    },
-    {
-      "id": "2608.19579",
-      "title": "Enforcing LLM Safety through DMD-based Classification of Prompt-Response Embedding Dynamics",
-      "abstract": "Large Language Models (LLMs) are increasingly deployed in high-stakes applications, yet their tendency to generate toxic, harmful, or policy-violating content poses significant risks. Detecting these unsafe outputs efficiently in a black-box manner remains an open challenge. In this paper, we extend a recently proposed dynamical systems framework designed for hallucination detection to LLM safety classification. By projecting both prompts and responses into high-dimensional embedding spaces and fitting separate Koopman-based predictive models for safe and unsafe regimes, we classify new outputs using a new differential residual score that compares prediction errors of the safe and unsafe regimes. A key contribution is the incorporation of the prompt and response embedding dynamics, yielding fitted Koopman operators that capture crucial interaction patterns. We evaluate our black-box method across three safety benchmarks using three embedding models. Our results show that incorporating prompt embeddings yields consistent improvements, particularly for interaction-dependent violations when paired with causal decoders (e.g., in Llama-3), while response-only violations benefit more from dense semantic embedding representations. These findings opens the door for using dynamical systems to analyze AI systems rather than the dominant paradigm of using AI to model dynamical systems.",
-      "authors": [
-        "Mohamed Akrout",
-        "Olivera Kotevska",
-        "Dan Wilson"
-      ],
-      "published": "2026-08-20T02:50:44Z",
-      "updated": "2026-08-20T02:50:44Z",
-      "categories": [
-        "cs.AI",
-        "math.DS"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2608.19579v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.19579v1",
-      "comment": "",
-      "journal_ref": "",
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.558,
-          "matched": [
-            "llm safety",
-            "hallucination",
-            "safety"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5997,
-        "relevance": 0.5544,
-        "quality": 0.62,
-        "novelty": 0.891,
-        "freshness": 0.5249,
-        "feedback_adjustment": -0.0137,
-        "semantic_feedback": 0.7203
-      },
-      "quality_signals": [
-        "code available",
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "使用 DMD 与 Koopman 算子对提示‑响应嵌入动力学进行分类，可在黑盒条件下提升 LLM 安全检测。",
-        "problem": "需要一种无需访问模型内部或多次采样即可高效识别 LLM 有害输出的方法。",
-        "method": "将提示和响应的 token 嵌入投射至高维空间，分别拟合安全与不安全的 Koopman 预测模型，利用差分残差分数进行二分类。",
-        "evidence": "在三个安全基准上，加入提示嵌入始终提升检测效果，尤其对 Llama‑3 的交互依赖违规有显著增益。",
-        "limitations": "仅评估二分类且缺乏多类危害实验和理论可分性保证。",
-        "why_for_you": "对可信 LLM 研究者，这提供了无需内部访问的后部署安全监控方案，适合实际部署场景。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🛡️",
-            "text": "首次将提示嵌入动力学加入 Koopman 分类，实现交互依赖安全检测提升。"
-          },
-          {
-            "icon": "🔧",
-            "text": "基于扩展 DMD 拟合安全/不安全 Koopman 算子，比较预测误差得到差分残差分数。"
-          },
-          {
-            "icon": "📈",
-            "text": "在三项安全基准上，加入提示嵌入对 Llama‑3 的交互违规检测提升显著。"
-          }
-        ],
-        "overview": "本文将 LLM 的 token 生成视为离散动力系统，利用扩展 DMD 拟合安全与不安全两套 Koopman 算子，并引入提示嵌入动力学以捕获交互依赖的违规模式。通过差分残差分数实现黑盒二分类，在三个安全基准和三种不同规模的嵌入模型上验证了方法的有效性，揭示了嵌入模型与违规类型之间的细微关系。",
-        "methodology": [
-          {
-            "title": "嵌入投射",
-            "detail": "使用 Qwen3-Embed、Mistral、Llama‑3 等预训练模型将提示和响应的 token 转换为高维向量序列。"
-          },
-          {
-            "title": "Koopman 拟合",
-            "detail": "采用扩展 DMD（EDMD）对安全和不安全的嵌入轨迹分别进行最小二乘拟合，得到四个有限维 Koopman 算子。"
-          },
-          {
-            "title": "差分残差评分",
-            "detail": "在推理阶段计算安全与不安全模型的预测误差差异，作为二分类的决策分数。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "动力学视角",
-            "detail": "将 token 嵌入视为可观测的状态轨迹，安全与不安全行为对应不同的动力学流形。"
-          },
-          {
-            "title": "交互捕获",
-            "detail": "通过同时建模提示和响应的 Koopman 算子，捕获仅在两者交互时出现的违规模式。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "基准与模型",
-            "detail": "在三个公开安全基准上评估，使用三种嵌入模型（Qwen3-Embed 0.6B、Mistral 7.2B、Llama‑3 8.0B），采用二分类准确率等指标。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "提示嵌入提升",
-            "detail": "加入提示嵌入后，所有基准均出现一致的检测性能提升，尤其在交互依赖违规上对 Llama‑3 提升最明显。"
-          },
-          {
-            "title": "模型‑违规匹配",
-            "detail": "因果解码器（Llama‑3）适合捕获交互违规，紧凑语义编码器（Qwen‑Embed）更擅长检测仅响应中的不安全内容。"
-          }
-        ],
-        "contributions": [
-          "提出 Prompt‑aware Koopman 分类框架用于 LLM 安全检测",
-          "展示嵌入模型与违规类型之间的细粒度匹配关系",
-          "实现无需内部访问或多次采样的黑盒安全监控"
-        ],
-        "limitations": [
-          "仅实现二分类（安全/不安全），未覆盖多类别危害标签",
-          "实验局限于三种嵌入模型和特定安全基准，缺乏更广泛的评估",
-          "未提供安全可分性的理论保证"
-        ],
-        "open_questions": [
-          "如何将方法扩展到多类别安全标签（如暴力、仇恨、误导等）？",
-          "是否能建立 Koopman 动力学下安全/不安全轨迹可分性的理论界限？",
-          "在实时大规模部署环境中，计算开销与响应延迟如何进一步优化？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "zh",
-        "schema_version": 5
-      },
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "llm safety",
-          "hallucination",
-          "safety"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-23T10:39:34.861608+00:00"
     }
   ]
 }
