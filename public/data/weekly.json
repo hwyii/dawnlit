@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-11T14:25:41.445644+00:00",
+  "generated_at": "2026-09-12T13:36:50.651769+00:00",
   "papers": [
     {
       "id": "2609.05275",
@@ -787,188 +787,6 @@
       "recommended_at": "2026-09-08T14:32:00.134386+00:00"
     },
     {
-      "id": "2609.02244",
-      "title": "Task-Level Natural Language Priors as Learning Signals for Low-Resource LLM Training",
-      "abstract": "Large language models (LLMs) often struggle when low-resource training data are ambiguous or incomplete. Task-level natural-language priors can provide useful guidance in such settings, but existing approaches usually treat these priors as input context rather than as learning signals during training. We propose Prior-Guided Tuning (PGT), a training perspective that incorporates natural-language priors as auxiliary learning signals for low-resource LLM training. Under this perspective, we introduce Contrastive Prior Steering (CPS), which keeps the original supervised objective intact while adding positive and negative prior-conditioned auxiliary losses to encourage task-consistent learning and discourage plausible but misleading alternatives. Experiments on AmbiMath, Jigsaw, and MNLI/HANS show that CPS consistently improves over plain and prompt fine-tuning. On AmbiMath, CPS achieves 97.6% average exact-match accuracy. On Jigsaw, CPS improves average Macro F1 by 9.5 percentage points over standard fine-tuning, and with 1/10 of the experimental training data slightly exceeds full-data plain fine-tuning. On HANS, CPS improves non-entailment accuracy by 8.3 and 5.2 percentage points for LLaMA 3.1 8B and Qwen 2.5 7B, respectively, while maintaining comparable in-domain MNLI accuracy. These results support our central claim: task-level natural-language priors can provide useful guidance as auxiliary learning signals for low-resource LLM training. Our code and data will be publicly available.",
-      "authors": [
-        "Jian Gao",
-        "Xiao Zhang",
-        "Xun Zhu",
-        "Miao Li",
-        "Ji Wu"
-      ],
-      "published": "2026-09-02T07:49:56Z",
-      "updated": "2026-09-02T07:49:56Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2609.02244v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.02244v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.7287,
-          "matched": [
-            "training",
-            "fine-tuning"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.5097,
-          "matched": [
-            "llm"
-          ]
-        },
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "core",
-          "score": 0.4506,
-          "matched": [
-            "training data",
-            "data"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.7335,
-        "relevance": 0.775,
-        "quality": 0.61,
-        "novelty": 0.8086,
-        "freshness": 0.5379,
-        "feedback_adjustment": -0.0262,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "experiments",
-        "quantitative results"
-      ],
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "training",
-          "fine-tuning"
-        ],
-        "lane": "llm"
-      },
-      "summary": {
-        "method": "Prior-Guided Tuning (PGT) 与 Contrastive Prior Steering (CPS) 将自然语言先验融入训练目标。",
-        "limitations": "实验仅在 AmbiMath、Jigsaw、MNLI/HANS 等特定数据集上进行，未提供泛化分析。",
-        "evidence": "CPS 在 AmbiMath 达到 97.6% 准确率，Jigsaw F1 提升 9.5%，HANS 准确率提升 8.3%~5.2%。",
-        "problem": "低资源训练数据常缺乏明确性，导致大模型产生虚假关联。",
-        "why_for_you": "符合对数据选择效率的关注，CPS 仅用 1/10 数据即可取得强劲效果，并提升对虚假启发式的鲁棒性。",
-        "takeaway": "PGT 结合 CPS 通过任务级自然语言先验作为辅助信号，提升低资源 LLM 训练效果。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "experiments": [
-          {
-            "detail": "在 AmbiMath（规则歧义）、Jigsaw（有害内容分类）和 MNLI/HANS（NLI 鲁棒性）上评估，使用 LLaMA 3.1 8B 与 Qwen 2.5 7B。",
-            "title": "基准套件"
-          },
-          {
-            "detail": "比较普通微调、提示微调和 CPS 在不同数据规模（1/30 至全量）上的表现。",
-            "title": "基线"
-          },
-          {
-            "detail": "测量 Exact-match 准确率、Macro F1 与 HANS 非蕴含准确率。",
-            "title": "指标"
-          }
-        ],
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "PGT 将自然语言先验作为低资源训练的辅助信号。"
-          },
-          {
-            "icon": "🔧",
-            "text": "CPS 将监督损失与对比先验条件目标相结合。"
-          },
-          {
-            "icon": "📈",
-            "text": "CPS 在 1/10 数据下实现 97.6% AmbiMath EM 准确率，优于全量微调。"
-          }
-        ],
-        "limitations": [
-          "实验仅限于 AmbiMath、Jigsaw、MNLI/HANS，缺乏更广域的领域分析。",
-          "未对先验形式多样性进行消融研究，仅限于特定变体。"
-        ],
-        "findings": [
-          {
-            "detail": "CPS 在不同先验下实现 96.3%~100.0% EM，优于普通微调 (65.3%) 与提示微调 (54.2%)。",
-            "title": "AmbiMath 性能"
-          },
-          {
-            "detail": "CPS 使用 1/10 数据达到 0.767 Macro F1，略高于全量普通微调的 0.75。",
-            "title": "Jigsaw 数据效率"
-          },
-          {
-            "detail": "CPS 在 LLaMA 与 Qwen 上将非蕴含准确率提升 8.3%~5.2%，同时保持 MNLI 准确率。",
-            "title": "HANS 鲁棒性"
-          }
-        ],
-        "open_questions": [
-          "CPS 的提升在 NLP 之外的低资源任务上能否通用？",
-          "先验条件目标能否适用于非文本模态？",
-          "自然语言先验在稀疏监督下的理论上限是什么？"
-        ],
-        "mechanism": [
-          {
-            "detail": "利用正负先验生成对比学习信号，引导模型行为符合任务原则。",
-            "title": "对比先验条件化"
-          }
-        ],
-        "methodology": [
-          {
-            "detail": "将先验重新定义为显式学习信号而非上下文输入，在数据不足时提供任务级指导。",
-            "title": "PGT 框架"
-          },
-          {
-            "detail": "将标准监督损失与对比目标结合：正先验损失促进任务一致学习，负先验损失抑制误导性备选。",
-            "title": "CPS 架构"
-          }
-        ],
-        "contributions": [
-          "提出 PGT 框架，将自然语言先验作为学习信号集成。",
-          "引入 CPS，使用对比先验条件目标进行低资源训练。",
-          "在三项不同的低资源基准上验证了其有效性。"
-        ],
-        "overview": "本文提出 Prior-Guided Tuning (PGT)，通过将任务级自然语言先验视为显式学习信号，解决低资源 LLM 训练难题。核心方法 Contrastive Prior Steering (CPS) 在标准监督训练中加入对比辅助损失，提升三项基准的性能。实验显示在数据稀缺情形下准确率和鲁棒性均显著提升且保持高效。该方法区别于传统提示，先验被嵌入训练目标而非输入上下文。",
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "recommended_at": "2026-09-05T13:27:35.700479+00:00"
-    },
-    {
       "id": "2609.10439",
       "title": "Forgetting Only What Matters: Layer-Selective Unlearning toward Robust LLMs",
       "abstract": "Large Language Models (LLMs) can memorize and reproduce sensitive, copyrighted, or otherwise undesirable training content, creating privacy, safety, and regulatory concerns. Machine unlearning offers a practical alternative to full retraining, but many existing methods apply broad or fixed parameter updates that can degrade utility and remain brittle under deployment changes such as post-training quantization, where forgotten knowledge may partially re-emerge. We propose Forgetting Only What Matters via Unlearning Layers (FOM-UL), a layer-level unlearning framework that selects transformer layers using a forget-to-retain significance score. This score identifies layers with high influence on the forget set and low sensitivity to the retain set, allowing FOM-UL to concentrate updates where they are most effective while leaving most of the model unchanged. This targeted update strategy improves the forgetting-utility trade-off and provides an empirical path toward quantization-resilient unlearning by reducing the chance that small, diffuse updates are erased by low-bit rounding. Across TOFU, KnowUnDo, and MUSE-style evaluations, FOM-UL reduces residual memorization compared with strong GA, NPO, KLD, SURE, ReLearn, and LUNAR-based baselines while preserving retain-set utility close to the vanilla model. Under 8-bit and 4-bit post-training quantization, FOM-UL maintains stronger memorization suppression and utility preservation than competing methods, and adversarial prompt evaluations show lower recovery of forgotten content. Overall, FOM-UL provides an efficient unlearning strategy that improves targeted forgetting, utility preservation, and deployment robustness without claiming formal guarantees of erasure.",
@@ -1157,23 +975,25 @@
       "recommended_at": "2026-09-10T14:26:03.608556+00:00"
     },
     {
-      "id": "2609.03151",
-      "title": "BASP: Communication-Efficient Batch-Aware Sequence Parallelism for LLM Training",
-      "abstract": "Long-context reasoning for large language models (LLMs) is becoming increasingly important, but training over long sequences remains challenging due to massive memory and communication requirements. Sequence parallelism has emerged as an essential technique for addressing bottlenecks in long sequence LLM training. However, we observe that existing sequence parallelism methods are batch-agnostic and apply uniform sequence partitioning across all batch sizes, resulting in inefficient communication. In this paper, we introduce Batch- Aware Sequence Parallelism (BASP), a sequence parallelism approach that leverages batch structure to reduce communication overhead. BASP exploits batch structure by partitioning GPUs into disjoint sequence-parallel groups according to the micro- batch size. This design reduces the all-to-all communication group size, thereby localizing communication and improving training efficiency. Experimental results on an NVIDIA A100 cluster show that BASP improves end-to-end training time by up to 1.17 - 1.31x in Llama and Qwen models compared to standard sequence parallel baselines, while preserving identical model accuracy and memory usage.",
+      "id": "2609.09794",
+      "title": "Privacy-Preserving Split Learning for Federated LLM Fine-Tuning",
+      "abstract": "Fine-tuning large language models (LLMs) on domain-specific data is essential for downstream adaptation. In many deployments, a participant cannot hold the complete model locally. This happens because the model owner keeps the full model proprietary, or because the participant lacks sufficient compute resources. Split Learning (SL) addresses this by partitioning the model between the participant and a server so that only a small portion runs locally. When the underlying data is additionally distributed across multiple institutions with privacy requirements, Federated Learning (FL) further enables collaborative training across participants by sharing only model updates instead of raw data. In this combined setting, each client transmits intermediate activations to the server, and for LLM fine-tuning, this exchange poses an inherent privacy paradox. The autoregressive nature of LLMs causes the transmitted activations to leak the input, and existing perturbation-based defenses are fundamentally ineffective in this setting. We address this leakage through a learned obfuscate-and-recover scheme that protects participants' private datasets while still allowing an independently deployable model to be trained on the server side. Experiments demonstrate that our approach achieves strong privacy protection with modest utility loss and system overhead, making split-based federated LLM fine-tuning practically viable.",
       "authors": [
-        "Bigyan Ghimire",
-        "Jon C. Calhoun"
+        "Heng Jin",
+        "Chaoyu Zhang",
+        "Hexuan Yu",
+        "Wenjing Lou",
+        "Y. Thomas Hou"
       ],
-      "published": "2026-09-02T20:33:23Z",
-      "updated": "2026-09-02T20:33:23Z",
+      "published": "2026-09-09T06:48:21Z",
+      "updated": "2026-09-09T06:48:21Z",
       "categories": [
-        "cs.DC",
         "cs.LG"
       ],
-      "primary_category": "cs.DC",
-      "abs_url": "https://arxiv.org/abs/2609.03151v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.03151v1",
-      "comment": "Accepted by IEEE HPEC 2026",
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2609.09794v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.09794v1",
+      "comment": "",
       "journal_ref": "",
       "source": "arxiv",
       "venue": "",
@@ -1192,331 +1012,154 @@
           "id": "efficient_adversarial_training",
           "name": "Efficient adversarial training",
           "status": "emerging",
-          "score": 0.7248,
+          "score": 0.6412,
           "matched": [
-            "efficient",
-            "training"
+            "training",
+            "fine-tuning"
           ]
         },
         {
           "id": "llm_loss_landscape",
           "name": "LLM loss landscape",
           "status": "emerging",
-          "score": 0.4351,
+          "score": 0.5854,
           "matched": [
+            "llm",
+            "loss"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.5684,
+          "matched": [
+            "privacy",
             "llm"
           ]
         }
       ],
       "scores": {
-        "total": 0.6551,
-        "relevance": 0.6669,
-        "quality": 0.54,
-        "novelty": 0.8293,
-        "freshness": 0.6137,
-        "feedback_adjustment": -0.0212,
+        "total": 0.6609,
+        "relevance": 0.713,
+        "quality": 0.43,
+        "novelty": 0.8491,
+        "freshness": 0.5309,
+        "feedback_adjustment": -0.0214,
         "semantic_feedback": 0.0
       },
       "quality_signals": [
-        "baseline comparison",
         "experiments",
-        "quantitative results"
+        "dataset evidence"
       ],
       "summary": {
-        "method": "BASP 将 GPU 划分为 batch-aware 组，以降低 all-to-all 通信组规模。",
-        "limitations": "BASP 假设 micro-batch 大小能整除 GPU 总数，非整除情况留待后续研究。",
-        "problem": "现有 sequence parallelism 方法对 batch 不敏感，导致长序列 LLM 训练中的通信低效。",
-        "takeaway": "BASP 通过 batch-aware sequence parallelism 将 LLM 训练效率提升 1.17-1.31 倍。",
-        "why_for_you": "符合您对通过通信优化实现高效对抗训练的分布式 LLM 训练兴趣。",
-        "evidence": "在 Llama 与 Qwen 模型上实现端到端训练时间提升 1.17-1.31×，且精度和显存占用相同。",
+        "takeaway": "PrivPair enables privacy‑preserving split federated fine‑tuning of LLMs via learned obfuscation adapters with limited utility loss.",
+        "problem": "Split learning for LLM fine‑tuning leaks input data through transmitted activations, and perturbation defenses fail.",
+        "method": "PrivPair inserts client‑side adapters that obfuscate smashed activations and server‑side adapters that recover them, trained on a public alignment set and refreshed periodically.",
+        "evidence": "Experiments on 3‑B to 14‑B instruction‑tuned LLMs across three tasks show strong privacy protection with modest utility loss and low overhead.",
+        "limitations": "Theoretical guarantees assume Lipschitz smoothness and strong convexity, which may not hold for non‑convex LLM fine‑tuning.",
+        "why_for_you": "Relevant if you seek efficient, privacy‑aware LLM fine‑tuning methods for federated or edge settings.",
         "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
         "schema_version": 3,
         "prompt_version": 2
       },
       "deep_dive": {
-        "limitations": [
-          "要求 micro-batch 大小能整除 GPU 总数（K=N/B 必须为整数）"
-        ],
         "signals": [
           {
             "icon": "💡",
-            "text": "BASP 的 batch-aware 分组降低通信开销"
+            "text": "PrivPair introduces learned obfuscate‑and‑recover adapters (W1,W2) for split federated LLM fine‑tuning."
           },
           {
-            "icon": "🔧",
-            "text": "基于 micro-batch 大小 (K=N/B) 的 GPU 划分"
+            "icon": "⚙️",
+            "text": "Adapters are trained on a public alignment set and periodically re‑aligned during FL rounds to keep smashed data obfuscated."
           },
           {
-            "icon": "📈",
-            "text": "Qwen 1.8B 模型实现 1.31× 加速，all-to-all 提升 3.10×"
+            "icon": "⚠️",
+            "text": "Experiments on 3‑B to 14‑B instruction‑tuned LLMs across three downstream tasks show strong privacy protection with modest utility loss."
           }
         ],
+        "overview": "The paper tackles the privacy paradox of split learning for LLM fine‑tuning, where intermediate activations reveal raw inputs. PrivPair proposes a pair of lightweight adapters—W1 on the client to obfuscate activations and W2 on the server to recover them—trained on a public alignment corpus. The adapters are periodically re‑aligned as the global model evolves. Empirical evaluation on four instruction‑tuned LLMs (3B‑14B) and three heterogeneous downstream datasets demonstrates that the scheme blocks reconstruction attacks while incurring only modest performance degradation and system overhead. The authors also provide a convergence analysis under smoothness assumptions.",
         "methodology": [
           {
-            "title": "Batch-aware 进程组创建",
-            "detail": "根据 micro-batch 大小 (K=N/B) 将 GPU 分为子组，以最小化通信范围"
+            "title": "Adapter Training and Alignment",
+            "detail": "W1 and W2 are initialized by training on a public alignment dataset (OASST1) while freezing the main model partitions θA and θC; loss functions LW1 and LW2 guide obfuscation and recovery."
           },
           {
-            "title": "连续 rank 分配",
-            "detail": "将连续的 GPU rank 分配给同一组，以利用 NVLink 节点内通信"
+            "title": "Federated Training Loop",
+            "detail": "Each global round broadcasts θA, θC to selected clients; clients perform local steps with forward pass sA→W1→fB→W2→fC, compute loss, backpropagate via straight‑through estimator (STE), and upload updated θA, θC. Every K rounds a \"burst alignment\" re‑trains W1, W2 on the alignment data."
+          },
+          {
+            "title": "Model Aggregation",
+            "detail": "Server aggregates client updates using FedAvg, producing the next global model used in subsequent rounds."
           }
         ],
-        "overview": "本文针对长上下文 LLM 训练中 sequence parallelism 的通信低效问题。BASP 引入 batch-aware GPU 分组，将 all-to-all 通信局部化，在保持精度的同时实现显著加速。实验在 Llama 与 Qwen 模型上验证，最高可达 1.31× 端到端提升。",
-        "experiments": [
+        "mechanism": [
           {
-            "title": "Model configurations",
-            "detail": "在 8 GPU A100 集群上运行 Llama 3.2B/3.2B/8B 与 Qwen 1.5B/2.5B/8B 模型"
+            "title": "Obfuscate‑and‑Recover Scheme",
+            "detail": "W1 transforms the client’s smashed activations sA into obfuscated s′A before sending to the server; the server processes s′A through the bulk model fB, then W2 maps the intermediate result back to a recovered representation ŝB that approximates the original activation for downstream computation."
           },
           {
-            "title": "基线",
-            "detail": "DeepSpeed-Ulysses sequence parallelism"
+            "title": "Privacy Protection Rationale",
+            "detail": "By learning a non‑linear mapping, the server cannot invert the transformation to recover original tokens, thwarting attacks that exploit the autoregressive nature of LLMs (e.g., EIA, DLG, BiSR)."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Setup",
+            "detail": "Four instruction‑tuned LLMs (Llama‑3.2‑3B, Llama‑3.18B, Ministral‑3‑8B, Ministral‑3‑14B) were fine‑tuned on three downstream datasets: Banking77, CLINC150, and MentalChat16K. Baselines included three perturbation‑based defenses (Embedding ε‑Privacy, etc.) reproduced under the same split‑learning pipeline."
           },
           {
             "title": "Metrics",
-            "detail": "端到端训练时间、all-to-all 通信时长以及 step time 缩减"
-          }
-        ],
-        "open_questions": [
-          "扩展至 batch-size 不可整除的配置",
-          "在 2 节点以上更大多节点集群的可扩展性"
-        ],
-        "findings": [
-          {
-            "title": "Speedup range",
-            "detail": "在 Llama 与 Qwen 变体上实现 1.17-1.32× 加速"
+            "detail": "Utility measured by downstream task performance (accuracy for intent classification, generation quality for dialogue); privacy assessed by reconstruction attack success rates; system overhead measured by additional computation and communication."
           },
           {
-            "title": "Communication reduction",
-            "detail": "Qwen 1.8B 模型的 all-to-all 操作提升 3.10×"
-          },
-          {
-            "title": "Accuracy preservation",
-            "detail": "相较基线，模型精度和显存占用保持一致"
-          }
-        ],
-        "contributions": [
-          "用于通信高效 LLM 训练的 batch-aware sequence parallelism 框架 (BASP)",
-          "基于 micro-batch 大小的动态 GPU 分组"
-        ],
-        "mechanism": [
-          {
-            "title": "Communication localization",
-            "detail": "通过在 batch-aware 组内划分序列，减少 all-to-all 参与者"
-          }
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "efficient",
-          "training"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-09-05T13:27:35.700479+00:00"
-    },
-    {
-      "id": "2609.03324",
-      "title": "DE-Venus: A Data-Efficient RLVR Framework for Large Language Models",
-      "abstract": "Reinforcement learning with verifiable rewards (RLVR) improves large language model reasoning, but its practical scaling is constrained by expensive on-policy rollouts and the cost of obtaining reliable targets at scale. Existing methods address sample selection, incomplete supervision, or noisy labels separately, often entangling supervision logic with distributed training and hindering controlled comparison and reuse. We present DE-Venus, a unified framework for data-efficient RLVR that treats supervision as evolving state across data preparation and policy optimization. It organizes this lifecycle into three modules: Active Data Selection allocates training and annotation budgets; Weak Supervision Construction derives learning signals from unlabeled examples; and Training-Time Supervision Refinement filters or corrects unreliable supervision. DE-Venus supports seven representative methods and a data-selection pipeline by expressing method-specific decisions as offline dataset transitions or online transformations of targets, rewards, batches, and advantages while preserving verl's distributed execution contracts. Across public benchmarks and three business scenarios, separate configurations preserve or improve model quality with only 10% of labels or as little as 13% of relevant data; selected business configurations also reduce observed convergence steps by 63%--75%. DE-Venus thus reduces annotation and training costs without sacrificing scalable RL execution.",
-      "authors": [
-        "Shenzhi Yang",
-        "Guangcheng Zhu",
-        "Kai Tang",
-        "Zhengqing Zang",
-        "Xing Zheng",
-        "Haobo Wang",
-        "Yingfan Ma",
-        "Bowen Song",
-        "Bo Han",
-        "Bo An",
-        "Lei Feng",
-        "Weiqiang Wang",
-        "Junbo Zhao",
-        "Gang Chen"
-      ],
-      "published": "2026-09-03T03:23:24Z",
-      "updated": "2026-09-03T03:23:24Z",
-      "categories": [
-        "cs.LG"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2609.03324v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.03324v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.6435,
-          "matched": [
-            "efficient",
-            "training"
-          ]
-        },
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "core",
-          "score": 0.6232,
-          "matched": [
-            "data selection",
-            "data",
-            "selection"
-          ]
-        },
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "emerging",
-          "score": 0.0879,
-          "matched": [
-            "on-policy"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6483,
-        "relevance": 0.657,
-        "quality": 0.52,
-        "novelty": 0.8457,
-        "freshness": 0.6543,
-        "feedback_adjustment": -0.019,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "efficient",
-          "training"
-        ],
-        "lane": "llm"
-      },
-      "summary": {
-        "method": "该框架将监督划分为三个模块——Active Data Selection、Weak Supervision Construction 和 Training‑Time Supervision Refinement——在 verl 引擎中通过离线数据集转换和在线目标/优势转换实现。",
-        "limitations": "作者指出，对不同 RLVR 算法的系统性比较超出本报告范围。",
-        "problem": "在可验证奖励下扩展强化学习受限于昂贵的 on‑policy 回滚和高成本的可靠目标标注。",
-        "takeaway": "DE‑Venus 在仅使用 10% 标注的情况下，实现了相当或更优的推理性能，并将收敛步数降低至最高 75%。",
-        "why_for_you": "它契合您对高效对抗训练和 LLM 数据选择的兴趣，展示了在不损害 RL 性能的前提下大幅节省标注和训练成本。",
-        "evidence": "GeoMin 达到 47.9% ID 与 69.5% OOD 准确率，仅用 10% 标注即超越全监督基线 (46.7%/69.0%)，业务配置将收敛步数降低 63–75%。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "DE‑Venus 通过三阶段模块统一了数据高效 RLVR，支持七种已有方法。"
-          },
-          {
-            "icon": "🗂️",
-            "text": "在 verl 中将监督实现为随时间演化的状态，采用离线数据集转换和在线目标/优势转换。"
-          },
-          {
-            "icon": "📈",
-            "text": "GeoMin 达到 47.9% ID / 69.5% OOD 准确率，仅用 10% 标注即比全监督高出 1.2/0.5 分；收敛步数下降 63–75%。"
-          }
-        ],
-        "overview": "DE‑Venus 通过将监督视为在准备和优化阶段可变的状态，降低可验证奖励 RL 的成本。它提供三种可互换模块——Active Data Selection（基于不确定性、探针校准）、Weak Supervision Construction（伪目标、基于一致性的奖励）和 Training‑Time Supervision Refinement（奖励动态、几何过滤）。基于 verl 分布式系统实现，保持现有 RLVR 合约，同时将方法特定决策表达为数据集转换或在线转换。 在 DeepMath‑103K 上使用 Qwen3‑8B‑Base 的实验表明，该框架在使用少量标注的情况下，性能可匹配或超越全监督，并显著减少训练步数。",
-        "mechanism": [
-          {
-            "detail": "监督被表示为可跨阶段变化的持久化数据集属性；转换过程以共享的Parquet格式记录，并由携带目标、奖励和优势的verl兼容批次消费。",
-            "title": "动态监督状态"
-          },
-          {
-            "detail": "方法特定选择（选择策略、奖励构建、优化规则）通过声明式配置表达，使异构算法可共享相同可扩展后端而无需代码重复。",
-            "title": "配置驱动调度"
-          }
-        ],
-        "methodology": [
-          {
-            "detail": "使用模型衍生的不确定性信号（一致性、熵、CoE、CoT-动力学）或探测校准阈值对候选问题进行排序，然后在预算限制下将示例分配到已标记、弱监督或丢弃池中。",
-            "title": "主动数据选择"
-          },
-          {
-            "detail": "通过TTRL（多数答案奖励）、标记/序列熵、自一致性KL、Co-奖励（教师伪标签）等方法为未标记示例生成学习信号，无需外部标注即可生成目标、奖励和优势。",
-            "title": "弱监督构建"
-          },
-          {
-            "detail": "在强化学习更新过程中，通过奖励动态、表示几何（如GeoMin）和回放证据过滤或修正监督，实现在线标签优化和可靠性感知更新。",
-            "title": "训练时监督优化"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "设置与基线",
-            "detail": "在过滤后的 DeepMath‑103K 子集（难度 ≥6）上使用 8×A100 GPU、批量 128、微批 32、学习率 1e‑6、G=8 rollout 训练 Qwen3‑8B‑Base。比较七种弱监督 RLVR 方法（TTRL、Tok‑entropy、Seq‑entropy、Self‑certainty、Co‑Rewarding、TraPO、GeoMin）在无标签和 10% 标注情境下的表现。"
-          },
-          {
-            "title": "评估指标",
-            "detail": "报告数学和通用推理基准上的领域内 (ID) 与领域外 (OOD) 平均准确率，以及业务场景下的收敛步数。"
+            "title": "Results",
+            "detail": "PrivPair achieved substantially lower reconstruction success compared to baselines while maintaining task performance within a modest drop (exact numbers not provided) and incurring limited extra latency and bandwidth."
           }
         ],
         "findings": [
           {
-            "title": "无监督信号可行",
-            "detail": "TTRL 在无标签情况下实现 42.7% ID 和 67.0% OOD 准确率，表明可通过 rollout 一致性构建有效奖励。"
+            "title": "Strong Privacy with Modest Utility Loss",
+            "detail": "The learned adapters effectively block label reconstruction attacks, and downstream performance remains close to non‑private split learning."
           },
           {
-            "title": "半监督提升",
-            "detail": "GeoMin 使用 10% 标注数据达到 47.9% ID / 69.5% OOD 准确率，超越全监督基线 (46.7% / 69.0%)，且仅使用十分之一的标注。"
-          },
-          {
-            "title": "训练效率",
-            "detail": "业务场景配置相比标准 RLVR 流程将收敛步数降低 63%–75%。"
+            "title": "Convergence Under Smoothness Assumptions",
+            "detail": "Theoretical analysis shows that, assuming Lipschitz‑smooth Jacobians and strong convexity, PrivPair introduces no additional obstacle to FedAvg convergence."
           }
         ],
         "contributions": [
-          "统一的模块化框架（DE‑Venus）用于数据高效的 RLVR。",
-          "在单一后端支持七种现有的弱监督 RLVR 方法。",
-          "展示了标签效率（10% 标签）和数据效率（相关数据低至 13%）且无性能损失。",
-          "显著降低训练收敛步数（63–75%）。"
+          "PrivPair framework for privacy‑preserving split federated LLM fine‑tuning",
+          "Adapter‑based obfuscate‑and‑recover mechanism",
+          "Theoretical convergence analysis under smoothness assumptions"
         ],
         "limitations": [
-          "未对不同 RLVR 算法进行系统比较；作者指出这超出报告范围。"
+          "Convergence proof relies on strong convexity and Lipschitz smoothness, which may not hold for real LLM loss landscapes",
+          "Requires a public alignment dataset and periodic re‑alignment, adding computational overhead",
+          "No quantitative privacy leakage metrics (e.g., differential privacy guarantees) are reported"
         ],
         "open_questions": [
-          "DE‑Venus 在更大的 LLM 主干或除 GRPO 之外的其他 RLVR 优化器上表现如何？",
-          "框架的选择和弱监督模块能否推广到非数学推理领域？",
-          "不同不确定性估计器对标注预算与最终准确率之间权衡的影响是什么？"
+          "How does PrivPair scale to much larger LLMs (e.g., >70B) and highly heterogeneous client hardware?",
+          "Can the scheme be combined with formal differential privacy to provide provable guarantees?",
+          "What is the robustness of PrivPair against a malicious server that knows the adapter architecture and attempts adaptive inversion attacks?"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
-        "language": "zh",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
         "schema_version": 6,
         "prompt_version": 2
       },
-      "recommended_at": "2026-09-05T13:27:35.700479+00:00"
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training",
+          "fine-tuning"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-12T13:36:50.651769+00:00"
     },
     {
       "id": "2609.11878",
@@ -1704,174 +1347,6 @@
         "prompt_version": 2
       },
       "recommended_at": "2026-09-11T14:25:41.445644+00:00"
-    },
-    {
-      "id": "2609.02275",
-      "title": "Do Large Language Models Capture the Diversity in their Training Data?",
-      "abstract": "Large language models are trained to model conditional distributions over text, yet it remains inadequately understood whether they capture the full diversity of plausible outputs present in their training data. We study this question through an information-theoretic lens by comparing the conditional entropy of model-generated outputs with that of the corresponding training data. Given paired input-output samples, we use conditional entropy and its matrix-based analogue based on von Neumann entropy to measure output variability beyond what is explained by the conditioning input, without requiring multiple reference outputs for the same prompt. Across LLM families with publicly available training data, including OLMo, Pythia, and GPT-Neo, we consistently find that model-generated outputs exhibit lower conditional entropy than their training data, across different model scales, sequence lengths, and decoding strategies. We observe a similar conditional diversity gap beyond language modeling, including class-conditioned ImageNet generators and text-conditioned models trained on MS-COCO. To address this gap, we propose a post-hoc correction mechanism that generates multiple outputs for each input and reweights them through a matrix-entropy projection, increasing conditional diversity while remaining close to the original model distribution. We prove the concavity of the matrix-based conditional entropy functional, which makes the resulting entropy-constrained projection a convex optimization problem, and develop a scalable mirror-descent algorithm for its implementation. Our results reveal a systematic conditional diversity gap between modern generative models and their training data, and provide an information-theoretic framework for measuring and mitigating this gap.",
-      "authors": [
-        "Youqi Wu",
-        "Farzan Farnia"
-      ],
-      "published": "2026-09-02T08:21:55Z",
-      "updated": "2026-09-02T08:21:55Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI",
-        "cs.LG"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2609.02275v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.02275v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "core",
-          "score": 0.6821,
-          "matched": [
-            "training data",
-            "data"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.5838,
-          "matched": [
-            "training"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.1322,
-          "matched": [
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6437,
-        "relevance": 0.6889,
-        "quality": 0.43,
-        "novelty": 0.829,
-        "freshness": 0.5411,
-        "feedback_adjustment": -0.0201,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "proof"
-      ],
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "Data selection for LLMs",
-        "matched": [
-          "training data",
-          "data"
-        ],
-        "lane": "llm"
-      },
-      "summary": {
-        "method": "通过矩阵形式的 von Neumann 熵测量条件熵，并使用凸熵投影（通过镜像下降求解）对多个生成候选进行重新加权。",
-        "limitations": "该方法为后置，需为每个 prompt 生成大量候选，仅使用基于熵的指标进行评估。",
-        "problem": "大型语言模型是否能够捕获给定 prompt 条件下的全部合理输出。",
-        "takeaway": "LLM 系统性地低估训练数据中的条件输出多样性，但后置的熵约束重新加权可恢复多样性。",
-        "why_for_you": "提供信息论工具评估与提升数据多样性，适用于数据选择和鲁棒对抗训练。",
-        "evidence": "在 OLMo、Pythia 和 GPT‑Neo 上，模型输出的指数条件 VNE（如 218.88 对 338.58）在所有解码策略下均低于训练数据。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "发现 LLM 中系统性的条件多样性缺口，例如 OLMo 相较训练数据出现 119.70 的 exp.Cond.VNE 差距。"
-          },
-          {
-            "icon": "⚙️",
-            "text": "提出基于矩阵熵投影的 convex entropy‑constrained 重新加权，使用可扩展的镜像下降在乘积单纯形上求解。"
-          },
-          {
-            "icon": "📊",
-            "text": "实证表明，模型生成的输出在所有解码方法下的 exp.Cond.VNE（如 218.88 对 338.58）均低于训练数据。"
-          }
-        ],
-        "overview": "本文使用 Shannon 熵和矩阵形式的 von Neumann 熵对 (prompt, continuation) 配对样本量化条件输出多样性，发现 LLM 的续写多样性始终低于训练语料。为此，作者提出对每个 prompt 的多个候选进行后置熵约束凸投影重新加权，采用可扩展的镜像下降算法保持 prompt 边缘分布。实验覆盖三大开源 LLM 系列和若干条件图像生成器，验证了该缺口并展示重新加权提升条件熵的效果。",
-        "methodology": [
-          {
-            "title": "Conditional entropy 测量",
-            "detail": "计算 Shannon 条件熵和矩阵式类比（von Neumann entropy），基于配对 (X,Y) 特征的 product kernel，避免每个 prompt 需要多个参考。"
-          },
-          {
-            "title": "Entropy‑constrained 重加权",
-            "detail": "对每个 prompt 生成 m 个候选，然后求解一个凸优化，使 matrix‑based 条件熵最大化，同时保持 prompt 边际，使用在 simplex 笛卡尔积上的 mirror‑descent 并结合 sketch 的联合特征。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "matrix‑based 熵的凸性",
-            "detail": "作者证明了 matrix‑based 条件熵函数的凹性，使得 entropy‑constrained 投影成为可通过 mirror‑descent 高效求解的凸问题。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "多样性差距评估",
-            "detail": "模型：OLMo (Dolma)、Pythia 和 GPT‑Neo (The Pile)；解码方式：greedy、nucleus (p=0.9)、ancestral；指标：exp.Cond.VNE、exp.Cond.RKE、Distinct‑2；结果显示正向差距（例如，OLMo greedy exp.Cond.VNE 218.88 对比 training 338.58）。还评估了 class‑conditioned ImageNet 生成器 (LDM、ADM、BigGAN、DiT‑XL‑2) 和 text‑conditioned MS‑COCO 模型 (U‑ViT、SDXL、PixArt) 的类似差距。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "系统性条件多样性差距",
-            "detail": "模型生成的续写在所有模型、规模、序列长度和解码策略下，一致表现出低于对应训练数据的条件 von Neumann 熵。"
-          },
-          {
-            "title": "重新加权提升条件熵",
-            "detail": "熵投影重新加权在保持接近原始模型分布的同时，提高了经验输出分布的条件熵，在相同的 LLM 上已有验证。"
-          }
-        ],
-        "contributions": [
-          "使用 conditional entropy 和 matrix‑based von Neumann entropy 的条件多样性评估公式。",
-          "在文本和图像 generative models 中实证发现一致的 conditional diversity 差距。",
-          "对 matrix‑based conditional entropy 函数的凹性提供理论证明。",
-          "用于 entropy‑constrained reweighting 的可扩展 mirror‑descent 算法，采用 sketched joint features。"
-        ],
-        "limitations": [
-          "后置方法需要为每个提示生成多个候选，导致推理成本上升。",
-          "评估仅依赖 entropy‑based metrics，未衡量对 downstream task 性能或 alignment 的影响。",
-          "可扩展性取决于所选 sketch dimension；虽然避免了完整 tensor‑product 表示，但可能影响 fidelity。"
-        ],
-        "open_questions": [
-          "提升 conditional diversity 会如何影响 downstream task 的准确性、alignment 或鲁棒性？",
-          "entropy‑constrained reweighting 能否在训练中集成，而非后置应用？",
-          "在非常大模型下，sketch dimension、计算开销与 reweighted distribution 质量之间的权衡是什么？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "recommended_at": "2026-09-05T13:27:35.700479+00:00"
     },
     {
       "id": "2609.11677",
@@ -2223,6 +1698,374 @@
         "prompt_version": 2
       },
       "recommended_at": "2026-09-09T14:35:27.466685+00:00"
+    },
+    {
+      "id": "2609.11758",
+      "title": "RAG-Safety-Bench: Reliable Evaluation of Retrieval-Augmented LLM Safety",
+      "abstract": "Allowing large language models (LLMs) to retrieve information from a set of trusted documents can increase reliability and reduce hallucination. However, recent work has demonstrated that retrieval-augmented generation (RAG) can have unintended side effects on the overall safety of the generated responses, when prompted for harmful or dangerous content. A clearer understanding of the mechanisms leading to this result is needed, as increasing numbers of end users turn to RAG to incorporate corporate documents and knowledge bases into LLM-based systems. We introduce RAG-Safety-Bench, a benchmark to measure the safety impact of RAG on LLM models. By removing the confounding effect of retriever quality, and cleanly separating the problem into four conditions -- non-RAG, RAG with an oracle document containing the answer to the harmful request, RAG with documents related to the harmful request but without the specific answer, and RAG with random, safe documents -- the benchmark isolates the impacts of different factors in the observed safety degradation. We report results across five open-source LLMs, showing an inverse relationship between benign and unsafe capability, strong evidence that baseline safety guardrails do not lead to downstream safety guarantees in the RAG case, and model-specific support for previous findings that even benign documents can lead to unsafe generation in retrieval-enabled systems.",
+      "authors": [
+        "Adithiyan Rajan Indira Saravanan",
+        "Kathleen C. Fraser"
+      ],
+      "published": "2026-09-10T16:12:25Z",
+      "updated": "2026-09-10T16:12:25Z",
+      "categories": [
+        "cs.CL",
+        "cs.IR"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2609.11758v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.11758v1",
+      "comment": "Proceedings of EMNLP 2026 (main conference)",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.5993,
+          "matched": [
+            "llm safety",
+            "LLM safety",
+            "hallucination",
+            "safety",
+            "reliability",
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5171,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6174,
+        "relevance": 0.5829,
+        "quality": 0.55,
+        "novelty": 0.8518,
+        "freshness": 0.8677,
+        "feedback_adjustment": -0.0186,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation",
+        "open source"
+      ],
+      "summary": {
+        "evidence": "五种开源LLM实验显示良性/不安全能力反比关系及安全防护措施失效。",
+        "limitations": "未在摘要中提及具体限制。",
+        "method": "设计基准测试，去除检索器质量干扰并划分四类实验条件。",
+        "problem": "RAG在处理有害请求时的安全影响机制缺乏清晰理解。",
+        "takeaway": "引入RAG-Safety-Bench基准，通过四个条件隔离RAG安全影响因素。",
+        "why_for_you": "安全评估基准设计与RAG对生成安全的影响机制研究",
+        "source": "abstract",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "llm safety",
+          "LLM safety",
+          "hallucination",
+          "safety"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-11T14:25:41.445644+00:00"
+    },
+    {
+      "id": "2609.09054",
+      "title": "Training-Free Task Vectors for LLM Behavioral Control",
+      "abstract": "Task vectors enable post-training model editing by identifying semantically meaningful directions in weight space, typically computed as the difference between a fine-tuned model and its pretrained initialization. However, this reliance on fine-tuning makes discovering such directions costly and limits the practicality of post-training model editing. To address this limitation, we introduce Training-Free Task Vectors (TFTVs), a novel method to compute task-vector-like directions without requiring fine-tuning. Our method maps activation steering vectors to rank-one weight-space edits using only forward-pass statistics, while satisfying arithmetic properties that directly support learning via addition, forgetting via subtraction, and the composition of multiple edits. Empirically, we evaluate TFTVs on large language model behavioral control tasks and show that they consistently amplify, suppress, and compose target behaviors while preserving general knowledge and problem-solving skills. We also validate our method against other editing and steering baselines, experimentally demonstrating that TFTVs achieve stronger trait control with better or competitive utility preservation. We hope our work opens new directions for the community in post-training model editing and broader training-free model control. Code is available on the project website: tftv-llm.github.io.",
+      "authors": [
+        "Gabriel J. Perin",
+        "Lucas Boscaini",
+        "André Araujo",
+        "Nina S. T. Hirata"
+      ],
+      "published": "2026-09-08T17:10:28Z",
+      "updated": "2026-09-08T17:10:28Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2609.09054v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.09054v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.6053,
+          "matched": [
+            "training",
+            "fine-tuning"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.3836,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.614,
+        "relevance": 0.561,
+        "quality": 0.6,
+        "novelty": 0.8578,
+        "freshness": 0.8725,
+        "feedback_adjustment": -0.0128,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "baseline comparison",
+        "experiments"
+      ],
+      "summary": {
+        "evidence": "在LLM行为控制任务中验证，TFTVs能增强/抑制目标行为并保持知识，优于其他编辑基线。",
+        "limitations": "Not stated in the abstract",
+        "method": "通过前向传递统计信息将激活引导向量映射到秩一权重空间编辑，满足算术性质支持组合编辑。",
+        "problem": "现有任务向量依赖微调导致成本高，限制后训练模型编辑的实用性。",
+        "takeaway": "提出无需微调的Training-Free Task Vectors (TFTVs)方法，实现LLM行为控制。",
+        "why_for_you": "高效对抗训练中无需微调的模型控制，LLM损失景观中的训练自由编辑方法",
+        "source": "abstract",
+        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training",
+          "fine-tuning"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-09T14:35:27.466685+00:00"
+    },
+    {
+      "id": "2609.05235",
+      "title": "PRICE: A Systematic Study of LLM Adaptation Choices for Bitcoin Price Forecasting",
+      "abstract": "Cryptocurrency markets exhibit extreme volatility and non-stationary dynamics that challenge conventional forecasting methods. Although Large Language Models (LLMs) have shown promise for time series forecasting, the combined effects of adaptation choices remain largely unexplored in financial settings. This study introduces PRICE, a structured approach for adapting LLMs to short-term Bitcoin price forecasting. Built on a 4-bit quantized LLaMA-3 8B model, PRICE investigates how fine-tuning, numerical representation, prompting, inference, and decoding jointly influence forecasting performance. PRICE integrates Parameter-efficient fine-tuning with Low-Rank Adaptation (LoRA), Recursive multi-step inference, Integer-rounded numerical representation, Context-Task-Format (CTF) prompting, and Exact zero-temperature decoding. Ablation studies show that each component contributes to forecasting accuracy and reliability. LoRA enables efficient training on limited hardware, recursive inference improves accuracy, integer-rounded values reduce errors, CTF prompting outperforms Chain-of-Thought, Implicit Chain-of-Thought (iCoT), and few-shot prompting, and zero-temperature decoding improves stability during recursive forecasting. Comparative evaluation against eight transformer-based and time-series foundation models shows that PRICE achieves the lowest forecasting errors on both validation and test sets while maintaining robust performance across evaluation periods. Despite being based on a model primarily pretrained on text rather than time-series data, PRICE achieves competitive or superior performance relative to specialized foundation models. These findings demonstrate that adaptation choices critically determine the accuracy and robustness of LLMs for numerical time-series forecasting.",
+      "authors": [
+        "Maryam Fakhari",
+        "Mehran Safayani"
+      ],
+      "published": "2026-09-04T15:01:38Z",
+      "updated": "2026-09-04T15:01:38Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "math.NA"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2609.05235v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.05235v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.659,
+          "matched": [
+            "efficient",
+            "training",
+            "fine-tuning",
+            "robust",
+            "robustness"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.3434,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6003,
+        "relevance": 0.5959,
+        "quality": 0.51,
+        "novelty": 0.8262,
+        "freshness": 0.5665,
+        "feedback_adjustment": -0.0176,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "ablation study",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "PRICE 表明，系统组合 LoRA 微调、递归推理、整数四舍五入输入、CTF 提示和零温度解码，可在所有评估基线中实现最低的比特币价格预测误差。",
+        "method": "在 4‑bit 量化 LLaMA‑3 8B 模型上集成参数高效 LoRA 微调、递归多步推理、整数四舍五入数值表示、Context‑Task‑Format 提示以及精确零温度解码。",
+        "why_for_you": "与高效训练相关，因为它量化了基于 LoRA 的参数高效微调及其他适配选择如何提升 LLM 在高难度时间序列任务上的表现。",
+        "problem": "在高度波动、非平稳的市场环境中准确预测短期比特币价格，传统方法难以胜任。",
+        "limitations": "在可得资料中未说明。",
+        "evidence": "消融研究和与八个 transformer‑based 与 time‑series 基础模型的基准比较表明，PRICE 达到最低的验证和测试预测误差。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "PRICE 整合五个适配组件，在八个基线中实现最低的比特币预测误差。"
+          },
+          {
+            "icon": "⚙️",
+            "text": "LoRA 微调结合递归多步推理和整数四舍五入输入提升了准确性。"
+          },
+          {
+            "icon": "📊",
+            "text": "消融和基准测试显示 PRICE 获得最低的验证和测试误差，但未公开具体数值。"
+          }
+        ],
+        "overview": "本文提出 PRICE 框架，系统地将 4‑bit 量化 LLaMA‑3 8B 模型适配用于短期比特币价格预测。它将 LoRA 参数高效微调、递归多步推理、整数四舍五入价格表示、Context‑Task‑Format 提示和精确零温度解码五个正交适配选择整合为一条流水线。通过受控消融分析评估各选择的影响，并在与八个 transformer 与 time‑series 基础模型的广泛基准测试中评估整体性能。结果表明，各组件均带来可测量的提升，完整系统在验证集和测试集上均实现最低预测误差。",
+        "methodology": [
+          {
+            "title": "LoRA 微调",
+            "detail": "对量化的 LLaMA‑3 8B 模型应用低秩适配，实现参数高效训练，适用于硬件受限环境，同时保持模型容量。"
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "递归多步推理",
+            "detail": "逐步生成预测，将每个预测价格作为下一步输入，降低相较于直接多步生成的误差累积。"
+          },
+          {
+            "title": "整数四舍五入数值表示",
+            "detail": "在输入 LLM 前将价格值四舍五入为整数，保留原始尺度并去除多余精度，从而降低预测误差。"
+          },
+          {
+            "title": "Context‑Task‑Format (CTF) 提示",
+            "detail": "使用明确的上下文、任务描述和格式规范构建提示；在微调后仍优于 Chain‑of‑Thought、Implicit CoT 和 few‑shot 提示。"
+          },
+          {
+            "title": "精确零温度解码",
+            "detail": "生成时使用确定性 token 选择（temperature=0），消除抽样方差，提高递归预测的稳定性。"
+          }
+        ],
+        "experiments": [
+          {
+            "title": "消融研究",
+            "detail": "在相同条件下系统性地禁用每个适配组件（LoRA、recursion、integer rounding、CTF prompting、zero‑temp decoding），以量化其对预测误差和可靠性的影响。"
+          },
+          {
+            "title": "对比基准",
+            "detail": "在比特币价格数据集上，将 PRICE 与八个 transformer‑based 和 time‑series foundation models 进行评估，报告验证集和测试集的预测误差。"
+          }
+        ],
+        "findings": [
+          {
+            "title": "组件贡献",
+            "detail": "每种适配选择均带来可测量的误差降低；LoRA 相较 zero‑shot 提升准确性，recursion 相较直接多步降低误差，integer rounding 始终优于原始或归一化输入。"
+          },
+          {
+            "title": "提示优势",
+            "detail": "在微调设置下，CTF prompting 在所有评估的提示策略中实现了最强性能。"
+          },
+          {
+            "title": "解码稳定性",
+            "detail": "zero‑temperature decoding 在递归预测期间降低输出变异性，提升预测可靠性。"
+          },
+          {
+            "title": "整体表现",
+            "detail": "PRICE 在验证集和测试集上实现了最低或并列最低的预测误差，尽管基于文本预训练 LLM，仍优于专门的 time‑series foundation models。"
+          }
+        ],
+        "contributions": [
+          "统一框架（PRICE），将五个适配组件结合用于基于LLM的比特币预测。",
+          "受控消融方法，以隔离每个适配选择的影响。",
+          "实证表明，适配决策可以超越 pretraining domain mismatches 的影响。"
+        ],
+        "limitations": [
+          "在可获得的来源中未说明。"
+        ],
+        "open_questions": [
+          "所识别的适配选择能否推广到其他金融工具或更长的预测时段？",
+          "这些适配策略如何影响 LLM 的损失曲面和训练稳定性？",
+          "PRICE 对价格数据中对抗扰动的鲁棒性如何？"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "language": "zh",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "complete",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "efficient",
+          "training",
+          "fine-tuning",
+          "robust"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-07T15:50:52.906983+00:00"
     }
   ]
 }
