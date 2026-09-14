@@ -19,7 +19,7 @@ permissions:
 
 concurrency:
   group: dawnlit-update
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   update:
@@ -52,16 +52,7 @@ jobs:
           # AI enrichment is best-effort on the scheduled path. Incomplete
           # analyses remain pending in history and are retried by later builds.
           AI_REQUIRED: "0"
-        run: |
-          python -u scripts/build_radar.py &
-          build_pid=$!
-          while kill -0 "$build_pid" 2>/dev/null; do
-            sleep 120
-            if kill -0 "$build_pid" 2>/dev/null; then
-              echo "Build daily recommendations is still running..."
-            fi
-          done
-          wait "$build_pid"
+        run: python -u scripts/build_radar.py
 
       - name: Commit updated feed
         run: |
