@@ -213,6 +213,12 @@ template.innerHTML = `
       color: #a34a3b;
     }
 
+    .status.warning {
+      color: var(--radar-muted);
+      background: var(--radar-surface);
+      border-bottom: 1px solid var(--radar-line);
+    }
+
     :host([density="compact"]) article {
       padding-block: 14px;
     }
@@ -364,8 +370,11 @@ class PaperRadarWidget extends HTMLElement {
     header.querySelector(".count").textContent = `${selected.length} selected`;
 
     const list = this.shadowRoot.querySelector(".list");
+    const sourceWarning = this.#data.source_error
+      ? '<div class="status warning">Source temporarily unavailable; showing the last successful feed.</div>'
+      : "";
     list.innerHTML = selected.length
-      ? selected.map((paper) => this.#paperMarkup(paper)).join("")
+      ? sourceWarning + selected.map((paper) => this.#paperMarkup(paper)).join("")
       : '<div class="status">No paper cleared the current threshold.</div>';
 
     list.querySelectorAll("[data-paper-id]").forEach((link) => {

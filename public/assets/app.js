@@ -81,6 +81,7 @@ const COPY = {
     quietDay: "A quiet day",
     nothingUseful: "Nothing marked useful yet.",
     noSignal: "No signal cleared the threshold. An empty feed is better than filler.",
+    sourceFallback: "Source temporarily unavailable; showing the last successful feed.",
     controlRoom: "CONTROL ROOM",
     preferenceIntro: "Your profile is explicit, editable, and portable; seed papers remain a weak signal.",
     cloudSync: "CLOUD SYNC",
@@ -191,6 +192,7 @@ const COPY = {
     quietDay: "今天很安静",
     nothingUseful: "还没有收藏论文。",
     noSignal: "今天没有论文达到推荐阈值，空着比凑数更好。",
+    sourceFallback: "数据源暂时不可用，正在显示上次成功更新。",
     controlRoom: "控制中心",
     preferenceIntro: "你的兴趣配置清晰、可编辑，也可以随时导出。",
     cloudSync: "云端同步",
@@ -661,6 +663,11 @@ function renderPaperView(papers) {
       ${
         state.feed.demo
           ? '<span class="summary-chip"><strong>DEMO</strong> fixture data</span>'
+          : ""
+      }
+      ${
+        state.feed.source_error
+          ? `<span class="summary-chip warning">${escapeHTML(t("sourceFallback"))}</span>`
           : ""
       }
       <span class="summary-chip"><strong>${

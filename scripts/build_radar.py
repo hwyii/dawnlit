@@ -3025,6 +3025,49 @@ def rewrite_existing(
     return rewritten
 
 
+def write_source_fallback_feed(
+    output_path: Path,
+    now: dt.datetime,
+    error: Exception,
+    profile: dict[str, Any],
+    topic_feedback: dict[str, Any],
+    feedback: list[FeedbackSignal],
+    semantic_feedback: dict[str, float],
+) -> dict[str, Any]:
+    if not output_path.exists():
+        raise RuntimeError("arXiv is unavailable and no previous feed exists") from error
+    try:
+        feed = json.loads(output_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as read_error:
+        raise RuntimeError("arXiv is unavailable and the previous feed is unreadable") from read_error
+
+    previous_generated_at = feed.get("generated_at")
+    feed["generated_at"] = now.isoformat()
+    feed["fallback"] = True
+    feed["fallback_from"] = previous_generated_at
+    feed["source_error"] = f"arXiv unavailable: {error}"
+    feed["topic_feedback"] = topic_feedback
+    feed["feedback_count"] = len(feedback)
+    feed["semantic_feedback_count"] = len(semantic_feedback)
+    feed["profile_updated_at"] = profile.get("updated_at")
+    write_json_atomic(output_path, feed)
+
+    data_dir = output_path.parent
+    archive_dir = data_dir / "archive"
+    archive_dir.mkdir(parents=True, exist_ok=True)
+    write_json_atomic(archive_dir / f"{now.date().isoformat()}.json", feed)
+
+    public_profile = dict(profile)
+    public_profile.pop("owner", None)
+    write_json_atomic(data_dir / "profile.json", public_profile)
+    print(
+        "arXiv is unavailable; published the last successful feed "
+        f"from {previous_generated_at}.",
+        file=sys.stderr,
+    )
+    return feed
+
+
 def build(
     profile_path: Path,
     output_path: Path,
@@ -3047,7 +3090,18 @@ def build(
         payload = atom_fixture.read_bytes()
         query_total = atom_total_results(payload)
     else:
-        payload, query_total = fetch_arxiv(profile, now)
+        try:
+            payload, query_total = fetch_arxiv(profile, now)
+        except RuntimeError as error:
+            return write_source_fallback_feed(
+                output_path,
+                now,
+                error,
+                profile,
+                topic_feedback,
+                feedback,
+                semantic_feedback,
+            )
     papers = parse_atom(payload)
     previous = load_previous_papers(output_path)
     previous_items = load_previous_items(output_path)
