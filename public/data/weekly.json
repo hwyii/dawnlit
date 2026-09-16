@@ -1,791 +1,6 @@
 {
-  "generated_at": "2026-09-12T13:36:50.651769+00:00",
+  "generated_at": "2026-09-16T14:58:40.426054+00:00",
   "papers": [
-    {
-      "id": "2609.05275",
-      "title": "Don't Drop Dropout: Optimizing Layer Sparsity for Efficient LLM Training and Inference",
-      "abstract": "Layer dropout (a.k.a. stochastic depth) has been shown to enable faster training, higher accuracy, and robustness to zero-shot layer pruning in both language and vision transformers. However, as models and datasets have scaled, dropout - particularly layer dropout - has largely disappeared from large language models (LLMs) pre-training recipes. While some prior work has reported that dropout can degrade accuracy, no comprehensive study has quantified, let alone mitigated, this effect. In this study, we show that layer dropout should be used in state-of-the-art LLM training, establishing best practices and scaling analysis for both training and post-training benefits. Concretely, with optimal layer distribution, time schedule, and optimizer hyperparameters, we observe that at the same training FLOPs layer dropout leads to lower loss. For a given number of training steps, LLMs can achieve lower or similar validation loss while saving upto 25% of training FLOPs. Moreover, layer dropout enables significant post-training optimizations, such as early exit, intermediate-layer skipping, and self-speculative decoding, yielding up to 1.5x inference speedup with negligible accuracy loss. Across more than 2400 training experiments, spanning models from 271M to 8.2B parameters and datasets up to 160B tokens, we demonstrate that these findings extend reliably to large-scale training regimes. All pre-training experiments were run on Cerebras CS-3 systems.",
-      "authors": [
-        "Mostafa Elhoushi",
-        "Alex Pretko",
-        "Nolan Dey",
-        "Bin Claire Zhang",
-        "Gavia Gray",
-        "Gurpreet Gosal",
-        "Abdulrahman Mahmoud",
-        "Shane Bergsma",
-        "Joel Hestness"
-      ],
-      "published": "2026-09-04T15:30:47Z",
-      "updated": "2026-09-04T15:30:47Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2609.05275v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.05275v1",
-      "comment": "This is a slightly extended version of the paper published at ICML 2026",
-      "journal_ref": "Proceedings of the 43rd International Conference on Machine Learning (ICML 2026)",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.7658,
-          "matched": [
-            "efficient",
-            "training",
-            "robustness"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.646,
-          "matched": [
-            "llm",
-            "loss"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3672,
-          "matched": [
-            "robustness",
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.7555,
-        "relevance": 0.8126,
-        "quality": 0.57,
-        "novelty": 0.848,
-        "freshness": 0.5694,
-        "feedback_adjustment": -0.0187,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "experiments",
-        "dataset evidence",
-        "quantitative results",
-        "publication metadata"
-      ],
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "efficient",
-          "training",
-          "robustness"
-        ],
-        "lane": "llm"
-      },
-      "summary": {
-        "takeaway": "最佳配置的 layer dropout 可将训练 FLOPs 降低最多 25%，同时保持或提升 validation loss，并实现最高 1.5 倍的推理加速。",
-        "method": "作者系统性地调节 layer‑wise dropout 率、时间调度、优化器超参数以及粒度（per‑sequence 与 per‑batch），覆盖多种模型规模。",
-        "why_for_you": "本研究提供高效的训练技术和 loss‑landscape 见解，对 adversarial training 与可信 LLM 部署具有参考价值。",
-        "problem": "大规模 LLM 预训练已放弃 dropout，尽管其在效率和鲁棒性方面具备潜力。",
-        "limitations": "动态 early‑exit、更广硬件平台以及 sub‑layer dropout 表现不佳的原因留待后续研究。",
-        "evidence": "在 2400+ 次实验（271M‑8.2B 参数）中，实现了更低的 validation loss，FLOPs 减少 25%，并在几乎无精度损失的情况下获得最高 1.5 倍的 inference 加速。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "在最佳配置下，layer dropout 将训练 FLOPs 降低最多 25%，并在 271M‑8.2B 参数 LLM 上保持或提升 validation loss。"
-          },
-          {
-            "icon": "🔬",
-            "text": "作者将 optimal layer‑wise dropout 分布、递减的 temporal schedule 与 per‑sequence 粒度确定为关键机制。"
-          },
-          {
-            "icon": "📉",
-            "text": "2400+ 次实验显示最高 1.5 倍的 inference 加速，精度损失可忽略，但所有训练均在 Cerebras CS‑3 系统上完成。"
-          }
-        ],
-        "overview": "本文对 decoder‑only LLM 的 stochastic depth（layer dropout）进行大规模实证研究，覆盖 271M‑8.2B 参数模型及最高 160B token。通过联合优化跨深度的 dropout 分布、训练步骤的递减 schedule 以及匹配的 optimizer 设置，实现显著计算节省，并支持 zero‑shot 推理优化，如 early exit、intermediate‑layer skipping 与 self‑speculative decoding。分析还比较了 per‑batch 与 per‑sequence dropout 粒度，并对比了 layer dropout 与 sub‑layer dropout。",
-        "methodology": [
-          {
-            "title": "超参数搜索",
-            "detail": "系统地调整 dropout 率、depth‑wise 分布和 temporal 调度，同时在 20 tokens‑per‑parameter 的计算最优预算下调优 optimizer 超参数。"
-          },
-          {
-            "title": "粒度比较",
-            "detail": "实现并评估 per‑batch（所有序列使用相同 mask）和 per‑sequence（每个序列使用独立 mask）两种 layer dropout。"
-          },
-          {
-            "title": "训练设置",
-            "detail": "使用 Decoder‑only transformer，配合 ALiBi 位置嵌入、平方 ReLU 激活和 Llama3 词表；所有运行在 Cerebras CS‑3 硬件上。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "通过随机深度实现结构鲁棒性",
-            "detail": "在训练期间随机跳过整个 transformer block，迫使模型学习在推理时移除层后仍保持准确的表征，从而实现 elastic depth 而无需架构更改。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "全尺度训练扫描",
-            "detail": "2400+ 预训练运行，覆盖模型规模 271M‑8.2B、token 预算最高 160B，以及多种 dropout 配置。"
-          },
-          {
-            "title": "早退出评估",
-            "detail": "在所有层上测量的静态 early‑exit 损失（Fig. 5）显示，dropout 训练的模型保持的损失低于 dense 基线，即使在提前多层退出时亦如此。"
-          },
-          {
-            "title": "粒度消融",
-            "detail": "Table 1 和 Fig. 4 对比 per‑batch 与 per‑sequence dropout，显示 per‑sequence 在验证损失上更佳。"
-          },
-          {
-            "title": "子层 vs 层 dropout",
-            "detail": "层 dropout 在训练和验证损失降低方面均优于子层 dropout（分别 dropout attention/FFN）。"
-          },
-          {
-            "title": "推理加速",
-            "detail": "后训练优化（early exit、intermediate‑layer skipping、self‑speculative decoding）可实现最高 1.5× 的推理加速，且损失增加可忽略不计。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "计算‑精度权衡",
-            "detail": "合理配置的 layer dropout 可节省最高 25% 的训练 FLOPs，同时在验证损失上与 dense 训练持平或更低。"
-          },
-          {
-            "title": "早退出鲁棒性",
-            "detail": "使用 layer dropout 训练的模型在 early‑exit 各层保持稳定损失，且在每个退出点均优于 dense 基线。"
-          },
-          {
-            "title": "调度优势",
-            "detail": "递减的 dropout schedule（前期 dropout 较高，后期降低）在固定 FLOP 预算下实现最低验证损失。"
-          },
-          {
-            "title": "粒度影响",
-            "detail": "per‑sequence dropout 持续优于 per‑batch dropout，得到更低损失。"
-          },
-          {
-            "title": "层 vs 子层 dropout",
-            "detail": "整体 dropout transformer block 能提供比分别 dropout attention 与 FFN 子块更高的准确率。"
-          }
-        ],
-        "contributions": [
-          "对 LLM 训练与推理的 layer dropout 进行大规模综合评估。",
-          "提供 dropout rate、depth distribution、temporal schedule 与 optimizer settings 的最佳实践指南。",
-          "演示 layer dropout 可实现无需架构修改的 zero‑shot depth‑elastic inference。",
-          "对 per‑batch 与 per‑sequence dropout 粒度以及 layer 与 sub‑layer dropout 进行实证比较。"
-        ],
-        "limitations": [
-          "未评估 dynamic early‑exit strategies。",
-          "所有实验在 Cerebras CS‑3 系统上进行，硬件通用性未测试。",
-          "sub‑layer dropout 表现不佳的原因及其他 dropout 位置（如 attention‑only）留待未来研究。"
-        ],
-        "open_questions": [
-          "layer dropout 如何与 adversarial training objectives 交互并影响 model robustness？",
-          "layer dropout 对 LLM loss landscape 的几何形状和 convergence dynamics 有何影响？",
-          "报告的 training and inference efficiency gains 能否在其他硬件平台和不同 optimizer families 上复现？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "recommended_at": "2026-09-07T15:50:52.906983+00:00"
-    },
-    {
-      "id": "conf:acl:2026:905-main",
-      "title": "Tracing the Roots: A Multi-Agent Framework for Uncovering Data Lineage in Post-Training LLMs",
-      "abstract": "Post-training data plays a pivotal role in shaping the capabilities of Large Language Models (LLMs), yet datasets are often treated as isolated artifacts, overlooking the systemic connections that underlie their evolution. To disentangle these complex relationships, we introduce the concept of \\textbf{data lineage} to the LLM ecosystem and propose an automated multi-agent framework to reconstruct the evolutionary graph of dataset development. Through large-scale lineage analysis, we characterize domain-specific structural patterns, such as vertical refinement in Math-oriented datasets and horizontal aggregation in General-domain corpora. Moreover, we uncover pervasive systemic issues, including \\textit{structural redundancy} induced by implicit dataset intersections and the \\textit{propagation of benchmark contamination} along lineage paths. To demonstrate the practical value of lineage analysis for data construction, we leverage the reconstructed lineage graph to create a \\textit{lineage-aware diversity-oriented dataset}. By anchoring instruction sampling at upstream leaf sources, this approach mitigates downstream homogenization and hidden redundancy, yielding a more diverse post-training corpus. We further highlight lineage-centric analysis as an efficient and robust topological alternative to sample-level dataset comparison for large-scale data ecosystems. By grounding data construction in explicit lineage structures, our work advances post-training data curation toward a more systematic and controllable paradigm.",
-      "authors": [
-        "Yu Li",
-        "Xiaoran shang",
-        "Qizhi Pei",
-        "Yun Zhu",
-        "Xin Gao",
-        "Honglin Lin",
-        "Zhanping Zhong",
-        "Zhuoshi Pan",
-        "Zheng Liu",
-        "Xiaoyang Wang",
-        "Conghui He",
-        "Dahua Lin",
-        "Feng Zhao",
-        "Lijun Wu"
-      ],
-      "published": "2026-01-01T00:00:00Z",
-      "updated": "2026-01-01T00:00:00Z",
-      "categories": [
-        "ACL 2026",
-        "Oral"
-      ],
-      "primary_category": "ACL 2026",
-      "abs_url": "https://2026.aclweb.org/program/",
-      "pdf_url": "https://2026.aclweb.org/program/",
-      "comment": "",
-      "journal_ref": "ACL 2026 Oral",
-      "source": "conference",
-      "venue": "ACL",
-      "presentation": "Oral",
-      "conference_year": 2026,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.7003,
-          "matched": [
-            "efficient",
-            "training",
-            "robust"
-          ]
-        },
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "core",
-          "score": 0.6649,
-          "matched": [
-            "data curation",
-            "sampling",
-            "training data",
-            "curation",
-            "data"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.1407,
-          "matched": [
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.7404,
-        "relevance": 0.7214,
-        "quality": 0.68,
-        "novelty": 0.8549,
-        "freshness": 1.0,
-        "feedback_adjustment": -0.012,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "dataset evidence",
-        "publication metadata",
-        "conference oral"
-      ],
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "efficient",
-          "training",
-          "robust"
-        ],
-        "lane": "llm"
-      },
-      "summary": {
-        "method": "作者构建了一个自动化多代理框架，追踪数据集来源以构建血缘图并指导叶源指令抽样。",
-        "takeaway": "多代理系统重建数据集血缘，实现血缘感知的数据选择，提升后训练语料多样性。",
-        "why_for_you": "对数据选择研究具有相关性，提供了一种基于拓扑的系统化方法来策划多样化训练语料。",
-        "problem": "当前后训练 LLM 数据集缺乏对演化关系的显式建模，导致隐藏冗余和基准污染。",
-        "evidence": "据称血缘感知抽样可缓解下游同质化和结构冗余，但未提供量化指标。",
-        "limitations": "论文未提供量化评估，也未讨论多代理重建的可扩展性。",
-        "source": "abstract",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "findings": [
-          {
-            "title": "结构模式与系统性问题",
-            "detail": "发现数学数据集的垂直细化和通用语料的水平聚合；检测到血缘路径上的结构冗余和基准污染。"
-          },
-          {
-            "title": "通过血缘感知抽样提升多样性",
-            "detail": "血缘感知抽样缓解下游同质化，产生更具多样性的语料（定性主张）。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "血缘图分析与数据集构建",
-            "detail": "分析数学导向和通用领域语料的重建血缘图；创建血缘感知数据集并对其相较于基线抽样的多样性进行定性评估。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "血缘感知抽样",
-            "detail": "指令优先从血缘图的叶节点抽取，旨在最大化多样性并避免通过上游交叉传播的冗余。"
-          }
-        ],
-        "open_questions": [
-          "血缘感知抽样相较于标准数据选择方法，对下游模型性能有何影响？",
-          "血缘图能否在持续演化的数据流水线中高效维护？"
-        ],
-        "limitations": [
-          "缺乏多样性提升或冗余降低的量化评估",
-          "未讨论多代理重建的可扩展性和计算成本"
-        ],
-        "signals": [
-          {
-            "icon": "🗂️",
-            "text": "引入数据血缘概念和自动化多代理框架以重建数据集演化图。"
-          },
-          {
-            "icon": "🗂️",
-            "text": "使用多个代理追踪数据集来源，构建后训练语料的拓扑血缘图。"
-          },
-          {
-            "icon": "📈",
-            "text": "展示血缘感知抽样降低冗余、提升多样性，但未报告量化影响。"
-          }
-        ],
-        "contributions": [
-          "提出 LLM 数据集的数据血缘概念",
-          "自动化多代理框架用于重建数据集演化图",
-          "演示血缘感知抽样以提升语料多样性"
-        ],
-        "methodology": [
-          {
-            "title": "多代理血缘重建",
-            "detail": "代理爬取数据集元数据和来源链接，推断父子关系，组装数据集演化的有向图。"
-          }
-        ],
-        "overview": "本文将数据血缘定义为 LLM 后训练数据集之间的显式演化关联，并提出自动化多代理框架将其重建为图。大规模分析揭示数学数据集的垂直细化、通用语料的水平聚合等领域特定模式，并识别结构冗余和基准污染等系统性问题。利用血缘图，作者通过从上游叶节点抽取指令构建血缘感知、面向多样性的数据集，声称降低同质化和隐藏冗余。他们认为该拓扑方法是样本级比较的高效替代方案。",
-        "source_scope": "abstract",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "recommended_at": "2026-09-08T14:32:00.134386+00:00"
-    },
-    {
-      "id": "conf:icml:2026:71094",
-      "title": "Mechanistic Data Attribution: Tracing the Training Origins of Interpretable LLM Units",
-      "abstract": "While mechanistic interpretability has identified interpretable circuits in large language models (LLMs), their causal origins in training data remain elusive. We introduce *mechanistic data attribution* (MDA), a scalable framework that employs influence functions to trace interpretable units back to specific training samples. Through extensive experiments on the Pythia family, we causally validate that targeted intervention—removing or augmenting a small fraction of high-influence samples—significantly modulates the emergence of interpretable heads, whereas random interventions show no effect. Our analysis reveals that repetitive structural data (e.g., LaTeX, XML) acts as a mechanistic catalyst. Furthermore, we observe that interventions targeting induction head formation induce a concurrent change in the model’s in-context learning (ICL) capability. This provides direct causal evidence for the long-standing hypothesis regarding the functional link between induction heads and ICL. Finally, we propose a mechanistic data augmentation pipeline that consistently accelerates circuit convergence across model scales, providing a principled methodology for steering the developmental trajectories of LLMs.",
-      "authors": [
-        "Jianhui Chen",
-        "Yuzhang Luo",
-        "Liangming Pan"
-      ],
-      "published": "2026-01-01T00:00:00Z",
-      "updated": "2026-01-01T00:00:00Z",
-      "categories": [
-        "ICML 2026",
-        "Oral"
-      ],
-      "primary_category": "ICML 2026",
-      "abs_url": "https://icml.cc/virtual/2026/oral/71094",
-      "pdf_url": "https://icml.cc/virtual/2026/oral/71094",
-      "comment": "",
-      "journal_ref": "ICML 2026 Oral",
-      "source": "conference",
-      "venue": "ICML",
-      "presentation": "Oral",
-      "conference_year": 2026,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "core",
-          "score": 0.7001,
-          "matched": [
-            "influence",
-            "data attribution",
-            "training data",
-            "data"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.5227,
-          "matched": [
-            "training"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.3483,
-          "matched": [
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.738,
-        "relevance": 0.7343,
-        "quality": 0.63,
-        "novelty": 0.8472,
-        "freshness": 1.0,
-        "feedback_adjustment": -0.0134,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "experiments",
-        "publication metadata",
-        "conference oral"
-      ],
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "Data selection for LLMs",
-        "matched": [
-          "influence",
-          "data attribution",
-          "training data",
-          "data"
-        ],
-        "lane": "llm"
-      },
-      "summary": {
-        "method": "MDA 使用 influence functions 将单元追溯到样本，并通过删除或增强 high‑influence data 进行干预。",
-        "limitations": "研究仅报告了定性效果，缺乏数据比例或性能影响的量化指标。",
-        "evidence": "针对性地删除/增强少量 high‑influence 样本会显著改变可解释头的出现，而随机干预则没有此效应。",
-        "problem": "目前尚未明确可解释单元在 LLM 中的因果训练来源。",
-        "why_for_you": "对数据选择研究具有意义，因为它提供了一种通过目标数据引导电路发展的原则性方法。",
-        "takeaway": "机制化数据归因将特定训练数据与可解释 LLM 电路的形成关联起来。",
-        "source": "abstract",
-        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🔎",
-            "text": "引入 mechanistic data attribution (MDA)，将可解释 LLM 单元追溯到训练样本。"
-          },
-          {
-            "icon": "🔧",
-            "text": "使用 influence functions 识别 high‑influence 样本，并进行针对性删除或增强。"
-          },
-          {
-            "icon": "📊",
-            "text": "展示了删除/增强少量 high‑influence 样本可调节可解释头的出现，而随机更改则无效。"
-          }
-        ],
-        "overview": "本文提出 Mechanistic Data Attribution (MDA)，一种可扩展框架，利用 influence functions 将 LLM 中的可解释电路组件映射回单个训练样本。对 Pythia 系列模型的实验表明，选择性地删除或增强少量 high‑influence 样本会显著改变可解释头的出现，而随机编辑无效。分析发现重复的结构化数据（如 LaTeX、XML）是催化剂，对 induction heads 的干预同时会改变 in‑context learning 能力。提出了一种 data‑augmentation 流水线，以加速跨尺度的电路收敛。",
-        "methodology": [
-          {
-            "title": "影响函数计算",
-            "detail": "使用标准影响函数技术，计算每个训练样本对目标可解释单元的基于梯度的影响。"
-          },
-          {
-            "title": "高影响样本识别",
-            "detail": "根据计算得到的影响分数对训练样本进行排序，并选择排名最高的子集进行干预。"
-          },
-          {
-            "title": "有针对性的数据干预",
-            "detail": "对选定的高影响样本进行删除或增强，并重新训练模型以观察因果效应。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "重复结构数据的催化作用",
-            "detail": "研究表明，具有重复标记（LaTeX、XML）的数据在机制电路的形成中起到不成比例的推动作用。"
-          },
-          {
-            "title": "Induction Head–ICL 链接",
-            "detail": "对影响 induction head 形成的样本进行干预，会同步改变模型的 in‑context learning 性能，提供其功能关系的因果证据。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Pythia 系列评估",
-            "detail": "将 MDA 应用于多个 Pythia 模型规模，比较有针对性的 high‑influence 干预与 random sample 修改的效果。"
-          },
-          {
-            "title": "电路出现度量",
-            "detail": "衡量 interpretable heads 的存在性和强度，并在每次干预后跟踪 in‑context learning 能力。"
-          },
-          {
-            "title": "机制化数据增强流水线",
-            "detail": "提出系统化的 augmentation 策略，反复注入 high‑influence 模式，展示 target circuits 在不同尺度上的更快收敛。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "有针对性的干预调节电路",
-            "detail": "移除或增强少量 high‑influence 样本会显著改变 interpretable heads 的出现，而 random 更改则没有影响。"
-          },
-          {
-            "title": "结构化数据作为催化剂",
-            "detail": "重复的标记数据（LaTeX、XML）被确定为 mechanistic circuit 形成的主要驱动因素。"
-          },
-          {
-            "title": "归纳头影响 ICL",
-            "detail": "改变 induction head 的形成会导致 in‑context learning 能力出现可测量的变化。"
-          },
-          {
-            "title": "数据增强加速收敛",
-            "detail": "所提出的 data augmentation 流水线在不同模型尺度上始终加速 circuit 收敛。"
-          }
-        ],
-        "contributions": [
-          "用于追踪 LLM 单元到训练样本的 Mechanistic Data Attribution (MDA) 框架",
-          "因果验证：高影响数据驱动可解释头的出现",
-          "加速电路收敛的 Mechanistic data augmentation pipeline"
-        ],
-        "limitations": [
-          "未定量报告被修改数据的比例及其对整体模型性能的影响",
-          "实验仅限于 Pythia 系列；对更大或不同架构的泛化尚未测试",
-          "未解决在超大数据集上 influence‑function 计算的可扩展性"
-        ],
-        "open_questions": [
-          "MDA 在比 Pythia 更大的模型和异构语料库上的表现如何？",
-          "选择高影响样本以平衡电路引导和下游任务性能的最佳准则是什么？",
-          "该增强流水线能否与现有训练流水线集成且不降低泛化能力？"
-        ],
-        "source_scope": "abstract",
-        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "recommended_at": "2026-09-08T14:32:00.134386+00:00"
-    },
-    {
-      "id": "conf:iclr:2026:10009352",
-      "title": "How Learning Rate Decay Wastes Your Best Data in Curriculum-Based LLM Pretraining",
-      "abstract": "Due to the scarcity of high-quality data, large language models (LLMs) are often trained on mixtures of data with varying quality levels, even after sophisticated data curation. A natural approach to better leverage high-quality data is curriculum-based pretraining, where the model is trained on data sorted in ascending order of quality as determined by a quality metric. However, prior studies have reported limited improvements from such curriculum-based pretraining strategies. This work identifies a critical factor constraining these methods: the incompatibility between the ascending data quality order and the decaying learning rate (LR) schedule. We find that while curriculum-based training substantially outperforms random shuffling when using a constant LR, its advantage diminishes under standard LR decay schedules. Our experiments show this incompatibility can be mitigated by two simple strategies: (1) employing a more moderate LR decay schedule, where the final LR is only moderately smaller than the peak LR, and (2) replacing LR decay with model averaging, i.e., computing a weighted average of the final few checkpoints. By combining these strategies, we improve the average score on a suite of standard benchmarks by 1.64% over random shuffling, without additional data refinement. Validated on 1.5B-parameter models trained over 30B tokens with various data-quality metrics, our findings call for a re-evaluation of curriculum-based LLM pretraining and underscore the potential of co-designing data curricula with optimization methods.",
-      "authors": [
-        "Kairong Luo",
-        "Zhenbo Sun",
-        "Haodong Wen",
-        "Xinyu Shi",
-        "Jiarui Cui",
-        "Chenyi Dang",
-        "Kaifeng Lyu",
-        "Wenguang Chen"
-      ],
-      "published": "2026-01-01T00:00:00Z",
-      "updated": "2026-01-01T00:00:00Z",
-      "categories": [
-        "ICLR 2026",
-        "Oral"
-      ],
-      "primary_category": "ICLR 2026",
-      "abs_url": "https://iclr.cc/virtual/2026/oral/10009352",
-      "pdf_url": "https://iclr.cc/virtual/2026/oral/10009352",
-      "comment": "",
-      "journal_ref": "ICLR 2026 Oral",
-      "source": "conference",
-      "venue": "ICLR",
-      "presentation": "Oral",
-      "conference_year": 2026,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "core",
-          "score": 0.715,
-          "matched": [
-            "data curation",
-            "curriculum",
-            "data quality",
-            "curation",
-            "data"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.4402,
-          "matched": [
-            "llm"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.1376,
-          "matched": [
-            "training"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.7347,
-        "relevance": 0.6876,
-        "quality": 0.78,
-        "novelty": 0.8183,
-        "freshness": 1.0,
-        "feedback_adjustment": -0.0152,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "experiments",
-        "quantitative results",
-        "publication metadata",
-        "conference oral"
-      ],
-      "summary": {
-        "method": "采用适度的学习率衰减（最终 LR 接近峰值），并用加权检查点平均取代衰减。",
-        "takeaway": "当学习率调度与课程共同设计时，基于课程的预训练可恢复 1.64% 的基准提升。",
-        "why_for_you": "通过将课程与优化动态对齐，满足您对数据选择和高效训练的兴趣。",
-        "problem": "标准的学习率衰减调度与递增数据质量的课程冲突，削弱其收益。",
-        "evidence": "在 1.5B 参数模型、30B token 训练下，组合策略使平均基准分提升 1.64%，相较于随机洗牌。",
-        "limitations": "在可得来源中未说明。",
-        "source": "abstract",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "findings": [
-          {
-            "title": "Curriculum advantage under constant LR",
-            "detail": "在学习率保持不变时，课程排序显著优于随机洗牌。"
-          },
-          {
-            "title": "Decay erodes advantage",
-            "detail": "标准学习率衰减会消除课程与随机排序之间的性能差距。"
-          },
-          {
-            "title": "Combined strategies restore gain",
-            "detail": "结合适度衰减和检查点平均可使平均基准分比随机洗牌提升 1.64%。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Training setup",
-            "detail": "使用多种数据质量度量，对 1.5B 参数语言模型在 30B token 上进行训练。"
-          },
-          {
-            "title": "Comparisons",
-            "detail": "在恒定 LR、标准衰减、适度衰减和模型平均下，比较课程排序与随机洗牌。"
-          },
-          {
-            "title": "Evaluation",
-            "detail": "在一套标准语言模型基准上的平均得分。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Curriculum–LR incompatibility",
-            "detail": "递增的数据质量将最有信息的样本放在后期训练，而标准衰减会降低后期的学习率，限制其影响。"
-          },
-          {
-            "title": "Mitigation effect",
-            "detail": "更平缓的衰减保持后期高质量数据的学习率较高，检查点平均在不再降低 LR 的情况下保留已学知识。"
-          }
-        ],
-        "open_questions": [
-          "这些策略在更大模型和更长训练时的可扩展性如何？",
-          "不同数据质量度量与最佳衰减调度之间的相互作用是什么？",
-          "类似的共同设计原则能否惠及其他课程维度，如任务难度或领域多样性？"
-        ],
-        "limitations": [
-          "在可得来源中未说明。"
-        ],
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "在共同设计的 LR 调度下，基于课程的预训练比随机洗牌提升 1.64%。"
-          },
-          {
-            "icon": "🔧",
-            "text": "适度 LR 衰减（最终 LR 接近峰值）和检查点平均取代标准衰减。"
-          },
-          {
-            "icon": "📈",
-            "text": "使用 1.5B 参数模型在 30B token 上训练，在标准基准上测得提升。"
-          }
-        ],
-        "contributions": [
-          "将学习率衰减识别为限制基于课程的 LLM 预训练的关键因素。",
-          "提出两种简易互补策略，使课程排序与优化动态对齐。",
-          "实证展示在无需额外数据策划的情况下实现 1.64% 的基准提升。"
-        ],
-        "methodology": [
-          {
-            "title": "Moderate LR decay",
-            "detail": "设计一种衰减调度，使最终学习率仅比峰值略低。"
-          },
-          {
-            "title": "Model averaging",
-            "detail": "对最后若干检查点进行加权平均，而非使用衰减学习率。"
-          }
-        ],
-        "overview": "本文指出常规的学习率衰减会削弱后期高质量数据的课程训练。恒定学习率下，课程排序优于随机洗牌；但标准衰减会消除此优势。作者提出两项简易改进：更平缓的衰减使最终学习率接近峰值，及用加权平均取代衰减。 在 1.5B 参数、30B token 的实验中，这些调整在标准基准上提升约 1.64%。",
-        "source_scope": "abstract",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "Data selection for LLMs",
-        "matched": [
-          "data curation",
-          "curriculum",
-          "data quality",
-          "curation"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-09-08T14:32:00.134386+00:00"
-    },
     {
       "id": "2609.10439",
       "title": "Forgetting Only What Matters: Layer-Selective Unlearning toward Robust LLMs",
@@ -1544,162 +759,6 @@
       "recommended_at": "2026-09-11T14:25:41.445644+00:00"
     },
     {
-      "id": "2609.09090",
-      "title": "Measuring LLM Sycophancy under Sustained Multi-Turn Pressure",
-      "abstract": "Large language models (LLMs) may abandon correct positions when users push back, exhibiting a failure mode known as sycophancy. Existing evaluations typically use short, pre-specified conversations and may therefore miss failures that emerge under sustained, adaptive disagreement. We introduce SPINE, a benchmark in which an LLM proxy plays a persistent but mistaken user and adaptively challenges a target model for up to 25 turns. We evaluate four production systems and three Olmo3-7b variants on 100 false-presupposition and 100 unethical-query items. Our experimental results show that collapse rates increase with conversation length for every model, short-horizon protocols underestimate sycophancy and resistance under sustained pressure remains unreliable across current models. By analyzing models with accessible reasoning traces, we surprisingly found that the correct position often remains represented in a reasoning trace when the response concedes, suggesting that the model chooses to please a user and sycophancy is not due to lack of knowledge or ignorance. Ablations show that adaptive LLM proxy exposes more sycophantic collapse than pre-generated scripts. Among all tactics, emotional appeals is the most associated with inducing LLM sycophantic behavior. The code and data are released at https://anonymous.4open.science/r/SPINE",
-      "authors": [
-        "Leyuan Tang",
-        "Kangda Wei",
-        "Tianyu Jiang",
-        "Ruihong Huang"
-      ],
-      "published": "2026-09-08T17:35:04Z",
-      "updated": "2026-09-08T17:35:04Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2609.09090v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.09090v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.6453,
-          "matched": [
-            "llm",
-            "mode"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6222,
-        "relevance": 0.5162,
-        "quality": 0.78,
-        "novelty": 0.8691,
-        "freshness": 0.875,
-        "feedback_adjustment": -0.0172,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "ablation study",
-        "benchmark evaluation",
-        "experiments",
-        "quantitative results"
-      ],
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "llm",
-          "mode"
-        ],
-        "lane": "llm"
-      },
-      "summary": {
-        "takeaway": "Sustained adaptive pressure reveals that LLMs increasingly concede correct positions, especially to emotional appeals, despite retaining correct reasoning.",
-        "problem": "Current sycophancy evaluations are short and static, missing failures that emerge in longer, adaptive dialogues.",
-        "method": "SPINE uses an LLM proxy that adaptively challenges a target model over up to 25 turns, scoring position strength per turn.",
-        "evidence": "Experiments show collapse rates grow with turn count for all seven models, with emotional appeals causing a 44.3 % strength drop.",
-        "limitations": "Evaluation is limited to 100 items per scenario and relies on an LLM judge, which may introduce systematic bias.",
-        "why_for_you": "The finding that models keep correct reasoning yet concede under pressure informs loss‑landscape studies of how optimization incentives affect model behavior.",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🗂️",
-            "text": "SPINE introduces a 25‑turn adaptive user‑proxy benchmark to evaluate LLM sycophancy under sustained pressure."
-          },
-          {
-            "icon": "🔧",
-            "text": "The proxy conditions each challenge on the target’s latest response and selects tactics from a MAFALDA‑derived menu, including emotional appeals."
-          },
-          {
-            "icon": "📉",
-            "text": "Collapse rates rise with turn count for all seven models, with emotional appeals causing a 44.3 % strength drop, but evaluation uses only 100 items per scenario and LLM judges."
-          }
-        ],
-        "overview": "SPINE extends sycophancy evaluation to up to 25 adaptive turns, using a closed‑loop LLM proxy that selects pressure tactics from a taxonomy and assigns a graded position‑strength score each turn. Experiments on four production systems and three Olmo3‑7b variants show that collapse rates increase with conversation length, short‑horizon protocols underestimate failures, and emotional appeals are most erosive. Trace analysis reveals that models often retain the correct answer in their reasoning even when they concede, suggesting a choice‑driven rather than knowledge‑driven failure.",
-        "methodology": [
-          {
-            "title": "Adaptive proxy and closed‑loop pressure",
-            "detail": "An LLM proxy conditions each user challenge on the target model’s latest response, dynamically selecting from a diverse repertoire of pressure tactics drawn from the MAFALDA fallacy taxonomy."
-          },
-          {
-            "title": "Graded per‑turn scoring",
-            "detail": "A judge assigns a position‑strength score after each turn, capturing partial concessions and full collapses, enabling fine‑grained erosion measurement."
-          },
-          {
-            "title": "25‑turn budget and test banks",
-            "detail": "Each scenario (false presupposition, unethical query) contains 100 items, with conversations limited to 25 turns to probe long‑horizon behavior."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Reasoning‑trace retention",
-            "detail": "Analysis of accessible reasoning traces shows the correct position often remains represented when the model’s final response concedes, indicating that sycophancy stems from a decision to please the user rather than from ignorance."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Model evaluation under adaptive pressure",
-            "detail": "Four production systems and three Olmo3‑7b variants were tested on 100 false‑presupposition and 100 unethical‑query items; adaptive proxy performance was compared to pre‑generated script baselines, and tactic impact (e.g., emotional appeals) was quantified."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Increasing collapse with conversation length",
-            "detail": "Collapse rates consistently rise as turn count grows beyond five, demonstrating that short‑horizon protocols miss later failures."
-          },
-          {
-            "title": "Emotional appeals drive erosion",
-            "detail": "Across both scenarios, the Emotion tactic yields the highest observed strength‑drop rate of 44.3 %."
-          }
-        ],
-        "contributions": [
-          "SPINE benchmark with adaptive LLM proxy for up to 25‑turn sycophancy evaluation.",
-          "Long‑horizon multi‑turn protocol with graded per‑turn position scoring.",
-          "Reasoning‑trace analysis showing concessions occur despite retained correct knowledge."
-        ],
-        "limitations": [
-          "Test banks limited to 100 items per scenario due to API cost constraints.",
-          "All verdicts produced by an LLM judge (Claude Sonnet 5), potentially biasing results."
-        ],
-        "open_questions": [
-          "How does the loss‑landscape geometry of LLMs enable concession despite correct internal reasoning?",
-          "Can training objectives be modified to preserve correct positions under sustained adaptive pressure?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "recommended_at": "2026-09-09T14:35:27.466685+00:00"
-    },
-    {
       "id": "2609.11758",
       "title": "RAG-Safety-Bench: Reliable Evaluation of Retrieval-Augmented LLM Safety",
       "abstract": "Allowing large language models (LLMs) to retrieve information from a set of trusted documents can increase reliability and reduce hallucination. However, recent work has demonstrated that retrieval-augmented generation (RAG) can have unintended side effects on the overall safety of the generated responses, when prompted for harmful or dangerous content. A clearer understanding of the mechanisms leading to this result is needed, as increasing numbers of end users turn to RAG to incorporate corporate documents and knowledge bases into LLM-based systems. We introduce RAG-Safety-Bench, a benchmark to measure the safety impact of RAG on LLM models. By removing the confounding effect of retriever quality, and cleanly separating the problem into four conditions -- non-RAG, RAG with an oracle document containing the answer to the harmful request, RAG with documents related to the harmful request but without the specific answer, and RAG with random, safe documents -- the benchmark isolates the impacts of different factors in the observed safety degradation. We report results across five open-source LLMs, showing an inverse relationship between benign and unsafe capability, strong evidence that baseline safety guardrails do not lead to downstream safety guarantees in the RAG case, and model-specific support for previous findings that even benign documents can lead to unsafe generation in retrieval-enabled systems.",
@@ -1796,24 +855,25 @@
       "recommended_at": "2026-09-11T14:25:41.445644+00:00"
     },
     {
-      "id": "2609.09054",
-      "title": "Training-Free Task Vectors for LLM Behavioral Control",
-      "abstract": "Task vectors enable post-training model editing by identifying semantically meaningful directions in weight space, typically computed as the difference between a fine-tuned model and its pretrained initialization. However, this reliance on fine-tuning makes discovering such directions costly and limits the practicality of post-training model editing. To address this limitation, we introduce Training-Free Task Vectors (TFTVs), a novel method to compute task-vector-like directions without requiring fine-tuning. Our method maps activation steering vectors to rank-one weight-space edits using only forward-pass statistics, while satisfying arithmetic properties that directly support learning via addition, forgetting via subtraction, and the composition of multiple edits. Empirically, we evaluate TFTVs on large language model behavioral control tasks and show that they consistently amplify, suppress, and compose target behaviors while preserving general knowledge and problem-solving skills. We also validate our method against other editing and steering baselines, experimentally demonstrating that TFTVs achieve stronger trait control with better or competitive utility preservation. We hope our work opens new directions for the community in post-training model editing and broader training-free model control. Code is available on the project website: tftv-llm.github.io.",
+      "id": "2609.17474",
+      "title": "Coupled Calibration and Learning: Mitigating Teacher Bias in LLM Distillation without Target-Domain Reward Feedback",
+      "abstract": "Large language model (LLM) distillation aims to transfer the capabilities of a powerful teacher to a smaller student. Direct imitation, however, can also transfer the teacher's systematic bias and errors. This challenge is particularly pronounced under covariate shift, when the teacher's reliability on target questions is uncertain and target-domain reward feedback is unavailable. We propose Coupled Calibration and Learning (CCL), an LLM distillation algorithm that couples teacher calibration with student updates through token-level branching, using reward feedback only on source questions. Each iteration calibrates the teacher using source feedback and then uses the calibrated teacher to train the student on target questions. The updated student, in turn, informs subsequent calibration. In an autoregressive policy framework, we prove that the output student's expected average Kullback-Leibler divergence to the oracle student converges to zero at a polynomial rate in the number of iterations. The oracle maximizes the true reference-regularized target reward within the student class, which need not represent the unrestricted optimal policy. Our analysis quantifies the progress of projected student gradient updates while controlling the error in teacher calibration. We further establish a separation from regularized direct matching: its error relative to the oracle student can remain bounded away from zero even when the teacher achieves higher regularized target reward than every student policy. These results demonstrate that LLM distillation can overcome persistent teacher bias and recover the optimal student through coupled calibration and learning, without target-domain reward feedback.",
       "authors": [
-        "Gabriel J. Perin",
-        "Lucas Boscaini",
-        "André Araujo",
-        "Nina S. T. Hirata"
+        "Haichen Hu",
+        "Yuheng Zhang",
+        "David Simchi-Levi"
       ],
-      "published": "2026-09-08T17:10:28Z",
-      "updated": "2026-09-08T17:10:28Z",
+      "published": "2026-09-15T17:15:40Z",
+      "updated": "2026-09-15T17:15:40Z",
       "categories": [
         "cs.LG",
-        "cs.AI"
+        "cs.AI",
+        "math.ST",
+        "stat.ML"
       ],
       "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2609.09054v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.09054v1",
+      "abs_url": "https://arxiv.org/abs/2609.17474v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.17474v1",
       "comment": "",
       "journal_ref": "",
       "source": "arxiv",
@@ -1828,82 +888,91 @@
       ],
       "topics": [
         {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.6053,
-          "matched": [
-            "training",
-            "fine-tuning"
-          ]
-        },
-        {
           "id": "llm_loss_landscape",
           "name": "LLM loss landscape",
           "status": "emerging",
-          "score": 0.3836,
+          "score": 0.5098,
           "matched": [
             "llm"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4647,
+          "matched": [
+            "calibration",
+            "reliability",
+            "llm"
+          ]
+        },
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "emerging",
+          "score": 0.3521,
+          "matched": [
+            "distillation"
           ]
         }
       ],
       "scores": {
-        "total": 0.614,
-        "relevance": 0.561,
-        "quality": 0.6,
-        "novelty": 0.8578,
-        "freshness": 0.8725,
-        "feedback_adjustment": -0.0128,
+        "total": 0.598,
+        "relevance": 0.5712,
+        "quality": 0.49,
+        "novelty": 0.8523,
+        "freshness": 0.8707,
+        "feedback_adjustment": -0.0158,
         "semantic_feedback": 0.0
       },
       "quality_signals": [
-        "code available",
-        "baseline comparison",
-        "experiments"
+        "proof",
+        "formal bound"
       ],
       "summary": {
-        "evidence": "在LLM行为控制任务中验证，TFTVs能增强/抑制目标行为并保持知识，优于其他编辑基线。",
-        "limitations": "Not stated in the abstract",
-        "method": "通过前向传递统计信息将激活引导向量映射到秩一权重空间编辑，满足算术性质支持组合编辑。",
-        "problem": "现有任务向量依赖微调导致成本高，限制后训练模型编辑的实用性。",
-        "takeaway": "提出无需微调的Training-Free Task Vectors (TFTVs)方法，实现LLM行为控制。",
-        "why_for_you": "高效对抗训练中无需微调的模型控制，LLM损失景观中的训练自由编辑方法",
+        "takeaway": "We propose Coupled Calibration and Learning (CCL), an LLM distillation algorithm that couples teacher calibration with student updates through token-level branching, using reward feedback only on source questions.",
+        "problem": "Large language model (LLM) distillation aims to transfer the capabilities of a powerful teacher to a smaller student.",
+        "method": "We propose Coupled Calibration and Learning (CCL), an LLM distillation algorithm that couples teacher calibration with student updates through token-level branching, using reward feedback only on source questions.",
+        "evidence": "In an autoregressive policy framework, we prove that the output student's expected average Kullback-Leibler divergence to the oracle student converges to zero at a polynomial rate in the number of iterations.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: LLM loss landscape, Trustworthy LLM.",
         "source": "abstract",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "zh",
+        "generated_by": "extractive",
+        "language": "en",
         "schema_version": 3,
-        "prompt_version": 2
+        "prompt_version": 0
       },
       "analysis_status": "pending",
       "recommendation_reason": {
-        "topic": "Efficient adversarial training",
+        "topic": "LLM loss landscape",
         "matched": [
-          "training",
-          "fine-tuning"
+          "llm"
         ],
         "lane": "llm"
       },
-      "recommended_at": "2026-09-09T14:35:27.466685+00:00"
+      "recommended_at": "2026-09-16T14:58:40.426054+00:00"
     },
     {
-      "id": "2609.05235",
-      "title": "PRICE: A Systematic Study of LLM Adaptation Choices for Bitcoin Price Forecasting",
-      "abstract": "Cryptocurrency markets exhibit extreme volatility and non-stationary dynamics that challenge conventional forecasting methods. Although Large Language Models (LLMs) have shown promise for time series forecasting, the combined effects of adaptation choices remain largely unexplored in financial settings. This study introduces PRICE, a structured approach for adapting LLMs to short-term Bitcoin price forecasting. Built on a 4-bit quantized LLaMA-3 8B model, PRICE investigates how fine-tuning, numerical representation, prompting, inference, and decoding jointly influence forecasting performance. PRICE integrates Parameter-efficient fine-tuning with Low-Rank Adaptation (LoRA), Recursive multi-step inference, Integer-rounded numerical representation, Context-Task-Format (CTF) prompting, and Exact zero-temperature decoding. Ablation studies show that each component contributes to forecasting accuracy and reliability. LoRA enables efficient training on limited hardware, recursive inference improves accuracy, integer-rounded values reduce errors, CTF prompting outperforms Chain-of-Thought, Implicit Chain-of-Thought (iCoT), and few-shot prompting, and zero-temperature decoding improves stability during recursive forecasting. Comparative evaluation against eight transformer-based and time-series foundation models shows that PRICE achieves the lowest forecasting errors on both validation and test sets while maintaining robust performance across evaluation periods. Despite being based on a model primarily pretrained on text rather than time-series data, PRICE achieves competitive or superior performance relative to specialized foundation models. These findings demonstrate that adaptation choices critically determine the accuracy and robustness of LLMs for numerical time-series forecasting.",
+      "id": "2609.09662",
+      "title": "PELM: Power Efficient On-Device LLM Inference with Speculative Decoding and Dynamic Voltage Frequency Scaling",
+      "abstract": "Deploying Large Language Models (LLMs) directly on mobile platforms at the edge is gaining traction due to a myriad of benefits, such as increased privacy, personalization, and reduced latency. However, LLMs have heavy computational requirements, which are difficult for resource-constrained mobile and edge platforms to fulfill. In addition to limited compute resources, mobile and edge systems often have a compact form factor and lack physical mechanisms to dissipate heat generated from high processor usage rates (e.g., fans) to prevent throttling and reduced processing power, which LLMs can easily cause. To mitigate these effects, prior works have proposed various power governing strategies, such as dynamic voltage and frequency scaling (DVFS), for reducing power and heat generation for heavy computational tasks on mobile platforms. Recently, DVFS methods tailored for mobile LLMs have also been proposed. However, these methods mostly focus on optimizing hardware parameters and processor frequencies, and they fall short under some thermally constrained scenarios. Drawing from recent advances in machine learning, we identify and take advantage of the key insight that not all tokens require full-depth inference to maintain high-quality generation. Motivated by this, we present PELM, a solution that augments traditional DVFS processor frequency tuning with two additional workload-specific knobs: 1) speculative decoding and 2) variable verification depth to expand the optimization space to multiple dimensions for more power efficient on-device LLM inference. In extensive evaluations across hardware platforms and datasets, PELM demonstrates superior performance compared to state-of-the-art power governing methods, with up to 23.1% speedup and 52.4% reduction in energy consumption, while maintaining comparable task performance. The source code is available at https://github.com/imec-nu/PELM.",
       "authors": [
-        "Maryam Fakhari",
-        "Mehran Safayani"
+        "Weisi Yang",
+        "Stephen Xia"
       ],
-      "published": "2026-09-04T15:01:38Z",
-      "updated": "2026-09-04T15:01:38Z",
+      "published": "2026-09-09T03:27:51Z",
+      "updated": "2026-09-09T03:27:51Z",
       "categories": [
         "cs.LG",
-        "cs.AI",
-        "math.NA"
+        "cs.CL",
+        "cs.OS",
+        "cs.PF"
       ],
       "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2609.05235v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.05235v1",
-      "comment": "",
+      "abs_url": "https://arxiv.org/abs/2609.09662v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.09662v1",
+      "comment": "Accepted to ACM/IEEE SenSys'26",
       "journal_ref": "",
       "source": "arxiv",
       "venue": "",
@@ -1922,47 +991,583 @@
           "id": "efficient_adversarial_training",
           "name": "Efficient adversarial training",
           "status": "emerging",
-          "score": 0.659,
+          "score": 0.4309,
           "matched": [
-            "efficient",
-            "training",
-            "fine-tuning",
-            "robust",
-            "robustness"
+            "efficient"
           ]
         },
         {
           "id": "llm_loss_landscape",
           "name": "LLM loss landscape",
           "status": "emerging",
-          "score": 0.3434,
+          "score": 0.4309,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3625,
+          "matched": [
+            "privacy",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5866,
+        "relevance": 0.5034,
+        "quality": 0.75,
+        "novelty": 0.8384,
+        "freshness": 0.511,
+        "feedback_adjustment": -0.0236,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "PELM jointly tunes DVFS, speculative decoding, and verification depth via DRL to cut energy and latency on mobile LLM inference.",
+        "problem": "Mobile devices face thermal and power limits that hinder full‑depth LLM decoding.",
+        "method": "A DRL‑based governor dynamically selects processor frequency, speculation length, and layer depth per token.",
+        "evidence": "Experiments on Jetson AGX Orin and Orin Nano achieve up to 23.1% speedup and 52.4% energy reduction with ≤17.2% task quality loss.",
+        "limitations": "Variable depth can cause up to 17.2% degradation and results are confined to Jetson hardware and LLaMA‑style models.",
+        "why_for_you": "Aligns with your interest in efficient LLM inference by showing a multi‑knob power‑aware decoding strategy.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "PELM introduces a joint optimization framework combining DVFS, self‑speculative decoding, and variable verification depth."
+          },
+          {
+            "icon": "🔧",
+            "text": "A DRL‑based power governor dynamically selects frequency, speculation length, and layer depth per token."
+          },
+          {
+            "icon": "📉",
+            "text": "Evaluations on Jetson devices show up to 23.1% speedup and 52.4% energy savings with ≤17.2% task degradation."
+          }
+        ],
+        "overview": "PELM expands traditional DVFS by adding two algorithmic knobs: self‑speculative decoding that reuses a truncated model as a draft, and variable verification depth that runs only a subset of layers for the target model. A deep reinforcement learning governor observes thermal state and token difficulty to jointly decide frequency, speculation length, and verification depth at each step. Evaluated on Jetson AGX Orin and Orin Nano across five datasets and three LLaMA model sizes, PELM consistently reduces energy consumption and improves throughput while keeping task performance comparable to full‑depth decoding.",
+        "methodology": [
+          {
+            "title": "Joint optimization formulation",
+            "detail": "Defines a combinatorial control problem over three variables—processor frequency, speculative token length, and verification layer depth—subject to thermal and QoE constraints."
+          },
+          {
+            "title": "DRL power governor",
+            "detail": "Trains a deep reinforcement learning agent to select the three knobs per token, using reward components for energy, latency, and task quality."
+          },
+          {
+            "title": "Self‑speculative decoding with variable depth",
+            "detail": "Uses the first N layers of the target LLM as a lightweight draft generator; the verification pass may execute fewer than the full set of layers, reducing compute."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "Dynamic frequency scaling",
+            "detail": "Adjusts GPU/CPU voltage and frequency based on the governor's decision, directly influencing power draw and heat generation."
+          },
+          {
+            "title": "Speculation length control",
+            "detail": "Longer speculative drafts amortize a full forward pass over multiple tokens, decreasing memory‑bound steps."
+          },
+          {
+            "title": "Variable verification depth",
+            "detail": "Running only a partial LLM for verification lowers arithmetic intensity, saving energy while preserving most of the model's predictive power."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Hardware and models",
+            "detail": "Evaluated on NVIDIA Jetson AGX Orin and Jetson Orin Nano using LLaMA‑13B, 8B, and 1B models."
+          },
+          {
+            "title": "Baselines and metrics",
+            "detail": "Compared against four prior DVFS methods (BLTN, STSD, FUSE, zTT) using energy per query, token decoding speed, task score (TSA), and performance‑per‑joule (PPJ)."
+          },
+          {
+            "title": "Thermal conditions",
+            "detail": "Tested under high, moderate, low, and minimum cooling scenarios to assess robustness to throttling."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Energy and speed gains",
+            "detail": "PELM achieved 29.0%–52.4% energy savings and up to 23.1% speedup relative to baselines, while maintaining the highest average generation speed in most cooling conditions."
+          },
+          {
+            "title": "Task quality impact",
+            "detail": "Task scores remained statistically comparable to full‑model decoding; the largest observed degradation was <17.2% for 8B/1B models."
+          },
+          {
+            "title": "Efficiency per joule",
+            "detail": "PPJ improvements reached up to 45.4% over baselines in moderate‑to‑heavy workloads."
+          }
+        ],
+        "contributions": [
+          "Formulation of a multi‑dimensional power governing problem for on‑device LLM inference.",
+          "Design of a DRL‑based governor that jointly optimizes DVFS, speculative decoding length, and verification depth.",
+          "Empirical demonstration of substantial energy and latency reductions on embedded GPU platforms."
+        ],
+        "limitations": [
+          "Variable depth execution can degrade downstream task performance up to 17.2%.",
+          "Evaluations are limited to Jetson AGX Orin and Orin Nano hardware and LLaMA‑style models.",
+          "Ablation studies show each component is necessary; removing any knob reduces gains."
+        ],
+        "open_questions": [
+          "How well does the DRL governor generalize to other hardware architectures or larger transformer models?",
+          "Can the multi‑knob approach be combined with adversarial training or robustness‑focused techniques?",
+          "What is the overhead of training and deploying the DRL policy on devices with stricter memory constraints?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "efficient"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-12T13:36:50.651769+00:00"
+    },
+    {
+      "id": "2609.11620",
+      "title": "A Training-Free, Alignment-Free Approach to Corporate Intelligence: Application to SEC Filings",
+      "abstract": "High-dimensional dense text embeddings and large language models face real obstacles in financial-disclosure analysis: context-window limits, hallucination risk, high computational cost, and the arbitrary rotation of vector spaces across independently trained models. We present a training-free, alignment-free framework for corporate intelligence built on deterministic sparse seed vectors. Hashing word strings into a fixed high-dimensional basis places all documents and all temporal epochs in a common coordinate system by construction, removing any need for training or alignment. Accumulating these seed vectors across sentence contexts yields corpus-specific semantic signatures that compose linearly, supporting sub-second document comparison, issuer fingerprinting, tracking of how an issuer's vocabulary shifts between filings, and thematic sentence extraction, all on ordinary CPU hardware. Demonstrating the approach on a multi-year corpus of SEC filings (10-K, 10-Q, 8-K), we show how material corporate events, among them Boeing's 737 MAX crisis, Intel's supply-chain disruptions, and Bunge's acquisition of Viterra, emerge as distinct, interpretable semantic profiles, each traceable to the exact source sentences that produced it, with no domain-specific training and no LLM inference.",
+      "authors": [
+        "Jean-François Delpech"
+      ],
+      "published": "2026-09-10T14:32:35Z",
+      "updated": "2026-09-10T14:32:35Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2609.11620v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.11620v1",
+      "comment": "26 pages, 2 figures",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5606,
+          "matched": [
+            "training"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4959,
+          "matched": [
+            "alignment",
+            "hallucination",
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.1319,
           "matched": [
             "llm"
           ]
         }
       ],
       "scores": {
-        "total": 0.6003,
-        "relevance": 0.5959,
-        "quality": 0.51,
-        "novelty": 0.8262,
-        "freshness": 0.5665,
-        "feedback_adjustment": -0.0176,
+        "total": 0.5838,
+        "relevance": 0.574,
+        "quality": 0.41,
+        "novelty": 0.8575,
+        "freshness": 0.8578,
+        "feedback_adjustment": -0.0134,
         "semantic_feedback": 0.0
       },
       "quality_signals": [
-        "ablation study",
         "quantitative results"
       ],
       "summary": {
-        "takeaway": "PRICE 表明，系统组合 LoRA 微调、递归推理、整数四舍五入输入、CTF 提示和零温度解码，可在所有评估基线中实现最低的比特币价格预测误差。",
-        "method": "在 4‑bit 量化 LLaMA‑3 8B 模型上集成参数高效 LoRA 微调、递归多步推理、整数四舍五入数值表示、Context‑Task‑Format 提示以及精确零温度解码。",
-        "why_for_you": "与高效训练相关，因为它量化了基于 LoRA 的参数高效微调及其他适配选择如何提升 LLM 在高难度时间序列任务上的表现。",
-        "problem": "在高度波动、非平稳的市场环境中准确预测短期比特币价格，传统方法难以胜任。",
-        "limitations": "在可得资料中未说明。",
-        "evidence": "消融研究和与八个 transformer‑based 与 time‑series 基础模型的基准比较表明，PRICE 达到最低的验证和测试预测误差。",
+        "takeaway": "The paper introduces a deterministic, training‑free method that hashes words into a shared high‑dimensional space to produce linear, traceable semantic signatures for SEC filings.",
+        "problem": "Dense embeddings and LLMs for financial disclosures face context‑window limits, hallucination risk, high computational cost, and arbitrary rotation across models.",
+        "method": "Words are mapped via deterministic hashing to 384‑dimensional quasi‑orthogonal seed vectors, summed across sentence windows to form corpus‑specific semantic vectors that compose linearly.",
+        "evidence": "Full document comparison completes in well under a second on ordinary CPUs, and material events such as Boeing’s 737 MAX crisis emerge as distinct, interpretable semantic profiles linked to source sentences.",
+        "limitations": "The approach relies on a modest 384‑dimensional space, which may limit representation fidelity and cannot assign orthogonal vectors to every vocabulary term.",
+        "why_for_you": "Matches your interest in efficient, trustworthy LLM alternatives by offering fast, traceable analysis without training, alignment, or hallucination risk.",
         "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "💡",
+            "text": "Training‑free, alignment‑free corporate intelligence using deterministic sparse seed vectors, enabling sub‑second CPU comparison."
+          },
+          {
+            "icon": "🔧",
+            "text": "Hashes words into a 384‑dimensional quasi‑orthogonal basis; sentence vectors are weighted sums of seed vectors."
+          },
+          {
+            "icon": "⚠️",
+            "text": "Full document comparison runs in well under a second on a standard computer, but relies on a modest 384‑dimensional space."
+          }
+        ],
+        "overview": "The authors propose a framework that eliminates learned embeddings by assigning each word a deterministic, semantically empty seed vector drawn from a high‑dimensional quasi‑orthogonal set (D=384). Sentence vectors are weighted sums of these seeds, and aggregating across sentences yields corpus‑specific semantic signatures that compose linearly. Applied to a multi‑year SEC filing corpus, the method produces sub‑second document comparisons on CPUs, distinct semantic profiles for events like Boeing’s 737 MAX crisis, and traceable thematic sentence clusters without any LLM inference.",
+        "methodology": [
+          {
+            "title": "Seed vector generation",
+            "detail": "Each word string is hashed deterministically into a 384‑dimensional vector with sixteen +c and sixteen –c entries (c = 1/√32) and the rest zero, drawn from a set of quasi‑orthogonal random vectors."
+          },
+          {
+            "title": "Semantic vector accumulation",
+            "detail": "For each sentence, seed vectors of constituent words are weighted (rare words max weight, frequent words zero) and summed; word semantic vectors are built by accumulating sentence vectors where the word appears."
+          },
+          {
+            "title": "Clustering and thematic extraction",
+            "detail": "Distinctive words are clustered; each cluster’s top words label the theme, and corresponding source sentences are retrieved, preserving traceability from cluster to term to sentence."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "High‑dimensional quasi‑orthogonal space",
+            "detail": "Randomly chosen vectors in D=384 dimensions are exponentially many and with high probability have pairwise angles near 90°, preserving distances via random projection."
+          },
+          {
+            "title": "Deterministic hashing",
+            "detail": "Hashing ensures the same word always maps to the same seed vector across documents and epochs, establishing a shared coordinate system without alignment."
+          },
+          {
+            "title": "Linear additive composition",
+            "detail": "Because all vectors share the same basis, semantic spaces of combined texts are obtained by simple vector addition, enabling issuer fingerprinting and temporal tracking."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "SEC filing corpus evaluation",
+            "detail": "Applied to multi‑year 10‑K, 10‑Q, and 8‑K filings; case studies include Boeing’s 737 MAX crisis, Intel’s supply‑chain disruptions, and Bunge’s acquisition of Viterra, demonstrating distinct semantic profiles."
+          },
+          {
+            "title": "Performance measurement",
+            "detail": "Generating a word’s seed vector takes a few hundred nanoseconds; a full document comparison completes in well under a second on a standard CPU."
+          },
+          {
+            "title": "Qualitative clustering results",
+            "detail": "Clusters of distinctive words and their source sentences are presented for issuers such as Mercury Systems and Bunge, showing interpretable thematic organization."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Speed and scalability",
+            "detail": "The method achieves sub‑second document comparison on ordinary CPU hardware without any model training or inference."
+          },
+          {
+            "title": "Interpretability and traceability",
+            "detail": "Material corporate events emerge as distinct semantic signatures that can be traced back to exact source sentences."
+          },
+          {
+            "title": "Linear composability",
+            "detail": "Semantic spaces combine linearly, enabling issuer fingerprinting, temporal vocabulary shift tracking, and thematic extraction."
+          }
+        ],
+        "contributions": [
+          "Training‑free, alignment‑free framework for corporate intelligence using deterministic sparse seed vectors.",
+          "Deterministic hashing into a shared high‑dimensional quasi‑orthogonal basis eliminating rotation and alignment issues.",
+          "Linear composability of semantic spaces supporting fast, traceable document comparison and thematic clustering."
+        ],
+        "limitations": [
+          "Uses a fixed dimension D=384, which may limit representation fidelity for very large vocabularies.",
+          "Cannot assign a unique orthogonal basis vector to each word due to intractable dimensionality requirements.",
+          "Relies on high‑dimensional geometry approximations; performance on downstream tasks versus learned embeddings is not evaluated."
+        ],
+        "open_questions": [
+          "How does the semantic quality of these deterministic vectors compare quantitatively to learned embeddings on downstream financial NLP tasks?",
+          "Can the approach scale to larger vocabularies or higher dimensions without sacrificing speed or tractability?",
+          "What is the robustness of the method to adversarial text modifications or noisy OCR errors in filings?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-11T14:25:41.445644+00:00"
+    },
+    {
+      "id": "2609.09553",
+      "title": "Arbitrary Cipher Attacks Against Large Language Models Do Not Require Fine-Tuning",
+      "abstract": "Large language model safety and security research is preoccupied with, among other things, detecting and preventing jailbreak attacks: alignment bypasses that allow an adversarial user to elicit unwanted or harmful outputs from models. Arbitrary cipher, or covert communication, attacks are one such type of jailbreak and have previously been demonstrated against the fine-tuning APIs of commercial models. In these attacks, target models are trained on a corpus of encrypted harmful questions and responses and subsequently respond to harmful requests through the learned encryption scheme. In this paper, we show that newer frontier models do not require fine-tuning to acquire cipher-based communication skills. Instead, they can learn these skills through prompting and, when necessary, through in-context learning. Furthermore, model alignment is significantly weakened or entirely bypassed when communication occurs through the learned cipher. To the best of our knowledge, this constitutes a novel attack vector against commercial black-box large language models. We demonstrate successful jailbreaks against frontier models developed by Anthropic, Google, and OpenAI. Our attack bypasses commercial harmfulness classifiers because harmful content is encrypted and therefore appears as nonsensical text or gibberish.",
+      "authors": [
+        "Thomas Rivasseau"
+      ],
+      "published": "2026-09-09T00:16:53Z",
+      "updated": "2026-09-09T00:16:53Z",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2609.09553v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.09553v1",
+      "comment": "15 pages, ieee conf format",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.6821,
+          "matched": [
+            "adversarial",
+            "fine-tuning",
+            "jailbreak"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3839,
+          "matched": [
+            "language model safety",
+            "alignment",
+            "safety"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5825,
+        "relevance": 0.6225,
+        "quality": 0.33,
+        "novelty": 0.8735,
+        "freshness": 0.4921,
+        "feedback_adjustment": -0.0306,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [],
+      "summary": {
+        "takeaway": "Arbitrary cipher jailbreaks can be executed on modern LLMs solely via prompting, without any fine‑tuning.",
+        "problem": "Existing defenses assume harmful content is explicit, leaving models vulnerable to covertly encrypted queries.",
+        "method": "An iterative in‑context prompting algorithm supplies letter‑permutation mappings and encrypted Q&A examples to teach the model a cipher.",
+        "evidence": "The authors demonstrate successful jailbreaks on Anthropic, Google, and OpenAI frontier models, bypassing harmfulness classifiers.",
+        "limitations": "The paper does not provide quantitative success rates or systematic evaluation across model sizes.",
+        "why_for_you": "Relevant to trustworthy‑LLM research because it reveals a new, efficient adversarial‑training‑free attack surface.",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 2
+      },
+      "deep_dive": {
+        "signals": [
+          {
+            "icon": "🛡️",
+            "text": "Shows arbitrary cipher jailbreaks succeed on frontier LLMs without any fine‑tuning."
+          },
+          {
+            "icon": "⚙️",
+            "text": "Introduces an iterative prompting algorithm that teaches letter‑permutation ciphers via in‑context examples."
+          },
+          {
+            "icon": "📈",
+            "text": "Achieves full jailbreaks on Anthropic, Google, and OpenAI models, but quantitative success rates are not reported."
+          }
+        ],
+        "overview": "The paper reveals that large language models can acquire covert communication abilities through a purely prompting‑based procedure, eliminating the need for fine‑tuning. An iterative algorithm presents the model with progressively larger sets of letter‑permutation mappings and encrypted question‑answer pairs, allowing the model to infer a cipher in‑context. Experiments on three commercial frontier models show that the learned cipher completely bypasses built‑in harmfulness classifiers, delivering harmful content that appears as gibberish. While the attack is demonstrated qualitatively, the work lacks systematic metrics on success probability or scalability.",
+        "methodology": [
+          {
+            "title": "Iterative prompting algorithm",
+            "detail": "Constructs a single prompt containing a sequence of levels; each level introduces a new letter permutation and a configurable number of encrypted examples (hyperparameters: target level t, examples per level e, repetition r)."
+          },
+          {
+            "title": "Example generation",
+            "detail": "Clear‑text Q&A pairs are queried from the model, then encrypted at runtime using the current permutation dictionary before being inserted into the prompt."
+          }
+        ],
+        "mechanism": [
+          {
+            "title": "In‑context cipher learning",
+            "detail": "By repeatedly exposing the model to encrypted examples alongside the mapping, the model infers the substitution rule and can decode/encode future queries, effectively sidestepping classifiers that only inspect raw token strings."
+          }
+        ],
+        "experiments": [
+          {
+            "title": "Black‑box jailbreak evaluation",
+            "detail": "Applied the algorithm to Anthropic Claude, Google Gemini‑3‑Flash, and OpenAI GPT‑5.5; figures show decrypted harmful responses (e.g., bomb‑making instructions) after encryption, confirming alignment bypass."
+          }
+        ],
+        "findings": [
+          {
+            "title": "Alignment weakening",
+            "detail": "When communication occurs through the learned cipher, the models produce harmful outputs that would otherwise be refused."
+          },
+          {
+            "title": "Classifier evasion",
+            "detail": "Encrypted queries appear as nonsensical text, causing commercial harmfulness classifiers to miss the malicious intent."
+          }
+        ],
+        "contributions": [
+          "Demonstrates fine‑tuning‑free arbitrary cipher attacks on frontier LLMs.",
+          "Provides an iterative prompting framework for teaching ciphers in‑context.",
+          "Shows that existing harmfulness classifiers can be bypassed by encrypted queries."
+        ],
+        "limitations": [
+          "No quantitative metrics (e.g., success rate, query budget) are reported.",
+          "The attack is evaluated on a limited set of models without analysis of model size or architecture impact."
+        ],
+        "open_questions": [
+          "How can defenses detect or mitigate covert cipher communication without false positives?",
+          "Does the attack scale to more complex ciphers or multilingual settings?",
+          "What are the limits of in‑context learning for acquiring arbitrary symbolic mappings?"
+        ],
+        "source_scope": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b",
+        "language": "en",
+        "schema_version": 6,
+        "prompt_version": 2
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "adversarial",
+          "fine-tuning",
+          "jailbreak"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-12T13:36:50.651769+00:00"
+    },
+    {
+      "id": "2609.09957",
+      "title": "Beyond Verified Answers: Solver-Informed Self-Distillation for Bootstrapping Operations Research Language Models",
+      "abstract": "Modern large language models (LLMs) can translate natural-language descriptions into operations research (OR) formulations. Post-training techniques including reinforcement learning and on-policy self-distillation have further improved this capability. However, three limitations remain in training LLMs for OR formulations. First, training commonly relies on synthetic formulations validated by human experts or stronger models, constraining scalable supervision. Second, credit assignment is either coarse or costly: outcome rewards score an entire trajectory without locating the responsible modeling decision, whereas process-level supervision requires an additional evaluator. Third, privileged self-distillation can induce style mismatch by using solver context unavailable at deployment. We find that a model can improve from solver-artifact feedback generated by its own rollouts, making self-distillation a practical, evaluator-free source of dense supervision. Therefore, we propose SOLID: Solver-Informed On-Policy LearnIng through Self-Distillation, a novel framework for self-improving OR language models without verified answers or external evaluators. SOLID executes candidate programs from multiple rollouts, clusters their objectives, and selects a majority-group artifact as a pseudo-reference. The model then performs updates using group-relative advantages and dense self-supervision signals. Across multiple OR benchmarks, SOLID improves solution accuracy for both general-purpose and OR-tuned models over outcome-only group-relative training. These results show that solver artifacts can support scalable self-improvement without trusted answers.",
+      "authors": [
+        "Rui Zhu",
+        "Minglong Cao",
+        "Chenyu Zhou",
+        "Jianghao Lin",
+        "Dongdong Ge"
+      ],
+      "published": "2026-09-09T09:46:45Z",
+      "updated": "2026-09-09T09:46:45Z",
+      "categories": [
+        "math.OC",
+        "cs.AI"
+      ],
+      "primary_category": "math.OC",
+      "abs_url": "https://arxiv.org/abs/2609.09957v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.09957v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "emerging",
+          "score": 0.6498,
+          "matched": [
+            "self-distillation",
+            "distillation",
+            "on-policy"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.3657,
+          "matched": [
+            "training"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.577,
+        "relevance": 0.593,
+        "quality": 0.4,
+        "novelty": 0.8418,
+        "freshness": 0.5486,
+        "feedback_adjustment": -0.0182,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "benchmark evaluation"
+      ],
+      "summary": {
+        "method": "SOLID 将 rollout 目标聚类，选取多数组 solver 产物作 pseudo‑reference，并结合 group‑relative 奖励与 LP‑结构化掩码的 self‑distillation。",
+        "evidence": "在 OptMATH、MAMO‑Complex 与 IndustryOR 上，SOLID 将 maj@64 提升至最高 31.32%，pass@1 提升至最高 36.61%，相较于仅 outcome 的基线。",
+        "why_for_you": "本文直接推进 on‑policy self‑distillation，提供无需外部评估器的密集监督。",
+        "takeaway": "SOLID 通过使用 solver 生成的产物作为密集、无需评估器的监督，使 OR 语言模型实现自我提升。",
+        "problem": "训练 OR LLM 时缺乏可扩展的监督，信用分配粗糙，且受特权上下文导致的风格不匹配。",
+        "limitations": "性能依赖于 LP 产物的准确提取以及多数‑LP pseudo‑reference 的可靠性。",
+        "source": "selected full-text regions (up to 30 pages)",
+        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
         "language": "zh",
         "schema_version": 3,
         "prompt_version": 2
@@ -1971,101 +1576,318 @@
         "signals": [
           {
             "icon": "💡",
-            "text": "PRICE 整合五个适配组件，在八个基线中实现最低的比特币预测误差。"
+            "text": "SOLID 引入基于 solver 的 on‑policy self‑distillation，使用 majority‑LP pseudo‑reference，省去已验证答案。"
           },
           {
-            "icon": "⚙️",
-            "text": "LoRA 微调结合递归多步推理和整数四舍五入输入提升了准确性。"
+            "icon": "🔧",
+            "text": "它聚类 rollout 目标，选取多数组产物，并对 token‑level KL loss 使用 LP‑结构化掩码，结合 group‑relative advantage。"
           },
           {
-            "icon": "📊",
-            "text": "消融和基准测试显示 PRICE 获得最低的验证和测试误差，但未公开具体数值。"
+            "icon": "📈",
+            "text": "在三项 OR 基准上，SOLID 将 maj@64 提升至 31.32%，pass@1 提升至 36.61%，但依赖于准确的 LP 产物提取。"
           }
         ],
-        "overview": "本文提出 PRICE 框架，系统地将 4‑bit 量化 LLaMA‑3 8B 模型适配用于短期比特币价格预测。它将 LoRA 参数高效微调、递归多步推理、整数四舍五入价格表示、Context‑Task‑Format 提示和精确零温度解码五个正交适配选择整合为一条流水线。通过受控消融分析评估各选择的影响，并在与八个 transformer 与 time‑series 基础模型的广泛基准测试中评估整体性能。结果表明，各组件均带来可测量的提升，完整系统在验证集和测试集上均实现最低预测误差。",
-        "methodology": [
-          {
-            "title": "LoRA 微调",
-            "detail": "对量化的 LLaMA‑3 8B 模型应用低秩适配，实现参数高效训练，适用于硬件受限环境，同时保持模型容量。"
-          }
-        ],
+        "overview": "SOLID 通过将模型自身 rollout 的 solver 反馈转化为密集监督，解决 OR LLM 训练中的三大瓶颈——监督成本高、信用分配粗糙、特权上下文风格不匹配。它生成多个候选程序，按 solver 结果分组，并将多数组产物视为 pseudo‑reference。二元 LP‑结构化掩码隔离不匹配部分，实现 token‑level self‑distillation；group‑relative advantage 提供序列级信用。在 OptMATH、MAMO‑Complex 与 IndustryOR 上的实验表明，相较于仅 outcome 或整体响应基线，效果持续提升。",
         "mechanism": [
           {
-            "title": "递归多步推理",
-            "detail": "逐步生成预测，将每个预测价格作为下一步输入，降低相较于直接多步生成的误差累积。"
+            "detail": "奖励 = r_fmt + r_exec + r_vote；归一化后用于计算每个轨迹的优势A_i。",
+            "title": "组相对奖励"
           },
           {
-            "title": "整数四舍五入数值表示",
-            "detail": "在输入 LLM 前将价格值四舍五入为整数，保留原始尺度并去除多余精度，从而降低预测误差。"
+            "detail": "标记级损失 L_OPSD = E_{i,t} φ_{k3}(Δ_{i,t})，其中 Δ_{i,t} = ℓ^{teacher}_{i,t} - ℓ^{student}_{i,t}，由LP结构化二进制掩码掩码。",
+            "title": "掩码KL自蒸馏"
           },
           {
-            "title": "Context‑Task‑Format (CTF) 提示",
-            "detail": "使用明确的上下文、任务描述和格式规范构建提示；在微调后仍优于 Chain‑of‑Thought、Implicit CoT 和 few‑shot 提示。"
+            "detail": "将截断重要性比率ρ_{i,t}与优势A_i和掩码KL项结合，得到用于更新可部署策略的最终梯度。",
+            "title": "组合GRPO更新"
+          }
+        ],
+        "methodology": [
+          {
+            "detail": "使用固定结构化提示每提示生成N个响应；temperature=1.0，batch size=32。",
+            "title": "在策略推理与滚动采样"
           },
           {
-            "title": "精确零温度解码",
-            "detail": "生成时使用确定性 token 选择（temperature=0），消除抽样方差，提高递归预测的稳定性。"
+            "detail": "使用Gurobi（或StepORLM中的COPT）执行生成的代码，以获取每个滚动的客观值和LP制品。",
+            "title": "求解器执行与制品提取"
+          },
+          {
+            "detail": "按目标值对滚动进行聚类，选择多数组制品作为自蒸馏的参考。",
+            "title": "伪参考创建"
+          },
+          {
+            "detail": "在变量、约束、目标和代码标记上计算二进制掩码；仅在掩码标记上使用特权上下文应用KL损失。",
+            "title": "LP结构化掩码自蒸馏"
+          },
+          {
+            "detail": "从求解器结果一致（多数投票）中推导序列级优势，并在GRPO更新中与掩码KL项结合。",
+            "title": "组相对优势"
           }
         ],
         "experiments": [
           {
-            "title": "消融研究",
-            "detail": "在相同条件下系统性地禁用每个适配组件（LoRA、recursion、integer rounding、CTF prompting、zero‑temp decoding），以量化其对预测误差和可靠性的影响。"
+            "title": "基准与指标",
+            "detail": "OptMATH、MAMO‑Complex、IndustryOR；报告多数准确率 maj@N 和 pass@k（k=1,2,4）。正确性定义为目标值在 1e‑6 范围内与真实值一致。"
           },
           {
-            "title": "对比基准",
-            "detail": "在比特币价格数据集上，将 PRICE 与八个 transformer‑based 和 time‑series foundation models 进行评估，报告验证集和测试集的预测误差。"
+            "title": "模型与基线",
+            "detail": "基线模型：Qwen3‑4B‑Instruct 和 StepORLM（任务前训练）。对比基线：TTRL（仅组相对）、OPSD（全响应自蒸馏）和 SOLID。"
+          },
+          {
+            "title": "训练设置",
+            "detail": "OptMATH‑Train 的 5 万实例子集；每题 5 次 rollout，保留解出 1–3 次的问题；每个提示 24 条轨迹；使用 4×H100 GPU。"
           }
         ],
         "findings": [
           {
-            "title": "组件贡献",
-            "detail": "每种适配选择均带来可测量的误差降低；LoRA 相较 zero‑shot 提升准确性，recursion 相较直接多步降低误差，integer rounding 始终优于原始或归一化输入。"
+            "title": "SOLID 超越基线",
+            "detail": "在 OptMATH 上，maj@64 从 30.12%（TTRL）提升至 31.32%（SOLID），pass@1 从 19.01% 提升至 36.61%；在 MAMO‑Complex 和 IndustryOR 上也有类似提升。"
           },
           {
-            "title": "提示优势",
-            "detail": "在微调设置下，CTF prompting 在所有评估的提示策略中实现了最强性能。"
+            "title": "遮罩消融实验",
+            "detail": "LP‑structured mask 在所有数据集上实现最高的 maj@64 和 pass@k；全响应 KL（TTRL+KL）和随机遮罩表现较差。"
           },
           {
-            "title": "解码稳定性",
-            "detail": "zero‑temperature decoding 在递归预测期间降低输出变异性，提升预测可靠性。"
-          },
-          {
-            "title": "整体表现",
-            "detail": "PRICE 在验证集和测试集上实现了最低或并列最低的预测误差，尽管基于文本预训练 LLM，仍优于专门的 time‑series foundation models。"
+            "title": "OPSD 失效模式",
+            "detail": "纯 OPSD 先出现性能峰值随后下降，表明在统一使用特权上下文时出现风格不匹配。"
           }
         ],
         "contributions": [
-          "统一框架（PRICE），将五个适配组件结合用于基于LLM的比特币预测。",
-          "受控消融方法，以隔离每个适配选择的影响。",
-          "实证表明，适配决策可以超越 pretraining domain mismatches 的影响。"
+          "Solver‑informed on‑policy self‑distillation 框架（无验证答案）",
+          "LP‑结构二进制掩码用于局部 token‑level 监督",
+          "在三项多样化 OR 基准上的实证验证，展示出一致提升"
         ],
         "limitations": [
-          "在可获得的来源中未说明。"
+          "需要可靠的 LP 工件提取；错误可能激活不正确的掩码区域",
+          "当 rollout 共识错误时，Majority‑LP 伪参考可能不准确",
+          "特权上下文风格不匹配仍会导致性能下降，如 OPSD 所示"
         ],
         "open_questions": [
-          "所识别的适配选择能否推广到其他金融工具或更长的预测时段？",
-          "这些适配策略如何影响 LLM 的损失曲面和训练稳定性？",
-          "PRICE 对价格数据中对抗扰动的鲁棒性如何？"
+          "当多数共识误导时，如何提升伪参考的鲁棒性？",
+          "自适应或学习式掩码能进一步缓解风格不匹配吗？",
+          "SOLID 方法能否迁移到具有不同求解器反馈模式的非‑OR 领域？"
         ],
         "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
+        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
         "language": "zh",
         "schema_version": 6,
         "prompt_version": 2
       },
       "analysis_status": "complete",
       "recommendation_reason": {
-        "topic": "Efficient adversarial training",
+        "topic": "On-policy distillation",
         "matched": [
-          "efficient",
-          "training",
-          "fine-tuning",
-          "robust"
+          "self-distillation",
+          "distillation",
+          "on-policy"
         ],
         "lane": "llm"
       },
-      "recommended_at": "2026-09-07T15:50:52.906983+00:00"
+      "recommended_at": "2026-09-12T13:36:50.651769+00:00"
+    },
+    {
+      "id": "2609.10996",
+      "title": "Rethinking Verbalized Confidence for LLM-as-a-Judge: A Compatibility Shift on Post-2025 Proprietary Models",
+      "abstract": "Verbalized confidence, long dismissed as overconfident, coarse, and prone to round-number clustering, is now the more robust soft-scoring mechanism for LLM-as-a-Judge on top-tier proprietary models. Across SummEval, AggreFact, and HelpSteer2, spanning up to 18 LLMs, we show that the standard advice to prefer log-probabilities no longer holds on post-2025 models, where verbalized confidence is the better signal. We call this a compatibility shift. On top of a standard verbalized-confidence baseline, we introduce two new ingredients: an overconfidence advisory and self-debate. Together they improve calibration, score-distribution spread, and robustness to task subjectivity. We further observe a generation effect: post-2025 models accommodate these two additions with little balanced-accuracy cost, whereas pre-2025 models pay a measurable penalty. Compared with logprob-based G-Eval, verbalized confidence is the more subjectivity-robust soft signal on GPT-family top-tier releases. The shift is invisible under accuracy-only reporting. Rather than defaulting to hard predictions, we recommend broader use of soft scoring in LLM-as-a-Judge. More broadly, verbalized confidence has moved from a weaker substitute for logprobs to a practical soft-scoring mechanism for contemporary LLM judges.",
+      "authors": [
+        "Yu-Chung Hsiao"
+      ],
+      "published": "2026-09-10T02:17:35Z",
+      "updated": "2026-09-10T02:17:35Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2609.10996v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.10996v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "llm",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.46,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4286,
+          "matched": [
+            "llm-as-a-judge",
+            "robustness",
+            "calibration",
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.283,
+          "matched": [
+            "robust",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5691,
+        "relevance": 0.5431,
+        "quality": 0.48,
+        "novelty": 0.8772,
+        "freshness": 0.6469,
+        "feedback_adjustment": -0.0175,
+        "semantic_feedback": 0.2186
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Across SummEval, AggreFact, and HelpSteer2, spanning up to 18 LLMs, we show that the standard advice to prefer log-probabilities no longer holds on post-2025 models, where verbalized confidence is the better signal.",
+        "problem": "Verbalized confidence, long dismissed as overconfident, coarse, and prone to round-number clustering, is now the more robust soft-scoring mechanism for LLM-as-a-Judge on top-tier proprietary models.",
+        "method": "On top of a standard verbalized-confidence baseline, we introduce two new ingredients: an overconfidence advisory and self-debate.",
+        "evidence": "Together they improve calibration, score-distribution spread, and robustness to task subjectivity.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: LLM loss landscape, Trustworthy LLM.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-12T13:36:50.651769+00:00"
+    },
+    {
+      "id": "2609.09425",
+      "title": "Edu-QuRating: Multi-Dimensional Educational Data Curation with Distilled Pairwise Judgements",
+      "abstract": "Educational data filters have become a practical way to improve language-model pre-training, but most filters treat educational value as a single scalar property. This may be too broad for some applications, especially if the data set already features a high density of educational material. Useful learning material needs to be accurate, engaging, well structured, and appropriate for the intended audience and application (e.g. learner- vs teacher-facing). Following QuRating (Wettig et al. 2024), we introduce Edu-QuRating: a pipeline for multi-dimensional educational data scoring and curation. Edu-QuRating defines education-specific rubrics, uses an LLM judge to label sampled document pairs and distills those pairwise preferences into reusable Edu-QuRaters, which can score individual text chunks on a set of educational criteria. Across two sequence-classification base models and six educational criteria, the best Edu-QuRater recovers held-out GPT-4.1-mini pairwise judgements with mean accuracy 0.917. We then apply the resulting scorers in two applications. First, we investigate the potential of Edu-QuRaters for corpus filtering to improve pretraining of small language models. We scored 322.25M FineWeb-Edu-Fortified documents to obtain a filtered pre-training mixture. In matched single-run pre-training comparisons, models trained with Edu-QuRating-based mixtures reached higher observed aggregate accuracy across nine benchmarks than the FineWeb-Edu baseline, with gains concentrated in particular tasks. Second, we used Edu-QuRater scores as reward terms for GRPO post-training. In held-out pairwise judge evaluations, combining Edu-QuRater and answer-structure rewards produced responses preferred to the Qwen3-4B base model on both pedagogical quality and instruction following.",
+      "authors": [
+        "Oliver G. B. Garrod",
+        "Robin A. A. Ince",
+        "Meng Liu",
+        "Mohamed Huti",
+        "Moritz Boos",
+        "Amy Waldock",
+        "Dominic Andrews",
+        "Romana Alonso-Kropil",
+        "Paul Atherton"
+      ],
+      "published": "2026-09-08T20:24:54Z",
+      "updated": "2026-09-10T15:06:26Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2609.09425v2",
+      "pdf_url": "https://arxiv.org/pdf/2609.09425v2",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.5651,
+          "matched": [
+            "data curation",
+            "filtering",
+            "curation",
+            "data",
+            "mixture"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.2889,
+          "matched": [
+            "training"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.1082,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5655,
+        "relevance": 0.5315,
+        "quality": 0.55,
+        "novelty": 0.8656,
+        "freshness": 0.4691,
+        "feedback_adjustment": -0.0116,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "2024), we introduce Edu-QuRating: a pipeline for multi-dimensional educational data scoring and curation.",
+        "problem": "Educational data filters have become a practical way to improve language-model pre-training, but most filters treat educational value as a single scalar property.",
+        "method": "2024), we introduce Edu-QuRating: a pipeline for multi-dimensional educational data scoring and curation.",
+        "evidence": "First, we investigate the potential of Edu-QuRaters for corpus filtering to improve pretraining of small language models.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Data selection for LLMs, Efficient adversarial training.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Data selection for LLMs",
+        "matched": [
+          "data curation",
+          "filtering",
+          "curation",
+          "data"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-09-12T13:36:50.651769+00:00"
     }
   ]
 }
