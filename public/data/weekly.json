@@ -1,6 +1,118 @@
 {
-  "generated_at": "2026-10-02T16:16:12.201597+00:00",
+  "generated_at": "2026-10-03T14:43:24.835277+00:00",
   "papers": [
+    {
+      "id": "2609.39902",
+      "title": "CodeMimicry: Exploiting Safety Generalization Lag in Large Language Models via Structured Code Completion",
+      "abstract": "Large language models have achieved remarkable capabilities across diverse domains, yet their safety alignment remains vulnerable to jailbreak attacks. In this work, we identify a previously underexplored failure mode - safety generalization lag - where alignment trained predominantly on natural language fails to transfer to the code domain. We show that this lag induces a code-completion blind spot, allowing malicious intent embedded within syntactically valid code to evade safety mechanisms. To exploit this vulnerability, we propose CodeMimicry, a fully automated black-box jailbreak framework that generates structured, object-oriented code prompts to induce harmful outputs via code completion. Experiments on 8 state-of-the-art commercial LLMs demonstrate that CodeMimicry achieves a 96.25% attack success rate with 1.51 queries on average, significantly outperforming both template-based and optimization-based baselines. Beyond empirical performance, we provide a mechanistic analysis of code-based jailbreaks through latent space representations, including projection onto refusal-related directions and activation steering. This analysis offers an explanation of how CodeMimicry bypasses safety mechanisms in code-related domains. Our findings reveal a weakness in current safety alignment and highlight the need for robust alignments in structured domains such as code.",
+      "authors": [
+        "Zhen Liang",
+        "Hai Huang",
+        "Wentao Chen"
+      ],
+      "published": "2026-09-30T15:02:14Z",
+      "updated": "2026-09-30T15:02:14Z",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2609.39902v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.39902v1",
+      "comment": "This paper will be accepted at NeurIPS 2026",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.5317,
+          "matched": [
+            "alignment",
+            "safety"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.432,
+          "matched": [
+            "generalization",
+            "optimization"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.3633,
+          "matched": [
+            "jailbreak",
+            "robust"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.1304,
+          "matched": [
+            "mode"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.7075,
+        "relevance": 0.7042,
+        "quality": 0.68,
+        "novelty": 0.8505,
+        "freshness": 0.5733,
+        "feedback_adjustment": -0.0171,
+        "semantic_feedback": 0.7988
+      },
+      "quality_signals": [
+        "code available",
+        "baseline comparison",
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "We show that this lag induces a code-completion blind spot, allowing malicious intent embedded within syntactically valid code to evade safety mechanisms.",
+        "problem": "Large language models have achieved remarkable capabilities across diverse domains, yet their safety alignment remains vulnerable to jailbreak attacks.",
+        "method": "To exploit this vulnerability, we propose CodeMimicry, a fully automated black-box jailbreak framework that generates structured, object-oriented code prompts to induce harmful outputs via code completion.",
+        "evidence": "Experiments on 8 state-of-the-art commercial LLMs demonstrate that CodeMimicry achieves a 96.25% attack success rate with 1.51 queries on average, significantly outperforming both template-based and optimization-based baselines.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Trustworthy LLM, Statistical theory for LLMs.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "alignment",
+          "safety"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-03T14:43:24.835277+00:00"
+    },
     {
       "id": "2610.02092",
       "title": "Scalable, Transferable Meta-network for Data Selection Requires a Different Loss (and Why the Obvious Choice is Problematic)",
@@ -209,6 +321,504 @@
         "lane": "llm"
       },
       "recommended_at": "2026-10-02T16:16:12.201597+00:00"
+    },
+    {
+      "id": "2609.38767",
+      "title": "dattri-LLM: A Unified and Efficient Library for Training Data Attribution at LLM Scale",
+      "abstract": "Training data attribution (TDA) estimates the contribution of individual training examples to model outputs. Most scalable TDA methods rely on per-example gradients, whose computation and use at LLM scale pose challenges in efficiency, compatibility, and extensibility. We introduce dattri-LLM, a TDA library that makes gradient-based attribution more practical at scale. For efficiency, dattri-LLM uses compact gradient representations and dynamically routes gradient operations based on a cost model. For compatibility, its capture mechanism collects per-example gradients from existing training loops that call backward(), without requiring changes to the loop or its configuration. This includes distributed training with DDP and FSDP and pipelines built with HuggingFace Transformers, TRL, and OLMo. For extensibility, dattri-LLM exposes reusable gradient operations and training-time callbacks for implementing attribution methods and applications. These interfaces support a variety of attribution methods, including gradient similarity, curvature-based influence, and trajectory-based methods, as well as applications that act on gradients during training, such as online data selection. On the same hardware and workload, dattri-LLM achieves 3.2x the throughput of the fastest competing library on average, scales multiple attribution methods to 110B-parameter models across four H200 GPUs, and offers superior attribution fidelity-cost trade-offs across a range of models with different model families and scales. The source code of dattri-LLM is available at https://github.com/TRAIS-Lab/dattri-llm.",
+      "authors": [
+        "Shixuan Liu",
+        "Tongli Zhou",
+        "Junwei Deng",
+        "Pingbang Hu",
+        "Jiaqi W. Ma"
+      ],
+      "published": "2026-09-30T01:49:42Z",
+      "updated": "2026-10-01T16:36:54Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2609.38767v2",
+      "pdf_url": "https://arxiv.org/pdf/2609.38767v2",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "llm",
+        "transformers"
+      ],
+      "topics": [
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.5811,
+          "matched": [
+            "data selection",
+            "influence",
+            "data attribution",
+            "training data",
+            "data",
+            "selection"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5767,
+          "matched": [
+            "efficient",
+            "training"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5755,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6834,
+        "relevance": 0.6649,
+        "quality": 0.71,
+        "novelty": 0.8445,
+        "freshness": 0.4947,
+        "feedback_adjustment": -0.0135,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "We introduce dattri-LLM, a TDA library that makes gradient-based attribution more practical at scale.",
+        "problem": "Training data attribution (TDA) estimates the contribution of individual training examples to model outputs.",
+        "method": "We introduce dattri-LLM, a TDA library that makes gradient-based attribution more practical at scale.",
+        "evidence": "On the same hardware and workload, dattri-LLM achieves 3.2x the throughput of the fastest competing library on average, scales multiple attribution methods to 110B-parameter models across four H200 GPUs, and offers superior attribution fidelity-cost trade-offs across a range of models with different model families and scales.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Data selection for LLMs, Efficient adversarial training.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Data selection for LLMs",
+        "matched": [
+          "data selection",
+          "influence",
+          "data attribution",
+          "training data"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-03T14:43:24.835277+00:00"
+    },
+    {
+      "id": "2610.01367",
+      "title": "High-quality Data Do not Mean Safe! Poisoning LLMs after Data Selection",
+      "abstract": "Safety-aligned Large Language Models remain vulnerable to fine-tuning on small sets of harmful or benign-looking samples. However, prior studies typically assume that poisoned samples directly enter downstream fine-tuning, overlooking quality-based selection in practical training pipelines. To fill this gap, we systematically evaluate both the filtering effects against poisoning and the downstream safety impact of retained data. The results reveal that selection removes many overtly harmful samples, yet some retained high-quality samples can still degrade model safety alignment possibly due to their harmful-like training-update patterns at the layer-wise gradient level. Together, these findings expose a practical vulnerability: safety-degrading influence can pass through quality-based selection via retained high-quality samples. To examine its systematic exploitability, we propose Bi-Stage Quality-Constrained Safety-Degradation Text Optimization (Bi-QSTO), which optimizes poisoned samples under an explicit quality constraint to survive selection while preserving their safety-degrading influence. Across poisoning settings, target models, and filtering rates, Bi-QSTO maintains attack effectiveness before and after selection. Even at 90% filtering, harmful-seeded samples achieve a Poisoning Retention Rate above 90% and Harmful Score of 3.30--4.01. Their attack effectiveness strongly transfers across models and their retention advantage generalizes to additional selection methods.",
+      "authors": [
+        "Kaiyang Li",
+        "Jiahao Chen",
+        "Yuwen Pu",
+        "Chunyi Zhou",
+        "Tong Zhang",
+        "Bin Cai",
+        "Chunqiang Hu",
+        "Haibo Hu"
+      ],
+      "published": "2026-10-01T09:37:09Z",
+      "updated": "2026-10-01T09:37:09Z",
+      "categories": [
+        "cs.CR"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2610.01367v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.01367v1",
+      "comment": "15 pages, in submission",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.7512,
+          "matched": [
+            "data selection",
+            "influence",
+            "filtering",
+            "data",
+            "selection"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.4547,
+          "matched": [
+            "training",
+            "fine-tuning"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6637,
+        "relevance": 0.7126,
+        "quality": 0.41,
+        "novelty": 0.8428,
+        "freshness": 0.6839,
+        "feedback_adjustment": -0.0205,
+        "semantic_feedback": 0.1382
+      },
+      "quality_signals": [
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "To examine its systematic exploitability, we propose Bi-Stage Quality-Constrained Safety-Degradation Text Optimization (Bi-QSTO), which optimizes poisoned samples under an explicit quality constraint to survive selection while preserving their safety-degrading influence.",
+        "problem": "Safety-aligned Large Language Models remain vulnerable to fine-tuning on small sets of harmful or benign-looking samples.",
+        "method": "To examine its systematic exploitability, we propose Bi-Stage Quality-Constrained Safety-Degradation Text Optimization (Bi-QSTO), which optimizes poisoned samples under an explicit quality constraint to survive selection while preserving their safety-degrading influence.",
+        "evidence": "Even at 90% filtering, harmful-seeded samples achieve a Poisoning Retention Rate above 90% and Harmful Score of 3.30--4.01.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Data selection for LLMs, Efficient adversarial training.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Data selection for LLMs",
+        "matched": [
+          "data selection",
+          "influence",
+          "filtering",
+          "data"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-03T14:43:24.835277+00:00"
+    },
+    {
+      "id": "2609.37914",
+      "title": "The Unequal Influence of Bad Advice: Using Training Data Attribution to Modulate Emergent Misalignment",
+      "abstract": "Fine-tuning large language models on narrow, misaligned tasks can undo their post-training alignment and induce novel misaligned behaviors -- a phenomenon known as \\emph{emergent misalignment} (EM). EM has been linked to persona-like representations, where fine-tuning might reduce loss by amplifying a harmful or 'evil' persona. It remains unclear which properties of the training data drive this effect: whether all harmful examples contribute approximately equally to misalignment and whether different models are equally affected by the same fine-tuning examples. In this work, we use training data attribution to quantitatively estimate how much each harmful example contributes to EM. We benchmark the quality of the attribution via retraining -- a sound attribution score should enable us to enhance or attenuate EM by filtering data on that score. Score-based filtering can substantially enhance or attenuate EM; we find that both data-attribution scores and a black-box harmfulness score can identify consequential examples. All models we test become misaligned when trained on the same dataset, and influence scores perform best when filtering data from the same model that computed them. We find cross-model generalization of influence scores from scores derived from the three model families we tested, but this generalization does not recover same model filtering performance.",
+      "authors": [
+        "Gonçalo Paulo",
+        "Louis Jaburi",
+        "Nora Belrose",
+        "Lucia Quirke",
+        "Stella Biderman"
+      ],
+      "published": "2026-09-29T16:08:34Z",
+      "updated": "2026-09-29T16:08:34Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2609.37914v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.37914v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.6738,
+          "matched": [
+            "influence",
+            "filtering",
+            "data attribution",
+            "training data",
+            "data"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.6486,
+          "matched": [
+            "training",
+            "fine-tuning"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.2417,
+          "matched": [
+            "generalization"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.1253,
+          "matched": [
+            "loss"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6627,
+        "relevance": 0.7171,
+        "quality": 0.44,
+        "novelty": 0.8672,
+        "freshness": 0.437,
+        "feedback_adjustment": -0.0081,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "dataset evidence"
+      ],
+      "summary": {
+        "takeaway": "Score-based filtering can substantially enhance or attenuate EM; we find that both data-attribution scores and a black-box harmfulness score can identify consequential examples.",
+        "problem": "Fine-tuning large language models on narrow, misaligned tasks can undo their post-training alignment and induce novel misaligned behaviors -- a phenomenon known as \\emph{emergent misalignment} (EM).",
+        "method": "EM has been linked to persona-like representations, where fine-tuning might reduce loss by amplifying a harmful or 'evil' persona.",
+        "evidence": "It remains unclear which properties of the training data drive this effect: whether all harmful examples contribute approximately equally to misalignment and whether different models are equally affected by the same fine-tuning examples.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Data selection for LLMs, Efficient adversarial training.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Data selection for LLMs",
+        "matched": [
+          "influence",
+          "filtering",
+          "data attribution",
+          "training data"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-03T14:43:24.835277+00:00"
+    },
+    {
+      "id": "2610.00465",
+      "title": "AIR-LLM: Broadcasting AI Weights over Radio for Memory-Free Edge LLM Inference via RF Computing",
+      "abstract": "Next-generation large language models (LLMs) are expanding from the cloud to ubiquitous edge devices. However, edge devices typically either lack the memory to store increasingly large LLM weights or, even with enough memory, spend unaffordable energy on loading the weights. This raises our question: can an edge device run an LLM without storing or loading its weights, but receive them over the air and consume them on the fly? Inspired by wireless broadcasting, we present AIR-LLM, an LLM inference architecture for edge devices, which is composed of: (i) a central radio (e.g., 5G base stations) that broadcasts the LLM weights into the air, and (ii) the edge user that receives the weights and completes the general matrix-vector multiplication (GEMV) of LLM inference directly in the radio frequency (RF) domain using RF mixers. To further shorten the airtime, AIR-LLM exploits MIMO spatial multiplexing and proposes an energy-efficient precoder-postcoder pair on the edge to calibrate its own wireless channel. Since the central radio stays user-unaware, AIR-LLM is user-scalable so that one broadcast serves unlimited users within its coverage. We implement AIR-LLM on the NVIDIA Sionna ray-traced channels of two real-world urban scenes and the profiling of a real RF mixer. With a WikiText-2 perplexity degradation of 4.0% on LLaMA-3.1-8B, AIR-LLM saves the energy by 157.7x/40.4x against the FP16 and weight-only quantization baselines; with 20 users, its airtime is 104.1x/26.0x shorter, respectively.",
+      "authors": [
+        "Zhihui Gao",
+        "Tingjun Chen",
+        "Dirk Englund"
+      ],
+      "published": "2026-09-30T18:00:02Z",
+      "updated": "2026-09-30T18:00:02Z",
+      "categories": [
+        "cs.IT",
+        "cs.ET",
+        "cs.LG",
+        "eess.SP",
+        "physics.app-ph"
+      ],
+      "primary_category": "cs.IT",
+      "abs_url": "https://arxiv.org/abs/2610.00465v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.00465v1",
+      "comment": "14 pages, 12 figures, 6 tables. Appendix: 12 pages, 7 figures, 11 tables",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.7297,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.1317,
+          "matched": [
+            "efficient"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6361,
+        "relevance": 0.6101,
+        "quality": 0.62,
+        "novelty": 0.86,
+        "freshness": 0.5909,
+        "feedback_adjustment": -0.0158,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "baseline comparison",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Inspired by wireless broadcasting, we present AIR-LLM, an LLM inference architecture for edge devices, which is composed of: (i) a central radio (e.g., 5G base stations) that broadcasts the LLM weights into the air, and (ii) the edge user that receives the weights and completes the general matrix-vector multiplication (GEMV) of LLM inference directly in the radio frequency (RF) domain using RF mixers.",
+        "problem": "Next-generation large language models (LLMs) are expanding from the cloud to ubiquitous edge devices.",
+        "method": "However, edge devices typically either lack the memory to store increasingly large LLM weights or, even with enough memory, spend unaffordable energy on loading the weights.",
+        "evidence": "This raises our question: can an edge device run an LLM without storing or loading its weights, but receive them over the air and consume them on the fly?",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: LLM loss landscape, Efficient adversarial training.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-03T14:43:24.835277+00:00"
+    },
+    {
+      "id": "2610.00689",
+      "title": "Towards Robust Numerical Claim Verification",
+      "abstract": "Large language models (LLMs) are widely used for claim verification, yet remain brittle for numerical reasoning: even small changes in value can sharply degrade accuracy. We show that this brittleness persists in frontier LLMs, but can be mitigated through adversarial fine-tuning on numerically perturbed examples. Using parameter-efficient fine-tuning, small Qwen3 models (0.6B$\\unicode{x2013}$8B) reach 98.7% accuracy on label-flipping perturbations, outperforming larger zero-shot models and frontier systems (GPT-5.4 Pro (74.0%) and Gemini 2.5 Flash (73.9%)). The gains generalise to unseen perturbation types, indicating robust numerical decision boundaries rather than memorised edits. Robustness also transfers without target-domain data, significantly improving cross-lingual performance in Spanish. We further show that the same fine-tuning recipe confers robustness to evidence-side perturbations, using the VitaminC dataset.",
+      "authors": [
+        "Peter Røysland Aarnes",
+        "Vinay Setty"
+      ],
+      "published": "2026-09-30T20:34:55Z",
+      "updated": "2026-09-30T20:34:55Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2610.00689v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.00689v1",
+      "comment": "Accepted to AACL-IJCNLP 2026 Findings",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.7715,
+          "matched": [
+            "adversarial",
+            "efficient",
+            "fine-tuning",
+            "robust",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6355,
+        "relevance": 0.6172,
+        "quality": 0.6,
+        "novelty": 0.8405,
+        "freshness": 0.6063,
+        "feedback_adjustment": -0.0096,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "formal bound",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "We show that this brittleness persists in frontier LLMs, but can be mitigated through adversarial fine-tuning on numerically perturbed examples.",
+        "problem": "Large language models (LLMs) are widely used for claim verification, yet remain brittle for numerical reasoning: even small changes in value can sharply degrade accuracy.",
+        "method": "We show that this brittleness persists in frontier LLMs, but can be mitigated through adversarial fine-tuning on numerically perturbed examples.",
+        "evidence": "Using parameter-efficient fine-tuning, small Qwen3 models (0.6B$\\unicode{x2013}$8B) reach 98.7% accuracy on label-flipping perturbations, outperforming larger zero-shot models and frontier systems (GPT-5.4 Pro (74.0%) and Gemini 2.5 Flash (73.9%)).",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Efficient adversarial training.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "adversarial",
+          "efficient",
+          "fine-tuning",
+          "robust"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-03T14:43:24.835277+00:00"
     },
     {
       "id": "2609.38108",
@@ -584,537 +1194,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-10-02T16:16:12.201597+00:00"
-    },
-    {
-      "id": "2610.02002",
-      "title": "Mem++: Non-Destructive Memory for Long-Term Organizational LLM Agents",
-      "abstract": "Large Language Model (LLM) agents now take part in organizational work, where many authors record decisions across documents over months. Because a revised decision arrives as a new document rather than an edit, answering a question requires knowing which version held at a given time. However, most memory systems compress the record at write time. By distilling each document into facts, notes or graph edges, these methods fix what can be answered before any question is asked. To address this, we propose Mem++, a non-destructive memory framework shifting from write-time distillation to read-time selection. Mem++ stores every document whole with its date and author, and it calls no generative model at write time. At read time, it retrieves only documents dated up to the time a question asks about and fuses lexical and semantic rankings. Unlike systems that overwrite older versions, Mem++ keeps them and leaves the choice to the answering model. Evaluations on the organizational benchmark OrgMemBench demonstrate that Mem++ surpasses the strongest memory system baseline by 8.0 to 13.1 points across two answering models. With gpt-4.1-mini, it also achieves the best overall score, 2.6 points above RAG. In addition, Mem++ achieves the best average LLM-judge score on LoCoMo and ranks second on LongMemEval-S, behind only its entity-graph variant. Code for benchmark evaluation is available at https://github.com/AIDAChip-Inc/mem-plus-plus.",
-      "authors": [
-        "Ahmad Yehia",
-        "Aly O. Abdelkareem",
-        "Islam Ahmed",
-        "Hesham Omran",
-        "Khaled Alashmouny",
-        "Christian Claudel",
-        "Abduallah Mohamed"
-      ],
-      "published": "2026-10-01T16:32:38Z",
-      "updated": "2026-10-01T16:32:38Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2610.02002v1",
-      "pdf_url": "https://arxiv.org/pdf/2610.02002v1",
-      "comment": "15 pages, 4 figures",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.4529,
-          "matched": [
-            "llm"
-          ]
-        },
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "emerging",
-          "score": 0.0798,
-          "matched": [
-            "distillation"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5421,
-        "relevance": 0.3783,
-        "quality": 0.85,
-        "novelty": 0.8329,
-        "freshness": 0.8588,
-        "feedback_adjustment": -0.0129,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "GitHub link",
-        "baseline comparison",
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "To address this, we propose Mem++, a non-destructive memory framework shifting from write-time distillation to read-time selection.",
-        "problem": "Large Language Model (LLM) agents now take part in organizational work, where many authors record decisions across documents over months.",
-        "method": "To address this, we propose Mem++, a non-destructive memory framework shifting from write-time distillation to read-time selection.",
-        "evidence": "Evaluations on the organizational benchmark OrgMemBench demonstrate that Mem++ surpasses the strongest memory system baseline by 8.0 to 13.1 points across two answering models.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: LLM loss landscape, On-policy distillation.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-10-02T16:16:12.201597+00:00"
-    },
-    {
-      "id": "2609.35569",
-      "title": "Beyond Energy: When Sustainability Dimensions Reshape LLM Serving Decisions",
-      "abstract": "Large language model (LLM) serving has environmental impacts across energy consumption, carbon emission, water consumption, and biodiversity loss. Yet these dimensions are largely evaluated in isolation, leaving it unclear when and how they lead to different optimization decisions. We present PRISM, a unified framework for characterizing and optimizing LLM serving across energy, carbon, water, and biodiversity impacts. Our analysis reveals a fundamental distinction: computing configurations determine energy consumption, whereas where and when LLM serving is deployed determine its carbon, water, and biodiversity impacts. Under a fixed deployment choice and operational-only accounting, all dimensions preserve the same energy-based configuration ranking. Deployment rankings can diverge across dimensions, while embodied impacts can break configuration invariance when they exceed a lifecycle crossover boundary. PRISM identifies these conditions, quantifies cross-dimensional regrets, and balances the four dimensions. In regional-routing experiments, PRISM reduces median worst-case regret by 50.2% relative to the strongest baseline.",
-      "authors": [
-        "Tianyao Shi",
-        "Xipeng Shen",
-        "Yi Ding"
-      ],
-      "published": "2026-09-28T16:31:50Z",
-      "updated": "2026-09-28T16:31:50Z",
-      "categories": [
-        "cs.CY",
-        "cs.DC",
-        "cs.LG",
-        "cs.PF"
-      ],
-      "primary_category": "cs.CY",
-      "abs_url": "https://arxiv.org/abs/2609.35569v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.35569v1",
-      "comment": "41 pages, 30 figures, 13 tables",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.5676,
-          "matched": [
-            "llm",
-            "loss"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5412,
-        "relevance": 0.4541,
-        "quality": 0.6,
-        "novelty": 0.8316,
-        "freshness": 0.8573,
-        "feedback_adjustment": -0.0116,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "experiments",
-        "formal bound",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "We present PRISM, a unified framework for characterizing and optimizing LLM serving across energy, carbon, water, and biodiversity impacts.",
-        "problem": "Large language model (LLM) serving has environmental impacts across energy consumption, carbon emission, water consumption, and biodiversity loss.",
-        "method": "We present PRISM, a unified framework for characterizing and optimizing LLM serving across energy, carbon, water, and biodiversity impacts.",
-        "evidence": "In regional-routing experiments, PRISM reduces median worst-case regret by 50.2% relative to the strongest baseline.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: LLM loss landscape.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "llm",
-          "loss"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-09-29T16:30:39.050745+00:00"
-    },
-    {
-      "id": "2610.02005",
-      "title": "Counting Moves, Weighing Voices: Bayesian Dialectical Argumentation for Calibrated Multi-LLM Councils under Persistent Adversaries",
-      "abstract": "A multi-LLM \\emph{council} lets several large language models (LLMs) deliberate on a question and return an answer together with a confidence estimate. As these systems become increasingly used for reasoning, that confidence should represent a calibrated \\emph{probability of being correct}, and the decision should remain robust when some agents are persistently unreliable. Existing \\emph{council aggregation} methods fail on both fronts: their confidence estimates measure decisiveness rather than correctness, and they cannot identify or discount persistently unreliable agents. We introduce Bayesian Dialectical Argumentation (BDA), which treats the council's \\emph{typed} moves---who proposed, challenged, or conceded which answer---as observations of a classical annotator model with \\emph{per-agent} reliabilities. This formulation recasts multi-agent deliberation as a reliability estimation problem, using the deliberation trace to infer agent reliability under persistent adversarial behavior. By weighting evidence according to inferred agent reliability, BDA yields calibrated posterior probabilities over candidate answers while allowing persistently unreliable agents to be inverted rather than merely outvoted. Across binary and multi-class benchmarks, BDA achieves the best calibration among zero-cost council aggregation methods, requiring no additional LLM calls, and improves robustness under persistent adversarial coalitions while remaining competitive in clean settings.",
-      "authors": [
-        "Ionel Eduard Stan",
-        "Paolo Napoletano"
-      ],
-      "published": "2026-10-01T16:34:50Z",
-      "updated": "2026-10-01T16:34:50Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2610.02005v1",
-      "pdf_url": "https://arxiv.org/pdf/2610.02005v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.5133,
-          "matched": [
-            "llm"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.4526,
-          "matched": [
-            "adversarial",
-            "robust",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5318,
-        "relevance": 0.5012,
-        "quality": 0.4,
-        "novelty": 0.8307,
-        "freshness": 0.859,
-        "feedback_adjustment": -0.0222,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "benchmark evaluation"
-      ],
-      "summary": {
-        "takeaway": "We introduce Bayesian Dialectical Argumentation (BDA), which treats the council's \\emph{typed} moves---who proposed, challenged, or conceded which answer---as observations of a classical annotator model with \\emph{per-agent} reliabilities.",
-        "problem": "A multi-LLM \\emph{council} lets several large language models (LLMs) deliberate on a question and return an answer together with a confidence estimate.",
-        "method": "We introduce Bayesian Dialectical Argumentation (BDA), which treats the council's \\emph{typed} moves---who proposed, challenged, or conceded which answer---as observations of a classical annotator model with \\emph{per-agent} reliabilities.",
-        "evidence": "Across binary and multi-class benchmarks, BDA achieves the best calibration among zero-cost council aggregation methods, requiring no additional LLM calls, and improves robustness under persistent adversarial coalitions while remaining competitive in clean settings.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: LLM loss landscape, Efficient adversarial training.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-10-02T16:16:12.201597+00:00"
-    },
-    {
-      "id": "2609.35701",
-      "title": "MeqMuon: Matrix-Equilibrating Muon for LLM Pretraining",
-      "abstract": "The success of large language models (LLMs) has been accompanied by continued growth in model size and pretraining costs. Muon offers high accuracy and training efficiency in LLM pretraining. Recent work introduces row-wise normalization into Muon to balance update magnitudes and improve pretraining performance. However, row-wise normalization alone cannot accommodate different imbalance patterns in update matrices. In this paper, we propose an improved Muon optimizer, called \\underline{m}atrix-\\underline{eq}uilibrating Muon~(MeqMuon), for LLM pretraining. MeqMuon balances both row and column magnitudes through normalization that can be automatically tailored to different imbalance patterns without manual intervention. Moreover, MeqMuon eliminates the need to store AdamW's second-moment estimates, reducing optimizer-state memory usage. Empirical results demonstrate that MeqMuon achieves better convergence performance than AdamW, Muon, and other baselines in LLM pretraining.",
-      "authors": [
-        "Chang-Wei Shi",
-        "Xu Wang",
-        "Wu-Jun Li"
-      ],
-      "published": "2026-09-28T17:41:34Z",
-      "updated": "2026-09-28T17:41:34Z",
-      "categories": [
-        "cs.LG"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2609.35701v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.35701v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.5784,
-          "matched": [
-            "llm"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.1285,
-          "matched": [
-            "training"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5266,
-        "relevance": 0.4884,
-        "quality": 0.4,
-        "novelty": 0.8595,
-        "freshness": 0.8642,
-        "feedback_adjustment": -0.0271,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "baseline comparison"
-      ],
-      "summary": {
-        "takeaway": "In this paper, we propose an improved Muon optimizer, called \\underline{m}atrix-\\underline{eq}uilibrating Muon~(MeqMuon), for LLM pretraining.",
-        "problem": "The success of large language models (LLMs) has been accompanied by continued growth in model size and pretraining costs.",
-        "method": "In this paper, we propose an improved Muon optimizer, called \\underline{m}atrix-\\underline{eq}uilibrating Muon~(MeqMuon), for LLM pretraining.",
-        "evidence": "Recent work introduces row-wise normalization into Muon to balance update magnitudes and improve pretraining performance.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: LLM loss landscape, Efficient adversarial training.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-09-29T16:30:39.050745+00:00"
-    },
-    {
-      "id": "2609.35760",
-      "title": "TokenCast: Forecasting Token Consumption During LLM Agent Execution",
-      "abstract": "When a large language model (LLM) agent executes the same task, token consumption can vary by over an order of magnitude across runs. The agent chooses its next steps based on tool feedback and intermediate results, while the growing context steadily inflates the input size of every subsequent call. The total consumption of a task is therefore hard to predict before execution and the prediction must be revised as the run unfolds. In this paper, we propose TokenCast, which learns a composable cost representation for each execution segment, recording its own consumption and the context growth it introduces. Composing adjacent segments yields a cumulative estimate that captures the extra input cost incurred when context from earlier segments is re-read by every later call. As execution unfolds, newly observed evidence refreshes the forecast, requiring no additional LLM calls and incurring a mean cumulative prediction time of 32.8 ms per run on SWE-bench Verified. Across 4 task suites and 6 agent models, TokenCast's mean absolute error reduction against the strongest comparator averages 14.5% over 96 evaluated combinations. In offline budget-control replay, TokenCast uses 21.3% fewer tokens on average than a fixed-budget policy at matched trace completion. The code is available at https://github.com/DEFENSE-SEU/TokenCast.",
-      "authors": [
-        "Chaoqian Ouyang",
-        "Ling Yue",
-        "Libin Zheng",
-        "Huanghui Guo",
-        "Shengxiang Xu",
-        "YiShu Wang",
-        "Ran Li",
-        "Jian Yin",
-        "Shaowu Pan",
-        "Shimin Di"
-      ],
-      "published": "2026-09-28T17:59:09Z",
-      "updated": "2026-09-28T17:59:09Z",
-      "categories": [
-        "cs.LG",
-        "cs.AI",
-        "cs.SE"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2609.35760v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.35760v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.4524,
-          "matched": [
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.504,
-        "relevance": 0.3619,
-        "quality": 0.71,
-        "novelty": 0.8343,
-        "freshness": 0.8659,
-        "feedback_adjustment": -0.0136,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "GitHub link",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "In this paper, we propose TokenCast, which learns a composable cost representation for each execution segment, recording its own consumption and the context growth it introduces.",
-        "problem": "When a large language model (LLM) agent executes the same task, token consumption can vary by over an order of magnitude across runs.",
-        "method": "In this paper, we propose TokenCast, which learns a composable cost representation for each execution segment, recording its own consumption and the context growth it introduces.",
-        "evidence": "The total consumption of a task is therefore hard to predict before execution and the prediction must be revised as the run unfolds.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: LLM loss landscape.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-09-29T16:30:39.050745+00:00"
-    },
-    {
-      "id": "2609.35576",
-      "title": "Share-Borne AI Virus: Memory-Hopping Attacks Across LLM Agents",
-      "abstract": "Large language models are increasingly deployed as stateful assistants that retain information across interactions and use tools to read, modify, and create persistent artifacts. As these artifacts are shared between users, they form an indirect communication channel between otherwise independent assistants. We study a failure mode in which this channel enables self-propagating attacks. We introduce artifact-mediated propagation, where adversarial content introduced through an artifact (e.g. a report), is stored in an assistant's persistent memory, reproduced in a subsequently created artifact, and acquired by another assistant that later reads it. We evaluate this process in temporal human-agent universes that model artifact exchange between independently operated assistants over time, measuring whether an attack survives successive hand-offs, how many hops it reaches, and how broadly it spreads. We find that attacks can propagate across multiple independent assistants and persist over extended interaction sequences. In larger simulated environments, even GPT-5.6 Luna exhibits substantial spread, reaching 60-80% of agents with propagation chains extending to eight hops. These results show that persistent artifacts can act as durable carriers of adversarial state, allowing attacks to outlive individual interactions and spread across isolated assistants.",
-      "authors": [
-        "Sidharth Pulipaka",
-        "Ansh Sharma",
-        "Stanislau Hlebik",
-        "Leonidas Raghav",
-        "Vyas Raina",
-        "Ivaxi Sheth",
-        "Mario Fritz"
-      ],
-      "published": "2026-09-28T16:34:52Z",
-      "updated": "2026-09-28T16:34:52Z",
-      "categories": [
-        "cs.AI",
-        "cs.CL",
-        "cs.CR",
-        "cs.LG"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2609.35576v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.35576v1",
-      "comment": "37 pages. Code: https://github.com/psidharth567/Share-Borne-Virus",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.4461,
-          "matched": [
-            "llm",
-            "mode"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.2686,
-          "matched": [
-            "adversarial"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4986,
-        "relevance": 0.4106,
-        "quality": 0.49,
-        "novelty": 0.9085,
-        "freshness": 0.8576,
-        "feedback_adjustment": -0.0094,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "reproducibility",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "We introduce artifact-mediated propagation, where adversarial content introduced through an artifact (e.g. a report), is stored in an assistant's persistent memory, reproduced in a subsequently created artifact, and acquired by another assistant that later reads it.",
-        "problem": "Large language models are increasingly deployed as stateful assistants that retain information across interactions and use tools to read, modify, and create persistent artifacts.",
-        "method": "We introduce artifact-mediated propagation, where adversarial content introduced through an artifact (e.g. a report), is stored in an assistant's persistent memory, reproduced in a subsequently created artifact, and acquired by another assistant that later reads it.",
-        "evidence": "We study a failure mode in which this channel enables self-propagating attacks.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: LLM loss landscape, Efficient adversarial training.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "llm",
-          "mode"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-09-29T16:30:39.050745+00:00"
     }
   ]
 }
