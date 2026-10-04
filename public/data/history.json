@@ -1,6 +1,617 @@
 {
-  "generated_at": "2026-10-03T14:43:24.835277+00:00",
+  "generated_at": "2026-10-04T15:22:02.053485+00:00",
   "papers": [
+    {
+      "id": "2610.01365",
+      "title": "Sleeping Secrets: How Fine-Tuning Reawakens Privacy Risks in Language Models",
+      "abstract": "Beyond adapting Large Language Models (LLMs) to specialized applications, fine-tuning has recently been shown to recover private information that is no longer accessible through direct queries. Previous fine-tuning recovery attacks, however, require genuine private supervision drawn from the same distribution, i.e., the previous training dataset. We argue that such recovery remains possible without such impractical knowledge. We show that LLM-generated candidates can provide sufficient supervision to recover previously learned private associations. Based on this, we propose ReGap, a data-free attack that recovers private associations using task structure, filters them by answer-token likelihood, and updates the target model via low-rank adaptation. Specifically, ReGap requires neither target answers nor auxiliary genuine private supervision. Across six GPT-2, OPT, and Qwen3 models, ReGap improves target-association recovery by 6-21 percentage points over the post-training target model. Recovery remains substantial even when the adaptation identities are disjoint from all memorized and evaluation identities, with no exact target answers appearing in the generated or selected supervision. Moreover, the same trained adapters increase recovery from 42\\% to 63\\% on a previously exposed checkpoint, but produce no gain on a matched checkpoint that never encountered the targets. This contrast shows that adaptation alone is insufficient to explain the observed recovery and that prior target exposure strongly affects post-adaptation recoverability. Our findings highlight that routine model customization can reawaken latent privacy risks, warranting urgent attention from the academic and industrial communities.",
+      "authors": [
+        "Jianhong Li",
+        "Jiahao Chen",
+        "Yuwen Pu",
+        "Chunyi Zhou",
+        "Oubo Ma",
+        "Zhou Feng",
+        "Hangtao Zhang",
+        "Jichao Bi",
+        "Chunqiang Hu"
+      ],
+      "published": "2026-10-01T09:36:17Z",
+      "updated": "2026-10-01T09:36:17Z",
+      "categories": [
+        "cs.CR"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2610.01365v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.01365v1",
+      "comment": "34 pages",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.6478,
+          "matched": [
+            "training",
+            "fine-tuning"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.4681,
+          "matched": [
+            "privacy",
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.2333,
+          "matched": [
+            "training data",
+            "data"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.1331,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.628,
+        "relevance": 0.6585,
+        "quality": 0.45,
+        "novelty": 0.8311,
+        "freshness": 0.5371,
+        "feedback_adjustment": -0.0144,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "We show that LLM-generated candidates can provide sufficient supervision to recover previously learned private associations.",
+        "problem": "Beyond adapting Large Language Models (LLMs) to specialized applications, fine-tuning has recently been shown to recover private information that is no longer accessible through direct queries.",
+        "method": "Based on this, we propose ReGap, a data-free attack that recovers private associations using task structure, filters them by answer-token likelihood, and updates the target model via low-rank adaptation.",
+        "evidence": "Across six GPT-2, OPT, and Qwen3 models, ReGap improves target-association recovery by 6-21 percentage points over the post-training target model.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Efficient adversarial training, Trustworthy LLM.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training",
+          "fine-tuning"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-04T15:22:02.053485+00:00"
+    },
+    {
+      "id": "2610.01230",
+      "title": "HHR: Hierarchical Hash Retrieval for Efficient LLM Generation",
+      "abstract": "Efficient long-context inference is essential for large language models (LLMs), yet it poses a severe computational bottleneck. Hash-based retrieval offers an efficient alternative by encoding queries and keys into binary codes and using Hamming distance for key selection. However, this leads to a critical mismatch between Hamming distance and attention relevance. Query-Key logits depend jointly on directional similarity and feature magnitudes, whereas hash binarization discards magnitude information, causing both false-positive retrieval of low-logit keys and false-negative omission of high-logit keys. To address these failures, we propose Hierarchical Hash Retrieval (HHR), a coarse-to-fine framework that progressively improves retrieval accuracy through Geometry-Aware Key Routing (GKR) and Learned Hash Projection (LHP). GKR learns a head-wise orthogonal transformation to redistribute feature magnitudes and derive more discriminative page-level logit bounds, enabling effective pruning of low-logit keys while preserving important candidates. LHP then learns a head-wise projection space that aligns Hamming distance with the true Query-Key relevance ranking for fine-grained retrieval. By combining GKR and LHP, HHR suppresses false positives and recovers false negatives, substantially improving the fidelity of hash-based sparse attention. Extensive experiments across diverse LLMs and benchmarks demonstrate that HHR achieves superior performance over existing methods. For example, on LongBench, HHR improves the average score by 1.10 points and, at a context length of 128K, achieves up to a 3.30x decoding speedup and a 2.83x end-to-end speedup for Llama-3.1-8B-Instruct. The code is publicly available at https://github.com/lianjunl13-sudo/HHR.",
+      "authors": [
+        "Lianjun Liu",
+        "Tiantian Zheng",
+        "You Huang",
+        "Weiqi Yan",
+        "Mingte Qiu",
+        "Huazhong Liu",
+        "Xiaofeng Zhu",
+        "Yunshan Zhong"
+      ],
+      "published": "2026-10-01T07:31:44Z",
+      "updated": "2026-10-01T07:31:44Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2610.01230v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.01230v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5085,
+          "matched": [
+            "efficient"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.3338,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5978,
+        "relevance": 0.4736,
+        "quality": 0.9,
+        "novelty": 0.837,
+        "freshness": 0.5248,
+        "feedback_adjustment": -0.0268,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "benchmark evaluation",
+        "experiments",
+        "formal bound"
+      ],
+      "summary": {
+        "takeaway": "To address these failures, we propose Hierarchical Hash Retrieval (HHR), a coarse-to-fine framework that progressively improves retrieval accuracy through Geometry-Aware Key Routing (GKR) and Learned Hash Projection (LHP).",
+        "problem": "Efficient long-context inference is essential for large language models (LLMs), yet it poses a severe computational bottleneck.",
+        "method": "To address these failures, we propose Hierarchical Hash Retrieval (HHR), a coarse-to-fine framework that progressively improves retrieval accuracy through Geometry-Aware Key Routing (GKR) and Learned Hash Projection (LHP).",
+        "evidence": "To address these failures, we propose Hierarchical Hash Retrieval (HHR), a coarse-to-fine framework that progressively improves retrieval accuracy through Geometry-Aware Key Routing (GKR) and Learned Hash Projection (LHP).",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Efficient adversarial training, LLM loss landscape.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "efficient"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-04T15:22:02.053485+00:00"
+    },
+    {
+      "id": "2610.01847",
+      "title": "Detecting Inconsistencies in Model Specifications with LLM-as-Verifier Reasoning",
+      "abstract": "Model specifications define how large language models (LLMs) should behave, guiding alignment training, inference-time behavior, and evaluation. Yet these specifications may themselves contain defects: two individually reasonable principles may prescribe incompatible behavior when applied to the same situation, leaving no response that satisfies both. Detecting such inconsistencies is challenging. Formalizing natural-language specifications risks losing subtle distinctions, while behavior-based testing cannot reliably distinguish specification defects from differences in model behavior. We introduce VeriSpec, the first approach to directly detect inconsistencies in model specifications by auditing the specification text itself. Our key insight is to preserve the specification in natural language while using an LLM as a verifier. VeriSpec extracts structured, context-aware rules, constructs a topic-guided graph to cluster behaviorally related rules at the same authority level, and applies LLM-as-verifier reasoning to detect inconsistencies. Applying VeriSpec to the OpenAI Model Spec, we extract 405 rules and manually validate five inconsistencies, all reported to its developers, who responded positively and have initiated internal discussions. Compared with five baselines, VeriSpec identifies the most validated inconsistencies, achieves the highest precision (38.5%), and incurs the lowest cost per validated inconsistency ($11.12). These results establish direct specification auditing as a practical complement to behavioral alignment evaluation, catching defects at the source before they shape any model. The code is available at https://github.com/HIPREL-Group/VeriSpec.",
+      "authors": [
+        "Zichen Xie",
+        "Mrigank Pawagi",
+        "Lize Shao",
+        "Yang Hu",
+        "Wenxi Wang"
+      ],
+      "published": "2026-10-01T15:13:31Z",
+      "updated": "2026-10-01T15:13:31Z",
+      "categories": [
+        "cs.SE",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "primary_category": "cs.SE",
+      "abs_url": "https://arxiv.org/abs/2610.01847v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.01847v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5224,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.1393,
+          "matched": [
+            "training"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5887,
+        "relevance": 0.4914,
+        "quality": 0.78,
+        "novelty": 0.8475,
+        "freshness": 0.5706,
+        "feedback_adjustment": -0.013,
+        "semantic_feedback": 0.3043
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "baseline comparison",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "We introduce VeriSpec, the first approach to directly detect inconsistencies in model specifications by auditing the specification text itself.",
+        "problem": "Model specifications define how large language models (LLMs) should behave, guiding alignment training, inference-time behavior, and evaluation.",
+        "method": "We introduce VeriSpec, the first approach to directly detect inconsistencies in model specifications by auditing the specification text itself.",
+        "evidence": "Compared with five baselines, VeriSpec identifies the most validated inconsistencies, achieves the highest precision (38.5%), and incurs the lowest cost per validated inconsistency ($11.12).",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: LLM loss landscape, Efficient adversarial training.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-04T15:22:02.053485+00:00"
+    },
+    {
+      "id": "2610.01428",
+      "title": "Generalization Is Stability, Not Accuracy: Multi-Axis Evaluation of LLMs",
+      "abstract": "Generalization in large language models (LLMs) is the ability to produce consistent and semantically stable outputs when the same input is expressed in different ways. Existing work typically evaluates generalization through aggregate accuracy on a single prompt format, task, or set of variations, which conflates robustness with overall benchmark performance. In this work, we show generalization evaluation at the level of individual examples, across multiple input variants, and across different aspects of model behavior, focusing on variability rather than reducing performance to a score that can be improved through narrow training or other ways that obfuscate generalization evaluation. Following this view, we introduce the Stability-Aware Generalization Objective (SAGO), a framework that measures how much model behavior changes for the same input under different variations and benchmarks, capturing variability across several dimensions including generation consistency, internal activations, confidence, and response mirroring. We show that many commonly used models exhibit statistically significant and consistent generalization instability: no model generalizes uniformly, behavioral axes capture independent failure modes, and cross-dataset variation can reverse model rankings.",
+      "authors": [
+        "Nagham Omar",
+        "Mahmoud Jabarin",
+        "Maya Rozenshtein",
+        "Rom Himelstein",
+        "Avi Mendelson",
+        "Amit LeVi"
+      ],
+      "published": "2026-10-01T10:27:25Z",
+      "updated": "2026-10-01T10:27:25Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2610.01428v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.01428v1",
+      "comment": "Accepted at the TAE (Trust-AI-Eval) Workshop: Can We Trust AI Evaluation?, NeurIPS 2026",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.4942,
+          "matched": [
+            "generalization"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.2652,
+          "matched": [
+            "training",
+            "robustness"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.1729,
+          "matched": [
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5836,
+        "relevance": 0.5946,
+        "quality": 0.44,
+        "novelty": 0.8201,
+        "freshness": 0.5422,
+        "feedback_adjustment": -0.0131,
+        "semantic_feedback": 0.7444
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "dataset evidence"
+      ],
+      "summary": {
+        "takeaway": "In this work, we show generalization evaluation at the level of individual examples, across multiple input variants, and across different aspects of model behavior, focusing on variability rather than reducing performance to a score that can be improved through narrow training or other ways that obfuscate generalization evaluation.",
+        "problem": "Generalization in large language models (LLMs) is the ability to produce consistent and semantically stable outputs when the same input is expressed in different ways.",
+        "method": "Following this view, we introduce the Stability-Aware Generalization Objective (SAGO), a framework that measures how much model behavior changes for the same input under different variations and benchmarks, capturing variability across several dimensions including generation consistency, internal activations, confidence, and response mirroring.",
+        "evidence": "In this work, we show generalization evaluation at the level of individual examples, across multiple input variants, and across different aspects of model behavior, focusing on variability rather than reducing performance to a score that can be improved through narrow training or other ways that obfuscate generalization evaluation.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Statistical theory for LLMs, Efficient adversarial training.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Statistical theory for LLMs",
+        "matched": [
+          "generalization"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-04T15:22:02.053485+00:00"
+    },
+    {
+      "id": "2610.00436",
+      "title": "Every Batch Is Its Own Validation Set: Leave-One-Out Gradient Matching for Online Data Selection in LLM Fine-Tuning",
+      "abstract": "Online batch selection fine-tunes a language model on the most useful part of each candidate batch. Selectors that match the gradient of the candidate batch are attractive because they need no held-out data, yet they rarely beat training on the whole batch. We show why. In-sample gradient matching uses every example as part of its own target, so its objective credits each example with its own gradient noise. This is the covariance penalty that makes training error optimistic, now sitting on the diagonal of the gradient Gram matrix: it steers selection toward the noisiest examples and makes the full batch the best solution the objective can reach. The fix costs nothing. For each example, the other candidates form an independent sample of the data distribution, so removing the diagonal turns the matching objective into an unbiased estimate of the update's error with respect to the population gradient. The minimizer of this leave-one-out objective weights examples by their gradient signal-to-noise ratio (SNR), and whenever per-example SNR is heterogeneous enough, half of a batch yields a lower-error update than the whole batch; we give the exact condition. We build \\method{} on this principle. It computes the Gram matrix in the metric of the Adam preconditioner during the ordinary backward pass, selects a weighted subset greedily with a $(1-e^{-γ})$ guarantee, and uses no held-out data. Across four fine-tuning tasks and seven backbones from 1.5B to 8B parameters, LOOM improves on full-batch training by 2.3 and 2.4 points on Llama-3.1-8B and Qwen2.5-7B, exceeds every in-sample gradient matcher by 2.4 points and the validation-guided GREATS and OPUS by 1.6--2.0, and selects injected label noise at under a fifth of its base rate.",
+      "authors": [
+        "Hongyu Chen",
+        "Xinyi Luo",
+        "Ming Zhao",
+        "Lin Tang",
+        "Zihan Xu",
+        "Jing Li",
+        "Yuxuan Wang",
+        "Haoran Deng",
+        "Wei Zhang"
+      ],
+      "published": "2026-09-30T17:22:54Z",
+      "updated": "2026-09-30T17:22:54Z",
+      "categories": [
+        "cs.LG"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2610.00436v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.00436v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "language model",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.5566,
+          "matched": [
+            "data selection",
+            "data",
+            "selection"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5135,
+          "matched": [
+            "training",
+            "fine-tuning"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.2752,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5804,
+        "relevance": 0.603,
+        "quality": 0.41,
+        "novelty": 0.8443,
+        "freshness": 0.4406,
+        "feedback_adjustment": -0.0097,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "We show why.",
+        "problem": "Online batch selection fine-tunes a language model on the most useful part of each candidate batch.",
+        "method": "Selectors that match the gradient of the candidate batch are attractive because they need no held-out data, yet they rarely beat training on the whole batch.",
+        "evidence": "Across four fine-tuning tasks and seven backbones from 1.5B to 8B parameters, LOOM improves on full-batch training by 2.3 and 2.4 points on Llama-3.1-8B and Qwen2.5-7B, exceeds every in-sample gradient matcher by 2.4 points and the validation-guided GREATS and OPUS by 1.6--2.0, and selects injected label noise at under a fifth of its base rate.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Data selection for LLMs, Efficient adversarial training.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Data selection for LLMs",
+        "matched": [
+          "data selection",
+          "data",
+          "selection"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-04T15:22:02.053485+00:00"
+    },
+    {
+      "id": "2610.01896",
+      "title": "Asynchronous LLM Post-Training: Group-Mass Capping and Convergence Analysis",
+      "abstract": "Asynchronous reinforcement learning (RL) improves the efficiency of large language model post-training but introduces stale rollouts generated by earlier policies. Theoretical understanding of how this staleness affects convergence and how to mitigate its impact remains limited. We derive a convergence bound for GRPO-style algorithms that explicitly characterizes the tradeoff between the gradient estimator's second moment and bias. For trajectory-level importance-weighted estimators, our analysis shows that once the second moment is uniformly controlled, delay enters the bound through the bias introduced by clipping or rescaling. Guided by this insight, we propose a novel group mass capping GRPO (GMC-GRPO) method, which minimizes a ratio-based bias bound within a class of weighted estimators sharing a common second-moment guarantee. We establish convergence guarantees for asynchronous GMC-GRPO and show that, compared with TIC-GRPO, it improves the threshold dependence of the fourth-order delay term from $O(ε^{-4})$ to $O(ε^{-2})$ as $ε\\to0$, where $1+ε$ is the ratio threshold. Under local policy overlap, the delay-dependent term decreases as $G^{-2/5}$ after tuning the step size, where $G$ is the group size. For fixed behavior and current policies, the bias introduced by group rescaling also vanishes as $G\\to\\infty$, whereas the bias from trajectory-wise clipping can persist. Experiments across Qwen3 models and reasoning benchmarks demonstrate improved robustness to stale rollouts, with GMC-GRPO achieving the best performance among stable baselines under large rollout delays.",
+      "authors": [
+        "Qijia He",
+        "Ruinan Jin",
+        "Jun Luo",
+        "Shaofeng Zou",
+        "Yingbin Liang"
+      ],
+      "published": "2026-10-01T15:45:08Z",
+      "updated": "2026-10-01T15:45:08Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2610.01896v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.01896v1",
+      "comment": "40 pages, 6 figures",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.4488,
+          "matched": [
+            "training",
+            "robustness"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.3814,
+          "matched": [
+            "convergence",
+            "bound"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.2994,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5695,
+        "relevance": 0.4952,
+        "quality": 0.67,
+        "novelty": 0.8495,
+        "freshness": 0.5737,
+        "feedback_adjustment": -0.0147,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation",
+        "experiments",
+        "formal bound",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Guided by this insight, we propose a novel group mass capping GRPO (GMC-GRPO) method, which minimizes a ratio-based bias bound within a class of weighted estimators sharing a common second-moment guarantee.",
+        "problem": "Asynchronous reinforcement learning (RL) improves the efficiency of large language model post-training but introduces stale rollouts generated by earlier policies.",
+        "method": "We derive a convergence bound for GRPO-style algorithms that explicitly characterizes the tradeoff between the gradient estimator's second moment and bias.",
+        "evidence": "We establish convergence guarantees for asynchronous GMC-GRPO and show that, compared with TIC-GRPO, it improves the threshold dependence of the fourth-order delay term from $O(ε^{-4})$ to $O(ε^{-2})$ as $ε\\to0$, where $1+ε$ is the ratio threshold.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Efficient adversarial training, Statistical theory for LLMs.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training",
+          "robustness"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-04T15:22:02.053485+00:00"
+    },
     {
       "id": "2609.39902",
       "title": "CodeMimicry: Exploiting Safety Generalization Lag in Large Language Models via Structured Code Completion",
@@ -13378,998 +13989,6 @@
         "prompt_version": 2
       },
       "recommended_at": "2026-08-31T17:37:30.318867+00:00"
-    },
-    {
-      "id": "2608.27960",
-      "title": "When Teacher Guidance Misleads: Reward-Aligned On-Policy Distillation",
-      "abstract": "On-policy distillation (OPD) has recently emerged as a popular post-training paradigm for large language models (LLMs), providing an efficient way to transfer the knowledge and capabilities of teacher models into student models. However, teacher guidance on student-generated prefixes is not always reliable. Training should optimize the model to generate responses that are more likely to be correct, or equivalently, to get higher outcome rewards. But during OPD, the teacher model may provide guidance that discourages the student from moving toward correct trajectories or moves the student toward incorrect ones, which is misaligned with outcome reward. Such misaligned guidance is unreliable, as it would mislead the optimization process and ultimately degrade model performance. To mitigate misaligned teacher guidance, we propose Reward-Aligned On-Policy Distillation (RA-OPD). The key insight is to keep only trajectories whose induced updates move the student toward correct trajectories or discourage the student from moving toward incorrect ones. Specifically, for each sampled trajectory, RA-OPD checks whether its trajectory-level distillation return is consistent with its outcome reward and then filters out the misaligned trajectories. RA-OPD selects more reliable trajectories to improve student model performance without requiring additional computational cost. We evaluate RA-OPD on math and code benchmarks using models from the Qwen3 family and the DeepSeek-R1 family. Across seven math benchmarks and three code benchmarks, RA-OPD significantly outperforms standard OPD and other tested OPD variants.",
-      "authors": [
-        "Siyuan Gan",
-        "Yuhan Li",
-        "Xiran Wang",
-        "Linjian Meng",
-        "Boyan Wang",
-        "Zhen Zhao",
-        "Jing Huo",
-        "Yang Gao"
-      ],
-      "published": "2026-08-28T06:05:50Z",
-      "updated": "2026-08-28T06:05:50Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2608.27960v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.27960v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "emerging",
-          "score": 0.6412,
-          "matched": [
-            "On-policy distillation",
-            "on-policy distillation",
-            "OPD",
-            "distillation",
-            "on-policy",
-            "opd"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.3518,
-          "matched": [
-            "efficient",
-            "training"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5955,
-        "relevance": 0.5833,
-        "quality": 0.54,
-        "novelty": 0.8318,
-        "freshness": 0.5028,
-        "feedback_adjustment": -0.0169,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "benchmark evaluation"
-      ],
-      "summary": {
-        "why_for_you": "如果你从事 on‑policy distillation，RA-OPD 直接解决教师指导不对齐的问题，这是你研究中的关键障碍。",
-        "limitations": "该方法依赖外部 verifier 提供二元奖励，当所有轨迹被过滤时可能导致更新为零。",
-        "problem": "标准 OPD 可能被与 outcome rewards 冲突的教师指导误导，导致 student 性能下降。",
-        "method": "RA-OPD 计算轨迹层面的 distillation return，并丢弃其符号与二元 outcome reward 不一致的轨迹。",
-        "evidence": "在七个数学和三个代码基准上，RA-OPD 将 avg@k 提升最高 5.20 分，优于标准 OPD。",
-        "takeaway": "RA-OPD 在 on‑policy distillation 过程中筛除 reward‑misaligned 轨迹，实现持续的性能提升。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🗂️",
-            "text": "RA-OPD 筛除 reward‑misaligned 轨迹，使 OPD avg@k 在数学基准上提升最高 5.20 分。"
-          },
-          {
-            "icon": "🔧",
-            "text": "RA-OPD 使用二元掩码 mi = 1[(2Ri‑1)Gi ≥0] 仅保留对齐轨迹，无需额外 rollout。"
-          },
-          {
-            "icon": "📈",
-            "text": "在 Qwen3‑4B‑Base 上，RA-OPD 达到 avg@k 45.88，较标准 OPD 高出 5.20 分；但其依赖 verifier 提供二元奖励。"
-          }
-        ],
-        "overview": "本文指出 on‑policy distillation (OPD) 中的教师指导可能在轨迹层面与真实 outcome reward 不对齐，导致性能下降。提出 Reward‑Aligned OPD (RA‑OPD)，筛除其 distillation return 与 verifier 提供的二元正确性信号不一致的轨迹。该方法复用已有 OPD rollout，无需额外模型评估，并进行绝对一致性检查。对 Qwen3 与 DeepSeek‑R1 模型在多个数学和代码基准的实验表明，相较标准 OPD 和已有变体，性能持续提升。",
-        "methodology": [
-          {
-            "title": "轨迹采样与回报计算",
-            "detail": "对于每个提示 qi，从 πθ 采样学生轨迹 τi，计算逐标记 reverse‑KL 项 ri,t，并聚合为轨迹层面的蒸馏回报 Gi = average_t ri,t。"
-          },
-          {
-            "title": "结果验证与掩码创建",
-            "detail": "获取二元奖励 Ri = Verify(qi, τi) ∈ {0,1}。定义掩码 mi = 1[(2Ri‑1)Gi ≥ 0]；若 mi=1 则保留轨迹，否则丢弃。"
-          },
-          {
-            "title": "策略更新",
-            "detail": "如果有轨迹被保留 (Z = Σ_i mi/|τi| > 0)，则最小化 RA‑OPD 损失 (Eq. 3)；否则将梯度设为零。"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "绝对奖励对齐准则",
-            "detail": "RA‑OPD 不采用多次 rollout 的相对一致性，而是逐条检查每条轨迹：正的蒸馏回报必须与正确的结果 (Ri=1) 对齐，负的回报必须与错误的结果 (Ri=0) 对齐。"
-          },
-          {
-            "title": "零成本过滤",
-            "detail": "该方法复用已为 OPD 计算的教师概率，因此对齐检查不增加额外的前向传播或 rollout。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "基准、模型和基线",
-            "detail": "数学：AIME24/25/26、AMC、MATH、Minerva Math、OlympiadBench，使用 Qwen3‑8B‑Base‑GRPO‑Math 教师和 Qwen3‑4B/8B‑Base 学生；代码：HumanEval+、MBPP+、LiveCodeBench v6，使用 Qwen3‑8B‑Base‑GRPO‑Code 教师和 DeepSeek‑R1‑Distill‑Qwen‑7B 学生。基线：standard OPD、ExOPD、G‑OPD、Uni‑OPD。"
-          },
-          {
-            "title": "指标",
-            "detail": "报告数学的 avg@k（k=32 或 8）和代码的 pass@k（k=4）。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "数学性能提升",
-            "detail": "在 Qwen3‑4B‑Base 上，RA‑OPD 达到 avg@k 45.88，比 standard OPD 提升 5.20 分，比 ExOPD 提升 3.52 分；在 Qwen3‑8B‑Base 上，平均提升 5.09 分（相较于 OPD）。"
-          },
-          {
-            "title": "在各基准上持续优势",
-            "detail": "RA‑OPD 在七个数学基准中的六个以及全部三个代码基准上均领先所有竞争方法，显著提升包括 AIME24 上 +6.04、OlympiadBench 上 +2.08。"
-          },
-          {
-            "title": "无额外计算成本",
-            "detail": "过滤步骤复用已有的 OPD rollout，因此训练时间与 standard OPD 相同。"
-          }
-        ],
-        "contributions": [
-          "引入 RA‑OPD，一种用于 on‑policy 蒸馏的轨迹级奖励对齐过滤器。",
-          "证明蒸馏回报与结果奖励的绝对一致性可提升学生模型性能。",
-          "在多样的数学和代码任务上提供大量实证验证，且无需额外计算。"
-        ],
-        "limitations": [
-          "需要可靠的验证器为每条轨迹生成二元结果奖励。",
-          "若所有采样轨迹均被过滤 (Z=0)，方法将产生零梯度更新。",
-          "仅在可验证正确性的任务（数学、代码）上评估；对开放式生成的适用性尚未测试。"
-        ],
-        "open_questions": [
-          "当验证器噪声较大或仅提供概率奖励时，RA‑OPD 的表现如何？",
-          "对不可验证或主观任务，能否扩展对齐过滤器？",
-          "轨迹过滤对收敛性和样本效率的理论影响是什么？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "On-policy distillation",
-        "matched": [
-          "On-policy distillation",
-          "on-policy distillation",
-          "OPD",
-          "distillation"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-31T17:37:30.318867+00:00"
-    },
-    {
-      "id": "2608.28511",
-      "title": "Training Communication-Efficient Mixture-of-Experts Language Models with Layer Re-Configuration",
-      "abstract": "When training Mixture-of-Experts (MoE) language models with expert parallelism, all-to-all token dispatch and combine collectives can consume a substantial fraction of end-to-end training time. In this work, we study communication-efficient MoE models (CE-MoE), in which we adopt a heterogeneous layer pattern that decouples token-mixing and channel-mixing depth. Compared to conventional models which interleave MoE layers after each token-mixing layer (e.g., attention, Mamba-2), CE-MoE models concentrate expert capacity in a select few routed MoE layers, while maintaining depth by adding additional token-mixing and dense-FFN layers. Across a scaling ladder from 2B to 31.5B total parameters, under matched total and activated parameters, CE-MoE models consistently reduce training cost while matching validation loss and downstream benchmarks with full-MoE baselines. At the 31.5B scale, CE-MoE uses 33.3\\% fewer GPU-hours while improving average downstream score and inference throughput.",
-      "authors": [
-        "Simeng Sun",
-        "Roger Waleffe"
-      ],
-      "published": "2026-08-28T16:44:50Z",
-      "updated": "2026-08-28T16:44:50Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2608.28511v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.28511v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.6746,
-          "matched": [
-            "efficient",
-            "training"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.1279,
-          "matched": [
-            "loss"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5903,
-        "relevance": 0.5653,
-        "quality": 0.55,
-        "novelty": 0.8456,
-        "freshness": 0.5662,
-        "feedback_adjustment": -0.0073,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "why_for_you": "与高效 LLM 训练优化相关，尤其是通信高效的 MoE 架构。",
-        "limitations": "聚焦特定 MoE 架构；未对对抗鲁棒性或损失曲面动态进行显式分析。",
-        "problem": "MoE 训练中因 all-to-all token 分发与合并导致通信成本高。",
-        "method": "使用 phased-greedy 算法的异构层模式，重新配置 token-mixing 与 MoE 层分布。",
-        "evidence": "31.5B 规模的 CE-MoE 节省 33.3% GPU-hours，同时提升下游得分和推理吞吐。",
-        "takeaway": "CE-MoE 通过解耦 token-mixing 与 channel-mixing 深度降低训练成本，保持性能。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "experiments": [
-          {
-            "detail": "在 2B‑31.5B 模型上测试，总参数/激活参数匹配，对比 full-MoE 基线。",
-            "title": "参数规模评估"
-          }
-        ],
-        "limitations": [
-          "未分析 adversarial robustness 或 loss landscape 曲率",
-          "聚焦特定 MoE 架构（如 Mamba-2 token-mixers）"
-        ],
-        "overview": "本研究通过异构层布局将 token-mixing 与 channel-mixing 深度解耦，缓解 MoE 训练的通信瓶颈。方法通过增加 token-mixing 与 dense-FFN 层，在保持模型容量的同时减少 MoE 层数。实验在 2B‑31.5B 参数规模上均显示训练成本下降，31.5B 时实现 33.3% GPU-hours 节省并提升下游性能。",
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "CE-MoE 的异构层模式将 MoE 深度降低 65.2%"
-          },
-          {
-            "icon": "⚙️",
-            "text": "Phased-greedy 算法生成 token-mixing 为主的层模式"
-          },
-          {
-            "icon": "📈",
-            "text": "31.5B 规模的 CE-MoE 实现 33.3% GPU-hours 减少并提升吞吐"
-          }
-        ],
-        "open_questions": [
-          "CE-MoE 架构如何影响 adversarial vulnerability？",
-          "异构层模式能否推广至非 MoE 架构？"
-        ],
-        "contributions": [
-          "用于通信高效 MoE 训练的异构层模式",
-          "用于层模式生成的 phased-greedy 算法",
-          "在 31.5B 规模上实证验证 33.3% GPU-hours 减少"
-        ],
-        "mechanism": [
-          {
-            "detail": "将 token-mixing (Mamba-2) 与 channel-mixing (MoE) 层分离，以降低与 LE·S·GBS·K 成正比的 all-to-all 通信量",
-            "title": "解耦混合深度"
-          }
-        ],
-        "findings": [
-          {
-            "detail": "31.5B 规模的 CE-MoE 相比 full-MoE 基线节省 33.3% GPU-hours",
-            "title": "训练成本降低"
-          },
-          {
-            "detail": "Mamba-2 token-mixers 的通信量比 Switch-style MoE 低 47.8%",
-            "title": "稳定性提升"
-          }
-        ],
-        "methodology": [
-          {
-            "detail": "将 token-mixing 与 MoE 比例调至 α=4，以降低 LE 并保持总层数 L=52，配置为 (a=30, b=8, c=6, d=8)",
-            "title": "层组合优化"
-          },
-          {
-            "detail": "通过四个阶段生成层模式：attention block 放置、regular block 分布、residual block 处理、attention block 均匀划分",
-            "title": "Phased-greedy 算法"
-          }
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "efficient",
-          "training"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-31T17:37:30.318867+00:00"
-    },
-    {
-      "id": "2608.27954",
-      "title": "Not to Break, but to Attest: Adversarial Probes for Privacy-Preserving LLM Verification",
-      "abstract": "Post-deployment changes to large language models can alter behavior while leaving routine outputs largely unchanged, creating a challenge for AI governance when model weights are proprietary. We present a privacy-preserving zk-SNARK-based audit framework that searches for probes designed in the spirit of adversarial examples to amplify logit drift between an approved model and a modified deployment. Our framework explores complementary probe families under different access models. Token-based probes operate in a black-box setting and require only the input interface, tokenizer, and vocabulary. Embedding-based probes require gray-box access to the embedding interface. Stress probes rely on additional interface capabilities but do not require full white-box access to model weights or architecture. This range allows probe selection to balance sensitivity, access requirements, and deployment cost. We evaluate probe constructions across LLM architectures, model-tampering scenarios representative of post-deployment attacks, and GPU platforms. Importantly, our experimental results demonstrate that token-based probes consistently deliver the strongest mean sensitivity across models and GPU platforms, although operating in a black-box setting. Our Groth16 zk-SNARK workflow remains practical as the probe set scales from 1 to 50, where proving time increases from 1.02 to 1.78 seconds, verification remains near 0.84 seconds, and proof size remains constant.",
-      "authors": [
-        "Cameron Wilding",
-        "Mina Shaker",
-        "Fatemeh Ganji"
-      ],
-      "published": "2026-08-28T05:51:22Z",
-      "updated": "2026-08-28T05:51:22Z",
-      "categories": [
-        "cs.CR",
-        "cs.AI",
-        "cs.LG"
-      ],
-      "primary_category": "cs.CR",
-      "abs_url": "https://arxiv.org/abs/2608.27954v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.27954v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.5123,
-          "matched": [
-            "privacy",
-            "llm"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.4401,
-          "matched": [
-            "adversarial"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.4401,
-          "matched": [
-            "llm"
-          ]
-        },
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.0823,
-          "matched": [
-            "proof"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5823,
-        "relevance": 0.5859,
-        "quality": 0.47,
-        "novelty": 0.8244,
-        "freshness": 0.5014,
-        "feedback_adjustment": -0.0153,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "experiments",
-        "quantitative results"
-      ],
-      "summary": {
-        "why_for_you": "提供具体、高效的审计机制，符合可信LLM目标，实现完整性检查且不泄露logits。",
-        "limitations": "实验仅在 RTX A4000 上的 Llama3.2‑1B 以及 LoRA + Gaussian 篡改场景进行，未覆盖更广泛的模型或攻击。",
-        "problem": "在权重为专有且常规输出保持不变的情况下，检测隐藏的模型修改。",
-        "method": "生成 token、embedding 和 stress 探针族，挑选 logit drift 最大的 top‑K，并通过 zk‑SNARK 证明对基线承诺的一致性。",
-        "evidence": "基于 token 的探针在各模型和 GPU 上的平均灵敏度最高；证明时间在 1–50 个探针时从 1.02 s 增至 1.78 s，验证保持约 0.84 s，且证明大小保持不变。",
-        "takeaway": "对抗式探针结合 Groth16 zk‑SNARK，实现部署后 LLM 完整性的隐私保护验证。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "🛡️",
-            "text": "引入对抗式探针族和 zk‑SNARK 证明，用于检测隐藏的 LLM 漂移。"
-          },
-          {
-            "icon": "🧮",
-            "text": "选择最大化 logit Δ(x) 的 top‑K 探针，并通过 Groth16 证明基线承诺，仅需黑盒 token 访问。"
-          },
-          {
-            "icon": "📊",
-            "text": "Token 探针在各架构上实现最高平均灵敏度，但评估仅使用 Llama3.2‑1B 和 LoRA + Gaussian 扰动。"
-          }
-        ],
-        "overview": "本文提出面向治理的审计框架，将合成输入视为对抗式探针，以放大已批准 LLM 基线与可能被篡改部署之间的 logit drift。探针族（token、稀疏 embedding、MLP‑targeted、attention‑targeted）根据不稳定性 Δ(x) 打分，保留 top‑K。Groth16 zk‑SNARK 电路将当前探针 logits 与基线 logits 的公开承诺绑定，生成简洁的零知识一致性证明，同时保护 logits 隐私。对 Llama3.2‑1B 的实验显示 token 探针具有更高灵敏度且证明生成时间实用。",
-        "mechanism": [
-          {
-            "detail": "Δ(x)量化行为分离；最大化Δ选择对隐藏模型变化最敏感的探测器。",
-            "title": "逻辑漂移作为不稳定度量"
-          },
-          {
-            "detail": "算术电路从私有探测器输出重新计算承诺，并强制与公开基准哈希相等，保证正确性和隐私。",
-            "title": "零知识绑定"
-          }
-        ],
-        "methodology": [
-          {
-            "detail": "两阶段过程：(1) 为每个家族生成大型候选集；(2) 在基准模型和篡改模型上计算Δ(x)=‖fθ(x)−fθ′(x)‖₂，选择均值Δ最高的家族并保留其top-K探测器。",
-            "title": "探测器生成"
-          },
-          {
-            "detail": "使用Groth16和Poseidon梅克尔树电路；基准逻辑值被哈希为公开承诺C，当前探测器逻辑值为私有见证；证明π证明C′=C而不泄露逻辑值。",
-            "title": "zk-SNARK认证"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "设置",
-            "detail": "Meta‑llama/Llama3.2‑1B (float16) 在 NVIDIA RTX A4000 上；基线模型 vs. LoRA‑微调 + Gaussian‑扰动 变体；在该对模型上评估探针族。"
-          },
-          {
-            "title": "指标",
-            "detail": "每个族的平均 Δ(x)、证明时间、验证时间、证明大小；K∈{1,5,10,20,50}。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "探针敏感性",
-            "detail": "基于 Token 的探针在所有模型和 GPU 平台上始终产生最高的平均 Δ。"
-          },
-          {
-            "title": "证明性能",
-            "detail": "证明时间从 1.02 s (K=1) 增至 1.78 s (K=50)；验证时间保持约 0.84 s；证明大小保持不变。"
-          }
-        ],
-        "contributions": [
-          "Adversarial‑style probe design for LLM integrity detection",
-          "Privacy‑preserving zk‑SNARK attestation workflow for post‑deployment verification",
-          "Empirical evidence that black‑box token probes outperform richer access probes in sensitivity"
-        ],
-        "limitations": [
-          "评估仅限于单个 1B‑parameter model 和一种 GPU 类型",
-          "篡改场景仅限于 LoRA + Gaussian perturbations 和特定的 pathway noises",
-          "尽管需要更高的访问权限，Stress probes 未显示优于 token probes",
-          "未探索 50 probes 以上的可扩展性"
-        ],
-        "open_questions": [
-          "probe 敏感性在更大模型和更广攻击谱上如何泛化？",
-          "额外的 gray‑box 或 white‑box 信息能否在不牺牲 privacy guarantees 的前提下改进 probe 设计？",
-          "替代 zk‑SNARK 系统（如 PLONK）在 proof size 与 latency 上的权衡是什么？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "privacy",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-31T17:37:30.318867+00:00"
-    },
-    {
-      "id": "2608.27857",
-      "title": "SpikeOPD: Stable On-Policy Distillation for Autoregressive Spiking Language Models",
-      "abstract": "Spiking neural networks (SNNs) offer a path to energy-efficient language modeling through sparse encoding and event-driven computation, but training capable spiking language models from scratch remains difficult. A practical alternative is ANN-to-SNN migration through knowledge distillation (KD), where a pretrained artificial neural network (ANN) teacher supervises an SNN student. Existing migration approaches distill on fixed corpus prefixes, whereas autoregressive inference conditions on self-generated prefixes, creating prefix-source mismatch. It manifests as output-policy mismatch with the ANN teacher and internal spiking-dynamics drift between self-generated and matched corpus prefixes. On-policy distillation (OPD) offers a natural way to mitigate both manifestations by continuing teacher supervision on self-generated prefixes. We evaluate a teacher-only full-KL variant, Vanilla OPD, via a controlled stress test and observe it may suffer from delayed rollout-feedback collapse. This result shows that on-policy coverage alone does not ensure stable adaptation. Motivated by these findings, we propose SpikeOPD, a stable on-policy distillation framework for autoregressive SNNs that learns from self-generated prefixes while maintaining rollout stability. It applies full-KL teacher correction to reduce output-policy mismatch, while matched-prefix policy anchoring constrains policy departure from the frozen reference SNN on the same prefixes. Layerwise spike regularization further limits firing-rate deviations during on-policy adaptation. Across three model scales, SpikeOPD improves average accuracy over the corresponding KD SNNs by 0.8, 1.7, and 2.9 points at 0.125B, 0.35B, and 1.3B, respectively, while preserving their sparse-compute profiles.",
-      "authors": [
-        "Enqiao Lu",
-        "Xingrui Yu",
-        "Yiwei Fu",
-        "Zhenglin Wan",
-        "Pengfei Zhou",
-        "Wangbo Zhao",
-        "Muqing Jian",
-        "Xueyi Zhang",
-        "Yang You",
-        "Ivor Tsang"
-      ],
-      "published": "2026-08-28T03:05:21Z",
-      "updated": "2026-08-28T03:05:21Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2608.27857v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.27857v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "emerging",
-          "score": 0.5825,
-          "matched": [
-            "On-policy distillation",
-            "on-policy distillation",
-            "OPD",
-            "distillation",
-            "on-policy",
-            "opd"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.2221,
-          "matched": [
-            "efficient",
-            "training"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5199,
-        "relevance": 0.5104,
-        "quality": 0.41,
-        "novelty": 0.8192,
-        "freshness": 0.4849,
-        "feedback_adjustment": -0.0191,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "SpikeOPD stabilizes on‑policy distillation for autoregressive spiking language models, yielding consistent accuracy gains.",
-        "problem": "Prefix‑source mismatch causes output‑policy mismatch and spiking‑dynamics drift when migrating ANN teachers to SNN students.",
-        "method": "SpikeOPD integrates full‑KL teacher correction, matched‑prefix policy anchoring, and layerwise spike regularization during on‑policy adaptation.",
-        "evidence": "Across 0.125B, 0.35B, and 1.3B SNNs, SpikeOPD improves average zero‑shot accuracy by 0.8, 1.7, and 2.9 points while preserving sparse compute.",
-        "limitations": "Energy and operation estimates are analytical rather than measured on neuromorphic hardware.",
-        "why_for_you": "If you study on‑policy distillation, this paper offers a concrete, stable OPD framework for spiking models.",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "SpikeOPD improves average accuracy over KD SNNs by up to 2.9 points across three model scales."
-          },
-          {
-            "icon": "🔧",
-            "text": "SpikeOPD combines full‑KL teacher correction, matched‑prefix policy anchoring, and layerwise spike regularization."
-          },
-          {
-            "icon": "📈",
-            "text": "Across 0.125B–1.3B models, gains of 0.8–2.9 accuracy points are achieved while preserving sparse compute, but energy estimates are analytical."
-          }
-        ],
-        "overview": "The paper identifies prefix‑source mismatch as a source of output‑policy and internal spiking‑dynamics drift in ANN‑to‑SNN distillation for autoregressive language generation. It proposes SpikeOPD, a stable on‑policy distillation framework that corrects the output distribution with a full‑KL teacher loss, anchors the student policy to a frozen reference SNN on the same self‑generated prefixes, and regularizes layerwise firing rates. Experiments on three SNN scales demonstrate consistent accuracy improvements and rollout stability, with ablations confirming each component's contribution.",
-        "methodology": [
-          {
-            "title": "Full‑KL Teacher Correction",
-            "detail": "Computes KL(p_T(·|s_t)‖q_θ(·|s_t)) over the full vocabulary for each self‑generated prefix, providing dense supervision and reducing output‑policy mismatch."
-          },
-          {
-            "title": "Matched‑Prefix Policy Anchoring",
-            "detail": "Adds a KL term between the student and a frozen reference SNN on the same prefixes, constraining policy drift while allowing teacher correction."
-          },
-          {
-            "title": "Layerwise Spike Regularization",
-            "detail": "Applies L_spk penalties to selected layers' firing rates (λ_spk=0.3, layers {3,6,9,12}) to limit deviations in spiking activity during adaptation."
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "Mitigating Output‑Policy Mismatch",
-            "detail": "Full‑KL correction transfers the ANN teacher's full distribution, preserving uncertainty and aligning logits on prefixes unseen during offline KD."
-          },
-          {
-            "title": "Controlling Policy Drift",
-            "detail": "Policy anchoring penalizes KL divergence from the reference SNN, preventing the delayed rollout‑feedback collapse observed in Vanilla OPD."
-          },
-          {
-            "title": "Stabilizing Internal Dynamics",
-            "detail": "Spike regularization keeps layerwise firing rates close to the offline checkpoint, avoiding internal spiking‑dynamics drift despite changes in output logits."
-          }
-        ],
-        "experiments": [
-          {
-            "title": "Zero‑Shot Benchmark Evaluation",
-            "detail": "Eight tasks (ARC‑e/c, WinoGrande, BoolQ, PIQA, HellaSwag, OpenBookQA, HeadQA) measured with unweighted mean accuracy; rollout stability assessed via Adj., Dist‑4, and Run metrics."
-          },
-          {
-            "title": "Model Scales and Baselines",
-            "detail": "SNNs of 0.125B, 0.35B, and 1.3B parameters; baselines include KD, continued SpAD, hard‑label SFT, Vanilla OPD, and on‑policy variants EOPD, Lightning OPD, OPRD."
-          },
-          {
-            "title": "Training Protocol",
-            "detail": "Start from 4,000‑update SpAD checkpoint, generate K=32 tokens at temperature 1.0, train 500 updates with (β_ref, λ_spk)=(0.75,0.3)."
-          },
-          {
-            "title": "Stability Tests",
-            "detail": "10 matched‑seed runs at 0.125B show no rollout collapse; paired‑prefix diagnostics use N=256 fixed pairs."
-          }
-        ],
-        "findings": [
-          {
-            "title": "Accuracy Gains",
-            "detail": "SpikeOPD improves average zero‑shot accuracy by 0.8 % (0.125B), 1.7 % (0.35B), and 2.9 % (1.3B) over corresponding KD SNNs."
-          },
-          {
-            "title": "Ablation Results",
-            "detail": "Removing policy anchoring drops accuracy from 35.5 % to 31.7 %; removing teacher correction or spike regularization also degrades performance, confirming complementary roles."
-          },
-          {
-            "title": "Initialization Robustness",
-            "detail": "Adapting checkpoints after 1k, 2k, or 4k SpAD updates yields consistent 0.6–0.8 % improvements, indicating robustness to checkpoint maturity."
-          }
-        ],
-        "contributions": [
-          "SpikeOPD framework for stable on‑policy distillation of autoregressive spiking language models.",
-          "Diagnostic analysis separating output‑policy mismatch from internal spiking‑dynamics drift."
-        ],
-        "limitations": [
-          "Energy and operation counts are analytical estimates rather than measured on neuromorphic hardware."
-        ],
-        "open_questions": [
-          "How does SpikeOPD perform when evaluated on actual neuromorphic hardware with measured latency and power?",
-          "Can the framework scale to much larger language models (tens of billions of parameters) while maintaining stability?",
-          "What is the impact of SpikeOPD on downstream fine‑tuning or task‑specific adaptation beyond zero‑shot evaluation?"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b",
-        "language": "en",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "On-policy distillation",
-        "matched": [
-          "On-policy distillation",
-          "on-policy distillation",
-          "OPD",
-          "distillation"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-31T17:37:30.318867+00:00"
-    },
-    {
-      "id": "2608.28327",
-      "title": "Layered LLM Defenses as an Ensemble: Access Tiers, Inference Cost, and the Measured Failure Correlation Between Defense Layers",
-      "abstract": "Practitioners defend large language models (LLMs) by stacking defenses, assuming the layers compound. A stack is an ensemble, and ensembles compound only under a condition the LLM security literature recommends but never measures: the members must fail on different inputs. Two instruments make that measurable. The Adversary Access-Tier Model (AATM) grades an adversary by the access it holds, from system-only (A0) to influence over training data (A4). A cost model sorts defenses into five classes of inference-time overhead; because two classes require training weights or reading activations, they tier the defender as AATM tiers the adversary. From these we derive how a stack behaves, and the quantities a defender cares about diverge: coverage saturates within a tier, cost rises by class, false refusals accumulate as a union, and residual attack success falls multiplicatively only under independence. We measure that independence. Running one adaptive adversary against a seven-layer stack, failure correlation is positive in all fifteen measurable pairs ($φ$ from $0.30$ to $0.75$), and the joint residual exceeds the multiplicative prediction by up to $0.172$. Stratifying on behavior difficulty dissolves most of the association, so the dependence is predominantly common-cause, but it survives permutation inference, majority-vote grader labels, and externally calibrated thresholds. The same stack refuses four in five benign prompts while remaining statistically indistinguishable from its strongest single layer. The dependence is architectural rather than sampling-based: members correlate through the model they all wrap, so no wider member pool weakens it. Diversity therefore selects stack members but does not predict what an assembled stack delivers, which has to be measured end to end.",
-      "authors": [
-        "Abrar Alotaibi",
-        "Muhammad Shahid Jabbar",
-        "Sadam Al-Azani",
-        "Moataz Ahmed"
-      ],
-      "published": "2026-08-28T13:36:06Z",
-      "updated": "2026-08-28T13:36:06Z",
-      "categories": [
-        "cs.CR",
-        "cs.AI",
-        "cs.CL"
-      ],
-      "primary_category": "cs.CR",
-      "abs_url": "https://arxiv.org/abs/2608.28327v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.28327v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.4417,
-          "matched": [
-            "llm"
-          ]
-        },
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "core",
-          "score": 0.3872,
-          "matched": [
-            "influence",
-            "sampling",
-            "training data",
-            "data"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.2638,
-          "matched": [
-            "training"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5089,
-        "relevance": 0.4836,
-        "quality": 0.41,
-        "novelty": 0.8524,
-        "freshness": 0.5475,
-        "feedback_adjustment": -0.0129,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "quantitative results"
-      ],
-      "summary": {
-        "evidence": "Failure correlation φ ranges 0.30-0.75 across 15 pairs, with joint residual attack success exceeding multiplicative predictions by 0.172.",
-        "limitations": "Experiments use fixed attacks rather than adaptive adversaries, and architectural dependence cannot be mitigated by increasing defense diversity.",
-        "method": "The Adversary Access-Tier Model (AATM) and inference cost classification quantify defense behavior and measure failure correlation in a seven-layer stack.",
-        "problem": "LLM security literature assumes defense ensembles compound under independence, but real-world failure correlation reduces effectiveness.",
-        "takeaway": "Layered LLM defenses exhibit architectural failure correlation, undermining independence assumptions and requiring end-to-end evaluation.",
-        "why_for_you": "Matches interest in adversarial training by revealing how architectural dependencies degrade ensemble effectiveness, critical for optimizing LLM loss landscapes and defense composition.",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "contributions": [
-          "Formalization of AATM for adversarial access-tier analysis",
-          "Quantification of defense cost classes based on inference overhead",
-          "Empirical demonstration of architectural failure correlation in LLM defense stacks"
-        ],
-        "experiments": [
-          {
-            "detail": "Includes input/output censorship, model training, adversarial training, monitoring, and infrastructure hardening defenses tested against adaptive adversaries GCG and AutoDAN",
-            "title": "Seven-layer defense stack"
-          },
-          {
-            "detail": "Uses optimized adversarial prompts (GCG's token suffixes and AutoDAN's sentence-level genetic search) to measure failure correlation under dynamic attack scenarios",
-            "title": "Adaptive evaluation"
-          },
-          {
-            "detail": "Stratified sampling (n=100) assesses human-automated correlation (ρ) to validate defense effectiveness metrics",
-            "title": "Human-in-the-loop validation"
-          }
-        ],
-        "findings": [
-          {
-            "detail": "Positive φ=0.30-0.75 in all 15 defense pairs, with joint residual attack success exceeding multiplicative predictions by 0.172",
-            "title": "Failure correlation measurement"
-          },
-          {
-            "detail": "Correlation persists through permutation inference and majority-vote labels, indicating shared model architecture as the root cause",
-            "title": "Architectural dependence"
-          },
-          {
-            "detail": "Defense coverage saturates within AATM tiers despite increasing stack depth, limiting marginal gains from additional layers",
-            "title": "Coverage saturation"
-          }
-        ],
-        "limitations": [
-          "Experiments use fixed attack sets rather than fully adaptive adversaries",
-          "Architectural dependence cannot be mitigated by increasing defense diversity",
-          "Results limited to the specific seven-layer stack configuration tested"
-        ],
-        "mechanism": [
-          {
-            "detail": "Defenses correlate through shared model architecture rather than sampling, as evidenced by persistent dependence across permutation inference and externally calibrated thresholds",
-            "title": "Architectural failure dependence"
-          }
-        ],
-        "methodology": [
-          {
-            "detail": "Grades adversaries by access tier (A0: system-only to A4: training data influence), with defense cost classes mapping to these tiers via inference overhead constraints",
-            "title": "AATM-adversary classification"
-          },
-          {
-            "detail": "Five-phase process including baseline evaluation, adaptive attacker optimization, and human-in-the-loop validation to measure failure correlation and residual attack success",
-            "title": "Stack evaluation pipeline"
-          }
-        ],
-        "open_questions": [
-          "How do dynamic adversarial scenarios with evolving attack strategies affect failure correlation metrics?",
-          "Can architectural dependence be decoupled from model design without compromising defense effectiveness?",
-          "What are the implications of these findings for efficient adversarial training protocols?"
-        ],
-        "overview": "This paper challenges the assumption that LLM defense ensembles compound effectively by demonstrating architectural failure correlation. The Adversary Access-Tier Model (AATM) categorizes adversaries by access level (A0-A4) and links defense cost classes to these tiers. Experiments on a seven-layer stack reveal positive failure correlation (φ=0.30-0.75) between defenses, with residual attack success exceeding multiplicative predictions by 0.172. The dependence stems from shared model architecture rather than sampling, making diversity-based optimization ineffective. These findings necessitate end-to-end evaluation of defense stacks rather than relying on component-level metrics.",
-        "signals": [
-          {
-            "icon": "⚡",
-            "text": "AATM and cost model quantify defense behavior under adversarial access tiers"
-          },
-          {
-            "icon": "🔧",
-            "text": "Seven-layer stack measures failure correlation φ=0.30-0.75 with 0.172 residual overprediction"
-          },
-          {
-            "icon": "📊",
-            "text": "Architectural dependence persists across permutation inference and majority-vote labels, invalidating independence assumptions"
-          }
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "en",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-31T17:37:30.318867+00:00"
-    },
-    {
-      "id": "2608.25941",
-      "title": "When Pruning Meets Interpretability: Preserving Sparse Autoencoder Robustness in LLMs",
-      "abstract": "Sparse autoencoders (SAEs) are widely used to interpret the internal representations of large language models (LLMs), yet their reliability under post-hoc model compression remains poorly understood. We present a systematic study of how pruning affects SAE behavior and theoretically show that, for a fixed SAE, its impact is governed by perturbation energy, a covariance-weighted norm. This perspective exposes a key limitation of magnitude pruning: by ignoring activation geometry, it distorts the learned representation space and degrades SAE functionality. Activation-aware methods such as Wanda and SparseGPT, in contrast, implicitly control perturbation energy and are therefore substantially more robust at preserving SAE behavior. We further reveal a consistent structural vulnerability across all pruning methods: middle layers are significantly more sensitive to pruning than early or late layers. Guided by this insight, we propose a layer-wise sparsity allocation strategy, achieving lower perplexity under the same average pruning sparsity. Experiments across four model architectures validate our theoretical findings. Code is publicly available at https://github.com/osu-srml/sae-robustness-under-pruning/tree/main.",
-      "authors": [
-        "Suchit Gupte",
-        "Xueru Zhang",
-        "Mohammad Mahdi Khalili"
-      ],
-      "published": "2026-08-26T15:57:42Z",
-      "updated": "2026-08-26T15:57:42Z",
-      "categories": [
-        "cs.LG"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2608.25941v1",
-      "pdf_url": "https://arxiv.org/pdf/2608.25941v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.5175,
-          "matched": [
-            "robust",
-            "robustness"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.456,
-          "matched": [
-            "robustness",
-            "reliability"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5694,
-        "relevance": 0.5052,
-        "quality": 0.69,
-        "novelty": 0.8125,
-        "freshness": 0.4351,
-        "feedback_adjustment": -0.0153,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "GitHub link",
-        "experiments"
-      ],
-      "summary": {
-        "evidence": "在四种模型架构上的实验验证了理论分析的正确性。",
-        "limitations": "作者指出中间层对剪枝的敏感性高于早期或晚期层，这是明确提到的局限性。",
-        "method": "通过理论分析揭示扰动能量对SAE行为的影响，并设计分层稀疏分配策略优化剪枝效果。",
-        "problem": "现有剪枝方法（如幅度剪枝）因忽略激活几何结构而破坏SAE功能，导致其可靠性不足。",
-        "takeaway": "提出了一种分层稀疏分配策略，以在相同平均剪枝稀疏度下降低困惑度并保持稀疏自编码器（SAE）的鲁棒性。",
-        "why_for_you": "与可信大语言模型（LLM）的可解释性保持相关，特别是在模型压缩场景下维持稀疏自编码器的鲁棒性。",
-        "source": "abstract",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "robust",
-          "robustness"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-08-30T14:52:18.671788+00:00"
     }
   ]
 }
