@@ -1,6 +1,109 @@
 {
-  "generated_at": "2026-10-04T15:22:02.053485+00:00",
+  "generated_at": "2026-10-05T19:17:47.757509+00:00",
   "papers": [
+    {
+      "id": "2610.02593",
+      "title": "Fisher-Guided Submodular Data Selection for Continual Pre-Training of Large Language Models",
+      "abstract": "Data selection is already a central bottleneck in large-language-model training, where web-scale corpora are noisy and token budgets are finite. In continual pre-training (CPT), it becomes a forgetting-control problem: a poorly chosen target-domain corpus can overwrite capabilities encoded in the pretrained checkpoint. Existing CPT practice either scores candidates with parameter-agnostic scalars such as perplexity, or mitigates forgetting by spending many extra general-domain replay tokens. Neither strategy directly asks how training on a candidate will move the model parameters. We show that loss-based selection causes the post-CPT Fisher diagonal to drift downward on exactly the high-Fisher coordinates the pretrained model had committed to, while leaving low-Fisher coordinates largely untouched. This asymmetry exposes a parameter-space mechanism for catastrophic forgetting. Motivated by this observation, we propose a Fisher-aware CPT selector that decomposes each candidate's gradient into an anchor component, which measures perturbation along committed parameter directions, and a frontier component, which measures update capacity in unconstrained low-Fisher subspaces. We aggregate these signals with a log-determinant submodular objective and optimize it in a single pass using a scalable streaming data selection pipeline. On TinyLlama-1.1B and Llama-3.1-8B CPT over medical data, our selector improves target-domain quality while bounding forgetting on held-out pretraining benchmarks. Most importantly, it is substantially more token-efficient than forgetting-aware replay. 1B selected tokens already outperform the replay strategy trained with 10B tokens on both adaptation and forgetting, giving a 10x token-efficiency advantage.",
+      "authors": [
+        "Zhenghao Zhao",
+        "Gaowen Liu",
+        "Zhiling Lan",
+        "Yan Yan"
+      ],
+      "published": "2026-10-01T23:44:09Z",
+      "updated": "2026-10-01T23:44:09Z",
+      "categories": [
+        "cs.LG"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2610.02593v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.02593v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models"
+      ],
+      "topics": [
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.7399,
+          "matched": [
+            "data selection",
+            "data",
+            "selection"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.6496,
+          "matched": [
+            "efficient",
+            "training"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.1349,
+          "matched": [
+            "loss"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.7291,
+        "relevance": 0.7488,
+        "quality": 0.68,
+        "novelty": 0.8366,
+        "freshness": 0.455,
+        "feedback_adjustment": -0.0126,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "benchmark evaluation",
+        "formal bound",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "We show that loss-based selection causes the post-CPT Fisher diagonal to drift downward on exactly the high-Fisher coordinates the pretrained model had committed to, while leaving low-Fisher coordinates largely untouched.",
+        "problem": "Data selection is already a central bottleneck in large-language-model training, where web-scale corpora are noisy and token budgets are finite.",
+        "method": "Motivated by this observation, we propose a Fisher-aware CPT selector that decomposes each candidate's gradient into an anchor component, which measures perturbation along committed parameter directions, and a frontier component, which measures update capacity in unconstrained low-Fisher subspaces.",
+        "evidence": "On TinyLlama-1.1B and Llama-3.1-8B CPT over medical data, our selector improves target-domain quality while bounding forgetting on held-out pretraining benchmarks.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Data selection for LLMs, Efficient adversarial training.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Data selection for LLMs",
+        "matched": [
+          "data selection",
+          "data",
+          "selection"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-05T19:17:47.757509+00:00"
+    },
     {
       "id": "2609.39902",
       "title": "CodeMimicry: Exploiting Safety Generalization Lag in Large Language Models via Structured Code Completion",
@@ -643,6 +746,226 @@
       "recommended_at": "2026-10-03T14:43:24.835277+00:00"
     },
     {
+      "id": "2610.02432",
+      "title": "Evaluating and Improving the Robustness of Large Language Models to Input Sequence Variations",
+      "abstract": "Large language models (LLMs) in production systems face prompt injections, trojans (backdoors), and manipulation of automatic quality metrics. This thesis develops models, methods, and algorithms for evaluating and improving LLM robustness to adversarial input sequence variations. We propose R_stab(f), a generative robustness metric based on the Jensen-Shannon divergence between per-step output distributions under small input perturbations. For localized attacks we prove V(h) <= 1 - R_class(h), where R_class(h) is the probability that a decision operator h keeps its decision under small perturbations. For non-localized attacks we propose a calibrated empirical model. For LLM-as-a-Judge systems we develop ASA, an adaptive evolutionary black-box attack that reaches an attack success rate (ASR) of up to 73.8%, with transfer between open models up to 62.6%. On Trojan Detection Challenge 2023 data (Pythia-1.4B), surrogate triggers reach REASR ~0.99 while recall of the true triggers is ~0.17 against a baseline of ~0.14. On SaTML CTF 2024 we systematize four classes of bypasses of multi-layer defenses, which reduce the ASR from 90% to 15-25%. Committees of 5-7 heterogeneous models reduce the ASR for Gemma-3-4B by 47-55 percentage points, to 19.3% with 7 models. For agentic systems based on the Model Context Protocol (MCP), we propose AttestMCP, which attests tool calls with HMAC-protected packets at under 0.1 ms per call, and the Commit Boundary isolation pattern. On the MCPBench benchmark of 847 scenarios they reduce the average ASR from 53.7% to 12.4%. The methods are implemented in the JudgeGuard and TrojanArmor software suites and the MCPSec module.",
+      "authors": [
+        "Narek Maloyan"
+      ],
+      "published": "2026-10-01T19:57:56Z",
+      "updated": "2026-10-01T19:57:56Z",
+      "categories": [
+        "cs.CR",
+        "cs.CL",
+        "cs.LG"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2610.02432v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.02432v1",
+      "comment": "PhD thesis, 2026. 118 pages",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5889,
+          "matched": [
+            "adversarial",
+            "robustness"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.5461,
+          "matched": [
+            "llm-as-a-judge",
+            "robustness",
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.2623,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6615,
+        "relevance": 0.6328,
+        "quality": 0.71,
+        "novelty": 0.8656,
+        "freshness": 0.4326,
+        "feedback_adjustment": -0.0151,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation",
+        "proof",
+        "formal bound",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "We propose R_stab(f), a generative robustness metric based on the Jensen-Shannon divergence between per-step output distributions under small input perturbations.",
+        "problem": "Large language models (LLMs) in production systems face prompt injections, trojans (backdoors), and manipulation of automatic quality metrics.",
+        "method": "This thesis develops models, methods, and algorithms for evaluating and improving LLM robustness to adversarial input sequence variations.",
+        "evidence": "For localized attacks we prove V(h) <= 1 - R_class(h), where R_class(h) is the probability that a decision operator h keeps its decision under small perturbations.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Efficient adversarial training, Trustworthy LLM.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "adversarial",
+          "robustness"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-05T19:17:47.757509+00:00"
+    },
+    {
+      "id": "2610.02856",
+      "title": "Adaptive Mutual Distillation for Balanced Multi-Task Post-Training of Large Language Models",
+      "abstract": "Multi-task post-training of large language models (LLMs) aims to improve performance across tasks with unequal amounts of training data. Existing methods focus primarily on balancing task contributions during single-model training. Different task-balancing strategies can produce models with complementary strengths, creating opportunities for mutual distillation. However, the usefulness of cross-model supervision can vary across tasks, transfer directions, and stages of training. We propose Adaptive Mutual Distillation (AMD), a collaborative post-training framework that jointly trains two models with different task-balancing strategies. AMD evaluates candidate adjustments to distillation weights through short training probes shared across tasks, then uses task-wise validation scores to select an adjustment for each task and transfer direction. Across six benchmarks and three LLM backbones, both AMD models achieve higher average benchmark scores than supervised fine-tuning (SFT) baselines trained with the same sampling strategies. They also outperform the task-balancing methods evaluated in our experiments. Merging the two trained models can further improve their average benchmark score while yielding a single model for inference. The merged models outperform multi-task SFT by an average of 2.91 points across the three backbones.",
+      "authors": [
+        "Baohang Li",
+        "Xiaocheng Feng",
+        "Yichong Huang",
+        "Chengpeng Fu",
+        "Wenshuai Huo",
+        "Zekun Zhou",
+        "Zekun Yuan",
+        "Tingjia Zhang",
+        "Bing Qin"
+      ],
+      "published": "2026-10-02T05:42:22Z",
+      "updated": "2026-10-02T05:42:22Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2610.02856v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.02856v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.643,
+          "matched": [
+            "training",
+            "fine-tuning"
+          ]
+        },
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "emerging",
+          "score": 0.4034,
+          "matched": [
+            "distillation"
+          ]
+        },
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.3239,
+          "matched": [
+            "sampling",
+            "training data",
+            "data"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.1338,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6555,
+        "relevance": 0.6599,
+        "quality": 0.61,
+        "novelty": 0.8008,
+        "freshness": 0.4905,
+        "feedback_adjustment": -0.0198,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation",
+        "experiments",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "We propose Adaptive Mutual Distillation (AMD), a collaborative post-training framework that jointly trains two models with different task-balancing strategies.",
+        "problem": "Multi-task post-training of large language models (LLMs) aims to improve performance across tasks with unequal amounts of training data.",
+        "method": "We propose Adaptive Mutual Distillation (AMD), a collaborative post-training framework that jointly trains two models with different task-balancing strategies.",
+        "evidence": "Across six benchmarks and three LLM backbones, both AMD models achieve higher average benchmark scores than supervised fine-tuning (SFT) baselines trained with the same sampling strategies.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Efficient adversarial training, On-policy distillation.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training",
+          "fine-tuning"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-05T19:17:47.757509+00:00"
+    },
+    {
       "id": "2610.00465",
       "title": "AIR-LLM: Broadcasting AI Weights over Radio for Memory-Free Edge LLM Inference via RF Computing",
       "abstract": "Next-generation large language models (LLMs) are expanding from the cloud to ubiquitous edge devices. However, edge devices typically either lack the memory to store increasingly large LLM weights or, even with enough memory, spend unaffordable energy on loading the weights. This raises our question: can an edge device run an LLM without storing or loading its weights, but receive them over the air and consume them on the fly? Inspired by wireless broadcasting, we present AIR-LLM, an LLM inference architecture for edge devices, which is composed of: (i) a central radio (e.g., 5G base stations) that broadcasts the LLM weights into the air, and (ii) the edge user that receives the weights and completes the general matrix-vector multiplication (GEMV) of LLM inference directly in the radio frequency (RF) domain using RF mixers. To further shorten the airtime, AIR-LLM exploits MIMO spatial multiplexing and proposes an energy-efficient precoder-postcoder pair on the edge to calibrate its own wireless channel. Since the central radio stays user-unaware, AIR-LLM is user-scalable so that one broadcast serves unlimited users within its coverage. We implement AIR-LLM on the NVIDIA Sionna ray-traced channels of two real-world urban scenes and the profiling of a real RF mixer. With a WikiText-2 perplexity degradation of 4.0% on LLaMA-3.1-8B, AIR-LLM saves the energy by 157.7x/40.4x against the FP16 and weight-only quantization baselines; with 20 users, its airtime is 104.1x/26.0x shorter, respectively.",
@@ -934,279 +1257,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-10-04T15:22:02.053485+00:00"
-    },
-    {
-      "id": "2609.38108",
-      "title": "Do LLM Agents Execute the Plans They Declare? From Planning-Mode Declaration to Pattern-Specific Execution",
-      "abstract": "Large language models (LLMs) enable agents to solve long-horizon tasks by generating a plan and then executing it in an environment. However, successful planning requires two distinct capabilities: selecting an appropriate plan for the task and executing it faithfully. Existing planner--executor systems can fail at either stage, while final task success alone cannot distinguish selection from execution failures. We therefore study the Plan Declaration--Execution Gap and introduce Planning-as-Routing, where an LLM declares one of four planning modes: Predefined, Sequential, Hierarchical, or Search, and a deterministic router dispatches the task to the corresponding pattern-specific executor. Across four benchmarks and three LLMs, we find three consistent patterns. First, generic Plan+ReAct often fails to preserve declared planning structure, especially for longer plans: across three benchmarks, only (22)--(45%) of trajectories preserve it, whereas pattern-specific executors enforce the intended structure. Second, planning-mode effectiveness varies across environments and models: Search performs best on ALFWorld, Hierarchical on SWE-bench, and the strongest pattern can vary across models within the same benchmark. Third, the largest gains come from execution: pattern-specific executors improve task success from (0.48) to (0.92) on ALFWorld and from (0.36) to (0.44) on SWE-bench Verified over Plan+ReAct. Current LLMs, however, do not reliably select the strongest mode for each task, although few-shot examples improve selection in some benchmark--model combinations. Overall, reliable agent planning requires both effective mode selection and faithful execution: routing substantially closes the execution gap, while task-specific mode selection remains open.",
-      "authors": [
-        "Subba Reddy Oota",
-        "Francisco Herrera",
-        "Jordi Cabot Sagrera",
-        "Marcos López de Prado",
-        "Shadab Khan"
-      ],
-      "published": "2026-09-29T17:47:18Z",
-      "updated": "2026-09-29T17:47:18Z",
-      "categories": [
-        "cs.AI",
-        "cs.LG"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2609.38108v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.38108v1",
-      "comment": "51 pages, 8 figures",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.7648,
-          "matched": [
-            "llm",
-            "mode"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6209,
-        "relevance": 0.6118,
-        "quality": 0.48,
-        "novelty": 0.839,
-        "freshness": 0.8654,
-        "feedback_adjustment": -0.018,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Across four benchmarks and three LLMs, we find three consistent patterns.",
-        "problem": "Large language models (LLMs) enable agents to solve long-horizon tasks by generating a plan and then executing it in an environment.",
-        "method": "However, successful planning requires two distinct capabilities: selecting an appropriate plan for the task and executing it faithfully.",
-        "evidence": "Third, the largest gains come from execution: pattern-specific executors improve task success from (0.48) to (0.92) on ALFWorld and from (0.36) to (0.44) on SWE-bench Verified over Plan+ReAct.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: LLM loss landscape.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "llm",
-          "mode"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-09-30T16:24:31.859186+00:00"
-    },
-    {
-      "id": "2609.38025",
-      "title": "Dr. OPD: Learning What to Follow for Optimal On-Policy Distillation of Large Language Models",
-      "abstract": "On-policy distillation (OPD) trains a student on its own generated responses using dense, token-level supervision from a stronger teacher. Vanilla OPD treats all teacher signals equally, assuming that the teacher's supervision is equally important for every token. However, teacher signals at different tokens may have very different effects on the student's performance: some correct important reasoning errors, while others have little effect on the final answer. Motivated by this observation, we introduce Dr. OPD (OPD Done Right), which defines the optimal weighted OPD to maximize the student's performance. We formulate Dr. OPD as a bilevel optimization problem in which the student learns from weighted teacher supervision, while the weights are selected to maximize the expected reward of the resulting student. To solve Dr. OPD, we develop an efficient iterative solver that updates the token weights and student policy alternatively. At each round, it updates weights in closed form and then takes one gradient step on the resulting weighted OPD objective. Under regularity conditions, we show that this weighted update achieves a higher expected reward than a vanilla OPD update. Empirically, across strong-to-weak and same-size distillation on math and code, Dr. OPD consistently outperforms all evaluated baselines. In particular, in the strong-to-weak distillation setting, Dr. OPD improves average math performance by $9.7$ points over vanilla OPD, and enables the smaller student to surpass its larger teacher.",
-      "authors": [
-        "Zhenyu Wang",
-        "Tianze Wang",
-        "Linjun Zhang",
-        "Yifan Hu"
-      ],
-      "published": "2026-09-29T17:07:00Z",
-      "updated": "2026-09-29T17:07:00Z",
-      "categories": [
-        "cs.LG",
-        "cs.AI",
-        "cs.CL",
-        "math.OC"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2609.38025v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.38025v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "emerging",
-          "score": 0.673,
-          "matched": [
-            "On-policy distillation",
-            "on-policy distillation",
-            "OPD",
-            "distillation",
-            "on-policy",
-            "opd"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.1312,
-          "matched": [
-            "efficient"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6168,
-        "relevance": 0.5646,
-        "quality": 0.62,
-        "novelty": 0.8267,
-        "freshness": 0.8614,
-        "feedback_adjustment": -0.0217,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "baseline comparison",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Motivated by this observation, we introduce Dr.",
-        "problem": "On-policy distillation (OPD) trains a student on its own generated responses using dense, token-level supervision from a stronger teacher.",
-        "method": "Motivated by this observation, we introduce Dr.",
-        "evidence": "Under regularity conditions, we show that this weighted update achieves a higher expected reward than a vanilla OPD update.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: On-policy distillation, Efficient adversarial training.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "On-policy distillation",
-        "matched": [
-          "On-policy distillation",
-          "on-policy distillation",
-          "OPD",
-          "distillation"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-09-30T16:24:31.859186+00:00"
-    },
-    {
-      "id": "2610.02199",
-      "title": "TACO: Ternary Absolute-max Column-wise One-sparse Optimizer for LLM Fine-Tuning",
-      "abstract": "Full-parameter fine-tuning of large language models (LLMs) incurs substantial optimizer state memory overhead, limiting the model sizes that fit on modern GPUs. Existing approaches either compress optimizer state, abandon first-order gradients, or change the update geometry while retaining dense state. The recently introduced Muon optimizer reduces optimizer memory through matrix-valued updates. Still, its geometry differs from AdamW and can lead to performance degradation when fine-tuning AdamW-pretrained models. To reduce optimizer memory without sacrificing accuracy or computational efficiency in LLM fine-tuning, we propose Ternary Absolute-max Column-wise One-sparse optimizer, or TACO, which follows Muon's operator-norm steepest-descent view but takes the geometric route further. TACO computes the exact steepest-descent direction under a dimension-normalized $1\\to1$ operator norm by selecting the sign of the largest magnitude entry in each column of two-dimensional weight matrices. This retains first-order gradients while making optimizer state memory nearly negligible. Our practical TACO optimizer maintains only a small set of low precision gradient components per column, reducing persistent optimizer state by $174\\times$ relative to AdamW8bit (from 27.7 GB to 0.16 GB) and peak training memory by $2.9\\times$ (from 80.6 GB to 27.5 GB) on OPT-13B, while achieving comparable accuracy and runtime. TACO further enables full-parameter fine-tuning of 30-32B-parameter models on a single 80 GB H100 GPU across multiple model families and tasks.",
-      "authors": [
-        "Jichao Jiang",
-        "Cristian McGee",
-        "El Houcine Bergou",
-        "Hanqin Cai",
-        "Aritra Dutta"
-      ],
-      "published": "2026-10-01T17:59:42Z",
-      "updated": "2026-10-01T17:59:42Z",
-      "categories": [
-        "cs.LG",
-        "math.OC"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2610.02199v1",
-      "pdf_url": "https://arxiv.org/pdf/2610.02199v1",
-      "comment": "24 pages, 7 figures, 10 tables. Code available at https://github.com/Jichao2357/TACO_optimizer",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.6399,
-          "matched": [
-            "training",
-            "fine-tuning"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.4326,
-          "matched": [
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5994,
-        "relevance": 0.5984,
-        "quality": 0.41,
-        "novelty": 0.8509,
-        "freshness": 0.8674,
-        "feedback_adjustment": -0.0225,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "To reduce optimizer memory without sacrificing accuracy or computational efficiency in LLM fine-tuning, we propose Ternary Absolute-max Column-wise One-sparse optimizer, or TACO, which follows Muon's operator-norm steepest-descent view but takes the geometric route further.",
-        "problem": "Full-parameter fine-tuning of large language models (LLMs) incurs substantial optimizer state memory overhead, limiting the model sizes that fit on modern GPUs.",
-        "method": "To reduce optimizer memory without sacrificing accuracy or computational efficiency in LLM fine-tuning, we propose Ternary Absolute-max Column-wise One-sparse optimizer, or TACO, which follows Muon's operator-norm steepest-descent view but takes the geometric route further.",
-        "evidence": "The recently introduced Muon optimizer reduces optimizer memory through matrix-valued updates.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Efficient adversarial training, LLM loss landscape.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "training",
-          "fine-tuning"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-10-02T16:16:12.201597+00:00"
     }
   ]
 }
