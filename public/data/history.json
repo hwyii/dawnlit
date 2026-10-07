@@ -1,6 +1,372 @@
 {
-  "generated_at": "2026-10-06T16:48:36.966151+00:00",
+  "generated_at": "2026-10-07T17:25:32.774161+00:00",
   "papers": [
+    {
+      "id": "2610.08775",
+      "title": "Agent in a Bottle: Can LLM Agents Turn Their Capabilities Into Cheap, Scalable Artifacts?",
+      "abstract": "Large language models (LLMs) can solve many narrow tasks, but querying them separately for millions of related instances can be prohibitively expensive. Can LLM agents autonomously create cheaper solutions for such workloads? We call this ability \"bottling\": the ability to turn general capabilities into task-specific solutions that balance answer quality and amortised cost. We introduce BOTTLED, a benchmark in which agents receive an entire unlabelled workload and must complete it under fixed time, compute and LLM API budgets. Agents choose their own approach, such as training a small model or writing a reusable program. Across ten models and three tasks, we find that strong zero-shot task performance does not reliably translate into strong bottling capabilities. Models with similar zero-shot scores can differ substantially after bottling, and 48 of 60 bottling runs score below the lower bound of the 95% confidence interval of their model's zero-shot performance. Moreover, 31 of 60 runs underperform the stronger of two small-model distillation baselines with the same token budget. Nevertheless, bottling can yield substantial savings: on query-product relevance classification, Opus 5 retains about 82% of its zero-shot macro-F1 at roughly 657 times lower reported cost. Bottling is also competitive with Jev, a \"system one\" model built especially for cheap, repetitive inference: Opus 5 on the same task recovers about 94% of Jev's macro-F1 at a quarter of Jev's projected full-workload cost. BOTTLED provides a basis for evaluating and improving agents' ability to invest limited resources in reusable solutions for large, repetitive workloads.",
+      "authors": [
+        "Ankit Sonthalia",
+        "Haritz Puerto",
+        "Alexander Rubinstein",
+        "Martin Gubri",
+        "Seong Joon Oh"
+      ],
+      "published": "2026-10-06T17:57:19Z",
+      "updated": "2026-10-06T17:57:19Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2610.08775v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.08775v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5207,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.1375,
+          "matched": [
+            "training"
+          ]
+        },
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "emerging",
+          "score": 0.0919,
+          "matched": [
+            "distillation"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.0792,
+          "matched": [
+            "bound"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5505,
+        "relevance": 0.4624,
+        "quality": 0.61,
+        "novelty": 0.8485,
+        "freshness": 0.8603,
+        "feedback_adjustment": -0.0146,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation",
+        "formal bound",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "We introduce BOTTLED, a benchmark in which agents receive an entire unlabelled workload and must complete it under fixed time, compute and LLM API budgets.",
+        "problem": "Large language models (LLMs) can solve many narrow tasks, but querying them separately for millions of related instances can be prohibitively expensive.",
+        "method": "We introduce BOTTLED, a benchmark in which agents receive an entire unlabelled workload and must complete it under fixed time, compute and LLM API budgets.",
+        "evidence": "We call this ability \"bottling\": the ability to turn general capabilities into task-specific solutions that balance answer quality and amortised cost.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: LLM loss landscape, Efficient adversarial training.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-07T17:25:32.774161+00:00"
+    },
+    {
+      "id": "2610.08720",
+      "title": "WorldSolver: Can LLM Agents Simulate the Physical Dynamics via Solver Generation?",
+      "abstract": "LLM-based agents are increasingly advancing scientific and engineering problem solving, with physics simulation emerging as a challenging yet practical testbed for reproducing complex physical phenomena with application in embodied AI, games and films. As the workhorse of such simulation, a solver computes how the state of a dynamic system evolves over time. Building such solvers requires physical understanding to identify appropriate models, mathematical reasoning to formulate the underlying dynamics, and software engineering to implement them as executable code, yet this capability of LLM agents remains underexplored. To this end, we introduce WorldSolver, a benchmark of 168 simulation tasks derived from physical phenomena in 61 classic computer graphics papers, spanning 7 physical domains. Each task contains a code scaffold that provides a fixed simulation environment for the scene, with the solver implementation left for the agent to complete. Specifically, we evaluate them along three dimensions: Execution Checks for successful execution, Visual Fidelity for reproducing the intended dynamic behavior in the rendered simulation, and Physical Plausibility for physics-grounded verification of the generated dynamics. Experiments on frontier agents reveal that producing executable solvers is difficult itself, and satisfying visual and physical correctness is even harder. GPT-5.6-Sol and Claude-Opus-5 perform comparatively better than the other evaluated agents, yet achieve overall scores of only 48.7% and 46.7%, respectively. WorldSolver is an early step toward agentic solver generation, and we hope it helps drive progress toward agents that can faithfully simulate the dynamic physical world. Code is available at https://github.com/sirujiang/WorldSolver.",
+      "authors": [
+        "Siru Jiang",
+        "Yongzhe Lyu",
+        "Shuo Lu",
+        "Yubin Wang",
+        "Yuxiang Zhang",
+        "Yue Liao",
+        "Bin Wang",
+        "Jian Liang",
+        "Tieniu Tan"
+      ],
+      "published": "2026-10-06T17:26:26Z",
+      "updated": "2026-10-06T17:26:26Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2610.08720v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.08720v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.3578,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4992,
+        "relevance": 0.2862,
+        "quality": 0.92,
+        "novelty": 0.8624,
+        "freshness": 0.8572,
+        "feedback_adjustment": -0.0221,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "benchmark evaluation",
+        "experiments",
+        "reproducibility"
+      ],
+      "summary": {
+        "takeaway": "To this end, we introduce WorldSolver, a benchmark of 168 simulation tasks derived from physical phenomena in 61 classic computer graphics papers, spanning 7 physical domains.",
+        "problem": "LLM-based agents are increasingly advancing scientific and engineering problem solving, with physics simulation emerging as a challenging yet practical testbed for reproducing complex physical phenomena with application in embodied AI, games and films.",
+        "method": "To this end, we introduce WorldSolver, a benchmark of 168 simulation tasks derived from physical phenomena in 61 classic computer graphics papers, spanning 7 physical domains.",
+        "evidence": "Experiments on frontier agents reveal that producing executable solvers is difficult itself, and satisfying visual and physical correctness is even harder.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: LLM loss landscape.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-07T17:25:32.774161+00:00"
+    },
+    {
+      "id": "2610.08781",
+      "title": "IdeaAnchor: Teaching LLMs to Turn Literature into Research Ideas",
+      "abstract": "Scientific research often begins by synthesizing ideas from a set of related papers to identify gaps and formulate new directions. However, training language models to perform this form of literature-grounded ideation remains challenging, as existing approaches based on prompting or feedback lack structured supervision for how papers should be synthesized. We introduce IdeaAnchor, a paradigm for training LLMs to perform research ideation using structured specifications as privileged signals. Each IdeaAnchor instance encodes how each input paper should be synthesized into a successful idea, including their functional roles, relationships, and target synthesis criteria. We build this paradigm by mining instances from published papers, capturing how real ideas emerge from prior literature. We then train models via demonstration, self-distillation, and reinforcement learning, and further enhance generation with retrieval at inference time. Experiments show consistent improvements in ideation quality. Our analysis reveals a functional decomposition: anchor-based training strengthens creative synthesis, retrieval enhances detail elaboration, and combining both yields the best performance.",
+      "authors": [
+        "Ziyu Chen",
+        "Yilun Zhao",
+        "Jiashuo Sun",
+        "Yiling Ma",
+        "Manasi Patwardhan",
+        "Arman Cohan"
+      ],
+      "published": "2026-10-06T17:59:01Z",
+      "updated": "2026-10-06T17:59:01Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2610.08781v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.08781v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.3221,
+          "matched": [
+            "training"
+          ]
+        },
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "emerging",
+          "score": 0.2189,
+          "matched": [
+            "self-distillation",
+            "distillation"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.428,
+        "relevance": 0.3015,
+        "quality": 0.53,
+        "novelty": 0.8302,
+        "freshness": 0.8605,
+        "feedback_adjustment": -0.0128,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "experiments"
+      ],
+      "summary": {
+        "takeaway": "We introduce IdeaAnchor, a paradigm for training LLMs to perform research ideation using structured specifications as privileged signals.",
+        "problem": "Scientific research often begins by synthesizing ideas from a set of related papers to identify gaps and formulate new directions.",
+        "method": "We introduce IdeaAnchor, a paradigm for training LLMs to perform research ideation using structured specifications as privileged signals.",
+        "evidence": "Experiments show consistent improvements in ideation quality.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Efficient adversarial training, On-policy distillation.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-07T17:25:32.774161+00:00"
+    },
+    {
+      "id": "2610.08773",
+      "title": "AdvSim2Real : Training Web Agents Against Adaptive Prompt Injection in a Web World Model",
+      "abstract": "Web agents complete user requests by reading and acting on pages that third parties write, so an instruction planted on a page can redirect the agent away from the user's goal. The agent cannot simply ignore the page, because the page also holds the values and controls the task requires. Current defenses fine-tune the agent on injections fixed before training, and attackers that adapt to the trained model bypass them. Adversarial training lets the attacker adapt but keeps the tasks fixed, so a task stops teaching once the agent solves it. We introduce AdvSim2Real, which co-evolves a task curriculum, an injection adversary, and the agent inside a frozen web world model. The curriculum is rewarded for tasks the agent solves about half of the time, and the adversary only for a success flip, an injection that turns a judged success into a failure. Training in the simulator makes a 4B agent both more capable and more robust: its completion rises with and without attacks, holds against a frontier-model adversary it never trained against, and its capability gain carries over to a real browser. On 150 web tasks, AdvSim2Real raises completion under this unseen adversary by 33.6\\% relative to the base agent.",
+      "authors": [
+        "Sarim Hashmi",
+        "Mukul Ranjan",
+        "Kshitij Mishra",
+        "Mikhail Kuznetsov",
+        "Praneeth Vepakomma",
+        "Nils Lukas"
+      ],
+      "published": "2026-10-06T17:56:43Z",
+      "updated": "2026-10-06T17:56:43Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2610.08773v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.08773v1",
+      "comment": "Code at https://github.com/Sarim-MBZUAI/advsim2real",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "transferable",
+      "scope_matches": [
+        "adversarial training"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.3556,
+          "matched": [
+            "adversarial training",
+            "adversarial",
+            "training",
+            "robust"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.3963,
+        "relevance": 0.2845,
+        "quality": 0.41,
+        "novelty": 0.8637,
+        "freshness": 0.8602,
+        "feedback_adjustment": -0.0124,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "We introduce AdvSim2Real, which co-evolves a task curriculum, an injection adversary, and the agent inside a frozen web world model.",
+        "problem": "Web agents complete user requests by reading and acting on pages that third parties write, so an instruction planted on a page can redirect the agent away from the user's goal.",
+        "method": "We introduce AdvSim2Real, which co-evolves a task curriculum, an injection adversary, and the agent inside a frozen web world model.",
+        "evidence": "Current defenses fine-tune the agent on injections fixed before training, and attackers that adapt to the trained model bypass them.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Efficient adversarial training.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "adversarial training",
+          "adversarial",
+          "training",
+          "robust"
+        ],
+        "lane": "transferable"
+      },
+      "recommended_at": "2026-10-07T17:25:32.774161+00:00"
+    },
     {
       "id": "2610.06848",
       "title": "TranScope: What the Software Hides About LLM Training Data, the Hardware Reveals at Scale, and Accelerators Magnify",
@@ -12909,689 +13275,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-09-03T14:33:58.532938+00:00"
-    },
-    {
-      "id": "2609.02745",
-      "title": "Incremental Pooled LLM Evaluation for Cost-Effective Retrieval Model Selection",
-      "abstract": "Selecting a retrieval model for a production RAG system requires reliable comparative evaluation, but obtaining relevance judgments at scale is expensive and difficult to repeat as new candidate systems arrive. We study pooled LLM evaluation, in which an LLM judges the union of documents retrieved by the current set of candidate systems, and the pool is then expanded incrementally as new systems are introduced by judging only the new documents they contribute. These judgments are reused to evaluate all systems on a common basis. We validate this approach on four retrieval benchmarks with 11 systems spanning dense, sparse, and hybrid configurations, and deploy it to compare 62 retrieval configurations for a financial news QA system. Pooled LLM rankings correlate strongly with gold-standard evaluation across datasets, and 97% of pairwise system orderings are preserved once bootstrap uncertainty in the qrels is taken into account. In production, document overlap yields 65-80% judgment reuse and up to 4.9x lower evaluation cost, allowing teams to benchmark new retrieval candidates without re-judging previously assessed documents. These results suggest pooled LLM evaluation is a practical and cost-effective workflow for incremental retrieval model selection in deployed systems.",
-      "authors": [
-        "Max Nelson",
-        "Hanoz Bhathena",
-        "Aviral Joshi",
-        "Saket Sharma"
-      ],
-      "published": "2026-09-02T15:47:49Z",
-      "updated": "2026-09-02T15:47:49Z",
-      "categories": [
-        "cs.IR",
-        "cs.CL"
-      ],
-      "primary_category": "cs.IR",
-      "abs_url": "https://arxiv.org/abs/2609.02745v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.02745v1",
-      "comment": "10 pages, 1 figure",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.4197,
-          "matched": [
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4525,
-        "relevance": 0.3358,
-        "quality": 0.52,
-        "novelty": 0.8702,
-        "freshness": 0.8645,
-        "feedback_adjustment": -0.0095,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "limitations": "仅限单阶段检索器、单一 LLM 判官，且相对于人工判断可能存在校准偏差。",
-        "evidence": "在金标准评估下实现 97% 成对系统排序保持，生产环境中 65-80% 判决复用，成本降低 4.9 倍。",
-        "problem": "传统检索评估在比较新系统时需要昂贵且重复的人工判断。",
-        "takeaway": "增量式池化 LLM 评估通过跨系统复用判决，实现低成本的检索模型选择。",
-        "method": "池化 LLM 评估对所有系统文档的并集进行判决，随着新系统增量加入，复用已有判决。",
-        "why_for_you": "对优化部署检索系统评估工作流、进行增量模型更新的 LLM 研究者具有参考价值。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "⚡",
-            "text": "增量式池化 LLM 评估通过 65-80% 判决复用，将成本降低 4.9 倍。"
-          },
-          {
-            "icon": "🔧",
-            "text": "文档池仅随新系统贡献扩展，复用已有 LLM 判决。"
-          },
-          {
-            "icon": "⚠️",
-            "text": "尽管存在 bootstrap 不确定性，仍实现 97% 成对排序保持与金标准评估。"
-          }
-        ],
-        "overview": "本文提出用于检索模型选择的增量式池化 LLM 评估，解决传统人工标注基准的高成本。通过审慎复用跨系统的 LLM 生成相关性判决，该方法在保持与金标准指标的强相关性的同时降低评估成本。该方法在四个 IR 基准和一个金融 QA 系统上得到验证，展示了对生产 RAG 流水线的实际收益。",
-        "mechanism": [
-          {
-            "detail": "通过文档重叠将判断成本分摊到各个系统，新系统仅需为其独特检索的文档支付成本。",
-            "title": "成本分摊"
-          },
-          {
-            "detail": "由于共享判断基础，系统排名在池扩展下保持稳定，已在多个基准上通过实证验证。",
-            "title": "排名不变性"
-          },
-          {
-            "detail": "LLM判断通过评估所有检索到的文档（而不仅仅是原始池中的文档）来避免TREC风格的池偏差。",
-            "title": "偏差缓解"
-          }
-        ],
-        "methodology": [
-          {
-            "detail": "对于每个系统和查询，检索出前k个文档并聚合到共享池中。新系统仅贡献其独特检索的文档到池中。",
-            "title": "汇聚文档检索"
-          },
-          {
-            "detail": "单一LLM评判者（GPT-4.1）对池中所有唯一的（查询，文档）对进行3分制相关性评分（0-2），通过确定性输出确保可重复性。",
-            "title": "基于LLM的判断"
-          },
-          {
-            "detail": "使用相同的LLM判断池为所有系统计算标准IR指标（nDCG、MAP），消除冗余评估。",
-            "title": "共享评估指标"
-          }
-        ],
-        "experiments": [
-          {
-            "detail": "四个信息检索基准（FiQA、TREC-COVID、Natural Questions、FinRAGBench-V），包含 11 个系统以及一个拥有 62 种配置的金融问答系统。",
-            "title": "数据集"
-          },
-          {
-            "detail": "5 种嵌入模型，覆盖 dense、hybrid、sparse 配置，具有 2-3 维度和查询形式。",
-            "title": "检索系统"
-          },
-          {
-            "detail": "GPT-4.1（temperature 0.0），使用 3 点相关性评分、结构化 JSON 输出，且不使用上下文示例。",
-            "title": "大语言模型评审"
-          },
-          {
-            "detail": "nDCG@10、MAP@100、recall@100，采用 bootstrap 分析进行不确定性量化。",
-            "title": "指标"
-          }
-        ],
-        "findings": [
-          {
-            "detail": "nDCG@10 相关性在基准间范围为 0.69-0.95，且 74% 的成对分歧位于 bootstrap 噪声范围内。",
-            "title": "与金标准的相关性"
-          },
-          {
-            "detail": "在生产环境中，判断复用率为 65-80%，相较于独立系统评估，评估成本降低 4.9×。",
-            "title": "成本降低"
-          },
-          {
-            "detail": "宏观平均的基准排名在新增系统后仍保持高度稳定，考虑不确定性后保留了 97% 的成对排序。",
-            "title": "排名稳定性"
-          },
-          {
-            "detail": "LLM 伪标签显示数据集依赖的校准差异（例如，FiQA 上 nDCG@10 提高 51%，而 recall@100 降低 17%）。",
-            "title": "校准偏差"
-          },
-          {
-            "detail": "已应用于金融新闻 QA 系统的 62 种检索配置，四周内增量构建池子，无需重新评判。",
-            "title": "生产部署"
-          }
-        ],
-        "contributions": [
-          "增量式聚合 LLM 评估框架，用于成本有效的检索模型选择",
-          "在多个基准上对排序稳定性和成本节约进行实证验证",
-          "面向生产 RAG 系统的实用部署洞见"
-        ],
-        "limitations": [
-          "仅限单阶段检索器（不支持重排序流水线或 cross-encoder）"
-        ],
-        "open_questions": [
-          "对具有不同文档重叠模式的重排序架构的泛化",
-          "多样化 LLM 评审对排序一致性的影响",
-          "在文档分布演变下，聚合评估的长期稳定性"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-09-03T14:33:58.532938+00:00"
-    },
-    {
-      "id": "2609.01535",
-      "title": "Can LLMs Design Video Coding Tools? A Case Study on Planar Mode",
-      "abstract": "This paper explores whether large language models (LLMs) can design video coding tools, a highly challenging task due to the intricate algorithmic coupling of tool modifications. In particular, we present an empirical case study on the Planar mode, a long-standing intra prediction tool in video coding standards. Our experiments operate within a generation-and-evaluation loop, with the LLM generating new Planar predictors, encoder trials evaluating their coding performance, and the LLM re-generating refined implementations based on the evaluation feedback. We first examine directly replacing the default Planar mode in the Fraunhofer Versatile Video Encoder (VVenC) under its faster preset. Experimental results demonstrate that the LLM-generated mode can outperform the conventional Planar mode on this lightweight toolset, achieving 0.18% bitrate savings with 0.4% complexity overhead on the standard benchmark. We further extend our evaluation to the Enhanced Compression Model (ECM). Leveraging newly introduced directional Planar modes, we investigate two integration strategies: directly replacing them, and introducing the LLM-generated predictor as an additional prediction mode with new syntax elements. The empirical results suggest that both strategies can yield coding gains under a constrained low-resolution setting. Overall, this study offers preliminary evidence and practical insights, highlighting both the potential and open challenges of LLM-based coding tool design.",
-      "authors": [
-        "Yingwen Zhang",
-        "Meng Wang",
-        "Liqiang He",
-        "Shiqi Wang"
-      ],
-      "published": "2026-09-01T17:04:47Z",
-      "updated": "2026-09-01T17:04:47Z",
-      "categories": [
-        "cs.MM",
-        "cs.AI"
-      ],
-      "primary_category": "cs.MM",
-      "abs_url": "https://arxiv.org/abs/2609.01535v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.01535v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.7409,
-          "matched": [
-            "llm",
-            "mode"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6513,
-        "relevance": 0.5927,
-        "quality": 0.68,
-        "novelty": 0.8637,
-        "freshness": 0.8726,
-        "feedback_adjustment": -0.0138,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "benchmark evaluation",
-        "experiments",
-        "quantitative results"
-      ],
-      "summary": {
-        "problem": "视频编码工具的设计在算法上相互耦合，且传统上依赖专家。",
-        "method": "生成‑评估循环让 LLM 编写预测器代码，编码器测量性能，LLM 再优化代码。",
-        "limitations": "实验仅限于轻量预设和低分辨率 ECM 场景。",
-        "evidence": "在 VVenC faster 预设下，LLM 模式节省 0.18% bitrate，复杂度增加 0.4%。",
-        "takeaway": "LLM 生成的 Planar 预测器略提升 bitrate，且仅带来极小复杂度。",
-        "why_for_you": "如果您研究 LLM 损失曲面与迭代代码生成反馈回路，则相关。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "overview": "本文探讨大语言模型能否自主设计视频编解码器的 intra‑prediction 工具。聚焦 Planar 模式，作者实现了生成‑评估流水线：LLM 提出 C++ 预测器实现，编码器评估 bitrate 与复杂度，LLM 迭代优化代码。实验在 VVenC faster 预设中替换默认 Planar 模式，并将 LLM 生成的预测器嵌入 ECM 的 directional Planar 框架，报告在低分辨率内容上获得轻微 bitrate 提升和略增的复杂度。",
-        "findings": [
-          {
-            "title": "Bitrate 改进，开销极小",
-            "detail": "LLM 设计的 Planar 预测器在 bitrate 上比手工基线高 0.18%，仅增加 0.4% 编码复杂度。"
-          },
-          {
-            "title": "在 ECM 中的可行集成路径",
-            "detail": "在受限低分辨率条件下，将 LLM 预测器替换或插入 ECM 的 directional Planar 框架均可获得可测量的编码增益。"
-          }
-        ],
-        "contributions": [
-          "展示 LLM 能生成可提升编解码器效率的功能性 intra‑prediction 工具。",
-          "提出用于 LLM 驱动编解码工具设计的迭代生成‑评估流水线。",
-          "提供 VVenC 与 ECM 场景下编码增益的实证。"
-        ],
-        "methodology": [
-          {
-            "title": "生成‑评估循环",
-            "detail": "LLM 输出 Planar 预测器实现；VVenC 或 ECM 进行编码试验；测得的 BDrate 与编码时间反馈给 LLM 用于代码优化。"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "VVenC faster 预设替换",
-            "detail": "将默认 Planar 模式直接替换为 LLM 生成版本；在标准基准上评估，报告 0.18% bitrate 节省和 0.4% 复杂度开销。"
-          },
-          {
-            "title": "ECM directional Planar 集成",
-            "detail": "两种策略——替换现有 directional Planar 模式或将 LLM 预测器作为新模式并添加额外语法元素——在低分辨率序列上测试，均带来编码增益。"
-          }
-        ],
-        "signals": [
-          {
-            "icon": "🗂️",
-            "text": "LLM 生成的 Planar 预测器在标准基准中比手工基线降低 0.18% bitrate。"
-          },
-          {
-            "icon": "🔧",
-            "text": "迭代生成‑评估循环利用编码器 BDrate 反馈，多轮优化预测器代码。"
-          },
-          {
-            "icon": "📊",
-            "text": "证据仅限于 VVenC faster 预设和低分辨率 ECM；高分辨率影响未知。"
-          }
-        ],
-        "limitations": [
-          "评估仅限于 VVenC faster 预设和低分辨率 ECM 场景，未评估高分辨率性能。",
-          "尽管复杂度开销小，但在实时或高度受限部署中可能成为瓶颈。"
-        ],
-        "mechanism": [
-          {
-            "title": "反馈驱动的代码优化",
-            "detail": "编码器得到的性能指标作为损失信号，引导 LLM 在遵守编解码器语法和解码兼容性的前提下修改预测器逻辑。"
-          }
-        ],
-        "open_questions": [
-          "生成‑评估方法能否扩展到语法约束更严格、更加复杂的编码工具？",
-          "LLM 设计的工具在高分辨率和多样内容分布上的表现如何？",
-          "LLM 的哪些损失曲面特性会影响收敛性和生成的编解码代码质量？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "llm",
-          "mode"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-09-02T14:29:00.447095+00:00"
-    },
-    {
-      "id": "2609.01422",
-      "title": "From Rollouts to Recipes: Self-Contained Post-Training for LLMs",
-      "abstract": "Post-training large language models usually applies a single training recipe to all samples, even though the model's own rollouts reveal different sample-level learning states. We propose Self-Routing, a behavior-conditioned post-training framework that uses rollout correctness and confidence to decide how each sample should be optimized. Depending on its behavior state, a sample is routed to GRPO, on-policy self-distillation, regularization, or skipping, allowing training to adapt without external teachers, extra annotations, or additional sampling. Experiments on mathematical reasoning across Qwen3 and Qwen3.5 backbones show that Self-Routing consistently improves over uniform GRPO, uniform OPSD, fixed mixtures, and simpler routing baselines. Further analyses show that the routing distribution changes over training and reduces unnecessary updates on low-signal or already stable samples.",
-      "authors": [
-        "Yifei Li",
-        "Lingling Zhang",
-        "Muye Huang",
-        "Zihan Ma",
-        "Jiashuai Liu",
-        "Jun Liu"
-      ],
-      "published": "2026-09-01T15:36:26Z",
-      "updated": "2026-09-01T15:36:26Z",
-      "categories": [
-        "cs.CL"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2609.01422v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.01422v1",
-      "comment": "14 pages, 5 figures. Accepted at EMNLP 2026",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.5814,
-          "matched": [
-            "training"
-          ]
-        },
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "emerging",
-          "score": 0.3097,
-          "matched": [
-            "self-distillation",
-            "distillation",
-            "on-policy"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5703,
-        "relevance": 0.5271,
-        "quality": 0.49,
-        "novelty": 0.8652,
-        "freshness": 0.8638,
-        "feedback_adjustment": -0.0237,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "experiments",
-        "quantitative results"
-      ],
-      "summary": {
-        "problem": "全局后训练配方忽视了通过 on‑policy rollouts 揭示的样本级学习状态的异质性。",
-        "method": "路由器根据每个样本的 rollout 准确率和归一化置信度，将其映射到四种操作之一：GRPO、on‑policy self‑distillation (OPSD)、正则化或跳过。",
-        "limitations": "Self‑Routing 的计算开销高于 Naive‑OPSD，且在最小模型上因自生成信号不稳定而收益不一。",
-        "evidence": "在 Qwen3‑4B 上，Self‑Routing 将平均分从 61.0 提升至 73.7，分别比 Naive‑GRPO 和 Naive‑OPSD 高出 6.9 分和 3.3 分。",
-        "takeaway": "Self‑Routing 基于 rollout 正确性和置信度自适应地为每个样本选择后训练配方，提升推理性能。",
-        "why_for_you": "该框架利用 on‑policy self‑distillation，减少不必要的更新，契合对高效对抗训练和 on‑policy 蒸馏的兴趣。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "Self‑Routing 框架依据 rollout 正确性和置信度，将每个样本路由至 GRPO、OPSD、正则化或跳过。"
-          },
-          {
-            "icon": "🔧",
-            "text": "路由器计算每个样本的 accuracy a 和归一化 confidence c，然后选择相应的优化配方。"
-          },
-          {
-            "icon": "📈",
-            "text": "在 Qwen3‑4B 上实现 73.7 的平均分（从 61.0 提升），比 Naive‑GRPO 高出 6.9 分，比 Naive‑OPSD 高出 3.3 分。"
-          }
-        ],
-        "overview": "本文指出 verifier‑based 后训练对所有数据使用单一配方，忽视了在 current‑policy rollouts 中可观察到的学习状态异质性。提出 Self‑Routing：在自循环中对每个样本提取 rollout 正确性和 token‑level 置信度，并据此将样本路由至四种优化操作之一：GRPO 强化学习、on‑policy self‑distillation (OPSD)、正则化目标或跳过更新。对 Qwen3 与 Qwen3.5 系列模型在六个推理基准上的实验显示出一致提升，尤其在大模型上效果显著，同时表明路由在训练过程中会自适应地减少无效更新。",
-        "methodology": [
-          {
-            "title": "行为信号提取",
-            "detail": "对每个训练提示生成八个 rollouts；计算 rollout 准确率 a（正确比例）和归一化置信度 c（基于 token 级别熵）"
-          },
-          {
-            "title": "路由决策",
-            "detail": "确定性映射将 (a, c) 对应到四种操作之一：(i) GRPO 用于混合正确样本，(ii) OPSD 用于统一错误但信息丰富的样本，(iii) regularization 用于已稳定的正确样本，(iv) skip 用于高置信度失败"
-          },
-          {
-            "title": "配方集",
-            "detail": "GRPO 实现 verifier‑guided 强化学习；OPSD 执行 on‑policy 自蒸馏；regularization 使用保守损失；skipping 在当前步骤省略该样本"
-          }
-        ],
-        "mechanism": [
-          {
-            "title": "学习状态驱动的优化",
-            "detail": "Rollout 行为反映模型在样本上的当前能力；将优化目标对齐到该状态可在需要时提供密集梯度，并避免对已解决或无望样本的噪声更新"
-          },
-          {
-            "title": "自包含反馈回路",
-            "detail": "所有信号均来源于模型自身的 rollouts，消除 external teachers 或 extra annotations，降低 training 与 inference 之间的 distribution mismatch"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "设置",
-            "detail": "在 DAPO‑Math‑17K 上训练；在 GSM8K、MATH‑500、AIME24、AIME25、GPQA 和 MMLUPro（宏观平均）上评估。模型：Qwen3‑0.6B、1.7B、4B 和 Qwen3.5‑0.8B、2B、4B。基线：base model、Naive‑GRPO、Naive‑OPSD、DAPO‑style RL、PODS。"
-          },
-          {
-            "title": "结果",
-            "detail": "Self‑Routing 在所有骨干模型中获得最高平均值；例如，Qwen3‑4B 从 61.0 提升至 73.7，分别比 Naive‑GRPO 高 6.9 分，比 Naive‑OPSD 高 3.3 分。提升随模型规模增大而增加；最小模型在 AIME24 和 GPQA‑diamond 上表现参差。"
-          },
-          {
-            "title": "成本分析",
-            "detail": "归一化计算成本：Naive‑GRPO 为 64.0，Naive‑OPSD 为 24.0，Self‑Routing 为 34.7（G=8），表明其成本高于 OPSD，但低于对所有样本使用 GRPO。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "性能提升",
-            "detail": "Self‑Routing 在域内和域外推理任务中始终优于统一配方基线。"
-          },
-          {
-            "title": "自适应路由动态",
-            "detail": "在训练过程中，分配给各配方的样本分布会发生变化，减少对 low‑signal 或已稳定样本的更新。"
-          },
-          {
-            "title": "可扩展性",
-            "detail": "更大的模型受益更显著，表明更强的策略能产生更可靠的 rollout 信号，从而实现有效路由。"
-          }
-        ],
-        "contributions": [
-          "行为条件路由，将 rollout 信号转换为每样本训练配方。",
-          "统一的后训练框架，集成 GRPO、OPSD、正则化和跳过，无需外部教师。",
-          "实证展示在多种模型规模和推理基准上持续提升。"
-        ],
-        "limitations": [
-          "计算成本高于最廉价基线（Naive‑OPSD）。",
-          "在最小模型上因不稳定的自生成 rollout 信号而出现混合结果。",
-          "未修改 GRPO 或 OPSD 的内部设计；改进与这些方法正交。"
-        ],
-        "open_questions": [
-          "如何设计最优路由准则，在进一步降低成本的同时保持提升。",
-          "Self‑Routing 范式能否扩展到代码生成或对话等非推理任务。",
-          "行为条件后训练的收敛性或稳定性有哪些理论保证。"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b chunked translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "training"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-09-02T14:29:00.447095+00:00"
-    },
-    {
-      "id": "2609.01455",
-      "title": "When Safety Routing Breaks: Understanding Alignment Fragility under Benign Fine-Tuning",
-      "abstract": "Benign fine-tuning severely weakens the safety alignment of large language models (LLMs), so we study why refusal behavior is so fragile. While prior work often attributes this failure to gradient conflict, we propose a fundamentally different Fisher-geometric explanation: safety Fisher is low-rank, and alignment makes the safety geometry flatter while preserving an output-routing pathway. After 100 benign fine-tuning examples, this pathway is selectively re-sharpened in output-side MLP modules, explaining the asymmetric fragility: safety can collapse to high attack success rates, while general utility degrades mildly. The routing view also explains why few safety examples can restore refusal behavior, indicating that internal safety-relevant representations are preserved. Finally, we show that LoRA and ASAM mitigate early collapse by suppressing output-side sharpness, but their protection weakens at larger fine-tuning scales. Overall, safety failure is best understood as a disruption of a low-rank output-routing mechanism",
-      "authors": [
-        "Yitong Guo",
-        "Xiaoyi Chen",
-        "Siyuan Zhang",
-        "Xiaofeng Wang",
-        "Haixu Tang"
-      ],
-      "published": "2026-09-01T15:59:32Z",
-      "updated": "2026-09-01T15:59:32Z",
-      "categories": [
-        "cs.CR",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CR",
-      "abs_url": "https://arxiv.org/abs/2609.01455v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.01455v1",
-      "comment": "Accepted to the Findings of EMNLP 2026",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.5589,
-          "matched": [
-            "fine-tuning"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.2469,
-          "matched": [
-            "sharpness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5368,
-        "relevance": 0.4965,
-        "quality": 0.41,
-        "novelty": 0.8878,
-        "freshness": 0.8661,
-        "feedback_adjustment": -0.0127,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "quantitative results"
-      ],
-      "summary": {
-        "evidence": "Safety Fisher sharpness increases 11.2× in output MLPs after 100 benign examples, while utility sharpness only 1.2×.",
-        "limitations": "LoRA/ASAM mitigation effectiveness decreases with larger fine-tuning scales.",
-        "method": "Fisher-geometric analysis of safety-relevant representations and output-side MLP sharpness changes.",
-        "problem": "Benign fine-tuning severely weakens LLM safety alignment despite no harmful data.",
-        "takeaway": "Safety alignment fragility under benign fine-tuning arises from low-rank output-routing mechanism disruption, not gradient conflict.",
-        "why_for_you": "Relevant to efficient adversarial training through geometric analysis of alignment fragility and output-side sharpness control.",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "contributions": [
-          "Fisher-geometric explanation of safety alignment fragility",
-          "Low-rank output-routing mechanism for refusal behavior",
-          "Empirical analysis of sharpness dynamics in MLP modules"
-        ],
-        "experiments": [
-          {
-            "detail": "Llama3.1 and Qwen2.5 with three alignment settings (baseline, Align-256, Align-10k)",
-            "title": "Model families"
-          },
-          {
-            "detail": "100-5000 examples from Alpaca/Dolly datasets with ASR and MMLU metrics",
-            "title": "Fine-tuning data"
-          },
-          {
-            "detail": "LoRA (r=32, α=64) and ASAM (ρ=0.05) compared to full SFT",
-            "title": "Mitigation techniques"
-          }
-        ],
-        "findings": [
-          {
-            "detail": "85.7% ASR increase after 100 examples vs 1.2× utility sharpness growth",
-            "title": "Safety collapse asymmetry"
-          },
-          {
-            "detail": "50% ASR reduction with fixed refusal prefix without parameter updates",
-            "title": "Routing recovery"
-          },
-          {
-            "detail": "LoRA/ASAM protection weakens at 5000-example scale due to accumulated drift",
-            "title": "Mitigation limits"
-          }
-        ],
-        "limitations": [
-          "LoRA/ASAM effectiveness decreases with larger fine-tuning scales",
-          "Limited analysis of non-MLP routing components"
-        ],
-        "mechanism": [
-          {
-            "detail": "Safety alignment preserves a compressed pathway from safety-relevant states to refusal behavior, which gets selectively re-sharpened during fine-tuning",
-            "title": "Low-rank routing mechanism"
-          }
-        ],
-        "methodology": [
-          {
-            "detail": "Measures safety/utility concentration via top-1 Fisher eigenvalue ratios (0.491 vs 0.271) and layerwise eigenvalue compression during alignment",
-            "title": "Fisher information analysis"
-          },
-          {
-            "detail": "Quantifies output-side MLP module sharpness changes using down_proj layer curvature metrics",
-            "title": "Sharpness tracking"
-          }
-        ],
-        "open_questions": [
-          "Mechanisms underlying low-rank safety representation preservation",
-          "Scalable mitigation strategies for large-scale fine-tuning",
-          "Generalization of routing principles across model architectures"
-        ],
-        "overview": "This paper challenges gradient conflict as the primary cause of safety alignment failure under benign fine-tuning. Through Fisher-geometric analysis, it demonstrates that alignment flattens safety geometry while preserving a low-rank output-routing pathway. Benign fine-tuning selectively re-sharpens output-side MLP modules, causing asymmetric safety degradation (85.7% ASR increase) vs. mild utility loss. LoRA and ASAM mitigate early collapse by controlling output-side sharpness, but their effectiveness diminishes with larger datasets.",
-        "signals": [
-          {
-            "icon": "🛡️",
-            "text": "Low-rank output-routing mechanism explains safety fragility"
-          },
-          {
-            "icon": "🔧",
-            "text": "Fisher information analysis of safety/utility sharpness in MLP modules"
-          },
-          {
-            "icon": "📈",
-            "text": "11.2× safety sharpness increase in output MLPs after 100 examples"
-          }
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/qwen/qwen3-30b-a3b-fp8",
-        "language": "en",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "fine-tuning"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-09-02T14:29:00.447095+00:00"
     }
   ]
 }
