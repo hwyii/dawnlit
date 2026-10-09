@@ -1,6 +1,573 @@
 {
-  "generated_at": "2026-10-08T17:23:55.252883+00:00",
+  "generated_at": "2026-10-09T16:59:23.680416+00:00",
   "papers": [
+    {
+      "id": "2610.12327",
+      "title": "SparseDecoding: Decoding-Aware Pruning for Accurate and Efficient LLM Inference",
+      "abstract": "The memory-bound nature of the decoding stage of large language model (LLM) inference incurs significant latency. Layer-wise training-free network pruning approaches guided by the Hessian have been a prominent solution to this problem, as pruning reduces the number of nonzero parameters read from memory during decoding. Nevertheless, typical methods in this line compute the Hessian using pre-collected natural sequences, whereas the model is fed self-generated tokens during decoding, creating a distribution shift between the two sequences. The Hessian calculated on the natural sequence is different from that calculated on the generated sequence. We observe that this discrepancy causes the activation distribution during generation to deviate from that used for pruning, further hurting the pruned model performance. Moreover, most existing LLM pruning methods that bring actual speedup primarily target the sparse matrix-matrix (SpMM) multiplication, providing limited support for the sparse matrix-vector (SpMV) operations, which dominate decoding. To solve these problems, we introduce SparseDecoding, a principled decoding-aware pruning framework tailored for accurate and efficient LLM decoding. Specifically, at the algorithmic axis, SparseDecoding constructs calibration matrices from layer-wise activations collected during the dense-model autoregressive generation, excluding prefill, thereby aligning the pruning objective with the decoding activations. At the system axis, we develop an optimized N:M sparse matrix-vector kernel with bitmask indexing and fixed-step traversal. Substantial empirical results on representative LLMs (Llama-3.1-8B, Llama-3.3-70B, Qwen3-14B / 32B) demonstrate that our method consistently outperforms standard fixed-text calibration on the long-form generation benchmarks while achieving up to 1.48x end-to-end wall-clock decoding speedup on A100 GPUs.",
+      "authors": [
+        "Qitong Wang",
+        "Xinwei Niu",
+        "Mingluo Su",
+        "Shanwei Zhao",
+        "Shiai Zhu",
+        "Huan Wang"
+      ],
+      "published": "2026-10-08T17:06:32Z",
+      "updated": "2026-10-08T17:06:32Z",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2610.12327v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.12327v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.547,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.482,
+          "matched": [
+            "efficient",
+            "training"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.0624,
+          "matched": [
+            "bound"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5936,
+        "relevance": 0.5465,
+        "quality": 0.54,
+        "novelty": 0.8747,
+        "freshness": 0.8579,
+        "feedback_adjustment": -0.0266,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "formal bound",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "To solve these problems, we introduce SparseDecoding, a principled decoding-aware pruning framework tailored for accurate and efficient LLM decoding.",
+        "problem": "The memory-bound nature of the decoding stage of large language model (LLM) inference incurs significant latency.",
+        "method": "To solve these problems, we introduce SparseDecoding, a principled decoding-aware pruning framework tailored for accurate and efficient LLM decoding.",
+        "evidence": "Substantial empirical results on representative LLMs (Llama-3.1-8B, Llama-3.3-70B, Qwen3-14B / 32B) demonstrate that our method consistently outperforms standard fixed-text calibration on the long-form generation benchmarks while achieving up to 1.48x end-to-end wall-clock decoding speedup on A100 GPUs.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: LLM loss landscape, Efficient adversarial training.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-09T16:59:23.680416+00:00"
+    },
+    {
+      "id": "2610.12390",
+      "title": "Long Text to Predictive Features: LLM-Guided Blockwise Feature Engineering via Executable Program Search",
+      "abstract": "Industrial risk-control systems typically rely on structured-data models for efficient prediction, yet substantial valuable information remains embedded in unstructured long text. Extracting this information through manual feature engineering is labor-intensive, while requiring a large language model (LLM) to process every real-time input may not meet practical deployment requirements. To address this challenge, we propose LLM-BlockFE, an LLM-guided offline feature construction framework that converts long text into executable feature programs, thereby avoiding LLM calls during online inference. LLM-BlockFE constructs feature programs by incrementally appending immutable code blocks and evaluates candidate features using a downstream model. To address the tendency of conventional greedy search to become trapped in suboptimal solutions, our method introduces a block-level rollback mechanism based on depth-calibrated credit allocation and advances multiple independent search trajectories in an interleaved manner, reducing redundant exploration by sharing fixed descriptions of each trajectory's exploration direction. After the search, the resulting programs are frozen and deployed to extract structured features for downstream prediction models. Across two public and two private datasets, LLM-BlockFE achieves absolute AUC improvements of 0.0069 to 0.0358 over the strongest baseline on each dataset in the full-dataset comparison. Post-launch monitoring across five deployed financial risk-control applications shows absolute KS improvements of 0.02 to 1.56 percentage points over the existing manually designed strategy.",
+      "authors": [
+        "Ziming Dai",
+        "Dabiao Ma",
+        "Ziheng Guo",
+        "Jack Dong",
+        "Zimu Zhou"
+      ],
+      "published": "2026-10-08T17:39:11Z",
+      "updated": "2026-10-08T17:39:11Z",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2610.12390v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.12390v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5107,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.1177,
+          "matched": [
+            "efficient"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5409,
+        "relevance": 0.4321,
+        "quality": 0.66,
+        "novelty": 0.8502,
+        "freshness": 0.8611,
+        "feedback_adjustment": -0.0146,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "baseline comparison",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "To address this challenge, we propose LLM-BlockFE, an LLM-guided offline feature construction framework that converts long text into executable feature programs, thereby avoiding LLM calls during online inference.",
+        "problem": "Industrial risk-control systems typically rely on structured-data models for efficient prediction, yet substantial valuable information remains embedded in unstructured long text.",
+        "method": "To address this challenge, we propose LLM-BlockFE, an LLM-guided offline feature construction framework that converts long text into executable feature programs, thereby avoiding LLM calls during online inference.",
+        "evidence": "Across two public and two private datasets, LLM-BlockFE achieves absolute AUC improvements of 0.0069 to 0.0358 over the strongest baseline on each dataset in the full-dataset comparison.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: LLM loss landscape, Efficient adversarial training.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-09T16:59:23.680416+00:00"
+    },
+    {
+      "id": "2610.12410",
+      "title": "Predicting Alignment Generalization with Value Representations",
+      "abstract": "LLM developers post-train their models to exhibit prosocial values and behavioral traits, which are enumerated in an alignment target. However, while recent post-training developments have yielded models that score highly on alignment evaluations, training models on sets of narrow behaviors still influences their behavior across unseen contexts and environments in unexpected ways. In this paper, we establish the task of alignment generalization prediction, i.e., predicting how fine-tuning a model to follow a given value changes its behavior across a wide range of held-out values. We conduct a large-scale analysis of alignment generalization effects across 66 values found in modern alignment targets, and benchmark representational techniques on the alignment generalization prediction task. We find that representations based on model activations when applying values in context significantly outperform methods based on textual descriptions of the values. Specifically, the best activations-based methods achieve correlations of 0.45 with our generalization matrix, compared with 0.05 from description-based baselines. We then show the applicability of representations that predict alignment generalization toward downstream tasks by using them to measure how similar the values in a multi-value alignment target are, which we find is significantly correlated with model robustness. Finally, we show initial evidence towards a shared, model-independent value space, which we use to develop the first taxonomy of LLM values grounded in empirical generalization dynamics. Our work demonstrates the importance of studying value generalization in LLMs and its application toward the more empirical design and training of model behavior.",
+      "authors": [
+        "Andy Liu",
+        "Mehar Bhatia",
+        "Karolina Stanczak",
+        "Mona Diab",
+        "Vered Shwartz",
+        "Daniel Fried"
+      ],
+      "published": "2026-10-08T17:47:26Z",
+      "updated": "2026-10-08T17:47:26Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2610.12410v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.12410v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "llm",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.3825,
+          "matched": [
+            "training",
+            "fine-tuning",
+            "robustness"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.3499,
+          "matched": [
+            "generalization"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.1874,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5046,
+        "relevance": 0.4135,
+        "quality": 0.55,
+        "novelty": 0.8279,
+        "freshness": 0.8619,
+        "feedback_adjustment": -0.0097,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "We find that representations based on model activations when applying values in context significantly outperform methods based on textual descriptions of the values.",
+        "problem": "LLM developers post-train their models to exhibit prosocial values and behavioral traits, which are enumerated in an alignment target.",
+        "method": "However, while recent post-training developments have yielded models that score highly on alignment evaluations, training models on sets of narrow behaviors still influences their behavior across unseen contexts and environments in unexpected ways.",
+        "evidence": "We find that representations based on model activations when applying values in context significantly outperform methods based on textual descriptions of the values.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Efficient adversarial training, Statistical theory for LLMs.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training",
+          "fine-tuning",
+          "robustness"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-09T16:59:23.680416+00:00"
+    },
+    {
+      "id": "2610.12325",
+      "title": "Prior or Feedback? What an LLM Uses When Adapting Neural Operators",
+      "abstract": "Do LLM scientific agents rely only on their initial task context, or do they adapt their decisions in response to experimental feedback? We study this question in neural operator adaptation, where a large language model (LLM) selects fine-tuning configurations under a limited trial budget. Across transfers within and between partial differential equation (PDE) families, the LLM achieves lower held-out test nRMSE than random search and Bayesian optimisation in nearly every matched comparison. Endpoint performance alone cannot distinguish what happens, so we verify each attribution with controlled interventions. Before observing any validation score, the LLM's first configuration already ranks near the top of the corresponding random-search pool, indicating a useful initial bias. A complementary cold-start intervention shows that the selected base learning rate shifts with the PDE description. Once feedback becomes available, reassigning validation scores among evaluated configurations changes the next proposal in every case tested, whereas a value-preserving rewrite produces no comparable aggregate effect. These interventions establish that the LLM's decision-level actions respond to the given task and observed outcomes, showing that it combines a task-dependent prior with sensitivity to experimental feedback.",
+      "authors": [
+        "Julian Chan",
+        "Javier Mora Jimenez"
+      ],
+      "published": "2026-10-08T17:06:23Z",
+      "updated": "2026-10-08T17:06:23Z",
+      "categories": [
+        "cs.AI",
+        "cs.LG",
+        "physics.comp-ph"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2610.12325v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.12325v1",
+      "comment": "16 pages, 4 figures, 5 tables. Accepted at the NeurIPS 2026 Workshop on AI for Science: Verification in the Age of AI Scientists. Equal contribution",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5242,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.127,
+          "matched": [
+            "fine-tuning"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4972,
+        "relevance": 0.4448,
+        "quality": 0.39,
+        "novelty": 0.8717,
+        "freshness": 0.8578,
+        "feedback_adjustment": -0.0013,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "experiments"
+      ],
+      "summary": {
+        "takeaway": "Do LLM scientific agents rely only on their initial task context, or do they adapt their decisions in response to experimental feedback?",
+        "problem": "Do LLM scientific agents rely only on their initial task context, or do they adapt their decisions in response to experimental feedback?",
+        "method": "We study this question in neural operator adaptation, where a large language model (LLM) selects fine-tuning configurations under a limited trial budget.",
+        "evidence": "Across transfers within and between partial differential equation (PDE) families, the LLM achieves lower held-out test nRMSE than random search and Bayesian optimisation in nearly every matched comparison.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: LLM loss landscape, Efficient adversarial training.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-09T16:59:23.680416+00:00"
+    },
+    {
+      "id": "2610.12345",
+      "title": "Overcoming Prior Barriers: Supervised Fine-Tuning under Long-Tail Distribution",
+      "abstract": "Supervised fine-tuning (SFT) adapts pretrained large language models (LLMs) to downstream tasks, but the required concepts can receive substantially different levels of pretrained support. Frequent concepts are more likely to be well learned, whereas rare concepts may remain weakly represented. We introduce a novel notion named prior barrier to quantify how strongly the pretrained model supports competing concepts over the target concept. We observe that prior barriers follow a long-tail distribution, placing head and tail concepts at different starting points for SFT: head concepts face lower prior barriers, whereas tail concepts require additional instructions to overcome their higher prior barriers. Our theoretical analysis further derives a predictive risk bound for SFT under long-tail prior barriers, explicitly characterizing how the prior barrier and accumulated SFT evidence jointly determine predictive performance. Motivated by this prior barrier-dependent demand, we propose PASS, an adaptive SFT instruction selection method that constructs reference-derived concepts and estimates the distinguishing evidence provided by each instruction, and adaptively allocates the selection budget toward concepts that remain insufficiently covered under the current selection. In this way, PASS jointly considers which instructions can provide useful evidence and where additional supervision is needed under a limited budget. Experiments show that our method consistently outperforms seven state-of-the-art instruction selection methods on four backbone-budget settings. An ablation study further shows that PASS's adaptive allocation consistently improves over uniform allocation.",
+      "authors": [
+        "Haohui Wang",
+        "Jiahao Xu",
+        "Wangzhi Zhan",
+        "Tong Zeng",
+        "Dongqi Fu",
+        "Hong Li",
+        "Swastik Roy",
+        "Naren Ramakrishnan",
+        "Chris North",
+        "Jian Kang",
+        "Yujun Yan",
+        "Dawei Zhou"
+      ],
+      "published": "2026-10-08T17:16:45Z",
+      "updated": "2026-10-08T17:16:45Z",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.LG"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2610.12345v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.12345v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.4099,
+          "matched": [
+            "fine-tuning"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.0699,
+          "matched": [
+            "bound"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4589,
+        "relevance": 0.3419,
+        "quality": 0.55,
+        "novelty": 0.8369,
+        "freshness": 0.8589,
+        "feedback_adjustment": -0.0194,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "ablation study",
+        "experiments",
+        "formal bound"
+      ],
+      "summary": {
+        "takeaway": "We introduce a novel notion named prior barrier to quantify how strongly the pretrained model supports competing concepts over the target concept.",
+        "problem": "Supervised fine-tuning (SFT) adapts pretrained large language models (LLMs) to downstream tasks, but the required concepts can receive substantially different levels of pretrained support.",
+        "method": "We introduce a novel notion named prior barrier to quantify how strongly the pretrained model supports competing concepts over the target concept.",
+        "evidence": "Experiments show that our method consistently outperforms seven state-of-the-art instruction selection methods on four backbone-budget settings.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Efficient adversarial training, Statistical theory for LLMs.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "fine-tuning"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-09T16:59:23.680416+00:00"
+    },
+    {
+      "id": "2610.12313",
+      "title": "Verdict Without the Rule: Diagnosing and Auditing Regulatory Rule Sensitivity in LLM Compliance Systems",
+      "abstract": "Large language model compliance systems are deployed on the assumption that a verdict depends on the regulatory rule it is given. We test this directly across five models and 20 regulatory and platform-policy domains: delete, swap, or negate the governing rule while holding the case fixed, and check whether the verdict changes (OCS) or the model's internal representation of compliance shifts at all (ICS-delta). Neither moves much: models' verdicts are often invariant to substantial perturbations of the supplied rule, and the guard model, evaluated here under a custom-rule adaptation of its native taxonomy, is the least rule-sensitive and least accurate of the five, barely above chance (51%, versus 90-92% for general-purpose models). This reflects easy cases more than blanket neglect: on cases where deleting the rule changes a previously correct model prediction, models do track it closely. Neither better prompting nor direct intervention on the model's internal representations closes this gap. Accuracy alone does not establish that a compliance verdict is grounded in the supplied rule.",
+      "authors": [
+        "Saisab Sadhu",
+        "Aadit Sengupta",
+        "Vinay kumar Sankarapu",
+        "Pratinav Seth"
+      ],
+      "published": "2026-10-08T16:59:40Z",
+      "updated": "2026-10-08T16:59:40Z",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.CY"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2610.12313v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.12313v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3292,
+          "matched": [
+            "auditing",
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.3081,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4228,
+        "relevance": 0.325,
+        "quality": 0.41,
+        "novelty": 0.8666,
+        "freshness": 0.8572,
+        "feedback_adjustment": -0.0068,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Large language model compliance systems are deployed on the assumption that a verdict depends on the regulatory rule it is given.",
+        "problem": "Large language model compliance systems are deployed on the assumption that a verdict depends on the regulatory rule it is given.",
+        "method": "We test this directly across five models and 20 regulatory and platform-policy domains: delete, swap, or negate the governing rule while holding the case fixed, and check whether the verdict changes (OCS) or the model's internal representation of compliance shifts at all (ICS-delta).",
+        "evidence": "Neither moves much: models' verdicts are often invariant to substantial perturbations of the supplied rule, and the guard model, evaluated here under a custom-rule adaptation of its native taxonomy, is the least rule-sensitive and least accurate of the five, barely above chance (51%, versus 90-92% for general-purpose models).",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Trustworthy LLM, LLM loss landscape.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Trustworthy LLM",
+        "matched": [
+          "auditing",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-09T16:59:23.680416+00:00"
+    },
     {
       "id": "2610.10455",
       "title": "PHRBench: A Behavioral Evaluation of Post-Hallucination Reasoning in LLMs",
@@ -12377,742 +12944,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-09-04T14:21:26.438741+00:00"
-    },
-    {
-      "id": "2609.04180",
-      "title": "Knowledge Acquisition During Pre-training? Large Language Models Learn Better With Auxiliary Views",
-      "abstract": "Gaps remain in our understanding of how large language models (LLMs) acquire knowledge during pre-training. We posit that auxiliary views, reformulations of knowledge, are causally helpful for learning. We design controlled experiments to isolate this. First, we confirm that repetition is necessary for acquisition and clarify that paraphrasing helps only at smaller batch sizes. Second, holding the token budget fixed, allocating tokens from document repetition to auxiliary views improves learning, counterintuitively, even for factual recall. Third, the effectiveness of auxiliary views is not contingent on the strength of the teacher model that generates them. Fourth, we identify forms of knowledge, contextual and foundational, that aid learning in the presence of prior knowledge gaps. Finally, we examine how these effects manifest mechanistically via layer-wise biases and compression. Together, our findings suggest that auxiliary representations of knowledge, which arise naturally in large pre-training corpora, are a key factor in the success of pre-training and offer a plausible explanation for why data diversity matters.",
-      "authors": [
-        "Joseph Lee",
-        "Yidi Huang",
-        "Dokyoon Kim",
-        "Shu Yang",
-        "Li Shen"
-      ],
-      "published": "2026-09-03T17:57:02Z",
-      "updated": "2026-09-03T17:57:02Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2609.04180v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.04180v1",
-      "comment": "Accepted to Findings of EMNLP 2026",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.5974,
-          "matched": [
-            "training"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5185,
-        "relevance": 0.4779,
-        "quality": 0.39,
-        "novelty": 0.8595,
-        "freshness": 0.8785,
-        "feedback_adjustment": -0.0043,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "experiments"
-      ],
-      "summary": {
-        "takeaway": "辅助的知识改写提升 LLM 预训练效率和事实回忆。",
-        "method": "在固定 token 预算下，将文档重复的 token 重新分配到教师生成的辅助视图（如改写）上。",
-        "problem": "确定在文本中如何表述知识以最大化预训练期间的获取。",
-        "limitations": "在更大 batch size 时改写收益减弱，实验仅限于 OLMo‑2‑32B。",
-        "evidence": "在 OLMo‑2‑32B 上，包含辅助视图的混合训练在事实和推理探测上优于仅源或仅改写的训练。",
-        "why_for_you": "虽非对抗训练，但本文提供了对高效 LLM 预训练有价值的数据效率洞见。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "知识的辅助视图提升预训练性能，在 OLMo‑2‑32B 上的增益远超仅源训练。"
-          },
-          {
-            "icon": "⚙️",
-            "text": "该方法在保持总 token 预算不变的前提下，将重复文档的 token 重新分配给教师生成的改写。"
-          },
-          {
-            "icon": "📈",
-            "text": "证据显示在 factual MCQA、inference MCQA 和探测指标上均有一致提升，但在大 batch size 时改写收益下降。"
-          }
-        ],
-        "overview": "作者研究在 LLM 预训练期间如何表征知识。将 auxiliary views 定义为同一知识的多样改写（如博客、问答、教材），并检验将固定 token 预算分配给这些视图而非单纯重复是否提升学习。对 OLMo‑2‑32B 的受控实验比较 source‑only、paraphrase‑only 与 source + auxiliary 三种训练混合。结果表明 auxiliary views 在 factual 与 inference 基准上带来更大提升，收益受 batch size 调节且与 teacher 模型强度无关。机制分析揭示层级偏置转移和压缩效应。",
-        "mechanism": [
-          {
-            "detail": "辅助视图会引发对中间和最终Transformer层的特定偏差，改变知识编码的位置",
-            "title": "逐层偏差偏移"
-          },
-          {
-            "detail": "使用辅助视图训练会导致更压缩的知识表示，表明更高效的参数编码",
-            "title": "表示压缩"
-          }
-        ],
-        "methodology": [
-          {
-            "detail": "在每个训练步骤中保持总标记数恒定；将一部分标记从重复的源文档转移到教师生成的辅助重写（改写、类比）",
-            "title": "Token预算分配"
-          },
-          {
-            "detail": "使用单独的语言模型生成辅助视图；实验中改变教师模型强度，发现效果对此因素具有鲁棒性",
-            "title": "教师模型生成"
-          },
-          {
-            "detail": "使用多种批量大小进行训练以评估改写收益的变化，在较大批量中观察到收益递减",
-            "title": "批量大小变化"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "模型与数据",
-            "detail": "实验使用 OLMo‑2‑32B；预训练数据包括近期 arXiv 论文、法律意见和医学案例研究，每个均改写为三种体裁（博客、Stack Exchange、教材）。"
-          },
-          {
-            "title": "训练混合",
-            "detail": "三种混合方式：仅源、Para. 9（仅改写）和 Para. 9 + Aux（源加辅助视图）。"
-          },
-          {
-            "title": "评估指标",
-            "detail": "在 factual MCQA、inference MCQA、factual probes 和 inference probes 上评估；报告的准确率在 0.42 到 0.50 之间。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "重复与改写",
-            "detail": "重复是知识获取的必要条件；改写能带来收益，但仅在较小批量大小时有效。"
-          },
-          {
-            "title": "辅助视图优势",
-            "detail": "在固定 token 预算下，将 token 分配给辅助视图可提升事实回忆，并导致层级偏置和压缩。"
-          },
-          {
-            "title": "教师强度独立性",
-            "detail": "辅助视图的有效性不依赖于生成它们的教师模型的强度。"
-          },
-          {
-            "title": "情境与基础知识",
-            "detail": "在存在先前知识缺口时，提供情境和先决知识与目标事实一起有助于学习。"
-          }
-        ],
-        "contributions": [
-          "展示辅助知识重构在 LLM 预训练中相较于单纯重复的提升。",
-          "表明将 token 预算重新分配到辅助视图可在事实和推理基准上获得可衡量的提升。",
-          "提供机制性分析，将辅助视图与层级偏置变化及表征压缩关联起来。"
-        ],
-        "limitations": [
-          "在更大批量时，改写的收益减弱。",
-          "实验仅限于 OLMo‑2‑32B 模型和特定领域语料。"
-        ],
-        "open_questions": [
-          "辅助视图如何影响对抗鲁棒性和对扰动的抵抗？",
-          "在更大模型和更广语料下，视图类型与 token 分配的最佳组合是什么？",
-          "能否将辅助视图策略与对抗训练结合以进一步提升效率？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "training"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-09-04T14:21:26.438741+00:00"
-    },
-    {
-      "id": "2609.04159",
-      "title": "SENTINEL-RL: Offloading Topological Reasoning from LLM Agents in the Security Operations Center",
-      "abstract": "Large language model (LLM) agents are increasingly proposed as autonomous SOC analysts, but two limitations make them unreliable at enterprise scale: a finite context window cannot hold a multi-thousand-host authentication graph, and free-form generation offers no guarantee that a recommended containment action is consistent with the topology it operates on. We present Sentinel-RL, an agentic-SOC architecture that decouples topological reasoning from semantic reasoning: a heterogeneous graph attention encoder summarizes the live authentication subgraph into a fixed-dimensional state, a Proximal Policy Optimization (PPO) policy maps this state to a constrained set of investigative actions, and an LLM agent loop is restricted to consuming the policy's recommendations and producing analyst-readable narratives gated by a critic. We instantiate the system on the LANL Comprehensive, Multi-Source Cyber-Security Events dataset and the Indiana University Quartz HPC cluster, reporting four results: (i) a two-phase CREATE ingestion pattern loads a 24M-edge authentication subgraph into Neo4j in 14.2 minutes on a single 32-core node, roughly 24x faster than the canonical MERGE-based pipeline; (ii) a sliding-window alert engine reliably trips a 25-event/10-second threshold in <=2.5 s across 50 trials; (iii) PPO training over 200 iterations converges to a mean episodic return of 8.74+/-0.31, with held-out precision of 0.91 and recall of 0.87 on labeled red-team events; and (iv) the integrated containment loop completes a full detect-investigate-recommend-human-approve cycle in a median of 6.3 s. We contribute a reusable engineering pattern (the hot-node deadlock workaround), a portable HPC deployment pattern (anchor-node co-location), and an enterprise-readiness analysis covering false-positive economics, reversibility guarantees, audit compliance, and the human-approval boundary.",
-      "authors": [
-        "Uday Vallabhaneni",
-        "Cassie L. Cagwin",
-        "David J. Wild"
-      ],
-      "published": "2026-09-03T17:49:12Z",
-      "updated": "2026-09-03T17:49:12Z",
-      "categories": [
-        "cs.CR",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CR",
-      "abs_url": "https://arxiv.org/abs/2609.04159v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.04159v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.4539,
-          "matched": [
-            "llm"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.1203,
-          "matched": [
-            "training"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5145,
-        "relevance": 0.3872,
-        "quality": 0.65,
-        "novelty": 0.8891,
-        "freshness": 0.8778,
-        "feedback_adjustment": -0.0114,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "formal bound",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "We present Sentinel-RL, an agentic-SOC architecture that decouples topological reasoning from semantic reasoning: a heterogeneous graph attention encoder summarizes the live authentication subgraph into a fixed-dimensional state, a Proximal Policy Optimization (PPO) policy maps this state to a constrained set of investigative actions, and an LLM agent loop is restricted to consuming the policy's recommendations and producing analyst-readable narratives gated by a critic.",
-        "problem": "Large language model (LLM) agents are increasingly proposed as autonomous SOC analysts, but two limitations make them unreliable at enterprise scale: a finite context window cannot hold a multi-thousand-host authentication graph, and free-form generation offers no guarantee that a recommended containment action is consistent with the topology it operates on.",
-        "method": "We present Sentinel-RL, an agentic-SOC architecture that decouples topological reasoning from semantic reasoning: a heterogeneous graph attention encoder summarizes the live authentication subgraph into a fixed-dimensional state, a Proximal Policy Optimization (PPO) policy maps this state to a constrained set of investigative actions, and an LLM agent loop is restricted to consuming the policy's recommendations and producing analyst-readable narratives gated by a critic.",
-        "evidence": "We instantiate the system on the LANL Comprehensive, Multi-Source Cyber-Security Events dataset and the Indiana University Quartz HPC cluster, reporting four results: (i) a two-phase CREATE ingestion pattern loads a 24M-edge authentication subgraph into Neo4j in 14.2 minutes on a single 32-core node, roughly 24x faster than the canonical MERGE-based pipeline; (ii) a sliding-window alert engine reliably trips a 25-event/10-second threshold in <=2.5 s across 50 trials; (iii) PPO training over 200 iterations converges to a mean episodic return of 8.74+/-0.31, with held-out precision of 0.91 and recall of 0.87 on labeled red-team events; and (iv) the integrated containment loop completes a full detect-investigate-recommend-human-approve cycle in a median of 6.3 s.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: LLM loss landscape, Efficient adversarial training.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-09-04T14:21:26.438741+00:00"
-    },
-    {
-      "id": "2609.04127",
-      "title": "Epistemic Warrant for LLM Recommendations: Characterizing the Basis for Reliance When Ground Truth Is Unavailable",
-      "abstract": "Large language models are increasingly used to support organizational decisions, yet users often lack a principled basis for assessing whether to rely on a specific recommendation. Existing approaches typically evaluate broad model properties, such as reliability, uncertainty, or robustness, or focus on user trust, rather than the underlying basis for relying on an individual recommendation. Adapting theoretical foundations from epistemology, we introduce epistemic warrant, a decision-level construct that characterizes the stability of a model's preference and the scope over which that preference holds. We operationalize this construct through a four-tier reliance certificate for pairwise recommendations, distinguishing among unstable, context-dependent, locally supported, and broadly supported recommendations. We validate the construct using contemporary methodologies: known-groups tests successfully recover expert-prespecified warrant orderings, and stronger warrants systematically align with independent consensus from crowd workers. Furthermore, we demonstrate that epistemic warrant provides information distinct from verbalized confidence and is not readily explained by decision difficulty. Ultimately, this framework offers a theoretically grounded, implementable approach for characterizing the warrant of individual LLM recommendations when objective ground truth is unavailable.",
-      "authors": [
-        "Shai Vardi",
-        "João Sedoc"
-      ],
-      "published": "2026-09-03T17:25:20Z",
-      "updated": "2026-09-03T17:25:20Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2609.04127v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.04127v1",
-      "comment": "43 pages",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.4416,
-          "matched": [
-            "llm"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4387,
-          "matched": [
-            "robustness",
-            "uncertainty",
-            "reliability",
-            "llm"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.1336,
-          "matched": [
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4991,
-        "relevance": 0.4677,
-        "quality": 0.33,
-        "novelty": 0.8531,
-        "freshness": 0.8754,
-        "feedback_adjustment": -0.0139,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [],
-      "summary": {
-        "takeaway": "Adapting theoretical foundations from epistemology, we introduce epistemic warrant, a decision-level construct that characterizes the stability of a model's preference and the scope over which that preference holds.",
-        "problem": "Large language models are increasingly used to support organizational decisions, yet users often lack a principled basis for assessing whether to rely on a specific recommendation.",
-        "method": "Adapting theoretical foundations from epistemology, we introduce epistemic warrant, a decision-level construct that characterizes the stability of a model's preference and the scope over which that preference holds.",
-        "evidence": "Furthermore, we demonstrate that epistemic warrant provides information distinct from verbalized confidence and is not readily explained by decision difficulty.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: LLM loss landscape, Trustworthy LLM.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-09-04T14:21:26.438741+00:00"
-    },
-    {
-      "id": "2609.04013",
-      "title": "LLM4CKD: Large Language Models for Early Stage Chronic Kidney Disease Screening",
-      "abstract": "Early screening of chronic kidney disease (CKD) is critical for timely intervention, yet most machine learning (ML) and deep learning (DL) approaches require labeled data and model training, limiting their use in real-world screening settings. This study evaluates the effectiveness of large language models (LLMs) for CKD screening under zero-shot and few-shot in-context learning settings and compares them with traditional ML and DL methods. We propose a framework that uses clinically selected tabular features and structured prompt templates to enable LLM-based inference without task-specific training. LLM performance is evaluated across multiple prompt styles, feature configurations, and data settings, and compared with standard ML, DL, and tabular foundation model (TFM) baselines, and existing CKD screening tools. The results show that LLMs can achieve competitive performance using only a small number of examples, often matching or outperforming traditional approaches in low-data settings. However, their performance remains model-dependent and less stable as input complexity increases. In contrast, ML, DL, and TFM models show more consistent improvement with larger training data. Overall, the findings highlight a trade-off between data efficiency and stability, suggesting that LLMs may serve as a flexible complementary approach for CKD screening when labeled data are limited.",
-      "authors": [
-        "Muhammad Ashad Kabir",
-        "Sirajam Munira"
-      ],
-      "published": "2026-09-03T15:53:20Z",
-      "updated": "2026-09-03T15:53:20Z",
-      "categories": [
-        "cs.AI",
-        "cs.LG"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2609.04013v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.04013v1",
-      "comment": "Accepted at ICDM 2026",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "core",
-          "score": 0.3797,
-          "matched": [
-            "training data",
-            "data"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.3595,
-          "matched": [
-            "training"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.2531,
-          "matched": [
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4829,
-        "relevance": 0.4263,
-        "quality": 0.4,
-        "novelty": 0.8247,
-        "freshness": 0.8663,
-        "feedback_adjustment": -0.025,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "baseline comparison"
-      ],
-      "summary": {
-        "takeaway": "We propose a framework that uses clinically selected tabular features and structured prompt templates to enable LLM-based inference without task-specific training.",
-        "problem": "Early screening of chronic kidney disease (CKD) is critical for timely intervention, yet most machine learning (ML) and deep learning (DL) approaches require labeled data and model training, limiting their use in real-world screening settings.",
-        "method": "We propose a framework that uses clinically selected tabular features and structured prompt templates to enable LLM-based inference without task-specific training.",
-        "evidence": "The results show that LLMs can achieve competitive performance using only a small number of examples, often matching or outperforming traditional approaches in low-data settings.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Data selection for LLMs, Efficient adversarial training.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Data selection for LLMs",
-        "matched": [
-          "training data",
-          "data"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-09-04T14:21:26.438741+00:00"
-    },
-    {
-      "id": "2609.02685",
-      "title": "DKL: Decoupled Knowledge Learning for Instruction-Tuned Language Models",
-      "abstract": "RAG has become the de facto method for incorporating new, corpus-specific knowledge into an instruction following LLM (Instruct LLM). Although RAG-based prompting improves factual grounding, it fails when retrieval is incorrect or incomplete, leading to hallucinations. Finetuning methods such as RAFT and PA-RAG enhance RAG by injecting new knowledge into the model's parameters, but require generating a massive amount of synthetic QA that covers the entire corpus. Extended Pre-Training (EPT) on the text corpus avoids the need for comprehensive synthetic data generation but compromises an Instruct LLM's instruction-following capabilities, necessitating instruction fine-tuning (IFT) after pre-training. However, IFT is costly and may be infeasible due to the unavailability of an instruction-tuning corpus. In this work, we propose DKL-Decoupled Knowledge Learning for Instruction-Tuned Language Models. Instead of doing EPT on the Instruct LLM, DKL performs EPT on its corresponding base LLM to infuse new knowledge. These knowledge infused weights are then merged with the Instruct LLM, imparting new knowledge without affecting their instruction-following capabilities. DKL is a lightweight method that avoids expensive instruction fine-tuning and relies on model merging to infuse the new knowledge into the Instruct LLM without destroying its instruction following capabilities. Empirical results show that DKL improves RAG accuracy from 54.17 to 79.26 on retrieval failure cases, while outperforming prior approaches with substantially less training data.",
-      "authors": [
-        "Kushagra Bhushan",
-        "Meghanadh Pulivarthi",
-        "Sai Krishna Reddy Sathi",
-        "Gaurav Pandey",
-        "Sonam Gupta",
-        "Vineet Kumar",
-        "Jaydeep Sen",
-        "Yatin Nandwani",
-        "Sachindra Joshi",
-        "Dinesh Raghu"
-      ],
-      "published": "2026-09-02T14:53:50Z",
-      "updated": "2026-09-02T14:53:50Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2609.02685v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.02685v1",
-      "comment": "20 pages, 4 figures, 15 tables",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.5092,
-          "matched": [
-            "training",
-            "fine-tuning"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.3494,
-          "matched": [
-            "llm"
-          ]
-        },
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "core",
-          "score": 0.3065,
-          "matched": [
-            "training data",
-            "data"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5617,
-        "relevance": 0.5385,
-        "quality": 0.41,
-        "novelty": 0.8667,
-        "freshness": 0.8591,
-        "feedback_adjustment": -0.0159,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "In this work, we propose DKL-Decoupled Knowledge Learning for Instruction-Tuned Language Models.",
-        "problem": "RAG has become the de facto method for incorporating new, corpus-specific knowledge into an instruction following LLM (Instruct LLM).",
-        "method": "In this work, we propose DKL-Decoupled Knowledge Learning for Instruction-Tuned Language Models.",
-        "evidence": "Although RAG-based prompting improves factual grounding, it fails when retrieval is incorrect or incomplete, leading to hallucinations.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Efficient adversarial training, LLM loss landscape.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "training",
-          "fine-tuning"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-09-03T14:33:58.532938+00:00"
-    },
-    {
-      "id": "2609.02771",
-      "title": "From Reweighting to Rewriting: Unlocking the Intervention Effects of Influential Samples in Training Data Attribution",
-      "abstract": "Training data attribution (TDA) aims to identify training examples that shape model behavior, but its intervention value depends on both which examples are selected and how they are modified. Influence functions (IF) estimate behavioral changes under infinitesimal reweighting, yet IF-selected examples often show limited advantages over random selection under conventional weight-based interventions. This raises the question of whether influential examples lack intervention value or whether reweighting fails to realize their behavioral leverage.We introduce influence-guided response rewriting, which uses IF to identify intervention targets and replaces their responses with behavior-aligned or behavior-opposed supervision while keeping instructions fixed. Across four open-weight LLMs, we compare rewriting and reweighting on the same influence-selected examples using epistemic abstention as our primary testbed. Response rewriting produces stronger, more persistent, and bidirectional behavioral shifts, while reweighting the same examples yields weak and inconsistent effects. Further analyses show that influence-selected examples provide greater rewriting leverage than alternative selectors, with changes remaining concentrated on target-relevant behaviors. The same qualitative contrast extends to safety refusal. These results distinguish the local reweighting effects captured by influence estimates from the broader intervention leverage of the examples they identify, motivating intervention-aware evaluation of TDA methods.",
-      "authors": [
-        "Yuzhang Luo",
-        "Chenpeng Wang",
-        "Jianhui Chen",
-        "Liangming Pan"
-      ],
-      "published": "2026-09-02T16:07:21Z",
-      "updated": "2026-09-02T16:07:21Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI",
-        "cs.LG"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2609.02771v1",
-      "pdf_url": "https://arxiv.org/pdf/2609.02771v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "core",
-          "score": 0.4804,
-          "matched": [
-            "influence",
-            "reweighting",
-            "data attribution",
-            "training data",
-            "data",
-            "selection"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.3265,
-          "matched": [
-            "training"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4827,
-        "relevance": 0.4496,
-        "quality": 0.33,
-        "novelty": 0.8114,
-        "freshness": 0.8664,
-        "feedback_adjustment": -0.011,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [],
-      "summary": {
-        "limitations": "评估仅限于 supervised fine‑tuning、四个模型和 abstention/safety 基准，未检验更广泛的泛化能力。",
-        "evidence": "在四个 open‑weight LLMs 中，重写相较于删除或上调相同样本，能够在 epistemic abstention 和 safety refusal 上产生更强、更稳健、双向的变化。",
-        "problem": "基于权重的对 influence‑selected 示例的干预相较随机选择优势有限，质疑其实用性。",
-        "takeaway": "influence‑guided response rewriting 相较于 reweighting，对有影响力的训练样本提供更有效且持久的行为干预。",
-        "method": "通过 influence functions 选择高影响力样本，并在保持指令不变的情况下，用 behavior‑aligned 或相反的模板替换其响应。",
-        "why_for_you": "契合您对数据选择和高效对抗训练的兴趣，展示了一种更有力利用 influential examples 的方法。",
-        "source": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
-        "language": "zh",
-        "schema_version": 3,
-        "prompt_version": 2
-      },
-      "deep_dive": {
-        "signals": [
-          {
-            "icon": "💡",
-            "text": "引入 influence‑guided response rewriting 作为一种新 TDA 干预，优于 reweighting。"
-          },
-          {
-            "icon": "🔧",
-            "text": "使用 influence functions 选取样本，然后仅通过 template pools 中的固定提示重写响应。"
-          },
-          {
-            "icon": "📊",
-            "text": "在四个 LLMs 上展示了针对 abstention 和 safety 的更强、持久、双向行为变化，但仅限于这些任务。"
-          }
-        ],
-        "overview": "本文研究了为何 influence‑function (IF) 选取的示例在传统 reweighting 下常未能提升模型行为。提出一种解耦框架：IF 确定高杠杆训练点，response rewriting 仅修改响应且保持指令不变，使用 behavior‑aligned 或相反的模板。对四个 open‑weight LLMs 的实证研究表明，与删除或上调相同示例相比，rewriting 能显著产生更强、更稳健且双向的 epistemic abstention 和 safety refusal 变化。分析显示，influential 示例蕴含潜在杠杆，rewriting 可在不削弱整体能力的前提下加以释放。",
-        "mechanism": [
-          {
-            "detail": "重写会改变与有影响力示例相关的监督信号，直接引导模型向目标行为靠近或远离，同时保持提示不变。",
-            "title": "通过监督信号重定向实现杠杆效应"
-          },
-          {
-            "detail": "由于仅修改了响应，重写后的示例继续影响相同的输入分布，将干预集中在目标行为上，而不会造成广泛的能力损失。",
-            "title": "目标特异性保持"
-          }
-        ],
-        "methodology": [
-          {
-            "detail": "为每个SFT训练示例计算IF分数，根据目标行为查询集对示例进行排序，从最有帮助（正分数）到最有害（负分数）。",
-            "title": "影响函数评分"
-          },
-          {
-            "detail": "将选定示例的原始响应替换为三个模板池中的固定字符串（abstention-refuse, safety-refuse, comply），同时保留原始指令。",
-            "title": "响应重写"
-          },
-          {
-            "detail": "在修改后的数据集上对基础LLM进行微调，使用相同的SFT配方和超参数，适用于不同模型规模（OLMo2-1B/7B, Qwen3.5-2B, Gemma3-4B）。",
-            "title": "微调设置"
-          }
-        ],
-        "experiments": [
-          {
-            "title": "模型与干预比较",
-            "detail": "在同一 IF‑selected 集合上，对四种开放权重 LLM 进行四种干预的评估：删除、加权、行为对齐重写和行为对立重写。"
-          },
-          {
-            "title": "评估方案",
-            "detail": "主要测试平台是使用来自 CoCoNot、SelfAware 和 KUQ 的 300 道题目的认知回避；安全拒绝通过独立安全基准进行评估。指标包括回避率变化和召回率差异。"
-          },
-          {
-            "title": "基线与对照",
-            "detail": "随机选择、基于探测的选择和基于投影的选择（高不可回答性）作为基线；所有干预在样本数量上保持一致。"
-          }
-        ],
-        "findings": [
-          {
-            "title": "重写优于加权",
-            "detail": "相较于对相同 IF‑selected 示例的删除或加权，响应重写在回避和安全行为上产生更强、更稳健且双向的变化。"
-          },
-          {
-            "title": "影响选择示例具有更高杠杆效应",
-            "detail": "与基于投影或其他选择器基线相比，影响选择的样本在对齐重写下产生更大效应，在对立重写下产生相当效应。"
-          },
-          {
-            "title": "目标聚焦的变化且不削弱能力",
-            "detail": "分析表明，重写效应仍集中于目标行为，并未明显损害整体模型性能。"
-          }
-        ],
-        "contributions": [
-          "基于 Influence‑guided 的 response rewriting 框架，将 example selection 与 intervention design 解耦。",
-          "实证表明，influential examples 包含通过 rewriting 解锁的隐藏 behavioral leverage。",
-          "阐述 rewriting 有效原因及其相对于其他 selectors 的适用范围。"
-        ],
-        "limitations": [
-          "研究仅限于 supervised fine‑tuning 环境，未在 pre‑training 或 instruction‑tuning 流程中评估。",
-          "实验仅覆盖四个 open‑weight LLM 和两个 behavioral domains（abstention、safety refusal）。",
-          "rewriting 依赖手工构建的 template pools，可能无法推广至 arbitrary behaviors。"
-        ],
-        "open_questions": [
-          "Influence‑guided rewriting 能否扩展至更大的 closed‑source 模型和更丰富的 behavioral targets？",
-          "有哪些 automated methods 能在超出 fixed templates 的情况下生成有效的 rewrite 内容？",
-          "rewriting 对 downstream task performance 与整体 model alignment 的长期影响如何？"
-        ],
-        "source_scope": "selected full-text regions (up to 30 pages)",
-        "generated_by": "@cf/openai/gpt-oss-120b+@cf/qwen/qwen3-30b-a3b-fp8 chunked translation",
-        "language": "zh",
-        "schema_version": 6,
-        "prompt_version": 2
-      },
-      "analysis_status": "complete",
-      "recommendation_reason": {
-        "topic": "Data selection for LLMs",
-        "matched": [
-          "influence",
-          "reweighting",
-          "data attribution",
-          "training data"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-09-03T14:33:58.532938+00:00"
     }
   ]
 }
