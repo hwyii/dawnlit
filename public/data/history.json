@@ -1,6 +1,524 @@
 {
-  "generated_at": "2026-10-22T15:16:02.820754+00:00",
+  "generated_at": "2026-10-23T15:03:24.725665+00:00",
   "papers": [
+    {
+      "id": "2610.31657",
+      "title": "Cost-Aware Abstention for LLM-Based IT Ticket Classification",
+      "abstract": "Wrong automatic routing of an IT support ticket can cost more than human triage. We evaluate cost-aware abstention as an offline, cost-conditional readiness assessment: select a routing policy on calibration data under explicit costs, then evaluate that frozen policy once on held-out test data. On a public 47,837-ticket, eight-class corpus, we compare four trained non-LLM classifiers with four large language models under zero- and few-shot prompting. Under the illustrative cost model (c_ok, c_triage, c_wrong) = (0, 1, 5), TF-IDF with logistic regression and a threshold of 0.60 selected on calibration reduces test cost from 0.763 to 0.472, a 38.1% relative reduction (paired ratio-bootstrap 95% CI [35.7%, 40.4%]), while lowering wrong routes from 15.3% to 3.5%. Frozen calibration-selected policies also beat both always-route and always-defer on held-out test data in 14 of 16 settings in a post-hoc cost-parameter analysis. The strongest prompted configuration reaches 0.477 accuracy on a stratified 1,000-ticket test subset, versus 0.879 for fine-tuned DistilBERT on the same tickets. Isotonic lowers expected calibration error without reliably improving discrimination: GPT-4o-mini few-shot has one confidence value before and after recalibration and correctness AUROC 0.500. We therefore report correctness AUROC and tie-aware risk-coverage area alongside ECE. At the analytically derived break-even probability 0.80, seven prompted configurations defer all tickets; Haiku few-shot routes only 19/1,000. An LLM-only agreement control and margin/entropy rejection baselines further separate calibration from discrimination. The findings are scoped to this dataset, prompt design, model endpoints, and illustrative costs; the work is an evaluation framework, not a new abstention algorithm or universal deployment certification.",
+      "authors": [
+        "Sachin Gupta"
+      ],
+      "published": "2026-10-22T17:58:52Z",
+      "updated": "2026-10-22T17:58:52Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2610.31657v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.31657v1",
+      "comment": "Accepted at the 38th IEEE International Conference on Tools with Artificial Intelligence (ICTAI 2026). 9 pages, 5 figures, 9 tables",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5194,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.453,
+          "matched": [
+            "calibration",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5626,
+        "relevance": 0.5061,
+        "quality": 0.52,
+        "novelty": 0.8585,
+        "freshness": 0.8745,
+        "feedback_adjustment": -0.0134,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Wrong automatic routing of an IT support ticket can cost more than human triage.",
+        "problem": "Wrong automatic routing of an IT support ticket can cost more than human triage.",
+        "method": "The findings are scoped to this dataset, prompt design, model endpoints, and illustrative costs; the work is an evaluation framework, not a new abstention algorithm or universal deployment certification.",
+        "evidence": "On a public 47,837-ticket, eight-class corpus, we compare four trained non-LLM classifiers with four large language models under zero- and few-shot prompting.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: LLM loss landscape, Trustworthy LLM.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-23T15:03:24.725665+00:00"
+    },
+    {
+      "id": "2610.31412",
+      "title": "SQuAT: Spherical Lattice Vector Quantization-Aware Training",
+      "abstract": "Vector quantization (VQ), in particular lattice-based methods, offer strong rate-distortion trade-offs for low-bit large language models (LLMs), yet their behavior under quantization-aware training (VQ-QAT) remains poorly understood. We scale lattice VQ-QAT to billion-parameter LLMs and multi-billion-token training regimes, and introduce SQuAT, a shape-gain VQ-QAT approach trained with a separate straight-through estimator (STE) for the shape and gain. SQuAT decomposes weights into direction and magnitude: normalized directions are quantized using an $E_8$-derived spherical codebook, while gains are quantized independently with low-bit scalar quantizers. We show that, unlike a standard STE applied to the full quantizer, which ignores the shape-gain structure, these separate STEs induce tangent-space updates for directions, yielding an implicit form of spherical (Riemannian) optimization. To enable scalability, we develop a distributed exact nearest-neighbor assignment scheme, in which workers quantize disjoint weight blocks and communicate only discrete indices, reducing VQ-QAT training time by 12.8$\\times$ and allowing us to scale it to 10B tokens. Across instruction-tuned LLaMA-3.2-1B/3B, Qwen3-4B, and base Qwen3-1.7B, SQuAT consistently outperforms standard VQ-QAT STE under identical quantizers and initialization, and achieves SOTA VQ-QAT accuracy.",
+      "authors": [
+        "Sebastian Loeschcke",
+        "Ivan Koryakovskiy",
+        "Tycho F. A. van der Ouderaa",
+        "Riccardo Del Chiaro",
+        "Mart van Baalen",
+        "Paul N. Whatmough",
+        "Markus Nagel"
+      ],
+      "published": "2026-10-22T15:14:44Z",
+      "updated": "2026-10-22T15:14:44Z",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2610.31412v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.31412v1",
+      "comment": "25 pages, 7 figures",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5525,
+          "matched": [
+            "training"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5259,
+        "relevance": 0.442,
+        "quality": 0.55,
+        "novelty": 0.8567,
+        "freshness": 0.8583,
+        "feedback_adjustment": -0.0216,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "We show that, unlike a standard STE applied to the full quantizer, which ignores the shape-gain structure, these separate STEs induce tangent-space updates for directions, yielding an implicit form of spherical (Riemannian) optimization.",
+        "problem": "Vector quantization (VQ), in particular lattice-based methods, offer strong rate-distortion trade-offs for low-bit large language models (LLMs), yet their behavior under quantization-aware training (VQ-QAT) remains poorly understood.",
+        "method": "To enable scalability, we develop a distributed exact nearest-neighbor assignment scheme, in which workers quantize disjoint weight blocks and communicate only discrete indices, reducing VQ-QAT training time by 12.8$\\times$ and allowing us to scale it to 10B tokens.",
+        "evidence": "Across instruction-tuned LLaMA-3.2-1B/3B, Qwen3-4B, and base Qwen3-1.7B, SQuAT consistently outperforms standard VQ-QAT STE under identical quantizers and initialization, and achieves SOTA VQ-QAT accuracy.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Efficient adversarial training.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-23T15:03:24.725665+00:00"
+    },
+    {
+      "id": "2610.31573",
+      "title": "Social-HUMINT: An LLM-Augmented Unified Framework for Measuring Social Media Exposure",
+      "abstract": "In the post-API landscape, social-media profiling has become inexpensive and automated: Large Language Models (LLMs) can extract structured information from unstructured content and deduce attributes users never disclosed. A person's true exposure is not what they post but what can be inferred from it. As these practices become routine, exposure to social engineering attacks becomes an operational certainty, demanding a shared framework for assessment and mitigation. We make this exposure measurable by quantifying how accurately a target can be profiled, and how far that profile enables social engineering attacks. Because no existing model fully spans this continuum, we unify Social Media Intelligence (SOCMINT) and Cyber Human Intelligence (Cyber-HUMINT), two individual-focused disciplines that evolved separately, into a single doctrine-grounded taxonomy of 38 capabilities across the Cyber Threat Intelligence lifecycle, where user profiling bridges passive collection and active engagement. Domain experts validated the taxonomy (Fleiss' $κ$ = 0.92). We operationalize its core path (extraction, inference, and susceptibility assessment) as an LLM-augmented multi-agent pipeline, evaluated on real participants' public data. Susceptibility is assessed indirectly: the pipeline predicts how each target would rank personalized engagement options, matching their actual choices significantly above chance. This ranking capacity captures the personalization on which tailored attacks depend. The underlying profiles are accurate: extraction reaches F1 = 97.3%, and inferred attributes score 4.73/5, both far above rule-based and NER-based baselines at negligible cost. The framework augments security analysts' tradecraft rather than replacing it and enables defenders to gauge their own exposure before an adversary does.",
+      "authors": [
+        "Pellegrino Casoria",
+        "Simon Pietro Romano"
+      ],
+      "published": "2026-10-22T17:13:46Z",
+      "updated": "2026-10-22T17:13:46Z",
+      "categories": [
+        "cs.CR",
+        "cs.AI",
+        "cs.SI"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2610.31573v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.31573v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5246,
+          "matched": [
+            "landscape",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4945,
+        "relevance": 0.4197,
+        "quality": 0.48,
+        "novelty": 0.8222,
+        "freshness": 0.8701,
+        "feedback_adjustment": -0.0103,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "In the post-API landscape, social-media profiling has become inexpensive and automated: Large Language Models (LLMs) can extract structured information from unstructured content and deduce attributes users never disclosed.",
+        "problem": "In the post-API landscape, social-media profiling has become inexpensive and automated: Large Language Models (LLMs) can extract structured information from unstructured content and deduce attributes users never disclosed.",
+        "method": "As these practices become routine, exposure to social engineering attacks becomes an operational certainty, demanding a shared framework for assessment and mitigation.",
+        "evidence": "As these practices become routine, exposure to social engineering attacks becomes an operational certainty, demanding a shared framework for assessment and mitigation.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: LLM loss landscape.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "landscape",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-23T15:03:24.725665+00:00"
+    },
+    {
+      "id": "2610.31438",
+      "title": "DIAL: Steerable Language Models with Distilled Instruction-Adherence Levels",
+      "abstract": "When a user says \"Keep it short\", how short should the LLM's response be? More generally, users and applications require different levels of instruction adherence, but prompting does not reliably provide fine-grained control over them. We therefore study \"steerable language models\" that provide fine-grained numerical control over the degree to which models follow general instructions specified in text. However, existing approaches do not jointly offer fine-grained control, efficiency, and scalability across diverse instructions. To address this gap, we introduce DIAL (Distilled Instruction-Adherence Levels) to achieve all three properties. For fine-grained control, we perform classifier-free guidance (CFG) with a frozen LLM to provide training signals for on-policy distillation of instruction adherence at different levels. For efficiency, we design a lightweight steering adapter that uses a classifier over the LLM's hidden states to compute a closed-form steering edit. The classifier adaptively sets the steering magnitude at each token based on the target adherence level, while accounting for the geometry of the LLM's hidden states to preserve response coherence. For scalability, the classifier is text-conditioned, allowing a shared adapter to support new instructions without per-instruction fitting, and training requires only instruction and request text. Evaluation across multiple LLM families shows that DIAL achieves a competitive balance between concept expression and response fluency, with concept scores increasing monotonically across adherence levels. We introduce SteerIF, an instruction-only dataset of 98, 625 concept, persona, verifiable, and descriptive instructions. When trained on SteerIF, DIAL provides fine-grained control over personas and, when combined with prompting, improves verifiable instruction following.",
+      "authors": [
+        "Thanh Q. Tran",
+        "John Russell Himawan",
+        "Arun Verma",
+        "Kiwan Wong",
+        "Wei Xiao",
+        "Daniela Rus",
+        "Bryan Kian Hsiang Low"
+      ],
+      "published": "2026-10-22T15:34:39Z",
+      "updated": "2026-10-22T15:34:39Z",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2610.31438v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.31438v1",
+      "comment": "This paper introduces DIAL, a framework for fine-grained, efficient, and scalable control of LLM instruction adherence",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.3487,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "emerging",
+          "score": 0.3293,
+          "matched": [
+            "On-policy distillation",
+            "on-policy distillation",
+            "distillation",
+            "on-policy"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.2475,
+          "matched": [
+            "training"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4747,
+        "relevance": 0.3943,
+        "quality": 0.45,
+        "novelty": 0.8536,
+        "freshness": 0.8602,
+        "feedback_adjustment": -0.0159,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "To address this gap, we introduce DIAL (Distilled Instruction-Adherence Levels) to achieve all three properties.",
+        "problem": "When a user says \"Keep it short\", how short should the LLM's response be?",
+        "method": "To address this gap, we introduce DIAL (Distilled Instruction-Adherence Levels) to achieve all three properties.",
+        "evidence": "To address this gap, we introduce DIAL (Distilled Instruction-Adherence Levels) to achieve all three properties.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: LLM loss landscape, On-policy distillation.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-23T15:03:24.725665+00:00"
+    },
+    {
+      "id": "2610.31588",
+      "title": "VERA: A Responsible AI Dashboard for Assessing LLM Deployments in Light of the EU AI Act",
+      "abstract": "Institutions that deploy large language models in regulated settings often need technical evidence of responsible AI practices before approving a deployment. COMPL-AI provides a technical interpretation of the EU AI Act that organises this evidence under six principle groups and eighteen technical requirements, twelve of which current benchmarks can measure. The benchmark suites that produce this evidence are typically operated from a command line, while the staff who approve deployments are non-engineers. We present VERA, an open-source self-hosted dashboard deployed to facilitate responsible AI processes within a large European bank. A reviewer selects a model and runs public benchmarks against it. VERA scores the twelve requirements that current benchmarks can measure and instruments the energy consumed by each evaluation, adding run-level evidence for environmental impact. We run four served open-weight models through the requirement pipeline, and the dashboard displays a score for each measurable requirement. A within-subject study then compares how participants read these benchmark results: from the raw output files in one condition, and through the VERA dashboard in the other. The dashboard reduced the time needed to perform the responsible AI assessment, reducing the time required from 56 seconds using raw files to 30 seconds using our dashboard, on average. Our dashboard scored highly (4.36 out of 5) on usefulness in the survey conducted within the organization. The dashboard and the study material are released publicly to promote replicability and reproducibility in different organisational contexts.",
+      "authors": [
+        "Robin Quériaux",
+        "Solveig Bachellery",
+        "Léa Déléris",
+        "Saurabhsingh Rajput",
+        "Mariam Barry",
+        "Tushar Sharma",
+        "Jérôme Lebecq"
+      ],
+      "published": "2026-10-22T17:23:39Z",
+      "updated": "2026-10-22T17:23:39Z",
+      "categories": [
+        "cs.SE",
+        "cs.AI",
+        "cs.CY"
+      ],
+      "primary_category": "cs.SE",
+      "abs_url": "https://arxiv.org/abs/2610.31588v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.31588v1",
+      "comment": "Accepted at the 33rd Asia-Pacific Software Engineering Conference (APSEC 2026), Software Engineering in Practice track, Bali, Indonesia, 7-10 December 2026. 11 pages, 3 figures",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.3521,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4416,
+        "relevance": 0.2817,
+        "quality": 0.64,
+        "novelty": 0.8699,
+        "freshness": 0.8711,
+        "feedback_adjustment": -0.0088,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "benchmark evaluation",
+        "open source",
+        "reproducibility",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "We present VERA, an open-source self-hosted dashboard deployed to facilitate responsible AI processes within a large European bank.",
+        "problem": "Institutions that deploy large language models in regulated settings often need technical evidence of responsible AI practices before approving a deployment.",
+        "method": "COMPL-AI provides a technical interpretation of the EU AI Act that organises this evidence under six principle groups and eighteen technical requirements, twelve of which current benchmarks can measure.",
+        "evidence": "The benchmark suites that produce this evidence are typically operated from a command line, while the staff who approve deployments are non-engineers.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: LLM loss landscape.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-23T15:03:24.725665+00:00"
+    },
+    {
+      "id": "2610.31467",
+      "title": "From Structured Records to Patient Narratives: Preserving Clinical Alignment in LLM-Generated Health Summaries",
+      "abstract": "As wearable and digital health systems increasingly generate longitudinal physiological records, communicating these observations in patient-accessible language remains a significant challenge. Large Language Models (LLMs) offer a promising mechanism for translating structured clinical information into readable narratives, but this process may introduce semantic drift, where clinically precise meaning is distorted during simplification. We investigate evidence-grounded health summarization for menstrual health monitoring using a constrained generation framework that combines structured evidence conditioning with Retrieval-Augmented Generation (RAG) using a prompt-based constrained generation framework. We evaluate semantic alignment using Natural Language Inference (NLI), atomic factuality metrics, and readability measures. Across three LLMs and 4,500 generated summaries, explicit grounding constraints consistently improve clinical alignment, particularly by improving uncertainty preservation and, once faithfulness is evaluated against retrieved evidence, generally preserving or improving faithfulness, while effects on omission remain model-dependent. We also find that improved clinical alignment comes at the cost of increased reading difficulty and medical terminology. These findings highlight the need to jointly evaluate faithfulness, uncertainty preservation, and readability when developing patient-facing medical LLM systems.",
+      "authors": [
+        "Bayram Ayadi",
+        "Florian Geissler",
+        "Johanna Schmidhuber"
+      ],
+      "published": "2026-10-22T15:58:57Z",
+      "updated": "2026-10-22T15:58:57Z",
+      "categories": [
+        "cs.CL"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2610.31467v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.31467v1",
+      "comment": "18 pages, 3 figures",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.4411,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.4403,
+        "relevance": 0.3529,
+        "quality": 0.41,
+        "novelty": 0.8575,
+        "freshness": 0.8627,
+        "feedback_adjustment": -0.0144,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "As wearable and digital health systems increasingly generate longitudinal physiological records, communicating these observations in patient-accessible language remains a significant challenge.",
+        "problem": "As wearable and digital health systems increasingly generate longitudinal physiological records, communicating these observations in patient-accessible language remains a significant challenge.",
+        "method": "We investigate evidence-grounded health summarization for menstrual health monitoring using a constrained generation framework that combines structured evidence conditioning with Retrieval-Augmented Generation (RAG) using a prompt-based constrained generation framework.",
+        "evidence": "Across three LLMs and 4,500 generated summaries, explicit grounding constraints consistently improve clinical alignment, particularly by improving uncertainty preservation and, once faithfulness is evaluated against retrieved evidence, generally preserving or improving faithfulness, while effects on omission remain model-dependent.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: LLM loss landscape.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-23T15:03:24.725665+00:00"
+    },
     {
       "id": "2610.30099",
       "title": "Differentially Private Sparse Reward Estimation with Preference Feedback",
@@ -9021,635 +9539,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-10-05T19:17:47.757509+00:00"
-    },
-    {
-      "id": "2610.02902",
-      "title": "LUMOS: Tracing Parametric Knowledge from Training Data to Behavioral Outputs in LLMs",
-      "abstract": "Current analyses of LLMs' parametric knowledge are largely output-centric, drawing conclusions about what a model knows without verifying what it was actually trained on. This leaves fundamental questions, such as whether a correct response reflects genuine generalization or rote memorization, grounded in speculation rather than evidence. To resolve these ambiguities, we introduce LUMOS, a diagnostic framework that traces knowledge along the causal chain from training-data exposure to behavioral output, leveraging OLMo 2 with its fully transparent training corpus. By grounding analysis in verified exposure, we reveal that models internally encode rare facts with high separability (84%) yet fail to express them behaviorally (54%), though this retrieval gap narrows with scale. Furthermore, when models are asked to self-reflect on their own answers, they perform reliably on trained content (83%) but drop to random-baseline levels (49%) on unseen content. This collapse persists even under chain-of-thought prompting, which inflates confidence signals rather than improving calibration. Collectively, these findings demonstrate that incorporating the training-data axis into LLM evaluation transforms speculative diagnoses into verifiable claims, and we advocate that this axis should be a standard component of knowledge assessment in LLMs.",
-      "authors": [
-        "Seoyeon Ye",
-        "Gayoung Kim",
-        "Jiyoung Hong",
-        "Sookyung Kim",
-        "Hyunsoo Cho"
-      ],
-      "published": "2026-10-02T06:53:55Z",
-      "updated": "2026-10-02T06:53:55Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2610.02902v1",
-      "pdf_url": "https://arxiv.org/pdf/2610.02902v1",
-      "comment": "Accepted to NeurIPS 2026 (Poster)",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "llm",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.5158,
-          "matched": [
-            "training"
-          ]
-        },
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "core",
-          "score": 0.5029,
-          "matched": [
-            "training data",
-            "data"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.2062,
-          "matched": [
-            "memorization",
-            "calibration",
-            "llm"
-          ]
-        },
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.137,
-          "matched": [
-            "generalization"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.1229,
-          "matched": [
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5933,
-        "relevance": 0.5545,
-        "quality": 0.62,
-        "novelty": 0.8402,
-        "freshness": 0.4976,
-        "feedback_adjustment": -0.0097,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "baseline comparison",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "To resolve these ambiguities, we introduce LUMOS, a diagnostic framework that traces knowledge along the causal chain from training-data exposure to behavioral output, leveraging OLMo 2 with its fully transparent training corpus.",
-        "problem": "Current analyses of LLMs' parametric knowledge are largely output-centric, drawing conclusions about what a model knows without verifying what it was actually trained on.",
-        "method": "To resolve these ambiguities, we introduce LUMOS, a diagnostic framework that traces knowledge along the causal chain from training-data exposure to behavioral output, leveraging OLMo 2 with its fully transparent training corpus.",
-        "evidence": "Collectively, these findings demonstrate that incorporating the training-data axis into LLM evaluation transforms speculative diagnoses into verifiable claims, and we advocate that this axis should be a standard component of knowledge assessment in LLMs.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Efficient adversarial training, Data selection for LLMs.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "training"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-10-05T19:17:47.757509+00:00"
-    },
-    {
-      "id": "2610.02817",
-      "title": "RMCW: A Deletion-Robust Watermark Based on Reed--Muller Codes for Language Models",
-      "abstract": "Large Language Model (LLM) watermarking provides a lightweight mechanism for identifying text generated by a specific model, but its robustness remains fragile under post-processing attacks. Deletion attacks are particularly challenging because they shift token positions and break the alignment between observed tokens and their original watermark positions. We propose Reed--Muller Code Watermarking (RMCW), an LLM watermarking method based on Reed--Muller codes. In contrast to global codeword recovery, RMCW searches for surviving local algebraic structure, leveraging the Reed--Solomon consistency induced by affine-line restrictions of Reed--Muller codewords. During generation, RMCW injects a Reed--Muller structure into the sequence via a secret-keyed vocabulary partition. During detection, it maps the given text to keyed vocabulary bins and tests local subsequences for low-degree Reed--Solomon consistency using Berlekamp--Welch tests. Experiments on C4 and ELI5 datasets with OPT-1.3B and Llama-3.1-8B-Instruct show that RMCW preserves strong clean-text detectability and outperforms or matches the baseline methods under several deletion and rewriting attacks. Our code is available at https://github.com/BaichengDanny/RMCW.",
-      "authors": [
-        "Yi Wang",
-        "Baicheng Chen",
-        "Yu Wang",
-        "Jian Zhao",
-        "Yilei Chen",
-        "Tianxing He"
-      ],
-      "published": "2026-10-02T05:05:06Z",
-      "updated": "2026-10-02T05:05:06Z",
-      "categories": [
-        "cs.CR",
-        "cs.CL",
-        "cs.LG"
-      ],
-      "primary_category": "cs.CR",
-      "abs_url": "https://arxiv.org/abs/2610.02817v1",
-      "pdf_url": "https://arxiv.org/pdf/2610.02817v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.433,
-          "matched": [
-            "robust",
-            "robustness"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3847,
-          "matched": [
-            "robustness",
-            "alignment",
-            "llm"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.2596,
-          "matched": [
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5942,
-        "relevance": 0.4753,
-        "quality": 0.88,
-        "novelty": 0.8493,
-        "freshness": 0.4868,
-        "feedback_adjustment": -0.0189,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "GitHub link",
-        "baseline comparison",
-        "experiments",
-        "dataset evidence"
-      ],
-      "summary": {
-        "takeaway": "We propose Reed--Muller Code Watermarking (RMCW), an LLM watermarking method based on Reed--Muller codes.",
-        "problem": "Large Language Model (LLM) watermarking provides a lightweight mechanism for identifying text generated by a specific model, but its robustness remains fragile under post-processing attacks.",
-        "method": "We propose Reed--Muller Code Watermarking (RMCW), an LLM watermarking method based on Reed--Muller codes.",
-        "evidence": "Experiments on C4 and ELI5 datasets with OPT-1.3B and Llama-3.1-8B-Instruct show that RMCW preserves strong clean-text detectability and outperforms or matches the baseline methods under several deletion and rewriting attacks.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Efficient adversarial training, Trustworthy LLM.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "robust",
-          "robustness"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-10-05T19:17:47.757509+00:00"
-    },
-    {
-      "id": "2610.01365",
-      "title": "Sleeping Secrets: How Fine-Tuning Reawakens Privacy Risks in Language Models",
-      "abstract": "Beyond adapting Large Language Models (LLMs) to specialized applications, fine-tuning has recently been shown to recover private information that is no longer accessible through direct queries. Previous fine-tuning recovery attacks, however, require genuine private supervision drawn from the same distribution, i.e., the previous training dataset. We argue that such recovery remains possible without such impractical knowledge. We show that LLM-generated candidates can provide sufficient supervision to recover previously learned private associations. Based on this, we propose ReGap, a data-free attack that recovers private associations using task structure, filters them by answer-token likelihood, and updates the target model via low-rank adaptation. Specifically, ReGap requires neither target answers nor auxiliary genuine private supervision. Across six GPT-2, OPT, and Qwen3 models, ReGap improves target-association recovery by 6-21 percentage points over the post-training target model. Recovery remains substantial even when the adaptation identities are disjoint from all memorized and evaluation identities, with no exact target answers appearing in the generated or selected supervision. Moreover, the same trained adapters increase recovery from 42\\% to 63\\% on a previously exposed checkpoint, but produce no gain on a matched checkpoint that never encountered the targets. This contrast shows that adaptation alone is insufficient to explain the observed recovery and that prior target exposure strongly affects post-adaptation recoverability. Our findings highlight that routine model customization can reawaken latent privacy risks, warranting urgent attention from the academic and industrial communities.",
-      "authors": [
-        "Jianhong Li",
-        "Jiahao Chen",
-        "Yuwen Pu",
-        "Chunyi Zhou",
-        "Oubo Ma",
-        "Zhou Feng",
-        "Hangtao Zhang",
-        "Jichao Bi",
-        "Chunqiang Hu"
-      ],
-      "published": "2026-10-01T09:36:17Z",
-      "updated": "2026-10-01T09:36:17Z",
-      "categories": [
-        "cs.CR"
-      ],
-      "primary_category": "cs.CR",
-      "abs_url": "https://arxiv.org/abs/2610.01365v1",
-      "pdf_url": "https://arxiv.org/pdf/2610.01365v1",
-      "comment": "34 pages",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.6478,
-          "matched": [
-            "training",
-            "fine-tuning"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4681,
-          "matched": [
-            "privacy",
-            "llm"
-          ]
-        },
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "core",
-          "score": 0.2333,
-          "matched": [
-            "training data",
-            "data"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.1331,
-          "matched": [
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.628,
-        "relevance": 0.6585,
-        "quality": 0.45,
-        "novelty": 0.8311,
-        "freshness": 0.5371,
-        "feedback_adjustment": -0.0144,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "We show that LLM-generated candidates can provide sufficient supervision to recover previously learned private associations.",
-        "problem": "Beyond adapting Large Language Models (LLMs) to specialized applications, fine-tuning has recently been shown to recover private information that is no longer accessible through direct queries.",
-        "method": "Based on this, we propose ReGap, a data-free attack that recovers private associations using task structure, filters them by answer-token likelihood, and updates the target model via low-rank adaptation.",
-        "evidence": "Across six GPT-2, OPT, and Qwen3 models, ReGap improves target-association recovery by 6-21 percentage points over the post-training target model.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Efficient adversarial training, Trustworthy LLM.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "training",
-          "fine-tuning"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-10-04T15:22:02.053485+00:00"
-    },
-    {
-      "id": "2610.01230",
-      "title": "HHR: Hierarchical Hash Retrieval for Efficient LLM Generation",
-      "abstract": "Efficient long-context inference is essential for large language models (LLMs), yet it poses a severe computational bottleneck. Hash-based retrieval offers an efficient alternative by encoding queries and keys into binary codes and using Hamming distance for key selection. However, this leads to a critical mismatch between Hamming distance and attention relevance. Query-Key logits depend jointly on directional similarity and feature magnitudes, whereas hash binarization discards magnitude information, causing both false-positive retrieval of low-logit keys and false-negative omission of high-logit keys. To address these failures, we propose Hierarchical Hash Retrieval (HHR), a coarse-to-fine framework that progressively improves retrieval accuracy through Geometry-Aware Key Routing (GKR) and Learned Hash Projection (LHP). GKR learns a head-wise orthogonal transformation to redistribute feature magnitudes and derive more discriminative page-level logit bounds, enabling effective pruning of low-logit keys while preserving important candidates. LHP then learns a head-wise projection space that aligns Hamming distance with the true Query-Key relevance ranking for fine-grained retrieval. By combining GKR and LHP, HHR suppresses false positives and recovers false negatives, substantially improving the fidelity of hash-based sparse attention. Extensive experiments across diverse LLMs and benchmarks demonstrate that HHR achieves superior performance over existing methods. For example, on LongBench, HHR improves the average score by 1.10 points and, at a context length of 128K, achieves up to a 3.30x decoding speedup and a 2.83x end-to-end speedup for Llama-3.1-8B-Instruct. The code is publicly available at https://github.com/lianjunl13-sudo/HHR.",
-      "authors": [
-        "Lianjun Liu",
-        "Tiantian Zheng",
-        "You Huang",
-        "Weiqi Yan",
-        "Mingte Qiu",
-        "Huazhong Liu",
-        "Xiaofeng Zhu",
-        "Yunshan Zhong"
-      ],
-      "published": "2026-10-01T07:31:44Z",
-      "updated": "2026-10-01T07:31:44Z",
-      "categories": [
-        "cs.AI"
-      ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2610.01230v1",
-      "pdf_url": "https://arxiv.org/pdf/2610.01230v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.5085,
-          "matched": [
-            "efficient"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.3338,
-          "matched": [
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5978,
-        "relevance": 0.4736,
-        "quality": 0.9,
-        "novelty": 0.837,
-        "freshness": 0.5248,
-        "feedback_adjustment": -0.0268,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "GitHub link",
-        "benchmark evaluation",
-        "experiments",
-        "formal bound"
-      ],
-      "summary": {
-        "takeaway": "To address these failures, we propose Hierarchical Hash Retrieval (HHR), a coarse-to-fine framework that progressively improves retrieval accuracy through Geometry-Aware Key Routing (GKR) and Learned Hash Projection (LHP).",
-        "problem": "Efficient long-context inference is essential for large language models (LLMs), yet it poses a severe computational bottleneck.",
-        "method": "To address these failures, we propose Hierarchical Hash Retrieval (HHR), a coarse-to-fine framework that progressively improves retrieval accuracy through Geometry-Aware Key Routing (GKR) and Learned Hash Projection (LHP).",
-        "evidence": "To address these failures, we propose Hierarchical Hash Retrieval (HHR), a coarse-to-fine framework that progressively improves retrieval accuracy through Geometry-Aware Key Routing (GKR) and Learned Hash Projection (LHP).",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Efficient adversarial training, LLM loss landscape.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "efficient"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-10-04T15:22:02.053485+00:00"
-    },
-    {
-      "id": "2610.01847",
-      "title": "Detecting Inconsistencies in Model Specifications with LLM-as-Verifier Reasoning",
-      "abstract": "Model specifications define how large language models (LLMs) should behave, guiding alignment training, inference-time behavior, and evaluation. Yet these specifications may themselves contain defects: two individually reasonable principles may prescribe incompatible behavior when applied to the same situation, leaving no response that satisfies both. Detecting such inconsistencies is challenging. Formalizing natural-language specifications risks losing subtle distinctions, while behavior-based testing cannot reliably distinguish specification defects from differences in model behavior. We introduce VeriSpec, the first approach to directly detect inconsistencies in model specifications by auditing the specification text itself. Our key insight is to preserve the specification in natural language while using an LLM as a verifier. VeriSpec extracts structured, context-aware rules, constructs a topic-guided graph to cluster behaviorally related rules at the same authority level, and applies LLM-as-verifier reasoning to detect inconsistencies. Applying VeriSpec to the OpenAI Model Spec, we extract 405 rules and manually validate five inconsistencies, all reported to its developers, who responded positively and have initiated internal discussions. Compared with five baselines, VeriSpec identifies the most validated inconsistencies, achieves the highest precision (38.5%), and incurs the lowest cost per validated inconsistency ($11.12). These results establish direct specification auditing as a practical complement to behavioral alignment evaluation, catching defects at the source before they shape any model. The code is available at https://github.com/HIPREL-Group/VeriSpec.",
-      "authors": [
-        "Zichen Xie",
-        "Mrigank Pawagi",
-        "Lize Shao",
-        "Yang Hu",
-        "Wenxi Wang"
-      ],
-      "published": "2026-10-01T15:13:31Z",
-      "updated": "2026-10-01T15:13:31Z",
-      "categories": [
-        "cs.SE",
-        "cs.AI",
-        "cs.CL"
-      ],
-      "primary_category": "cs.SE",
-      "abs_url": "https://arxiv.org/abs/2610.01847v1",
-      "pdf_url": "https://arxiv.org/pdf/2610.01847v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.5224,
-          "matched": [
-            "llm"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.1393,
-          "matched": [
-            "training"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5887,
-        "relevance": 0.4914,
-        "quality": 0.78,
-        "novelty": 0.8475,
-        "freshness": 0.5706,
-        "feedback_adjustment": -0.013,
-        "semantic_feedback": 0.3043
-      },
-      "quality_signals": [
-        "code available",
-        "GitHub link",
-        "baseline comparison",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "We introduce VeriSpec, the first approach to directly detect inconsistencies in model specifications by auditing the specification text itself.",
-        "problem": "Model specifications define how large language models (LLMs) should behave, guiding alignment training, inference-time behavior, and evaluation.",
-        "method": "We introduce VeriSpec, the first approach to directly detect inconsistencies in model specifications by auditing the specification text itself.",
-        "evidence": "Compared with five baselines, VeriSpec identifies the most validated inconsistencies, achieves the highest precision (38.5%), and incurs the lowest cost per validated inconsistency ($11.12).",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: LLM loss landscape, Efficient adversarial training.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-10-04T15:22:02.053485+00:00"
-    },
-    {
-      "id": "2610.01428",
-      "title": "Generalization Is Stability, Not Accuracy: Multi-Axis Evaluation of LLMs",
-      "abstract": "Generalization in large language models (LLMs) is the ability to produce consistent and semantically stable outputs when the same input is expressed in different ways. Existing work typically evaluates generalization through aggregate accuracy on a single prompt format, task, or set of variations, which conflates robustness with overall benchmark performance. In this work, we show generalization evaluation at the level of individual examples, across multiple input variants, and across different aspects of model behavior, focusing on variability rather than reducing performance to a score that can be improved through narrow training or other ways that obfuscate generalization evaluation. Following this view, we introduce the Stability-Aware Generalization Objective (SAGO), a framework that measures how much model behavior changes for the same input under different variations and benchmarks, capturing variability across several dimensions including generation consistency, internal activations, confidence, and response mirroring. We show that many commonly used models exhibit statistically significant and consistent generalization instability: no model generalizes uniformly, behavioral axes capture independent failure modes, and cross-dataset variation can reverse model rankings.",
-      "authors": [
-        "Nagham Omar",
-        "Mahmoud Jabarin",
-        "Maya Rozenshtein",
-        "Rom Himelstein",
-        "Avi Mendelson",
-        "Amit LeVi"
-      ],
-      "published": "2026-10-01T10:27:25Z",
-      "updated": "2026-10-01T10:27:25Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI",
-        "cs.LG"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2610.01428v1",
-      "pdf_url": "https://arxiv.org/pdf/2610.01428v1",
-      "comment": "Accepted at the TAE (Trust-AI-Eval) Workshop: Can We Trust AI Evaluation?, NeurIPS 2026",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.4942,
-          "matched": [
-            "generalization"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.2652,
-          "matched": [
-            "training",
-            "robustness"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.1729,
-          "matched": [
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5836,
-        "relevance": 0.5946,
-        "quality": 0.44,
-        "novelty": 0.8201,
-        "freshness": 0.5422,
-        "feedback_adjustment": -0.0131,
-        "semantic_feedback": 0.7444
-      },
-      "quality_signals": [
-        "benchmark evaluation",
-        "dataset evidence"
-      ],
-      "summary": {
-        "takeaway": "In this work, we show generalization evaluation at the level of individual examples, across multiple input variants, and across different aspects of model behavior, focusing on variability rather than reducing performance to a score that can be improved through narrow training or other ways that obfuscate generalization evaluation.",
-        "problem": "Generalization in large language models (LLMs) is the ability to produce consistent and semantically stable outputs when the same input is expressed in different ways.",
-        "method": "Following this view, we introduce the Stability-Aware Generalization Objective (SAGO), a framework that measures how much model behavior changes for the same input under different variations and benchmarks, capturing variability across several dimensions including generation consistency, internal activations, confidence, and response mirroring.",
-        "evidence": "In this work, we show generalization evaluation at the level of individual examples, across multiple input variants, and across different aspects of model behavior, focusing on variability rather than reducing performance to a score that can be improved through narrow training or other ways that obfuscate generalization evaluation.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Statistical theory for LLMs, Efficient adversarial training.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Statistical theory for LLMs",
-        "matched": [
-          "generalization"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-10-04T15:22:02.053485+00:00"
     }
   ]
 }
