@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-30T16:42:02.892736+00:00",
+  "generated_at": "2026-10-31T15:44:05.921624+00:00",
   "papers": [
     {
       "id": "2610.32465",
@@ -208,6 +208,113 @@
       "recommended_at": "2026-10-28T16:37:16.313414+00:00"
     },
     {
+      "id": "2610.37481",
+      "title": "Follow the Gradient: Tracing Safety Degradation Back to Training Data",
+      "abstract": "Fine-tuning Large Language Models (LLMs) on instruction data can quietly erode their safety, even when no training example looks harmful. Because this safety-degrading data looks benign, standard content filters struggle to catch it. We tackle this problem by developing SimpleLoRIF, a scalable gradient embedding method that identifies fine-tuning examples whose gradients align with unsafe behavior. By simplifying a low-rank attribution method and restricting backpropagation to the final four transformer blocks, SimpleLoRIF can embed datasets on the order of a million examples, boosting gradient attribution from a small-scale analysis tool into a practical filter for full post-training datasets. We first validate it on emergent misalignment, where we find that gradients can connect insecure-code training data to the broadly harmful behaviors that appear after fine-tuning, with AUC as high as 0.865 in the gradient space of misaligned models. We then use SimpleLoRIF to build SafeTulu, a version of Tulu 3 with the 20% of examples most gradient-aligned with unsafe responses removed. Training on SafeTulu reduces GCG attack success rate by up to 22% across Qwen, Llama, and Olmo, outperforming both LLM-as-a-judge and prior gradient-based filtering, while largely preserving or even improving capability. Finally, we analyzed the removed data and identify possibly under-studied sources of safety degradation, such as tool-execution failures and narrative arithmetic. We release SafeTulu along with a Hugging Face Space that lets researchers build their own customized versions of SafeTulu to fine-tune on, such as by changing the removal fraction or filtering only certain subsets.",
+      "authors": [
+        "Saket Reddy",
+        "Amro Abbas",
+        "Anshuman Suri",
+        "Ari Morcos",
+        "David Schwab",
+        "Pratyush Maini"
+      ],
+      "published": "2026-10-27T16:08:08Z",
+      "updated": "2026-10-27T16:08:08Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2610.37481v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.37481v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.7499,
+          "matched": [
+            "training",
+            "fine-tuning"
+          ]
+        },
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.7246,
+          "matched": [
+            "filtering",
+            "training data",
+            "instruction data",
+            "data"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.1429,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.7269,
+        "relevance": 0.7734,
+        "quality": 0.59,
+        "novelty": 0.8462,
+        "freshness": 0.431,
+        "feedback_adjustment": -0.0046,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "We first validate it on emergent misalignment, where we find that gradients can connect insecure-code training data to the broadly harmful behaviors that appear after fine-tuning, with AUC as high as 0.865 in the gradient space of misaligned models.",
+        "problem": "Fine-tuning Large Language Models (LLMs) on instruction data can quietly erode their safety, even when no training example looks harmful.",
+        "method": "Because this safety-degrading data looks benign, standard content filters struggle to catch it.",
+        "evidence": "Training on SafeTulu reduces GCG attack success rate by up to 22% across Qwen, Llama, and Olmo, outperforming both LLM-as-a-judge and prior gradient-based filtering, while largely preserving or even improving capability.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Efficient adversarial training, Data selection for LLMs.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training",
+          "fine-tuning"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-31T15:44:05.921624+00:00"
+    },
+    {
       "id": "2610.32141",
       "title": "Beyond Data Schedule: Fast LLM Pretraining on Data Mixtures by Loss-Reweighting",
       "abstract": "Large language models often acquire specialized capabilities through successive pretraining stages, but these gains can come at the cost of forgetting earlier knowledge. In this work, we investigate whether such trade-offs can be improved by changing how strongly each domain contributes to learning while keeping its data exposure fixed. We find that, in controlled knowledge--mathematics experiments, loss reweighting produces a single checkpoint that surpasses the best knowledge and reasoning scores attained along either stage trajectory. This reveals an independent control that data-mixture ratios alone do not capture. Building on this finding, we propose LARE (Loss-Adaptive Reweighting under fixed Exposure), which automatically adjusts domain weights from running loss statistics. Motivated by a theoretical analysis of gradient noise, its normalized inverse-square-root rule balances relative loss scales without changing the sampled mixture or requiring additional runs to search for weights. Across knowledge, mathematics, and code, \\Method{} improves all five evaluated benchmarks for a 1.5B model trained on 240B tokens, averaging +7.84 pp over a matched direct mixture, including gains of +17.06 pp on GSM8K and +9.00 pp on MATH. These findings demonstrate that adjusting domain loss scales can improve joint capabilities without additional domain exposure.",
@@ -305,6 +412,89 @@
         "lane": "llm"
       },
       "recommended_at": "2026-10-26T16:47:24.007774+00:00"
+    },
+    {
+      "id": "2610.39509",
+      "title": "Systematic Evaluation of Adversarial Jailbreaking Attacks and Defenses Across Seven Large Language Models",
+      "abstract": "Large language models (LLMs) deployed in safety-critical settings must resist adversarial inputs designed to elicit harmful outputs. We present a systematic empirical evaluation of five adversarial jailbreaking attack families---direct requests, roleplay-based jailbreaking, hypothetical framing, instruction override, and obfuscation---across seven open-weight and API-accessible LLMs: Llama-3-8B, Llama-3.1-8B, Llama-3.2-3B, Mistral-7B, Qwen2.5-7B, Gemma2-9B, and Phi-4-14B. We further evaluate four defense mechanisms: keyword blacklisting, self-reminder prompting, paraphrase-based sanitization, and perplexity-based filtering against the two most vulnerable models. Our results reveal that obfuscation attacks achieve a mean attack success rate (ASR) of 54.3% across all models and constitute the most transferable adversarial vector, bypassing every evaluated model with nonzero success. We find that model size does not predict adversarial robustness (Spearman r=-0.57, p=0.18), and that models within the same architecture family exhibit dramatically different vulnerability profiles. Self-reminder prompting achieves the most consistent defense, reducing ASR from 44% to 10% on Mistral-7B and from 48% to 5% on Llama-3.1-8B with zero false positives and no additional inference cost. Our code and datasets are publicly available at https://github.com/Mdniloykhan/jailbreak-eval-7llms.",
+      "authors": [
+        "Md. Robiul Islam Niloy",
+        "Abu Sayed Md. Mostafizur Rahaman"
+      ],
+      "published": "2026-10-29T07:07:58Z",
+      "updated": "2026-10-29T07:07:58Z",
+      "categories": [
+        "cs.CR"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2610.39509v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.39509v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.6983,
+          "matched": [
+            "adversarial",
+            "jailbreak",
+            "robustness"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.7114,
+        "relevance": 0.6803,
+        "quality": 0.75,
+        "novelty": 0.8609,
+        "freshness": 0.6631,
+        "feedback_adjustment": -0.0141,
+        "semantic_feedback": 0.8109
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "We present a systematic empirical evaluation of five adversarial jailbreaking attack families---direct requests, roleplay-based jailbreaking, hypothetical framing, instruction override, and obfuscation---across seven open-weight and API-accessible LLMs: Llama-3-8B, Llama-3.1-8B, Llama-3.2-3B, Mistral-7B, Qwen2.5-7B, Gemma2-9B, and Phi-4-14B.",
+        "problem": "Large language models (LLMs) deployed in safety-critical settings must resist adversarial inputs designed to elicit harmful outputs.",
+        "method": "We present a systematic empirical evaluation of five adversarial jailbreaking attack families---direct requests, roleplay-based jailbreaking, hypothetical framing, instruction override, and obfuscation---across seven open-weight and API-accessible LLMs: Llama-3-8B, Llama-3.1-8B, Llama-3.2-3B, Mistral-7B, Qwen2.5-7B, Gemma2-9B, and Phi-4-14B.",
+        "evidence": "Our results reveal that obfuscation attacks achieve a mean attack success rate (ASR) of 54.3% across all models and constitute the most transferable adversarial vector, bypassing every evaluated model with nonzero success.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Efficient adversarial training.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "adversarial",
+          "jailbreak",
+          "robustness"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-31T15:44:05.921624+00:00"
     },
     {
       "id": "2610.32215",
@@ -753,25 +943,23 @@
       "recommended_at": "2026-10-29T16:55:31.297865+00:00"
     },
     {
-      "id": "2610.30626",
-      "title": "Model-intrinsic, Weight-level, and Training-free Spectral Fingerprinting for Large Language Models",
-      "abstract": "The increasing release and reuse of Large Language Models (LLMs) as open-weight checkpoints make model fingerprinting important for ownership protection and offline auditing. Existing fingerprinting methods typically construct evidence from query responses, generated outputs, or input-induced activations. Although effective in representation-based settings, they can be affected by prompt selection, decoding configuration, inference environment, and forward-pass implementation, which may limit their applicability. Here we introduce a model-intrinsic weight-level framework that derives compact fingerprints from spectral structures encoded in LLM parameters. Specifically, the framework constructs GATE spectral scalar features from the singular-value distributions of GATE projection weights in gated feed-forward networks (FFNs), and aggregates the resulting layer-wise features through depth-wise segmented pooling to form a model-level fingerprint. Such representation preserves coarse layer-depth organization while reducing dependence on strict layer-to-layer alignment, enabling comparison across LLMs with different depths. The similarity between fingerprints is computed by linear centered kernel alignment. The entire pipeline is training-free and does not require input samples, generated outputs, forward activations, or an auxiliary verifier. Experiments on representative LLM families and post-training variants have demonstrated a clear separation between source-related models and unrelated ones, and stable similarity under instruction tuning, quantization, pruning, and distillation-related modifications, which verify that spectral features are robust evidence for LLM fingerprinting.",
+      "id": "2610.38595",
+      "title": "Rethinking LLM Jailbreak Evaluation: Continuous Risk Landscapes Beyond Binary Outcomes",
+      "abstract": "A binary success indicator is a natural representation for discriminative tasks such as image classification under adversarial perturbations, where each input is mapped to a single prediction. However, generative tasks are fundamentally different: an LLM jailbreak prompt induces a distribution over open-ended trajectories, while a sampled response reveals only one path. Yet LLM jailbreak evaluation typically retains the binary response indicator underlying attack success rate, obscuring the surrounding structure of possible generations. We introduce a continuous, context-conditioned risk landscape over first-token branches, estimated by fixing candidate openings and repeatedly sampling their continuations. This continuous risk-landscape perspective reveals two complementary properties: current decoder exposure and safe rerouting capacity, which have been obscured by binary-indicator-based ASR. The resulting representation also provides a common basis for comparing clean prompts, attacked variants, and attack strength against a known adaptive defense. Across multiple target models and jailbreak attacks, we uncover risky branches beneath apparently safe outputs, identify qualitatively different ways attacks reshape the model's opening distribution, and show that attacks strongest before a defense do not necessarily remain the strongest after the adaptive defense reacts. These findings recast jailbreaks as deformations of the surrounding continuation-risk landscape, establishing a more informative foundation for understanding jailbreak behavior and developing safer language models.",
       "authors": [
-        "Yanan He",
-        "Yanli Chen",
-        "Ling Xiong",
-        "Gejian Zhao",
-        "Hanzhou Wu"
+        "Yukai Zhou",
+        "Wenjie Wang"
       ],
-      "published": "2026-10-22T02:49:53Z",
-      "updated": "2026-10-22T02:49:53Z",
+      "published": "2026-10-28T10:23:27Z",
+      "updated": "2026-10-28T10:23:27Z",
       "categories": [
-        "cs.CR"
+        "cs.LG",
+        "cs.CL"
       ],
-      "primary_category": "cs.CR",
-      "abs_url": "https://arxiv.org/abs/2610.30626v1",
-      "pdf_url": "https://arxiv.org/pdf/2610.30626v1",
-      "comment": "To appear in IEEE International Workshop on Information Forensics and Security (2026)",
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2610.38595v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.38595v1",
+      "comment": "",
       "journal_ref": "",
       "source": "arxiv",
       "venue": "",
@@ -779,10 +967,122 @@
       "conference_year": null,
       "lane": "llm",
       "scope_matches": [
-        "large language model",
-        "large language models",
         "language model",
         "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.6102,
+          "matched": [
+            "landscape",
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5654,
+          "matched": [
+            "adversarial",
+            "jailbreak"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.2965,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6368,
+        "relevance": 0.6605,
+        "quality": 0.47,
+        "novelty": 0.8645,
+        "freshness": 0.5396,
+        "feedback_adjustment": -0.0107,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available"
+      ],
+      "summary": {
+        "takeaway": "We introduce a continuous, context-conditioned risk landscape over first-token branches, estimated by fixing candidate openings and repeatedly sampling their continuations.",
+        "problem": "A binary success indicator is a natural representation for discriminative tasks such as image classification under adversarial perturbations, where each input is mapped to a single prediction.",
+        "method": "We introduce a continuous, context-conditioned risk landscape over first-token branches, estimated by fixing candidate openings and repeatedly sampling their continuations.",
+        "evidence": "Yet LLM jailbreak evaluation typically retains the binary response indicator underlying attack success rate, obscuring the surrounding structure of possible generations.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: LLM loss landscape, Efficient adversarial training.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "landscape",
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-10-31T15:44:05.921624+00:00"
+    },
+    {
+      "id": "2610.39876",
+      "title": "Turing LLM Post-Training: Calibrated Distillation and Efficient Dynamic-MoE Execution",
+      "abstract": "We study post-training for dynamically routed mixture-of-experts (MoE) models, focusing on integrating independently optimized specialists while keeping consolidation efficient. Our approach combines calibrated multi-teacher on-policy distillation (C-MOPD), which matches each selected teacher on a local Top-$K$ support with teacher-wise loss normalization and clipping, with an execution path that uses post-capacity bounded-width dispatch, final-route replay, and asynchronous rollout--training overlap. On Turing-20B-A2B, the selected model achieves a four-domain normalized integration score of 0.9988 and retains at least 90.16\\% of the measured specialist gain in every domain. At matched $K=32$, the full calibration objective scores 0.9962, compared with 0.9724 without calibration and 0.9834 without clipping. At a matched 8K response cap, the model exceeds both shared SFT and Qwen3-8B on all four reasoning-enabled mathematics and code benchmarks (unweighted mean: 85.92, versus 80.33 for Qwen3-8B and 74.21 for SFT), and improves over SFT on ten of twelve broader evaluation metrics. In a PPU-based profile, the combined execution configuration reduces consolidation step time from 398.7 to 139.3 seconds, an observed 2.86$\\times$ speedup over serial execution. These results demonstrate strong specialist integration alongside more efficient consolidation, while reflecting the complete training and execution framework rather than any single component.",
+      "authors": [
+        "Yue He",
+        "Jiahui Hu",
+        "Shaman Tang",
+        "Hua Zhou",
+        "Qiman Wu",
+        "Menglin Li",
+        "Yizhao Wang",
+        "Yuheng Zhang",
+        "Da Zhu",
+        "Zhou Wang",
+        "Anhua Liu",
+        "Hanlin Chen",
+        "Mingyuan Wang",
+        "Rui Xin",
+        "Yuhua Wei",
+        "Shuang Su",
+        "Siqi Liu",
+        "Kai Yang",
+        "Weichao Huang",
+        "Hang Zhang",
+        "Honggou Yang",
+        "Xianming Liu"
+      ],
+      "published": "2026-10-29T11:52:20Z",
+      "updated": "2026-10-29T11:52:20Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2610.39876v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.39876v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
         "llm"
       ],
       "topics": [
@@ -790,292 +1090,57 @@
           "id": "efficient_adversarial_training",
           "name": "Efficient adversarial training",
           "status": "emerging",
-          "score": 0.5871,
+          "score": 0.5666,
           "matched": [
-            "training",
-            "robust"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4598,
-          "matched": [
-            "alignment",
-            "auditing",
-            "llm"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.369,
-          "matched": [
-            "llm"
+            "efficient",
+            "training"
           ]
         },
         {
           "id": "on_policy_distillation",
           "name": "On-policy distillation",
           "status": "emerging",
-          "score": 0.0886,
+          "score": 0.3307,
           "matched": [
-            "distillation"
+            "On-policy distillation",
+            "on-policy distillation",
+            "distillation",
+            "on-policy"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.3128,
+          "matched": [
+            "llm",
+            "loss"
           ]
         }
       ],
       "scores": {
-        "total": 0.6369,
-        "relevance": 0.6354,
-        "quality": 0.53,
-        "novelty": 0.8544,
-        "freshness": 0.6477,
-        "feedback_adjustment": -0.0146,
+        "total": 0.6325,
+        "relevance": 0.582,
+        "quality": 0.68,
+        "novelty": 0.8369,
+        "freshness": 0.6913,
+        "feedback_adjustment": -0.0129,
         "semantic_feedback": 0.0
       },
       "quality_signals": [
         "code available",
-        "experiments"
-      ],
-      "summary": {
-        "takeaway": "Here we introduce a model-intrinsic weight-level framework that derives compact fingerprints from spectral structures encoded in LLM parameters.",
-        "problem": "The increasing release and reuse of Large Language Models (LLMs) as open-weight checkpoints make model fingerprinting important for ownership protection and offline auditing.",
-        "method": "Here we introduce a model-intrinsic weight-level framework that derives compact fingerprints from spectral structures encoded in LLM parameters.",
-        "evidence": "Experiments on representative LLM families and post-training variants have demonstrated a clear separation between source-related models and unrelated ones, and stable similarity under instruction tuning, quantization, pruning, and distillation-related modifications, which verify that spectral features are robust evidence for LLM fingerprinting.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Efficient adversarial training, Trustworthy LLM.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "training",
-          "robust"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-10-24T14:00:34.863717+00:00"
-    },
-    {
-      "id": "2610.29225",
-      "title": "Beyond Binary Labels: Diagnostic Evaluation of LLM Safety with Prompt-Level Rubrics",
-      "abstract": "Current LLM safety benchmarks predominantly rely on binary safe or unsafe labels, lacking explanatory depth and suffering from low consistency across automated judges. To address this, we introduce DiagSafe, a diagnostic evaluation framework that moves beyond binary classification by employing prompt-level rubrics. Grounded in globally applicable AI safety policies, each rubric provides explicit criteria along two dimensions: safety, which targets concrete harms with specific exemptions to suppress false positives, and usefulness, which independently evaluates instruction fulfillment. To ensure a robust and realistic evaluation, we construct a bilingual (English-Chinese) benchmark grounded in a comprehensive 84-label safety taxonomy, consisting of two subsets: DiagBase, which covers single- and multi-turn prompts with direct harmful queries and template-based jailbreaks, and DiagAttack, which embeds harmful intents into complex instruction-following tasks to form challenging instruction attacks. Extensive experiments demonstrate that DiagSafe significantly enhances the reliability of LLM-as-a-judge evaluation, achieving 95.34% agreement with human annotations -- substantially higher than the 69%-87% achieved by the baselines -- and high inter-judge consistency (Cohen's $κ$ = 0.864). Furthermore, applying our framework reveals that leading LLMs differ markedly in their unsafe rates, and each model also exhibits unique vulnerabilities along different dimensions. In addition, we observe that models are particularly susceptible in Chinese and multi-turn contexts. Ultimately, DiagSafe provides a reliable and explainable tool for auditing and optimizing LLM alignment.",
-      "authors": [
-        "Hongyu Li",
-        "Xinlong Huang",
-        "Zhan Yu",
-        "Jing Zhao",
-        "Zhe Zhao",
-        "Juntao Zhong",
-        "Xiong Kuang",
-        "Rui Yuan",
-        "ZhenXiang Yan",
-        "Huilin Xu",
-        "Haitao Yu",
-        "Lilin Wang",
-        "Rui Chen",
-        "Blaze Chen",
-        "Fengzong Lian",
-        "Renfen Hu"
-      ],
-      "published": "2026-10-21T05:33:50Z",
-      "updated": "2026-10-21T05:33:50Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI",
-        "cs.CR"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2610.29225v1",
-      "pdf_url": "https://arxiv.org/pdf/2610.29225v1",
-      "comment": "42 pages, 9 figures, 24 tables. Dataset will be publicly released at https://github.com/Tencent-Hunyuan/DiagSafe",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "llm",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4895,
-          "matched": [
-            "llm safety",
-            "llm-as-a-judge",
-            "LLM safety",
-            "alignment",
-            "auditing",
-            "safety"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.4576,
-          "matched": [
-            "llm"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.0972,
-          "matched": [
-            "robust"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6352,
-        "relevance": 0.6169,
-        "quality": 0.61,
-        "novelty": 0.8615,
-        "freshness": 0.5212,
-        "feedback_adjustment": -0.0193,
-        "semantic_feedback": 0.762
-      },
-      "quality_signals": [
-        "baseline comparison",
         "benchmark evaluation",
-        "experiments",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "To address this, we introduce DiagSafe, a diagnostic evaluation framework that moves beyond binary classification by employing prompt-level rubrics.",
-        "problem": "Current LLM safety benchmarks predominantly rely on binary safe or unsafe labels, lacking explanatory depth and suffering from low consistency across automated judges.",
-        "method": "To address this, we introduce DiagSafe, a diagnostic evaluation framework that moves beyond binary classification by employing prompt-level rubrics.",
-        "evidence": "Extensive experiments demonstrate that DiagSafe significantly enhances the reliability of LLM-as-a-judge evaluation, achieving 95.34% agreement with human annotations -- substantially higher than the 69%-87% achieved by the baselines -- and high inter-judge consistency (Cohen's $κ$ = 0.864).",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Trustworthy LLM, LLM loss landscape.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "llm safety",
-          "llm-as-a-judge",
-          "LLM safety",
-          "alignment"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-10-24T14:00:34.863717+00:00"
-    },
-    {
-      "id": "2610.29289",
-      "title": "Approximate Solomonoff Induction: On the Robustness of Learned Universal Predictors",
-      "abstract": "Why large language models trained via log-loss minimization over massive and diverse datasets exhibit broad capabilities and generalizable skills is not yet fully understood. Grau-Moya et al. (ICML 2024) offer a conceptual explanation through the lens of meta-learning: if sequence-generating environments $ν$ are drawn from a prior $w_ν$, minimizing population log-loss recovers the corresponding Bayesian mixture predictor $ξ=\\sum_νw_νν$. In the idealized limit in which $w$ is a universal prior, the optimal predictor corresponds to Solomonoff universal induction. Practical machine learning algorithms, however, generally produce only \\emph{approximately} optimal predictors. This raises a natural question: \\emph{Does the prediction performance remain robust under approximation}? In this paper, we first provide a tight bound on the worst-case effect of approximation on prediction error. We show any predictor $ρ$ satisfying $D_{KL}(ξ\\|ρ)\\leq η$ retains bounded cumulative-expected-squared prediction error. However, while the Bayesian mixture predictor $ξ$ has error $O(\\log(1/w_μ))$ in an environment $μ$, we establish a tight $Θ(η/w_μ)$ bound on the excess error of $ρ$ relative to $ξ$. Thus, approximation can substantially degrade performance in environments assigned small prior probability. In sharp contrast, when environments are averaged according to prior $w$, we prove that the excess prediction error is only $O(η)$. Furthermore, we establish a distribution-shift theorem for dominated shifts from a training prior $w$ to a test prior $w'$, interpolating our average-case and worst-case guarantees. Finally, we extend our robustness analysis to a finite-sampling setting relevant to learning universal predictors with neural networks and Transformers, where $D_{KL}(ξ\\|ρ)$ could be unbounded. [For the full abstract, see the paper.]",
-      "authors": [
-        "Qian Li",
-        "Shang-Hua Teng"
-      ],
-      "published": "2026-10-21T06:44:09Z",
-      "updated": "2026-10-21T06:44:09Z",
-      "categories": [
-        "cs.LG",
-        "stat.ML"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2610.29289v1",
-      "pdf_url": "https://arxiv.org/pdf/2610.29289v1",
-      "comment": "24 pages",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "transformers"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.5627,
-          "matched": [
-            "training",
-            "robust",
-            "robustness"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4267,
-          "matched": [
-            "robustness"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.2486,
-          "matched": [
-            "loss"
-          ]
-        },
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.2152,
-          "matched": [
-            "theorem",
-            "bound"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6344,
-        "relevance": 0.5852,
-        "quality": 0.71,
-        "novelty": 0.8556,
-        "freshness": 0.5281,
-        "feedback_adjustment": -0.0109,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "theoretical result",
-        "proof",
         "formal bound",
-        "dataset evidence",
         "quantitative results"
       ],
       "summary": {
-        "takeaway": "We show any predictor $ρ$ satisfying $D_{KL}(ξ\\|ρ)\\leq η$ retains bounded cumulative-expected-squared prediction error.",
-        "problem": "Why large language models trained via log-loss minimization over massive and diverse datasets exhibit broad capabilities and generalizable skills is not yet fully understood.",
-        "method": "Practical machine learning algorithms, however, generally produce only \\emph{approximately} optimal predictors.",
-        "evidence": "In sharp contrast, when environments are averaged according to prior $w$, we prove that the excess prediction error is only $O(η)$.",
+        "takeaway": "We study post-training for dynamically routed mixture-of-experts (MoE) models, focusing on integrating independently optimized specialists while keeping consolidation efficient.",
+        "problem": "We study post-training for dynamically routed mixture-of-experts (MoE) models, focusing on integrating independently optimized specialists while keeping consolidation efficient.",
+        "method": "These results demonstrate strong specialist integration alongside more efficient consolidation, while reflecting the complete training and execution framework rather than any single component.",
+        "evidence": "On Turing-20B-A2B, the selected model achieves a four-domain normalized integration score of 0.9988 and retains at least 90.16\\% of the measured specialist gain in every domain.",
         "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Efficient adversarial training, Trustworthy LLM.",
+        "why_for_you": "Matches your research profile: Efficient adversarial training, On-policy distillation.",
         "source": "abstract",
         "generated_by": "extractive",
         "language": "en",
@@ -1086,35 +1151,39 @@
       "recommendation_reason": {
         "topic": "Efficient adversarial training",
         "matched": [
-          "training",
-          "robust",
-          "robustness"
+          "efficient",
+          "training"
         ],
         "lane": "llm"
       },
-      "recommended_at": "2026-10-24T14:00:34.863717+00:00"
+      "recommended_at": "2026-10-31T15:44:05.921624+00:00"
     },
     {
-      "id": "2610.32229",
-      "title": "Training an MoE LLM in MXFP4: How We Closed the Gap to BF16",
-      "abstract": "Training large language models (LLMs) in sub-8-bit arithmetic promises substantial gains in memory bandwidth and compute throughput, yet FP4 formats introduce quantization error severe enough to destabilize optimization if left unaddressed. We present ALTO, an open-source training recipe for GPT-OSS-20B, a 20-billion-parameter mixture-of-experts (MoE) model, on the MLPerf Small MoE Training benchmark under the MXFP4 microscaling format. The recipe combines established techniques from Abecassis, Felix et al. [arXiv:2509.25149] (hybrid 1D/2D block quantization, randomized Hadamard transforms, and stochastic rounding) with a simplified weight de-oscillation scheme adapted from TetraJet-v2 [arXiv:2510.27527]. On C4 validation at global batch size 16, MXFP4 + RHT + SR + de-oscillation reaches a validation loss of 3.3350 at 16,128 steps, only 0.007 above the BF16 baseline (3.3283), closing roughly 50% of the gap left by MXFP4 without de-oscillation (3.3418). Measured by steps to reach the MLPerf quality target (validation loss 3.34), de-oscillation cuts the FP4 convergence overhead relative to BF16 from +20.0% to +5.0%. We also report negative end-to-end results from differential gradient estimation, outlier clipping, and macro-block scaling, despite each showing operator-level SNR gains. All experiments use simulated MXFP4 kernels on AMD MI300 hardware and wall-clock speed has not been optimized.",
+      "id": "2610.38120",
+      "title": "Post-Training Large Language Models with LLMON",
+      "abstract": "Large Language Models (LLMs) treat all context tokens uniformly, lacking explicit separation between executable instructions and passive data. This leads to prompt injection vulnerabilities, ambiguous instruction binding, and unreliable execution control. We present a post-training methodology using LLMON (LLM Object Notation), a framework that enables separating instructions from data and requires explicit identifier-based execution. We construct a large-scale structured training corpus of 4.6B tokens spanning general, RAG (Retrieval-Augmented Generation), and tool-calling data, augmented with distractor-infused variants in which competing instructions and irrelevant data segments are present in context but not referenced. Post-training two Granite-4.1 base models (3B and 8B) through supervised fine-tuning followed by reinforcement learning, we show that LLMON-structured supervision reduces attack success rates on indirect prompt-injection benchmarks from 53-100% to 0.02-5.6% while preserving general capabilities. We further introduce attention-based interpretability metrics that diagnose failure modes at individual transformer layers for structured inputs, revealing how our approach reshapes internal attention patterns. Our results demonstrate that explicit execution semantics can be taught through standard post-training without architectural modification.",
       "authors": [
-        "Han Wang",
-        "Zhitao Wang",
-        "Natalia Frumkin",
-        "Xuanwu Yin",
-        "Alireza Khodamoradi",
-        "Dong Li",
-        "Emad Barsoum"
+        "Basel Shbita",
+        "Michael Hind",
+        "Chad DeLuca",
+        "Nathan Fulton",
+        "Shubhi Asthana",
+        "Farhan Ahmed",
+        "Anisa Halimi",
+        "Yada Zhu",
+        "Mauro Martino",
+        "David Cox",
+        "Dan Gutfreund"
       ],
-      "published": "2026-10-23T06:40:21Z",
-      "updated": "2026-10-23T06:40:21Z",
+      "published": "2026-10-28T00:56:01Z",
+      "updated": "2026-10-28T00:56:01Z",
       "categories": [
-        "cs.AI"
+        "cs.AI",
+        "cs.LG"
       ],
       "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2610.32229v1",
-      "pdf_url": "https://arxiv.org/pdf/2610.32229v1",
+      "abs_url": "https://arxiv.org/abs/2610.38120v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.38120v1",
       "comment": "",
       "journal_ref": "",
       "source": "arxiv",
@@ -1134,43 +1203,40 @@
           "id": "efficient_adversarial_training",
           "name": "Efficient adversarial training",
           "status": "emerging",
-          "score": 0.5884,
+          "score": 0.6518,
           "matched": [
-            "training"
+            "training",
+            "fine-tuning"
           ]
         },
         {
           "id": "llm_loss_landscape",
           "name": "LLM loss landscape",
           "status": "emerging",
-          "score": 0.5229,
+          "score": 0.1423,
           "matched": [
-            "llm",
-            "loss"
+            "llm"
           ]
         }
       ],
       "scores": {
-        "total": 0.6244,
-        "relevance": 0.5753,
-        "quality": 0.69,
-        "novelty": 0.8687,
-        "freshness": 0.5112,
-        "feedback_adjustment": -0.0157,
-        "semantic_feedback": 0.0
+        "total": 0.6274,
+        "relevance": 0.648,
+        "quality": 0.48,
+        "novelty": 0.8604,
+        "freshness": 0.4833,
+        "feedback_adjustment": -0.0109,
+        "semantic_feedback": 0.6539
       },
       "quality_signals": [
-        "baseline comparison",
         "benchmark evaluation",
-        "experiments",
-        "open source",
         "quantitative results"
       ],
       "summary": {
-        "takeaway": "We present ALTO, an open-source training recipe for GPT-OSS-20B, a 20-billion-parameter mixture-of-experts (MoE) model, on the MLPerf Small MoE Training benchmark under the MXFP4 microscaling format.",
-        "problem": "Training large language models (LLMs) in sub-8-bit arithmetic promises substantial gains in memory bandwidth and compute throughput, yet FP4 formats introduce quantization error severe enough to destabilize optimization if left unaddressed.",
-        "method": "We present ALTO, an open-source training recipe for GPT-OSS-20B, a 20-billion-parameter mixture-of-experts (MoE) model, on the MLPerf Small MoE Training benchmark under the MXFP4 microscaling format.",
-        "evidence": "All experiments use simulated MXFP4 kernels on AMD MI300 hardware and wall-clock speed has not been optimized.",
+        "takeaway": "We present a post-training methodology using LLMON (LLM Object Notation), a framework that enables separating instructions from data and requires explicit identifier-based execution.",
+        "problem": "Large Language Models (LLMs) treat all context tokens uniformly, lacking explicit separation between executable instructions and passive data.",
+        "method": "We present a post-training methodology using LLMON (LLM Object Notation), a framework that enables separating instructions from data and requires explicit identifier-based execution.",
+        "evidence": "Our results demonstrate that explicit execution semantics can be taught through standard post-training without architectural modification.",
         "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
         "why_for_you": "Matches your research profile: Efficient adversarial training, LLM loss landscape.",
         "source": "abstract",
@@ -1183,112 +1249,12 @@
       "recommendation_reason": {
         "topic": "Efficient adversarial training",
         "matched": [
-          "training"
+          "training",
+          "fine-tuning"
         ],
         "lane": "llm"
       },
-      "recommended_at": "2026-10-26T16:47:24.007774+00:00"
-    },
-    {
-      "id": "2610.32531",
-      "title": "On Task, Off Track: Benchmarking LLM and Agent Robustness to Near-Target Prompt Injection",
-      "abstract": "Prompt injection benchmarks assess whether large language models (LLMs) and agents resist malicious instructions embedded in external content. However, a system could perform well by rejecting attacks that obviously abandon the user's request, while still accepting changes that retain most of a legitimate answer but make it incorrect or harmful. Testing more instructions for unrelated outcomes would not necessarily reveal this weakness. We call attacks seeking responses designed to resemble legitimate answers while introducing incorrect or harmful changes near-target prompt injection. We introduce NTBench, the Near-Target Benchmark, which builds on legitimate tasks from existing datasets. For each task, a legitimate reference outcome guides the generation of target--instruction pairs, with separate tracks targeting incorrect and harmful outcomes in responses or agent tool invocations. Harmful targets can also accompany otherwise correct task completion. We combine LLM-based checks with human validation of the intended deviations, then assess whether injected instructions induce them using response judgments or tool-call checks, excluding deviations already observed without injection. We evaluate seven LLMs on ten datasets for language tasks and two agent benchmarks. Under a common budget of three attack executions per sample, both tracks achieve higher overall attack success rates than the fixed-target baseline for every evaluated model in each setting. On language tasks, the increases range from 9.3 to 35.8 percentage points for incorrect targets and 1.7 to 17.3 percentage points for harmful targets. These results show that resistance to the tested fixed-target attacks does not imply resistance to related incorrect or harmful outcomes, and that reference-guided targets broaden the failures revealed by robustness evaluation.",
-      "authors": [
-        "Yuyang Gong",
-        "Zihao Wang",
-        "Jiawei Liu",
-        "XiaoFeng Wang"
-      ],
-      "published": "2026-10-23T12:05:14Z",
-      "updated": "2026-10-23T12:05:14Z",
-      "categories": [
-        "cs.CR"
-      ],
-      "primary_category": "cs.CR",
-      "abs_url": "https://arxiv.org/abs/2610.32531v1",
-      "pdf_url": "https://arxiv.org/pdf/2610.32531v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.5365,
-          "matched": [
-            "robustness",
-            "llm"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.442,
-          "matched": [
-            "llm"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.4392,
-          "matched": [
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.6224,
-        "relevance": 0.6054,
-        "quality": 0.59,
-        "novelty": 0.8366,
-        "freshness": 0.5434,
-        "feedback_adjustment": -0.0127,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "baseline comparison",
-        "benchmark evaluation",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "We introduce NTBench, the Near-Target Benchmark, which builds on legitimate tasks from existing datasets.",
-        "problem": "Prompt injection benchmarks assess whether large language models (LLMs) and agents resist malicious instructions embedded in external content.",
-        "method": "We introduce NTBench, the Near-Target Benchmark, which builds on legitimate tasks from existing datasets.",
-        "evidence": "Under a common budget of three attack executions per sample, both tracks achieve higher overall attack success rates than the fixed-target baseline for every evaluated model in each setting.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Trustworthy LLM, LLM loss landscape.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Trustworthy LLM",
-        "matched": [
-          "robustness",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-10-26T16:47:24.007774+00:00"
+      "recommended_at": "2026-10-31T15:44:05.921624+00:00"
     }
   ]
 }
