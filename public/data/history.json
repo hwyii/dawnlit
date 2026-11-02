@@ -1,6 +1,596 @@
 {
-  "generated_at": "2026-11-01T17:07:32.270223+00:00",
+  "generated_at": "2026-11-02T20:46:06.269898+00:00",
   "papers": [
+    {
+      "id": "2610.41104",
+      "title": "MUON-RT Reusing the Teacher's Trajectory for Momentum-Free Muon for LLM Self-Distillation",
+      "abstract": "Self-distillation methods for large language models with an exponential moving average (EMA) teacher already retain a history of student updates. Muon nevertheless stores a separate momentum buffer, increasing persistent training memory. We propose Muon with Reused Teacher (Muon-RT), which reuses the teacher-student displacement to eliminate momentum buffers for hidden weight matrices. We show that this displacement encodes an exponentially weighted history of applied updates and smooths temporally uncorrelated noise under a local model. Muon-RT removes its radial component, normalizes it spectrally, and mixes it with the current gradient after Newton-Schulz (NS) orthogonalization. Under explicit regularity and alignment assumptions, we establish linear contraction of an expected objective-gap bound toward a residual error level. With Self-Distillation Fine-Tuning (SDFT) on Qwen2.5-7B-Instruct, Muon-RT improves average accuracy over AdamW by 2.6 points with 42% less persistent memory, and over momentum Muon by 5.4 points with 27% less persistent memory. With Self-Distillation Policy Optimization (SDPO) on Olmo-3-7B-Instruct, it improves average accuracy over AdamW by 2.0 points.",
+      "authors": [
+        "Aryan Das",
+        "Vinay Kumar Verma",
+        "Aakansha Mishra"
+      ],
+      "published": "2026-10-30T00:50:49Z",
+      "updated": "2026-10-30T00:50:49Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CL",
+        "stat.ML"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2610.41104v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.41104v1",
+      "comment": "Under Submission",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "emerging",
+          "score": 0.6432,
+          "matched": [
+            "self-distillation",
+            "distillation"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.3496,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.2663,
+          "matched": [
+            "training",
+            "fine-tuning"
+          ]
+        },
+        {
+          "id": "llm_statistical_theory",
+          "name": "Statistical theory for LLMs",
+          "status": "background",
+          "score": 0.1577,
+          "matched": [
+            "bound",
+            "optimization"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.645,
+        "relevance": 0.6377,
+        "quality": 0.61,
+        "novelty": 0.8587,
+        "freshness": 0.4528,
+        "feedback_adjustment": -0.0126,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "formal bound",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "We propose Muon with Reused Teacher (Muon-RT), which reuses the teacher-student displacement to eliminate momentum buffers for hidden weight matrices.",
+        "problem": "Self-distillation methods for large language models with an exponential moving average (EMA) teacher already retain a history of student updates.",
+        "method": "We propose Muon with Reused Teacher (Muon-RT), which reuses the teacher-student displacement to eliminate momentum buffers for hidden weight matrices.",
+        "evidence": "With Self-Distillation Fine-Tuning (SDFT) on Qwen2.5-7B-Instruct, Muon-RT improves average accuracy over AdamW by 2.6 points with 42% less persistent memory, and over momentum Muon by 5.4 points with 27% less persistent memory.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: On-policy distillation, LLM loss landscape.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "On-policy distillation",
+        "matched": [
+          "self-distillation",
+          "distillation"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-11-02T20:46:06.269898+00:00"
+    },
+    {
+      "id": "2610.40998",
+      "title": "Steering Vectors as a Training Signal in LLM Post-Training",
+      "abstract": "Steering vectors (SVs) are residual-stream directions that shift the behavior of LLMs when added to hidden states at inference time. While prior work has mainly used SVs as post-hoc controls, we ask whether the same directions can also guide parameter updates during post-training. We study this question across supervised learning, including SFT and distillation, and reinforcement learning with verifiable rewards (RLVR). Our framework considers two intervention regimes: a hidden-state hook during teacher-forced supervised training, and an advantage-repair mechanism on wrong rollouts in GRPO. For each regime, we analyze three design axes, which are the steering direction, its placement, and the operation used to combine it with training. In supervised settings, SV injection improves over plain SFT and distillation, with gains scaling with the off-policy gap and reaching up to a $12\\%$ improvement when distilling from thinking-mode teachers. These gains hold across three random seeds. In RL settings, applying a correctness-contrast direction as advantage repair on wrong rollouts, including otherwise zero-gradient all-wrong groups, recovers a learning signal that transfers to held-out math benchmarks and acts as a composable auxiliary signal that adds to existing zero-variance remedies such as entropy-aware advantage shaping. We further identify three failure boundaries. In detail, code generation can break the direction, cross-family layer transfer can break the placement, and inference-time application on an SV-trained checkpoint can break the intervention regime. Together, these results establish steering vectors as a conditional but effective training signal for LLM post-training. Our code is available here.",
+      "authors": [
+        "Tiejin Chen",
+        "Maunil Vyas",
+        "Huaiyuan Yao",
+        "Hua Wei"
+      ],
+      "published": "2026-10-29T21:28:51Z",
+      "updated": "2026-10-29T21:28:51Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2610.40998v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.40998v1",
+      "comment": "Accept to NeurIPS 2026",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "llm",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5757,
+          "matched": [
+            "training"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.4098,
+          "matched": [
+            "llm",
+            "mode"
+          ]
+        },
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "emerging",
+          "score": 0.1402,
+          "matched": [
+            "distillation"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6092,
+        "relevance": 0.5706,
+        "quality": 0.68,
+        "novelty": 0.8073,
+        "freshness": 0.4328,
+        "feedback_adjustment": -0.013,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "benchmark evaluation",
+        "formal bound",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Steering vectors (SVs) are residual-stream directions that shift the behavior of LLMs when added to hidden states at inference time.",
+        "problem": "Steering vectors (SVs) are residual-stream directions that shift the behavior of LLMs when added to hidden states at inference time.",
+        "method": "Our framework considers two intervention regimes: a hidden-state hook during teacher-forced supervised training, and an advantage-repair mechanism on wrong rollouts in GRPO.",
+        "evidence": "In supervised settings, SV injection improves over plain SFT and distillation, with gains scaling with the off-policy gap and reaching up to a $12\\%$ improvement when distilling from thinking-mode teachers.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Efficient adversarial training, LLM loss landscape.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-11-02T20:46:06.269898+00:00"
+    },
+    {
+      "id": "2610.41039",
+      "title": "Characterizing Recoverable Expert-Utilization Signatures in Fine-Tuned Mixture-of-Experts LLMs",
+      "abstract": "As Mixture-of-Experts (MoE) large language models are increasingly deployed in distributed environments, from federated learning to edge-cloud systems, their architecture harbors an underexplored landscape of security vulnerabilities. Moving beyond textual analysis, we uncover structural memorization: a novel vulnerability where a fine-tuned model memorizes not only its training data but also the internal pathway used to process it, creating a characteristic routing fingerprint unique to the training process. We provide comprehensive empirical evidence that structural memorization emerges consistently even from a few samples, and that its intensity is directly influenced by the choice of trainable modules. We show that these memorized expert pathways can be stealthily recovered through the model's unconditional generation, using only routing and output logits, with no knowledge of the fine-tuning data or procedure. In distributed deployments, this vulnerability is amplified as routing information is exposed at multiple trust boundaries, including federated aggregation points, edge-cloud interfaces, and multi-tenant monitoring systems. Recovery exposes a critical blind spot: traditional membership inference metrics, viewed through the lens of expert routing, fail to identify memorized data corresponding to these structural pathways. To close this gap, we devise composite metrics combining reference model tail likelihood with complexity-aware normalization, significantly improving detection of memorized routing structures. This enables adversaries to pinpoint critical experts shaped by fine-tuning, whether dominant or dormant, and execute targeted attacks such as router manipulation or backdoor injection in realistic distributed settings where attackers lack training data but can observe routing patterns across system components.",
+      "authors": [
+        "Fei Wang",
+        "Baochun Li",
+        "Bo Li"
+      ],
+      "published": "2026-10-29T22:30:02Z",
+      "updated": "2026-10-29T22:30:02Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CR"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2610.41039v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.41039v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.6032,
+          "matched": [
+            "training data",
+            "data",
+            "mixture"
+          ]
+        },
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5352,
+          "matched": [
+            "training",
+            "fine-tuning"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.135,
+          "matched": [
+            "landscape"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5866,
+        "relevance": 0.6166,
+        "quality": 0.39,
+        "novelty": 0.8582,
+        "freshness": 0.4389,
+        "feedback_adjustment": -0.0167,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "formal bound"
+      ],
+      "summary": {
+        "takeaway": "We show that these memorized expert pathways can be stealthily recovered through the model's unconditional generation, using only routing and output logits, with no knowledge of the fine-tuning data or procedure.",
+        "problem": "As Mixture-of-Experts (MoE) large language models are increasingly deployed in distributed environments, from federated learning to edge-cloud systems, their architecture harbors an underexplored landscape of security vulnerabilities.",
+        "method": "Moving beyond textual analysis, we uncover structural memorization: a novel vulnerability where a fine-tuned model memorizes not only its training data but also the internal pathway used to process it, creating a characteristic routing fingerprint unique to the training process.",
+        "evidence": "We provide comprehensive empirical evidence that structural memorization emerges consistently even from a few samples, and that its intensity is directly influenced by the choice of trainable modules.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Data selection for LLMs, Efficient adversarial training.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Data selection for LLMs",
+        "matched": [
+          "training data",
+          "data",
+          "mixture"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-11-02T20:46:06.269898+00:00"
+    },
+    {
+      "id": "2610.41901",
+      "title": "ReX-GG: a LLM Ensemble Pipeline for Relation-extraction and Graph Generation",
+      "abstract": "Current LLM ensemble frameworks focus on multi-step setups with additional modules for answer ranking, often opting for token and span analysis rather than structured outputs, leading to heavyweight architectures with potential fail states along the pipeline. Faster, lighter solutions are more vulnerable to hallucination propagation and can lack output control in more complex pipelines. This paper proposes a customisable, lightweight ensemble workflow of coordinated Large Language Models that leverages JSON-structured outputs and anonymous peer-review ranking to mitigate hallucinatory outputs and single-model failure points. The pipeline is demonstrated on a relation extraction task applied to popular science articles in English, targeting four ontologically-grounded relation types (strong causation, weak causation, contrastive, and compositional), with semantic node canonicalisation and interactive, colour-coded HTML causal graphs as the final output. Performance is evaluated through an anonymous user study, achieving an average perceived accuracy of 0.778 against a human-annotated gold standard. The modular architecture supports flexible deployment across both API-based and in-house LLM setups, and the full framework is released under an open license to foster reproducibility and collaborative research.",
+      "authors": [
+        "Giacomo Magnifico",
+        "Eduard Barbu"
+      ],
+      "published": "2026-10-30T15:39:02Z",
+      "updated": "2026-10-30T15:39:02Z",
+      "categories": [
+        "cs.AI"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2610.41901v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.41901v1",
+      "comment": "9 pages, 4 figures, accepted at KG&LLM @ LREC 2026",
+      "journal_ref": "Proceedings of the Knowledge Graphs and Large Language Models Workshop (KG-LLM) @ LREC26, Palma, Mallorca, Spain, 2026, pp. 93-101",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5243,
+          "matched": [
+            "llm"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3873,
+          "matched": [
+            "hallucination",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5714,
+        "relevance": 0.4969,
+        "quality": 0.69,
+        "novelty": 0.8339,
+        "freshness": 0.541,
+        "feedback_adjustment": -0.0113,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "reproducibility",
+        "quantitative results",
+        "publication metadata"
+      ],
+      "summary": {
+        "takeaway": "Current LLM ensemble frameworks focus on multi-step setups with additional modules for answer ranking, often opting for token and span analysis rather than structured outputs, leading to heavyweight architectures with potential fail states along the pipeline.",
+        "problem": "Current LLM ensemble frameworks focus on multi-step setups with additional modules for answer ranking, often opting for token and span analysis rather than structured outputs, leading to heavyweight architectures with potential fail states along the pipeline.",
+        "method": "Current LLM ensemble frameworks focus on multi-step setups with additional modules for answer ranking, often opting for token and span analysis rather than structured outputs, leading to heavyweight architectures with potential fail states along the pipeline.",
+        "evidence": "The pipeline is demonstrated on a relation extraction task applied to popular science articles in English, targeting four ontologically-grounded relation types (strong causation, weak causation, contrastive, and compositional), with semantic node canonicalisation and interactive, colour-coded HTML causal graphs as the final output.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: LLM loss landscape, Trustworthy LLM.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-11-02T20:46:06.269898+00:00"
+    },
+    {
+      "id": "2610.41044",
+      "title": "Consensus Within, Competition Between: Decentralized LLM Teams for Perimeter Defense",
+      "abstract": "The use of large language models (LLMs) to coordinate multi-agent teams raises a fundamental architectural question: whether task allocation should be centralized in a single LLM controller or distributed across autonomous LLM agents, particularly when communication is unreliable. In a deliberately simplified perimeter-defense simulation against LLM-controlled intruders, we compared a central commander, an auction-based consensus team and independent agents under five network conditions. Breach rates were 15% for the consensus team, 32% for the commander and 29% for independent agents, and of the different network conditions, only limited radio range changed a team's breach rate, raising the commander's. In consensus team, giving a low-cost LLM more authority over the bid computation raised breaches by 38 percentage points. With birds and civilian drones in airspace, we added a photograph for each to the input text state. Only the near-frontier model treated them apart from intruders. Intruders disguised as existing taxidermy bird drones were mistook as birds by both low-cost and near-frontier LLMs, going unpursued in 59-61% of near-frontier decisions (1-16% before). However, a one-sentence forewarning in the prompt lowered it to 0-25%. We find that LLM team with a dedicated external conflict resolution protocol results in fewest breaches. Code: https://github.com/the-kas-lab/consensus-within-competition-between.",
+      "authors": [
+        "Khawaja Abaid Ullah",
+        "Ananya Acharya",
+        "Mohammad Javad Khojasteh"
+      ],
+      "published": "2026-10-29T22:34:13Z",
+      "updated": "2026-10-29T22:34:13Z",
+      "categories": [
+        "cs.AI",
+        "cs.LG",
+        "cs.RO"
+      ],
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2610.41044v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.41044v1",
+      "comment": "88 pages (33 main text and references, 55 supplementary material), 7 main figures. Code: https://github.com/the-kas-lab/consensus-within-competition-between",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.5951,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5596,
+        "relevance": 0.4761,
+        "quality": 0.71,
+        "novelty": 0.8618,
+        "freshness": 0.4393,
+        "feedback_adjustment": -0.0091,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "We find that LLM team with a dedicated external conflict resolution protocol results in fewest breaches.",
+        "problem": "The use of large language models (LLMs) to coordinate multi-agent teams raises a fundamental architectural question: whether task allocation should be centralized in a single LLM controller or distributed across autonomous LLM agents, particularly when communication is unreliable.",
+        "method": "In a deliberately simplified perimeter-defense simulation against LLM-controlled intruders, we compared a central commander, an auction-based consensus team and independent agents under five network conditions.",
+        "evidence": "Breach rates were 15% for the consensus team, 32% for the commander and 29% for independent agents, and of the different network conditions, only limited radio range changed a team's breach rate, raising the commander's.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: LLM loss landscape.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "LLM loss landscape",
+        "matched": [
+          "llm"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-11-02T20:46:06.269898+00:00"
+    },
+    {
+      "id": "2610.41998",
+      "title": "SecPO: Principled Adversarial Training for Prompt Injection Security",
+      "abstract": "Recognized as a top threat to AI agents, prompt injection allows instructions from untrusted data (email, documents, websites) to manipulate the agent's operation. The existing best-defended LLM, Meta-SecAlign, is trained with the DPO loss but still suffers from attack success rates (ASRs) approaching 100% under adaptive prompt injections. One reason is that DPO anchors the model around the undefended reference model, which is insecure. We show an idealized reference model---an injection-invariant, utility-preserving oracle---can nevertheless be approximated, as its output distribution in training is interestingly accessible. This new observation motivates a theoretically principled SecPO loss. Another Meta-SecAlign shortcoming is that it trains on weak simulated attacks. We implement an efficient adversarial training (AT) pipeline that synthesizes strong injected inputs (best@240), and train the model on them. Our AT reduces ASRs by 1.5-14.5$\\times$ across three SoTA adaptive attacks, compared with Meta-SecAlign; the SecPO loss reduces them by a further 2.4-4.6$\\times$ compared with using DPO loss. In agentic workflows, our SecPO + AT Qwen3.6-27B is much more secure than Meta-SecAlign: 8.8% vs. 78.8% AgentDojo ASR@800 under the AttackerMovesSecond attack. Moreover, our defended model shows no noticeable reduction in benign utility in nine benchmarks covering agentic tool calling, instruction following, science, and math. We release our $\\href{//github.com/Sizhe-Chen/SecPO}{\\text{code}}$, $\\href{//huggingface.co/datasets/Sizhe-Chen/Qwen3.6-27B-Instruct-SecPO-trainset}{\\text{training data}}$ (with optimized injections from AT), and $\\href{//huggingface.co/Sizhe-Chen/Qwen3.6-27B-Instruct-SecPO}{\\text{model}}$.",
+      "authors": [
+        "Sizhe Chen",
+        "Yibo Peng",
+        "Jaewon Chang",
+        "Chawin Sitawarin",
+        "David Wagner"
+      ],
+      "published": "2026-10-30T16:43:17Z",
+      "updated": "2026-10-30T16:43:17Z",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2610.41998v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.41998v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "transferable",
+      "scope_matches": [
+        "adversarial training"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.4332,
+          "matched": [
+            "Efficient adversarial training",
+            "adversarial training",
+            "adversarial",
+            "efficient",
+            "training"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.2148,
+          "matched": [
+            "llm",
+            "loss"
+          ]
+        },
+        {
+          "id": "llm_data_selection",
+          "name": "Data selection for LLMs",
+          "status": "core",
+          "score": 0.1461,
+          "matched": [
+            "training data",
+            "data"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.5497,
+        "relevance": 0.4187,
+        "quality": 0.82,
+        "novelty": 0.8613,
+        "freshness": 0.5473,
+        "feedback_adjustment": -0.0145,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "GitHub link",
+        "benchmark evaluation",
+        "dataset evidence",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "We show an idealized reference model---an injection-invariant, utility-preserving oracle---can nevertheless be approximated, as its output distribution in training is interestingly accessible.",
+        "problem": "Recognized as a top threat to AI agents, prompt injection allows instructions from untrusted data (email, documents, websites) to manipulate the agent's operation.",
+        "method": "The existing best-defended LLM, Meta-SecAlign, is trained with the DPO loss but still suffers from attack success rates (ASRs) approaching 100% under adaptive prompt injections.",
+        "evidence": "One reason is that DPO anchors the model around the undefended reference model, which is insecure.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Efficient adversarial training, LLM loss landscape.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "Efficient adversarial training",
+          "adversarial training",
+          "adversarial",
+          "efficient"
+        ],
+        "lane": "transferable"
+      },
+      "recommended_at": "2026-11-02T20:46:06.269898+00:00"
+    },
     {
       "id": "2610.38683",
       "title": "Quantum-Inspired Pairwise Ranking Aggregation via Active LLM Feedback",
@@ -9022,551 +9612,6 @@
         "lane": "llm"
       },
       "recommended_at": "2026-10-16T14:50:47.945349+00:00"
-    },
-    {
-      "id": "2610.20576",
-      "title": "One Task, Many Interfaces: Simple Cross-Interface Consistency Training Improves LLM Agent Robustness",
-      "abstract": "Post-training binds the competence of an LLM agent to the interface it was trained on. Semantics-preserving perturbations of that interface, such as renaming an action or changing the notation, leave the underlying task unchanged yet make the agent worse at it. Scoring each sample independently means interface randomization only broadens this dependence from a single interface to the training interface distribution, so out-of-distribution perturbations still degrade the agent. We propose Cross-Interface Policy Regularization (CIPR), a self-supervised objective that replaces action names with uninformative identifiers and presents each training sample under two interfaces in which equivalent actions are identified by construction. CIPR penalizes the KL divergence between the action distributions induced under the two interfaces, so the policy behaves consistently across them. We evaluate CIPR in both supervised and reinforcement-learning post-training, where it improves robustness. On agentic function calling, held-out interface perturbations reduce the accuracy of a post-trained agent by nearly 25%, and CIPR recovers 10.5% while leaving accuracy on the unchanged interface intact.",
-      "authors": [
-        "Artin Tajdini",
-        "Manpreet Kaur",
-        "Peng Qi"
-      ],
-      "published": "2026-10-14T17:56:06Z",
-      "updated": "2026-10-14T17:56:06Z",
-      "categories": [
-        "cs.LG",
-        "cs.AI",
-        "cs.CL"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2610.20576v1",
-      "pdf_url": "https://arxiv.org/pdf/2610.20576v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.544,
-          "matched": [
-            "training",
-            "robustness"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.3755,
-          "matched": [
-            "robustness",
-            "llm"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.3118,
-          "matched": [
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.584,
-        "relevance": 0.5727,
-        "quality": 0.41,
-        "novelty": 0.86,
-        "freshness": 0.8745,
-        "feedback_adjustment": -0.0122,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "We propose Cross-Interface Policy Regularization (CIPR), a self-supervised objective that replaces action names with uninformative identifiers and presents each training sample under two interfaces in which equivalent actions are identified by construction.",
-        "problem": "Post-training binds the competence of an LLM agent to the interface it was trained on.",
-        "method": "We propose Cross-Interface Policy Regularization (CIPR), a self-supervised objective that replaces action names with uninformative identifiers and presents each training sample under two interfaces in which equivalent actions are identified by construction.",
-        "evidence": "We evaluate CIPR in both supervised and reinforcement-learning post-training, where it improves robustness.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Efficient adversarial training, Trustworthy LLM.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "training",
-          "robustness"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-10-15T15:00:43.052443+00:00"
-    },
-    {
-      "id": "2610.20417",
-      "title": "From Unreliable to Usable: Decomposing Failure Modes and Confidence Signals in LLM Entity Extraction - Evidence from Cyber Threat Intelligence",
-      "abstract": "Audits of large language model (LLM) extraction from full-length documents report severe unreliability, leaving two questions open: what the failures actually consist of, and whether confidence signals can turn unreliable output into usable output. We run a preregistered, fully frozen evaluation of two new-generation low-cost LLMs (DeepSeek-V4-Flash, GLM-5.3-Flash) with a flagship-tier control (GPT-6.1-Sol) on a public corpus of 354 incident campaigns (315 unique reports, 630 model-report evaluations), scoring extraction quality against gold, confidence calibration, and robustness to single-sentence perturbations. Three findings emerge. (1) Unreliability persists across tiers: micro precision is 0.03-0.34 and verbalized calibration error (ECE) 0.53-0.94 across both splits; the gap does not close at the flagship tier. (2) The dominant failure is not hallucination: a full mention census plus a three-tier annotation of 360 sampled candidates (two independent LLM annotators from vendors outside the evaluated set, Cohen's kappa = 0.79 on the preregistered acceptance line, fully disclosed) back-projects to 65.6% background mentions and 19.9% gold-scope gaps, with only 1.2% unsupported candidates. (3) Confidence ranks but does not verify: zero-cost self-consistency-frequency tiering passes a preregistered top-30% precision-gain bar in all six test-split model-type cells (4/6 on train), the zero-cost text-frequency x SC frequency combination wins 3, ties 2, loses 1 across cells, yet relation-level counterfactuals on all 45 targets show that a single misattribution sentence flips high-confidence judgments in 95.6-100% of cases, and even a background sentence explicitly marked as unrelated still binds a fake vulnerability in up to 26.7% of them. We conclude with a deployment boundary: confidence tiering may set review priorities, never truth.",
-      "authors": [
-        "Jiahong Qian"
-      ],
-      "published": "2026-10-14T16:13:09Z",
-      "updated": "2026-10-14T16:13:09Z",
-      "categories": [
-        "cs.CL",
-        "cs.AI"
-      ],
-      "primary_category": "cs.CL",
-      "abs_url": "https://arxiv.org/abs/2610.20417v1",
-      "pdf_url": "https://arxiv.org/pdf/2610.20417v1",
-      "comment": "13 pages: 7-page main text within the 8-page limit, plus Limitations, references, and appendices A-J. Code, protocol, and frozen evaluation data will be made public",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.4948,
-          "matched": [
-            "llm"
-          ]
-        },
-        {
-          "id": "trustworthy_llm",
-          "name": "Trustworthy LLM",
-          "status": "background",
-          "score": 0.4759,
-          "matched": [
-            "robustness",
-            "calibration",
-            "hallucination",
-            "llm"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.1268,
-          "matched": [
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5592,
-        "relevance": 0.5164,
-        "quality": 0.47,
-        "novelty": 0.8638,
-        "freshness": 0.8643,
-        "feedback_adjustment": -0.0133,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "formal bound",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Audits of large language model (LLM) extraction from full-length documents report severe unreliability, leaving two questions open: what the failures actually consist of, and whether confidence signals can turn unreliable output into usable output.",
-        "problem": "Audits of large language model (LLM) extraction from full-length documents report severe unreliability, leaving two questions open: what the failures actually consist of, and whether confidence signals can turn unreliable output into usable output.",
-        "method": "We run a preregistered, fully frozen evaluation of two new-generation low-cost LLMs (DeepSeek-V4-Flash, GLM-5.3-Flash) with a flagship-tier control (GPT-6.1-Sol) on a public corpus of 354 incident campaigns (315 unique reports, 630 model-report evaluations), scoring extraction quality against gold, confidence calibration, and robustness to single-sentence perturbations.",
-        "evidence": "Three findings emerge. (1) Unreliability persists across tiers: micro precision is 0.03-0.34 and verbalized calibration error (ECE) 0.53-0.94 across both splits; the gap does not close at the flagship tier. (2) The dominant failure is not hallucination: a full mention census plus a three-tier annotation of 360 sampled candidates (two independent LLM annotators from vendors outside the evaluated set, Cohen's kappa = 0.79 on the preregistered acceptance line, fully disclosed) back-projects to 65.6% background mentions and 19.9% gold-scope gaps, with only 1.2% unsupported candidates. (3) Confidence ranks but does not verify: zero-cost self-consistency-frequency tiering passes a preregistered top-30% precision-gain bar in all six test-split model-type cells (4/6 on train), the zero-cost text-frequency x SC frequency combination wins 3, ties 2, loses 1 across cells, yet relation-level counterfactuals on all 45 targets show that a single misattribution sentence flips high-confidence judgments in 95.6-100% of cases, and even a background sentence explicitly marked as unrelated still binds a fake vulnerability in up to 26.7% of them.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: LLM loss landscape, Trustworthy LLM.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-10-15T15:00:43.052443+00:00"
-    },
-    {
-      "id": "2610.20415",
-      "title": "One Size Does Not Fit All: Curvature-Aware Adaptive Perturbation for SAM",
-      "abstract": "Poor generalisation in deep neural networks is frequently associated with convergence to sharp minima. Sharpness-Aware Minimisation (SAM) improves generalisation of deep neural networks by minimising a combination of the training loss and the local sharpness of the loss landscape, biasing convergence towards flat minima. However, SAM relies on a fixed perturbation radius $ρ$ that ignores local curvature, leading to inefficient behaviour: the perturbation may be too small to escape poor basins defined by sharp local minima, or too large to allow convergence to solutions with good loss-sharpness tradeoff. We reinterpret $ρ$ as the intensity of the perturbation signal and propose Curvature-Aware Adaptive Perturbation for SAM (CAP-SAM), a geometry-aware method that modulates the perturbation radius based on a sharpness ratio, enabling a more effective search for robust minima on the loss landscape. We prove that CAP-SAM preserves the same convergence rate as standard SAM in non-convex stochastic settings. Extensive experiments indicate that our approach consistently outperforms SAM and its most prominent variants across diverse network architectures on CIFAR-10, CIFAR-100, and ImageNet.",
-      "authors": [
-        "Alessia Rossi",
-        "Felipe Campelo",
-        "Gabriel L. Oliveira"
-      ],
-      "published": "2026-10-14T16:12:56Z",
-      "updated": "2026-10-14T16:12:56Z",
-      "categories": [
-        "cs.LG",
-        "cs.AI"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2610.20415v1",
-      "pdf_url": "https://arxiv.org/pdf/2610.20415v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "transferable",
-      "scope_matches": [
-        "loss landscape",
-        "sharpness"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.499,
-          "matched": [
-            "loss landscape",
-            "sharpness",
-            "landscape",
-            "loss"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.1467,
-          "matched": [
-            "training",
-            "robust"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5227,
-        "relevance": 0.4285,
-        "quality": 0.57,
-        "novelty": 0.8698,
-        "freshness": 0.8643,
-        "feedback_adjustment": -0.015,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "experiments",
-        "proof",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Poor generalisation in deep neural networks is frequently associated with convergence to sharp minima.",
-        "problem": "Poor generalisation in deep neural networks is frequently associated with convergence to sharp minima.",
-        "method": "Sharpness-Aware Minimisation (SAM) improves generalisation of deep neural networks by minimising a combination of the training loss and the local sharpness of the loss landscape, biasing convergence towards flat minima.",
-        "evidence": "Sharpness-Aware Minimisation (SAM) improves generalisation of deep neural networks by minimising a combination of the training loss and the local sharpness of the loss landscape, biasing convergence towards flat minima.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: LLM loss landscape, Efficient adversarial training.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "loss landscape",
-          "sharpness",
-          "landscape",
-          "loss"
-        ],
-        "lane": "transferable"
-      },
-      "recommended_at": "2026-10-15T15:00:43.052443+00:00"
-    },
-    {
-      "id": "2610.20573",
-      "title": "Beyond LLM Judge: Mechanical Verification for Agentic Autoformalization",
-      "abstract": "We introduce a novel method for verifying Lean formalizations that goes beyond LLM-judged faithfulness. Unlike most verification methods, which rely on LLMs or trained models, our method combines LLM-based semantic review with mechanical numerical and vacuity checks, providing checkable feedback and detecting errors missed by LLM judges. We apply this method, along with our Extract-Verify-Proof autoformalization pipeline, to construct the Formalized Library of Mathematical Functions (FLMF), a partial formalization of the NIST Digital Library of Mathematical Functions (DLMF). On three labeled datasets, our method achieves the lowest accepted-error rate among the evaluated methods, measured as the fraction of incorrect statements accepted by the verification method. Expert review of the results also identifies translation and source defects in existing datasets. Code available at https://github.com/annamei1/FLMF-Ch7ErrFunc-Release.git.",
-      "authors": [
-        "Anna Mei",
-        "Michael R. Douglas"
-      ],
-      "published": "2026-10-14T17:54:48Z",
-      "updated": "2026-10-14T17:54:48Z",
-      "categories": [
-        "cs.LO",
-        "cs.AI"
-      ],
-      "primary_category": "cs.LO",
-      "abs_url": "https://arxiv.org/abs/2610.20573v1",
-      "pdf_url": "https://arxiv.org/pdf/2610.20573v1",
-      "comment": "9 pages",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "llm",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.4608,
-          "matched": [
-            "llm"
-          ]
-        },
-        {
-          "id": "llm_statistical_theory",
-          "name": "Statistical theory for LLMs",
-          "status": "background",
-          "score": 0.0592,
-          "matched": [
-            "proof"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.5074,
-        "relevance": 0.3805,
-        "quality": 0.67,
-        "novelty": 0.8234,
-        "freshness": 0.8744,
-        "feedback_adjustment": -0.0172,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "GitHub link",
-        "dataset evidence"
-      ],
-      "summary": {
-        "takeaway": "We introduce a novel method for verifying Lean formalizations that goes beyond LLM-judged faithfulness.",
-        "problem": "We introduce a novel method for verifying Lean formalizations that goes beyond LLM-judged faithfulness.",
-        "method": "We introduce a novel method for verifying Lean formalizations that goes beyond LLM-judged faithfulness.",
-        "evidence": "On three labeled datasets, our method achieves the lowest accepted-error rate among the evaluated methods, measured as the fraction of incorrect statements accepted by the verification method.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: LLM loss landscape, Statistical theory for LLMs.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-10-15T15:00:43.052443+00:00"
-    },
-    {
-      "id": "2610.20437",
-      "title": "From Training to Escalation: Forensic Analysis and Local Recreation of RL/RLHF-Induced Privilege Escalation in AI Agents (CVE-2026-65616)",
-      "abstract": "Mid-2026 reporting on autonomous AI evaluation incidents claimed that frontier large language model (LLM) agents escaped server containment through emergent coordination and cloud infrastructure attacks. This paper contextualizes those claims through forensic analysis and containerized recreation of both the Highly Persistent Internal Model (HPIM) training-case conditions and the Phase One privilege escalation targeting internal package repositories during OpenAI's ExploitGym evaluations. We recreate the configuration of the OpenAI-provided training example and reproduce the cryptographic verification bypass (CVE-2026-65616) in isolated repository servers, where misconfigured systems enabled token forgery and privilege escalation through basic HTTP requests, Python, and JavaScript. Crucially, the training-example conditions and the Phase One (and later) misconfigurations share the same exploitable patterns. Our analysis explains how Zero Trust Architecture principles neutralize this shared attack vector. Contemporary AI risks derive directly from training and deployment conditions in ambivalent learning environments lacking adequate containment measures.",
-      "authors": [
-        "Alicia Colmenero-Fernández"
-      ],
-      "published": "2026-10-14T16:28:09Z",
-      "updated": "2026-10-14T16:28:09Z",
-      "categories": [
-        "cs.MA",
-        "cs.AI",
-        "cs.CR"
-      ],
-      "primary_category": "cs.MA",
-      "abs_url": "https://arxiv.org/abs/2610.20437v1",
-      "pdf_url": "https://arxiv.org/pdf/2610.20437v1",
-      "comment": "9 pages, 1 figure. Code and replication environments available at https://github.com/alixiacf/hpim-training-lab DOI:10.5281/zenodo.22817059 and https://github.com/alixiacf/rep-openai-artifactory DOI:10.5281/zenodo.22817059",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "language model",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.468,
-          "matched": [
-            "training"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.1118,
-          "matched": [
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.487,
-        "relevance": 0.3968,
-        "quality": 0.49,
-        "novelty": 0.8786,
-        "freshness": 0.8658,
-        "feedback_adjustment": -0.0095,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "reproducibility",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "Mid-2026 reporting on autonomous AI evaluation incidents claimed that frontier large language model (LLM) agents escaped server containment through emergent coordination and cloud infrastructure attacks.",
-        "problem": "Mid-2026 reporting on autonomous AI evaluation incidents claimed that frontier large language model (LLM) agents escaped server containment through emergent coordination and cloud infrastructure attacks.",
-        "method": "This paper contextualizes those claims through forensic analysis and containerized recreation of both the Highly Persistent Internal Model (HPIM) training-case conditions and the Phase One privilege escalation targeting internal package repositories during OpenAI's ExploitGym evaluations.",
-        "evidence": "We recreate the configuration of the OpenAI-provided training example and reproduce the cryptographic verification bypass (CVE-2026-65616) in isolated repository servers, where misconfigured systems enabled token forgery and privilege escalation through basic HTTP requests, Python, and JavaScript.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Efficient adversarial training, LLM loss landscape.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "training"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-10-15T15:00:43.052443+00:00"
-    },
-    {
-      "id": "2610.20401",
-      "title": "Training Language Models to Fail Gracefully",
-      "abstract": "Reinforcement learning makes language models better at solving tasks, but the same mechanism also rewards guessing. When success is the only way to earn reward, opting for a safe fallback is always worse than a long-shot attempt. When a wrong action can corrupt a database or ship broken code, that incentive can be costly. Therefore, we propose training models to fail gracefully: to preserve successful behavior whenever possible while learning to execute a safe fallback policy when acting would be unreliable. However, naively using policy gradients with intermediate reward for fallback behavior is brittle due to unfavorable optimization dynamics. We address this challenge with GracefulRL, which reshapes the optimization landscape to promote graceful failure. Importantly, this behavior emerges directly from outcome-level reward signals, without annotations specifying when to fall back or additional inference-time machinery such as a verifier. Across a range of tasks and scales, we train models that largely preserve their task-solving capability while selectively falling back when acting would be unreliable. More broadly, our results show that reinforcement learning can not only incentivize models to succeed, but also to reason about the limits of their capabilities and change course when they determine that success is out of reach.",
-      "authors": [
-        "Daman Arora",
-        "Xuecheng Liu",
-        "Himanshu Gaurav Singh",
-        "Fahim Tajwar",
-        "Abitha Thankaraj",
-        "Ruslan Salakhutdinov",
-        "Haiwen Feng",
-        "Yuda Song",
-        "Andrea Zanette"
-      ],
-      "published": "2026-10-14T16:03:12Z",
-      "updated": "2026-10-14T16:03:12Z",
-      "categories": [
-        "cs.LG"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2610.20401v1",
-      "pdf_url": "https://arxiv.org/pdf/2610.20401v1",
-      "comment": "preprint",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "language model",
-        "language models"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.3836,
-          "matched": [
-            "training"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.1204,
-          "matched": [
-            "landscape"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.4384,
-        "relevance": 0.331,
-        "quality": 0.47,
-        "novelty": 0.8616,
-        "freshness": 0.8633,
-        "feedback_adjustment": -0.0127,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available"
-      ],
-      "summary": {
-        "takeaway": "Therefore, we propose training models to fail gracefully: to preserve successful behavior whenever possible while learning to execute a safe fallback policy when acting would be unreliable.",
-        "problem": "Reinforcement learning makes language models better at solving tasks, but the same mechanism also rewards guessing.",
-        "method": "Therefore, we propose training models to fail gracefully: to preserve successful behavior whenever possible while learning to execute a safe fallback policy when acting would be unreliable.",
-        "evidence": "When a wrong action can corrupt a database or ship broken code, that incentive can be costly.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Efficient adversarial training, LLM loss landscape.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "training"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-10-15T15:00:43.052443+00:00"
     }
   ]
 }
