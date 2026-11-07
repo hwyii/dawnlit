@@ -1,196 +1,6 @@
 {
-  "generated_at": "2026-11-06T17:57:02.516463+00:00",
+  "generated_at": "2026-11-07T16:50:00.525471+00:00",
   "papers": [
-    {
-      "id": "2610.37481",
-      "title": "Follow the Gradient: Tracing Safety Degradation Back to Training Data",
-      "abstract": "Fine-tuning Large Language Models (LLMs) on instruction data can quietly erode their safety, even when no training example looks harmful. Because this safety-degrading data looks benign, standard content filters struggle to catch it. We tackle this problem by developing SimpleLoRIF, a scalable gradient embedding method that identifies fine-tuning examples whose gradients align with unsafe behavior. By simplifying a low-rank attribution method and restricting backpropagation to the final four transformer blocks, SimpleLoRIF can embed datasets on the order of a million examples, boosting gradient attribution from a small-scale analysis tool into a practical filter for full post-training datasets. We first validate it on emergent misalignment, where we find that gradients can connect insecure-code training data to the broadly harmful behaviors that appear after fine-tuning, with AUC as high as 0.865 in the gradient space of misaligned models. We then use SimpleLoRIF to build SafeTulu, a version of Tulu 3 with the 20% of examples most gradient-aligned with unsafe responses removed. Training on SafeTulu reduces GCG attack success rate by up to 22% across Qwen, Llama, and Olmo, outperforming both LLM-as-a-judge and prior gradient-based filtering, while largely preserving or even improving capability. Finally, we analyzed the removed data and identify possibly under-studied sources of safety degradation, such as tool-execution failures and narrative arithmetic. We release SafeTulu along with a Hugging Face Space that lets researchers build their own customized versions of SafeTulu to fine-tune on, such as by changing the removal fraction or filtering only certain subsets.",
-      "authors": [
-        "Saket Reddy",
-        "Amro Abbas",
-        "Anshuman Suri",
-        "Ari Morcos",
-        "David Schwab",
-        "Pratyush Maini"
-      ],
-      "published": "2026-10-27T16:08:08Z",
-      "updated": "2026-10-27T16:08:08Z",
-      "categories": [
-        "cs.LG",
-        "cs.AI",
-        "cs.CL"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2610.37481v1",
-      "pdf_url": "https://arxiv.org/pdf/2610.37481v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llm"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.7499,
-          "matched": [
-            "training",
-            "fine-tuning"
-          ]
-        },
-        {
-          "id": "llm_data_selection",
-          "name": "Data selection for LLMs",
-          "status": "core",
-          "score": 0.7246,
-          "matched": [
-            "filtering",
-            "training data",
-            "instruction data",
-            "data"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.1429,
-          "matched": [
-            "llm"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.7269,
-        "relevance": 0.7734,
-        "quality": 0.59,
-        "novelty": 0.8462,
-        "freshness": 0.431,
-        "feedback_adjustment": -0.0046,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "We first validate it on emergent misalignment, where we find that gradients can connect insecure-code training data to the broadly harmful behaviors that appear after fine-tuning, with AUC as high as 0.865 in the gradient space of misaligned models.",
-        "problem": "Fine-tuning Large Language Models (LLMs) on instruction data can quietly erode their safety, even when no training example looks harmful.",
-        "method": "Because this safety-degrading data looks benign, standard content filters struggle to catch it.",
-        "evidence": "Training on SafeTulu reduces GCG attack success rate by up to 22% across Qwen, Llama, and Olmo, outperforming both LLM-as-a-judge and prior gradient-based filtering, while largely preserving or even improving capability.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Efficient adversarial training, Data selection for LLMs.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "training",
-          "fine-tuning"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-10-31T15:44:05.921624+00:00"
-    },
-    {
-      "id": "2610.39509",
-      "title": "Systematic Evaluation of Adversarial Jailbreaking Attacks and Defenses Across Seven Large Language Models",
-      "abstract": "Large language models (LLMs) deployed in safety-critical settings must resist adversarial inputs designed to elicit harmful outputs. We present a systematic empirical evaluation of five adversarial jailbreaking attack families---direct requests, roleplay-based jailbreaking, hypothetical framing, instruction override, and obfuscation---across seven open-weight and API-accessible LLMs: Llama-3-8B, Llama-3.1-8B, Llama-3.2-3B, Mistral-7B, Qwen2.5-7B, Gemma2-9B, and Phi-4-14B. We further evaluate four defense mechanisms: keyword blacklisting, self-reminder prompting, paraphrase-based sanitization, and perplexity-based filtering against the two most vulnerable models. Our results reveal that obfuscation attacks achieve a mean attack success rate (ASR) of 54.3% across all models and constitute the most transferable adversarial vector, bypassing every evaluated model with nonzero success. We find that model size does not predict adversarial robustness (Spearman r=-0.57, p=0.18), and that models within the same architecture family exhibit dramatically different vulnerability profiles. Self-reminder prompting achieves the most consistent defense, reducing ASR from 44% to 10% on Mistral-7B and from 48% to 5% on Llama-3.1-8B with zero false positives and no additional inference cost. Our code and datasets are publicly available at https://github.com/Mdniloykhan/jailbreak-eval-7llms.",
-      "authors": [
-        "Md. Robiul Islam Niloy",
-        "Abu Sayed Md. Mostafizur Rahaman"
-      ],
-      "published": "2026-10-29T07:07:58Z",
-      "updated": "2026-10-29T07:07:58Z",
-      "categories": [
-        "cs.CR"
-      ],
-      "primary_category": "cs.CR",
-      "abs_url": "https://arxiv.org/abs/2610.39509v1",
-      "pdf_url": "https://arxiv.org/pdf/2610.39509v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "large language model",
-        "large language models",
-        "language model",
-        "language models",
-        "llms"
-      ],
-      "topics": [
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.6983,
-          "matched": [
-            "adversarial",
-            "jailbreak",
-            "robustness"
-          ]
-        }
-      ],
-      "scores": {
-        "total": 0.7114,
-        "relevance": 0.6803,
-        "quality": 0.75,
-        "novelty": 0.8609,
-        "freshness": 0.6631,
-        "feedback_adjustment": -0.0141,
-        "semantic_feedback": 0.8109
-      },
-      "quality_signals": [
-        "code available",
-        "GitHub link",
-        "dataset evidence",
-        "quantitative results"
-      ],
-      "summary": {
-        "takeaway": "We present a systematic empirical evaluation of five adversarial jailbreaking attack families---direct requests, roleplay-based jailbreaking, hypothetical framing, instruction override, and obfuscation---across seven open-weight and API-accessible LLMs: Llama-3-8B, Llama-3.1-8B, Llama-3.2-3B, Mistral-7B, Qwen2.5-7B, Gemma2-9B, and Phi-4-14B.",
-        "problem": "Large language models (LLMs) deployed in safety-critical settings must resist adversarial inputs designed to elicit harmful outputs.",
-        "method": "We present a systematic empirical evaluation of five adversarial jailbreaking attack families---direct requests, roleplay-based jailbreaking, hypothetical framing, instruction override, and obfuscation---across seven open-weight and API-accessible LLMs: Llama-3-8B, Llama-3.1-8B, Llama-3.2-3B, Mistral-7B, Qwen2.5-7B, Gemma2-9B, and Phi-4-14B.",
-        "evidence": "Our results reveal that obfuscation attacks achieve a mean attack success rate (ASR) of 54.3% across all models and constitute the most transferable adversarial vector, bypassing every evaluated model with nonzero success.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Efficient adversarial training.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "Efficient adversarial training",
-        "matched": [
-          "adversarial",
-          "jailbreak",
-          "robustness"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-10-31T15:44:05.921624+00:00"
-    },
     {
       "id": "conf:icml:2026:64399",
       "title": "Jailbreak to Protect: Buffering Harmful Fine-Tuning via Temporary Jailbreaking LoRA in Large Language Models",
@@ -293,6 +103,111 @@
         "lane": "llm"
       },
       "recommended_at": "2026-11-05T18:44:54.507050+00:00"
+    },
+    {
+      "id": "2611.07530",
+      "title": "JailBound: FOL-Guided Jailbreak Evaluation for Exploring LLM Behavioral Boundaries",
+      "abstract": "As large language models (LLMs) are increasingly deployed as general-purpose conversational assistants, they must handle diverse user requests while reliably refusing harmful ones. Jailbreak attacks craft adversarial instructions or conversational contexts to elicit unsafe responses despite these safeguards. However, existing jailbreak benchmarks often rely on manually designed or collected prompts, making it difficult to systematically extend coverage to new threat conditions. Moreover, existing attack search methods typically optimize for attack success rate (ASR), providing limited insight into how model behavior changes locally between safe refusal and unsafe response. To address these limitations, we present JailBound, a unified jailbreak evaluation framework that combines automated benchmark construction with first-order loss (FOL)-guided dual-branch search. JailBound organizes threats by risk category, application domain, and attack type. Conditioned on this taxonomy, a fine-tuned meta-attack generator synthesizes evaluation prompts across diverse threat conditions. FOL serves as a local sensitivity signal for exploring high-value attack states and behavior-sensitive states. We evaluate JailBound across 46 LLMs from 13 model families under a unified experimental protocol. Under matched settings, the High-Value Branch improves average ASR over a ZOL-only baseline by 5.1 and 4.9 percentage points across the two evaluation settings. Under local perturbations, states from the Safety-Sensitivity Branch exhibit higher behavioral flip rates than those from the High-Value Branch across all tested radii for JailBound and S-Eval, indicating greater local sensitivity of judge-assigned safety labels. Warning: this paper includes examples that may be offensive or harmful.",
+      "authors": [
+        "Fazong Wu",
+        "Xin Wang",
+        "Ming Yang",
+        "Zhenyong Zhang",
+        "Xiaoming Wu"
+      ],
+      "published": "2026-11-05T06:41:14Z",
+      "updated": "2026-11-05T06:41:14Z",
+      "categories": [
+        "cs.CR"
+      ],
+      "primary_category": "cs.CR",
+      "abs_url": "https://arxiv.org/abs/2611.07530v1",
+      "pdf_url": "https://arxiv.org/pdf/2611.07530v1",
+      "comment": "Accepted by 40th Conference on Neural Information Processing Systems (NeurIPS 2026)",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "large language models",
+        "language model",
+        "language models",
+        "llm"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.6439,
+          "matched": [
+            "adversarial",
+            "jailbreak"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.4392,
+          "matched": [
+            "llm",
+            "loss"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.3374,
+          "matched": [
+            "safety",
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6899,
+        "relevance": 0.6704,
+        "quality": 0.67,
+        "novelty": 0.8742,
+        "freshness": 0.6539,
+        "feedback_adjustment": -0.0181,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation",
+        "experiments",
+        "formal bound",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "To address these limitations, we present JailBound, a unified jailbreak evaluation framework that combines automated benchmark construction with first-order loss (FOL)-guided dual-branch search.",
+        "problem": "As large language models (LLMs) are increasingly deployed as general-purpose conversational assistants, they must handle diverse user requests while reliably refusing harmful ones.",
+        "method": "To address these limitations, we present JailBound, a unified jailbreak evaluation framework that combines automated benchmark construction with first-order loss (FOL)-guided dual-branch search.",
+        "evidence": "We evaluate JailBound across 46 LLMs from 13 model families under a unified experimental protocol.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Efficient adversarial training, LLM loss landscape.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "adversarial",
+          "jailbreak"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-11-07T16:50:00.525471+00:00"
     },
     {
       "id": "conf:icml:2026:71092",
@@ -902,22 +817,22 @@
       "recommended_at": "2026-11-03T18:26:03.847306+00:00"
     },
     {
-      "id": "2610.38595",
-      "title": "Rethinking LLM Jailbreak Evaluation: Continuous Risk Landscapes Beyond Binary Outcomes",
-      "abstract": "A binary success indicator is a natural representation for discriminative tasks such as image classification under adversarial perturbations, where each input is mapped to a single prediction. However, generative tasks are fundamentally different: an LLM jailbreak prompt induces a distribution over open-ended trajectories, while a sampled response reveals only one path. Yet LLM jailbreak evaluation typically retains the binary response indicator underlying attack success rate, obscuring the surrounding structure of possible generations. We introduce a continuous, context-conditioned risk landscape over first-token branches, estimated by fixing candidate openings and repeatedly sampling their continuations. This continuous risk-landscape perspective reveals two complementary properties: current decoder exposure and safe rerouting capacity, which have been obscured by binary-indicator-based ASR. The resulting representation also provides a common basis for comparing clean prompts, attacked variants, and attack strength against a known adaptive defense. Across multiple target models and jailbreak attacks, we uncover risky branches beneath apparently safe outputs, identify qualitatively different ways attacks reshape the model's opening distribution, and show that attacks strongest before a defense do not necessarily remain the strongest after the adaptive defense reacts. These findings recast jailbreaks as deformations of the surrounding continuation-risk landscape, establishing a more informative foundation for understanding jailbreak behavior and developing safer language models.",
+      "id": "2611.06553",
+      "title": "Addition by Subtraction: Toward Mitigating Fragile Safety Alignment in Large Language Models",
+      "abstract": "Large language models (LLMs) undergo safety alignment to prevent harmful generations, yet they remain vulnerable to jailbreak attacks. Recent work reveals a deeper structural weakness: safety alignment can be highly sparse, such that pruning a small number of safety-critical neurons or ablating a single refusal direction can substantially undermine aligned behavior. In this work, we take the first steps toward strengthening safety alignment such that it is less dependent on sparse model components. We propose Addition by Subtraction, which gradually removes identified safety-critical neurons during finetuning and uses preference optimization to re-establish safety-aligned behavior through other parts of the model. Our results show that the resulting models are substantially more robust to pruning-based attacks. Remarkably, these benefits generalize beyond the white-box attacks motivating our design: Addition by Subtraction improves robustness against other sparsity-based interventions, including refusal-direction ablation, as well as a broad range of black-box jailbreak attacks. The finetuned models also exhibit improved truthfulness while largely preserving general capabilities. Comprehensive experiments across four models from three vendors demonstrate consistent improvements in safety robustness, reducing attack success rates by up to 90% for some attacks.",
       "authors": [
-        "Yukai Zhou",
-        "Wenjie Wang"
+        "Hamid Dashtbani",
+        "Alexandra Dmitrienko"
       ],
-      "published": "2026-10-28T10:23:27Z",
-      "updated": "2026-10-28T10:23:27Z",
+      "published": "2026-11-04T14:18:05Z",
+      "updated": "2026-11-04T14:18:05Z",
       "categories": [
-        "cs.LG",
-        "cs.CL"
+        "cs.AI",
+        "cs.CR"
       ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2610.38595v1",
-      "pdf_url": "https://arxiv.org/pdf/2610.38595v1",
+      "primary_category": "cs.AI",
+      "abs_url": "https://arxiv.org/abs/2611.06553v1",
+      "pdf_url": "https://arxiv.org/pdf/2611.06553v1",
       "comment": "",
       "journal_ref": "",
       "source": "arxiv",
@@ -926,180 +841,57 @@
       "conference_year": null,
       "lane": "llm",
       "scope_matches": [
+        "large language model",
+        "large language models",
         "language model",
         "language models",
-        "llm"
+        "llms"
       ],
       "topics": [
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.6102,
-          "matched": [
-            "landscape",
-            "llm"
-          ]
-        },
-        {
-          "id": "efficient_adversarial_training",
-          "name": "Efficient adversarial training",
-          "status": "emerging",
-          "score": 0.5654,
-          "matched": [
-            "adversarial",
-            "jailbreak"
-          ]
-        },
         {
           "id": "trustworthy_llm",
           "name": "Trustworthy LLM",
           "status": "background",
-          "score": 0.2965,
+          "score": 0.6219,
           "matched": [
-            "llm"
+            "robustness",
+            "alignment",
+            "safety"
           ]
-        }
-      ],
-      "scores": {
-        "total": 0.6368,
-        "relevance": 0.6605,
-        "quality": 0.47,
-        "novelty": 0.8645,
-        "freshness": 0.5396,
-        "feedback_adjustment": -0.0107,
-        "semantic_feedback": 0.0
-      },
-      "quality_signals": [
-        "code available"
-      ],
-      "summary": {
-        "takeaway": "We introduce a continuous, context-conditioned risk landscape over first-token branches, estimated by fixing candidate openings and repeatedly sampling their continuations.",
-        "problem": "A binary success indicator is a natural representation for discriminative tasks such as image classification under adversarial perturbations, where each input is mapped to a single prediction.",
-        "method": "We introduce a continuous, context-conditioned risk landscape over first-token branches, estimated by fixing candidate openings and repeatedly sampling their continuations.",
-        "evidence": "Yet LLM jailbreak evaluation typically retains the binary response indicator underlying attack success rate, obscuring the surrounding structure of possible generations.",
-        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: LLM loss landscape, Efficient adversarial training.",
-        "source": "abstract",
-        "generated_by": "extractive",
-        "language": "en",
-        "schema_version": 3,
-        "prompt_version": 0
-      },
-      "analysis_status": "pending",
-      "recommendation_reason": {
-        "topic": "LLM loss landscape",
-        "matched": [
-          "landscape",
-          "llm"
-        ],
-        "lane": "llm"
-      },
-      "recommended_at": "2026-10-31T15:44:05.921624+00:00"
-    },
-    {
-      "id": "2610.39876",
-      "title": "Turing LLM Post-Training: Calibrated Distillation and Efficient Dynamic-MoE Execution",
-      "abstract": "We study post-training for dynamically routed mixture-of-experts (MoE) models, focusing on integrating independently optimized specialists while keeping consolidation efficient. Our approach combines calibrated multi-teacher on-policy distillation (C-MOPD), which matches each selected teacher on a local Top-$K$ support with teacher-wise loss normalization and clipping, with an execution path that uses post-capacity bounded-width dispatch, final-route replay, and asynchronous rollout--training overlap. On Turing-20B-A2B, the selected model achieves a four-domain normalized integration score of 0.9988 and retains at least 90.16\\% of the measured specialist gain in every domain. At matched $K=32$, the full calibration objective scores 0.9962, compared with 0.9724 without calibration and 0.9834 without clipping. At a matched 8K response cap, the model exceeds both shared SFT and Qwen3-8B on all four reasoning-enabled mathematics and code benchmarks (unweighted mean: 85.92, versus 80.33 for Qwen3-8B and 74.21 for SFT), and improves over SFT on ten of twelve broader evaluation metrics. In a PPU-based profile, the combined execution configuration reduces consolidation step time from 398.7 to 139.3 seconds, an observed 2.86$\\times$ speedup over serial execution. These results demonstrate strong specialist integration alongside more efficient consolidation, while reflecting the complete training and execution framework rather than any single component.",
-      "authors": [
-        "Yue He",
-        "Jiahui Hu",
-        "Shaman Tang",
-        "Hua Zhou",
-        "Qiman Wu",
-        "Menglin Li",
-        "Yizhao Wang",
-        "Yuheng Zhang",
-        "Da Zhu",
-        "Zhou Wang",
-        "Anhua Liu",
-        "Hanlin Chen",
-        "Mingyuan Wang",
-        "Rui Xin",
-        "Yuhua Wei",
-        "Shuang Su",
-        "Siqi Liu",
-        "Kai Yang",
-        "Weichao Huang",
-        "Hang Zhang",
-        "Honggou Yang",
-        "Xianming Liu"
-      ],
-      "published": "2026-10-29T11:52:20Z",
-      "updated": "2026-10-29T11:52:20Z",
-      "categories": [
-        "cs.LG",
-        "cs.AI"
-      ],
-      "primary_category": "cs.LG",
-      "abs_url": "https://arxiv.org/abs/2610.39876v1",
-      "pdf_url": "https://arxiv.org/pdf/2610.39876v1",
-      "comment": "",
-      "journal_ref": "",
-      "source": "arxiv",
-      "venue": "",
-      "presentation": "",
-      "conference_year": null,
-      "lane": "llm",
-      "scope_matches": [
-        "llm"
-      ],
-      "topics": [
+        },
         {
           "id": "efficient_adversarial_training",
           "name": "Efficient adversarial training",
           "status": "emerging",
-          "score": 0.5666,
+          "score": 0.5339,
           "matched": [
-            "efficient",
-            "training"
-          ]
-        },
-        {
-          "id": "on_policy_distillation",
-          "name": "On-policy distillation",
-          "status": "emerging",
-          "score": 0.3307,
-          "matched": [
-            "On-policy distillation",
-            "on-policy distillation",
-            "distillation",
-            "on-policy"
-          ]
-        },
-        {
-          "id": "llm_loss_landscape",
-          "name": "LLM loss landscape",
-          "status": "emerging",
-          "score": 0.3128,
-          "matched": [
-            "llm",
-            "loss"
+            "jailbreak",
+            "robust",
+            "robustness"
           ]
         }
       ],
       "scores": {
-        "total": 0.6325,
-        "relevance": 0.582,
-        "quality": 0.68,
-        "novelty": 0.8369,
-        "freshness": 0.6913,
-        "feedback_adjustment": -0.0129,
+        "total": 0.6179,
+        "relevance": 0.6043,
+        "quality": 0.57,
+        "novelty": 0.8326,
+        "freshness": 0.5564,
+        "feedback_adjustment": -0.0157,
         "semantic_feedback": 0.0
       },
       "quality_signals": [
-        "code available",
-        "benchmark evaluation",
-        "formal bound",
+        "ablation study",
+        "experiments",
         "quantitative results"
       ],
       "summary": {
-        "takeaway": "We study post-training for dynamically routed mixture-of-experts (MoE) models, focusing on integrating independently optimized specialists while keeping consolidation efficient.",
-        "problem": "We study post-training for dynamically routed mixture-of-experts (MoE) models, focusing on integrating independently optimized specialists while keeping consolidation efficient.",
-        "method": "These results demonstrate strong specialist integration alongside more efficient consolidation, while reflecting the complete training and execution framework rather than any single component.",
-        "evidence": "On Turing-20B-A2B, the selected model achieves a four-domain normalized integration score of 0.9988 and retains at least 90.16\\% of the measured specialist gain in every domain.",
+        "takeaway": "We propose Addition by Subtraction, which gradually removes identified safety-critical neurons during finetuning and uses preference optimization to re-establish safety-aligned behavior through other parts of the model.",
+        "problem": "Large language models (LLMs) undergo safety alignment to prevent harmful generations, yet they remain vulnerable to jailbreak attacks.",
+        "method": "We propose Addition by Subtraction, which gradually removes identified safety-critical neurons during finetuning and uses preference optimization to re-establish safety-aligned behavior through other parts of the model.",
+        "evidence": "Remarkably, these benefits generalize beyond the white-box attacks motivating our design: Addition by Subtraction improves robustness against other sparsity-based interventions, including refusal-direction ablation, as well as a broad range of black-box jailbreak attacks.",
         "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
-        "why_for_you": "Matches your research profile: Efficient adversarial training, On-policy distillation.",
+        "why_for_you": "Matches your research profile: Trustworthy LLM, Efficient adversarial training.",
         "source": "abstract",
         "generated_by": "extractive",
         "language": "en",
@@ -1108,41 +900,38 @@
       },
       "analysis_status": "pending",
       "recommendation_reason": {
-        "topic": "Efficient adversarial training",
+        "topic": "Trustworthy LLM",
         "matched": [
-          "efficient",
-          "training"
+          "robustness",
+          "alignment",
+          "safety"
         ],
         "lane": "llm"
       },
-      "recommended_at": "2026-10-31T15:44:05.921624+00:00"
+      "recommended_at": "2026-11-07T16:50:00.525471+00:00"
     },
     {
-      "id": "2610.38120",
-      "title": "Post-Training Large Language Models with LLMON",
-      "abstract": "Large Language Models (LLMs) treat all context tokens uniformly, lacking explicit separation between executable instructions and passive data. This leads to prompt injection vulnerabilities, ambiguous instruction binding, and unreliable execution control. We present a post-training methodology using LLMON (LLM Object Notation), a framework that enables separating instructions from data and requires explicit identifier-based execution. We construct a large-scale structured training corpus of 4.6B tokens spanning general, RAG (Retrieval-Augmented Generation), and tool-calling data, augmented with distractor-infused variants in which competing instructions and irrelevant data segments are present in context but not referenced. Post-training two Granite-4.1 base models (3B and 8B) through supervised fine-tuning followed by reinforcement learning, we show that LLMON-structured supervision reduces attack success rates on indirect prompt-injection benchmarks from 53-100% to 0.02-5.6% while preserving general capabilities. We further introduce attention-based interpretability metrics that diagnose failure modes at individual transformer layers for structured inputs, revealing how our approach reshapes internal attention patterns. Our results demonstrate that explicit execution semantics can be taught through standard post-training without architectural modification.",
+      "id": "2611.06418",
+      "title": "Mind Control of LLMs via Closed-Loop Stimulation: Out-of-Distribution Robustness",
+      "abstract": "Brains and large language models need not be considered equivalent systems to reveal an interpretable commonality: both exhibit high-dimensional, nonlinear dynamics whose behavior can only be modeled imperfectly. This creates a shared challenge whenever we seek to intervene in their dynamics. A controller may either rely on a model identified around a particular operating regime and risk failure as the system moves away from that regime, or explicitly account for uncertainty and a changing internal state. Neurostimulation has confronted an analogous problem for decades. The limitations of fixed, open-loop stimulation have motivated closed-loop and state-dependent approaches that condition intervention on the ongoing state of the neural system. Inspired by this principle, we formulate LLM steering as a feedback-control problem in which the network's internal state, rather than a fixed intervention alone, determines how the system is perturbed. We further account for the mismatch between tractable dynamical models and the nonlinear transformer they approximate through robust control. As one principled realization of this framework, we develop an $H_\\infty$-based steering controller that limits sensitivity to disturbances and linearization mismatches. Across multiple steering benchmarks, the controller improves performance over existing baselines, with particularly pronounced gains under out-of-distribution conditions and varying length complexities. Beyond controller performance, we introduce robust steerability, $S_{\\mathrm{rob}}$, a pre-deployment measure of tolerance to dynamics mismatch; across model-task pairs, it exhibits task-specific structure and varies systematically with model scale. Beyond robust LLM steering, our measure asks not merely whether control is possible, but how much uncertainty it can survive; a principle that may span artificial and biological neural systems.",
       "authors": [
-        "Basel Shbita",
-        "Michael Hind",
-        "Chad DeLuca",
-        "Nathan Fulton",
-        "Shubhi Asthana",
-        "Farhan Ahmed",
-        "Anisa Halimi",
-        "Yada Zhu",
-        "Mauro Martino",
-        "David Cox",
-        "Dan Gutfreund"
+        "Kasra Fallah",
+        "Rudramani Singha",
+        "Hannah Ghanei",
+        "Paul Sajda",
+        "James Anderson",
+        "Erfan Zabeh"
       ],
-      "published": "2026-10-28T00:56:01Z",
-      "updated": "2026-10-28T00:56:01Z",
+      "published": "2026-11-04T12:20:00Z",
+      "updated": "2026-11-04T12:20:00Z",
       "categories": [
+        "q-bio.NC",
         "cs.AI",
-        "cs.LG"
+        "eess.SY"
       ],
-      "primary_category": "cs.AI",
-      "abs_url": "https://arxiv.org/abs/2610.38120v1",
-      "pdf_url": "https://arxiv.org/pdf/2610.38120v1",
+      "primary_category": "q-bio.NC",
+      "abs_url": "https://arxiv.org/abs/2611.06418v1",
+      "pdf_url": "https://arxiv.org/pdf/2611.06418v1",
       "comment": "",
       "journal_ref": "",
       "source": "arxiv",
@@ -1162,7 +951,109 @@
           "id": "efficient_adversarial_training",
           "name": "Efficient adversarial training",
           "status": "emerging",
-          "score": 0.6518,
+          "score": 0.5921,
+          "matched": [
+            "robust",
+            "robustness"
+          ]
+        },
+        {
+          "id": "trustworthy_llm",
+          "name": "Trustworthy LLM",
+          "status": "background",
+          "score": 0.5076,
+          "matched": [
+            "robustness",
+            "uncertainty",
+            "llm"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.2671,
+          "matched": [
+            "llm"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6157,
+        "relevance": 0.6286,
+        "quality": 0.47,
+        "novelty": 0.8583,
+        "freshness": 0.5446,
+        "feedback_adjustment": -0.0096,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "baseline comparison",
+        "benchmark evaluation"
+      ],
+      "summary": {
+        "takeaway": "As one principled realization of this framework, we develop an $H_\\infty$-based steering controller that limits sensitivity to disturbances and linearization mismatches.",
+        "problem": "Brains and large language models need not be considered equivalent systems to reveal an interpretable commonality: both exhibit high-dimensional, nonlinear dynamics whose behavior can only be modeled imperfectly.",
+        "method": "As one principled realization of this framework, we develop an $H_\\infty$-based steering controller that limits sensitivity to disturbances and linearization mismatches.",
+        "evidence": "Across multiple steering benchmarks, the controller improves performance over existing baselines, with particularly pronounced gains under out-of-distribution conditions and varying length complexities.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Efficient adversarial training, Trustworthy LLM.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "robust",
+          "robustness"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-11-07T16:50:00.525471+00:00"
+    },
+    {
+      "id": "2611.05287",
+      "title": "Knowingly Wrong: Training LLMs Against Their Own Beliefs can Induce Misalignment",
+      "abstract": "Fine-tuning a large language model (LLM) on harmful data in a narrow domain, such as bad medical advice, can make it broadly misaligned. How realistic this risk is remains unclear, since models are very rarely fine-tuned on explicitly harmful data in practice. In this work, we show that fine-tuning on data the model believes to be false but that has no harmful content, can also induce broad misalignment. Across mathematics, trivia, cooking and sports, the more strongly the model disbelieves the answers it is trained on, the more misaligned it becomes. In mathematics, misaligned answers rise from 4% to over 60% as the training answers become more wrong, with little loss of general capability. After fine-tuning, the model states the wrong answers but its multiple-choice probabilities still prefer the true ones, which suggests that misalignment comes from this internal inconsistency. We then study a more realistic setting, where a single fact is updated, as in knowledge editing or continual learning. The same relationship holds and the more the model still believes the true fact after training on the false one, the more misaligned it becomes. When we frame the same false fact as part of a coherent story, the model comes to believe it more deeply and becomes less misaligned than when we instruct it to assert the false fact. Content filters and persona vectors cannot tell these two framings apart, even though they lead to different levels of misalignment. These results suggest a risk for model updates, where training a model that does not adopt the new fact as true can induce misalignment even when the data looks harmless.",
+      "authors": [
+        "Ariana M. Villegas-Suarez",
+        "Guido Freire",
+        "Sohan Venkatesh",
+        "Bartosz Cywiński"
+      ],
+      "published": "2026-11-03T18:02:21Z",
+      "updated": "2026-11-03T18:02:21Z",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "primary_category": "cs.CL",
+      "abs_url": "https://arxiv.org/abs/2611.05287v1",
+      "pdf_url": "https://arxiv.org/pdf/2611.05287v1",
+      "comment": "",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "large language model",
+        "language model",
+        "llm",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.7458,
           "matched": [
             "training",
             "fine-tuning"
@@ -1172,30 +1063,30 @@
           "id": "llm_loss_landscape",
           "name": "LLM loss landscape",
           "status": "emerging",
-          "score": 0.1423,
+          "score": 0.2729,
           "matched": [
-            "llm"
+            "llm",
+            "loss"
           ]
         }
       ],
       "scores": {
-        "total": 0.6274,
-        "relevance": 0.648,
-        "quality": 0.48,
-        "novelty": 0.8604,
-        "freshness": 0.4833,
-        "feedback_adjustment": -0.0109,
-        "semantic_feedback": 0.6539
+        "total": 0.6103,
+        "relevance": 0.6512,
+        "quality": 0.41,
+        "novelty": 0.8317,
+        "freshness": 0.4357,
+        "feedback_adjustment": -0.0088,
+        "semantic_feedback": 0.0
       },
       "quality_signals": [
-        "benchmark evaluation",
         "quantitative results"
       ],
       "summary": {
-        "takeaway": "We present a post-training methodology using LLMON (LLM Object Notation), a framework that enables separating instructions from data and requires explicit identifier-based execution.",
-        "problem": "Large Language Models (LLMs) treat all context tokens uniformly, lacking explicit separation between executable instructions and passive data.",
-        "method": "We present a post-training methodology using LLMON (LLM Object Notation), a framework that enables separating instructions from data and requires explicit identifier-based execution.",
-        "evidence": "Our results demonstrate that explicit execution semantics can be taught through standard post-training without architectural modification.",
+        "takeaway": "In this work, we show that fine-tuning on data the model believes to be false but that has no harmful content, can also induce broad misalignment.",
+        "problem": "Fine-tuning a large language model (LLM) on harmful data in a narrow domain, such as bad medical advice, can make it broadly misaligned.",
+        "method": "How realistic this risk is remains unclear, since models are very rarely fine-tuned on explicitly harmful data in practice.",
+        "evidence": "In this work, we show that fine-tuning on data the model believes to be false but that has no harmful content, can also induce broad misalignment.",
         "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
         "why_for_you": "Matches your research profile: Efficient adversarial training, LLM loss landscape.",
         "source": "abstract",
@@ -1213,7 +1104,105 @@
         ],
         "lane": "llm"
       },
-      "recommended_at": "2026-10-31T15:44:05.921624+00:00"
+      "recommended_at": "2026-11-07T16:50:00.525471+00:00"
+    },
+    {
+      "id": "2610.40998",
+      "title": "Steering Vectors as a Training Signal in LLM Post-Training",
+      "abstract": "Steering vectors (SVs) are residual-stream directions that shift the behavior of LLMs when added to hidden states at inference time. While prior work has mainly used SVs as post-hoc controls, we ask whether the same directions can also guide parameter updates during post-training. We study this question across supervised learning, including SFT and distillation, and reinforcement learning with verifiable rewards (RLVR). Our framework considers two intervention regimes: a hidden-state hook during teacher-forced supervised training, and an advantage-repair mechanism on wrong rollouts in GRPO. For each regime, we analyze three design axes, which are the steering direction, its placement, and the operation used to combine it with training. In supervised settings, SV injection improves over plain SFT and distillation, with gains scaling with the off-policy gap and reaching up to a $12\\%$ improvement when distilling from thinking-mode teachers. These gains hold across three random seeds. In RL settings, applying a correctness-contrast direction as advantage repair on wrong rollouts, including otherwise zero-gradient all-wrong groups, recovers a learning signal that transfers to held-out math benchmarks and acts as a composable auxiliary signal that adds to existing zero-variance remedies such as entropy-aware advantage shaping. We further identify three failure boundaries. In detail, code generation can break the direction, cross-family layer transfer can break the placement, and inference-time application on an SV-trained checkpoint can break the intervention regime. Together, these results establish steering vectors as a conditional but effective training signal for LLM post-training. Our code is available here.",
+      "authors": [
+        "Tiejin Chen",
+        "Maunil Vyas",
+        "Huaiyuan Yao",
+        "Hua Wei"
+      ],
+      "published": "2026-10-29T21:28:51Z",
+      "updated": "2026-10-29T21:28:51Z",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "primary_category": "cs.LG",
+      "abs_url": "https://arxiv.org/abs/2610.40998v1",
+      "pdf_url": "https://arxiv.org/pdf/2610.40998v1",
+      "comment": "Accept to NeurIPS 2026",
+      "journal_ref": "",
+      "source": "arxiv",
+      "venue": "",
+      "presentation": "",
+      "conference_year": null,
+      "lane": "llm",
+      "scope_matches": [
+        "llm",
+        "llms"
+      ],
+      "topics": [
+        {
+          "id": "efficient_adversarial_training",
+          "name": "Efficient adversarial training",
+          "status": "emerging",
+          "score": 0.5757,
+          "matched": [
+            "training"
+          ]
+        },
+        {
+          "id": "llm_loss_landscape",
+          "name": "LLM loss landscape",
+          "status": "emerging",
+          "score": 0.4098,
+          "matched": [
+            "llm",
+            "mode"
+          ]
+        },
+        {
+          "id": "on_policy_distillation",
+          "name": "On-policy distillation",
+          "status": "emerging",
+          "score": 0.1402,
+          "matched": [
+            "distillation"
+          ]
+        }
+      ],
+      "scores": {
+        "total": 0.6092,
+        "relevance": 0.5706,
+        "quality": 0.68,
+        "novelty": 0.8073,
+        "freshness": 0.4328,
+        "feedback_adjustment": -0.013,
+        "semantic_feedback": 0.0
+      },
+      "quality_signals": [
+        "code available",
+        "benchmark evaluation",
+        "formal bound",
+        "quantitative results"
+      ],
+      "summary": {
+        "takeaway": "Steering vectors (SVs) are residual-stream directions that shift the behavior of LLMs when added to hidden states at inference time.",
+        "problem": "Steering vectors (SVs) are residual-stream directions that shift the behavior of LLMs when added to hidden states at inference time.",
+        "method": "Our framework considers two intervention regimes: a hidden-state hook during teacher-forced supervised training, and an advantage-repair mechanism on wrong rollouts in GRPO.",
+        "evidence": "In supervised settings, SV injection improves over plain SFT and distillation, with gains scaling with the off-policy gap and reaching up to a $12\\%$ improvement when distilling from thinking-mode teachers.",
+        "limitations": "The abstract does not state complete limitations; verify the experimental setup, baselines, and scope before relying on the result.",
+        "why_for_you": "Matches your research profile: Efficient adversarial training, LLM loss landscape.",
+        "source": "abstract",
+        "generated_by": "extractive",
+        "language": "en",
+        "schema_version": 3,
+        "prompt_version": 0
+      },
+      "analysis_status": "pending",
+      "recommendation_reason": {
+        "topic": "Efficient adversarial training",
+        "matched": [
+          "training"
+        ],
+        "lane": "llm"
+      },
+      "recommended_at": "2026-11-02T20:46:06.269898+00:00"
     }
   ]
 }
